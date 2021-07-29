@@ -64,7 +64,9 @@ class MidlParser():
             self.sqbracket_lvl-=1
         else:
             raise Exception(f"Invalid token data `{token.data}`for token type")
-
+    def handle_semicolon(self,token):
+        self.state = State.DEFAULT
+        return
     def __init__(self):
         self.state = State.DEFAULT
         self.definition = MidlDefinition()
@@ -73,6 +75,7 @@ class MidlParser():
             mt.Token.STRING : MidlParser.handle_string,
             mt.Token.SQBRACKET : MidlParser.handle_sqbracket,
             mt.Token.RBRACKET : MidlParser.handle_rbracket,
+            mt.Token.SEMICOLON : MidlParser.handle_semicolon
 
         }
         self.sqbracket_lvl  = 0
@@ -164,8 +167,9 @@ class MidlVarDefParser():
         cur_token = cur_tok
         while cur_token is not None:
             try:
-                if cur_token.type == mt.Token.SEMICOLON and self.brace_level == 0: #exit once the def is done
-                    break
+                if cur_token.data == "}" and self.brace_level == 1: #exit once the def is done
+                    print("RETURN?")
+                    return self.vds
                 self.tok_handlers[cur_token.type](self, cur_token)
                 cur_token = next(self.tokens)
 
@@ -258,7 +262,6 @@ class MidlTypedefParser():
         #print(token.data)
         pass
     def handle_semicolon(self,token):
-        #print(token.data)
         pass
     def handle_comma(self,token):
         #print(token.data)
@@ -301,7 +304,9 @@ class MidlTypedefParser():
                 cur_token = next(self.tokens)
 
             except Exception:
-                #print(str(self.interface))
+                for v in self.vds:
+                    #print(v)
+                    pass
                 traceback.print_exc()
                 exit()
         if self.td is None:
@@ -310,7 +315,6 @@ class MidlTypedefParser():
             else:
                 self.td = MidlTypeDef(self.vds, self.public_name, is_complex=True)
                 self.td.private_name = self.private_name
-        print("==================")
         return self.td
 
 
@@ -334,18 +338,35 @@ class MidlInterfaceParser():
             elif self.state == InterfaceState.POINTER_DEFAULT:
                 tok = next(self.tokens)
                 self.interface.uuid = tok.data
+            elif self.state == InterfaceState.CPP_QUOTE:
+                #tok = next(self.tokens)
+                pass
+                #TODO handle cpp_quote
             else:
                 raise Exception("Illegal state transition")
-        if token.data == ")":
+        elif token.data == ")":
             if self.state == InterfaceState.UUID:
                 self.state = InterfaceState.HEADER_START
             elif self.state == InterfaceState.VERSION:
                 self.state = InterfaceState.HEADER_START
             elif self.state == InterfaceState.POINTER_DEFAULT:
                 self.state = InterfaceState.HEADER_START
+            elif self.state == InterfaceState.CPP_QUOTE:
+                self.state = InterfaceState.DEFAULT
             else:
                 raise Exception("Illegal state transition")
-            
+    def handle_procedure(self,token):
+        # TODO parse out the procedurues
+        # For now, just seek until the first ");"
+        cur_tok = token
+        prev_tok = token
+        while True:
+            if prev_tok.data == "(" and cur_tok.data ==";":
+                return
+            prev_tok = cur_tok
+            cur_tok = next(self.tokens)
+
+        
     def handle_keyword(self,token):
         if token.data == "uuid" and self.state == InterfaceState.HEADER_START:
             self.state = InterfaceState.UUID
@@ -357,16 +378,27 @@ class MidlInterfaceParser():
             tok = next(self.tokens)
             assert(tok.type == mt.Token.SYMBOL)
             self.interface.name = tok.data
+        elif token.data == "error_status_t":
+            print("ASDASDeREREREER")
+            self.interface.add_procedure(self.handle_procedure(token))
         elif token.data == "typedef" and self.state == InterfaceState.DEFAULT:
             # spin up a TypeDef parser to parse out typedefs
             td = MidlTypedefParser(self.tokens).parse(token)
             self.interface.add_typedef(td)
+        elif token.data == "cpp_quote":
+            self.state = InterfaceState.CPP_QUOTE
         else:
             raise Exception(f"Unhandled keyword: {token.data} in state InterfaceState: {self.state}")
 
     def handle_comma(self, token):
         pass
 
+    def handle_string(self,token):
+        if self.state == InterfaceState.CPP_QUOTE:
+            #TODO handle CPP_QUOTE
+            return
+        else:
+            raise Exception("Unexpceted string")
     def handle_brace(self,token):
         if token.data == "{":
             self.brace_level +=1
@@ -381,7 +413,7 @@ class MidlInterfaceParser():
         self.brace_level = 0
         self.tok_handlers = {
             mt.Token.KEYWORD : MidlInterfaceParser.handle_keyword,
-            #mt.Token.STRING : MidlInterfaceParser.handle_string,
+            mt.Token.STRING : MidlInterfaceParser.handle_string,
             mt.Token.SQBRACKET : MidlInterfaceParser.handle_sqbracket,
             mt.Token.RBRACKET : MidlInterfaceParser.handle_rbracket,
             mt.Token.COMMA : MidlInterfaceParser.handle_comma,

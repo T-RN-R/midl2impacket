@@ -21,7 +21,7 @@ class Token():
         self.data = data
 
 class MidlTokenizer():
-    keywords = ["import", "const", "int", "uuid", "version", "pointer_default", "typedef", "in", "out", "interface", "context_handle", "enum",  "struct", "cpp_quote"]
+    keywords = ["import", "const", "int", "uuid", "version", "pointer_default", "typedef", "in", "out", "interface", "context_handle", "enum",  "struct", "cpp_quote", "error_status_t"]
     operators = ["=", "/","*", "+","-"]
 
     def __init__(self, midl:str):
@@ -44,12 +44,17 @@ class MidlTokenizer():
                 to_yield =  Token(cur_char,Token.BRACE)
             elif cur_char == "\"" :
                 s = self.get_string()
+                self.ptr -=1
                 to_yield =  Token(s, Token.STRING)
             elif cur_char == "," :
                 to_yield =  Token(",", Token.COMMA)
             elif cur_char in MidlTokenizer.operators:
                 to_yield =  Token(cur_char, Token.OPERATOR)
             elif cur_char == ";":
+                print("SEMICOLON")
+                import traceback
+                traceback.print_stack()
+
                 to_yield =  Token(cur_char, Token.SEMICOLON)
             elif cur_char in string.ascii_letters or cur_char == "_":
                 s = self.get_keyword_or_symbol()

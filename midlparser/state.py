@@ -11,6 +11,8 @@ class InterfaceState:
     UUID = 0x3
     VERSION = 0x4
     POINTER_DEFAULT = 0x5
+    CPP_QUOTE = 0x6
 
 class TypedefState:
     DEFAULT = 0x00
+    
