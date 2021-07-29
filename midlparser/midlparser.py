@@ -1,5 +1,5 @@
 import traceback
-from midl import MidlDefinition, MidlInterface, MidlTypeDef, MidlVarDef
+from midl import MidlDefinition, MidlInterface, MidlTypeDef, MidlVarDef, MidlEnumDef
 from .state import InterfaceState, State
 import string
 from . import midltokenizer as mt
@@ -58,7 +58,6 @@ class MidlParser():
         if token.data == "(":
             if self.state == State.UUID:
                 tok = next(self.tokens)
-                print(tok.data)
         elif token.data == ")":
             assert(self.sqbracket_lvl >0)
             self.state = State.CLOSE_SQBRACKET
@@ -93,22 +92,55 @@ class MidlParser():
                 self.handle_state()
                 cur_token = next(self.tokens)
             except Exception:
-                print(str(self.definition))
                 traceback.print_exc()
                 exit()
         return self.definition
             
 class MidlVarDefParser():
     def handle_keyword(self,cur_tok):
+        if cur_tok.data == "enum":
+            raise Exception("Unexpected enum")
         if self.sq_bracket_level == 0:
             self.cur_type = cur_tok.data
         else:
             pass
     def handle_symbol(self,cur_tok):
-        self.vds.append(MidlVarDef(self.cur_type,cur_tok.data))
+        if self.sq_bracket_level == 0:
+            if self.cur_type is None:
+                self.cur_type = cur_tok.data
+            self.vds.append(MidlVarDef(self.cur_type,cur_tok.data))
 
     def handle_comma(self,cur_tok):
         pass
+    
+    def handle_sqbracket(self,cur_tok):
+        if cur_tok.data =="]":
+            assert(self.sq_bracket_level >0)
+            self.sq_bracket_level -= 1
+        elif cur_tok.data == "[":
+            self.sq_bracket_level +=1
+        # for now, ignore square bracket vardefs, may need to revisit later
+        
+    def handle_rbracket(self,cur_tok):
+        # for now, ignore square bracket vardefs, may need to revisit later
+        pass
+    def handle_brace(self,cur_tok):
+        if cur_tok.data =="}":
+            assert(self.brace_level >0)
+            self.brace_level -= 1
+        elif cur_tok.data == "{":
+            self.brace_level +=1
+        else:
+            raise Exception("Illegal Brace")
+        
+    def handle_semicolon(self,cur_tok):
+        self.cur_type = None
+
+    def handle_operator(self, cur_tok):
+        if cur_tok.data == "*":
+            self.cur_type += "*"
+        else:
+            raise Exception(f"Illegal Operator  '{cur_tok.data}' in variable definition")
 
     def __init__(self, token_generator):
         self.tokens = token_generator
@@ -119,23 +151,25 @@ class MidlVarDefParser():
         self.sq_bracket_level = 0
         self.tok_handlers = {
             mt.Token.KEYWORD : MidlVarDefParser.handle_keyword,
-            #mt.Token.SQBRACKET : MidlVarDefParser.handle_sqbracket,
+            mt.Token.SQBRACKET : MidlVarDefParser.handle_sqbracket,
+            mt.Token.RBRACKET : MidlVarDefParser.handle_rbracket,
             mt.Token.SYMBOL : MidlVarDefParser.handle_symbol,
             mt.Token.COMMA : MidlVarDefParser.handle_comma,
-            #mt.Token.BRACE : MidlTypedefParser.handle_brace,
+            mt.Token.SEMICOLON : MidlVarDefParser.handle_semicolon,
+            mt.Token.BRACE : MidlVarDefParser.handle_brace,
+            mt.Token.OPERATOR : MidlVarDefParser.handle_operator,
         }
 
     def parse(self, cur_tok) -> MidlVarDef:
         cur_token = cur_tok
         while cur_token is not None:
             try:
-                if cur_token.type == mt.Token.SEMICOLON: #exit once the def is done
+                if cur_token.type == mt.Token.SEMICOLON and self.brace_level == 0: #exit once the def is done
                     break
                 self.tok_handlers[cur_token.type](self, cur_token)
                 cur_token = next(self.tokens)
 
             except Exception:
-                #print(str(self.interface))
                 traceback.print_exc()
                 exit()
         if len(self.vds) == 0 :
@@ -152,8 +186,8 @@ class MidlTypedefParser():
         tok_name = next(self.tokens)
         self.td = MidlTypeDef(tok_type.data, tok_name.data, is_context_handle=True)
 
-    def handle_var_defs(self):
-        vds =  MidlVarDefParser(self.tokens).parse(next(self.tokens))
+    def handle_var_defs(self,token):
+        vds =  MidlVarDefParser(self.tokens).parse(token)
         return vds
 
     def handle_struct_def(self,token):
@@ -162,29 +196,78 @@ class MidlTypedefParser():
             raise Exception(f"Invalid struct name {tok_private_name.data}")
         else:
             self.private_name =  tok_private_name.data
-        if next(self.tokens).data != "{":
-            raise Exception("Expecting '{'")
+        t = next(self.tokens)
+        if t.data != "{":
+            raise Exception(f"Expecting 'lbrace' {t.data}")
         self.brace_level += 1
-        var_defs = self.handle_var_defs()
+        var_defs = self.handle_var_defs(t)
+        self.brace_level-=1
         self.vds.extend( var_defs)
 
     def handle_brace(self, token):
         if token.data =="}":
+            assert(self.brace_level > 0)
             self.brace_level -= 1
+        elif token.data == "{":
+            self.brace_level += 1
         else:
             raise Exception("Illegal Brace")
+    def handle_enum_def(self, token):
+        # TODO handle enum defs
+        name = next(self.tokens).data
+        if next(self.tokens).data != "{":
+            raise Exception("Expecting opening brace")
+        self.brace_level += 1
+        enums = {}
+        while True:
+            name = next(self.tokens).data
+            t = next(self.tokens)
+            if t.data == "=":
+                val = next(self.tokens).data
+                enums[name] = val
+                t = next(self.tokens)
+            if t.data == ",":
+                enums[name] = None
+                continue
+            if t.data == "}":
+                self.brace_level -=1
+                #end of defintion
+                break
+            else:
+                raise Exception(f"Unexpected token: {t.data}")
+        self.enums = enums
+
     def handle_keyword(self,token):
         if token.data == "context_handle":
             self.handle_context_handle(token)
         elif token.data == "struct":
             self.handle_struct_def(token)
-        pass
+        elif token.data == "enum":
+            self.handle_enum_def(token)
+
+
     def handle_sqbracket(self,token):
+        token = next(self.tokens)
+        if token.data != "v1_enum":
+            self.handle_keyword(token)
+            #var_defs = self.handle_var_defs(token)
+            #self.vds.extend( var_defs)
+            
+        
+    def handle_rbracket(self,token):
         #print(token.data)
         pass
-
+    def handle_semicolon(self,token):
+        #print(token.data)
+        pass
+    def handle_comma(self,token):
+        #print(token.data)
+        pass
     def handle_symbol(self,token):
-        self.public_name = token.data
+        if self.brace_level == 0:
+            self.public_name = token.data
+    def handle_string(self,token):
+        pass
 
     def __init__(self, token_generator):
         self.tokens = token_generator
@@ -194,14 +277,17 @@ class MidlTypedefParser():
         self.vds = []
         self.private_name = None
         self.public_name = None
+        self.enums = None
         self.tok_handlers = {
             mt.Token.KEYWORD : MidlTypedefParser.handle_keyword,
-            #mt.Token.STRING : MidlTypedefParser.handle_string,
+            mt.Token.STRING : MidlTypedefParser.handle_string,
             mt.Token.SQBRACKET : MidlTypedefParser.handle_sqbracket,
             mt.Token.SYMBOL : MidlTypedefParser.handle_symbol,
-            #mt.Token.RBRACKET : MidlTypedefParser.handle_rbracket,
-            #mt.Token.COMMA : MidlTypedefParser.handle_comma,
+            mt.Token.RBRACKET : MidlTypedefParser.handle_rbracket,
+            mt.Token.COMMA : MidlTypedefParser.handle_comma,
             mt.Token.BRACE : MidlTypedefParser.handle_brace,
+            mt.Token.SEMICOLON : MidlTypedefParser.handle_semicolon,
+
         }
 
     def parse(self, cur_tok) -> MidlTypeDef:
@@ -210,7 +296,7 @@ class MidlTypedefParser():
             try:
                 if cur_token.type == mt.Token.SEMICOLON and self.brace_level == 0:
                     break
-                print(cur_token.data, self.brace_level)
+                print(cur_token.data, cur_token.type, self.brace_level)
                 self.tok_handlers[cur_token.type](self, cur_token)
                 cur_token = next(self.tokens)
 
@@ -218,10 +304,13 @@ class MidlTypedefParser():
                 #print(str(self.interface))
                 traceback.print_exc()
                 exit()
-
         if self.td is None:
-            self.td = MidlTypeDef(self.vds, self.public_name, is_complex=True)
-            self.td.private_name = self.private_name
+            if self.enums is not None:
+                self.td = MidlEnumDef(self.public_name, self.enums)
+            else:
+                self.td = MidlTypeDef(self.vds, self.public_name, is_complex=True)
+                self.td.private_name = self.private_name
+        print("==================")
         return self.td
 
 
@@ -303,10 +392,12 @@ class MidlInterfaceParser():
         cur_token = cur_tok
         while cur_token is not None:
             try:
+                #print(cur_token.data, cur_token.type, self.brace_level)
+
                 self.tok_handlers[cur_token.type](self, cur_token)
                 cur_token = next(self.tokens)
             except Exception:
-                #print(str(self.interface))
+                print(str(self.interface))
                 traceback.print_exc()
                 exit()
 

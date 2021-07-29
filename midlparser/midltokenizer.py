@@ -21,7 +21,7 @@ class Token():
         self.data = data
 
 class MidlTokenizer():
-    keywords = ["import", "const", "int", "uuid", "version", "pointer_default", "typedef", "in", "out", "interface", "context_handle", "void", "void*", "struct", "DWORD"]
+    keywords = ["import", "const", "int", "uuid", "version", "pointer_default", "typedef", "in", "out", "interface", "context_handle", "enum",  "struct", "cpp_quote"]
     operators = ["=", "/","*", "+","-"]
 
     def __init__(self, midl:str):

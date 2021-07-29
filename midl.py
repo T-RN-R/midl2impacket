@@ -73,7 +73,7 @@ class MidlTypeDef:
         self.is_context_handle = is_context_handle
         self.is_complex = is_complex
         self.private_name = None
-        
+
     def get_complex_str(self):
         out = "struct "
         out += self.private_name + " {\n"
@@ -90,6 +90,22 @@ class MidlTypeDef:
         else:
             out += f"{self.type} {self.name};\n"
         return out
+
+class MidlEnumDef:
+    def __init__(self, name, map):
+        self.name = name
+        self.map = map     
+    def __str__(self):
+        out  = "enum " +self.name + "\n{\n"
+        if self.map is None:
+            return ""
+        for k in self.map.keys():
+            out += k
+            if self.map[k] is not None:
+                out += " = " + self.map[k]
+            out +=",\n"
+        out += "}"
+        return out        
 class MidlVarDef:
     def __init__(self, type, name):
         self.type = type
