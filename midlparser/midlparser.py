@@ -174,6 +174,12 @@ class MidlVarDefParser():
         else:
             raise Exception(f"Illegal Operator  '{cur_tok.data}' in variable definition")
 
+    def handle_numeric(self, cur_tok):
+        #This case is hit in var defs with a square bracket statement, ie. `range(0, MAX_RPC_VARIANT_LIST_COUNT)] DWORD count;`
+        # ignore it for now.
+        assert(self.sq_bracket_level >0)
+        pass
+
     def __init__(self, token_generator):
         self.tokens = token_generator
         self.vds = []
@@ -190,6 +196,7 @@ class MidlVarDefParser():
             mt.Token.SEMICOLON : MidlVarDefParser.handle_semicolon,
             mt.Token.BRACE : MidlVarDefParser.handle_brace,
             mt.Token.OPERATOR : MidlVarDefParser.handle_operator,
+            mt.Token.NUMERIC : MidlVarDefParser.handle_numeric,
         }
 
     def parse(self, cur_tok) -> MidlVarDef:
@@ -210,19 +217,29 @@ class MidlVarDefParser():
 
 
 class MidlTypedefParser():
+    """Parses the various kinds of typedefs (structs, enums, inline, and (not yet) unions)
+        TODO Those 4 should be in their own parser, but for now keep them this way.
+        TODO This class is chaotic because it doesn't maintain a state enum
+    """
     def handle_context_handle(self,token):
+        """Handles the simple case of a context_handle definition.
+        TODO: verify if its valid MIDL to have a non-context_handle simple typedef
+        """
         tok_closing_sqbracket = next(self.tokens)
         if tok_closing_sqbracket.data != "]":
-            raise Exception("Malformed typedef")
+            raise Exception(f"Malformed typedef, expecting closing `]`, got {tok_closing_sqbracket.data}")
         tok_type = next(self.tokens)
         tok_name = next(self.tokens)
         self.td = MidlTypeDef(tok_type.data, tok_name.data, is_context_handle=True)
 
     def handle_var_defs(self,token):
+        """Delegates to a parser that handles simple member variable definitions
+        """
         vds =  MidlVarDefParser(self.tokens).parse(token)
         return vds
 
     def handle_struct_def(self,token):
+        # TODO split this into its own parsing class
         tok_private_name = next(self.tokens)
         if tok_private_name.type != mt.Token.SYMBOL:
             raise Exception(f"Invalid struct name {tok_private_name.data}")
@@ -230,10 +247,12 @@ class MidlTypedefParser():
             self.private_name =  tok_private_name.data
         t = next(self.tokens)
         if t.data != "{":
-            raise Exception(f"Expecting 'lbrace' {t.data}")
+            raise Exception(f"Expecting opening brack, got: {t.data}")
         self.brace_level += 1
+        #We just entered the struct definition, handle it
         var_defs = self.handle_var_defs(t)
         self.brace_level-=1
+        #Add the parsed variable definitions to the list
         self.vds.extend( var_defs)
 
     def handle_brace(self, token):
@@ -243,33 +262,54 @@ class MidlTypedefParser():
         elif token.data == "{":
             self.brace_level += 1
         else:
+            #should never happen because of the tokenizer, but just in case...
             raise Exception("Illegal Brace")
+
     def handle_enum_def(self, token):
-        # TODO handle enum defs
+        """Parses an enum definition
+        """
+        # TODO split this into its own parsing class
         name = next(self.tokens).data
         if next(self.tokens).data != "{":
             raise Exception("Expecting opening brace")
         self.brace_level += 1
         enums = {}
         while True:
-            name = next(self.tokens).data
+            """Loop through the enums. 
+                Handle the 3 cases that can occur: 
+                `EvtRpcVarTypeNull = 0,`
+                `EvtRpcVarTypeBoolean,`
+                and the terminal case: 
+                `EvtRpcVarTypeGuidArray}`
+            """
+            n = next(self.tokens)
+            name = n.data
+            if n.type != mt.Token.SYMBOL:
+                raise Exception(f"Unexpected token, expecting a Symbol, got {name}")
             t = next(self.tokens)
             if t.data == "=":
-                val = next(self.tokens).data
-                enums[name] = val
+                val = next(self.tokens)
+                if val.type is not mt.Token.NUMERIC: 
+                    # Enum values may only be numeric, I think?
+                    raise Exception(f"Unexpected token, expecting a Numeric, got {val.data}, with Token type: {val.type}")
+                enums[name] = val.data
                 t = next(self.tokens)
             if t.data == ",":
+                #set value to none
                 enums[name] = None
                 continue
             if t.data == "}":
                 self.brace_level -=1
-                #end of defintion
+                #end of definition
                 break
             else:
                 raise Exception(f"Unexpected token: {t.data}")
         self.enums = enums
 
     def handle_keyword(self,token):
+        """Handles the various kinds of typedefs
+            TODO: handle unions
+        """
         if token.data == "context_handle":
             self.handle_context_handle(token)
         elif token.data == "struct":
@@ -279,64 +319,58 @@ class MidlTypedefParser():
 
 
     def handle_sqbracket(self,token):
+        """ Handles the case where a `[v1_enum] is found in a typedef`
+        """
         token = next(self.tokens)
         if token.data != "v1_enum":
             self.handle_keyword(token)
-            #var_defs = self.handle_var_defs(token)
-            #self.vds.extend( var_defs)
-            
-        
-    def handle_rbracket(self,token):
-        #print(token.data)
-        pass
-    def handle_semicolon(self,token):
-        pass
-    def handle_comma(self,token):
-        #print(token.data)
-        pass
+
     def handle_symbol(self,token):
         if self.brace_level == 0:
-            self.public_name = token.data
-    def handle_string(self,token):
+            # Sets the public name of the typedef, only on the outside of the curly braces
+            self.public_name = token.data        
+
+    def no_op(self,token):
         pass
 
     def __init__(self, token_generator):
         self.tokens = token_generator
-        self.td = None
+        self.td = None # current typedef
         self.state = InterfaceState.DEFAULT
         self.brace_level = 0
-        self.vds = []
+        self.vds = [] # Variable defintions (for structs)
         self.private_name = None
         self.public_name = None
-        self.enums = None
+        self.enums = None # list of enums. self.td and self.enums are exclusive, One must always be None
         self.tok_handlers = {
             mt.Token.KEYWORD : MidlTypedefParser.handle_keyword,
-            mt.Token.STRING : MidlTypedefParser.handle_string,
+            mt.Token.STRING : MidlTypedefParser.no_op, #For now, strings are no-oped
             mt.Token.SQBRACKET : MidlTypedefParser.handle_sqbracket,
             mt.Token.SYMBOL : MidlTypedefParser.handle_symbol,
-            mt.Token.RBRACKET : MidlTypedefParser.handle_rbracket,
-            mt.Token.COMMA : MidlTypedefParser.handle_comma,
+            mt.Token.RBRACKET : MidlTypedefParser.no_op,
+            mt.Token.COMMA : MidlTypedefParser.no_op,
             mt.Token.BRACE : MidlTypedefParser.handle_brace,
-            mt.Token.SEMICOLON : MidlTypedefParser.handle_semicolon,
-
+            mt.Token.SEMICOLON : MidlTypedefParser.no_op,
         }
 
     def parse(self, cur_tok) -> MidlTypeDef:
+        """parsing loop
+        """
         cur_token = cur_tok
         while cur_token is not None:
             try:
+                # Exit the typedef parsing if we hit a semicolon outside of a struct 
+                # TODO track this as a State enum, rather than hardcoding the conditions
                 if cur_token.type == mt.Token.SEMICOLON and self.brace_level == 0:
                     break
                 #print(cur_token.data, cur_token.type, self.brace_level)
                 self.tok_handlers[cur_token.type](self, cur_token)
                 cur_token = next(self.tokens)
-
             except Exception:
-                for v in self.vds:
-                    #print(v)
-                    pass
                 traceback.print_exc()
                 exit()
+        # There are 2 types of definitions that can be parsed here, either an enum, or a typdef.
+        # poorly written way of handling these cases below.
         if self.td is None:
             if self.enums is not None:
                 self.td = MidlEnumDef(self.public_name, self.enums)

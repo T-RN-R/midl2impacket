@@ -86,7 +86,7 @@ class MidlTokenizer():
                 if s in Token.keywords:
                     to_yield =  Token(s, Token.KEYWORD)
                 else: 
-                    to_yield =  Token(s, Token.SYMBOL)
+                    to_yield =  Token(s, Token.NUMERIC)
             else:
                 raise Exception(f"Unhandled character {cur_char}")
             self.ptr+=1
