@@ -352,6 +352,8 @@ class MidlInterfaceParser():
         Mostly, this class delegates to other classes to handle parsing
     """
     def handle_sqbracket(self,token):
+        """Detected the beginning of an interface header, set the current state appropriately
+        """
         if token.data == "[":
             self.state = InterfaceState.HEADER_START
         elif token.data =="]":
@@ -360,6 +362,10 @@ class MidlInterfaceParser():
             raise Exception("Illegal token, expecting sqbracket")
 
     def handle_rbracket(self,token):
+        """Round brackets detected
+
+            Sets the appropriate header variable, or reverts the state.
+        """
         if token.data == "(":
             if self.state == InterfaceState.UUID:
                 tok = next(self.tokens)
@@ -387,9 +393,14 @@ class MidlInterfaceParser():
                 self.state = InterfaceState.DEFAULT
             else:
                 raise Exception("Illegal state transition")
+
     def handle_procedure(self,token):
-        # TODO parse out the procedurues
-        # For now, just seek until the first ");"
+        """Delegates to a MidlProcedureParser
+
+            TODO: UNIMPLEMENTED
+        """
+        # TODO parse out the procedures
+        # For now, just seek until the first ");" to skip procedure parsing
         cur_tok = token
         prev_tok = token
         while True:
@@ -401,6 +412,8 @@ class MidlInterfaceParser():
 
         
     def handle_keyword(self,token):
+        """Parses keywords [uuid, version, pointer_default,interface, error_status_t, typedef, cpp_quote]
+        """
         if token.data == "uuid" and self.state == InterfaceState.HEADER_START:
             self.state = InterfaceState.UUID
         elif token.data == "version" and self.state == InterfaceState.HEADER_START:
@@ -425,19 +438,24 @@ class MidlInterfaceParser():
             raise Exception(f"Unhandled keyword: {token.data} in state InterfaceState: {self.state}")
 
     def handle_comma(self, token):
+        """no-op to handle encountered commas
+        """
         pass
 
     def handle_string(self,token):
         if self.state == InterfaceState.CPP_QUOTE:
             #TODO handle CPP_QUOTE
+            # no-op for now
             return
         else:
-            raise Exception("Unexpceted string")
+            raise Exception("Unexpected string")
     def handle_brace(self,token):
+        """Sets the brace level appropriately
+        """
         if token.data == "{":
             self.brace_level +=1
         elif token.data =="}":
-            assert(self.brace_level >0)
+            assert(self.brace_level >0), "Something went terribly wrong, you ended up with a brace imbalance!"
             self.brace_level -=1
 
     def __init__(self, token_generator):
