@@ -121,8 +121,8 @@ class MidlParser():
                 self.tok_handlers[cur_token.type](self, cur_token)
                 cur_token = next(self.tokens)
             except Exception:
-                print(self.definition)
                 traceback.print_exc()
+                print(self.definition)
                 exit()
         return self.definition
 

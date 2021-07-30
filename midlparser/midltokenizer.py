@@ -17,6 +17,7 @@ class Token():
     OPERATOR = 0x9 # Mathematic operaros, see Token.operators
     SEMICOLON = 0xA 
     COMMA = 0xB
+    GUID = 0xC
 
     keywords = ["import", "const", "uuid", "version", "pointer_default", "typedef", "in", "out", "interface", "context_handle", "enum",  "struct", "cpp_quote", "error_status_t", "union"]
     operators = ["=", "/","*", "+","-"]
@@ -83,7 +84,9 @@ class MidlTokenizer():
                     to_yield =  Token(s, Token.SYMBOL)
             elif cur_char in string.digits:
                 s = self.get_numeric()
-                if s in Token.keywords:
+                if "-" in s: # TODO Will break with negative numbers
+                    to_yield = Token(s, Token.GUID)
+                elif s in Token.keywords:
                     to_yield =  Token(s, Token.KEYWORD)
                 else: 
                     to_yield =  Token(s, Token.NUMERIC)
@@ -114,10 +117,15 @@ class MidlTokenizer():
                 self.ptr-=1
                 return s
             if cur_char not in string.digits and cur_char !=".":
-                #TODO This is where GUIDs may break if they start with a digit, since they have hexadecimal digits. 
-                # Find a way to handle GUIDs at the tokenization level
-                
-                #We have hit a non numeric digit, or non-decimal point. Take a step back and return
+                # Handle the GUID case
+                guid_chars = "abcdef-"
+                while True:
+                    if cur_char not in string.digits and cur_char not in guid_chars:
+                        break
+                    s += cur_char
+                    self.ptr+=1
+                    cur_char = self.midl[self.ptr]
+                #We have hit a non numeric digit, non-decimal point, or non guid. Take a step back and return
                 self.ptr-=1
                 return s
             # Continue reading the numeric  
