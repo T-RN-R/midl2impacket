@@ -50,9 +50,11 @@ class MidlDefinition:
     def __str__(self):
         out = ""
         for i in self.imports:
-            out+=str(i) +"\n"
-        for i in self.definitions:
-            out+=str(i) +"\n"
+            out+=str(i) + "\n"
+        for i in self.instantiation:
+            out+=str(i) + "\n"
+        for i in self.interfaces:
+            out+=str(i) + "\n"
         return out
               
 

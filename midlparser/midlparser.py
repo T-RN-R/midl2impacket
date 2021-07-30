@@ -5,101 +5,128 @@ import string
 from . import midltokenizer as mt
 
 
+"""This file contains a series of classes that are responsible for parsing discrete parts of a MIDL file.
+
+    MidlParser
+    MidlVarDefParser
+    MidlTypeDefParse
+    MidlInterfaceParser
+    TODO: MidlProcedureParser
+
+""" 
+
 class MidlParser():
-    def handle_definition(self, const = False):
-            tok = next(self.tokens)
-            if tok.data == "int":
-                name = next(self.tokens)
-                if name.type != mt.Token.SYMBOL:
-                    raise Exception(f"Expecting SYMBOL, got {name.type}")
-                eq = next(self.tokens)
-                if eq.data != "=":
-                    raise Exception(f"Expecting equals, got {eq.data}")
-                rhs = ""
+    """Parses a complete MIDL file into a MidlDefiniton object
+
+        This class maintains a state machine.
+    """
+    def handle_instantiation(self, const = False):
+        """Handles instantiation statements.
+        """
+
+        #TODO this function should be split off into its own class.
+        # next(self.tokens) should only ever be invoked from a `parse()` function.
+        tok = next(self.tokens)
+        if tok.data == "int":
+            name = next(self.tokens)
+            if name.type != mt.Token.SYMBOL:
+                raise Exception(f"Expecting SYMBOL, got {name.type}")
+            eq = next(self.tokens)
+            if eq.data != "=":
+                raise Exception(f"Expecting EQUALS, got {eq.data}")
+            rhs = ""
+            rhs_tok = next(self.tokens)
+            while rhs_tok.type != mt.Token.SEMICOLON:
+                rhs += " "
+                rhs += rhs_tok.data
                 rhs_tok = next(self.tokens)
-                while rhs_tok.type != mt.Token.SEMICOLON:
-                    rhs += rhs_tok.data
-                    rhs_tok = next(self.tokens)
-                self.definition.add_instantiation(tok.data, name.data, rhs, const)
-                self.state=State.DEFAULT
+            self.definition.add_instantiation(tok.data, name.data, rhs, const)
+            self.state=State.DEFAULT
                 
                 
     def handle_keyword(self,token):
+        """Handles encountered keywords
+        """
+        # Only 2 keywords should ever be encountered here: [const, import]
         if token.data == "import":
             self.state = State.IMPORT
         elif token.data == "const":
             self.state = State.DEFINTION
-            self.handle_definition(const=True)
-        elif token.data == "uuid":
-            assert(self.state == State.OPEN_SQBRACKET)
-            self.state = State.UUID
+            self.handle_instantiation(const=True)
         else:
             raise Exception(f"Unhandled keyword: {token.data}")
 
     def handle_string(self,token):
+        """Encountered a string. Should only ever be imports encountered here.
+        """
         if self.state == State.IMPORT:
+            # Encountered an import statement so add it to the definiton's imports
             assert(token.type == mt.Token.STRING), f"Unexpected token in import definition: {token.data}"
             self.definition.add_import(token.data)
+            # Reset the state
             self.state = State.DEFAULT
         else:
+            # If a string is encountered outside of the import statements, raise an exception
+            # TODO This may not necessarily be true, there can be variable instantiations that are strings!
             raise Exception(f"Unhandled state : {self.state}")
 
     def handle_sqbracket(self, token):
+        """Encountered a square bracket. Only opening brackets are handled here.
+        """
         if token.data == "[":
             if self.state == State.DEFAULT:
-                # we hit the start of an interface definition, spin up a parser
+                # we hit the start of an interface definition, specifically the header, spin up a parser
                 interface = MidlInterfaceParser(self.tokens).parse(token)
                 self.definition.add_interface(interface)
             else:
+                #Somehow we ended up in an invalid state when encountering an opening square bracket
                 raise Exception(f"Invalid State for `{token.data}` in MidlParser")
         else:
-            raise Exception(f"Invalid token data `{token.data}`for token type")
+            # Note that the closing square bracket is handled within the MidlInterfaceParser
+            raise Exception(f"Invalid token data `{token.data}` for token type")
 
-    def handle_rbracket(self, token):
-        if token.data == "(":
-            if self.state == State.UUID:
-                tok = next(self.tokens)
-        elif token.data == ")":
-            assert(self.sqbracket_lvl >0)
-            self.state = State.CLOSE_SQBRACKET
-            self.sqbracket_lvl-=1
-        else:
-            raise Exception(f"Invalid token data `{token.data}`for token type")
     def handle_semicolon(self,token):
+        """A semicolon was encountered, so reset the parsing state.
+        """
         self.state = State.DEFAULT
-        return
+
     def __init__(self):
-        self.state = State.DEFAULT
-        self.definition = MidlDefinition()
-        self.tok_handlers = {
+        self.state = State.DEFAULT # Current state of the parsing
+        self.definition = MidlDefinition() # data to be returned by calling parse()
+        self.tok_handlers = { # Jump table to handle different token types
             mt.Token.KEYWORD : MidlParser.handle_keyword,
             mt.Token.STRING : MidlParser.handle_string,
             mt.Token.SQBRACKET : MidlParser.handle_sqbracket,
-            mt.Token.RBRACKET : MidlParser.handle_rbracket,
             mt.Token.SEMICOLON : MidlParser.handle_semicolon
-
         }
-        self.sqbracket_lvl  = 0
-        self.tokens = None
-
-
-    def handle_state(self):
-        pass
+        self.sqbracket_lvl  = 0 # Maintains the embedding level of square brackets `[]`
+        self.tokens = None # The generator that yields tokens to parse
 
     def parse(self, data:str ) -> MidlDefinition:
+        """Parsing loop that iterates over tokens and invokes their handler function.
+             If an unhandled token does not have a registered handler, an out of bounds access will occur in the tok_handlers dict.
+             Note that this should never happen with a well formed test case (unless something hasn't been considered.)
+
+        Args:
+            data (str): [description]
+
+        Returns:
+            MidlDefinition: [description]
+        """
         tokenizer = mt.MidlTokenizer(data)
         self.tokens = tokenizer.get_token()
         cur_token = next(self.tokens)
         while cur_token is not None:
             try:
                 self.tok_handlers[cur_token.type](self, cur_token)
-                self.handle_state()
                 cur_token = next(self.tokens)
             except Exception:
+                print(self.definition)
                 traceback.print_exc()
                 exit()
         return self.definition
-            
+
+
 class MidlVarDefParser():
     def handle_keyword(self,cur_tok):
         if cur_tok.data == "enum":
@@ -320,6 +347,10 @@ class MidlTypedefParser():
 
 
 class MidlInterfaceParser():
+    """Responsible for parsing an interface definiton.
+
+        Mostly, this class delegates to other classes to handle parsing
+    """
     def handle_sqbracket(self,token):
         if token.data == "[":
             self.state = InterfaceState.HEADER_START
@@ -338,11 +369,11 @@ class MidlInterfaceParser():
                 self.interface.version = tok.data
             elif self.state == InterfaceState.POINTER_DEFAULT:
                 tok = next(self.tokens)
-                self.interface.uuid = tok.data
+                self.interface.pointer_default = tok.data
             elif self.state == InterfaceState.CPP_QUOTE:
                 #tok = next(self.tokens)
                 pass
-                #TODO handle cpp_quote
+                #TODO handle cpp_quote, not really urgent and super hard to convert to Python
             else:
                 raise Exception("Illegal state transition")
         elif token.data == ")":
@@ -424,16 +455,14 @@ class MidlInterfaceParser():
         }
 
     def parse(self, cur_tok) -> MidlInterface:
+        """Parsing loop
+        """
         cur_token = cur_tok
         while cur_token is not None:
             try:
                 #print(cur_token.data, cur_token.type, self.brace_level)
-
                 self.tok_handlers[cur_token.type](self, cur_token)
                 cur_token = next(self.tokens)
             except Exception:
-                print(str(self.interface))
-                traceback.print_exc()
-                exit()
-
+                return self.interface
         return self.interface
