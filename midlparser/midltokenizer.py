@@ -18,7 +18,7 @@ class Token():
     SEMICOLON = 0xA 
     COMMA = 0xB
 
-    keywords = ["import", "const", "int", "uuid", "version", "pointer_default", "typedef", "in", "out", "interface", "context_handle", "enum",  "struct", "cpp_quote", "error_status_t"]
+    keywords = ["import", "const", "uuid", "version", "pointer_default", "typedef", "in", "out", "interface", "context_handle", "enum",  "struct", "cpp_quote", "error_status_t", "union"]
     operators = ["=", "/","*", "+","-"]
 
     def __init__(self, data:str, _t):

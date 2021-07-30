@@ -128,14 +128,17 @@ class MidlParser():
 
 
 class MidlVarDefParser():
+    """class that parses the member variable definitions inside of a struct
+    """
     def handle_keyword(self,cur_tok):
-        if cur_tok.data == "enum":
-            raise Exception("Unexpected enum")
-        if self.sq_bracket_level == 0:
-            self.cur_type = cur_tok.data
+        if cur_tok.data in ["union", "struct"]:
+            # TODO Handle embedded unions and structs
+            return
         else:
-            pass
+            raise Exception(f"Unexpected keyword: {cur_tok.data}")
+
     def handle_symbol(self,cur_tok):
+        # Depending on the order of the encountered symbol, set either the type, or create the variable definition
         if self.sq_bracket_level == 0:
             if self.cur_type is None:
                 self.cur_type = cur_tok.data
@@ -143,6 +146,7 @@ class MidlVarDefParser():
                 self.vds.append(MidlVarDef(self.cur_type,cur_tok.data))
 
     def handle_comma(self,cur_tok):
+        # ie. `[size_is(count)] EvtRpcVariant* props;`
         pass
     
     def handle_sqbracket(self,cur_tok):
@@ -152,9 +156,11 @@ class MidlVarDefParser():
         elif cur_tok.data == "[":
             self.sq_bracket_level +=1
         # for now, ignore square bracket vardefs, may need to revisit later
+          # ie. `[size_is(count)] EvtRpcVariant* props;`
         
     def handle_rbracket(self,cur_tok):
-        # for now, ignore square bracket vardefs, may need to revisit later
+        # for now, ignore round brackets within vardefs, may need to revisit later
+        # ie. `[size_is(count)] EvtRpcVariant* props;`
         pass
     def handle_brace(self,cur_tok):
         if cur_tok.data =="}":
@@ -166,10 +172,12 @@ class MidlVarDefParser():
             raise Exception("Illegal Brace")
         
     def handle_semicolon(self,cur_tok):
+        # end of this member variable, reset the state
         self.cur_type = None
 
     def handle_operator(self, cur_tok):
         if cur_tok.data == "*":
+            # Encountered a pointer, append it to the current type
             self.cur_type += "*"
         else:
             raise Exception(f"Illegal Operator  '{cur_tok.data}' in variable definition")
@@ -177,6 +185,7 @@ class MidlVarDefParser():
     def handle_numeric(self, cur_tok):
         #This case is hit in var defs with a square bracket statement, ie. `range(0, MAX_RPC_VARIANT_LIST_COUNT)] DWORD count;`
         # ignore it for now.
+        #  ie. `[size_is(count)] EvtRpcVariant* props;`
         assert(self.sq_bracket_level >0)
         pass
 
