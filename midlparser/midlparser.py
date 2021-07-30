@@ -38,6 +38,7 @@ class MidlParser():
 
     def handle_string(self,token):
         if self.state == State.IMPORT:
+            assert(token.type == mt.Token.STRING), f"Unexpected token in import definition: {token.data}"
             self.definition.add_import(token.data)
             self.state = State.DEFAULT
         else:
@@ -169,7 +170,6 @@ class MidlVarDefParser():
         while cur_token is not None:
             try:
                 if cur_token.data == "}" and self.brace_level == 1: #exit once the def is done
-                    print("RETURN?")
                     return self.vds
                 self.tok_handlers[cur_token.type](self, cur_token)
                 cur_token = next(self.tokens)
@@ -300,7 +300,7 @@ class MidlTypedefParser():
             try:
                 if cur_token.type == mt.Token.SEMICOLON and self.brace_level == 0:
                     break
-                print(cur_token.data, cur_token.type, self.brace_level)
+                #print(cur_token.data, cur_token.type, self.brace_level)
                 self.tok_handlers[cur_token.type](self, cur_token)
                 cur_token = next(self.tokens)
 
@@ -362,10 +362,11 @@ class MidlInterfaceParser():
         cur_tok = token
         prev_tok = token
         while True:
-            if prev_tok.data == "(" and cur_tok.data ==";":
-                return
+            if prev_tok.data == ")" and cur_tok.data ==";":
+                return None
             prev_tok = cur_tok
             cur_tok = next(self.tokens)
+        return None
 
         
     def handle_keyword(self,token):
@@ -380,8 +381,9 @@ class MidlInterfaceParser():
             assert(tok.type == mt.Token.SYMBOL)
             self.interface.name = tok.data
         elif token.data == "error_status_t":
-            print("ASDASDeREREREER")
-            self.interface.add_procedure(self.handle_procedure(token))
+            proc = self.handle_procedure(token)
+            if proc != None:
+                self.interface.add_procedure(proc)
         elif token.data == "typedef" and self.state == InterfaceState.DEFAULT:
             # spin up a TypeDef parser to parse out typedefs
             td = MidlTypedefParser(self.tokens).parse(token)

@@ -4,25 +4,28 @@ from typing import TypedDict
 import string
 
 class Token():
-    KEYWORD = 0x1
-    SQBRACKET = 0x2
-    RBRACKET = 0x3
-    BRACE = 0x4
-    QUOTE = 0x5
-    SYMBOL = 0x6
-    STRING = 0x7
-    NUMERIC = 0x8
+    """Representation of Token types.
+    """
+    KEYWORD = 0x1 # see Token.keywords list
+    SQBRACKET = 0x2 # Square brackets
+    RBRACKET = 0x3 # round brackets
+    BRACE = 0x4 # curly braces
+    QUOTE = 0x5 # double quotes
+    SYMBOL = 0x6 # Words that are not keywords
+    STRING = 0x7 # everything inside of a pair of quotes, including the quotes themselves
+    NUMERIC = 0x8 # Float or integer
     OPERATOR = 0x9
     SEMICOLON = 0xA
     COMMA = 0xB
+
+    keywords = ["import", "const", "int", "uuid", "version", "pointer_default", "typedef", "in", "out", "interface", "context_handle", "enum",  "struct", "cpp_quote", "error_status_t"]
+    operators = ["=", "/","*", "+","-"]
 
     def __init__(self, data:str, _t):
         self.type = _t
         self.data = data
 
 class MidlTokenizer():
-    keywords = ["import", "const", "int", "uuid", "version", "pointer_default", "typedef", "in", "out", "interface", "context_handle", "enum",  "struct", "cpp_quote", "error_status_t"]
-    operators = ["=", "/","*", "+","-"]
 
     def __init__(self, midl:str):
         self.midl = midl
@@ -48,19 +51,19 @@ class MidlTokenizer():
                 to_yield =  Token(s, Token.STRING)
             elif cur_char == "," :
                 to_yield =  Token(",", Token.COMMA)
-            elif cur_char in MidlTokenizer.operators:
+            elif cur_char in Token.operators:
                 to_yield =  Token(cur_char, Token.OPERATOR)
             elif cur_char == ";":
                 to_yield =  Token(cur_char, Token.SEMICOLON)
             elif cur_char in string.ascii_letters or cur_char == "_":
                 s = self.get_keyword_or_symbol()
-                if s in MidlTokenizer.keywords:
+                if s in Token.keywords:
                     to_yield =  Token(s, Token.KEYWORD)
                 else: 
                     to_yield =  Token(s, Token.SYMBOL)
             elif cur_char in string.digits:
                 s = self.get_numeric()
-                if s in MidlTokenizer.keywords:
+                if s in Token.keywords:
                     to_yield =  Token(s, Token.KEYWORD)
                 else: 
                     to_yield =  Token(s, Token.SYMBOL)
@@ -72,7 +75,7 @@ class MidlTokenizer():
         cur_char = self.midl[self.ptr]
         s = ""
         while not MidlTokenizer.iswspace(cur_char):
-            if cur_char in MidlTokenizer.operators:
+            if cur_char in Token.operators:
                 self.ptr-=1
                 return s
             if cur_char == ";":
