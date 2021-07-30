@@ -80,7 +80,7 @@ class MidlTypeDef:
         for vd in self.type:
             out+= str(vd)
         out += "} "
-        out += self.name +";"
+        out += self.name +";\n"
         return out
 
     def __str__(self):
@@ -104,7 +104,7 @@ class MidlEnumDef:
             if self.map[k] is not None:
                 out += " = " + self.map[k]
             out +=",\n"
-        out += "}"
+        out += "}\n"
         return out        
 class MidlVarDef:
     def __init__(self, type, name):

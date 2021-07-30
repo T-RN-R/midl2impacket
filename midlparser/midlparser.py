@@ -111,7 +111,8 @@ class MidlVarDefParser():
         if self.sq_bracket_level == 0:
             if self.cur_type is None:
                 self.cur_type = cur_tok.data
-            self.vds.append(MidlVarDef(self.cur_type,cur_tok.data))
+            else:
+                self.vds.append(MidlVarDef(self.cur_type,cur_tok.data))
 
     def handle_comma(self,cur_tok):
         pass

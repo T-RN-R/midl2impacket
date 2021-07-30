@@ -51,10 +51,6 @@ class MidlTokenizer():
             elif cur_char in MidlTokenizer.operators:
                 to_yield =  Token(cur_char, Token.OPERATOR)
             elif cur_char == ";":
-                print("SEMICOLON")
-                import traceback
-                traceback.print_stack()
-
                 to_yield =  Token(cur_char, Token.SEMICOLON)
             elif cur_char in string.ascii_letters or cur_char == "_":
                 s = self.get_keyword_or_symbol()
