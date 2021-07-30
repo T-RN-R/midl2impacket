@@ -18,13 +18,15 @@ def generate_impacket(midl_def:midl.MidlDefinition):
     pass
 
 def main():
+    #TODO Once the Impacket generator is fully implemented, the commandline should accept --out_file arguments
     args = argparse.ArgumentParser(description='Process some integers.')
     args.add_argument('--in_file', type=str,
                         help='IDL file to convert to Impacket')
     arguments = args.parse_args()
     
     midl_def = parse(str(arguments.in_file))
-    generate_impacket(midl_def)
+    generate_code = generate_impacket(midl_def)
+    #write to file...
 
 
 if __name__ == "__main__":

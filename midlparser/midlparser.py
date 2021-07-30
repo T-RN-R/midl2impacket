@@ -20,7 +20,7 @@ class MidlParser():
                 while rhs_tok.type != mt.Token.SEMICOLON:
                     rhs += rhs_tok.data
                     rhs_tok = next(self.tokens)
-                self.definition.add_definition(tok.data, name.data, rhs, const)
+                self.definition.add_instantiation(tok.data, name.data, rhs, const)
                 self.state=State.DEFAULT
                 
                 
