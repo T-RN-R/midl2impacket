@@ -1079,6 +1079,9 @@ class MidlTypedefParser():
         
         if not len(self.tds):
             raise Exception(f"No typedefs were created.")
+        # Slap some attributes on these bad boys
+        for td in self.tds:
+            td.attrs = self.attrs
         return self.tds
 
 
