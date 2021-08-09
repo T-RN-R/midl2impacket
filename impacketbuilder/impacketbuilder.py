@@ -262,6 +262,7 @@ from impacket.structure import Structure
 from impacket import nt_errors
 from impacket.uuid import uuidtup_to_bin
 from impacket.dcerpc.v5.rpcrt import DCERPCException
+DWORD64 = LONGLONG
 """
         io.write(imports)
 
