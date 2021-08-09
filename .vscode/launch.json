@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "args":[
-                "--in-file", "tests/even6.idl"
+                "--in-file", "tests/even.idl"
             ]
         }
     ]

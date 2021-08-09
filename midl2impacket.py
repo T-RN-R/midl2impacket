@@ -2,7 +2,7 @@ import argparse
 import logging
 import midl
 import pathlib
-import impacket_generator
+from impacketbuilder import ImpacketBuilder
 from midlparser import MidlParser
 
 def parse(in_file: pathlib.Path) -> midl.MidlDefinition:
@@ -14,7 +14,7 @@ def parse(in_file: pathlib.Path) -> midl.MidlDefinition:
     return p.parse(data)
 
 def generate_impacket(midl_def: midl.MidlDefinition):
-    pass
+    return ImpacketBuilder().midl_def(midl_def).build()
 
 def main():
     #TODO Once the Impacket generator is fully implemented, the commandline should accept --out_file arguments
@@ -30,13 +30,10 @@ def main():
     if not args.out_file:
         args.out_file = in_file.with_suffix('.impacket.py')
     out_file = pathlib.Path(args.out_file)
-    if out_file.exists():
-        raise Exception(f"Output file already exists.")
 
     midl_def = parse(in_file)
-    print(midl_def)
     generated_code = generate_impacket(midl_def)
-    #write to file...
+    out_file.write_text(generated_code)
 
 
 if __name__ == "__main__":
