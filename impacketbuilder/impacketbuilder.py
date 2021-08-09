@@ -86,7 +86,7 @@ class %s(NDRUNION):
         %s
     }
         """ % (name.upper(), mem_str)
-        self.io.write(union_def)
+        self.write(union_def)
         return name
 
     def handle_ndr_struct(self,struct):
@@ -106,7 +106,7 @@ class {struct.public_names[0].upper()}(NDRSTRUCT):
         {vars}
     )
         """
-        self.io.write(class_def)
+        self.write(class_def)
         return {struct.public_names[0]}
 
     def handle_ndr_array(self,struct):
@@ -144,7 +144,7 @@ class {name.upper()}(NDRSTRUCT):
         ('{arr_var.name}', PTR_{name.upper()}),
     )
         """
-        self.io.write(classes_str)
+        self.write(classes_str)
         return name.upper()
 
     def detect_ndr_type(self,struct):
@@ -158,11 +158,71 @@ class {name.upper()}(NDRSTRUCT):
                     return MidlStructConverter.NDR_ARRAY
         return MidlStructConverter.NDR_STRUCT
 
+class MidlProcedureConverter(Converter):
+    def convert(self, procedure:MidlProcedure, count):
+        input = self.get_input(procedure)
+        output = self.get_output(procedure)
+
+
+        input_str = ""
+        for i in input:
+            input_str += f"\t\t('{i.name}', {i.type.replace('*','').upper()}),\n"
+        input_str = input_str[:-1]
+
+        output_str = ""
+        for i in output:
+            output_str += f"\t\t('{i.name}', {i.type.replace('*','').upper()}),\n"
+        output_str = output_str[:-1]
+        proc_str = f"""
+class {procedure.name}(NDRCALL):
+    opnum = {count}
+    structure = (
+{input_str}
+    )
+
+class {procedure.name}Response(NDRCALL):
+    structure = (
+{output_str}
+    )
+        """
+        self.write(proc_str)
+        
+    def get_input(self, procedure:MidlProcedure):
+        inp = []
+        for param in procedure.params:
+            if "in" in param.attrs.keys():
+                inp.append(param)
+        return inp
+
+    def get_output(self, procedure:MidlProcedure):
+        outp = []
+        for param in procedure.params:
+            if "out" in param.attrs.keys():
+                outp.append(param)
+        return outp
+
 class MidlInterfaceConverter(Converter):
     def convert(self, interface):
         for td in interface.typedefs:
             self.handle_typedef(td)
-            
+        count = 0
+        mapping = {}
+        for proc in interface.procedures:
+            self.handle_procedure(proc, count)
+            mapping[proc.name] = proc.name+"Response"
+            count +=1
+        opnum_map = "OPNUMS = {\n"
+        count = 0
+        for k in mapping:
+            opnum_map += f"{count} : ({k},{mapping[k]}),\n"
+            count +=1
+        opnum_map += "}\n"
+        self.write(opnum_map)
+
+
+    def handle_procedure(self, proc, count):
+        MidlProcedureConverter(self.io, self.tab_level).convert(proc, count)
+
     def handle_typedef(self, td):
         if type(td) is MidlTypeDef:
             self.handle_midl_td(td)
@@ -200,7 +260,7 @@ class {pointer_name}(NDRPOINTER):
         ('Data', {real_name}),
     )        
         """
-        self.io.write(class_def)
+        self.write(class_def)
 
     def handle_midl_struct(self, td:MidlStructDef):
         struct_converter = MidlStructConverter(self.io,self.tab_level)
@@ -216,7 +276,7 @@ class {pointer_name}(NDRPOINTER):
 class {td.public_names[0].upper()}:
 {vars}
         """
-        self.io.write(class_def)
+        self.write(class_def)
 
 
 
@@ -263,6 +323,7 @@ from impacket import nt_errors
 from impacket.uuid import uuidtup_to_bin
 from impacket.dcerpc.v5.rpcrt import DCERPCException
 DWORD64 = LONGLONG
+LPCWSTR = LPWSTR
 """
         io.write(imports)
 

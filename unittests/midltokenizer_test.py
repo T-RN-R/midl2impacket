@@ -17,3 +17,4 @@ class test_Tokenizer:
         tok = next(t)
         assert tok.data == '"test.idl"'
         assert tok.type == TokenType.STRING
+
