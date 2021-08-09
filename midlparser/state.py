@@ -42,6 +42,7 @@ class TypedefState(enum.Enum):
     TYPE_OR_ATTRS = enum.auto()
     TYPE = enum.auto()
     DEFINITION = enum.auto()
+    ADDITIONAL_NAMES = enum.auto()
     END = enum.auto()
 
 class StructState(enum.Enum):
