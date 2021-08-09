@@ -1,57 +1,61 @@
-
-class MidlImport():
+class MidlImport:
     """Represents a MIDL import statement
 
-        Example:
-            `import "ms-dtyp.idl";`
+    Example:
+        `import "ms-dtyp.idl";`
     """
+
     def __init__(self, file):
         self.file = file
 
     def __str__(self):
         return f"import {self.file}"
 
-class MidlArrayDimensions():
+
+class MidlArrayDimensions:
     def __init__(self, array_min=-1, array_max=-1):
         self.min = array_min
         self.max = array_max
 
-class MidlVariableInstantiation():
+
+class MidlVariableInstantiation:
     """Represents a MIDL variable instantiation
-        
-        Example:
-            `const int MAX_PAYLOAD = 2 * 1024 * 1024;`
+
+    Example:
+        `const int MAX_PAYLOAD = 2 * 1024 * 1024;`
     """
-    def __init__(self, var_type, name, rhs, const:bool):
-        self.type = var_type # typing of the variable
-        self.name = name # name of the variable
-        self.rhs = rhs   # un-parsed righthandside of the statement
-        self.const = const # boolean whether it is a constant
+
+    def __init__(self, var_type, name, rhs, const: bool):
+        self.type = var_type  # typing of the variable
+        self.name = name  # name of the variable
+        self.rhs = rhs  # un-parsed righthandside of the statement
+        self.const = const  # boolean whether it is a constant
 
     def __str__(self):
         out = ""
         if self.const == True:
-            out+="const "
+            out += "const "
         out += f"{self.type} {self.name} = {self.rhs};"
         return out
 
 
 class MidlDefinition:
-    """Represents a MIDL Definition. Maps directly to a MIDL file
-    """
+    """Represents a MIDL Definition. Maps directly to a MIDL file"""
+
     def __init__(self):
-        self.imports = [] # Imports
+        self.imports = []  # Imports
         self.comments = []
-        self.instantiation = [] # Variable instantiation
-        self.interfaces = [] # Interface defintions. Usually only 1 per file...
-    
-    def add_import(self, imp:str):
+        self.instantiation = []  # Variable instantiation
+        self.interfaces = []  # Interface defintions. Usually only 1 per file...
+        self.typedefs = []
+
+    def add_import(self, imp: str):
         self.imports.append(MidlImport(imp))
 
     def add_instantiation(self, var_type, name, rhs, const=False):
         self.instantiation.append(MidlVariableInstantiation(var_type, name, rhs, const))
 
-    def add_interface(self,interface):
+    def add_interface(self, interface):
         self.interfaces.append(interface)
 
     def add_comment(self, comment):
@@ -60,60 +64,60 @@ class MidlDefinition:
     def __str__(self):
         out = ""
         for i in self.imports:
-            out+=str(i) + "\n"
+            out += str(i) + "\n"
         for i in self.instantiation:
-            out+=str(i) + "\n"
+            out += str(i) + "\n"
         for i in self.interfaces:
-            out+=str(i) + "\n"
+            out += str(i) + "\n"
         return out
-              
+
 
 class MidlInterface:
     """Represents a MIDL interface
-        
-        Truncated example:
-            ` [
-                uuid (f6beaff7-1e19-4fbb-9f8f-b89e2018337c),
-                version(1.0),
-                pointer_default(unique)
-               ]
-                interface IEventService
+
+    Truncated example:
+        ` [
+            uuid (f6beaff7-1e19-4fbb-9f8f-b89e2018337c),
+            version(1.0),
+            pointer_default(unique)
+           ]
+            interface IEventService
+            {
+                typedef [context_handle] void* PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION;
+                typedef [context_handle] void* PCONTEXT_HANDLE_LOG_QUERY;
+                typedef [context_handle] void* PCONTEXT_HANDLE_LOG_HANDLE;
+                typedef [context_handle] void* PCONTEXT_HANDLE_OPERATION_CONTROL;
+                typedef [context_handle] void* PCONTEXT_HANDLE_PUBLISHER_METADATA;
+                typedef [context_handle] void* PCONTEXT_HANDLE_EVENT_METADATA_ENUM;
+
+
+
+
+
+                typedef struct tag_RpcInfo
                 {
-                    typedef [context_handle] void* PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION;
-                    typedef [context_handle] void* PCONTEXT_HANDLE_LOG_QUERY;
-                    typedef [context_handle] void* PCONTEXT_HANDLE_LOG_HANDLE;
-                    typedef [context_handle] void* PCONTEXT_HANDLE_OPERATION_CONTROL;
-                    typedef [context_handle] void* PCONTEXT_HANDLE_PUBLISHER_METADATA;
-                    typedef [context_handle] void* PCONTEXT_HANDLE_EVENT_METADATA_ENUM;
-                
-                
-                
-                
-                
-                    typedef struct tag_RpcInfo
-                    {
-                    DWORD m_error,
-                            m_subErr,
-                            m_subErrParam;
-                    } RpcInfo;
-                    error_status_t EvtRpcRegisterRemoteSubscription(
-                    /* [in] RPC_BINDING_HANDLE binding, {the binding handle will be generated by MIDL} */
-                    [in, unique, range(0, MAX_RPC_CHANNEL_NAME_LENGTH),string] LPCWSTR channelPath,
-                    [in, range(1, MAX_RPC_QUERY_LENGTH),string] LPCWSTR query,
-                    [in, unique, range(0, MAX_RPC_BOOKMARK_LENGTH),string] LPCWSTR bookmarkXml,
-                    [in] DWORD flags,
-                    [out, context_handle] PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION* handle,
-                    [out, context_handle] PCONTEXT_HANDLE_OPERATION_CONTROL* control,
-                    [out] DWORD* queryChannelInfoSize,
-                    [out, size_is(,*queryChannelInfoSize),
-                        range(0, MAX_RPC_QUERY_CHANNEL_SIZE)]
-                            EvtRpcQueryChannelInfo** queryChannelInfo,
-                    [out] RpcInfo *error);
-                }
-            `
+                DWORD m_error,
+                        m_subErr,
+                        m_subErrParam;
+                } RpcInfo;
+                error_status_t EvtRpcRegisterRemoteSubscription(
+                /* [in] RPC_BINDING_HANDLE binding, {the binding handle will be generated by MIDL} */
+                [in, unique, range(0, MAX_RPC_CHANNEL_NAME_LENGTH),string] LPCWSTR channelPath,
+                [in, range(1, MAX_RPC_QUERY_LENGTH),string] LPCWSTR query,
+                [in, unique, range(0, MAX_RPC_BOOKMARK_LENGTH),string] LPCWSTR bookmarkXml,
+                [in] DWORD flags,
+                [out, context_handle] PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION* handle,
+                [out, context_handle] PCONTEXT_HANDLE_OPERATION_CONTROL* control,
+                [out] DWORD* queryChannelInfoSize,
+                [out, size_is(,*queryChannelInfoSize),
+                    range(0, MAX_RPC_QUERY_CHANNEL_SIZE)]
+                        EvtRpcQueryChannelInfo** queryChannelInfo,
+                [out] RpcInfo *error);
+            }
+        `
     """
+
     def __init__(self):
-        #TODO uuid, version and pointer_default should be in their own class
         self.attributes = []
         self.name = None
         self.typedefs = []
@@ -127,25 +131,27 @@ class MidlInterface:
 
     def add_procedure(self, p):
         self.procedures.append(p)
-    
+
     def add_comment(self, c):
         self.comments.append(c)
 
     def __str__(self):
         out = ""
-        out += "UUID: " + self.attributes['uuid'] +";\n"
-        out += "Version: " + self.attributes['version'] +";\n"
-        out += "interface " + self.name +"{\n"
+        out += "UUID: " + self.attributes["uuid"] + ";\n"
+        out += "Version: " + self.attributes["version"] + ";\n"
+        out += "interface " + self.name + "{\n"
         for td in self.typedefs:
-            out+=str(td)
+            out += str(td)
         for p in self.procedures:
-            out+=str(p)
+            out += str(p)
         return out
+
 
 class MidlAttribute:
     """MIDL Attribute definition
-        e.g. size_is(5)
+    e.g. size_is(5)
     """
+
     def __init__(self, name, params=None):
         self.name = name
         self.params = params or []
@@ -162,24 +168,32 @@ class MidlAttribute:
             out+=")"
         return out
 
-
 class MidlVarDef:
     """Struct member or function parameter
-        Example:
-            `[size_is(count)] EvtRpcVariant* props;`
+    Example:
+        `[size_is(count)] EvtRpcVariant* props;`
     """
-    def __init__(self, var_type, name, attrs: list[MidlAttribute] = None):
+
+    def __init__(
+        self,
+        var_type,
+        name,
+        attrs: list[MidlAttribute] = None,
+        array_info=list[MidlArrayDimensions],
+    ):
         self.type = var_type
         self.name = name
         self.attrs = attrs or []
+        self.array_info = array_info or []
 
     def __str__(self):
         out = f"{self.type} {self.name}"
         return out
 
+
 class MidlTypeDef:
-    """Represents a typedef, can either be a simple mapping, or a complex struct definition.
-    """
+    """Represents a typedef, can either be a simple mapping, or a complex struct definition."""
+
     def __init__(self, td, attrs):
         self.type = td
         self.name = td.name
@@ -190,7 +204,8 @@ class MidlTypeDef:
         out += f"{self.type.type} {self.name};\n"
         return out
 
-class MidlStructDef():
+
+class MidlStructDef:
     def __init__(self, public_names, private_name, members: list[MidlVarDef]):
         self.public_names = public_names
         self.private_name = private_name
@@ -210,12 +225,12 @@ class MidlStructDef():
         out+=";\n"
         return out
 
-
-class MidlUnionDef():
+class MidlUnionDef:
     def __init__(self, public_names, private_name, members: list[MidlVarDef]):
         self.public_names = public_names
         self.private_name = private_name
         self.members = members
+
 
 class MidlSimpleTypedef:
     def __init__(self, name, simple_type):
@@ -225,57 +240,61 @@ class MidlSimpleTypedef:
     def __str__(self):
         out = ""
         out = "typedef " + self.name + " " + self.type +";"
-
+        return out
 class MidlEnumDef:
     """Definition of a MIDL enum.
 
-        Example:
-            `
-            typedef [v1_enum] enum tag_EvtRpcVariantType
-            {
-                EvtRpcVarTypeNull = 0,
-                EvtRpcVarTypeBoolean,
-                EvtRpcVarTypeUInt32,
-                EvtRpcVarTypeUInt64,
-                EvtRpcVarTypeString,
-                EvtRpcVarTypeGuid,
-                EvtRpcVarTypeBooleanArray,
-                EvtRpcVarTypeUInt32Array,
-                EvtRpcVarTypeUInt64Array,
-                EvtRpcVarTypeStringArray,
-                EvtRpcVarTypeGuidArray
-        
-            } EvtRpcVariantType;
-            `
+    Example:
+        `
+        typedef [v1_enum] enum tag_EvtRpcVariantType
+        {
+            EvtRpcVarTypeNull = 0,
+            EvtRpcVarTypeBoolean,
+            EvtRpcVarTypeUInt32,
+            EvtRpcVarTypeUInt64,
+            EvtRpcVarTypeString,
+            EvtRpcVarTypeGuid,
+            EvtRpcVarTypeBooleanArray,
+            EvtRpcVarTypeUInt32Array,
+            EvtRpcVarTypeUInt64Array,
+            EvtRpcVarTypeStringArray,
+            EvtRpcVarTypeGuidArray
+
+        } EvtRpcVariantType;
+        `
     """
+
     def __init__(self, public_names, private_name, map):
         self.public_names = public_names
         self.private_name = private_name
-        self.map = map     
+        self.map = map
 
     def __str__(self):
-        out  = "enum " + self.private_name + f"{self.public_names}" + "\n{\n"
+
+        out = "enum " + self.private_name + f"[{self.public_names}]" + "\n{\n"
+
         if self.map is None:
             return ""
         for k in self.map.keys():
             out += k
             if self.map[k] is not None:
+
                 out += " = " + str(self.map[k])
             out +=",\n"
         out += "}\n"
-        return out    
-
+        return out
 
 
 class MidlProcedure:
     """MIDL Procedure definition
 
-        Example:
-            `     
-            error_status_t EvtRpcRemoteSubscriptionWaitAsync(
-            [in, context_handle] PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION handle );
-            `
+    Example:
+        `
+        error_status_t EvtRpcRemoteSubscriptionWaitAsync(
+        [in, context_handle] PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION handle );
+        `
     """
+
     def __init__(self, name, attrs, params):
         self.name = name
         self.attrs = attrs
@@ -298,8 +317,11 @@ class MidlProcedure:
         
 
 
+
 class MidlParameter:
-    def __init__(self, name=None, data_type=None, attributes: list[MidlAttribute]=None):
+    def __init__(
+        self, name=None, data_type=None, attributes: list[MidlAttribute] = None
+    ):
         self.name = name
         self.type = data_type
         self.attributes = attributes or []

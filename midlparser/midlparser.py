@@ -118,7 +118,7 @@ class MidlVariableInstantiationParser():
                 cur_token = next(self.tokens)
             except Exception:
                 traceback.print_exc()
-                print(self.definition)
+                print(self.type_parts, self.value_parts)
                 print(cur_token.data)
                 exit()
         var_name = self.type_parts[-1]
@@ -146,13 +146,16 @@ class MidlParser():
     def handle_keyword(self, token):
         """Handles encountered keywords
         """
-        # Only 2 keywords should ever be encountered here: [const, import]
         if token.data == "import":
             self.state = MidlState.IMPORT
+        elif token.data == 'typedef':
+            self.definition.typedefs.append(
+                MidlTypedefParser(self.tokens).parse(token)
+            )
         else:
             self.state = MidlState.DEFINITION
             self.definition.instantiation.append(
-                 MidlVariableInstantiationParser(self.tokens).parse(token)
+                MidlVariableInstantiationParser(self.tokens).parse(token)
             )
             self.state = MidlState.DEFAULT
 
@@ -243,11 +246,14 @@ class MidlUnionParser():
         member_name = self.cur_member_parts[-1]
         member_type = ' '.join(self.cur_member_parts[:-1])
         member_attrs = self.cur_member_attrs[:]
-        member_def = MidlVarDef(member_type, member_name, member_attrs)
+        member_def = MidlVarDef(member_type, member_name, member_attrs, self.cur_member_array_info)
         self.members.append(member_def)
         self.prev_member = member_def
         self.cur_member_parts = []
         self.cur_member_attrs = []
+        self.cur_member_array_info = []
+        self.embedded_struct_count = 0
+        self.embedded_union_count = 0
 
     def handle_keyword(self, token):
         if self.state == UnionState.BEGIN:
@@ -255,7 +261,25 @@ class MidlUnionParser():
                 raise Exception(f"Unexpected token: {token.data}. Expected 'union'")
             self.state = UnionState.UNION_BODY
         elif self.state in [UnionState.MEMBER_TYPE, UnionState.MEMBER_TYPE_OR_ATTR]:
-            self.cur_member_parts.append(token.data)
+            # Embedded
+            if token.data == 'struct':
+                struct_type = MidlStructParser(self.tokens).parse(token)
+                if not struct_type.public_names:
+                    struct_type.public_names.append(f's{self.embedded_struct_count}')
+                    self.embedded_struct_count += 1
+                var_def = MidlVarDef(struct_type, struct_type.public_names[0], self.cur_member_attrs)
+                self.members.append(var_def)
+                self.state = UnionState.MEMBER_TYPE_OR_ATTR
+            elif token.data == 'union':
+                union_type = MidlUnionParser(self.tokens).parse(token)
+                if not union_type.public_names:
+                    union_type.public_names.append(f'u{self.embedded_union_count}')
+                    self.embedded_union_count += 1
+                var_def = MidlVarDef(union_type, union_type.public_names[0], self.cur_member_attrs)
+                self.members.append(var_def)
+                self.state = UnionState.MEMBER_TYPE_OR_ATTR
+            else:
+                self.cur_member_parts.append(token.data)
         else:
             raise Exception(f"Unexpected keyword: {token.data} in state {self.state}")
 
@@ -287,6 +311,7 @@ class MidlUnionParser():
             raise Exception(f"Unexpected sqbracket in state {self.state}")
 
     def handle_brace(self, token):
+        # Unions can be unnamed
         if token.data == '{' and self.state in [UnionState.UNION_BODY, UnionState.UNION_NAME]:
             self.state = UnionState.MEMBER_TYPE_OR_ATTR
         elif token.data == '}' and self.state == UnionState.MEMBER_TYPE_OR_ATTR:
@@ -296,7 +321,7 @@ class MidlUnionParser():
 
     def handle_semicolon(self, _):
         # End of variable definition, add the current type
-        if self.state in [UnionState.MEMBER_TYPE]:
+        if self.state in [UnionState.MEMBER_TYPE, UnionState.MEMBER_ARRAY]:
             self.add_current_member()
             self.state = UnionState.MEMBER_TYPE_OR_ATTR
         elif self.state == UnionState.UNION_END:
@@ -348,6 +373,8 @@ class MidlStructParser():
         self.comments = []
         self.private_name = None
         self.declared_names = ''
+        self.embedded_struct_count = 0
+        self.embedded_union_count = 0
         self.state = StructState.BEGIN
         self.tok_handlers = {
             TokenType.KEYWORD : MidlStructParser.handle_keyword,
@@ -376,11 +403,12 @@ class MidlStructParser():
             member_type = ' '.join(self.cur_member_parts[:-1])
             member_attrs = self.cur_member_attrs
         
-        member_def = MidlVarDef(member_type, member_name, member_attrs)
+        member_def = MidlVarDef(member_type, member_name, member_attrs, self.cur_member_array_info)
         self.members.append(member_def)
         self.prev_member = member_def
         self.cur_member_parts = []
         self.cur_member_attrs = {}
+        self.cur_member_array_info = []
 
     def handle_keyword(self, token):
         if self.state == StructState.BEGIN:
@@ -390,11 +418,18 @@ class MidlStructParser():
         elif self.state in [StructState.MEMBER_TYPE_OR_ATTR, StructState.MEMBER_TYPE, StructState.MEMBER_REPEAT]:
             # Embedded
             if token.data == 'struct':
-                pass
+                struct_type = MidlStructParser(self.tokens).parse(token)
+                if not struct_type.public_names:
+                    struct_type.public_names.append(f's{self.embedded_struct_count}')
+                    self.embedded_struct_count += 1
+                var_def = MidlVarDef(struct_type, struct_type.public_names[0], self.cur_member_attrs)
+                self.members.append(var_def)
+                self.state = StructState.MEMBER_TYPE_OR_ATTR
             elif token.data == 'union':
                 union_type = MidlUnionParser(self.tokens).parse(token)
                 if not union_type.public_names:
-                    union_type.public_names.append('anonymous')
+                    union_type.public_names.append(f'u{self.embedded_union_count}')
+                    self.embedded_union_count += 1
                 var_def = MidlVarDef(union_type, union_type.public_names[0], self.cur_member_attrs)
                 self.members.append(var_def)
                 self.state = StructState.MEMBER_TYPE_OR_ATTR
@@ -433,14 +468,14 @@ class MidlStructParser():
             self.state = StructState.MEMBER_TYPE
         elif self.state in [StructState.MEMBER_TYPE, StructState.MEMBER_ARRAY]:
             # The member has (possibly additional) array dimensions specified..
-            array_parser = MidlArrayParser(self.tokens)
-            self.cur_member_array_info.append(array_parser.parse(token))
+            self.cur_member_array_info.append(MidlArrayParser(self.tokens).parse(token))
             self.state = StructState.MEMBER_ARRAY
         else:
             raise Exception(f"Unexpected sqbracket in state {self.state}")
 
     def handle_brace(self, token):
-        if token.data == '{' and self.state == StructState.STRUCT_BODY:
+        # The struct might be unnamed, so we might be in the STRUCT_NAME state.
+        if token.data == '{' and self.state in [StructState.STRUCT_BODY, StructState.STRUCT_NAME]:
             self.state = StructState.MEMBER_TYPE_OR_ATTR
         elif token.data == '}' and self.state == StructState.MEMBER_TYPE_OR_ATTR:
             self.state = StructState.STRUCT_END
@@ -449,7 +484,7 @@ class MidlStructParser():
         
     def handle_semicolon(self, _):
         # End of variable definition, add the current type
-        if self.state in [StructState.MEMBER_TYPE, StructState.MEMBER_REPEAT]:
+        if self.state in [StructState.MEMBER_TYPE, StructState.MEMBER_REPEAT, StructState.MEMBER_ARRAY]:
             self.add_current_member()
             self.state = StructState.MEMBER_TYPE_OR_ATTR
         elif self.state == StructState.STRUCT_END:
@@ -501,8 +536,10 @@ class MidlAttributesParser():
             TokenType.COMMA: MidlAttributesParser.handle_comma,
             TokenType.SYMBOL: MidlAttributesParser.handle_symbol_and_numeric,
             TokenType.NUMERIC: MidlAttributesParser.handle_symbol_and_numeric,
+            TokenType.GUID: MidlAttributesParser.handle_symbol_and_numeric,
             TokenType.OPERATOR: MidlAttributesParser.handle_operator,
             TokenType.DIRECTIVE: MidlAttributesParser.handle_directive,
+            
         }
 
     def handle_operator(self, token):
@@ -624,27 +661,14 @@ class MidlArrayParser():
         self.cur_dim = ''
         self.tok_handlers = {
             TokenType.SQBRACKET: MidlArrayParser.handle_sqbracket,
-            TokenType.NUMERIC : MidlArrayParser.handle_numeric,
-            TokenType.OPERATOR : MidlArrayParser.handle_operator,
+            TokenType.NUMERIC : MidlArrayParser.add_data_to_dimension,
+            TokenType.OPERATOR : MidlArrayParser.add_data_to_dimension,
+            TokenType.SYMBOL: MidlArrayParser.add_data_to_dimension,
             TokenType.ELLIPSIS : MidlArrayParser.handle_ellipsis,
             TokenType.RBRACKET: MidlArrayParser.handle_rbracket,
         }
 
-    def handle_sqbracket(self, token):
-        if self.state == ArrayState.BEGIN and token.data == '[':
-            self.state = ArrayState.RANGE_MIN
-        elif token.data == ']':
-            if self.state == ArrayState.RANGE_MIN_IN_PROGRESS:
-                self.dimensions[0] = self.cur_dim
-            elif self.state == ArrayState.RANGE_MIN_IN_PROGRESS:
-                self.dimensions[1] = self.cur_dim
-            else:
-                raise Exception(f"Unexpected sqbracket in array state {self.state}")    
-            self.state = ArrayState.END
-        else:
-            raise Exception(f"Unexpected sqbracket in array state {self.state}")
-
-    def handle_numeric(self, token):
+    def add_data_to_dimension(self, token):
         if self.state not in [ArrayState.BEGIN, ArrayState.END]:
             # Mark that we have *some* data for the current dimension
             if self.state == ArrayState.RANGE_MIN:
@@ -653,18 +677,24 @@ class MidlArrayParser():
                 self.state = ArrayState.RANGE_MAX_IN_PROGRESS
             self.cur_dim += token.data
         else:
-            raise Exception(f"Unexpected number in state {self.state}")
-    
-    def handle_operator(self, token):
-        # This could be a math operator on an array dimension, or just a '*'
-        if self.state not in [ArrayState.BEGIN, ArrayState.END]:
+            raise Exception(f"Unexpected {token.type}: {token.data} in state {self.state}")
+
+    def handle_sqbracket(self, token):
+        if self.state == ArrayState.BEGIN and token.data == '[':
+            self.state = ArrayState.RANGE_MIN
+        elif token.data == ']':
             if self.state == ArrayState.RANGE_MIN:
-                self.state = ArrayState.RANGE_MIN_IN_PROGRESS
-            elif self.state == ArrayState.RANGE_MAX:
-                self.state = ArrayState.RANGE_MAX_IN_PROGRESS
-            self.cur_dim += token.data
+                # This is just an empty [] declaration. We're done
+                pass
+            elif self.state == ArrayState.RANGE_MIN_IN_PROGRESS:
+                self.dimensions[0] = self.cur_dim
+            elif self.state == ArrayState.RANGE_MIN_IN_PROGRESS:
+                self.dimensions[1] = self.cur_dim
+            else:
+                raise Exception(f"Unexpected sqbracket in array state {self.state}")    
+            self.state = ArrayState.END
         else:
-            raise Exception(f"Unexpected token {token.data} in state {self.state}.")
+            raise Exception(f"Unexpected sqbracket in array state {self.state}")
 
     def handle_ellipsis(self, _):
         if self.state == ArrayState.RANGE_MIN_IN_PROGRESS:
@@ -682,16 +712,6 @@ class MidlArrayParser():
         else:
             raise Exception(f"Unexpected closing bracket in state {self.state}")
         self.cur_dim += token.data
-
-    def handle_symbol(self, token):
-        if self.state not in [ArrayState.BEGIN, ArrayState.END]:
-            if self.state == ArrayState.RANGE_MIN:
-                self.state = ArrayState.RANGE_MIN_IN_PROGRESS
-            elif self.state == ArrayState.RANGE_MAX:
-                self.state = ArrayState.RANGE_MAX_IN_PROGRESS
-            self.cur_dim += token.data
-        else:
-            raise Exception("Unexpected symbol in array definition")
 
     def parse(self, cur_token) -> MidlArrayDimensions:
         """parsing loop
@@ -743,7 +763,7 @@ class MidlProcedureParser():
     def finish_cur_param(self):
         param_name = self.cur_param_type_parts[-1]
         param_type = ' '.join(self.cur_param_type_parts[:-1])
-        self.parameters.append(MidlParameter(param_name, param_type,  self.cur_param_attrs))
+        self.parameters.append(MidlVarDef(param_type, param_name, self.cur_param_attrs, self.cur_param_array_info))
         self.cur_param_type_parts = []
         self.cur_param_attrs = []
         self.cur_param_array_info = []
@@ -889,7 +909,7 @@ class MidlEnumParser():
             raise Exception(f"Unexpected symbol {token.data} in state {self.state}")
 
     def handle_brace(self, token):
-        if token.data == '{' and self.state == EnumState.BODY:
+        if token.data == '{' and self.state in [EnumState.BODY, EnumState.NAME]:
             self.state = EnumState.MEMBER_NAME
         elif token.data == '}' and self.state in [EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE]:
             self.state = EnumState.ENUM_END
@@ -899,6 +919,7 @@ class MidlEnumParser():
     def handle_comma(self, _):
         if self.state in [EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE]:
             self.map[self.cur_member_name] = self.cur_member_value
+            self.cur_member_value += 1
             self.state = EnumState.MEMBER_NAME
         elif self.state == EnumState.ENUM_END:
             self.declared_names += ','
@@ -948,7 +969,9 @@ class MidlTypedefParser():
         self.state = TypedefState.BEGIN
         self.td_parts = []
         self.comments = []
-        self.td = None
+        self.cur_additional_name = ''
+        self.additional_names = []
+        self.tds = []
         self.tok_handlers = {
             TokenType.SYMBOL: MidlTypedefParser.handle_symbol,
             TokenType.KEYWORD : MidlTypedefParser.handle_keyword,
@@ -956,6 +979,7 @@ class MidlTypedefParser():
             TokenType.SEMICOLON: MidlTypedefParser.handle_semicolon,
             TokenType.OPERATOR: MidlTypedefParser.handle_operator,
             TokenType.COMMENT: MidlTypedefParser.handle_comment,
+            TokenType.COMMA: MidlTypedefParser.handle_comma,
         }
         self.kw_handlers = {
             'struct': MidlStructParser,
@@ -972,7 +996,7 @@ class MidlTypedefParser():
         elif self.state in [TypedefState.TYPE_OR_ATTRS, TypedefState.TYPE]:
             if token.data in self.kw_handlers:
                 self.state = TypedefState.DEFINITION
-                self.td = self.kw_handlers[token.data](self.tokens).parse(token)
+                self.tds.append(self.kw_handlers[token.data](self.tokens).parse(token))
                 self.state = TypedefState.END
             else:
                 return self.handle_symbol(token)
@@ -985,19 +1009,33 @@ class MidlTypedefParser():
         if self.state in [TypedefState.TYPE_OR_ATTRS, TypedefState.TYPE]:
             self.td_parts.append(token.data)
             self.state = TypedefState.DEFINITION
-        if self.state == TypedefState.DEFINITION:
+        elif self.state == TypedefState.DEFINITION:
             self.td_parts.append(token.data) 
+        elif self.state == TypedefState.ADDITIONAL_NAMES:
+            self.cur_additional_name += token.data
         else:
             raise Exception(f"Unexpected symbol {token.data} in state {self.state}")
 
     def handle_operator(self, token):
         if self.state == TypedefState.DEFINITION and token.data == '*':
             self.td_parts[-1] += '*'
+        elif self.state == TypedefState.ADDITIONAL_NAMES and token.data == '*':
+            self.cur_additional_name += '*'
         else:
             raise Exception(f"Unexpected operator {token.data} in state {self.state}")
 
     def handle_comment(self, token):
         self.comments.append(token)
+
+    def handle_comma(self, _):
+        if self.state == TypedefState.DEFINITION:
+            self.state = TypedefState.ADDITIONAL_NAMES
+        elif self.state == TypedefState.ADDITIONAL_NAMES:
+            self.additional_names.append(self.cur_additional_name)
+            self.cur_additional_name = ''
+        else:
+            raise Exception(f"Unexpected comma in state {self.state}")
+
 
     def handle_sqbracket(self, token):
         """ Handles typedef attributes e.g. [v1_enum]
@@ -1009,18 +1047,23 @@ class MidlTypedefParser():
             raise Exception(f"Unexpected sqbracket in state {self.state}")
 
     def handle_semicolon(self, _):
-        if self.state in [TypedefState.DEFINITION]:
-            # We're done. If it was a simple type we need to create it here
-            if not self.td:
-                td_name = self.td_parts[-1]
-                td_type = ' '.join(self.td_parts[:-1])
-                simple_type = MidlSimpleTypedef(td_name, td_type)
-                self.td = MidlTypeDef(simple_type, self.attrs)
-            self.state = TypedefState.END
+        if self.state == TypedefState.DEFINITION:
+            pass
+        elif self.state == TypedefState.ADDITIONAL_NAMES and self.cur_additional_name:
+            self.additional_names.append(self.cur_additional_name)
         else:
             raise Exception("Unexpected semicolon in type definition")
+        
+        self.state = TypedefState.END
+        # If we're a simple type we need to create it here
+        if not self.tds:
+            td_name = self.td_parts[-1]
+            td_type = ' '.join(self.td_parts[:-1])
+            self.tds.append(MidlSimpleTypedef(td_name, td_type))
+            for additional_name in self.additional_names:
+                self.tds.append(MidlSimpleTypedef(additional_name, td_type))
 
-    def parse(self, cur_token) -> MidlTypeDef:
+    def parse(self, cur_token) -> list[MidlTypeDef]:
         """parsing loop
         """
         while cur_token is not None:
@@ -1034,15 +1077,9 @@ class MidlTypedefParser():
                 traceback.print_exc()
                 exit()
         
-        # There are 2 types of definitions that can be parsed here, either an enum, or a typdef.
-        # poorly written way of handling these cases below.
-        if self.td is None:
-            if self.enums is not None:
-                self.td = MidlEnumDef(self.public_name, self.enums)
-            else:
-                self.td = MidlTypeDef(self.vds, self.public_name, is_complex=True)
-                self.td.private_name = self.private_name
-        return self.td
+        if not len(self.tds):
+            raise Exception(f"No typedefs were created.")
+        return self.tds
 
 
 class MidlInterfaceParser():
@@ -1105,8 +1142,9 @@ class MidlInterfaceParser():
             self.interface.name = tok.data
         elif token.data == "typedef" and self.state == InterfaceState.BODY:
             # spin up a TypeDef parser to parse out typedefs
-            td = MidlTypedefParser(self.tokens).parse(token)
-            self.interface.add_typedef(td)
+            tds = MidlTypedefParser(self.tokens).parse(token)
+            for td in tds:
+                self.interface.add_typedef(td)
         elif self.state == InterfaceState.BODY:
             if token.data == "cpp_quote":
                 self.state = InterfaceState.CPP_QUOTE

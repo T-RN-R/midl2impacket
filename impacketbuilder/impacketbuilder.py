@@ -170,11 +170,14 @@ class MidlInterfaceConverter(Converter):
             self.handle_midl_struct(td)
         elif type(td) is MidlEnumDef:
             self.handle_midl_enum(td)
+        elif type(td) is MidlSimpleTypedef:
+            self.handle_midl_td(td)
         else:
             raise Exception(f"MidlInterfaceConverter: Unhandled typedef type: {td.__class__}")
 
-    def handle_midl_td(self, td:MidlTypeDef):
 
+    def handle_midl_td(self, td:MidlTypeDef):
+        print(td)
         attr_names = [td.attrs[k].name for k in td.attrs.keys()]
         if "context_handle" in attr_names:
             self.handle_context_handle(td)
