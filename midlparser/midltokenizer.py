@@ -2,6 +2,7 @@ from .state import State
 from midl import MidlDefinition
 from typing import TypedDict
 import string
+from .midlkeywords import MIDL_KEYWORDS
 
 class Token():
     """Representation of Token types.
@@ -14,12 +15,14 @@ class Token():
     SYMBOL = 0x6 # Words that are not keywords
     STRING = 0x7 # everything inside of a pair of quotes, including the quotes themselves
     NUMERIC = 0x8 # Float or integer
-    OPERATOR = 0x9 # Mathematic operaros, see Token.operators
+    OPERATOR = 0x9 # Mathematic operators, see Token.operators
     SEMICOLON = 0xA 
     COMMA = 0xB
     GUID = 0xC
+    COMMENT = 0xD
+    ELLIPSIS = 0xE
 
-    keywords = ["import", "const", "uuid", "version", "pointer_default", "typedef", "in", "out", "interface", "context_handle", "enum",  "struct", "cpp_quote", "error_status_t", "union"]
+    keywords = MIDL_KEYWORDS
     operators = ["=", "/","*", "+","-"]
 
     def __init__(self, data:str, _t):
@@ -68,11 +71,20 @@ class MidlTokenizer():
             elif cur_char == "\"" :
                 s = self.get_string()
                 self.ptr -=1 # take a step back before continuing
-                to_yield =  Token(s, Token.STRING)
+                to_yield =  Token(s, Token.STRING) 
             elif cur_char == "," :
                 to_yield =  Token(",", Token.COMMA)
+            elif cur_char == "." and self.midl[self.ptr+1] == "." and self.midl[self.ptr+2] != ".":
+                to_yield = Token(cur_char, Token.ELLIPSIS)
+                # Skip to the end of the ellipsis
+                self.ptr += 1
             elif cur_char in Token.operators:
-                to_yield =  Token(cur_char, Token.OPERATOR)
+                # Check comments
+                if cur_char == "/" and self.midl[self.ptr+1] in ['/', '*']:
+                    c = self.get_comment()
+                    to_yield = Token(c, Token.COMMENT)
+                else:
+                    to_yield =  Token(cur_char, Token.OPERATOR)
             elif cur_char == ";":
                 to_yield =  Token(cur_char, Token.SEMICOLON)
             elif cur_char in string.ascii_letters or cur_char == "_": 
@@ -150,6 +162,29 @@ class MidlTokenizer():
         self.ptr=end_char+1
         return s
 
+    def get_comment(self):
+        """Gets a comment
+
+        Returns:
+            str: Returns the found comment
+        """
+        cur_char = self.midl[self.ptr]
+        comment_type_char = self.midl[self.ptr+1]
+        assert(cur_char == '/') # Validation check to ensure this function is called from the right spot.
+        assert(comment_type_char in ['/', '*'])
+        self.ptr += 2 # Start searching inside the comment.
+        if comment_type_char == '*':
+            # Look for the end of the block comment
+            comment_end = self.midl[self.ptr:].find("*/") + self.ptr
+            comment_offset = 2
+        else:
+            # Look for the next line ending
+            comment_end = self.midl[self.ptr:].find("\n") + self.ptr
+            comment_offset = 1
+        comment = self.midl[self.ptr:comment_end].strip()
+        self.ptr = comment_end + comment_offset
+        return comment
+
     def get_keyword_or_symbol(self):
         """Gets the keyword or symbol
 
@@ -177,7 +212,7 @@ class MidlTokenizer():
         Returns:
             bool: Returns result of the whitespace check
         """
-        wspace = [" ", "\n", "\r\n", "\r"]
+        wspace = [" ", "\n", "\r\n", "\r", "\t"]
         if char in wspace:
             return True
         return False

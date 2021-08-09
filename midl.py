@@ -35,6 +35,7 @@ class MidlDefinition:
     """
     def __init__(self):
         self.imports = [] # Imports
+        self.comments = []
         self.instantiation = [] # Variable instantiation
         self.interfaces = [] # Interface defintions. Usually only 1 per file...
     
@@ -46,6 +47,9 @@ class MidlDefinition:
 
     def add_interface(self,interface):
         self.interfaces.append(interface)
+
+    def add_comment(self, comment):
+        self.comments.append(comment)
 
     def __str__(self):
         out = ""
@@ -110,12 +114,16 @@ class MidlInterface:
         self.name = None
         self.typedefs = []
         self.procedures = []
+        self.comments = []
 
     def add_typedef(self, td):
         self.typedefs.append(td)
 
     def add_procedure(self, p):
         self.procedures.append(p)
+    
+    def add_comment(self, c):
+        self.comments.append(c)
 
     def __str__(self):
         out = ""
@@ -128,34 +136,57 @@ class MidlInterface:
             out+=str(p)
         return out
 
+class MidlAttribute:
+    """MIDL Attribute definition
+        e.g. size_is(5)
+    """
+    def __init__(self, name, params=None):
+        self.name = name
+        self.params = params or []
 
+class MidlVarDef:
+    """Struct member or function parameter
+        Example:
+            `[size_is(count)] EvtRpcVariant* props;`
+    """
+    def __init__(self, var_type, name, attrs: list[MidlAttribute] = None):
+        self.type = var_type
+        self.name = name
+        self.attrs = attrs or []
+
+    def __str__(self):
+        out = f"{self.type} {self.name};\n"
+        return out
 
 class MidlTypeDef:
     """Represents a typedef, can either be a simple mapping, or a complex struct definition.
     """
-    def __init__(self, type, name, is_context_handle=False, is_complex = False):
-        self.type=type
-        self.name=name # public name
-        self.is_context_handle = is_context_handle
-        self.is_complex = is_complex
-        self.private_name = None # hidden name
-
-    def get_complex_str(self):
-        out = "struct "
-        out += self.private_name + " {\n"
-        for vd in self.type:
-            out+= str(vd)
-        out += "} "
-        out += self.name +";\n"
-        return out
+    def __init__(self, td, attrs):
+        self.type = td
+        self.name = td.name
+        self.attrs = attrs
 
     def __str__(self):
         out = "typedef "
-        if self.is_complex:
-            out+= self.get_complex_str()
-        else:
-            out += f"{self.type} {self.name};\n"
+        out += f"{self.type.__class__.__name__} {self.name};\n"
         return out
+
+class MidlStructDef():
+    def __init__(self, public_names, private_name, members: list[MidlVarDef]):
+        self.public_names = public_names
+        self.private_name = private_name
+        self.members = members
+
+class MidlUnionDef():
+    def __init__(self, public_names, private_name, members: list[MidlVarDef]):
+        self.public_names = public_names
+        self.private_name = private_name
+        self.members = members
+
+class MidlSimpleTypedef:
+    def __init__(self, name, simple_type):
+        self.name = name
+        self.type = simple_type
 
 class MidlEnumDef:
     """Definition of a MIDL enum.
@@ -179,12 +210,13 @@ class MidlEnumDef:
             } EvtRpcVariantType;
             `
     """
-    def __init__(self, name, map):
-        self.name = name
+    def __init__(self, public_names, private_name, map):
+        self.public_names = public_names
+        self.private_name = private_name
         self.map = map     
 
     def __str__(self):
-        out  = "enum " +self.name + "\n{\n"
+        out  = "enum " + self.private_name + f"[{self.public_names}]" + "\n{\n"
         if self.map is None:
             return ""
         for k in self.map.keys():
@@ -195,19 +227,7 @@ class MidlEnumDef:
         out += "}\n"
         return out    
 
-class MidlVarDef:
-    """Variable definition inside of a struct
 
-        Example:
-            `[size_is(count)] EvtRpcVariant* props;`
-    """
-    def __init__(self, type, name):
-        self.type = type
-        self.name = name
-
-    def __str__(self):
-        out = f"{self.type} {self.name};\n"
-        return out
 
 class MidlProcedure:
     """MIDL Procedure definition
@@ -217,8 +237,14 @@ class MidlProcedure:
             error_status_t EvtRpcRemoteSubscriptionWaitAsync(
             [in, context_handle] PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION handle );
             `
-  
-
     """
-    def __init__(self):
-        pass
+    def __init__(self, name, attrs, params):
+        self.name = name
+        self.attrs = attrs
+        self.params = params
+
+class MidlParameter:
+    def __init__(self, name=None, data_type=None, attributes: list[MidlAttribute]=None):
+        self.name = name
+        self.type = data_type
+        self.attributes = attributes or []
