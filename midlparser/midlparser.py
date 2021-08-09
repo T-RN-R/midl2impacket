@@ -1,5 +1,5 @@
 import traceback
-from midl import MidlAttribute, MidlDefinition, MidlInterface, MidlSimpleTypedef, MidlStructDef, MidlTypeDef, MidlUnionDef, MidlVarDef, MidlEnumDef, MidlProcedure
+from midl import MidlAttribute, MidlDefinition, MidlInterface, MidlSimpleTypedef, MidlStructDef, MidlTypeDef, MidlUnionDef, MidlVarDef, MidlEnumDef, MidlProcedure, MidlParameter
 from .state import ArrayState, AttributeState, EnumState, InterfaceState, ProcedureState, State, StructState, TypedefState, UnionState
 from . import midltokenizer as mt
 
@@ -621,7 +621,7 @@ class MidlProcedureParser():
     def finish_cur_param(self):
         param_name = self.cur_param_type_parts[-1]
         param_type = ' '.join(self.cur_param_type_parts[:-1])
-        self.parameters.append(MidlVarDef(param_type, param_name, self.cur_param_attrs))
+        self.parameters.append(MidlParameter(param_name, param_type,  self.cur_param_attrs))
         self.cur_param_type_parts = []
         self.cur_param_attrs = []
         self.cur_param_array_info = []

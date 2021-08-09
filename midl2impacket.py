@@ -34,6 +34,7 @@ def main():
         raise Exception(f"Output file already exists.")
 
     midl_def = parse(in_file)
+    print(midl_def)
     generated_code = generate_impacket(midl_def)
     #write to file...
 

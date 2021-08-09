@@ -144,6 +144,19 @@ class MidlAttribute:
         self.name = name
         self.params = params or []
 
+    def __str__(self):
+        out = ""
+        out += self.name
+        if self.params != []:
+            out += "("
+            for param in self.params:
+                out += str(param)
+                out += ", "
+            out = out[:-1]
+            out+=")"
+        return out
+
+
 class MidlVarDef:
     """Struct member or function parameter
         Example:
@@ -216,13 +229,13 @@ class MidlEnumDef:
         self.map = map     
 
     def __str__(self):
-        out  = "enum " + self.private_name + f"[{self.public_names}]" + "\n{\n"
+        out  = "enum " + self.private_name + f"{self.public_names}" + "\n{\n"
         if self.map is None:
             return ""
         for k in self.map.keys():
             out += k
             if self.map[k] is not None:
-                out += " = " + self.map[k]
+                out += " = " + str(self.map[k])
             out +=",\n"
         out += "}\n"
         return out    
@@ -242,9 +255,41 @@ class MidlProcedure:
         self.name = name
         self.attrs = attrs
         self.params = params
+    
+    def __str__(self):
+        out = ""
+        out += self.name +" (\n"
+        for i in self.params:
+            out += str(i)
+            out +=",\n"
+        
+        if len(self.params) >0:
+            out = out[:-2] #Trim off the last comma and newline
+        out += ");\n"
+       
+        
+        return out
+
+        
+
 
 class MidlParameter:
     def __init__(self, name=None, data_type=None, attributes: list[MidlAttribute]=None):
         self.name = name
         self.type = data_type
         self.attributes = attributes or []
+
+    def __str__(self):
+        out = ""
+        has_attrs = len(self.attributes) > 0
+
+        if has_attrs:
+            out += "["
+            for attr in self.attributes:
+                out += str(attr) +","
+            out = out[:-1]
+            out += "] "
+        
+        out += self.type + " "
+        out += self.name
+        return out
