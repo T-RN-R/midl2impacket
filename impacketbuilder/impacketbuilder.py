@@ -191,6 +191,8 @@ class {procedure.name}Response(NDRCALL):
         inp = []
         for param in procedure.params:
             if "in" in param.attrs.keys():
+                if param.type == "void**": #TODO Stop cheating here
+                    param.type = "CONTEXT_HANDLE"
                 inp.append(param)
         return inp
 
@@ -198,6 +200,8 @@ class {procedure.name}Response(NDRCALL):
         outp = []
         for param in procedure.params:
             if "out" in param.attrs.keys():
+                if param.type == "void**": #TODO Stop cheating here
+                    param.type = "CONTEXT_HANDLE"
                 outp.append(param)
         return outp
 
@@ -323,7 +327,14 @@ from impacket import nt_errors
 from impacket.uuid import uuidtup_to_bin
 from impacket.dcerpc.v5.rpcrt import DCERPCException
 DWORD64 = LONGLONG
+__INT64 = DWORD64
 LPCWSTR = LPWSTR
+LCID = DWORD
+class CONTEXT_HANDLE(NDRSTRUCT):
+    align = 1
+    structure = (
+        ('Data', '20s=""'),
+    )
 """
         io.write(imports)
 

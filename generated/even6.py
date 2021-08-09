@@ -10,7 +10,14 @@ from impacket import nt_errors
 from impacket.uuid import uuidtup_to_bin
 from impacket.dcerpc.v5.rpcrt import DCERPCException
 DWORD64 = LONGLONG
+__INT64 = DWORD64
 LPCWSTR = LPWSTR
+LCID = DWORD
+class CONTEXT_HANDLE(NDRSTRUCT):
+    align = 1
+    structure = (
+        ('Data', '20s=""'),
+    )
 #################################################################################
 #CONSTANTS
 #################################################################################
@@ -467,12 +474,12 @@ class EvtRpcQuerySeekResponse(NDRCALL):
 class EvtRpcClose(NDRCALL):
     opnum = 13
     structure = (
-		('handle', VOID),
+		('handle', CONTEXT_HANDLE),
     )
 
 class EvtRpcCloseResponse(NDRCALL):
     structure = (
-		('handle', VOID),
+		('handle', CONTEXT_HANDLE),
     )
         
 
