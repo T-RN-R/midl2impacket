@@ -919,6 +919,7 @@ class MidlEnumParser():
     def handle_comma(self, _):
         if self.state in [EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE]:
             self.map[self.cur_member_name] = self.cur_member_value
+            self.cur_member_value += 1
             self.state = EnumState.MEMBER_NAME
         elif self.state == EnumState.ENUM_END:
             self.declared_names += ','
