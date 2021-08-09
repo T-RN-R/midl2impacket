@@ -168,7 +168,7 @@ class MidlVarDef:
         self.attrs = attrs or []
 
     def __str__(self):
-        out = f"{self.type} {self.name};\n"
+        out = f"{self.type} {self.name}"
         return out
 
 class MidlTypeDef:
@@ -181,7 +181,7 @@ class MidlTypeDef:
 
     def __str__(self):
         out = "typedef "
-        out += f"{self.type.__class__.__name__} {self.name};\n"
+        out += f"{self.type.type} {self.name};\n"
         return out
 
 class MidlStructDef():
@@ -189,6 +189,21 @@ class MidlStructDef():
         self.public_names = public_names
         self.private_name = private_name
         self.members = members
+
+    def __str__(self):
+        out = "typedef struct "
+        out += self.private_name +"\n{\n"
+        for member in self.members:
+            out += str(member)
+            out += ",\n"
+        out = out[:-2]
+        out += "\n} "
+        for pub_name in self.public_names:
+            out += pub_name +","
+        out = out[:-1]
+        out+=";\n"
+        return out
+
 
 class MidlUnionDef():
     def __init__(self, public_names, private_name, members: list[MidlVarDef]):
@@ -200,6 +215,10 @@ class MidlSimpleTypedef:
     def __init__(self, name, simple_type):
         self.name = name
         self.type = simple_type
+    
+    def __str__(self):
+        out = ""
+        out = "typedef " + self.name + " " + self.type +";"
 
 class MidlEnumDef:
     """Definition of a MIDL enum.
