@@ -11,14 +11,19 @@ class MidlImport():
     def __str__(self):
         return f"import {self.file}"
 
+class MidlArrayDimensions():
+    def __init__(self, array_min=-1, array_max=-1):
+        self.min = array_min
+        self.max = array_max
+
 class MidlVariableInstantiation():
     """Represents a MIDL variable instantiation
         
         Example:
             `const int MAX_PAYLOAD = 2 * 1024 * 1024;`
     """
-    def __init__(self, type, name, rhs, const:bool):
-        self.type = type # typing of the variable
+    def __init__(self, var_type, name, rhs, const:bool):
+        self.type = var_type # typing of the variable
         self.name = name # name of the variable
         self.rhs = rhs   # un-parsed righthandside of the statement
         self.const = const # boolean whether it is a constant
@@ -29,6 +34,7 @@ class MidlVariableInstantiation():
             out+="const "
         out += f"{self.type} {self.name} = {self.rhs};"
         return out
+
 
 class MidlDefinition:
     """Represents a MIDL Definition. Maps directly to a MIDL file
@@ -42,8 +48,8 @@ class MidlDefinition:
     def add_import(self, imp:str):
         self.imports.append(MidlImport(imp))
 
-    def add_instantiation(self, type, name, rhs, const=False):
-        self.instantiation.append(MidlVariableInstantiation(type,name,rhs,const))
+    def add_instantiation(self, var_type, name, rhs, const=False):
+        self.instantiation.append(MidlVariableInstantiation(var_type, name, rhs, const))
 
     def add_interface(self,interface):
         self.interfaces.append(interface)
@@ -108,13 +114,13 @@ class MidlInterface:
     """
     def __init__(self):
         #TODO uuid, version and pointer_default should be in their own class
-        self.uuid =  None
-        self.version = None
-        self.pointer_default = None
+        self.attributes = []
         self.name = None
         self.typedefs = []
         self.procedures = []
         self.comments = []
+        self.cpp_quotes = []
+        self.defines = []
 
     def add_typedef(self, td):
         self.typedefs.append(td)
@@ -127,8 +133,8 @@ class MidlInterface:
 
     def __str__(self):
         out = ""
-        out += "UUID: " + self.uuid +";\n"
-        out += "Version: " + self.version +";\n"
+        out += "UUID: " + self.attributes['uuid'] +";\n"
+        out += "Version: " + self.attributes['version'] +";\n"
         out += "interface " + self.name +"{\n"
         for td in self.typedefs:
             out+=str(td)

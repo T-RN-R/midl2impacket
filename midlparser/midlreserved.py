@@ -266,3 +266,59 @@ RESERVED_ATTR_KEYWORDS = [
 ]
 
 MIDL_KEYWORDS = RESERVED_KEYWORDS + RESERVED_ATTR_KEYWORDS
+
+ARITHMETIC_OPERATORS = [
+    "+",
+    "-",
+    "*",
+    "/",
+    '%',
+    '++',
+    '--',
+]
+
+RELATIONAL_OPERATORS = [
+    '==',
+    '!=',
+    '>',
+    '<',
+    '>=',
+    '<=',
+]
+
+LOGICAL_OPERATORS = [
+    '&&',
+    '||',
+    '|',
+]
+
+BITWISE_OPERATORS = [
+    '&',
+    '|',
+    '^',
+    '~',
+    '<<',
+    '>>',
+]
+
+ASSIGNMENT_OPERATORS = [
+    '=',
+    '+=',
+    '-=',
+    '*=',
+    '/=',
+    '%=',
+    '<<=',
+    '>>=',
+    '&=',
+    '^=',
+    '|=',
+]
+
+MISC_OPERATORS = [
+    '&'
+    '*'
+    '?:'
+]
+
+MIDL_OPERATORS = ARITHMETIC_OPERATORS + RELATIONAL_OPERATORS + LOGICAL_OPERATORS + BITWISE_OPERATORS + ASSIGNMENT_OPERATORS + MISC_OPERATORS
