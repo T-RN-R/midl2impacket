@@ -1,0 +1,91 @@
+ import "ms-dtyp.idl";
+  
+ [
+ uuid(c681d488-d850-11d0-8c52-00c04fd90f7e),
+ version(1.0),
+ ]
+ interface efsrpc
+ {
+  
+  
+ typedef [context_handle] void * PEXIMPORT_CONTEXT_HANDLE;
+  
+ typedef pipe unsigned char EFS_EXIM_PIPE;
+  
+ typedef struct _EFS_RPC_BLOB {
+    [range(0,266240)]    DWORD            cbData;
+    [size_is(cbData)]    unsigned char  * bData;
+ } EFS_RPC_BLOB,
+  *PEFS_RPC_BLOB;
+  
+ typedef struct {
+   DWORD EfsVersion;
+ } EFS_COMPATIBILITY_INFO;
+  
+ typedef unsigned int ALG_ID;
+  
+ typedef struct _EFS_HASH_BLOB {
+     [range(0,100)]      DWORD            cbData;
+     [size_is(cbData)]   unsigned char  * bData;
+ } EFS_HASH_BLOB;
+  
+  
+ typedef struct _ENCRYPTION_CERTIFICATE_HASH {
+                 DWORD           cbTotalLength;
+                 RPC_SID       * UserSid;
+                 EFS_HASH_BLOB * Hash;
+     [string]    wchar_t       * lpDisplayInformation;
+ } ENCRYPTION_CERTIFICATE_HASH;
+  
+  
+ typedef struct _ENCRYPTION_CERTIFICATE_HASH_LIST {
+     [range(0,500)]          DWORD                          nCert_Hash;
+     [size_is(nCert_Hash , )]   ENCRYPTION_CERTIFICATE_HASH ** Users;
+ } ENCRYPTION_CERTIFICATE_HASH_LIST;
+  
+  
+ typedef struct _CERTIFICATE_BLOB {
+     DWORD                                dwCertEncodingType;
+     [range(0,32768)]    DWORD            cbData;
+     [size_is(cbData)]   unsigned char  * bData;
+ } EFS_CERTIFICATE_BLOB;
+  
+  
+ typedef struct _ENCRYPTION_CERTIFICATE {
+     DWORD                   cbTotalLength;
+     RPC_SID               * UserSid;
+     EFS_CERTIFICATE_BLOB  * CertBlob;
+ } ENCRYPTION_CERTIFICATE;
+  
+  
+ typedef struct _ENCRYPTION_CERTIFICATE_LIST {    
+     [range(0,500)]         DWORD nUsers;
+     [size_is(nUsers , )]   ENCRYPTION_CERTIFICATE ** Users;
+ } ENCRYPTION_CERTIFICATE_LIST;
+  
+  
+ typedef struct _ENCRYPTED_FILE_METADATA_SIGNATURE { 
+     DWORD                  dwEfsAccessType;
+     ENCRYPTION_CERTIFICATE_HASH_LIST  * CertificatesAdded;
+     ENCRYPTION_CERTIFICATE  * EncryptionCertificate;
+     EFS_RPC_BLOB    * EfsStreamSignature;
+ } ENCRYPTED_FILE_METADATA_SIGNATURE;
+  
+ typedef struct {
+   DWORD dwVersion;
+   unsigned long Entropy;
+   ALG_ID Algorithm;
+   unsigned long KeyLength;
+ } EFS_KEY_INFO;
+  
+ typedef struct {
+   DWORD dwDecryptionError;
+   DWORD dwHashOffset;
+   DWORD cbHash;
+ } EFS_DECRYPTION_STATUS_INFO;
+  
+ typedef struct {
+   BOOL bHasCurrentKey;
+   DWORD dwEncryptionError;
+ } EFS_ENCRYPTION_STATUS_INFO;
+  
