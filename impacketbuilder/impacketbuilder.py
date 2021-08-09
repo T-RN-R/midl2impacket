@@ -177,7 +177,6 @@ class MidlInterfaceConverter(Converter):
 
 
     def handle_midl_td(self, td:MidlTypeDef):
-        print(td)
         attr_names = [td.attrs[k].name for k in td.attrs.keys()]
         if "context_handle" in attr_names:
             self.handle_context_handle(td)

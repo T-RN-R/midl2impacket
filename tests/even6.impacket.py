@@ -38,13 +38,73 @@ MAX_RPC_UINT64_ARRAY_COUNT = MAX_PAYLOAD / 4
 MAX_RPC_STRING_ARRAY_COUNT = MAX_PAYLOAD / 512
 MAX_RPC_GUID_ARRAY_COUNT = MAX_PAYLOAD / 16
 MAX_RPC_STRING_LENGTH = MAX_PAYLOAD / 4
-PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION = void*
-PCONTEXT_HANDLE_LOG_QUERY = void*
-PCONTEXT_HANDLE_LOG_HANDLE = void*
-PCONTEXT_HANDLE_OPERATION_CONTROL = void*
-PCONTEXT_HANDLE_PUBLISHER_METADATA = void*
-PCONTEXT_HANDLE_EVENT_METADATA_ENUM = void*
 
+class CONTEXT_HANDLE_REMOTE_SUBSCRIPTION(NDRSTRUCT):
+    align = 1
+    structure = (
+        ('Data', '20s=""'),
+    )
+
+class PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION(NDRPOINTER):
+    referent = (
+        ('Data', CONTEXT_HANDLE_REMOTE_SUBSCRIPTION),
+    )        
+        
+class CONTEXT_HANDLE_LOG_QUERY(NDRSTRUCT):
+    align = 1
+    structure = (
+        ('Data', '20s=""'),
+    )
+
+class PCONTEXT_HANDLE_LOG_QUERY(NDRPOINTER):
+    referent = (
+        ('Data', CONTEXT_HANDLE_LOG_QUERY),
+    )        
+        
+class CONTEXT_HANDLE_LOG_HANDLE(NDRSTRUCT):
+    align = 1
+    structure = (
+        ('Data', '20s=""'),
+    )
+
+class PCONTEXT_HANDLE_LOG_HANDLE(NDRPOINTER):
+    referent = (
+        ('Data', CONTEXT_HANDLE_LOG_HANDLE),
+    )        
+        
+class CONTEXT_HANDLE_OPERATION_CONTROL(NDRSTRUCT):
+    align = 1
+    structure = (
+        ('Data', '20s=""'),
+    )
+
+class PCONTEXT_HANDLE_OPERATION_CONTROL(NDRPOINTER):
+    referent = (
+        ('Data', CONTEXT_HANDLE_OPERATION_CONTROL),
+    )        
+        
+class CONTEXT_HANDLE_PUBLISHER_METADATA(NDRSTRUCT):
+    align = 1
+    structure = (
+        ('Data', '20s=""'),
+    )
+
+class PCONTEXT_HANDLE_PUBLISHER_METADATA(NDRPOINTER):
+    referent = (
+        ('Data', CONTEXT_HANDLE_PUBLISHER_METADATA),
+    )        
+        
+class CONTEXT_HANDLE_EVENT_METADATA_ENUM(NDRSTRUCT):
+    align = 1
+    structure = (
+        ('Data', '20s=""'),
+    )
+
+class PCONTEXT_HANDLE_EVENT_METADATA_ENUM(NDRPOINTER):
+    referent = (
+        ('Data', CONTEXT_HANDLE_EVENT_METADATA_ENUM),
+    )        
+        
 class RPCINFO(NDRSTRUCT):
     structure = (
         ('m_error', DWORD),('m_subErr', DWORD),('m_subErrParam', DWORD),
