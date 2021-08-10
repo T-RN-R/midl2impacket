@@ -269,9 +269,22 @@ class MidlStructDef:
 class MidlUnionDef:
     def __init__(self, public_names, private_name, members: list[MidlVarDef]):
         self.public_names = public_names
-        self.private_name = private_name
+        self.private_name = private_name or ''
         self.members = members
 
+    def __str__(self):
+        out = "typedef union "
+        out += self.private_name +"\n{\n"
+        for member in self.members:
+            out += str(member)
+            out += ",\n"
+        out = out[:-2]
+        out += "\n} "
+        for pub_name in self.public_names:
+            out += pub_name +","
+        out = out[:-1]
+        out+=";\n"
+        return out
 
 class MidlSimpleTypedef:
     def __init__(self, name, simple_type):
