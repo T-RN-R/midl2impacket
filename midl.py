@@ -48,6 +48,8 @@ class MidlDefinition:
         self.instantiation = []  # Variable instantiation
         self.interfaces = []  # Interface defintions. Usually only 1 per file...
         self.typedefs = []
+        self.defines = []
+        self.cpp_quotes = []
 
     def add_import(self, imp: str):
         self.imports.append(MidlImport(imp))
@@ -125,6 +127,7 @@ class MidlInterface:
         self.comments = []
         self.cpp_quotes = []
         self.defines = []
+        self.parents = []
 
     def add_typedef(self, td):
         self.typedefs.append(td)

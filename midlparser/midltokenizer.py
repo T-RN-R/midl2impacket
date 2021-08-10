@@ -1,7 +1,4 @@
-from midlparser.midlreserved import MIDL_OPERATORS
-from .state import MidlState
-from midl import MidlDefinition
-from typing import TypedDict
+from .midlreserved import MIDL_OPERATORS
 import enum
 import string
 from .midlreserved import *
@@ -18,6 +15,7 @@ class TokenType(enum.Enum):
     NUMERIC = enum.auto()  # Float or integer
     OPERATOR = enum.auto()  # Mathematic operators, see Token.operators
     SEMICOLON = enum.auto()
+    COLON = enum.auto()
     COMMA = enum.auto()
     GUID = enum.auto()
     COMMENT = enum.auto()
@@ -101,6 +99,8 @@ class MidlTokenizer:
                     to_yield = Token(cur_char, TokenType.OPERATOR)
             elif cur_char == ";":
                 to_yield = Token(cur_char, TokenType.SEMICOLON)
+            elif cur_char == ':':
+                to_yield = Token(cur_char, TokenType.COLON)
             elif cur_char in string.ascii_letters or cur_char == "_":
                 # Some symbols may start with an underscore.
                 s = self.get_keyword_or_symbol()
