@@ -38,6 +38,10 @@ class CONTEXT_HANDLE(NDRSTRUCT):
         ('Data', '20s=""'),
     )
 HANDLE_T = CONTEXT_HANDLE
+class PRPC_STRING(NDRPOINTER):
+    referent = (
+        ('Data', RPC_STRING),
+    )
 """
         self.write(imports)
 
