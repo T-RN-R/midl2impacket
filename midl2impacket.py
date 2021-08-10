@@ -3,15 +3,7 @@ import logging
 import midl
 import pathlib
 from impacketbuilder import ImpacketBuilder
-from midlparser import MidlParser
-
-def parse(in_file: pathlib.Path) -> midl.MidlDefinition:
-    logging.debug(f"Opening {in_file}")
-    data = in_file.read_text()
-    if not data:
-        raise Exception(f"File `{in_file}` is empty")
-    p = MidlParser()
-    return p.parse(data)
+from midlparser import parse_idl
 
 def generate_impacket(midl_def: midl.MidlDefinition):
     return ImpacketBuilder().midl_def(midl_def).build()
@@ -31,9 +23,10 @@ def main():
         args.out_file = in_file.with_suffix('.impacket.py')
     out_file = pathlib.Path(args.out_file)
 
-    midl_def = parse(in_file)
-    generated_code = generate_impacket(midl_def)
-    out_file.write_text(generated_code)
+    midl_def = parse_idl(in_file)
+    print(midl_def)
+    # generated_code = generate_impacket(midl_def)
+    # out_file.write_text(generated_code)
 
 
 if __name__ == "__main__":
