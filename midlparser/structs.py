@@ -21,9 +21,9 @@ class MidlStructParser(MidlBaseParser):
     """class that parses a struct
     """
 
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.state = StructState.BEGIN
-        super().__init__(token_generator=token_generator, end_state=StructState.END)
+        super().__init__(token_generator=token_generator, end_state=StructState.END, tokenizer=tokenizer)
         self.prev_member = None
         self.cur_member_attrs = []
         # This is a list because the type and name can be several symbols e.g. 'unsigned long long varname'

@@ -9,7 +9,7 @@ class MidlParserException(Exception):
     pass
 
 class MidlBaseParser(abc.ABC):
-    def __init__(self, token_generator, end_state):
+    def __init__(self, token_generator, end_state, tokenizer):
         self.tokens = token_generator
         self.end_state = end_state
         self.handlers = {
@@ -30,9 +30,9 @@ class MidlBaseParser(abc.ABC):
             TokenType.ELLIPSIS: self.ellipsis,
             TokenType.DIRECTIVE: self.directive,
         }
-
+        self.tokenizer=tokenizer
     def invalid(self, token):
-        raise MidlInvalidTokenException(f"Unexpected token [{token.type}: {token.data}] in state {self.state}")
+        raise MidlInvalidTokenException(f"Unexpected token [{token.type}: {token.data}] in state {self.state} \n\tAt input: {self.tokenizer.get_error()}")
 
     def keyword(self, token):
         self.invalid(token)

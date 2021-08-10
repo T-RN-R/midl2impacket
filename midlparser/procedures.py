@@ -25,9 +25,9 @@ class MidlProcedureParser(MidlBaseParser):
     
     References: https://docs.microsoft.com/en-us/windows/win32/midl/function-call-attributes
     """
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.state = ProcedureState.PROC_TYPE_OR_ATTRS
-        super().__init__(token_generator=token_generator, end_state=ProcedureState.END)
+        super().__init__(token_generator=token_generator, end_state=ProcedureState.END, tokenizer=tokenizer)
         self.cur_param_type_parts = []
         self.cur_param_attrs = []
         self.cur_param_array_info = []
@@ -105,19 +105,19 @@ class MidlProcedureParser(MidlBaseParser):
     def sqbracket(self, token):
         if self.state == ProcedureState.PROC_TYPE_OR_ATTRS:
             if token.data == "[":
-                self.attrs = MidlAttributesParser(self.tokens).parse(token)
+                self.attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
                 self.state = ProcedureState.PROC_TYPE
             else:
                 self.invalid(token)
         elif self.state == ProcedureState.PARAM_TYPE_OR_ATTRS:
             if token.data == "[":
-                self.cur_param_attrs = MidlAttributesParser(self.tokens).parse(token)
+                self.cur_param_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
                 self.state = ProcedureState.PARAM_TYPE
             else:
                 self.invalid(token)
         elif self.state in [ProcedureState.PARAM_TYPE, ProcedureState.PARAM_ARRAY]:
             # The parameter has (possibly additional) array dimensions specified..
-            array_parser = MidlArrayParser(self.tokens)
+            array_parser = MidlArrayParser(self.tokens, self.tokenizer)
             self.cur_param_array_info.append(array_parser.parse(token))
             self.state = ProcedureState.PARAM_ARRAY
         else:

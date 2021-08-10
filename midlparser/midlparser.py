@@ -26,9 +26,9 @@ class MidlParser(MidlBaseParser):
         This class maintains a state machine.
     """
 
-    def __init__(self, token_generator):
+    def __init__(self, token_generator,tokenizer):
         self.state = MidlState.DEFAULT # Current state of the parsing
-        super().__init__(token_generator=token_generator, end_state=MidlState.END)
+        super().__init__(token_generator=token_generator, end_state=MidlState.END,tokenizer=tokenizer)
         self.definition = MidlDefinition() # data to be returned by calling parse()
 
     def keyword(self, token):
@@ -38,12 +38,12 @@ class MidlParser(MidlBaseParser):
             self.state = MidlState.IMPORT
         elif token.data == 'typedef':
             self.definition.typedefs.extend(
-                MidlTypedefParser(self.tokens).parse(token)
+                MidlTypedefParser(self.tokens, self.tokenizer).parse(token)
             )
         else:
             self.state = MidlState.DEFINITION
             self.definition.instantiation.append(
-                MidlVariableInstantiationParser(self.tokens).parse(token)
+                MidlVariableInstantiationParser(self.tokens, self.tokenizer).parse(token)
             )
             self.state = MidlState.DEFAULT
 
@@ -62,7 +62,7 @@ class MidlParser(MidlBaseParser):
         """
         if token.data == "[" and self.state in [MidlState.DEFAULT, MidlState.INTERFACE_COMPLETE]:
             # We hit the start of an interface definition, specifically the header, spin up a parser
-            interface = MidlInterfaceParser(self.tokens).parse(token)
+            interface = MidlInterfaceParser(self.tokens, self.tokenizer).parse(token)
             self.definition.add_interface(interface)
             # This state exists because an interface doesn't need to be terminated with a semicolon
             self.state = MidlState.INTERFACE_COMPLETE
@@ -113,4 +113,4 @@ def parse_idl(idl_file: pathlib.Path):
     tokenizer = MidlTokenizer(data)
     tokens = tokenizer.get_token()
     first_token = next(tokens)
-    return MidlParser(tokens).parse(first_token)
+    return MidlParser(tokens,tokenizer).parse(first_token)
