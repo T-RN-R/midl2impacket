@@ -127,6 +127,7 @@ class MidlInterface:
 
     def __init__(self):
         self.attributes = {}
+        self.imports = []
         self.name = None
         self.typedefs = []
         self.procedures = []
@@ -153,6 +154,8 @@ class MidlInterface:
         out += "UUID: " + self.attributes["uuid"].params[0] + ";\n"
         out += "Version: " + version + ";\n"
         out += "interface " + self.name + "{\n"
+        for imp in self.imports:
+            out += imp + '\n'
         for td in self.typedefs:
             out += str(td)
         for p in self.procedures:
@@ -219,7 +222,7 @@ class MidlVarDef:
         self,
         var_type,
         name,
-        attrs: list[MidlAttribute] = None,
+        attrs: dict[str, MidlAttribute] = None,
         array_info=list[MidlArrayDimensions],
     ):
         self.type = var_type

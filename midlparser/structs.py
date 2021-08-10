@@ -24,7 +24,7 @@ class MidlStructParser(MidlBaseParser):
         self.state = StructState.BEGIN
         super().__init__(token_generator=token_generator, end_state=StructState.END, tokenizer=tokenizer)
         self.prev_member = None
-        self.cur_member_attrs = []
+        self.cur_member_attrs = {}
         # This is a list because the type and name can be several symbols e.g. 'unsigned long long varname'
         self.cur_member_parts = [] 
         self.cur_member_array_info = []
