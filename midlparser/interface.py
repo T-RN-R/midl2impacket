@@ -1,4 +1,5 @@
 import enum
+from midlparser.midltokenizer import TokenType
 
 from midl import MidlInterface
 from .attributes import MidlAttributesParser
@@ -15,6 +16,7 @@ class InterfaceState(enum.Enum):
     INHERIT_NAME = enum.auto()
     BODY = enum.auto()
     DEFINITION = enum.auto()
+    IMPORT = enum.auto()
     PROC_TYPE = enum.auto()
     CPP_QUOTE = enum.auto()
     CPP_QUOTE_STRING = enum.auto()
@@ -61,13 +63,15 @@ class MidlInterfaceParser(MidlBaseParser):
         """
         if token.data == "interface" and self.state == InterfaceState.BEGIN:
             self.state = InterfaceState.NAME
-        elif token.data == "typedef" and self.state == InterfaceState.DEFINITION:
-            # spin up a TypeDef parser to parse out typedefs
-            tds = MidlTypedefParser(self.tokens, self.tokenizer).parse(token)
-            for td in tds:
-                self.interface.add_typedef(td)
         elif self.state == InterfaceState.DEFINITION:
-            if token.data == "cpp_quote":
+            if token.data == "typedef":
+                # spin up a TypeDef parser to parse out typedefs
+                tds = MidlTypedefParser(self.tokens, self.tokenizer).parse(token)
+                for td in tds:
+                    self.interface.add_typedef(td)
+            elif token.data == "import" :
+                self.state = InterfaceState.IMPORT
+            elif token.data == "cpp_quote":
                 self.state = InterfaceState.CPP_QUOTE
             else:
                 # Treat it as the return type of a procedure?
@@ -89,6 +93,10 @@ class MidlInterfaceParser(MidlBaseParser):
         if self.state == InterfaceState.CPP_QUOTE_STRING:
             self.interface.cpp_quotes.append(token.data)
             self.state = InterfaceState.CPP_QUOTE_END
+        elif self.state == InterfaceState.IMPORT:
+            self.interface.imports.append(token.data)
+            assert(next(self.tokens).type == TokenType.SEMICOLON)
+            self.state = InterfaceState.DEFINITION
         else:
             self.invalid(token)
     
