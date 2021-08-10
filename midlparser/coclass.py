@@ -15,9 +15,9 @@ class MidlCoclassParser(MidlBaseParser):
     """Array dimensionality parser
     https://docs.microsoft.com/en-us/windows/win32/midl/midl-arrays
     """
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.state = CoclassState.BEGIN
-        super().__init__(token_generator=token_generator, end_state=CoclassState.END)
+        super().__init__(token_generator=token_generator, end_state=CoclassState.END, tokenizer=tokenizer)
         self.cur_iface_parts = []
         self.cur_iface_attrs = []
         self.interfaces = []
@@ -56,7 +56,7 @@ class MidlCoclassParser(MidlBaseParser):
 
     def sqbracket(self, token):
         if self.state == CoclassState.ATTR_OR_TYPE and token.data == '[':
-            self.cur_iface_attrs = MidlAttributesParser(self.tokens).parse(token)
+            self.cur_iface_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
         else:
             self.invalid(token)
 

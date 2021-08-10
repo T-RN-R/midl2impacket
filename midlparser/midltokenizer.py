@@ -46,10 +46,11 @@ class MidlTokenizer:
     Has a cursor {self.ptr} that maintains the tokenization state.
     """
 
-    def __init__(self, midl: str):
+    def __init__(self, midl: str, filename: str):
         self.midl = midl
         self.max_size = len(self.midl)
         self.ptr = 0
+        self.filename = filename
 
     def get_token(self):
         """[summary]
@@ -316,3 +317,7 @@ class MidlTokenizer:
         if char in wspace:
             return True
         return False
+
+
+    def get_error(self):
+        return 'In file: ' + self.filename + '\n\tAt: ' + self.midl[self.ptr-1:].split("\n")[0]

@@ -10,9 +10,9 @@ class AttributeState(enum.Enum):
     END = enum.auto()
 
 class MidlAttributesParser(MidlBaseParser):
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.state = AttributeState.BEGIN
-        super().__init__(token_generator=token_generator, end_state=AttributeState.END)
+        super().__init__(token_generator=token_generator, end_state=AttributeState.END, tokenizer=tokenizer)
         self.cur_attr = None
         self.cur_attr_param = ''
         self.cur_attr_params = []

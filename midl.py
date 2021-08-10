@@ -171,9 +171,9 @@ class MidlDispInterface:
         out = f"dispinterface {self.name}\n"
         out += f"interface: {self.interface}"
         out += "properties\n"
-        out += '\n\t'.join(self.properties)
+        out += '\n    '.join([str(property) for property in self.properties])
         out += "methods\n"
-        out += '\n\t'.join(self.methods)
+        out += '\n    '.join([str(method) for method in self.methods])
         return out
 
 class MidlCoclass:
@@ -184,8 +184,8 @@ class MidlCoclass:
 
     def __str__(self):
         out = f'coclass {self.name}\n'
-        out += 'interfaces:\n\t'
-        out += '\n\t'.join(self.interfaces)
+        out += 'interfaces:\n    '
+        out += '\n    '.join([str(iface) for iface in self.interfaces])
         return out
 
 class MidlAttribute:
@@ -345,7 +345,7 @@ class MidlProcedure:
         out = ""
         out += self.name +" (\n"
         for i in self.params:
-            out += str(i)
+            out += "    " + str(i)
             out +=",\n"
         
         if len(self.params) >0:

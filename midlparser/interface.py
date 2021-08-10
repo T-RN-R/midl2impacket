@@ -1,6 +1,7 @@
 import enum
 
 from midl import MidlInterface
+from .attributes import MidlAttributesParser
 from .base import MidlBaseParser, MidlParserException
 from .procedures import MidlProcedureParser
 from .typedefs import MidlTypedefParser
@@ -14,6 +15,7 @@ class InterfaceState(enum.Enum):
     INHERIT_NAME = enum.auto()
     BODY = enum.auto()
     DEFINITION = enum.auto()
+    PROC_TYPE = enum.auto()
     CPP_QUOTE = enum.auto()
     CPP_QUOTE_STRING = enum.auto()
     CPP_QUOTE_END = enum.auto()
@@ -24,24 +26,21 @@ class MidlInterfaceParser(MidlBaseParser):
 
         Mostly, this class delegates to other classes to handle parsing
     """
-    def __init__(self, token_generator):
+
+    def __init__(self, token_generator, tokenizer):
         self.tokens = token_generator
-        super().__init__(token_generator=token_generator, end_state=InterfaceState.END)
+        super().__init__(token_generator=token_generator, end_state=InterfaceState.END, tokenizer=tokenizer)
         self.interface = MidlInterface()
         self.state = InterfaceState.BEGIN
         self.brace_level = 0
+        self.cur_proc_attrs = {}
 
     def sqbracket(self, token):
         """ Handle attributes for procedures
         """
-        if token.data == "[":
-            if self.state == InterfaceState.DEFINITION:
-                # Procedure declaration attributes
-                proc = MidlProcedureParser(self.tokens).parse(token)
-                if proc:
-                    self.interface.add_procedure(proc)
-            else:
-                self.invalid(token)
+        if token.data == "[" and self.state == InterfaceState.DEFINITION:
+            self.cur_proc_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
+            self.state = InterfaceState.PROC_TYPE
         else: 
             self.invalid(token)
 
@@ -64,7 +63,7 @@ class MidlInterfaceParser(MidlBaseParser):
             self.state = InterfaceState.NAME
         elif token.data == "typedef" and self.state == InterfaceState.DEFINITION:
             # spin up a TypeDef parser to parse out typedefs
-            tds = MidlTypedefParser(self.tokens).parse(token)
+            tds = MidlTypedefParser(self.tokens, self.tokenizer).parse(token)
             for td in tds:
                 self.interface.add_typedef(td)
         elif self.state == InterfaceState.DEFINITION:
@@ -75,6 +74,14 @@ class MidlInterfaceParser(MidlBaseParser):
                 proc = MidlProcedureParser(self.tokens).parse(token)
                 if proc:
                     self.interface.procedures.append(proc)
+        elif self.state == InterfaceState.PROC_TYPE:
+            # Procedure declaration return type
+            proc = MidlProcedureParser(self.tokens).parse(token)
+            if proc:
+                proc.attrs = self.cur_method_attrs
+                self.interface.add_procedure(proc)
+            self.cur_proc_attrs = {}
+            self.state = InterfaceState.DEFINITION
         else:
             self.invalid(token)
 
@@ -102,11 +109,14 @@ class MidlInterfaceParser(MidlBaseParser):
         elif self.state == InterfaceState.INHERIT_NAME:
             self.interface.parents.append(token.data)
             self.state = InterfaceState.BODY
-        elif self.state == InterfaceState.DEFINITION:
+        elif self.state in [InterfaceState.DEFINITION, InterfaceState.PROC_TYPE]:
             # Procedure declaration return type
-            proc = MidlProcedureParser(self.tokens).parse(token)
+            proc = MidlProcedureParser(self.tokens, self.tokenizer).parse(token)
             if proc:
+                proc.attrs = self.cur_proc_attrs
                 self.interface.add_procedure(proc)
+            self.cur_proc_attrs = {}
+            self.state = InterfaceState.DEFINITION
         else:
             self.invalid(token)
 
