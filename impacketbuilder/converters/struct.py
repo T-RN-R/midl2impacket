@@ -23,7 +23,7 @@ class MidlStructConverter(Converter):
         else:
             raise Exception("NDR_POINTER unimplemented")
 
-    def handle_ndr_union(self,struct):
+    def handle_ndr_union(self, struct):
         #TODO if a union has multiple public_names, create Python mappings for them as well
         if struct.public_names[0] == '':
             name = __class__.get_anonymous_name()
@@ -46,13 +46,28 @@ class MidlStructConverter(Converter):
                 raise Exception(f"Unexpected type: {type(m.type)}")
             mem_str += f"{count}: ('{m.name}',{self.mapper.canonicalize(type_name)}),"
             count += 1
-
+        base_name = self.mapper.canonicalize(name)
         union_def = """
 class %s(NDRUNION):
     union = {
         %s
     }
-        """ % (self.mapper.canonicalize(name), mem_str)
+        """ % (base_name, mem_str)
+
+        #Now handle the cases where there are multiple public names, including pointers
+        if len(struct.public_names) > 1:
+            for pn in struct.public_names[1:]:
+                if "*" in pn:
+                    union_def += f"""class {self.mapper.canonicalize(pn)}(NDRPOINTER):
+    referent = (
+        ('Data', {base_name}),
+    )    
+"""
+                else:
+                    union_def += f"{pn} = {base_name}\n"
+
+
+
         self.write(union_def)
         return name
 
@@ -67,13 +82,26 @@ class %s(NDRUNION):
             elif type(vd.type) is str:
                 data_type = vd.type
             vars+=f"('{vd.name}', {self.mapper.canonicalize(data_type)}),"
-
+        base_name = self.mapper.canonicalize(struct.public_names[0])
         class_def = f"""
-class {self.mapper.canonicalize(struct.public_names[0])}(NDRSTRUCT):
+class {base_name}(NDRSTRUCT):
     structure = (
         {vars}
     )
-        """
+"""
+        
+        #Now handle the cases where there are multiple public names, including pointers
+        if len(struct.public_names) > 1:
+            for pn in struct.public_names[1:]:
+                if "*" in pn:
+                    class_def += f"""class {self.mapper.canonicalize(pn)}(NDRPOINTER):
+    referent = (
+        ('Data', {base_name}),
+    )    
+"""
+                else:
+                    class_def += f"{pn} = {base_name}\n"
+
         self.write(class_def)
         return {struct.public_names[0]}
 
