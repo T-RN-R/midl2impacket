@@ -83,6 +83,9 @@ class MidlAttributesParser(MidlBaseParser):
     def directive(self, _):
         pass
 
+    def comment(self, _):
+        pass
+
     def string(self, token):
         if self.state == AttributeState.PARAMETERS and not self.cur_attr_param:
             self.cur_attr_param = token.data
