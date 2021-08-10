@@ -24,7 +24,7 @@ def main():
     out_file = pathlib.Path(args.out_file)
 
     midl_def = parse_idl(in_file)
-    print(midl_def)
+    #print(midl_def)
     generated_code = generate_impacket(midl_def)
     out_file.write_text(generated_code)
 

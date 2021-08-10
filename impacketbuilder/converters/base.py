@@ -1,5 +1,13 @@
 from io import StringIO
-class Converter:
+
+class ConversionException(Exception):
+    pass
+
+class UnreachableException(Exception):
+    pass
+
+
+class Writer:
     NEWLINE = "\n"
     TAB = "\t"
     def __init__(self, strIO = StringIO(), tab_level=0):
@@ -14,3 +22,7 @@ class Converter:
     def write(self, data):
         for line in data.split("\n"):
             self.single_line_write(line)
+
+class Converter(Writer):
+    def convert(self):
+        raise UnreachableException(f"Class {__class__} must implement `convert()`")
