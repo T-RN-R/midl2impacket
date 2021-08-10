@@ -1,6 +1,4 @@
 import enum
-from struct import Struct
-
 from midl import MidlStructDef, MidlVarDef
 from .attributes import MidlAttributesParser
 from .arrays import MidlArrayParser
@@ -36,7 +34,7 @@ class MidlStructParser(MidlBaseParser):
         self.declared_names = ''
         self.embedded_struct_count = 0
         self.embedded_union_count = 0
-        
+        self.simple_td = False
 
     def add_current_member(self):
         """Add the currently tracked member to the structure
@@ -101,6 +99,11 @@ class MidlStructParser(MidlBaseParser):
                 self.state = StructState.MEMBER_TYPE
         elif self.state == StructState.STRUCT_END:
             self.declared_names += token.data
+        elif self.state == StructState.STRUCT_BODY:
+            # This is a simple typedef e.g. typedef struct tagCONNECTDATA CONNECTDATA;
+            self.simple_td = True
+            self.declared_names += token.data
+            self.state = StructState.STRUCT_END
         else:
             self.invalid(token)
 
@@ -115,6 +118,10 @@ class MidlStructParser(MidlBaseParser):
             self.invalid(token)
     
     def sqbracket(self, token):
+        # Both the attributes parser and the array parser consume the ']'
+        if token == ']':
+            self.invalid(token)
+
         if self.state == StructState.MEMBER_TYPE_OR_ATTR:
             self.cur_member_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
             self.state = StructState.MEMBER_TYPE
@@ -162,10 +169,9 @@ class MidlStructParser(MidlBaseParser):
         self.comments.append(token)
 
     def finished(self) -> MidlStructDef:
-        #if not len(self.members):
-        #    raise MidlParserException("No members parsed in structure!")
         public_names = []
         if self.declared_names:
             public_names = self.declared_names.split(',')
         return MidlStructDef(public_names, self.private_name, self.members)
+    
 

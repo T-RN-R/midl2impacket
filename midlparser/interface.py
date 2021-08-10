@@ -9,13 +9,13 @@ from .typedefs import MidlTypedefParser
 class InterfaceState(enum.Enum):
     """Class used to handle state transitions for MidlInterfaceParser
     """
-    ATTRIBUTES = enum.auto()
-    TYPE = enum.auto()
+    BEGIN = enum.auto()
     NAME = enum.auto()
     INHERIT = enum.auto()
     INHERIT_NAME = enum.auto()
     BODY = enum.auto()
     DEFINITION = enum.auto()
+    PROC_TYPE = enum.auto()
     CPP_QUOTE = enum.auto()
     CPP_QUOTE_STRING = enum.auto()
     CPP_QUOTE_END = enum.auto()
@@ -31,23 +31,16 @@ class MidlInterfaceParser(MidlBaseParser):
         self.tokens = token_generator
         super().__init__(token_generator=token_generator, end_state=InterfaceState.END, tokenizer=tokenizer)
         self.interface = MidlInterface()
-        self.state = InterfaceState.ATTRIBUTES
+        self.state = InterfaceState.BEGIN
         self.brace_level = 0
+        self.cur_proc_attrs = {}
 
     def sqbracket(self, token):
-        """ Handle attributes (interface or procedure)
+        """ Handle attributes for procedures
         """
-        if token.data == "[":
-            if self.state == InterfaceState.ATTRIBUTES:
-                self.interface.attributes = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
-                self.state = InterfaceState.TYPE
-            elif self.state == InterfaceState.DEFINITION:
-                # Procedure declaration attributes
-                proc = MidlProcedureParser(self.tokens, self.tokenizer).parse(token)
-                if proc:
-                    self.interface.add_procedure(proc)
-            else:
-                self.invalid(token)
+        if token.data == "[" and self.state == InterfaceState.DEFINITION:
+            self.cur_proc_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
+            self.state = InterfaceState.PROC_TYPE
         else: 
             self.invalid(token)
 
@@ -66,11 +59,11 @@ class MidlInterfaceParser(MidlBaseParser):
     def keyword(self,token):
         """Parses keywords [uuid, version, pointer_default,interface, error_status_t, typedef, cpp_quote]
         """
-        if token.data == "interface" and self.state == InterfaceState.TYPE:
+        if token.data == "interface" and self.state == InterfaceState.BEGIN:
             self.state = InterfaceState.NAME
         elif token.data == "typedef" and self.state == InterfaceState.DEFINITION:
             # spin up a TypeDef parser to parse out typedefs
-            tds = MidlTypedefParser(self.tokens).parse(token)
+            tds = MidlTypedefParser(self.tokens, self.tokenizer).parse(token)
             for td in tds:
                 self.interface.add_typedef(td)
         elif self.state == InterfaceState.DEFINITION:
@@ -81,6 +74,14 @@ class MidlInterfaceParser(MidlBaseParser):
                 proc = MidlProcedureParser(self.tokens).parse(token)
                 if proc:
                     self.interface.procedures.append(proc)
+        elif self.state == InterfaceState.PROC_TYPE:
+            # Procedure declaration return type
+            proc = MidlProcedureParser(self.tokens).parse(token)
+            if proc:
+                proc.attrs = self.cur_method_attrs
+                self.interface.add_procedure(proc)
+            self.cur_proc_attrs = {}
+            self.state = InterfaceState.DEFINITION
         else:
             self.invalid(token)
 
@@ -108,11 +109,14 @@ class MidlInterfaceParser(MidlBaseParser):
         elif self.state == InterfaceState.INHERIT_NAME:
             self.interface.parents.append(token.data)
             self.state = InterfaceState.BODY
-        elif self.state == InterfaceState.DEFINITION:
+        elif self.state in [InterfaceState.DEFINITION, InterfaceState.PROC_TYPE]:
             # Procedure declaration return type
             proc = MidlProcedureParser(self.tokens, self.tokenizer).parse(token)
             if proc:
+                proc.attrs = self.cur_proc_attrs
                 self.interface.add_procedure(proc)
+            self.cur_proc_attrs = {}
+            self.state = InterfaceState.DEFINITION
         else:
             self.invalid(token)
 

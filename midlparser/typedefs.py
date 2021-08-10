@@ -42,7 +42,7 @@ class MidlTypedefParser(MidlBaseParser):
         elif self.state in [TypedefState.TYPE_OR_ATTRS, TypedefState.TYPE]:
             if token.data in self.kw_handlers:
                 self.state = TypedefState.DEFINITION
-                self.tds.append(self.kw_handlers[token.data](self.tokens,self.tokenizer).parse(token))
+                self.tds.append(self.kw_handlers[token.data](self.tokens, self.tokenizer).parse(token))
                 self.state = TypedefState.END
             else:
                 return self.symbol(token)
