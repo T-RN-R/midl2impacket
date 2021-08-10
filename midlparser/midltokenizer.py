@@ -253,3 +253,7 @@ class MidlTokenizer:
         if char in wspace:
             return True
         return False
+
+
+    def get_error(self):
+        return self.midl[self.ptr-1:].split("\n")[0]
