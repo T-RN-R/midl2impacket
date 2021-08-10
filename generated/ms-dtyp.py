@@ -1,5 +1,6 @@
 """Generated from MIDL2Impacket.py"""
 
+
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
@@ -18,6 +19,7 @@ class CONTEXT_HANDLE(NDRSTRUCT):
     structure = (
         ('Data', '20s=""'),
     )
+
 WCHAR_T = UNSIGNED SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
