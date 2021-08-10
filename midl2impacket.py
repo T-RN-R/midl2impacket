@@ -25,8 +25,8 @@ def main():
 
     midl_def = parse_idl(in_file)
     print(midl_def)
-    # generated_code = generate_impacket(midl_def)
-    # out_file.write_text(generated_code)
+    generated_code = generate_impacket(midl_def)
+    out_file.write_text(generated_code)
 
 
 if __name__ == "__main__":

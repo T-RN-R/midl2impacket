@@ -218,7 +218,7 @@ class EVTRPCASSERTCONFIGFLAGS:
 	EvtRpcChannelPath = 0
         
 
-class ANONYMOUS1(NDRUNION):
+class U0(NDRUNION):
     union = {
         1: ('nullVal',INT),2: ('booleanVal',BOOLEAN),3: ('uint32Val',DWORD),4: ('uint64Val',DWORD64),5: ('stringVal',LPWSTR),6: ('guidVal',GUID),7: ('booleanArray',BOOLEANARRAY),8: ('uint32Array',UINT32ARRAY),9: ('uint64Array',UINT64ARRAY),10: ('stringArray',STRINGARRAY),11: ('guidArray',GUIDARRAY),
     }
@@ -226,7 +226,7 @@ class ANONYMOUS1(NDRUNION):
 
 class EVTRPCVARIANT(NDRSTRUCT):
     structure = (
-        ('type', EVTRPCVARIANTTYPE),('flags', DWORD),('Anonymous1', ANONYMOUS1),
+        ('type', EVTRPCVARIANTTYPE),('flags', DWORD),('u0', U0),
     )
         
 

@@ -1,4 +1,4 @@
-from re import L
+from re import L, M
 from midl import *
 
 
@@ -65,7 +65,6 @@ class MidlStructConverter(Converter):
         elif ndr_type is MidlStructConverter.NDR_UNION:
             return self.handle_ndr_union(struct)
         else:
-            return
             raise Exception("NDR_POINTER unimplemented")
 
     def handle_ndr_union(self,struct):
@@ -77,7 +76,18 @@ class MidlStructConverter(Converter):
         mem_str = ""
         count = 1
         for m in struct.members:
-            mem_str += f"{count}: ('{m.name}',{m.type.replace('*','').upper()}),"
+            type_name = None
+            if type(m.type) is str:
+                type_name = m.type
+            elif type(m.type) is MidlStructDef:
+                type_name = m.type.public_names[0]
+                self.convert(m.type)
+            elif type(m.type) is MidlUnionDef:
+                type_name = m.type.public_names[0]
+                self.convert(m.type)
+            else:
+                raise Exception(f"Unexpected type: {type(m.type)}")
+            mem_str += f"{count}: ('{m.name}',{type_name.replace('*','').upper()}),"
             count += 1
 
         union_def = """
@@ -124,8 +134,15 @@ class {struct.public_names[0].upper()}(NDRSTRUCT):
             if vd.name == count_name:
                 count_var = vd
 
-        if len(struct.members) != 2:
-            raise Exception("We only handle array structs with 2 members:  count and array members!")
+        #if len(struct.members) != 2:
+            #raise Exception("We only handle array structs with 2 members:  count and array members!")
+
+        core_struct_fields = ""
+        for vd in struct.members:
+            if vd is arr_var:
+                core_struct_fields += f"\t('{arr_var.name}', PTR_{name.upper()}),\n"
+            else:
+                core_struct_fields += f"\t('{vd.name}', {vd.type.upper()}),"
 
         underlying_type = arr_var.type.replace("*","")
 
@@ -140,8 +157,7 @@ class PTR_{name.upper()}(NDRPOINTER):
 
 class {name.upper()}(NDRSTRUCT):
     structure = (
-        ('{count_var.name}', {count_var.type.upper()}),
-        ('{arr_var.name}', PTR_{name.upper()}),
+{core_struct_fields}
     )
         """
         self.write(classes_str)
@@ -151,9 +167,10 @@ class {name.upper()}(NDRSTRUCT):
         if type(struct) is MidlUnionDef:
             return MidlStructConverter.NDR_UNION
         types = [ vd.type for vd in struct.members]
-        for t in types:
+        for vd in struct.members:
+            t = vd.type
             if type(t) is str: # We can have MidlUnionDefs here!!!
-                if "*" in t: # if there is a pointer, assume its an array
+                if "*" in t  and 'size_is' in vd.attrs: # if there is a pointer, assume its an array
                     #TODO This may not actually be that case, find a better way to detect this!
                     return MidlStructConverter.NDR_ARRAY
         return MidlStructConverter.NDR_STRUCT
@@ -241,11 +258,15 @@ class MidlInterfaceConverter(Converter):
 
 
     def handle_midl_td(self, td:MidlTypeDef):
-        attr_names = [td.attrs[k].name for k in td.attrs.keys()]
-        if "context_handle" in attr_names:
-            self.handle_context_handle(td)
-        else:
-            print(":asdDadssd")
+        if type(td) is MidlTypeDef:
+            attr_names = [td.attrs[k].name for k in td.attrs.keys()]
+            if "context_handle" in attr_names:
+                self.handle_context_handle(td)
+            else:
+                print(":asdDadssd")
+        elif type(td) is MidlSimpleTypedef:
+            self.write(f"{td.name.replace('*','').upper()} = {td.type.replace('*','').upper()}")
+
 
     def handle_context_handle(self, td):
         pointer_name = td.name
@@ -289,17 +310,21 @@ class {td.public_names[0].upper()}:
 class MidlDefinitionConverter:
     def convert(definition : MidlDefinition) -> str:
         strIO = StringIO()
+        const_converter = MidlConstantConverter(strIO, tab_level=0)
+        interface_converter = MidlInterfaceConverter(strIO, tab_level=0)
+
         MidlDefinitionConverter.__header_comment_block(strIO)
         MidlDefinitionConverter.__default_imports(strIO)
-        if len(definition.interfaces) != 1:
+        if len(definition.interfaces) > 1:
             raise Exception("ImpacketBuilder cannot handle MIDL files with multiple interface definitions")
-        MidlDefinitionConverter.__banner_comment(strIO,"CONSTANTS")
-        MidlDefinitionConverter.__uuid(strIO, definition.interfaces[0])
-        const_converter = MidlConstantConverter(strIO, tab_level=0)
-        for const in definition.instantiation:
-            const_converter.convert(const)
-        interface_converter = MidlInterfaceConverter(strIO, tab_level=0)
-        interface_converter.convert(definition.interfaces[0])
+        for td in definition.typedefs:
+            interface_converter.handle_typedef(td)
+        if len(definition.interfaces) >= 1:
+            MidlDefinitionConverter.__banner_comment(strIO,"CONSTANTS")
+            MidlDefinitionConverter.__uuid(strIO, definition.interfaces[0])
+            for const in definition.instantiation:
+                const_converter.convert(const)
+            interface_converter.convert(definition.interfaces[0])
         return strIO.getvalue()
 
     def __uuid(io : StringIO, interface : MidlInterface):
