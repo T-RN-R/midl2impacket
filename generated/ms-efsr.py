@@ -527,140 +527,132 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
 
 #################################################################################
 
-#PerflibV2 Definition
+#efsrpc Definition
 
 #################################################################################
 
-MSRPC_UUID_PERFLIBV2 = uuidtup_to_bin(('da5a86c5-12c2-4943-ab30-7f74a813d853','0.0'))
+MSRPC_UUID_EFSRPC = uuidtup_to_bin(('c681d488-d850-11d0-8c52-00c04fd90f7e','0.0'))
 
-RPC_HQUERY = HANDLE
-PRPC_HQUERY = RPC_HQUERY
+PEXIMPORT_CONTEXT_HANDLE = VOID
+EFS_EXIM_PIPE = PIPE UNSIGNED CHAR
 
-class PerflibV2EnumerateCounterSet(NDRCALL):
-    opnum = 0
-    structure = (
-		('SZMACHINE', WCHAR_T),
-		('DWINSIZE', DWORD),
+class DATA_EFS_RPC_BLOB(NDRUniConformantArray):
+    item = UNSIGNED_CHAR
+
+class PTR_EFS_RPC_BLOB(NDRPOINTER):
+    referent = (
+        ('Data', DATA_EFS_RPC_BLOB),
     )
 
-class PerflibV2EnumerateCounterSetResponse(NDRCALL):
+class EFS_RPC_BLOB(NDRSTRUCT):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', GUID),
-    )
-        
+	('cbData', DWORD),	('bData', PTR_EFS_RPC_BLOB),
 
-class PerflibV2QueryCounterSetRegistrationInfo(NDRCALL):
-    opnum = 1
-    structure = (
-		('SZMACHINE', WCHAR_T),
-		('COUNTERSETGUID', GUID),
-		('REQUESTCODE', DWORD),
-		('REQUESTLCID', DWORD),
-		('DWINSIZE', DWORD),
-    )
-
-class PerflibV2QueryCounterSetRegistrationInfoResponse(NDRCALL):
-    structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
     )
         
 
-class PerflibV2EnumerateCounterSetInstances(NDRCALL):
-    opnum = 2
+class EFS_COMPATIBILITY_INFO(NDRSTRUCT):
     structure = (
-		('SZMACHINE', WCHAR_T),
-		('COUNTERSETGUID', GUID),
-		('DWINSIZE', DWORD),
+        ('EfsVersion', DWORD),
     )
 
-class PerflibV2EnumerateCounterSetInstancesResponse(NDRCALL):
+ALG_ID = UNSIGNED_INT
+
+class DATA_EFS_HASH_BLOB(NDRUniConformantArray):
+    item = UNSIGNED_CHAR
+
+class PTR_EFS_HASH_BLOB(NDRPOINTER):
+    referent = (
+        ('Data', DATA_EFS_HASH_BLOB),
+    )
+
+class EFS_HASH_BLOB(NDRSTRUCT):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
+	('cbData', DWORD),	('bData', PTR_EFS_HASH_BLOB),
+
     )
         
 
-class PerflibV2OpenQueryHandle(NDRCALL):
-    opnum = 3
+class ENCRYPTION_CERTIFICATE_HASH(NDRSTRUCT):
     structure = (
-		('SZMACHINE', WCHAR_T),
+        ('cbTotalLength', DWORD),('UserSid', RPC_SID),('Hash', EFS_HASH_BLOB),('lpDisplayInformation', WCHAR_T),
     )
 
-class PerflibV2OpenQueryHandleResponse(NDRCALL):
+
+class DATA_ENCRYPTION_CERTIFICATE_HASH_LIST(NDRUniConformantArray):
+    item = ENCRYPTION_CERTIFICATE_HASH
+
+class PTR_ENCRYPTION_CERTIFICATE_HASH_LIST(NDRPOINTER):
+    referent = (
+        ('Data', DATA_ENCRYPTION_CERTIFICATE_HASH_LIST),
+    )
+
+class ENCRYPTION_CERTIFICATE_HASH_LIST(NDRSTRUCT):
     structure = (
-		('PHQUERY', PRPC_HQUERY),
+	('nCert_Hash', DWORD),	('Users', PTR_ENCRYPTION_CERTIFICATE_HASH_LIST),
+
     )
         
 
-class PerflibV2CloseQueryHandle(NDRCALL):
-    opnum = 4
-    structure = (
-		('PHQUERY', PRPC_HQUERY),
+class DATA_EFS_CERTIFICATE_BLOB(NDRUniConformantArray):
+    item = UNSIGNED_CHAR
+
+class PTR_EFS_CERTIFICATE_BLOB(NDRPOINTER):
+    referent = (
+        ('Data', DATA_EFS_CERTIFICATE_BLOB),
     )
 
-class PerflibV2CloseQueryHandleResponse(NDRCALL):
+class EFS_CERTIFICATE_BLOB(NDRSTRUCT):
     structure = (
-		('PHQUERY', PRPC_HQUERY),
+	('dwCertEncodingType', DWORD),	('cbData', DWORD),	('bData', PTR_EFS_CERTIFICATE_BLOB),
+
     )
         
 
-class PerflibV2QueryCounterInfo(NDRCALL):
-    opnum = 5
+class ENCRYPTION_CERTIFICATE(NDRSTRUCT):
     structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
+        ('cbTotalLength', DWORD),('UserSid', RPC_SID),('CertBlob', EFS_CERTIFICATE_BLOB),
     )
 
-class PerflibV2QueryCounterInfoResponse(NDRCALL):
+
+class DATA_ENCRYPTION_CERTIFICATE_LIST(NDRUniConformantArray):
+    item = ENCRYPTION_CERTIFICATE
+
+class PTR_ENCRYPTION_CERTIFICATE_LIST(NDRPOINTER):
+    referent = (
+        ('Data', DATA_ENCRYPTION_CERTIFICATE_LIST),
+    )
+
+class ENCRYPTION_CERTIFICATE_LIST(NDRSTRUCT):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
+	('nUsers', DWORD),	('Users', PTR_ENCRYPTION_CERTIFICATE_LIST),
+
     )
         
 
-class PerflibV2QueryCounterData(NDRCALL):
-    opnum = 6
+class ENCRYPTED_FILE_METADATA_SIGNATURE(NDRSTRUCT):
     structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
+        ('dwEfsAccessType', DWORD),('CertificatesAdded', ENCRYPTION_CERTIFICATE_HASH_LIST),('EncryptionCertificate', ENCRYPTION_CERTIFICATE),('EfsStreamSignature', EFS_RPC_BLOB),
     )
 
-class PerflibV2QueryCounterDataResponse(NDRCALL):
-    structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
-    )
-        
 
-class PerflibV2ValidateCounters(NDRCALL):
-    opnum = 7
+class EFS_KEY_INFO(NDRSTRUCT):
     structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
-		('DWADD', DWORD),
+        ('dwVersion', DWORD),('Entropy', UNSIGNED_LONG),('Algorithm', ALG_ID),('KeyLength', UNSIGNED_LONG),
     )
 
-class PerflibV2ValidateCountersResponse(NDRCALL):
+
+class EFS_DECRYPTION_STATUS_INFO(NDRSTRUCT):
     structure = (
-		('LPDATA', UNSIGNED_CHAR),
+        ('dwDecryptionError', DWORD),('dwHashOffset', DWORD),('cbHash', DWORD),
     )
-        
+
+
+class EFS_ENCRYPTION_STATUS_INFO(NDRSTRUCT):
+    structure = (
+        ('bHasCurrentKey', BOOL),('dwEncryptionError', DWORD),
+    )
+
 OPNUMS = {
-0 : (PerflibV2EnumerateCounterSet,PerflibV2EnumerateCounterSetResponse),
-1 : (PerflibV2QueryCounterSetRegistrationInfo,PerflibV2QueryCounterSetRegistrationInfoResponse),
-2 : (PerflibV2EnumerateCounterSetInstances,PerflibV2EnumerateCounterSetInstancesResponse),
-3 : (PerflibV2OpenQueryHandle,PerflibV2OpenQueryHandleResponse),
-4 : (PerflibV2CloseQueryHandle,PerflibV2CloseQueryHandleResponse),
-5 : (PerflibV2QueryCounterInfo,PerflibV2QueryCounterInfoResponse),
-6 : (PerflibV2QueryCounterData,PerflibV2QueryCounterDataResponse),
-7 : (PerflibV2ValidateCounters,PerflibV2ValidateCountersResponse),
 }
 

@@ -527,140 +527,27 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
 
 #################################################################################
 
-#PerflibV2 Definition
+#WdsRpcInterface Definition
 
 #################################################################################
 
-MSRPC_UUID_PERFLIBV2 = uuidtup_to_bin(('da5a86c5-12c2-4943-ab30-7f74a813d853','0.0'))
+MSRPC_UUID_WDSRPCINTERFACE = uuidtup_to_bin(('1A927394-352E-4553-AE3F-7CF4AAFCA620','0.0'))
 
-RPC_HQUERY = HANDLE
-PRPC_HQUERY = RPC_HQUERY
 
-class PerflibV2EnumerateCounterSet(NDRCALL):
+class WdsRpcMessage(NDRCALL):
     opnum = 0
     structure = (
-		('SZMACHINE', WCHAR_T),
-		('DWINSIZE', DWORD),
+		('UREQUESTPACKETSIZE', UNSIGNED_LONG),
+		('BREQUESTPACKET', BYTE),
     )
 
-class PerflibV2EnumerateCounterSetResponse(NDRCALL):
+class WdsRpcMessageResponse(NDRCALL):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', GUID),
-    )
-        
-
-class PerflibV2QueryCounterSetRegistrationInfo(NDRCALL):
-    opnum = 1
-    structure = (
-		('SZMACHINE', WCHAR_T),
-		('COUNTERSETGUID', GUID),
-		('REQUESTCODE', DWORD),
-		('REQUESTLCID', DWORD),
-		('DWINSIZE', DWORD),
-    )
-
-class PerflibV2QueryCounterSetRegistrationInfoResponse(NDRCALL):
-    structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
-    )
-        
-
-class PerflibV2EnumerateCounterSetInstances(NDRCALL):
-    opnum = 2
-    structure = (
-		('SZMACHINE', WCHAR_T),
-		('COUNTERSETGUID', GUID),
-		('DWINSIZE', DWORD),
-    )
-
-class PerflibV2EnumerateCounterSetInstancesResponse(NDRCALL):
-    structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
-    )
-        
-
-class PerflibV2OpenQueryHandle(NDRCALL):
-    opnum = 3
-    structure = (
-		('SZMACHINE', WCHAR_T),
-    )
-
-class PerflibV2OpenQueryHandleResponse(NDRCALL):
-    structure = (
-		('PHQUERY', PRPC_HQUERY),
-    )
-        
-
-class PerflibV2CloseQueryHandle(NDRCALL):
-    opnum = 4
-    structure = (
-		('PHQUERY', PRPC_HQUERY),
-    )
-
-class PerflibV2CloseQueryHandleResponse(NDRCALL):
-    structure = (
-		('PHQUERY', PRPC_HQUERY),
-    )
-        
-
-class PerflibV2QueryCounterInfo(NDRCALL):
-    opnum = 5
-    structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
-    )
-
-class PerflibV2QueryCounterInfoResponse(NDRCALL):
-    structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
-    )
-        
-
-class PerflibV2QueryCounterData(NDRCALL):
-    opnum = 6
-    structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
-    )
-
-class PerflibV2QueryCounterDataResponse(NDRCALL):
-    structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
-    )
-        
-
-class PerflibV2ValidateCounters(NDRCALL):
-    opnum = 7
-    structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
-		('DWADD', DWORD),
-    )
-
-class PerflibV2ValidateCountersResponse(NDRCALL):
-    structure = (
-		('LPDATA', UNSIGNED_CHAR),
+		('PUREPLYPACKETSIZE', UNSIGNED_LONG),
+		('PBREPLYPACKET', BYTE),
     )
         
 OPNUMS = {
-0 : (PerflibV2EnumerateCounterSet,PerflibV2EnumerateCounterSetResponse),
-1 : (PerflibV2QueryCounterSetRegistrationInfo,PerflibV2QueryCounterSetRegistrationInfoResponse),
-2 : (PerflibV2EnumerateCounterSetInstances,PerflibV2EnumerateCounterSetInstancesResponse),
-3 : (PerflibV2OpenQueryHandle,PerflibV2OpenQueryHandleResponse),
-4 : (PerflibV2CloseQueryHandle,PerflibV2CloseQueryHandleResponse),
-5 : (PerflibV2QueryCounterInfo,PerflibV2QueryCounterInfoResponse),
-6 : (PerflibV2QueryCounterData,PerflibV2QueryCounterDataResponse),
-7 : (PerflibV2ValidateCounters,PerflibV2ValidateCountersResponse),
+0 : (WdsRpcMessage,WdsRpcMessageResponse),
 }
 
