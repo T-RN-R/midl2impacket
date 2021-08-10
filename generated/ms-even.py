@@ -41,6 +41,49 @@ VOID = CONTEXT_HANDLE
 __INT3264 = NDRLONG
 UNSIGNED___INT3264 = NDRULONG
 
+"""
+Generated from MIDL2Impacket.py
+"""
+
+
+from __future__ import division
+from __future__ import print_function
+from impacket.dcerpc.v5.ndr import *
+from impacket.dcerpc.v5.dtypes import *
+from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
+from impacket.structure import Structure
+from impacket import nt_errors
+from impacket.uuid import uuidtup_to_bin
+from impacket.dcerpc.v5.rpcrt import DCERPCException
+
+DWORD64 = NDRUHYPER
+__INT64 = NDRHYPER
+class CONTEXT_HANDLE(NDRSTRUCT):
+    align = 1
+    structure = (
+        ('Data', '20s=""'),
+    )
+HANDLE_T = CONTEXT_HANDLE
+
+UNSIGNED_SHORT = NDRUSHORT
+UNSIGNED_CHAR = NDRCHAR
+UNSIGNED_LONG = NDRULONG
+UNSIGNED_INT = NDRULONG
+UNSIGNED___INT64 = NDRUHYPER
+SIGNED___INT64 = NDRHYPER
+SIGNED_INT = NDRSHORT
+SIGNED_LONG = NDRLONG
+SIGNED_CHAR = NDRCHAR
+SIGNED_SHORT = NDRSHORT
+CONST_WCHAR_T = WSTR
+CONST_CHAR = NDRCHAR
+CONST_INT = NDRLONG
+CONST_VOID = CONTEXT_HANDLE
+CONST_LONG = NDRLONG
+VOID = CONTEXT_HANDLE
+__INT3264 = NDRLONG
+UNSIGNED___INT3264 = NDRULONG
+
 #################################################################################
 
 #TYPEDEFS
@@ -411,4 +454,343 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
     referent = (
         ('Data', SECURITY_DESCRIPTOR),
     )    
+
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#eventlog Definition
+
+#################################################################################
+
+MSRPC_UUID_EVENTLOG = uuidtup_to_bin(('82273FDC-E32A-18C3-3F78-827929DC23EA','0.0'))
+
+
+class DATA_RPC_STRING(NDRUniConformantArray):
+    item = CHAR
+
+class PTR_RPC_STRING(NDRPOINTER):
+    referent = (
+        ('Data', DATA_RPC_STRING),
+    )
+
+class RPC_STRING(NDRSTRUCT):
+    structure = (
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_STRING),
+
+    )
+        
+
+class RPC_CLIENT_ID(NDRSTRUCT):
+    structure = (
+        ('UniqueProcess', UNSIGNED_LONG),('UniqueThread', UNSIGNED_LONG),
+    )
+class PRPC_CLIENT_ID(NDRPOINTER):
+    referent = (
+        ('Data', RPC_CLIENT_ID),
+    )    
+
+EVENTLOG_HANDLE_W = WCHAR_T
+EVENTLOG_HANDLE_A = CHAR
+IELF_HANDLE = VOID
+PIELF_HANDLE = VOID
+RULONG = UNSIGNED_LONG
+
+class ElfrClearELFW(NDRCALL):
+    opnum = 0
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+		('BACKUPFILENAME', PRPC_UNICODE_STRING),
+    )
+
+class ElfrClearELFWResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ElfrBackupELFW(NDRCALL):
+    opnum = 1
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+		('BACKUPFILENAME', PRPC_UNICODE_STRING),
+    )
+
+class ElfrBackupELFWResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ElfrCloseEL(NDRCALL):
+    opnum = 2
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+
+class ElfrCloseELResponse(NDRCALL):
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+        
+
+class ElfrDeregisterEventSource(NDRCALL):
+    opnum = 3
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+
+class ElfrDeregisterEventSourceResponse(NDRCALL):
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+        
+
+class ElfrNumberOfRecords(NDRCALL):
+    opnum = 4
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+
+class ElfrNumberOfRecordsResponse(NDRCALL):
+    structure = (
+		('NUMBEROFRECORDS', UNSIGNED_LONG),
+    )
+        
+
+class ElfrOldestRecord(NDRCALL):
+    opnum = 5
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+
+class ElfrOldestRecordResponse(NDRCALL):
+    structure = (
+		('OLDESTRECORDNUMBER', UNSIGNED_LONG),
+    )
+        
+
+class ElfrChangeNotify(NDRCALL):
+    opnum = 6
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+		('CLIENTID', RPC_CLIENT_ID),
+		('EVENT', ULONG),
+    )
+
+class ElfrChangeNotifyResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ElfrOpenELW(NDRCALL):
+    opnum = 7
+    structure = (
+		('UNCSERVERNAME', EVENTLOG_HANDLE_W),
+		('MODULENAME', PRPC_UNICODE_STRING),
+		('REGMODULENAME', PRPC_UNICODE_STRING),
+		('MAJORVERSION', UNSIGNED_LONG),
+		('MINORVERSION', UNSIGNED_LONG),
+    )
+
+class ElfrOpenELWResponse(NDRCALL):
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+        
+
+class ElfrRegisterEventSourceW(NDRCALL):
+    opnum = 8
+    structure = (
+		('UNCSERVERNAME', EVENTLOG_HANDLE_W),
+		('MODULENAME', PRPC_UNICODE_STRING),
+		('REGMODULENAME', PRPC_UNICODE_STRING),
+		('MAJORVERSION', UNSIGNED_LONG),
+		('MINORVERSION', UNSIGNED_LONG),
+    )
+
+class ElfrRegisterEventSourceWResponse(NDRCALL):
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+        
+
+class ElfrOpenBELW(NDRCALL):
+    opnum = 9
+    structure = (
+		('UNCSERVERNAME', EVENTLOG_HANDLE_W),
+		('BACKUPFILENAME', PRPC_UNICODE_STRING),
+		('MAJORVERSION', UNSIGNED_LONG),
+		('MINORVERSION', UNSIGNED_LONG),
+    )
+
+class ElfrOpenBELWResponse(NDRCALL):
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+        
+
+class ElfrReadELW(NDRCALL):
+    opnum = 10
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+		('READFLAGS', UNSIGNED_LONG),
+		('RECORDOFFSET', UNSIGNED_LONG),
+		('NUMBEROFBYTESTOREAD', RULONG),
+    )
+
+class ElfrReadELWResponse(NDRCALL):
+    structure = (
+		('BUFFER', UNSIGNED_CHAR),
+		('NUMBEROFBYTESREAD', UNSIGNED_LONG),
+		('MINNUMBEROFBYTESNEEDED', UNSIGNED_LONG),
+    )
+        
+
+class ElfrReportEventW(NDRCALL):
+    opnum = 11
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+		('TIME', UNSIGNED_LONG),
+		('EVENTTYPE', UNSIGNED_SHORT),
+		('EVENTCATEGORY', UNSIGNED_SHORT),
+		('EVENTID', UNSIGNED_LONG),
+		('NUMSTRINGS', UNSIGNED_SHORT),
+		('DATASIZE', UNSIGNED_LONG),
+		('COMPUTERNAME', PRPC_UNICODE_STRING),
+		('USERSID', PRPC_SID),
+		('STRINGS', PRPC_UNICODE_STRING),
+		('DATA', UNSIGNED_CHAR),
+		('FLAGS', UNSIGNED_SHORT),
+		('RECORDNUMBER', UNSIGNED_LONG),
+		('TIMEWRITTEN', UNSIGNED_LONG),
+    )
+
+class ElfrReportEventWResponse(NDRCALL):
+    structure = (
+		('RECORDNUMBER', UNSIGNED_LONG),
+		('TIMEWRITTEN', UNSIGNED_LONG),
+    )
+        
+
+class ElfrClearELFA(NDRCALL):
+    opnum = 12
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+		('BACKUPFILENAME', PRPC_STRING),
+    )
+
+class ElfrClearELFAResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ElfrBackupELFA(NDRCALL):
+    opnum = 13
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+		('BACKUPFILENAME', PRPC_STRING),
+    )
+
+class ElfrBackupELFAResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ElfrOpenELA(NDRCALL):
+    opnum = 14
+    structure = (
+		('UNCSERVERNAME', EVENTLOG_HANDLE_A),
+		('MODULENAME', PRPC_STRING),
+		('REGMODULENAME', PRPC_STRING),
+		('MAJORVERSION', UNSIGNED_LONG),
+		('MINORVERSION', UNSIGNED_LONG),
+    )
+
+class ElfrOpenELAResponse(NDRCALL):
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+        
+
+class ElfrRegisterEventSourceA(NDRCALL):
+    opnum = 15
+    structure = (
+		('UNCSERVERNAME', EVENTLOG_HANDLE_A),
+		('MODULENAME', PRPC_STRING),
+		('REGMODULENAME', PRPC_STRING),
+		('MAJORVERSION', UNSIGNED_LONG),
+		('MINORVERSION', UNSIGNED_LONG),
+    )
+
+class ElfrRegisterEventSourceAResponse(NDRCALL):
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+        
+
+class ElfrOpenBELA(NDRCALL):
+    opnum = 16
+    structure = (
+		('UNCSERVERNAME', EVENTLOG_HANDLE_A),
+		('BACKUPFILENAME', PRPC_STRING),
+		('MAJORVERSION', UNSIGNED_LONG),
+		('MINORVERSION', UNSIGNED_LONG),
+    )
+
+class ElfrOpenBELAResponse(NDRCALL):
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+    )
+        
+
+class ElfrReadELA(NDRCALL):
+    opnum = 17
+    structure = (
+		('LOGHANDLE', IELF_HANDLE),
+		('READFLAGS', UNSIGNED_LONG),
+		('RECORDOFFSET', UNSIGNED_LONG),
+		('NUMBEROFBYTESTOREAD', RULONG),
+    )
+
+class ElfrReadELAResponse(NDRCALL):
+    structure = (
+		('BUFFER', UNSIGNED_CHAR),
+		('NUMBEROFBYTESREAD', UNSIGNED_LONG),
+		('MINNUMBEROFBYTESNEEDED', UNSIGNED_LONG),
+    )
+        
+OPNUMS = {
+0 : (ElfrClearELFW,ElfrClearELFWResponse),
+1 : (ElfrBackupELFW,ElfrBackupELFWResponse),
+2 : (ElfrCloseEL,ElfrCloseELResponse),
+3 : (ElfrDeregisterEventSource,ElfrDeregisterEventSourceResponse),
+4 : (ElfrNumberOfRecords,ElfrNumberOfRecordsResponse),
+5 : (ElfrOldestRecord,ElfrOldestRecordResponse),
+6 : (ElfrChangeNotify,ElfrChangeNotifyResponse),
+7 : (ElfrOpenELW,ElfrOpenELWResponse),
+8 : (ElfrRegisterEventSourceW,ElfrRegisterEventSourceWResponse),
+9 : (ElfrOpenBELW,ElfrOpenBELWResponse),
+10 : (ElfrReadELW,ElfrReadELWResponse),
+11 : (ElfrReportEventW,ElfrReportEventWResponse),
+12 : (ElfrClearELFA,ElfrClearELFAResponse),
+13 : (ElfrBackupELFA,ElfrBackupELFAResponse),
+14 : (ElfrOpenELA,ElfrOpenELAResponse),
+15 : (ElfrRegisterEventSourceA,ElfrRegisterEventSourceAResponse),
+16 : (ElfrOpenBELA,ElfrOpenBELAResponse),
+17 : (ElfrReadELA,ElfrReadELAResponse),
+}
 
