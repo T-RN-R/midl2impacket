@@ -7,14 +7,16 @@ from .comments import MidlCommentWriter
 
 
 class MidlStaticConverter(Converter):
-    HAS_RUN = False
+    def __init__(self, *args, **kwargs):
+        super().__init__( *args, **kwargs)
+        self.HAS_RUN=False
     def convert(self, imports:list[MidlImport]):
-        if not __class__.HAS_RUN:
+        if not self.HAS_RUN:
             comment_writer = MidlCommentWriter(self.io, self.tab_level)
             comment_writer.comment_block("Generated from MIDL2Impacket.py")
             self.base_imports()
             self.type_mapping()
-            __class__.HAS_RUN = True
+            self.HAS_RUN = True
 
     def base_imports(self):
         imports = """
@@ -35,6 +37,7 @@ class CONTEXT_HANDLE(NDRSTRUCT):
     structure = (
         ('Data', '20s=""'),
     )
+HANDLE_T = CONTEXT_HANDLE
 """
         self.write(imports)
 

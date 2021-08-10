@@ -41,6 +41,49 @@ VOID = CONTEXT_HANDLE
 __INT3264 = NDRLONG
 UNSIGNED___INT3264 = NDRULONG
 
+"""
+Generated from MIDL2Impacket.py
+"""
+
+
+from __future__ import division
+from __future__ import print_function
+from impacket.dcerpc.v5.ndr import *
+from impacket.dcerpc.v5.dtypes import *
+from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
+from impacket.structure import Structure
+from impacket import nt_errors
+from impacket.uuid import uuidtup_to_bin
+from impacket.dcerpc.v5.rpcrt import DCERPCException
+
+DWORD64 = NDRUHYPER
+__INT64 = NDRHYPER
+class CONTEXT_HANDLE(NDRSTRUCT):
+    align = 1
+    structure = (
+        ('Data', '20s=""'),
+    )
+HANDLE_T = CONTEXT_HANDLE
+
+UNSIGNED_SHORT = NDRUSHORT
+UNSIGNED_CHAR = NDRCHAR
+UNSIGNED_LONG = NDRULONG
+UNSIGNED_INT = NDRULONG
+UNSIGNED___INT64 = NDRUHYPER
+SIGNED___INT64 = NDRHYPER
+SIGNED_INT = NDRSHORT
+SIGNED_LONG = NDRLONG
+SIGNED_CHAR = NDRCHAR
+SIGNED_SHORT = NDRSHORT
+CONST_WCHAR_T = WSTR
+CONST_CHAR = NDRCHAR
+CONST_INT = NDRLONG
+CONST_VOID = CONTEXT_HANDLE
+CONST_LONG = NDRLONG
+VOID = CONTEXT_HANDLE
+__INT3264 = NDRLONG
+UNSIGNED___INT3264 = NDRULONG
+
 #################################################################################
 
 #TYPEDEFS
@@ -411,4 +454,155 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
     referent = (
         ('Data', SECURITY_DESCRIPTOR),
     )    
+
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#PerflibV2 Definition
+
+#################################################################################
+
+MSRPC_UUID_PERFLIBV2 = uuidtup_to_bin(('da5a86c5-12c2-4943-ab30-7f74a813d853','0.0'))
+
+RPC_HQUERY = HANDLE
+PRPC_HQUERY = RPC_HQUERY
+
+class PerflibV2EnumerateCounterSet(NDRCALL):
+    opnum = 0
+    structure = (
+		('SZMACHINE', WCHAR_T),
+		('DWINSIZE', DWORD),
+    )
+
+class PerflibV2EnumerateCounterSetResponse(NDRCALL):
+    structure = (
+		('PDWOUTSIZE', DWORD),
+		('PDWRTNSIZE', DWORD),
+		('LPDATA', GUID),
+    )
+        
+
+class PerflibV2QueryCounterSetRegistrationInfo(NDRCALL):
+    opnum = 1
+    structure = (
+		('SZMACHINE', WCHAR_T),
+		('COUNTERSETGUID', GUID),
+		('REQUESTCODE', DWORD),
+		('REQUESTLCID', DWORD),
+		('DWINSIZE', DWORD),
+    )
+
+class PerflibV2QueryCounterSetRegistrationInfoResponse(NDRCALL):
+    structure = (
+		('PDWOUTSIZE', DWORD),
+		('PDWRTNSIZE', DWORD),
+		('LPDATA', UNSIGNED_CHAR),
+    )
+        
+
+class PerflibV2EnumerateCounterSetInstances(NDRCALL):
+    opnum = 2
+    structure = (
+		('SZMACHINE', WCHAR_T),
+		('COUNTERSETGUID', GUID),
+		('DWINSIZE', DWORD),
+    )
+
+class PerflibV2EnumerateCounterSetInstancesResponse(NDRCALL):
+    structure = (
+		('PDWOUTSIZE', DWORD),
+		('PDWRTNSIZE', DWORD),
+		('LPDATA', UNSIGNED_CHAR),
+    )
+        
+
+class PerflibV2OpenQueryHandle(NDRCALL):
+    opnum = 3
+    structure = (
+		('SZMACHINE', WCHAR_T),
+    )
+
+class PerflibV2OpenQueryHandleResponse(NDRCALL):
+    structure = (
+		('PHQUERY', PRPC_HQUERY),
+    )
+        
+
+class PerflibV2CloseQueryHandle(NDRCALL):
+    opnum = 4
+    structure = (
+		('PHQUERY', PRPC_HQUERY),
+    )
+
+class PerflibV2CloseQueryHandleResponse(NDRCALL):
+    structure = (
+		('PHQUERY', PRPC_HQUERY),
+    )
+        
+
+class PerflibV2QueryCounterInfo(NDRCALL):
+    opnum = 5
+    structure = (
+		('HQUERY', RPC_HQUERY),
+		('DWINSIZE', DWORD),
+    )
+
+class PerflibV2QueryCounterInfoResponse(NDRCALL):
+    structure = (
+		('PDWOUTSIZE', DWORD),
+		('PDWRTNSIZE', DWORD),
+		('LPDATA', UNSIGNED_CHAR),
+    )
+        
+
+class PerflibV2QueryCounterData(NDRCALL):
+    opnum = 6
+    structure = (
+		('HQUERY', RPC_HQUERY),
+		('DWINSIZE', DWORD),
+    )
+
+class PerflibV2QueryCounterDataResponse(NDRCALL):
+    structure = (
+		('PDWOUTSIZE', DWORD),
+		('PDWRTNSIZE', DWORD),
+		('LPDATA', UNSIGNED_CHAR),
+    )
+        
+
+class PerflibV2ValidateCounters(NDRCALL):
+    opnum = 7
+    structure = (
+		('HQUERY', RPC_HQUERY),
+		('DWINSIZE', DWORD),
+		('LPDATA', UNSIGNED_CHAR),
+		('DWADD', DWORD),
+    )
+
+class PerflibV2ValidateCountersResponse(NDRCALL):
+    structure = (
+		('LPDATA', UNSIGNED_CHAR),
+    )
+        
+OPNUMS = {
+0 : (PerflibV2EnumerateCounterSet,PerflibV2EnumerateCounterSetResponse),
+1 : (PerflibV2QueryCounterSetRegistrationInfo,PerflibV2QueryCounterSetRegistrationInfoResponse),
+2 : (PerflibV2EnumerateCounterSetInstances,PerflibV2EnumerateCounterSetInstancesResponse),
+3 : (PerflibV2OpenQueryHandle,PerflibV2OpenQueryHandleResponse),
+4 : (PerflibV2CloseQueryHandle,PerflibV2CloseQueryHandleResponse),
+5 : (PerflibV2QueryCounterInfo,PerflibV2QueryCounterInfoResponse),
+6 : (PerflibV2QueryCounterData,PerflibV2QueryCounterDataResponse),
+7 : (PerflibV2ValidateCounters,PerflibV2ValidateCountersResponse),
+}
 
