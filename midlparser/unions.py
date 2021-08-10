@@ -22,7 +22,7 @@ class MidlUnionParser(MidlBaseParser):
     def __init__(self, token_generator, tokenizer):
         self.state = UnionState.BEGIN
         super().__init__(token_generator=token_generator, end_state=UnionState.END, tokenizer=tokenizer)
-        self.cur_member_attrs = []
+        self.cur_member_attrs = {}
         # This is a list because the type and name can be several tokens e.g. 'unsigned long long varname'
         self.cur_member_parts = [] 
         self.cur_member_array_info = []
@@ -38,12 +38,12 @@ class MidlUnionParser(MidlBaseParser):
         """
         member_name = self.cur_member_parts[-1]
         member_type = ' '.join(self.cur_member_parts[:-1])
-        member_attrs = self.cur_member_attrs[:]
+        member_attrs = self.cur_member_attrs
         member_def = MidlVarDef(member_type, member_name, member_attrs, self.cur_member_array_info)
         self.members.append(member_def)
         self.prev_member = member_def
         self.cur_member_parts = []
-        self.cur_member_attrs = []
+        self.cur_member_attrs = {}
         self.cur_member_array_info = []
         self.simple_td = False
 
@@ -91,9 +91,9 @@ class MidlUnionParser(MidlBaseParser):
 
     def sqbracket(self, token):
         if self.state == UnionState.MEMBER_TYPE_OR_ATTR:
-            self.cur_member_attrs.extend(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
+            self.cur_member_attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
             # Don't transition out of the TYPE_OR_ATTR if the attributes was a switch-case
-            if 'case' in self.cur_member_attrs:
+            if 'case' not in self.cur_member_attrs and 'default' not in self.cur_member_attrs:
                 self.state == UnionState.MEMBER_TYPE
         elif self.state in [UnionState.MEMBER_TYPE, UnionState.MEMBER_ARRAY]:
             # The member has (possibly additional?) array dimensions specified..
@@ -120,6 +120,9 @@ class MidlUnionParser(MidlBaseParser):
         elif self.state == UnionState.UNION_END:
             # End of structure definition and optional vars
             self.state = UnionState.END
+        elif self.state == UnionState.MEMBER_TYPE_OR_ATTR:
+            if 'default' not in self.cur_member_attrs and 'case' not in self.cur_member_attrs:
+                self.invalid()
         else:
             self.invalid(token)
 
