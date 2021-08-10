@@ -11,6 +11,7 @@ class MidlStructConverter(Converter):
     def get_anonymous_name():
         __class__.Anonymous_Count+=1
         return "Anonymous"+str(__class__.Anonymous_Count)
+        
     def convert(self, struct):
         ndr_type = self.detect_ndr_type(struct)
         if ndr_type is MidlStructConverter.NDR_ARRAY:
@@ -43,7 +44,7 @@ class MidlStructConverter(Converter):
                 self.convert(m.type)
             else:
                 raise Exception(f"Unexpected type: {type(m.type)}")
-            mem_str += f"{count}: ('{m.name}',{type_name.replace('*','').upper()}),"
+            mem_str += f"{count}: ('{m.name}',{self.mapper.canonicalize(type_name)}),"
             count += 1
 
         union_def = """
@@ -51,7 +52,7 @@ class %s(NDRUNION):
     union = {
         %s
     }
-        """ % (name.upper(), mem_str)
+        """ % (self.mapper.canonicalize(name), mem_str)
         self.write(union_def)
         return name
 
@@ -65,10 +66,10 @@ class %s(NDRUNION):
                 vd.name=data_type
             elif type(vd.type) is str:
                 data_type = vd.type
-            vars+=f"('{vd.name}', {data_type.upper()}),"
+            vars+=f"('{vd.name}', {self.mapper.canonicalize(data_type)}),"
 
         class_def = f"""
-class {struct.public_names[0].upper()}(NDRSTRUCT):
+class {self.mapper.canonicalize(struct.public_names[0])}(NDRSTRUCT):
     structure = (
         {vars}
     )
@@ -93,32 +94,31 @@ class {struct.public_names[0].upper()}(NDRSTRUCT):
 
         #if len(struct.members) != 2:
             #raise Exception("We only handle array structs with 2 members:  count and array members!")
-
         core_struct_fields = ""
         for vd in struct.members:
             if vd is arr_var:
-                core_struct_fields += f"\t('{arr_var.name}', PTR_{name.upper()}),\n"
+                core_struct_fields += f"\t('{arr_var.name}', PTR_{self.mapper.canonicalize(name)}),\n"
             else:
-                core_struct_fields += f"\t('{vd.name}', {vd.type.upper()}),"
+                core_struct_fields += f"\t('{vd.name}', {self.mapper.canonicalize(vd.type)}),"
 
         underlying_type = arr_var.type.replace("*","")
-
+        name = self.mapper.canonicalize(name)
         classes_str = f"""
-class DATA_{name.upper()}(NDRUniConformantArray):
-    item = {underlying_type.upper()}
+class DATA_{name}(NDRUniConformantArray):
+    item = {self.mapper.canonicalize(underlying_type)}
 
-class PTR_{name.upper()}(NDRPOINTER):
+class PTR_{name}(NDRPOINTER):
     referent = (
-        ('Data', DATA_{name.upper()}),
+        ('Data', DATA_{name}),
     )
 
-class {name.upper()}(NDRSTRUCT):
+class {name}(NDRSTRUCT):
     structure = (
 {core_struct_fields}
     )
         """
         self.write(classes_str)
-        return name.upper()
+        return name
 
     def detect_ndr_type(self,struct):
         if type(struct) is MidlUnionDef:
