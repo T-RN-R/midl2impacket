@@ -4,7 +4,7 @@ import enum
 from midl import MidlUnionDef, MidlVarDef
 from .attributes import MidlAttributesParser
 from .arrays import MidlArrayParser
-from .base import MidlBaseParser, MidlParserException
+from .base import MidlBaseParser
 
 class UnionState(enum.Enum):
     BEGIN = enum.auto()
@@ -45,6 +45,7 @@ class MidlUnionParser(MidlBaseParser):
         self.cur_member_parts = []
         self.cur_member_attrs = []
         self.cur_member_array_info = []
+        self.simple_td = False
 
     def keyword(self, token):
         if self.state == UnionState.BEGIN:
@@ -90,7 +91,7 @@ class MidlUnionParser(MidlBaseParser):
 
     def sqbracket(self, token):
         if self.state == UnionState.MEMBER_TYPE_OR_ATTR:
-            self.cur_member_attrs.extend(MidlAttributesParser(self.tokens).parse(token))
+            self.cur_member_attrs.extend(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
             # Don't transition out of the TYPE_OR_ATTR if the attributes was a switch-case
             if 'case' in self.cur_member_attrs:
                 self.state == UnionState.MEMBER_TYPE
@@ -136,10 +137,9 @@ class MidlUnionParser(MidlBaseParser):
         self.comments.append(token)
 
     def finished(self) -> MidlUnionDef:
-        if not len(self.members):
-            raise MidlParserException("No members parsed in structure!")
         public_names = []
         if self.declared_names:
             public_names = self.declared_names.split(',')
         return MidlUnionDef(public_names, self.private_name, self.members)
+        
     

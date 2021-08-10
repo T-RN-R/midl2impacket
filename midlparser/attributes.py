@@ -39,8 +39,11 @@ class MidlAttributesParser(MidlBaseParser):
     def sqbracket(self, token):
         if token.data == '[' and self.state == AttributeState.BEGIN:
             self.state = AttributeState.DEFAULT
-        elif token.data == ']' and self.cur_attr:
-            self.attributes[self.cur_attr] = MidlAttribute(self.cur_attr, self.cur_attr_params)
+        elif token.data == ']':
+            if self.state != AttributeState.DEFAULT:
+                self.invalid(token)
+            if self.cur_attr:
+                self.attributes[self.cur_attr] = MidlAttribute(self.cur_attr, self.cur_attr_params)
             self.state = AttributeState.END
         else:
             self.invalid(token)

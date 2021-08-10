@@ -38,7 +38,17 @@ class MidlEnumParser(MidlBaseParser):
 
     def numeric(self, token):
         if self.state == EnumState.MEMBER_VALUE:
-            self.cur_member_value = int(token.data)
+            # We need to figure out what kind of integer this is.. TODO: move to a util module?
+            numeric_str = token.data
+            if numeric_str.lower().startswith("0x"):
+                numeric_val = int(numeric_str, 16)
+            elif numeric_str.lower().startswith("0b"):
+                numeric_val = int(numeric_str, 2)
+            elif numeric_str.startswith("0"):
+                numeric_val = int(numeric_str, 8)
+            else:
+                numeric_val = int(numeric_str)
+            self.cur_member_value = numeric_val
             self.state = EnumState.MEMBER_COMPLETE
         else:
             self.invalid(token)
@@ -58,7 +68,7 @@ class MidlEnumParser(MidlBaseParser):
     def brace(self, token):
         if token.data == '{' and self.state in [EnumState.BODY, EnumState.NAME]:
             self.state = EnumState.MEMBER_NAME
-        elif token.data == '}' and self.state in [EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE]:
+        elif token.data == '}' and self.state in [EnumState.MEMBER_NAME, EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE]:
             self.state = EnumState.ENUM_END
         else:
             self.invalid(token)
