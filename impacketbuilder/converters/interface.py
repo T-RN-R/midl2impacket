@@ -29,7 +29,7 @@ class MidlInterfaceConverter(Converter):
     def uuid(self, interface : MidlInterface):
         int_name = f"MSRPC_UUID_{interface.name.upper()}"
 
-        self.write(f"{int_name} = uuidtup_to_bin(('{interface.attributes['uuid']}','0.0'))\n")
+        self.write(f"{int_name} = uuidtup_to_bin(('{interface.attributes['uuid'].params[0]}','0.0'))\n")
 
     def handle_procedure(self, proc, count):
         MidlProcedureConverter(self.io, self.tab_level, mapper=self.mapper).convert(proc, count)
