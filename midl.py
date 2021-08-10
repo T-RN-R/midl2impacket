@@ -140,8 +140,8 @@ class MidlInterface:
 
     def __str__(self):
         out = ""
-        out += "UUID: " + self.attributes["uuid"] + ";\n"
-        out += "Version: " + self.attributes["version"] + ";\n"
+        out += "UUID: " + self.attributes["uuid"].params[0] + ";\n"
+        out += "Version: " + self.attributes["version"].params[0] + ";\n"
         out += "interface " + self.name + "{\n"
         for td in self.typedefs:
             out += str(td)
