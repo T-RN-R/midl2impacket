@@ -17,6 +17,7 @@ class MidlAttributesParser(MidlBaseParser):
         self.cur_attr_param = ''
         self.cur_attr_params = []
         self.attributes = {}
+        self.rbracket_level = 0
 
     def add_to_cur_param(self, token):            
         if self.state != AttributeState.PARAMETERS:
@@ -47,14 +48,19 @@ class MidlAttributesParser(MidlBaseParser):
     def rbracket(self, token):
         if token.data == '(':
             if self.state == AttributeState.PARAMETERS:
-                self.invalid(token)
+                if self.rbracket_level >=1:
+                    self.add_to_cur_param(token)
             self.state = AttributeState.PARAMETERS
+            self.rbracket_level += 1
         elif token.data == ')':
             if self.state != AttributeState.PARAMETERS:
-                self.invalid(token)
+                if self.rbracket_level >=1:
+                    self.add_to_cur_param(token)
             self.state = AttributeState.DEFAULT
             self.cur_attr_params.append(self.cur_attr_param)
             self.cur_attr_param = ''
+            assert(self.rbracket_level >=1)
+            self.rbracket_level -= 1
 
     def comma(self, token):
         if self.state == AttributeState.PARAMETERS:
