@@ -8,14 +8,14 @@ from .interface import MidlInterfaceConverter
 from .comments import MidlCommentWriter
 
 class MidlDefinitionConverter(Converter):
-    def convert(self, definition : MidlDefinition) -> str:
+    def convert(self, definition : MidlDefinition, import_dir:str) -> str:
         const_converter = MidlConstantConverter(self.io, tab_level=self.tab_level, mapper=self.mapper)
         interface_converter = MidlInterfaceConverter(self.io, tab_level=self.tab_level, mapper=self.mapper)
         imports_converter = MidlImportsConverter(self.io, self.tab_level, mapper=self.mapper)
         comment_writer = MidlCommentWriter(self.io, self.tab_level)
 
         comment_writer.comment_block("Generated from MIDL2Impacket.py")
-        imports_converter.convert(definition.imports)
+        imports_converter.convert(definition.imports, import_dir, self)
         comment_writer.banner_comment("TYPEDEFS")
         for td in definition.typedefs:
             interface_converter.handle_typedef(td)

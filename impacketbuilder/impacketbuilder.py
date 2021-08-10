@@ -15,9 +15,13 @@ class ImpacketBuilder:
         self.__midl_def = definition
         return self
 
+    def import_dir(self, dir:str):
+        self.__import_dir = dir
+        return self
+        
     def build(self):
         assert(self.__midl_def != None)
         io = StringIO()
         tm = TypeMapper(IDL_TYPES)
-        python_code = MidlDefinitionConverter(io, tab_level=0, mapper=tm).convert(self.__midl_def)
+        python_code = MidlDefinitionConverter(io, tab_level=0, mapper=tm).convert(self.__midl_def, self.__import_dir)
         return python_code
