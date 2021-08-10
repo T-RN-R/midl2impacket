@@ -69,7 +69,7 @@ class MidlStructParser(MidlBaseParser):
         elif self.state in [StructState.MEMBER_TYPE_OR_ATTR, StructState.MEMBER_TYPE, StructState.MEMBER_REPEAT]:
             # Embedded
             if token.data == 'struct':
-                struct_type = MidlStructParser(self.tokens).parse(token)
+                struct_type = MidlStructParser(self.tokens, self.tokenizer).parse(token)
                 if not struct_type.public_names:
                     struct_type.public_names.append(f's{self.embedded_struct_count}')
                     self.embedded_struct_count += 1
@@ -78,7 +78,7 @@ class MidlStructParser(MidlBaseParser):
                 self.state = StructState.MEMBER_TYPE_OR_ATTR
             elif token.data == 'union':
                 from .unions import MidlUnionParser
-                union_type = MidlUnionParser(self.tokens).parse(token)
+                union_type = MidlUnionParser(self.tokens, self.tokenizer).parse(token)
                 if not union_type.public_names:
                     union_type.public_names.append(f'u{self.embedded_union_count}')
                     self.embedded_union_count += 1
@@ -116,11 +116,11 @@ class MidlStructParser(MidlBaseParser):
     
     def sqbracket(self, token):
         if self.state == StructState.MEMBER_TYPE_OR_ATTR:
-            self.cur_member_attrs = MidlAttributesParser(self.tokens).parse(token)
+            self.cur_member_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
             self.state = StructState.MEMBER_TYPE
         elif self.state in [StructState.MEMBER_TYPE, StructState.MEMBER_ARRAY]:
             # The member has (possibly additional) array dimensions specified..
-            self.cur_member_array_info.append(MidlArrayParser(self.tokens).parse(token))
+            self.cur_member_array_info.append(MidlArrayParser(self.tokens, self.tokenizer).parse(token))
             self.state = StructState.MEMBER_ARRAY
         else:
             self.invalid(token)
