@@ -10,6 +10,7 @@ from .enums import MidlEnumParser
 from .interface import MidlInterfaceParser
 from .typedefs import MidlTypedefParser
 from .variables import MidlVariableInstantiationParser
+from .util import SkipClosureParser
 from .midltokenizer import MidlTokenizer
 
 class MidlState(enum.Enum):
@@ -20,6 +21,7 @@ class MidlState(enum.Enum):
     IMPORT_COMPLETE = enum.auto()
     DEF_COMPLETE = enum.auto()
     ATTR_DEFINITION = enum.auto()
+    MIDL_PRAGMA = enum.auto()
     DEFINITION = enum.auto()
     OPEN_SQBRACKET = enum.auto()
     CLOSE_SQBRACKET= enum.auto()
@@ -50,6 +52,9 @@ class MidlParser(MidlBaseParser):
             self.definition.typedefs.append(
                 MidlEnumParser(self.tokens, self.tokenizer).parse(token)
             )
+        elif token.data == 'midl_pragma':
+            assert(next(self.tokens).data == 'warning')
+            SkipClosureParser(self.tokens, self.tokenizer, '(', ')').parse(next(self.tokens))
         elif self.state == MidlState.ATTR_DEFINITION:
             if token.data == 'interface':
                 iface = MidlInterfaceParser(self.tokens, self.tokenizer).parse(token)
@@ -116,16 +121,6 @@ class MidlParser(MidlBaseParser):
             return self.finished()
 
     def finished(self) -> MidlDefinition:
-        """Parsing loop that iterates over tokens and invokes their handler function.
-             If an unhandled token does not have a registered handler, an out of bounds access will occur in the tok_handlers dict.
-             Note that this should never happen with a well formed test case (unless something hasn't been considered.)
-
-        Args:
-            data (str): [description]
-
-        Returns:
-            MidlDefinition: [description]
-        """
         if not self.definition:
             raise MidlParserException(f"Failed to parse definition.")
         return self.definition

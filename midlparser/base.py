@@ -1,5 +1,6 @@
 import abc
 import traceback
+from typing import Any
 from .midltokenizer import Token, TokenType
 
 class MidlInvalidTokenException(Exception):
@@ -12,6 +13,7 @@ class MidlBaseParser(abc.ABC):
     def __init__(self, token_generator, end_state, tokenizer):
         self.tokens = token_generator
         self.end_state = end_state
+        self.handle_any = False
         self.handlers = {
             TokenType.KEYWORD: self.keyword,
             TokenType.SQBRACKET: self.sqbracket,
@@ -83,10 +85,28 @@ class MidlBaseParser(abc.ABC):
     def directive(self, token):
         self.invalid(token)
 
-    def parse(self, cur_token:Token):
+    def any(self, token):
+        self.invalid(token)
+
+    def parse(self, cur_token:Token) -> Any:
+        """
+        Base parsing loop that iterates over tokens and invokes their handler function.
+        The default handlers all raise an exception to indicate that they have not been handled appropriately.
+        NOTE: This should never happen with a well formed test case (unless something hasn't been considered.)
+
+        Args:
+            cur_token (str): This is the initial token for the parser type
+        Returns:
+            Any: return type depends on the extending class.
+        """
         while cur_token:
             try:
-                self.handlers[cur_token.type](cur_token)
+                # Handle the current token
+                if self.handle_any:
+                    self.any(cur_token)
+                else:
+                    self.handlers[cur_token.type](cur_token)
+                # Check if we're done
                 if self.state == self.end_state:
                     break
                 cur_token = next(self.tokens, None)
