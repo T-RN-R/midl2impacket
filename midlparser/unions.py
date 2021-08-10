@@ -51,7 +51,7 @@ class MidlUnionParser(MidlBaseParser):
         if self.state == UnionState.BEGIN:
             if token.data != 'union':
                 self.invalid(token)
-            self.state = UnionState.UNION_BODY
+            self.state = UnionState.UNION_NAME
         elif self.state in [UnionState.MEMBER_TYPE, UnionState.MEMBER_TYPE_OR_ATTR]:
             # Embedded
             if token.data == 'struct':
