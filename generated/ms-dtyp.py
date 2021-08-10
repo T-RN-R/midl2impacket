@@ -1,4 +1,6 @@
-"""Generated from MIDL2Impacket.py"""
+"""
+Generated from MIDL2Impacket.py
+"""
 
 
 from __future__ import division
@@ -19,6 +21,12 @@ class CONTEXT_HANDLE(NDRSTRUCT):
     structure = (
         ('Data', '20s=""'),
     )
+
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
 
 WCHAR_T = UNSIGNED SHORT
 ADCONNECTION_HANDLE = VOID

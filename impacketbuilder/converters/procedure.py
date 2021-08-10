@@ -1,4 +1,5 @@
-from . import Converter
+from .base import Converter
+from midl import *
 class MidlProcedureConverter(Converter):
     def convert(self, procedure:MidlProcedure, count):
         input = self.get_input(procedure)

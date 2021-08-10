@@ -1,4 +1,7 @@
-"""Generated from MIDL2Impacket.py"""
+"""
+Generated from MIDL2Impacket.py
+"""
+
 
 from __future__ import division
 from __future__ import print_function
@@ -18,10 +21,19 @@ class CONTEXT_HANDLE(NDRSTRUCT):
     structure = (
         ('Data', '20s=""'),
     )
+
 #################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+#################################################################################
+
 #CONSTANTS
+
 #################################################################################
-MSRPC_UUID_IEVENTSERVICE = uuidtup_to_bin(('uuid(f6beaff7-1e19-4fbb-9f8f-b89e2018337c,)','0.0'))
+
 MAX_PAYLOAD = 2 * 1024 * 1024
 MAX_RPC_QUERY_LENGTH = MAX_PAYLOAD / 4
 MAX_RPC_CHANNEL_NAME_LENGTH = 512
@@ -47,78 +59,26 @@ MAX_RPC_UINT64_ARRAY_COUNT = MAX_PAYLOAD / 4
 MAX_RPC_STRING_ARRAY_COUNT = MAX_PAYLOAD / 512
 MAX_RPC_GUID_ARRAY_COUNT = MAX_PAYLOAD / 16
 MAX_RPC_STRING_LENGTH = MAX_PAYLOAD / 4
+#################################################################################
 
-class CONTEXT_HANDLE_REMOTE_SUBSCRIPTION(NDRSTRUCT):
-    align = 1
-    structure = (
-        ('Data', '20s=""'),
-    )
+#INTERFACE DEFINITION
 
-class PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION(NDRPOINTER):
-    referent = (
-        ('Data', CONTEXT_HANDLE_REMOTE_SUBSCRIPTION),
-    )        
-        
+#################################################################################
 
-class CONTEXT_HANDLE_LOG_QUERY(NDRSTRUCT):
-    align = 1
-    structure = (
-        ('Data', '20s=""'),
-    )
+#################################################################################
 
-class PCONTEXT_HANDLE_LOG_QUERY(NDRPOINTER):
-    referent = (
-        ('Data', CONTEXT_HANDLE_LOG_QUERY),
-    )        
-        
+#IEventService Definition
 
-class CONTEXT_HANDLE_LOG_HANDLE(NDRSTRUCT):
-    align = 1
-    structure = (
-        ('Data', '20s=""'),
-    )
+#################################################################################
 
-class PCONTEXT_HANDLE_LOG_HANDLE(NDRPOINTER):
-    referent = (
-        ('Data', CONTEXT_HANDLE_LOG_HANDLE),
-    )        
-        
+MSRPC_UUID_IEVENTSERVICE = uuidtup_to_bin(('uuid(f6beaff7-1e19-4fbb-9f8f-b89e2018337c,)','0.0'))
 
-class CONTEXT_HANDLE_OPERATION_CONTROL(NDRSTRUCT):
-    align = 1
-    structure = (
-        ('Data', '20s=""'),
-    )
-
-class PCONTEXT_HANDLE_OPERATION_CONTROL(NDRPOINTER):
-    referent = (
-        ('Data', CONTEXT_HANDLE_OPERATION_CONTROL),
-    )        
-        
-
-class CONTEXT_HANDLE_PUBLISHER_METADATA(NDRSTRUCT):
-    align = 1
-    structure = (
-        ('Data', '20s=""'),
-    )
-
-class PCONTEXT_HANDLE_PUBLISHER_METADATA(NDRPOINTER):
-    referent = (
-        ('Data', CONTEXT_HANDLE_PUBLISHER_METADATA),
-    )        
-        
-
-class CONTEXT_HANDLE_EVENT_METADATA_ENUM(NDRSTRUCT):
-    align = 1
-    structure = (
-        ('Data', '20s=""'),
-    )
-
-class PCONTEXT_HANDLE_EVENT_METADATA_ENUM(NDRPOINTER):
-    referent = (
-        ('Data', CONTEXT_HANDLE_EVENT_METADATA_ENUM),
-    )        
-        
+PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION = VOID
+PCONTEXT_HANDLE_LOG_QUERY = VOID
+PCONTEXT_HANDLE_LOG_HANDLE = VOID
+PCONTEXT_HANDLE_OPERATION_CONTROL = VOID
+PCONTEXT_HANDLE_PUBLISHER_METADATA = VOID
+PCONTEXT_HANDLE_EVENT_METADATA_ENUM = VOID
 
 class RPCINFO(NDRSTRUCT):
     structure = (
@@ -136,8 +96,8 @@ class PTR_BOOLEANARRAY(NDRPOINTER):
 
 class BOOLEANARRAY(NDRSTRUCT):
     structure = (
-        ('count', DWORD),
-        ('ptr', PTR_BOOLEANARRAY),
+	('count', DWORD),	('ptr', PTR_BOOLEANARRAY),
+
     )
         
 
@@ -151,8 +111,8 @@ class PTR_UINT32ARRAY(NDRPOINTER):
 
 class UINT32ARRAY(NDRSTRUCT):
     structure = (
-        ('count', DWORD),
-        ('ptr', PTR_UINT32ARRAY),
+	('count', DWORD),	('ptr', PTR_UINT32ARRAY),
+
     )
         
 
@@ -166,8 +126,8 @@ class PTR_UINT64ARRAY(NDRPOINTER):
 
 class UINT64ARRAY(NDRSTRUCT):
     structure = (
-        ('count', DWORD),
-        ('ptr', PTR_UINT64ARRAY),
+	('count', DWORD),	('ptr', PTR_UINT64ARRAY),
+
     )
         
 
@@ -181,8 +141,8 @@ class PTR_STRINGARRAY(NDRPOINTER):
 
 class STRINGARRAY(NDRSTRUCT):
     structure = (
-        ('count', DWORD),
-        ('ptr', PTR_STRINGARRAY),
+	('count', DWORD),	('ptr', PTR_STRINGARRAY),
+
     )
         
 
@@ -196,8 +156,8 @@ class PTR_GUIDARRAY(NDRPOINTER):
 
 class GUIDARRAY(NDRSTRUCT):
     structure = (
-        ('count', DWORD),
-        ('ptr', PTR_GUIDARRAY),
+	('count', DWORD),	('ptr', PTR_GUIDARRAY),
+
     )
         
 
@@ -240,8 +200,8 @@ class PTR_EVTRPCVARIANTLIST(NDRPOINTER):
 
 class EVTRPCVARIANTLIST(NDRSTRUCT):
     structure = (
-        ('count', DWORD),
-        ('props', PTR_EVTRPCVARIANTLIST),
+	('count', DWORD),	('props', PTR_EVTRPCVARIANTLIST),
+
     )
         
 

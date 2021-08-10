@@ -1,10 +1,14 @@
 from .base import Converter
 from .struct import MidlStructConverter
+from .procedure import MidlProcedureConverter
 from midl import *
 
 
 class MidlInterfaceConverter(Converter):
     def convert(self, interface):
+        # write uuid def
+        self.uuid(interface)
+
         for td in interface.typedefs:
             self.handle_typedef(td)
         count = 0
@@ -21,6 +25,11 @@ class MidlInterfaceConverter(Converter):
         opnum_map += "}\n"
         self.write(opnum_map)
 
+    
+    def uuid(self, interface : MidlInterface):
+        int_name = f"MSRPC_UUID_{interface.name.upper()}"
+
+        self.write(f"{int_name} = uuidtup_to_bin(('{interface.attributes['uuid']}','0.0'))\n")
 
     def handle_procedure(self, proc, count):
         MidlProcedureConverter(self.io, self.tab_level).convert(proc, count)

@@ -1,4 +1,4 @@
-from .base import Converter
+from .base import *
 from midl import *
 
 class MidlConstantConverter(Converter):
@@ -22,5 +22,5 @@ class MidlConstantConverter(Converter):
         rb_idx = rhs.index(")")
         type_str = rhs[lb_idx+1:rb_idx].strip()
         if type_str not in MidlConstantConverter.SIZEOF_LOOKUP:
-            raise Exception(f"ImpacketBuilder: Could not get sizeof({type_str})")
+            raise ConversionException(f"Could not get sizeof({type_str})")
         return rhs[:so_idx] + str(MidlConstantConverter.SIZEOF_LOOKUP[type_str]) + rhs[rb_idx+1:]
