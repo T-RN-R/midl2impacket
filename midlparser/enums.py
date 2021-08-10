@@ -15,9 +15,9 @@ class EnumState(enum.Enum):
 
 
 class MidlEnumParser(MidlBaseParser):
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.state = EnumState.BEGIN
-        super().__init__(token_generator=token_generator, end_state=EnumState.END)
+        super().__init__(token_generator=token_generator, end_state=EnumState.END, tokenizer=tokenizer)
         self.private_name = None
         self.comments = []
         self.declared_names = ''

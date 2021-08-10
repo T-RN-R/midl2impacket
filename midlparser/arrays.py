@@ -15,9 +15,9 @@ class MidlArrayParser(MidlBaseParser):
     """Array dimensionality parser
     https://docs.microsoft.com/en-us/windows/win32/midl/midl-arrays
     """
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.state = ArrayState.BEGIN
-        super().__init__(token_generator=token_generator, end_state=ArrayState.END)
+        super().__init__(token_generator=token_generator, end_state=ArrayState.END, tokenizer=tokenizer)
         self.dimensions = [-1, -1] # min, max
         self.cur_dim = ''
 

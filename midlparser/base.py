@@ -31,8 +31,9 @@ class MidlBaseParser(abc.ABC):
             TokenType.DIRECTIVE: self.directive,
         }
         self.tokenizer=tokenizer
+
     def invalid(self, token):
-        raise MidlInvalidTokenException(f"Unexpected token [{token.type}: {token.data}] in state {self.state} \n\tAt input: {self.tokenizer.get_error()}")
+        raise MidlInvalidTokenException(f"\n\nUnexpected token [{token.type}: {token.data}] in state {self.state} \n\t{self.tokenizer.get_error()}")
 
     def keyword(self, token):
         self.invalid(token)
