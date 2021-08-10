@@ -9,9 +9,9 @@ from .comments import MidlCommentWriter
 
 class MidlDefinitionConverter(Converter):
     def convert(self, definition : MidlDefinition) -> str:
-        const_converter = MidlConstantConverter(self.io, tab_level=self.tab_level)
-        interface_converter = MidlInterfaceConverter(self.io, tab_level=self.tab_level)
-        imports_converter = MidlImportsConverter(self.io, self.tab_level)
+        const_converter = MidlConstantConverter(self.io, tab_level=self.tab_level, mapper=self.mapper)
+        interface_converter = MidlInterfaceConverter(self.io, tab_level=self.tab_level, mapper=self.mapper)
+        imports_converter = MidlImportsConverter(self.io, self.tab_level, mapper=self.mapper)
         comment_writer = MidlCommentWriter(self.io, self.tab_level)
 
         comment_writer.comment_block("Generated from MIDL2Impacket.py")

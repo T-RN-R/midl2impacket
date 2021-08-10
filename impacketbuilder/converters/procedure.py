@@ -8,12 +8,12 @@ class MidlProcedureConverter(Converter):
 
         input_str = ""
         for i in input:
-            input_str += f"\t\t('{i.name}', {i.type.replace('*','').upper()}),\n"
+            input_str += f"\t\t('{self.mapper.canonicalize(i.name)}', {self.mapper.canonicalize(i.type)}),\n"
         input_str = input_str[:-1]
 
         output_str = ""
         for i in output:
-            output_str += f"\t\t('{i.name}', {i.type.replace('*','').upper()}),\n"
+            output_str += f"\t\t('{self.mapper.canonicalize(i.name)}', {self.mapper.canonicalize(i.type)}),\n"
         output_str = output_str[:-1]
         proc_str = f"""
 class {procedure.name}(NDRCALL):

@@ -32,7 +32,7 @@ class MidlInterfaceConverter(Converter):
         self.write(f"{int_name} = uuidtup_to_bin(('{interface.attributes['uuid']}','0.0'))\n")
 
     def handle_procedure(self, proc, count):
-        MidlProcedureConverter(self.io, self.tab_level).convert(proc, count)
+        MidlProcedureConverter(self.io, self.tab_level, mapper=self.mapper).convert(proc, count)
 
     def handle_typedef(self, td):
         if type(td) is MidlTypeDef:
@@ -55,7 +55,7 @@ class MidlInterfaceConverter(Converter):
             else:
                 print(":asdDadssd")
         elif type(td) is MidlSimpleTypedef:
-            self.write(f"{td.name.replace('*','').upper()} = {td.type.replace('*','').upper()}")
+            self.write(f"{self.mapper.canonicalize(td.name)} = {self.mapper.canonicalize(td.type)}")
 
 
     def handle_context_handle(self, td):
@@ -78,7 +78,7 @@ class {pointer_name}(NDRPOINTER):
         self.write(class_def)
 
     def handle_midl_struct(self, td:MidlStructDef):
-        struct_converter = MidlStructConverter(self.io,self.tab_level)
+        struct_converter = MidlStructConverter(self.io,self.tab_level, mapper=self.mapper)
         struct_converter.convert(td)
 
     def handle_midl_enum(self, td:MidlEnumDef):
@@ -88,7 +88,7 @@ class {pointer_name}(NDRPOINTER):
         vars = vars[:-2] #eliminate the final comma and newline
 
         class_def = f"""
-class {td.public_names[0].upper()}:
+class {self.mapper.canonicalize(td.public_names[0])}:
 {vars}
         """
         self.write(class_def)

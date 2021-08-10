@@ -1,4 +1,5 @@
 from io import StringIO
+from .typing import IDLTypeToPythonType
 
 class ConversionException(Exception):
     pass
@@ -6,14 +7,13 @@ class ConversionException(Exception):
 class UnreachableException(Exception):
     pass
 
-
 class Writer:
     NEWLINE = "\n"
     TAB = "\t"
     def __init__(self, strIO = StringIO(), tab_level=0):
         self.tab_level = tab_level
         self.io = strIO or StringIO()
-    
+
     def single_line_write(self, line):
         assert("\n" not in line), "Must use only a single line"
         l = "{0}{1}{2}".format( '\t' * self.tab_level, line, Converter.NEWLINE)
@@ -24,5 +24,11 @@ class Writer:
             self.single_line_write(line)
 
 class Converter(Writer):
+    def __init__(self, strIO = StringIO(), tab_level=0, mapper:IDLTypeToPythonType = None):
+        self.tab_level = tab_level
+        self.io = strIO or StringIO()
+        assert(mapper is not None), "Must pass a mapper!"
+        self.mapper = mapper
+
     def convert(self):
         raise UnreachableException(f"Class {__class__} must implement `convert()`")

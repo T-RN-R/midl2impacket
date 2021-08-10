@@ -13,7 +13,7 @@ class MidlConstantConverter(Converter):
         rhs = constant.rhs
         while "sizeof" in rhs: # eliminate all sizeofs!
             rhs = self.calculate_sizeof(rhs)
-        const = f"{constant.name.upper()} = {rhs}"
+        const = f"{self.mapper.canonicalize(constant.name)} = {rhs}"
         self.write(const)
 
     def calculate_sizeof(self,rhs):
