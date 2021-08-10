@@ -28,10 +28,22 @@ class MidlTypedefParser(MidlBaseParser):
         self.additional_names = []
         self.tds = []
         self.kw_handlers = {
-            'struct': MidlStructParser,
-            'enum': MidlEnumParser,
-            'union': MidlUnionParser
+            'struct': self.parse_struct,
+            'enum': self.parse_enum,
+            'union': self.parse_union
         }
+
+    def parse_struct(self, token):
+        struct_types = MidlStructParser(self.tokens).parse(token)
+        self.tds.extend(struct_types)
+    
+    def parse_union(self, token):
+        struct_types = MidlUnionParser(self.tokens).parse(token)
+        self.tds.extend(struct_types)
+
+    def parse_enum(self, token):
+        struct_type = MidlEnumParser(self.tokens).parse(token)
+        self.tds.append(struct_type)
 
     def keyword(self, token):
         """Handles the various kinds of typedefs
@@ -42,7 +54,7 @@ class MidlTypedefParser(MidlBaseParser):
         elif self.state in [TypedefState.TYPE_OR_ATTRS, TypedefState.TYPE]:
             if token.data in self.kw_handlers:
                 self.state = TypedefState.DEFINITION
-                self.tds.append(self.kw_handlers[token.data](self.tokens).parse(token))
+                self.kw_handlers[token.data](token)
                 self.state = TypedefState.END
             else:
                 return self.symbol(token)
