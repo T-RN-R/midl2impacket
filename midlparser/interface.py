@@ -1,7 +1,6 @@
 import enum
 
 from midl import MidlInterface
-from .attributes import MidlAttributesParser
 from .base import MidlBaseParser, MidlParserException
 from .procedures import MidlProcedureParser
 from .typedefs import MidlTypedefParser
@@ -9,8 +8,7 @@ from .typedefs import MidlTypedefParser
 class InterfaceState(enum.Enum):
     """Class used to handle state transitions for MidlInterfaceParser
     """
-    ATTRIBUTES = enum.auto()
-    TYPE = enum.auto()
+    BEGIN = enum.auto()
     NAME = enum.auto()
     INHERIT = enum.auto()
     INHERIT_NAME = enum.auto()
@@ -26,22 +24,18 @@ class MidlInterfaceParser(MidlBaseParser):
 
         Mostly, this class delegates to other classes to handle parsing
     """
-
     def __init__(self, token_generator):
         self.tokens = token_generator
         super().__init__(token_generator=token_generator, end_state=InterfaceState.END)
         self.interface = MidlInterface()
-        self.state = InterfaceState.ATTRIBUTES
+        self.state = InterfaceState.BEGIN
         self.brace_level = 0
 
     def sqbracket(self, token):
-        """ Handle attributes (interface or procedure)
+        """ Handle attributes for procedures
         """
         if token.data == "[":
-            if self.state == InterfaceState.ATTRIBUTES:
-                self.interface.attributes = MidlAttributesParser(self.tokens).parse(token)
-                self.state = InterfaceState.TYPE
-            elif self.state == InterfaceState.DEFINITION:
+            if self.state == InterfaceState.DEFINITION:
                 # Procedure declaration attributes
                 proc = MidlProcedureParser(self.tokens).parse(token)
                 if proc:
@@ -66,7 +60,7 @@ class MidlInterfaceParser(MidlBaseParser):
     def keyword(self,token):
         """Parses keywords [uuid, version, pointer_default,interface, error_status_t, typedef, cpp_quote]
         """
-        if token.data == "interface" and self.state == InterfaceState.TYPE:
+        if token.data == "interface" and self.state == InterfaceState.BEGIN:
             self.state = InterfaceState.NAME
         elif token.data == "typedef" and self.state == InterfaceState.DEFINITION:
             # spin up a TypeDef parser to parse out typedefs

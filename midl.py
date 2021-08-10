@@ -47,6 +47,8 @@ class MidlDefinition:
         self.comments = []
         self.instantiation = []  # Variable instantiation
         self.interfaces = []  # Interface defintions. Usually only 1 per file...
+        self.dispinterfaces = []  # Interface defintions. Usually only 1 per file...
+        self.coclasses = []
         self.typedefs = []
         self.defines = []
         self.cpp_quotes = []
@@ -70,6 +72,10 @@ class MidlDefinition:
         for i in self.instantiation:
             out += str(i) + "\n"
         for i in self.interfaces:
+            out += str(i) + "\n"
+        for i in self.dispinterfaces:
+            out += str(i) + "\n"
+        for i in self.coclasses:
             out += str(i) + "\n"
         return out
 
@@ -120,7 +126,7 @@ class MidlInterface:
     """
 
     def __init__(self):
-        self.attributes = []
+        self.attributes = {}
         self.name = None
         self.typedefs = []
         self.procedures = []
@@ -139,9 +145,13 @@ class MidlInterface:
         self.comments.append(c)
 
     def __str__(self):
+        if "version" in self.attributes:
+            version = self.attributes["version"].params[0]
+        else:
+            version = '-1'
         out = ""
         out += "UUID: " + self.attributes["uuid"].params[0] + ";\n"
-        out += "Version: " + self.attributes["version"].params[0] + ";\n"
+        out += "Version: " + version + ";\n"
         out += "interface " + self.name + "{\n"
         for td in self.typedefs:
             out += str(td)
@@ -149,6 +159,34 @@ class MidlInterface:
             out += str(p)
         return out
 
+class MidlDispInterface:
+    def __init__(self, name=None, interface=None, properties=None, methods=None):
+        self.name = name
+        self.interface = interface
+        self.properties = properties or []
+        self.methods = methods or []
+        self.comments = []
+
+    def __str__(self):
+        out = f"dispinterface {self.name}\n"
+        out += f"interface: {self.interface}"
+        out += "properties\n"
+        out += '\n\t'.join(self.properties)
+        out += "methods\n"
+        out += '\n\t'.join(self.methods)
+        return out
+
+class MidlCoclass:
+    def __init__(self, name, interfaces):
+        self.name = name
+        self.interfaces = interfaces
+        self.attributes = {}
+
+    def __str__(self):
+        out = f'coclass {self.name}\n'
+        out += 'interfaces:\n\t'
+        out += '\n\t'.join(self.interfaces)
+        return out
 
 class MidlAttribute:
     """MIDL Attribute definition
@@ -186,7 +224,7 @@ class MidlVarDef:
     ):
         self.type = var_type
         self.name = name
-        self.attrs = attrs or []
+        self.attrs = attrs or {}
         self.array_info = array_info or []
 
     def __str__(self):

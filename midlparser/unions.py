@@ -1,7 +1,8 @@
 
 import enum
+from typing import Union
 
-from midl import MidlUnionDef, MidlVarDef
+from midl import MidlSimpleTypedef, MidlUnionDef, MidlVarDef
 from .attributes import MidlAttributesParser
 from .arrays import MidlArrayParser
 from .base import MidlBaseParser, MidlParserException
@@ -45,6 +46,7 @@ class MidlUnionParser(MidlBaseParser):
         self.cur_member_parts = []
         self.cur_member_attrs = []
         self.cur_member_array_info = []
+        self.simple_td = False
 
     def keyword(self, token):
         if self.state == UnionState.BEGIN:
@@ -55,7 +57,7 @@ class MidlUnionParser(MidlBaseParser):
             # Embedded
             if token.data == 'struct':
                 from .structs import MidlStructParser
-                struct_type = MidlStructParser(self.tokens).parse(token)
+                struct_type = MidlStructParser(self.tokens).parse(token)[0]
                 if not len(struct_type.public_names):
                     struct_type.public_names.append(f's{self.embedded_struct_count}')
                     self.embedded_struct_count += 1
@@ -63,7 +65,7 @@ class MidlUnionParser(MidlBaseParser):
                 self.members.append(var_def)
                 self.state = UnionState.MEMBER_TYPE_OR_ATTR
             elif token.data == 'union':
-                union_type = MidlUnionParser(self.tokens).parse(token)
+                union_type = MidlUnionParser(self.tokens).parse(token)[0]
                 if not len(union_type.public_names):
                     union_type.public_names.append(f'u{self.embedded_union_count}')
                     self.embedded_union_count += 1
@@ -135,11 +137,20 @@ class MidlUnionParser(MidlBaseParser):
     def comment(self, token):
         self.comments.append(token)
 
-    def finished(self) -> MidlUnionDef:
-        if not len(self.members):
-            raise MidlParserException("No members parsed in structure!")
-        public_names = []
-        if self.declared_names:
+    def finished(self) -> Union[list[MidlUnionDef], list[MidlSimpleTypedef]]:
+        return_types = []
+        if self.simple_td:
+            if not self.declared_names and self.private_name:
+                raise MidlParserException(f"Simple typedef without a name is illegal.")
             public_names = self.declared_names.split(',')
-        return MidlUnionDef(public_names, self.private_name, self.members)
+            for public_name in public_names:
+                return_types.append(MidlSimpleTypedef(public_name, self.private_name))
+        else:
+            if not len(self.members):
+                raise MidlParserException("No members parsed in union!")
+            public_names = []
+            if self.declared_names:
+                public_names = self.declared_names.split(',')
+            return_types.append(MidlUnionDef(public_names, self.private_name, self.members))
+        return return_types
     

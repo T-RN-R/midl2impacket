@@ -1,6 +1,7 @@
 import enum
+from typing import Union
 
-from midl import MidlStructDef, MidlVarDef
+from midl import MidlSimpleTypedef, MidlStructDef, MidlVarDef
 from .attributes import MidlAttributesParser
 from .arrays import MidlArrayParser
 from .base import MidlBaseParser, MidlParserException
@@ -35,7 +36,7 @@ class MidlStructParser(MidlBaseParser):
         self.declared_names = ''
         self.embedded_struct_count = 0
         self.embedded_union_count = 0
-        
+        self.simple_td = False
 
     def add_current_member(self):
         """Add the currently tracked member to the structure
@@ -68,7 +69,7 @@ class MidlStructParser(MidlBaseParser):
         elif self.state in [StructState.MEMBER_TYPE_OR_ATTR, StructState.MEMBER_TYPE, StructState.MEMBER_REPEAT]:
             # Embedded
             if token.data == 'struct':
-                struct_type = MidlStructParser(self.tokens).parse(token)
+                struct_type = MidlStructParser(self.tokens).parse(token)[0]
                 if not struct_type.public_names:
                     struct_type.public_names.append(f's{self.embedded_struct_count}')
                     self.embedded_struct_count += 1
@@ -77,7 +78,7 @@ class MidlStructParser(MidlBaseParser):
                 self.state = StructState.MEMBER_TYPE_OR_ATTR
             elif token.data == 'union':
                 from .unions import MidlUnionParser
-                union_type = MidlUnionParser(self.tokens).parse(token)
+                union_type = MidlUnionParser(self.tokens).parse(token)[0]
                 if not union_type.public_names:
                     union_type.public_names.append(f'u{self.embedded_union_count}')
                     self.embedded_union_count += 1
@@ -100,6 +101,11 @@ class MidlStructParser(MidlBaseParser):
                 self.state = StructState.MEMBER_TYPE
         elif self.state == StructState.STRUCT_END:
             self.declared_names += token.data
+        elif self.state == StructState.STRUCT_BODY:
+            # This is a simple typedef e.g. typedef struct tagCONNECTDATA CONNECTDATA;
+            self.simple_td = True
+            self.declared_names += token.data
+            self.state = StructState.STRUCT_END
         else:
             self.invalid(token)
 
@@ -114,6 +120,10 @@ class MidlStructParser(MidlBaseParser):
             self.invalid(token)
     
     def sqbracket(self, token):
+        # Both the attributes parser and the array parser consume the ']'
+        if token == ']':
+            self.invalid(token)
+
         if self.state == StructState.MEMBER_TYPE_OR_ATTR:
             self.cur_member_attrs = MidlAttributesParser(self.tokens).parse(token)
             self.state = StructState.MEMBER_TYPE
@@ -145,23 +155,39 @@ class MidlStructParser(MidlBaseParser):
             self.invalid(token)
 
     def operator(self, token):
-        if token.data == "*" and self.state in [StructState.MEMBER_TYPE, StructState.STRUCT_END]:
-            if self.state == StructState.MEMBER_TYPE:
-                # Encountered a pointer, append it to the current type
-                self.cur_member_parts[-1] += "*"
-            elif self.state == StructState.STRUCT_END:
+        if token.data == "*":
+            if self.state in [StructState.MEMBER_TYPE, StructState.STRUCT_END]:
+                if self.state == StructState.MEMBER_TYPE:
+                    # Encountered a pointer, append it to the current type
+                    self.cur_member_parts[-1] += "*"
+                elif self.state == StructState.STRUCT_END:
+                    self.declared_names += '*'
+            elif self.state == StructState.STRUCT_BODY:
+                # This is a simple typedef e.g.  typedef struct tagCONNECTDATA * PCONNECTDATA;
+                self.simple_td = True
                 self.declared_names += '*'
+                self.state = StructState.STRUCT_END
+                
         else:
             self.invalid(token)
 
     def comment(self, token):
         self.comments.append(token)
 
-    def finished(self) -> MidlStructDef:
-        if not len(self.members):
-            raise MidlParserException("No members parsed in structure!")
-        public_names = []
-        if self.declared_names:
+    def finished(self) -> Union[list[MidlStructDef], list[MidlSimpleTypedef]]:
+        return_types = []
+        if self.simple_td:
+            if not self.declared_names and self.private_name:
+                raise MidlParserException(f"Simple typedef without a name is illegal.")
             public_names = self.declared_names.split(',')
-        return MidlStructDef(public_names, self.private_name, self.members)
+            for public_name in public_names:
+                return_types.append(MidlSimpleTypedef(public_name, self.private_name))
+        else:
+            if not len(self.members):
+                raise MidlParserException("No members parsed in structure!")
+            public_names = []
+            if self.declared_names:
+                public_names = self.declared_names.split(',')
+            return_types.append(MidlStructDef(public_names, self.private_name, self.members))
+        return return_types
 

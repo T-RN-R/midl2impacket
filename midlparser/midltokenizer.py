@@ -1,6 +1,7 @@
 from .midlreserved import MIDL_OPERATORS
 import enum
 import string
+import uuid
 from .midlreserved import *
 
 
@@ -95,6 +96,12 @@ class MidlTokenizer:
                 if cur_char == "/" and self.midl[self.ptr + 1] in ["/", "*"]:
                     comment = self.get_comment()
                     to_yield = Token(comment, TokenType.COMMENT)
+                elif cur_char == '-' and self.midl[self.ptr + 1] in string.digits:
+                    s, is_guid = self.get_numeric()
+                    if is_guid:
+                        to_yield = Token(s, TokenType.GUID)
+                    else:
+                        to_yield = Token(s, TokenType.NUMERIC)
                 else:
                     to_yield = Token(cur_char, TokenType.OPERATOR)
             elif cur_char == ";":
@@ -109,11 +116,9 @@ class MidlTokenizer:
                 else:
                     to_yield = Token(s, TokenType.SYMBOL)
             elif cur_char in string.digits:
-                s = self.get_numeric()
-                if "-" in s:  # TODO Will break with negative numbers
+                s, is_guid = self.get_numeric()
+                if is_guid:
                     to_yield = Token(s, TokenType.GUID)
-                elif s in Token.keywords:
-                    to_yield = Token(s, TokenType.KEYWORD)
                 else:
                     to_yield = Token(s, TokenType.NUMERIC)
             else:
@@ -133,34 +138,92 @@ class MidlTokenizer:
         Returns:
             str: The numeric
         """
+        start_ptr = self.ptr
+        is_hex = False
+        is_octal = False
+        has_decimal = False
+        is_bin = False
         cur_char = self.midl[self.ptr]
-        s = ""
-        while not MidlTokenizer.iswspace(cur_char):
-            if cur_char in Token.operators:
-                # We have hit a mathematical operation, end the current tokenization step. Take a step back and return
-                self.ptr -= 1
-                return s
-            if cur_char == ";":
-                # We have hit the end of the current MIDL statement. Take a step back and return
-                self.ptr -= 1
-                return s
-            if cur_char not in string.digits and cur_char != ".":
-                # Handle the GUID case
-                guid_chars = "abcdef-"
-                while True:
-                    if cur_char not in string.digits and cur_char not in guid_chars:
-                        break
-                    s += cur_char
-                    self.ptr += 1
-                    cur_char = self.midl[self.ptr]
-                # We have hit a non numeric digit, non-decimal point, or non guid. Take a step back and return
-                self.ptr -= 1
-                return s
-            # Continue reading the numeric
-            s += cur_char
+        int_suffixes = 0
+        numeric_str = ""
+
+        # Check for guids first. Otherwise they could get confused with octal numbers e.g.
+        # 01234567-8711-<rest of guid> might look like octal subtraction
+        numeric_str = ""
+        c = self.midl[self.ptr]
+        while c.lower() in string.hexdigits + '-':
+            numeric_str += c
+            self.ptr += 1
+            c = self.midl[self.ptr]
+        try:
+            uuid.UUID(numeric_str)
+            # Rewind 1 to the end of the GUID
+            self.ptr -= 1
+            return numeric_str, True
+        except ValueError:
+            # Not a guid
+            pass
+
+        self.ptr = start_ptr
+        numeric_str = ""
+
+        # Check for a negative number
+        if cur_char == '-':
+            numeric_str += cur_char
             self.ptr += 1
             cur_char = self.midl[self.ptr]
-        return s
+        
+        # Check for hex and octal
+        if cur_char == '0':
+            next_char = self.midl[self.ptr+1].lower()
+            if next_char == 'x':
+                numeric_str += self.midl[self.ptr:self.ptr+2]
+                self.ptr += 2
+                cur_char = self.midl[self.ptr]
+                is_hex = True
+            elif next_char == 'b':
+                is_bin = True
+            elif next_char in string.digits:
+                is_octal = True
+            
+        while not MidlTokenizer.iswspace(cur_char):
+            if cur_char in Token.operators:
+                if cur_char == '.':
+                    if not has_decimal and not is_hex and not is_octal and int_suffixes == 0:
+                        has_decimal = True
+                        numeric_str += cur_char
+                    else:
+                        raise Exception(f"Invalid extra decimal in number")
+                else:
+                    # We have hit an operation, end the current tokenization step. Take a step back and return
+                    self.ptr -= 1
+                    break
+            elif cur_char in [";", "]", "}", ")", ","]:
+                # We have hit the end of the current MIDL statement. Take a step back and return
+                self.ptr -= 1
+                break
+            
+            if int_suffixes >= 2:
+                raise Exception(f"Invalid character {cur_char} for numeric {numeric_str}")
+
+            # Other stuff like suffixes and guids
+            if cur_char not in string.digits:
+                if cur_char.lower() in ['u', 'l']:
+                    int_suffixes += 1
+                elif not is_hex or (is_hex and cur_char not in string.hexdigits):
+                    # End of the number!
+                    break
+            else:
+                if is_bin and cur_char not in ['0', '1']:
+                    print(self.midl)
+                    raise Exception(f"Invalid character {cur_char} for binary numeric: {numeric_str}")
+            
+            # Continue reading the numeric
+            numeric_str += cur_char
+            self.ptr += 1
+            cur_char = self.midl[self.ptr]
+
+        return numeric_str, False
 
     def get_string(self):
         """Gets a string
@@ -229,7 +292,7 @@ class MidlTokenizer:
             str: Found keyword or symbol
         """
         cur_char = self.midl[self.ptr]
-        illegal_chars = ["[", "{", "(", ")", "}", "]", ";", ","]
+        illegal_chars = ["[", "{", "(", ")", "}", "]", ";", ",", ":"]
         s = ""
         while not MidlTokenizer.iswspace(cur_char):
             if cur_char in illegal_chars:
