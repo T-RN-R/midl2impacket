@@ -123,6 +123,11 @@ class MidlUnionParser(MidlBaseParser):
         elif self.state == UnionState.MEMBER_TYPE_OR_ATTR:
             if 'default' not in self.cur_member_attrs and 'case' not in self.cur_member_attrs:
                 self.invalid()
+            # Add an empty parameter with the case/default attribute
+            member_def = MidlVarDef(None, None, self.cur_member_attrs, None)
+            self.members.append(member_def)
+            self.prev_member = member_def
+            self.cur_member_attrs = {}
         else:
             self.invalid(token)
 
