@@ -18,9 +18,9 @@ class TypedefState(enum.Enum):
 class MidlTypedefParser(MidlBaseParser):
     """Parses the various kinds of typedefs (structs, enums, inline, and unions)"""
 
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.state = TypedefState.BEGIN
-        super().__init__(token_generator=token_generator, end_state=TypedefState.END)
+        super().__init__(token_generator=token_generator, end_state=TypedefState.END, tokenizer=tokenizer)
         self.attrs = []
         self.td_parts = []
         self.comments = []
@@ -42,7 +42,7 @@ class MidlTypedefParser(MidlBaseParser):
         elif self.state in [TypedefState.TYPE_OR_ATTRS, TypedefState.TYPE]:
             if token.data in self.kw_handlers:
                 self.state = TypedefState.DEFINITION
-                self.tds.append(self.kw_handlers[token.data](self.tokens).parse(token))
+                self.tds.append(self.kw_handlers[token.data](self.tokens,self.tokenizer).parse(token))
                 self.state = TypedefState.END
             else:
                 return self.symbol(token)
@@ -86,7 +86,7 @@ class MidlTypedefParser(MidlBaseParser):
         """ Handles typedef attributes e.g. [v1_enum]
         """
         if self.state == TypedefState.TYPE_OR_ATTRS:
-            self.attrs = MidlAttributesParser(self.tokens).parse(token)
+            self.attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
             self.state = TypedefState.TYPE
         else:
             self.invalid(token)

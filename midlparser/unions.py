@@ -19,9 +19,9 @@ class UnionState(enum.Enum):
 class MidlUnionParser(MidlBaseParser):
     """class that parses a union
     """
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.state = UnionState.BEGIN
-        super().__init__(token_generator=token_generator, end_state=UnionState.END)
+        super().__init__(token_generator=token_generator, end_state=UnionState.END, tokenizer=tokenizer)
         self.cur_member_attrs = []
         # This is a list because the type and name can be several tokens e.g. 'unsigned long long varname'
         self.cur_member_parts = [] 

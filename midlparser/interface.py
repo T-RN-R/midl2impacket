@@ -27,9 +27,9 @@ class MidlInterfaceParser(MidlBaseParser):
         Mostly, this class delegates to other classes to handle parsing
     """
 
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.tokens = token_generator
-        super().__init__(token_generator=token_generator, end_state=InterfaceState.END)
+        super().__init__(token_generator=token_generator, end_state=InterfaceState.END, tokenizer=tokenizer)
         self.interface = MidlInterface()
         self.state = InterfaceState.ATTRIBUTES
         self.brace_level = 0
@@ -39,11 +39,11 @@ class MidlInterfaceParser(MidlBaseParser):
         """
         if token.data == "[":
             if self.state == InterfaceState.ATTRIBUTES:
-                self.interface.attributes = MidlAttributesParser(self.tokens).parse(token)
+                self.interface.attributes = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
                 self.state = InterfaceState.TYPE
             elif self.state == InterfaceState.DEFINITION:
                 # Procedure declaration attributes
-                proc = MidlProcedureParser(self.tokens).parse(token)
+                proc = MidlProcedureParser(self.tokens, self.tokenizer).parse(token)
                 if proc:
                     self.interface.add_procedure(proc)
             else:
@@ -110,7 +110,7 @@ class MidlInterfaceParser(MidlBaseParser):
             self.state = InterfaceState.BODY
         elif self.state == InterfaceState.DEFINITION:
             # Procedure declaration return type
-            proc = MidlProcedureParser(self.tokens).parse(token)
+            proc = MidlProcedureParser(self.tokens, self.tokenizer).parse(token)
             if proc:
                 self.interface.add_procedure(proc)
         else:

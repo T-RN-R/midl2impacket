@@ -1,4 +1,5 @@
 import enum
+from struct import Struct
 
 from midl import MidlStructDef, MidlVarDef
 from .attributes import MidlAttributesParser
@@ -21,9 +22,9 @@ class MidlStructParser(MidlBaseParser):
     """class that parses a struct
     """
 
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.state = StructState.BEGIN
-        super().__init__(token_generator=token_generator, end_state=StructState.END)
+        super().__init__(token_generator=token_generator, end_state=StructState.END, tokenizer=tokenizer)
         self.prev_member = None
         self.cur_member_attrs = []
         # This is a list because the type and name can be several symbols e.g. 'unsigned long long varname'
@@ -145,12 +146,15 @@ class MidlStructParser(MidlBaseParser):
             self.invalid(token)
 
     def operator(self, token):
-        if token.data == "*" and self.state in [StructState.MEMBER_TYPE, StructState.STRUCT_END]:
+        if token.data == "*" and self.state in [StructState.MEMBER_TYPE, StructState.STRUCT_END, StructState.STRUCT_BODY]:
             if self.state == StructState.MEMBER_TYPE:
                 # Encountered a pointer, append it to the current type
                 self.cur_member_parts[-1] += "*"
             elif self.state == StructState.STRUCT_END:
                 self.declared_names += '*'
+            elif self.state == StructState.STRUCT_BODY:
+                self.declared_names += '*'
+                self.state=StructState.STRUCT_END
         else:
             self.invalid(token)
 
@@ -158,8 +162,8 @@ class MidlStructParser(MidlBaseParser):
         self.comments.append(token)
 
     def finished(self) -> MidlStructDef:
-        if not len(self.members):
-            raise MidlParserException("No members parsed in structure!")
+        #if not len(self.members):
+        #    raise MidlParserException("No members parsed in structure!")
         public_names = []
         if self.declared_names:
             public_names = self.declared_names.split(',')

@@ -13,9 +13,9 @@ class VariableInstantiationState(enum.Enum):
 
 class MidlVariableInstantiationParser(MidlBaseParser):
 
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.state = VariableInstantiationState.TYPE
-        super().__init__(token_generator=token_generator, end_state=VariableInstantiationState.END)
+        super().__init__(token_generator=token_generator, end_state=VariableInstantiationState.END, tokenizer=tokenizer)
         self.rbracket_level = 0
         self.brace_level = 0
         self.type_parts = []
