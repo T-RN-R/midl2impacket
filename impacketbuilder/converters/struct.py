@@ -1,4 +1,4 @@
-from .base import Converter
+from .base import ConversionException, Converter
 from midl import *
 
 class MidlStructConverter(Converter):
@@ -57,14 +57,17 @@ class %s(NDRUNION):
         #Now handle the cases where there are multiple public names, including pointers
         if len(struct.public_names) > 1:
             for pn in struct.public_names[1:]:
-                if "*" in pn:
+                star_count = pn.count("*")
+                if star_count == 1:
                     union_def += f"""class {self.mapper.canonicalize(pn)}(NDRPOINTER):
     referent = (
         ('Data', {base_name}),
     )    
 """
-                else:
+                elif star_count == 0:
                     union_def += f"{pn} = {base_name}\n"
+                else:
+                    raise ConversionException("Multiple asterisks encountered in name: {pn}")
 
 
 
@@ -93,14 +96,18 @@ class {base_name}(NDRSTRUCT):
         #Now handle the cases where there are multiple public names, including pointers
         if len(struct.public_names) > 1:
             for pn in struct.public_names[1:]:
-                if "*" in pn:
+                star_count = pn.count("*")
+                if star_count == 1:
                     class_def += f"""class {self.mapper.canonicalize(pn)}(NDRPOINTER):
     referent = (
         ('Data', {base_name}),
     )    
 """
-                else:
+                elif star_count == 0:
                     class_def += f"{pn} = {base_name}\n"
+                else:
+                    raise ConversionException("Multiple asterisks encountered in name: {pn}")
+
 
         self.write(class_def)
         return {struct.public_names[0]}
