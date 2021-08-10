@@ -41,6 +41,49 @@ VOID = CONTEXT_HANDLE
 __INT3264 = NDRLONG
 UNSIGNED___INT3264 = NDRULONG
 
+"""
+Generated from MIDL2Impacket.py
+"""
+
+
+from __future__ import division
+from __future__ import print_function
+from impacket.dcerpc.v5.ndr import *
+from impacket.dcerpc.v5.dtypes import *
+from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
+from impacket.structure import Structure
+from impacket import nt_errors
+from impacket.uuid import uuidtup_to_bin
+from impacket.dcerpc.v5.rpcrt import DCERPCException
+
+DWORD64 = NDRUHYPER
+__INT64 = NDRHYPER
+class CONTEXT_HANDLE(NDRSTRUCT):
+    align = 1
+    structure = (
+        ('Data', '20s=""'),
+    )
+HANDLE_T = CONTEXT_HANDLE
+
+UNSIGNED_SHORT = NDRUSHORT
+UNSIGNED_CHAR = NDRCHAR
+UNSIGNED_LONG = NDRULONG
+UNSIGNED_INT = NDRULONG
+UNSIGNED___INT64 = NDRUHYPER
+SIGNED___INT64 = NDRHYPER
+SIGNED_INT = NDRSHORT
+SIGNED_LONG = NDRLONG
+SIGNED_CHAR = NDRCHAR
+SIGNED_SHORT = NDRSHORT
+CONST_WCHAR_T = WSTR
+CONST_CHAR = NDRCHAR
+CONST_INT = NDRLONG
+CONST_VOID = CONTEXT_HANDLE
+CONST_LONG = NDRLONG
+VOID = CONTEXT_HANDLE
+__INT3264 = NDRLONG
+UNSIGNED___INT3264 = NDRULONG
+
 #################################################################################
 
 #TYPEDEFS
@@ -411,4 +454,172 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
     referent = (
         ('Data', SECURITY_DESCRIPTOR),
     )    
+
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+
+class RPC_VERSION(NDRSTRUCT):
+    structure = (
+        ('MajorVersion', UNSIGNED_SHORT),('MinorVersion', UNSIGNED_SHORT),
+    )
+
+
+class RPC_SYNTAX_IDENTIFIER(NDRSTRUCT):
+    structure = (
+        ('SyntaxGUID', GUID),('SyntaxVersion', RPC_VERSION),
+    )
+
+STRING_T = WCHAR_T
+NSI_STRING_BINDING_T = WCHAR_T
+NSI_NS_HANDLE_T = VOID
+NSI_UUID_P_T = GUID
+
+class NSI_BINDING_T(NDRSTRUCT):
+    structure = (
+        ('string', NSI_STRING_BINDING_T),('entry_name_syntax', UNSIGNED_LONG),('entry_name', STRING_T),
+    )
+
+
+class NSI_BINDING_VECTOR_T(NDRSTRUCT):
+    structure = (
+        ('count', UNSIGNED_LONG),('binding', NSI_BINDING_T),
+    )
+
+NSI_BINDING_VECTOR_P_T = NSI_BINDING_VECTOR_T
+
+class NSI_UUID_VECTOR_T(NDRSTRUCT):
+    structure = (
+        ('count', UNSIGNED_LONG),('uuid', NSI_UUID_P_T),
+    )
+
+NSI_UUID_VECTOR_P_T = NSI_UUID_VECTOR_T
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#LocToLoc Definition
+
+#################################################################################
+
+MSRPC_UUID_LOCTOLOC = uuidtup_to_bin(('e33c0cc4-0482-101a-bc0c-02608c6ba218','0.0'))
+
+
+class I_nsi_lookup_begin(NDRCALL):
+    opnum = 0
+    structure = (
+		('HRPCPRIMARYLOCATORHNDL', HANDLE_T),
+		('ENTRY_NAME_SYNTAX', UNSIGNED_LONG),
+		('ENTRY_NAME', STRING_T),
+		('INTERFACEID', RPC_SYNTAX_IDENTIFIER),
+		('XFERSYNTAX', RPC_SYNTAX_IDENTIFIER),
+		('OBJ_UUID', NSI_UUID_P_T),
+		('BINDING_MAX_COUNT', UNSIGNED_LONG),
+		('MAXCACHEAGE', UNSIGNED_LONG),
+    )
+
+class I_nsi_lookup_beginResponse(NDRCALL):
+    structure = (
+		('IMPORT_CONTEXT', NSI_NS_HANDLE_T),
+		('STATUS', UNSIGNED_SHORT),
+    )
+        
+
+class I_nsi_lookup_done(NDRCALL):
+    opnum = 1
+    structure = (
+		('HRPCPRIMARYLOCATORHNDL', HANDLE_T),
+		('IMPORT_CONTEXT', NSI_NS_HANDLE_T),
+    )
+
+class I_nsi_lookup_doneResponse(NDRCALL):
+    structure = (
+		('IMPORT_CONTEXT', NSI_NS_HANDLE_T),
+		('STATUS', UNSIGNED_SHORT),
+    )
+        
+
+class I_nsi_lookup_next(NDRCALL):
+    opnum = 2
+    structure = (
+		('HRPCPRIMARYLOCATORHNDL', HANDLE_T),
+		('IMPORT_CONTEXT', NSI_NS_HANDLE_T),
+    )
+
+class I_nsi_lookup_nextResponse(NDRCALL):
+    structure = (
+		('BINDING_VECTOR', NSI_BINDING_VECTOR_P_T),
+		('STATUS', UNSIGNED_SHORT),
+    )
+        
+
+class I_nsi_entry_object_inq_next(NDRCALL):
+    opnum = 3
+    structure = (
+		('HRPCPRIMARYLOCATORHNDL', HANDLE_T),
+		('INQCONTEXT', NSI_NS_HANDLE_T),
+    )
+
+class I_nsi_entry_object_inq_nextResponse(NDRCALL):
+    structure = (
+		('UUID_VEC', NSI_UUID_VECTOR_P_T),
+		('STATUS', UNSIGNED_SHORT),
+    )
+        
+
+class I_nsi_ping_locator(NDRCALL):
+    opnum = 4
+    structure = (
+		('HLOCATORTOPING', HANDLE_T),
+    )
+
+class I_nsi_ping_locatorResponse(NDRCALL):
+    structure = (
+		('STATUS', ERROR_STATUS_T),
+    )
+        
+
+class I_nsi_entry_object_inq_done(NDRCALL):
+    opnum = 5
+    structure = (
+		('INQCONTEXT', NSI_NS_HANDLE_T),
+    )
+
+class I_nsi_entry_object_inq_doneResponse(NDRCALL):
+    structure = (
+		('INQCONTEXT', NSI_NS_HANDLE_T),
+		('STATUS', UNSIGNED_SHORT),
+    )
+        
+
+class I_nsi_entry_object_inq_begin(NDRCALL):
+    opnum = 6
+    structure = (
+		('HRPCPRIMARYLOCATORHNDL', HANDLE_T),
+		('ENTRYNAMESYNTAX', UNSIGNED_LONG),
+		('ENTRYNAME', STRING_T),
+    )
+
+class I_nsi_entry_object_inq_beginResponse(NDRCALL):
+    structure = (
+		('INQCONTEXT', NSI_NS_HANDLE_T),
+		('STATUS', UNSIGNED_SHORT),
+    )
+        
+OPNUMS = {
+0 : (I_nsi_lookup_begin,I_nsi_lookup_beginResponse),
+1 : (I_nsi_lookup_done,I_nsi_lookup_doneResponse),
+2 : (I_nsi_lookup_next,I_nsi_lookup_nextResponse),
+3 : (I_nsi_entry_object_inq_next,I_nsi_entry_object_inq_nextResponse),
+4 : (I_nsi_ping_locator,I_nsi_ping_locatorResponse),
+5 : (I_nsi_entry_object_inq_done,I_nsi_entry_object_inq_doneResponse),
+6 : (I_nsi_entry_object_inq_begin,I_nsi_entry_object_inq_beginResponse),
+}
 

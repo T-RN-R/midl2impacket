@@ -31,9 +31,9 @@ class MidlParser(MidlBaseParser):
         This class maintains a state machine.
     """
 
-    def __init__(self, token_generator):
+    def __init__(self, token_generator,tokenizer):
         self.state = MidlState.DEFAULT # Current state of the parsing
-        super().__init__(token_generator=token_generator, end_state=MidlState.END)
+        super().__init__(token_generator=token_generator, end_state=MidlState.END,tokenizer=tokenizer)
         self.definition = MidlDefinition() # data to be returned by calling parse()
         self.cur_def_attrs = {}
 
@@ -44,25 +44,25 @@ class MidlParser(MidlBaseParser):
             self.state = MidlState.IMPORT
         elif token.data == 'typedef':
             self.definition.typedefs.extend(
-                MidlTypedefParser(self.tokens).parse(token)
+                MidlTypedefParser(self.tokens, self.tokenizer).parse(token)
             )
         elif token.data == 'enum':
             self.definition.typedefs.append(
-                MidlEnumParser(self.tokens).parse(token)
+                MidlEnumParser(self.tokens, self.tokenizer).parse(token)
             )
         elif self.state == MidlState.ATTR_DEFINITION:
             if token.data == 'interface':
-                iface = MidlInterfaceParser(self.tokens).parse(token)
+                iface = MidlInterfaceParser(self.tokens, self.tokenizer).parse(token)
                 iface.attributes = self.cur_def_attrs
                 self.definition.interfaces.append(iface)
                 self.cur_def_attrs = {}
                 self.state = MidlState.DEF_COMPLETE
             elif token.data == 'coclass':
-                coclass = MidlCoclassParser(self.tokens).parse(token)
+                coclass = MidlCoclassParser(self.tokens, self.tokenizer).parse(token)
                 self.definition.coclasses.append(coclass)
                 self.state = MidlState.DEF_COMPLETE
             elif token.data == 'dispinterface':
-                dispinterface = MidlDispInterfaceParser(self.tokens).parse(token)
+                dispinterface = MidlDispInterfaceParser(self.tokens, self.tokenizer).parse(token)
                 self.definition.dispinterfaces.append(dispinterface)
                 self.state = MidlState.DEF_COMPLETE
             else:
@@ -70,7 +70,7 @@ class MidlParser(MidlBaseParser):
         else:
             self.state = MidlState.DEFINITION
             self.definition.instantiation.append(
-                MidlVariableInstantiationParser(self.tokens).parse(token)
+                MidlVariableInstantiationParser(self.tokens, self.tokenizer).parse(token)
             )
             self.state = MidlState.DEFAULT
 
@@ -88,7 +88,7 @@ class MidlParser(MidlBaseParser):
         """Encountered a square bracket. Only opening brackets are handled here.
         """
         if token.data == "[" and self.state in [MidlState.DEFAULT, MidlState.DEF_COMPLETE]:
-            self.cur_def_attrs = MidlAttributesParser(self.tokens).parse(token)
+            self.cur_def_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
             self.state = MidlState.ATTR_DEFINITION
         else:
             # Note that the closing square bracket is handled within the MidlInterfaceParser
@@ -134,7 +134,7 @@ def parse_idl(idl_file: pathlib.Path):
     data = idl_file.read_text()
     if not data:
         raise MidlParserException(f"File `{idl_file}` is empty")
-    tokenizer = MidlTokenizer(data)
+    tokenizer = MidlTokenizer(data, idl_file.name)
     tokens = tokenizer.get_token()
     first_token = next(tokens)
-    return MidlParser(tokens).parse(first_token)
+    return MidlParser(tokens,tokenizer).parse(first_token)

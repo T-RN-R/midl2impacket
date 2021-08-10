@@ -1,11 +1,10 @@
 
 import enum
-from typing import Union
 
-from midl import MidlSimpleTypedef, MidlUnionDef, MidlVarDef
+from midl import MidlUnionDef, MidlVarDef
 from .attributes import MidlAttributesParser
 from .arrays import MidlArrayParser
-from .base import MidlBaseParser, MidlParserException
+from .base import MidlBaseParser
 
 class UnionState(enum.Enum):
     BEGIN = enum.auto()
@@ -20,9 +19,9 @@ class UnionState(enum.Enum):
 class MidlUnionParser(MidlBaseParser):
     """class that parses a union
     """
-    def __init__(self, token_generator):
+    def __init__(self, token_generator, tokenizer):
         self.state = UnionState.BEGIN
-        super().__init__(token_generator=token_generator, end_state=UnionState.END)
+        super().__init__(token_generator=token_generator, end_state=UnionState.END, tokenizer=tokenizer)
         self.cur_member_attrs = []
         # This is a list because the type and name can be several tokens e.g. 'unsigned long long varname'
         self.cur_member_parts = [] 
@@ -57,7 +56,7 @@ class MidlUnionParser(MidlBaseParser):
             # Embedded
             if token.data == 'struct':
                 from .structs import MidlStructParser
-                struct_type = MidlStructParser(self.tokens).parse(token)[0]
+                struct_type = MidlStructParser(self.tokens, self.tokenizer).parse(token)
                 if not len(struct_type.public_names):
                     struct_type.public_names.append(f's{self.embedded_struct_count}')
                     self.embedded_struct_count += 1
@@ -65,7 +64,7 @@ class MidlUnionParser(MidlBaseParser):
                 self.members.append(var_def)
                 self.state = UnionState.MEMBER_TYPE_OR_ATTR
             elif token.data == 'union':
-                union_type = MidlUnionParser(self.tokens).parse(token)[0]
+                union_type = MidlUnionParser(self.tokens, self.tokenizer).parse(token)
                 if not len(union_type.public_names):
                     union_type.public_names.append(f'u{self.embedded_union_count}')
                     self.embedded_union_count += 1
@@ -92,13 +91,13 @@ class MidlUnionParser(MidlBaseParser):
 
     def sqbracket(self, token):
         if self.state == UnionState.MEMBER_TYPE_OR_ATTR:
-            self.cur_member_attrs.extend(MidlAttributesParser(self.tokens).parse(token))
+            self.cur_member_attrs.extend(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
             # Don't transition out of the TYPE_OR_ATTR if the attributes was a switch-case
             if 'case' in self.cur_member_attrs:
                 self.state == UnionState.MEMBER_TYPE
         elif self.state in [UnionState.MEMBER_TYPE, UnionState.MEMBER_ARRAY]:
             # The member has (possibly additional?) array dimensions specified..
-            array_parser = MidlArrayParser(self.tokens)
+            array_parser = MidlArrayParser(self.tokens, self.tokenizer)
             self.cur_member_array_info.append(array_parser.parse(token))
             self.state = UnionState.MEMBER_ARRAY
         else:
@@ -137,20 +136,10 @@ class MidlUnionParser(MidlBaseParser):
     def comment(self, token):
         self.comments.append(token)
 
-    def finished(self) -> Union[list[MidlUnionDef], list[MidlSimpleTypedef]]:
-        return_types = []
-        if self.simple_td:
-            if not self.declared_names and self.private_name:
-                raise MidlParserException(f"Simple typedef without a name is illegal.")
+    def finished(self) -> MidlUnionDef:
+        public_names = []
+        if self.declared_names:
             public_names = self.declared_names.split(',')
-            for public_name in public_names:
-                return_types.append(MidlSimpleTypedef(public_name, self.private_name))
-        else:
-            if not len(self.members):
-                raise MidlParserException("No members parsed in union!")
-            public_names = []
-            if self.declared_names:
-                public_names = self.declared_names.split(',')
-            return_types.append(MidlUnionDef(public_names, self.private_name, self.members))
-        return return_types
+        return MidlUnionDef(public_names, self.private_name, self.members)
+        
     
