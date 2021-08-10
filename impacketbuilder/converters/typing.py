@@ -1,5 +1,45 @@
-IDL_TYPES = ["unsigned short", "unsigned char", "unsigned long", "unsigned int", "unsigned __int64", "signed __int64","const wchar_t", "signed"]
+IDL_TYPES = [
+    "unsigned short", 
+    "unsigned char", 
+    "unsigned long", 
+    "unsigned int", 
+    "unsigned __int64",
+    "signed __int64",
+    "signed int",
+    "signed long",
+    "signed char",
+    "signed short",
+    "const wchar_t", 
+    "const char",
+    "const int",
+    "const void",
+    "const long",
+    "void",
+    "__int3264",
+    "unsigned __int3264"
+    ]
 
+IDL_TO_NDR = {
+    "unsigned short"        : "NDRUSHORT", 
+    "unsigned char"         : "NDRCHAR", 
+    "unsigned long"         : "NDRULONG", 
+    "unsigned int"          : "NDRULONG",   
+    "unsigned __int64"      : "NDRUHYPER",
+    "signed __int64"        : "NDRHYPER",
+    "signed int"            : "NDRSHORT",
+    "signed long"           : "NDRLONG",
+    "signed char"           : "NDRCHAR", 
+    "signed short"          : "NDRSHORT",
+    "const wchar_t"         : "WSTR", 
+    "const char"            : "NDRCHAR",
+    "const int"             : "NDRLONG",
+    "const void"            : "CONTEXT_HANDLE",
+    "const long"            : "NDRLONG",
+    "void"                  : "CONTEXT_HANDLE",
+    "__int3264"             : "NDRLONG",
+    "unsigned __int3264"    : "NDRULONG",
+
+}
 
 class TypeMappingException(Exception):
     pass
@@ -26,6 +66,7 @@ class IDLTypeToPythonType():
     def get_python_type_name(self, type_name:str):
         if type(type_name) is not str:
             raise TypeError(f"Expecting str, got {type(type_name)} instead")
+        type_name = type_name.replace("*","")
         if type_name not in self._type_lookup:
             return None
             raise TypeMappingException(f"Type {type_name} not mapped!")
