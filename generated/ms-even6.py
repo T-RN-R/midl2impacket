@@ -502,7 +502,7 @@ MAX_RPC_STRING_LENGTH = MAX_PAYLOAD / 4
 
 #################################################################################
 
-MSRPC_UUID_IEVENTSERVICE = uuidtup_to_bin(('uuid(f6beaff7-1e19-4fbb-9f8f-b89e2018337c,)','0.0'))
+MSRPC_UUID_IEVENTSERVICE = uuidtup_to_bin(('f6beaff7-1e19-4fbb-9f8f-b89e2018337c','0.0'))
 
 PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION = VOID
 PCONTEXT_HANDLE_LOG_QUERY = VOID
