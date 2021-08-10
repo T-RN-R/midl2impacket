@@ -3,40 +3,39 @@ from .constants import MidlConstantConverter
 from .interface import MidlInterfaceConverter
 from midl import *
 from io import StringIO
-class MidlDefinitionConverter:
-    def convert(definition : MidlDefinition) -> str:
-        strIO = StringIO()
-        const_converter = MidlConstantConverter(strIO, tab_level=0)
-        interface_converter = MidlInterfaceConverter(strIO, tab_level=0)
+class MidlDefinitionConverter(Converter):
+    def convert(self, definition : MidlDefinition) -> str:
+        const_converter = MidlConstantConverter(self.io, tab_level=self.tab_level)
+        interface_converter = MidlInterfaceConverter(self.io, tab_level=self.tab_level)
 
-        MidlDefinitionConverter.__header_comment_block(strIO)
-        MidlDefinitionConverter.__default_imports(strIO)
+        self.__header_comment_block()
+        self.__default_imports()
         if len(definition.interfaces) > 1:
             raise Exception("ImpacketBuilder cannot handle MIDL files with multiple interface definitions")
         for td in definition.typedefs:
             interface_converter.handle_typedef(td)
         if len(definition.interfaces) >= 1:
-            MidlDefinitionConverter.__banner_comment(strIO,"CONSTANTS")
-            MidlDefinitionConverter.__uuid(strIO, definition.interfaces[0])
+            self.__banner_comment("CONSTANTS")
+            self.__uuid(definition.interfaces[0])
             for const in definition.instantiation:
                 const_converter.convert(const)
             interface_converter.convert(definition.interfaces[0])
-        return strIO.getvalue()
+        return self.io.getvalue()
 
-    def __uuid(io : StringIO, interface : MidlInterface):
+    def __uuid(self, interface : MidlInterface):
         int_name = f"MSRPC_UUID_{interface.name.upper()}"
 
         io.write(f"{int_name} = uuidtup_to_bin(('{interface.attributes['uuid']}','0.0'))\n")
 
-    def __banner_comment(io : StringIO, comment:str):
-        MidlDefinitionConverter.__sl_comment(io,"#"*80)
-        MidlDefinitionConverter.__sl_comment(io, comment)
-        MidlDefinitionConverter.__sl_comment(io,"#"*80)
+    def __banner_comment(self,  comment:str):
+        self.__sl_comment("#"*80)
+        self.__sl_comment( comment)
+        self.__sl_comment("#"*80)
 
-    def __sl_comment(io : StringIO, comment:str):
-        io.write(f"#{comment}\n")
+    def __sl_comment(self, comment:str):
+        self.write(f"#{comment}\n")
 
-    def __default_imports(io : StringIO):
+    def __default_imports(self):
         imports = """
 from __future__ import division
 from __future__ import print_function
@@ -57,8 +56,8 @@ class CONTEXT_HANDLE(NDRSTRUCT):
         ('Data', '20s=""'),
     )
 """
-        io.write(imports)
+        self.write(imports)
 
-    def __header_comment_block(io : StringIO):
+    def __header_comment_block(self):
         comment = '"""Generated from MIDL2Impacket.py"""\n' 
-        io.write(comment)
+        self.write(comment)
