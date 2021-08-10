@@ -68,6 +68,7 @@ class MidlStructConverter(Converter):
             raise Exception("NDR_POINTER unimplemented")
 
     def handle_ndr_union(self,struct):
+        #TODO if a union has multiple public_names, create Python mappings for them as well
         if struct.public_names[0] == '':
             name = __class__.get_anonymous_name()
         else:
@@ -100,6 +101,7 @@ class %s(NDRUNION):
         return name
 
     def handle_ndr_struct(self,struct):
+        #TODO if a struct has multiple public_names, create a Pyhton mapping for them too
         vars = ""
         for vd in struct.members:
             if type(vd.type) is MidlUnionDef or type(vd.type) is MidlStructDef:
