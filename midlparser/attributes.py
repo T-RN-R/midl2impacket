@@ -59,11 +59,12 @@ class MidlAttributesParser(MidlBaseParser):
             if self.state != AttributeState.PARAMETERS:
                 if self.rbracket_level >=1:
                     self.add_to_cur_param(token)
-            self.state = AttributeState.DEFAULT
             self.cur_attr_params.append(self.cur_attr_param)
             self.cur_attr_param = ''
             assert(self.rbracket_level >=1)
             self.rbracket_level -= 1
+            if self.rbracket_level == 0:
+                self.state = AttributeState.DEFAULT
 
     def comma(self, token):
         if self.state == AttributeState.PARAMETERS:

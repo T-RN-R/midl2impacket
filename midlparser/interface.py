@@ -71,12 +71,12 @@ class MidlInterfaceParser(MidlBaseParser):
                 self.state = InterfaceState.CPP_QUOTE
             else:
                 # Treat it as the return type of a procedure?
-                proc = MidlProcedureParser(self.tokens).parse(token)
+                proc = MidlProcedureParser(self.tokens, self.tokenizer).parse(token)
                 if proc:
                     self.interface.procedures.append(proc)
         elif self.state == InterfaceState.PROC_TYPE:
             # Procedure declaration return type
-            proc = MidlProcedureParser(self.tokens).parse(token)
+            proc = MidlProcedureParser(self.tokens, self.tokenizer).parse(token)
             if proc:
                 proc.attrs = self.cur_method_attrs
                 self.interface.add_procedure(proc)
