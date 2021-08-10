@@ -40,48 +40,6 @@ VOID = CONTEXT_HANDLE
 __INT3264 = NDRLONG
 UNSIGNED___INT3264 = NDRULONG
 
-"""
-Generated from MIDL2Impacket.py
-"""
-
-
-from __future__ import division
-from __future__ import print_function
-from impacket.dcerpc.v5.ndr import *
-from impacket.dcerpc.v5.dtypes import *
-from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
-from impacket.structure import Structure
-from impacket import nt_errors
-from impacket.uuid import uuidtup_to_bin
-from impacket.dcerpc.v5.rpcrt import DCERPCException
-
-DWORD64 = NDRUHYPER
-__INT64 = NDRHYPER
-class CONTEXT_HANDLE(NDRSTRUCT):
-    align = 1
-    structure = (
-        ('Data', '20s=""'),
-    )
-
-UNSIGNED_SHORT = NDRUSHORT
-UNSIGNED_CHAR = NDRCHAR
-UNSIGNED_LONG = NDRULONG
-UNSIGNED_INT = NDRULONG
-UNSIGNED___INT64 = NDRUHYPER
-SIGNED___INT64 = NDRHYPER
-SIGNED_INT = NDRSHORT
-SIGNED_LONG = NDRLONG
-SIGNED_CHAR = NDRCHAR
-SIGNED_SHORT = NDRSHORT
-CONST_WCHAR_T = WSTR
-CONST_CHAR = NDRCHAR
-CONST_INT = NDRLONG
-CONST_VOID = CONTEXT_HANDLE
-CONST_LONG = NDRLONG
-VOID = CONTEXT_HANDLE
-__INT3264 = NDRLONG
-UNSIGNED___INT3264 = NDRULONG
-
 #################################################################################
 
 #TYPEDEFS
