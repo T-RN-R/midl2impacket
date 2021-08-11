@@ -2235,7 +2235,7 @@ class HYPER_SIZEDARR(NDRSTRUCT):
     )
         
 
-class ANONYMOUS30(NDRUNION):
+class ANONYMOUS29(NDRUNION):
     union = {
         SF_BSTR: ('BstrStr',SAFEARR_BSTR),SF_UNKNOWN: ('UnknownStr',SAFEARR_UNKNOWN),SF_DISPATCH: ('DispatchStr',SAFEARR_DISPATCH),SF_VARIANT: ('VariantStr',SAFEARR_VARIANT),SF_RECORD: ('RecordStr',SAFEARR_BRECORD),SF_HAVEIID: ('HaveIidStr',SAFEARR_HAVEIID),SF_I1: ('ByteStr',BYTE_SIZEDARR),SF_I2: ('WordStr',WORD_SIZEDARR),SF_I4: ('LongStr',DWORD_SIZEDARR),SF_I8: ('HyperStr',HYPER_SIZEDARR),
     }
@@ -2243,7 +2243,7 @@ class ANONYMOUS30(NDRUNION):
 
 class SAFEARRAYUNION(NDRSTRUCT):
     structure = (
-        ('sfType', UNSIGNED_LONG),('Anonymous30', ANONYMOUS30),
+        ('sfType', UNSIGNED_LONG),('Anonymous29', ANONYMOUS29),
     )
 
 
@@ -3331,213 +3331,97 @@ OPNUMS = {
 
 #################################################################################
 
-REFGUID = GUID
-HRESULT = LONG
 
-WBEM_FLAG_DEEP = 0,
-WBEM_FLAG_SHALLOW = 1,
-WBEM_FLAG_PROTOTYPE = 2
+dpLow = 1,
+dpNormal = 2,
+dpHigh = 3,
+dpExtraHigh = 4
         
 
-WBEM_FLAG_CREATE_OR_UPDATE = 0,
-WBEM_FLAG_UPDATE_ONLY = 1,
-WBEM_FLAG_CREATE_ONLY = 2,
-WBEM_FLAG_UPDATE_SAFE_MODE = 32,
-WBEM_FLAG_UPDATE_FORCE_MODE = 64
+asLetWindowsUpdateDecide = 0,
+asAutoSelectIfDownloaded = 1,
+asNeverAutoSelect = 2,
+asAlwaysAutoSelect = 3
         
 
-WBEM_FLAG_CONNECT_REPOSITORY_ONLY = 64,
-WBEM_FLAG_CONNECT_PROVIDERS = 256
+adLetWindowsUpdateDecide = 0,
+adNeverAutoDownload = 1,
+adAlwaysAutoDownload = 2
         
 
-WBEM_FLAG_RETURN_WBEM_COMPLETE = 0,
-WBEM_FLAG_RETURN_IMMEDIATELY = 16,
-WBEM_FLAG_FORWARD_ONLY = 32,
-WBEM_FLAG_NO_ERROR_OBJECT = 64,
-WBEM_FLAG_SEND_STATUS = 128,
-WBEM_FLAG_ENSURE_LOCATABLE = 256,
-WBEM_FLAG_DIRECT_READ = 512,
-WBEM_MASK_RESERVED_FLAGS = 126976,
-WBEM_FLAG_USE_AMENDED_QUALIFIERS = 131072,
-WBEM_FLAG_STRONG_VALIDATION = 1048576
+iiNormal = 0,
+iiMinor = 1,
+iiRequiresExclusiveHandling = 2
         
 
-WBEM_STATUS_COMPLETE = 0,
-WBEM_STATUS_REQUIREMENTS = 1,
-WBEM_STATUS_PROGRESS = 2
+irbNeverReboots = 0,
+irbAlwaysRequiresReboot = 1,
+irbCanRequestReboot = 2
         
 
-WBEM_NO_WAIT = 0,
-WBEM_INFINITE = 4294967295
+orcNotStarted = 0,
+orcInProgress = 1,
+orcSucceeded = 2,
+orcSucceededWithErrors = 3,
+orcFailed = 4,
+orcAborted = 5
         
 
-WBEM_FLAG_BACKUP_RESTORE_FORCE_SHUTDOWN = 1
+ssDefault = 0,
+ssManagedServer = 1,
+ssWindowsUpdate = 2,
+ssOthers = 3
         
 
-WBEM_S_NO_ERROR = 0,
-WBEM_S_FALSE = 1,
-WBEM_S_TIMEDOUT = 262148,
-WBEM_S_NEW_STYLE = 262399,
-WBEM_S_PARTIAL_RESULTS = 262160,
-WBEM_E_FAILED = 2147749889,
-WBEM_E_NOT_FOUND = 2147749890,
-WBEM_E_ACCESS_DENIED = 2147749891,
-WBEM_E_PROVIDER_FAILURE = 2147749892,
-WBEM_E_TYPE_MISMATCH = 2147749893,
-WBEM_E_OUT_OF_MEMORY = 2147749894,
-WBEM_E_INVALID_CONTEXT = 2147749895,
-WBEM_E_INVALID_PARAMETER = 2147749896,
-WBEM_E_NOT_AVAILABLE = 2147749897,
-WBEM_E_CRITICAL_ERROR = 2147749898,
-WBEM_E_NOT_SUPPORTED = 2147749900,
-WBEM_E_PROVIDER_NOT_FOUND = 2147749905,
-WBEM_E_INVALID_PROVIDER_REGISTRATION = 2147749906,
-WBEM_E_PROVIDER_LOAD_FAILURE = 2147749907,
-WBEM_E_INITIALIZATION_FAILURE = 2147749908,
-WBEM_E_TRANSPORT_FAILURE = 2147749909,
-WBEM_E_INVALID_OPERATION = 2147749910,
-WBEM_E_ALREADY_EXISTS = 2147749913,
-WBEM_E_UNEXPECTED = 2147749917,
-WBEM_E_INCOMPLETE_CLASS = 2147749920,
-WBEM_E_SHUTTING_DOWN = 2147749939,
-E_NOTIMPL = 2147500033,
-WBEM_E_INVALID_SUPERCLASS = 2147749901,
-WBEM_E_INVALID_NAMESPACE = 2147749902,
-WBEM_E_INVALID_OBJECT = 2147749903,
-WBEM_E_INVALID_CLASS = 2147749904,
-WBEM_E_INVALID_QUERY = 2147749911,
-WBEM_E_INVALID_QUERY_TYPE = 2147749912,
-WBEM_E_PROVIDER_NOT_CAPABLE = 2147749924,
-WBEM_E_CLASS_HAS_CHILDREN = 2147749925,
-WBEM_E_CLASS_HAS_INSTANCES = 2147749926,
-WBEM_E_ILLEGAL_NULL = 2147749928,
-WBEM_E_INVALID_CIM_TYPE = 2147749933,
-WBEM_E_INVALID_METHOD = 2147749934,
-WBEM_E_INVALID_METHOD_PARAMETERS = 2147749935,
-WBEM_E_INVALID_PROPERTY = 2147749937,
-WBEM_E_CALL_CANCELLED = 2147749938,
-WBEM_E_INVALID_OBJECT_PATH = 2147749946,
-WBEM_E_OUT_OF_DISK_SPACE = 2147749947,
-WBEM_E_UNSUPPORTED_PUT_EXTENSION = 2147749949,
-WBEM_E_QUOTA_VIOLATION = 2147749996,
-WBEM_E_SERVER_TOO_BUSY = 2147749957,
-WBEM_E_METHOD_NOT_IMPLEMENTED = 2147749973,
-WBEM_E_METHOD_DISABLED = 2147749974,
-WBEM_E_UNPARSABLE_QUERY = 2147749976,
-WBEM_E_NOT_EVENT_CLASS = 2147749977,
-WBEM_E_MISSING_GROUP_WITHIN = 2147749978,
-WBEM_E_MISSING_AGGREGATION_LIST = 2147749979,
-WBEM_E_PROPERTY_NOT_AN_OBJECT = 2147749980,
-WBEM_E_AGGREGATING_BY_OBJECT = 2147749981,
-WBEM_E_BACKUP_RESTORE_WINMGMT_RUNNING = 2147749984,
-WBEM_E_QUEUE_OVERFLOW = 2147749985,
-WBEM_E_PRIVILEGE_NOT_HELD = 2147749986,
-WBEM_E_INVALID_OPERATOR = 2147749987,
-WBEM_E_CANNOT_BE_ABSTRACT = 2147749989,
-WBEM_E_AMENDED_OBJECT = 2147749990,
-WBEM_E_VETO_PUT = 2147750010,
-WBEM_E_PROVIDER_SUSPENDED = 2147750017,
-WBEM_E_ENCRYPTED_CONNECTION_REQUIRED = 2147750023,
-WBEM_E_PROVIDER_TIMED_OUT = 2147750024,
-WBEM_E_NO_KEY = 2147750025,
-WBEM_E_PROVIDER_DISABLED = 2147750026,
-WBEM_E_REGISTRATION_TOO_BROAD = 2147753985,
-WBEM_E_REGISTRATION_TOO_PRECISE = 2147753986
+utSoftware = 1,
+utDriver = 2
         
 
-WBEM_REFRESHER_VERSION = 2
+uoInstallation = 1,
+uoUninstallation = 2
         
 
-WBEM_BLOB_TYPE_ALL = 2,
-WBEM_BLOB_TYPE_ERROR = 3,
-WBEM_BLOB_TYPE_ENUM = 4
+daNone = 0,
+daInstallation = 1,
+daUninstallation = 2,
+daDetection = 3
         
 
-class DATA_WBEM_REFRESHED_OBJECT(NDRUniConformantArray):
-    item = BYTE
-
-class PTR_WBEM_REFRESHED_OBJECT(NDRPOINTER):
-    referent = (
-        ('Data', DATA_WBEM_REFRESHED_OBJECT),
-    )
-
-class WBEM_REFRESHED_OBJECT(NDRSTRUCT):
-    structure = (
-	('m_lRequestId', LONG),	('m_lBlobType', WBEM_INSTANCE_BLOB_TYPE),	('m_lBlobLength', LONG),	('m_pbBlob', PTR_WBEM_REFRESHED_OBJECT),
-
-    )
+uecGeneral = 1,
+uecWindowsDriver = 2,
+uecWindowsInstaller = 3
         
 
-class _WBEM_REFRESH_INFO_REMOTE(NDRSTRUCT):
-    structure = (
-        ('m_pRefresher', IWBEMREMOTEREFRESHER),('m_pTemplate', IWBEMCLASSOBJECT),('m_Guid', GUID),
-    )
-
-
-class _WBEM_REFRESH_INFO_NON_HIPERF(NDRSTRUCT):
-    structure = (
-        ('m_wszNamespace', WCHAR_T),('m_pTemplate', IWBEMCLASSOBJECT),
-    )
-
-
-WBEM_REFRESH_TYPE_INVALID = 0,
-WBEM_REFRESH_TYPE_REMOTE = 3,
-WBEM_REFRESH_TYPE_NON_HIPERF = 6
+usrsNotRegistered = 1,
+usrsRegistrationPending = 2,
+usrsRegistered = 3
         
 
-class WBEM_REFRESH_INFO_UNION(NDRUNION):
-    union = {
-        WBEM_REFRESH_TYPE_REMOTE: ('m_Remote',_WBEM_REFRESH_INFO_REMOTE),WBEM_REFRESH_TYPE_NON_HIPERF: ('m_NonHiPerf',_WBEM_REFRESH_INFO_NON_HIPERF),WBEM_REFRESH_TYPE_INVALID: ('m_hres',HRESULT),
-    }
+searchScopeDefault = 0,
+searchScopeMachineOnly = 1,
+searchScopeCurrentUserOnly = 2,
+searchScopeMachineAndCurrentUser = 3,
+searchScopeMachineAndAllUsers = 4,
+searchScopeAllUsers = 5
         
 
-class _WBEM_REFRESH_INFO(NDRSTRUCT):
-    structure = (
-        ('m_lType', LONG),('m_Info', WBEM_REFRESH_INFO_UNION),('m_lCancelId', LONG),
-    )
-
-
-class _WBEM_REFRESHER_ID(NDRSTRUCT):
-    structure = (
-        ('m_szMachineName', LPSTR),('m_dwProcessId', DWORD),('m_guidRefresherId', GUID),
-    )
-
-
-WBEM_RECONNECT_TYPE_OBJECT = 0,
-WBEM_RECONNECT_TYPE_ENUM = 1,
-WBEM_RECONNECT_TYPE_LAST = 2
+asfAllowPendingRegistration = 1,
+asfAllowOnlineRegistration = 2,
+asfRegisterServiceWithAU = 4
         
 
-class _WBEM_RECONNECT_INFO(NDRSTRUCT):
-    structure = (
-        ('m_lType', LONG),('m_pwcsPath', LPCWSTR),
-    )
-
-
-class _WBEM_RECONNECT_RESULTS(NDRSTRUCT):
-    structure = (
-        ('m_lId', LONG),('m_hr', HRESULT),
-    )
-
+usoNonVolatileService = 1
+        
+DECIMAL = DECIMAL
 #################################################################################
 
 #CONSTANTS
 
 #################################################################################
 
-IWBEMCLASSOBJECT = 
-IWBEMSERVICES = 
-IWBEMOBJECTSINK = 
-IENUMWBEMCLASSOBJECT = 
-IWBEMCALLRESULT = 
-IWBEMCONTEXT = 
-IWBEMBACKUPRESTORE = 
-IWBEMBACKUPRESTOREEX = 
-IWBEMLOGINCLIENTID = 
-IWBEMLEVEL1LOGIN = 
-IWBEMLOGINHELPER = 
-IWBEMQUALIFIERSET = 
-IWBEMSERVICES = 
+IUPDATECOLLECTION = 
+IUPDATE = 
+IUPDATESERVICEMANAGER2 = 
 #################################################################################
 
 #INTERFACE DEFINITION
@@ -3546,1009 +3430,3522 @@ IWBEMSERVICES =
 
 #################################################################################
 
-#IWbemClassObject Definition
+#ICategoryCollection Definition
 
 #################################################################################
-
-MSRPC_UUID_IWBEMCLASSOBJECT = uuidtup_to_bin(('dc12a681-737-11f-884-00a004b2e24','0.0'))
 
 OPNUMS = {
 }
 
 #################################################################################
 
-#IWbemObjectSink Definition
+#IStringCollection Definition
 
 #################################################################################
 
-MSRPC_UUID_IWBEMOBJECTSINK = uuidtup_to_bin(('7c857801-7381-11cf-884d-00aa004b2e24','0.0'))
+MSRPC_UUID_ISTRINGCOLLECTION = uuidtup_to_bin(('eff90582-2dc-480-a06d-603bc362c3','0.0'))
 
 
-class Indicate(NDRCALL):
+class Item(NDRCALL):
     opnum = 0
     structure = (
-		('lObjectCount', LONG),
-		('apObjArray', IWBEMCLASSOBJECT),
+		('index', LONG),
     )
 
-class IndicateResponse(NDRCALL):
+class ItemResponse(NDRCALL):
     structure = (
-
+		('retval', BSTR),
     )
         
 
-class SetStatus(NDRCALL):
+class Item(NDRCALL):
     opnum = 1
     structure = (
-		('lFlags', LONG),
-		('hResult', HRESULT),
-		('strParam', BSTR),
-		('pObjParam', IWBEMCLASSOBJECT),
+		('index', LONG),
+		('value', BSTR),
     )
 
-class SetStatusResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (Indicate,IndicateResponse),
-1 : (SetStatus,SetStatusResponse),
-}
-
-#################################################################################
-
-#IEnumWbemClassObject Definition
-
-#################################################################################
-
-MSRPC_UUID_IENUMWBEMCLASSOBJECT = uuidtup_to_bin(('027947e1-d731-11ce-a357-000000000001','0.0'))
-
-
-class Reset(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class ResetResponse(NDRCALL):
+class ItemResponse(NDRCALL):
     structure = (
 
     )
         
 
-class Next(NDRCALL):
-    opnum = 1
-    structure = (
-		('lTimeout', LONG),
-		('uCount', ULONG),
-    )
-
-class NextResponse(NDRCALL):
-    structure = (
-		('apObjects', IWBEMCLASSOBJECT),
-		('puReturned', ULONG),
-    )
-        
-
-class NextAsync(NDRCALL):
+class _NewEnum(NDRCALL):
     opnum = 2
     structure = (
-		('uCount', ULONG),
-		('pSink', IWBEMOBJECTSINK),
+
     )
 
-class NextAsyncResponse(NDRCALL):
+class _NewEnumResponse(NDRCALL):
     structure = (
-
+		('retval', IUNKNOWN),
     )
         
 
-class Clone(NDRCALL):
+class Count(NDRCALL):
     opnum = 3
     structure = (
 
     )
 
-class CloneResponse(NDRCALL):
+class CountResponse(NDRCALL):
     structure = (
-		('ppEnum', IENUMWBEMCLASSOBJECT),
+		('retval', LONG),
     )
         
 
-class Skip(NDRCALL):
+class ReadOnly(NDRCALL):
     opnum = 4
     structure = (
-		('lTimeout', LONG),
-		('nCount', ULONG),
-    )
-
-class SkipResponse(NDRCALL):
-    structure = (
 
     )
-        
-OPNUMS = {
-0 : (Reset,ResetResponse),
-1 : (Next,NextResponse),
-2 : (NextAsync,NextAsyncResponse),
-3 : (Clone,CloneResponse),
-4 : (Skip,SkipResponse),
-}
 
-#################################################################################
-
-#IWbemContext Definition
-
-#################################################################################
-
-MSRPC_UUID_IWBEMCONTEXT = uuidtup_to_bin(('44aca674-e8fc-11d0-a07c-00c04fb68820','0.0'))
-
-OPNUMS = {
-}
-
-#################################################################################
-
-#IWbemCallResult Definition
-
-#################################################################################
-
-MSRPC_UUID_IWBEMCALLRESULT = uuidtup_to_bin(('44aca675-e8fc-11d0-a07c-00c04fb68820','0.0'))
-
-
-class GetResultObject(NDRCALL):
-    opnum = 0
+class ReadOnlyResponse(NDRCALL):
     structure = (
-		('lTimeout', LONG),
-    )
-
-class GetResultObjectResponse(NDRCALL):
-    structure = (
-		('ppResultObject', IWBEMCLASSOBJECT),
+		('retval', VARIANT_BOOL),
     )
         
 
-class GetResultString(NDRCALL):
-    opnum = 1
-    structure = (
-		('lTimeout', LONG),
-    )
-
-class GetResultStringResponse(NDRCALL):
-    structure = (
-		('pstrResultString', BSTR),
-    )
-        
-
-class GetResultServices(NDRCALL):
-    opnum = 2
-    structure = (
-		('lTimeout', LONG),
-    )
-
-class GetResultServicesResponse(NDRCALL):
-    structure = (
-		('ppServices', IWBEMSERVICES),
-    )
-        
-
-class GetCallStatus(NDRCALL):
-    opnum = 3
-    structure = (
-		('lTimeout', LONG),
-    )
-
-class GetCallStatusResponse(NDRCALL):
-    structure = (
-		('plStatus', LONG),
-    )
-        
-OPNUMS = {
-0 : (GetResultObject,GetResultObjectResponse),
-1 : (GetResultString,GetResultStringResponse),
-2 : (GetResultServices,GetResultServicesResponse),
-3 : (GetCallStatus,GetCallStatusResponse),
-}
-
-#################################################################################
-
-#IWbemServices Definition
-
-#################################################################################
-
-MSRPC_UUID_IWBEMSERVICES = uuidtup_to_bin(('9556dc99-828c-11cf-a37e-00aa003240c7','0.0'))
-
-
-class OpenNamespace(NDRCALL):
-    opnum = 0
-    structure = (
-		('strNamespace',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('ppWorkingNamespace', IWBEMSERVICES),
-		('ppResult', IWBEMCALLRESULT),
-    )
-
-class OpenNamespaceResponse(NDRCALL):
-    structure = (
-		('ppWorkingNamespace', IWBEMSERVICES),
-		('ppResult', IWBEMCALLRESULT),
-    )
-        
-
-class CancelAsyncCall(NDRCALL):
-    opnum = 1
-    structure = (
-		('pSink', IWBEMOBJECTSINK),
-    )
-
-class CancelAsyncCallResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class QueryObjectSink(NDRCALL):
-    opnum = 2
-    structure = (
-		('lFlags', LONG),
-    )
-
-class QueryObjectSinkResponse(NDRCALL):
-    structure = (
-		('ppResponseHandler', IWBEMOBJECTSINK),
-    )
-        
-
-class GetObject(NDRCALL):
-    opnum = 3
-    structure = (
-		('strObjectPath',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('ppObject', IWBEMCLASSOBJECT),
-		('ppCallResult', IWBEMCALLRESULT),
-    )
-
-class GetObjectResponse(NDRCALL):
-    structure = (
-		('ppObject', IWBEMCLASSOBJECT),
-		('ppCallResult', IWBEMCALLRESULT),
-    )
-        
-
-class GetObjectAsync(NDRCALL):
-    opnum = 4
-    structure = (
-		('strObjectPath',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('pResponseHandler', IWBEMOBJECTSINK),
-    )
-
-class GetObjectAsyncResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class PutClass(NDRCALL):
+class Add(NDRCALL):
     opnum = 5
     structure = (
-		('pObject', IWBEMCLASSOBJECT),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('ppCallResult', IWBEMCALLRESULT),
+		('value', BSTR),
     )
 
-class PutClassResponse(NDRCALL):
+class AddResponse(NDRCALL):
     structure = (
-		('ppCallResult', IWBEMCALLRESULT),
+		('retval', LONG),
     )
         
 
-class PutClassAsync(NDRCALL):
+class Clear(NDRCALL):
     opnum = 6
     structure = (
-		('pObject', IWBEMCLASSOBJECT),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('pResponseHandler', IWBEMOBJECTSINK),
+
     )
 
-class PutClassAsyncResponse(NDRCALL):
+class ClearResponse(NDRCALL):
     structure = (
 
     )
         
 
-class DeleteClass(NDRCALL):
+class Copy(NDRCALL):
     opnum = 7
     structure = (
-		('strClass',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('ppCallResult', IWBEMCALLRESULT),
+
     )
 
-class DeleteClassResponse(NDRCALL):
+class CopyResponse(NDRCALL):
     structure = (
-		('ppCallResult', IWBEMCALLRESULT),
+		('retval', ISTRINGCOLLECTION),
     )
         
 
-class DeleteClassAsync(NDRCALL):
+class Insert(NDRCALL):
     opnum = 8
     structure = (
-		('strClass',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('pResponseHandler', IWBEMOBJECTSINK),
+		('index', LONG),
+		('value', BSTR),
     )
 
-class DeleteClassAsyncResponse(NDRCALL):
+class InsertResponse(NDRCALL):
     structure = (
 
     )
         
 
-class CreateClassEnum(NDRCALL):
+class RemoveAt(NDRCALL):
     opnum = 9
     structure = (
-		('strSuperclass',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
+		('index', LONG),
     )
 
-class CreateClassEnumResponse(NDRCALL):
-    structure = (
-		('ppEnum', IENUMWBEMCLASSOBJECT),
-    )
-        
-
-class CreateClassEnumAsync(NDRCALL):
-    opnum = 10
-    structure = (
-		('strSuperclass',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('pResponseHandler', IWBEMOBJECTSINK),
-    )
-
-class CreateClassEnumAsyncResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class PutInstance(NDRCALL):
-    opnum = 11
-    structure = (
-		('pInst', IWBEMCLASSOBJECT),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('ppCallResult', IWBEMCALLRESULT),
-    )
-
-class PutInstanceResponse(NDRCALL):
-    structure = (
-		('ppCallResult', IWBEMCALLRESULT),
-    )
-        
-
-class PutInstanceAsync(NDRCALL):
-    opnum = 12
-    structure = (
-		('pInst', IWBEMCLASSOBJECT),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('pResponseHandler', IWBEMOBJECTSINK),
-    )
-
-class PutInstanceAsyncResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class DeleteInstance(NDRCALL):
-    opnum = 13
-    structure = (
-		('strObjectPath',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('ppCallResult', IWBEMCALLRESULT),
-    )
-
-class DeleteInstanceResponse(NDRCALL):
-    structure = (
-		('ppCallResult', IWBEMCALLRESULT),
-    )
-        
-
-class DeleteInstanceAsync(NDRCALL):
-    opnum = 14
-    structure = (
-		('strObjectPath',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('pResponseHandler', IWBEMOBJECTSINK),
-    )
-
-class DeleteInstanceAsyncResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class CreateInstanceEnum(NDRCALL):
-    opnum = 15
-    structure = (
-		('strSuperClass',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-    )
-
-class CreateInstanceEnumResponse(NDRCALL):
-    structure = (
-		('ppEnum', IENUMWBEMCLASSOBJECT),
-    )
-        
-
-class CreateInstanceEnumAsync(NDRCALL):
-    opnum = 16
-    structure = (
-		('strSuperClass',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('pResponseHandler', IWBEMOBJECTSINK),
-    )
-
-class CreateInstanceEnumAsyncResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ExecQuery(NDRCALL):
-    opnum = 17
-    structure = (
-		('strQueryLanguage',  BSTR),
-		('strQuery',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-    )
-
-class ExecQueryResponse(NDRCALL):
-    structure = (
-		('ppEnum', IENUMWBEMCLASSOBJECT),
-    )
-        
-
-class ExecQueryAsync(NDRCALL):
-    opnum = 18
-    structure = (
-		('strQueryLanguage',  BSTR),
-		('strQuery',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('pResponseHandler', IWBEMOBJECTSINK),
-    )
-
-class ExecQueryAsyncResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ExecNotificationQuery(NDRCALL):
-    opnum = 19
-    structure = (
-		('strQueryLanguage',  BSTR),
-		('strQuery',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-    )
-
-class ExecNotificationQueryResponse(NDRCALL):
-    structure = (
-		('ppEnum', IENUMWBEMCLASSOBJECT),
-    )
-        
-
-class ExecNotificationQueryAsync(NDRCALL):
-    opnum = 20
-    structure = (
-		('strQueryLanguage',  BSTR),
-		('strQuery',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('pResponseHandler', IWBEMOBJECTSINK),
-    )
-
-class ExecNotificationQueryAsyncResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ExecMethod(NDRCALL):
-    opnum = 21
-    structure = (
-		('strObjectPath',  BSTR),
-		('strMethodName',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('pInParams', IWBEMCLASSOBJECT),
-		('ppOutParams', IWBEMCLASSOBJECT),
-		('ppCallResult', IWBEMCALLRESULT),
-    )
-
-class ExecMethodResponse(NDRCALL):
-    structure = (
-		('ppOutParams', IWBEMCLASSOBJECT),
-		('ppCallResult', IWBEMCALLRESULT),
-    )
-        
-
-class ExecMethodAsync(NDRCALL):
-    opnum = 22
-    structure = (
-		('strObjectPath',  BSTR),
-		('strMethodName',  BSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-		('pInParams', IWBEMCLASSOBJECT),
-		('pResponseHandler', IWBEMOBJECTSINK),
-    )
-
-class ExecMethodAsyncResponse(NDRCALL):
+class RemoveAtResponse(NDRCALL):
     structure = (
 
     )
         
 OPNUMS = {
-0 : (OpenNamespace,OpenNamespaceResponse),
-1 : (CancelAsyncCall,CancelAsyncCallResponse),
-2 : (QueryObjectSink,QueryObjectSinkResponse),
-3 : (GetObject,GetObjectResponse),
-4 : (GetObjectAsync,GetObjectAsyncResponse),
-5 : (PutClass,PutClassResponse),
-6 : (PutClassAsync,PutClassAsyncResponse),
-7 : (DeleteClass,DeleteClassResponse),
-8 : (DeleteClassAsync,DeleteClassAsyncResponse),
-9 : (CreateClassEnum,CreateClassEnumResponse),
-10 : (CreateClassEnumAsync,CreateClassEnumAsyncResponse),
-11 : (PutInstance,PutInstanceResponse),
-12 : (PutInstanceAsync,PutInstanceAsyncResponse),
-13 : (DeleteInstance,DeleteInstanceResponse),
-14 : (DeleteInstanceAsync,DeleteInstanceAsyncResponse),
-15 : (CreateInstanceEnum,CreateInstanceEnumResponse),
-16 : (CreateInstanceEnumAsync,CreateInstanceEnumAsyncResponse),
-17 : (ExecQuery,ExecQueryResponse),
-18 : (ExecQueryAsync,ExecQueryAsyncResponse),
-19 : (ExecNotificationQuery,ExecNotificationQueryResponse),
-20 : (ExecNotificationQueryAsync,ExecNotificationQueryAsyncResponse),
-21 : (ExecMethod,ExecMethodResponse),
-22 : (ExecMethodAsync,ExecMethodAsyncResponse),
+0 : (Item,ItemResponse),
+1 : (_NewEnum,_NewEnumResponse),
+2 : (Count,CountResponse),
+3 : (ReadOnly,ReadOnlyResponse),
+4 : (Add,AddResponse),
+5 : (Clear,ClearResponse),
+6 : (Copy,CopyResponse),
+7 : (Insert,InsertResponse),
+8 : (RemoveAt,RemoveAtResponse),
 }
 
 #################################################################################
 
-#IWbemBackupRestore Definition
+#IWindowsUpdateAgentInfo Definition
 
 #################################################################################
 
-MSRPC_UUID_IWBEMBACKUPRESTORE = uuidtup_to_bin(('C49E32C7-BC8B-112-854-0010518304','0.0'))
+MSRPC_UUID_IWINDOWSUPDATEAGENTINFO = uuidtup_to_bin(('85713fa1-7796-4fa2-be3b-e2d6124dd373','0.0'))
 
 
-class Backup(NDRCALL):
+class GetInfo(NDRCALL):
     opnum = 0
     structure = (
-		('strBackupToFile', LPCWSTR),
-		('lFlags', LONG),
+		('varInfoIdentifier', VARIANT),
     )
 
-class BackupResponse(NDRCALL):
+class GetInfoResponse(NDRCALL):
     structure = (
-
-    )
-        
-
-class Restore(NDRCALL):
-    opnum = 1
-    structure = (
-		('strRestoreFromFile', LPCWSTR),
-		('lFlags', LONG),
-    )
-
-class RestoreResponse(NDRCALL):
-    structure = (
-
+		('retval', VARIANT),
     )
         
 OPNUMS = {
-0 : (Backup,BackupResponse),
-1 : (Restore,RestoreResponse),
+0 : (GetInfo,GetInfoResponse),
 }
 
 #################################################################################
 
-#IWbemBackupRestoreEx Definition
+#IAutomaticUpdatesResults Definition
 
 #################################################################################
 
-MSRPC_UUID_IWBEMBACKUPRESTOREEX = uuidtup_to_bin(('A359DEC5-E813-4834-82-BA7F1D777D76','0.0'))
+MSRPC_UUID_IAUTOMATICUPDATESRESULTS = uuidtup_to_bin(('E7A4D634-7942-4D9-A111-82228A33901','0.0'))
 
 
-class Pause(NDRCALL):
+class LastSearchSuccessDate(NDRCALL):
     opnum = 0
     structure = (
 
     )
 
-class PauseResponse(NDRCALL):
+class LastSearchSuccessDateResponse(NDRCALL):
     structure = (
-
+		('retval', VARIANT),
     )
         
 
-class Resume(NDRCALL):
+class LastInstallationSuccessDate(NDRCALL):
     opnum = 1
     structure = (
 
     )
 
-class ResumeResponse(NDRCALL):
+class LastInstallationSuccessDateResponse(NDRCALL):
     structure = (
-
+		('retval', VARIANT),
     )
         
 OPNUMS = {
-0 : (Pause,PauseResponse),
-1 : (Resume,ResumeResponse),
+0 : (LastSearchSuccessDate,LastSearchSuccessDateResponse),
+1 : (LastInstallationSuccessDate,LastInstallationSuccessDateResponse),
 }
 
 #################################################################################
 
-#IWbemRemoteRefresher Definition
+#IAutomaticUpdates Definition
 
 #################################################################################
 
-MSRPC_UUID_IWBEMREMOTEREFRESHER = uuidtup_to_bin(('F1E9C5B2-F59B-112-B362-0010518177','0.0'))
+MSRPC_UUID_IAUTOMATICUPDATES = uuidtup_to_bin(('673425bf-c082-4c7c-bdfd-569464b8e0ce','0.0'))
 
 
-class RemoteRefresh(NDRCALL):
+class DetectNow(NDRCALL):
     opnum = 0
     structure = (
-		('lFlags', LONG),
+
     )
 
-class RemoteRefreshResponse(NDRCALL):
+class DetectNowResponse(NDRCALL):
     structure = (
-		('plNumObjects', LONG),
-		('paObjects', WBEM_REFRESHED_OBJECT),
+
     )
         
 
-class StopRefreshing(NDRCALL):
+class Opnum9NotUsedOnWire(NDRCALL):
     opnum = 1
     structure = (
-		('lNumIds', LONG),
-		('aplIds', LONG),
-		('lFlags', LONG),
+
     )
 
-class StopRefreshingResponse(NDRCALL):
+class Opnum9NotUsedOnWireResponse(NDRCALL):
     structure = (
 
     )
         
 
-class Opnum5NotUsedOnWire(NDRCALL):
+class Opnum10NotUsedOnWire(NDRCALL):
     opnum = 2
     structure = (
-		('lFlags', LONG),
+
     )
 
-class Opnum5NotUsedOnWireResponse(NDRCALL):
+class Opnum10NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('pGuid', GUID),
-    )
-        
-OPNUMS = {
-0 : (RemoteRefresh,RemoteRefreshResponse),
-1 : (StopRefreshing,StopRefreshingResponse),
-2 : (Opnum5NotUsedOnWire,Opnum5NotUsedOnWireResponse),
-}
 
-#################################################################################
-
-#IWbemRefreshingServices Definition
-
-#################################################################################
-
-MSRPC_UUID_IWBEMREFRESHINGSERVICES = uuidtup_to_bin(('2C9273E0-1DC3-11d3-B364-00105A1F8177','0.0'))
-
-
-class AddObjectToRefresher(NDRCALL):
-    opnum = 0
-    structure = (
-		('pRefresherId', _WBEM_REFRESHER_ID),
-		('wszPath', LPCWSTR),
-		('lFlags', LONG),
-		('pContext', IWBEMCONTEXT),
-		('dwClientRefrVersion', DWORD),
-    )
-
-class AddObjectToRefresherResponse(NDRCALL):
-    structure = (
-		('pInfo', _WBEM_REFRESH_INFO),
-		('pdwSvrRefrVersion', DWORD),
     )
         
 
-class AddObjectToRefresherByTemplate(NDRCALL):
-    opnum = 1
-    structure = (
-		('pRefresherId', _WBEM_REFRESHER_ID),
-		('pTemplate', IWBEMCLASSOBJECT),
-		('lFlags', LONG),
-		('pContext', IWBEMCONTEXT),
-		('dwClientRefrVersion', DWORD),
-    )
-
-class AddObjectToRefresherByTemplateResponse(NDRCALL):
-    structure = (
-		('pInfo', _WBEM_REFRESH_INFO),
-		('pdwSvrRefrVersion', DWORD),
-    )
-        
-
-class AddEnumToRefresher(NDRCALL):
-    opnum = 2
-    structure = (
-		('pRefresherId', _WBEM_REFRESHER_ID),
-		('wszClass', LPCWSTR),
-		('lFlags', LONG),
-		('pContext', IWBEMCONTEXT),
-		('dwClientRefrVersion', DWORD),
-    )
-
-class AddEnumToRefresherResponse(NDRCALL):
-    structure = (
-		('pInfo', _WBEM_REFRESH_INFO),
-		('pdwSvrRefrVersion', DWORD),
-    )
-        
-
-class RemoveObjectFromRefresher(NDRCALL):
+class Opnum11NotUsedOnWire(NDRCALL):
     opnum = 3
     structure = (
-		('pRefresherId', _WBEM_REFRESHER_ID),
-		('lId', LONG),
-		('lFlags', LONG),
-		('dwClientRefrVersion', DWORD),
+
     )
 
-class RemoveObjectFromRefresherResponse(NDRCALL):
+class Opnum11NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('pdwSvrRefrVersion', DWORD),
+
     )
         
 
-class GetRemoteRefresher(NDRCALL):
+class Opnum12NotUsedOnWire(NDRCALL):
     opnum = 4
     structure = (
-		('pRefresherId', _WBEM_REFRESHER_ID),
-		('lFlags', LONG),
-		('dwClientRefrVersion', DWORD),
+
     )
 
-class GetRemoteRefresherResponse(NDRCALL):
+class Opnum12NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('ppRemRefresher', IWBEMREMOTEREFRESHER),
-		('pGuid', GUID),
-		('pdwSvrRefrVersion', DWORD),
+
     )
         
 
-class ReconnectRemoteRefresher(NDRCALL):
+class Opnum13NotUsedOnWire(NDRCALL):
     opnum = 5
     structure = (
-		('pRefresherId', _WBEM_REFRESHER_ID),
-		('lFlags', LONG),
-		('lNumObjects', LONG),
-		('dwClientRefrVersion', DWORD),
-		('apReconnectInfo', _WBEM_RECONNECT_INFO),
-		('apReconnectResults', _WBEM_RECONNECT_RESULTS),
+
     )
 
-class ReconnectRemoteRefresherResponse(NDRCALL):
+class Opnum13NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('apReconnectResults', _WBEM_RECONNECT_RESULTS),
-		('pdwSvrRefrVersion', DWORD),
+
     )
         
-OPNUMS = {
-0 : (AddObjectToRefresher,AddObjectToRefresherResponse),
-1 : (AddObjectToRefresherByTemplate,AddObjectToRefresherByTemplateResponse),
-2 : (AddEnumToRefresher,AddEnumToRefresherResponse),
-3 : (RemoveObjectFromRefresher,RemoveObjectFromRefresherResponse),
-4 : (GetRemoteRefresher,GetRemoteRefresherResponse),
-5 : (ReconnectRemoteRefresher,ReconnectRemoteRefresherResponse),
-}
 
-#################################################################################
-
-#IWbemWCOSmartEnum Definition
-
-#################################################################################
-
-MSRPC_UUID_IWBEMWCOSMARTENUM = uuidtup_to_bin(('423EC01E-2E35-11d2-B604-00104B703EFD','0.0'))
-
-
-class Next(NDRCALL):
-    opnum = 0
-    structure = (
-		('proxyGUID', REFGUID),
-		('lTimeout', LONG),
-		('uCount', ULONG),
-    )
-
-class NextResponse(NDRCALL):
-    structure = (
-		('puReturned', ULONG),
-		('pdwBuffSize', ULONG),
-		('pBuffer', BYTE),
-    )
-        
-OPNUMS = {
-0 : (Next,NextResponse),
-}
-
-#################################################################################
-
-#IWbemFetchSmartEnum Definition
-
-#################################################################################
-
-MSRPC_UUID_IWBEMFETCHSMARTENUM = uuidtup_to_bin(('1C1C45EE-4395-11d2-B60B-00104B703EFD','0.0'))
-
-
-class GetSmartEnum(NDRCALL):
-    opnum = 0
+class Opnum14NotUsedOnWire(NDRCALL):
+    opnum = 6
     structure = (
 
     )
 
-class GetSmartEnumResponse(NDRCALL):
-    structure = (
-		('ppSmartEnum', IWBEMWCOSMARTENUM),
-    )
-        
-OPNUMS = {
-0 : (GetSmartEnum,GetSmartEnumResponse),
-}
-
-#################################################################################
-
-#IWbemLoginClientID Definition
-
-#################################################################################
-
-MSRPC_UUID_IWBEMLOGINCLIENTID = uuidtup_to_bin(('d4781cd6-e5d3-44f-ad94-930fe48a887','0.0'))
-
-
-class SetClientInfo(NDRCALL):
-    opnum = 0
-    structure = (
-		('wszClientMachine', LPWSTR),
-		('lClientProcId', LONG),
-		('lReserved', LONG),
-    )
-
-class SetClientInfoResponse(NDRCALL):
+class Opnum14NotUsedOnWireResponse(NDRCALL):
     structure = (
 
     )
         
 OPNUMS = {
-0 : (SetClientInfo,SetClientInfoResponse),
+0 : (DetectNow,DetectNowResponse),
+1 : (Opnum9NotUsedOnWire,Opnum9NotUsedOnWireResponse),
+2 : (Opnum10NotUsedOnWire,Opnum10NotUsedOnWireResponse),
+3 : (Opnum11NotUsedOnWire,Opnum11NotUsedOnWireResponse),
+4 : (Opnum12NotUsedOnWire,Opnum12NotUsedOnWireResponse),
+5 : (Opnum13NotUsedOnWire,Opnum13NotUsedOnWireResponse),
+6 : (Opnum14NotUsedOnWire,Opnum14NotUsedOnWireResponse),
 }
 
 #################################################################################
 
-#IWbemLevel1Login Definition
+#IAutomaticUpdates2 Definition
 
 #################################################################################
 
-MSRPC_UUID_IWBEMLEVEL1LOGIN = uuidtup_to_bin(('F309AD18-D86A-110-A075-0004B68820','0.0'))
+MSRPC_UUID_IAUTOMATICUPDATES2 = uuidtup_to_bin(('4A2F5C31-CFD9-410E-B7FB-29A653973A0F','0.0'))
 
 
-class EstablishPosition(NDRCALL):
+class Results(NDRCALL):
     opnum = 0
     structure = (
-		('reserved1', WCHAR_T),
-		('reserved2', DWORD),
+
     )
 
-class EstablishPositionResponse(NDRCALL):
+class ResultsResponse(NDRCALL):
     structure = (
-		('LocaleVersion', DWORD),
+		('retval', IAUTOMATICUPDATESRESULTS),
+    )
+        
+OPNUMS = {
+0 : (Results,ResultsResponse),
+}
+
+#################################################################################
+
+#IUpdateIdentity Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATEIDENTITY = uuidtup_to_bin(('46297823-9940-4c09-aed9-cd3ea6d05968','0.0'))
+
+
+class RevisionNumber(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class RevisionNumberResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
     )
         
 
-class RequestChallenge(NDRCALL):
+class UpdateID(NDRCALL):
     opnum = 1
     structure = (
-		('reserved1', WCHAR_T),
-		('reserved2', WCHAR_T),
+
     )
 
-class RequestChallengeResponse(NDRCALL):
+class UpdateIDResponse(NDRCALL):
     structure = (
-		('reserved3', UNSIGNED_CHAR),
-    )
-        
-
-class WBEMLogin(NDRCALL):
-    opnum = 2
-    structure = (
-		('reserved1', WCHAR_T),
-		('reserved2', UNSIGNED_CHAR),
-		('reserved3', LONG),
-		('reserved4', IWBEMCONTEXT),
-    )
-
-class WBEMLoginResponse(NDRCALL):
-    structure = (
-		('reserved5', IWBEMSERVICES),
-    )
-        
-
-class NTLMLogin(NDRCALL):
-    opnum = 3
-    structure = (
-		('wszNetworkResource', LPWSTR),
-		('wszPreferredLocale', LPWSTR),
-		('lFlags', LONG),
-		('pCtx', IWBEMCONTEXT),
-    )
-
-class NTLMLoginResponse(NDRCALL):
-    structure = (
-		('ppNamespace', IWBEMSERVICES),
+		('retval', BSTR),
     )
         
 OPNUMS = {
-0 : (EstablishPosition,EstablishPositionResponse),
-1 : (RequestChallenge,RequestChallengeResponse),
-2 : (WBEMLogin,WBEMLoginResponse),
-3 : (NTLMLogin,NTLMLoginResponse),
+0 : (RevisionNumber,RevisionNumberResponse),
+1 : (UpdateID,UpdateIDResponse),
 }
 
 #################################################################################
 
-#IWbemLoginHelper Definition
+#IImageInformation Definition
 
 #################################################################################
 
-MSRPC_UUID_IWBEMLOGINHELPER = uuidtup_to_bin(('541679AB-2E5F-11d3-B34E-00104BCC4B4A','0.0'))
+MSRPC_UUID_IIMAGEINFORMATION = uuidtup_to_bin(('7c907864-346c-4aeb-8f3f-57da289f969f','0.0'))
 
 
-class SetEvent(NDRCALL):
+class AltText(NDRCALL):
     opnum = 0
     structure = (
-		('sEventToSet', LPCSTR),
+
     )
 
-class SetEventResponse(NDRCALL):
+class AltTextResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class Height(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class HeightResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class Source(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class SourceResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class Width(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class WidthResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+OPNUMS = {
+0 : (AltText,AltTextResponse),
+1 : (Height,HeightResponse),
+2 : (Source,SourceResponse),
+3 : (Width,WidthResponse),
+}
+
+#################################################################################
+
+#ICategory Definition
+
+#################################################################################
+
+MSRPC_UUID_ICATEGORY = uuidtup_to_bin(('81ddc1b8-9d35-47a6-b471-5b80f519223b','0.0'))
+
+
+class Name(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class CategoryID(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class CategoryIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class Children(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class ChildrenResponse(NDRCALL):
+    structure = (
+		('retval', ICATEGORYCOLLECTION),
+    )
+        
+
+class Description(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class DescriptionResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class Image(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class ImageResponse(NDRCALL):
+    structure = (
+		('retval', IIMAGEINFORMATION),
+    )
+        
+
+class Order(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class OrderResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class Parent(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class ParentResponse(NDRCALL):
+    structure = (
+		('retval', ICATEGORY),
+    )
+        
+
+class Type(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class TypeResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class Updates(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class UpdatesResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATECOLLECTION),
+    )
+        
+OPNUMS = {
+0 : (Name,NameResponse),
+1 : (CategoryID,CategoryIDResponse),
+2 : (Children,ChildrenResponse),
+3 : (Description,DescriptionResponse),
+4 : (Image,ImageResponse),
+5 : (Order,OrderResponse),
+6 : (Parent,ParentResponse),
+7 : (Type,TypeResponse),
+8 : (Updates,UpdatesResponse),
+}
+
+#################################################################################
+
+#ICategoryCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_ICATEGORYCOLLECTION = uuidtup_to_bin(('3a56bfb8-576c-43f7-9335-fe4838fd7e37','0.0'))
+
+
+class Item(NDRCALL):
+    opnum = 0
+    structure = (
+		('index', LONG),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('retval', ICATEGORY),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('retval', IUNKNOWN),
+    )
+        
+
+class Count(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+OPNUMS = {
+0 : (Item,ItemResponse),
+1 : (_NewEnum,_NewEnumResponse),
+2 : (Count,CountResponse),
+}
+
+#################################################################################
+
+#IInstallationBehavior Definition
+
+#################################################################################
+
+MSRPC_UUID_IINSTALLATIONBEHAVIOR = uuidtup_to_bin(('d9a59339-e245-4bd-9686-4576339624','0.0'))
+
+
+class CanRequestUserInput(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CanRequestUserInputResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class Impact(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class ImpactResponse(NDRCALL):
+    structure = (
+		('retval', INSTALLATIONIMPACT),
+    )
+        
+
+class RebootBehavior(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class RebootBehaviorResponse(NDRCALL):
+    structure = (
+		('retval', INSTALLATIONREBOOTBEHAVIOR),
+    )
+        
+
+class RequiresNetworkConnectivity(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class RequiresNetworkConnectivityResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+OPNUMS = {
+0 : (CanRequestUserInput,CanRequestUserInputResponse),
+1 : (Impact,ImpactResponse),
+2 : (RebootBehavior,RebootBehaviorResponse),
+3 : (RequiresNetworkConnectivity,RequiresNetworkConnectivityResponse),
+}
+
+#################################################################################
+
+#IUpdateDownloadContent Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATEDOWNLOADCONTENT = uuidtup_to_bin(('54a2cb2d-9a0c-48b6-8a50-9abb69ee2d02','0.0'))
+
+
+class DownloadUrl(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class DownloadUrlResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+OPNUMS = {
+0 : (DownloadUrl,DownloadUrlResponse),
+}
+
+#################################################################################
+
+#IUpdateDownloadContent2 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATEDOWNLOADCONTENT2 = uuidtup_to_bin(('c97ad11b-f257-420-99-377733668','0.0'))
+
+
+class IsDeltaCompressedContent(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class IsDeltaCompressedContentResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+OPNUMS = {
+0 : (IsDeltaCompressedContent,IsDeltaCompressedContentResponse),
+}
+
+#################################################################################
+
+#IUpdateDownloadContentCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATEDOWNLOADCONTENTCOLLECTION = uuidtup_to_bin(('bc5513c8-b3b8-4f7-a4d4-3610888a','0.0'))
+
+
+class Item(NDRCALL):
+    opnum = 0
+    structure = (
+		('index', LONG),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATEDOWNLOADCONTENT),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('retval', IUNKNOWN),
+    )
+        
+
+class Count(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+OPNUMS = {
+0 : (Item,ItemResponse),
+1 : (_NewEnum,_NewEnumResponse),
+2 : (Count,CountResponse),
+}
+
+#################################################################################
+
+#IUpdate Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATE = uuidtup_to_bin(('6a92b07a-d821-4682-b423-5c805022cc4d','0.0'))
+
+
+class Title(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class TitleResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class AutoSelectOnWebSites(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class AutoSelectOnWebSitesResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class BundledUpdates(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class BundledUpdatesResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATECOLLECTION),
+    )
+        
+
+class CanRequireSource(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class CanRequireSourceResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class Categories(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class CategoriesResponse(NDRCALL):
+    structure = (
+		('retval', ICATEGORYCOLLECTION),
+    )
+        
+
+class Deadline(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class DeadlineResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT),
+    )
+        
+
+class DeltaCompressedContentAvailable(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class DeltaCompressedContentAvailableResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class DeltaCompressedContentPreferred(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class DeltaCompressedContentPreferredResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class Description(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class DescriptionResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class EulaAccepted(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class EulaAcceptedResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class EulaText(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class EulaTextResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class HandlerID(NDRCALL):
+    opnum = 11
+    structure = (
+
+    )
+
+class HandlerIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class Identity(NDRCALL):
+    opnum = 12
+    structure = (
+
+    )
+
+class IdentityResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATEIDENTITY),
+    )
+        
+
+class Image(NDRCALL):
+    opnum = 13
+    structure = (
+
+    )
+
+class ImageResponse(NDRCALL):
+    structure = (
+		('retval', IIMAGEINFORMATION),
+    )
+        
+
+class InstallationBehavior(NDRCALL):
+    opnum = 14
+    structure = (
+
+    )
+
+class InstallationBehaviorResponse(NDRCALL):
+    structure = (
+		('retval', IINSTALLATIONBEHAVIOR),
+    )
+        
+
+class IsBeta(NDRCALL):
+    opnum = 15
+    structure = (
+
+    )
+
+class IsBetaResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class IsDownloaded(NDRCALL):
+    opnum = 16
+    structure = (
+
+    )
+
+class IsDownloadedResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class IsHidden(NDRCALL):
+    opnum = 17
+    structure = (
+
+    )
+
+class IsHiddenResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class Opnum26NotUsedOnWire(NDRCALL):
+    opnum = 18
+    structure = (
+
+    )
+
+class Opnum26NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class IsInstalled(NDRCALL):
+    opnum = 19
+    structure = (
+
+    )
+
+class IsInstalledResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class IsMandatory(NDRCALL):
+    opnum = 20
+    structure = (
+
+    )
+
+class IsMandatoryResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class IsUninstallable(NDRCALL):
+    opnum = 21
+    structure = (
+
+    )
+
+class IsUninstallableResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class Languages(NDRCALL):
+    opnum = 22
+    structure = (
+
+    )
+
+class LanguagesResponse(NDRCALL):
+    structure = (
+		('retval', ISTRINGCOLLECTION),
+    )
+        
+
+class LastDeploymentChangeTime(NDRCALL):
+    opnum = 23
+    structure = (
+
+    )
+
+class LastDeploymentChangeTimeResponse(NDRCALL):
+    structure = (
+		('retval', DATE),
+    )
+        
+
+class MaxDownloadSize(NDRCALL):
+    opnum = 24
+    structure = (
+
+    )
+
+class MaxDownloadSizeResponse(NDRCALL):
+    structure = (
+		('retval', DECIMAL),
+    )
+        
+
+class MinDownloadSize(NDRCALL):
+    opnum = 25
+    structure = (
+
+    )
+
+class MinDownloadSizeResponse(NDRCALL):
+    structure = (
+		('retval', DECIMAL),
+    )
+        
+
+class MoreInfoUrls(NDRCALL):
+    opnum = 26
+    structure = (
+
+    )
+
+class MoreInfoUrlsResponse(NDRCALL):
+    structure = (
+		('retval', ISTRINGCOLLECTION),
+    )
+        
+
+class MsrcSeverity(NDRCALL):
+    opnum = 27
+    structure = (
+
+    )
+
+class MsrcSeverityResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class RecommendedCpuSpeed(NDRCALL):
+    opnum = 28
+    structure = (
+
+    )
+
+class RecommendedCpuSpeedResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class RecommendedHardDiskSpace(NDRCALL):
+    opnum = 29
+    structure = (
+
+    )
+
+class RecommendedHardDiskSpaceResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class RecommendedMemory(NDRCALL):
+    opnum = 30
+    structure = (
+
+    )
+
+class RecommendedMemoryResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class ReleaseNotes(NDRCALL):
+    opnum = 31
+    structure = (
+
+    )
+
+class ReleaseNotesResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class SecurityBulletinIDs(NDRCALL):
+    opnum = 32
+    structure = (
+
+    )
+
+class SecurityBulletinIDsResponse(NDRCALL):
+    structure = (
+		('retval', ISTRINGCOLLECTION),
+    )
+        
+
+class SupersededUpdateIDs(NDRCALL):
+    opnum = 33
+    structure = (
+
+    )
+
+class SupersededUpdateIDsResponse(NDRCALL):
+    structure = (
+		('retval', ISTRINGCOLLECTION),
+    )
+        
+
+class SupportUrl(NDRCALL):
+    opnum = 34
+    structure = (
+
+    )
+
+class SupportUrlResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class Type(NDRCALL):
+    opnum = 35
+    structure = (
+
+    )
+
+class TypeResponse(NDRCALL):
+    structure = (
+		('retval', UPDATETYPE),
+    )
+        
+
+class UninstallationNotes(NDRCALL):
+    opnum = 36
+    structure = (
+
+    )
+
+class UninstallationNotesResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class UninstallationBehavior(NDRCALL):
+    opnum = 37
+    structure = (
+
+    )
+
+class UninstallationBehaviorResponse(NDRCALL):
+    structure = (
+		('retval', IINSTALLATIONBEHAVIOR),
+    )
+        
+
+class UninstallationSteps(NDRCALL):
+    opnum = 38
+    structure = (
+
+    )
+
+class UninstallationStepsResponse(NDRCALL):
+    structure = (
+		('retval', ISTRINGCOLLECTION),
+    )
+        
+
+class KBArticleIDs(NDRCALL):
+    opnum = 39
+    structure = (
+
+    )
+
+class KBArticleIDsResponse(NDRCALL):
+    structure = (
+		('retval', ISTRINGCOLLECTION),
+    )
+        
+
+class Opnum48NotUsedOnWire(NDRCALL):
+    opnum = 40
+    structure = (
+
+    )
+
+class Opnum48NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class DeploymentAction(NDRCALL):
+    opnum = 41
+    structure = (
+
+    )
+
+class DeploymentActionResponse(NDRCALL):
+    structure = (
+		('retval', DEPLOYMENTACTION),
+    )
+        
+
+class Opnum50NotUsedOnWire(NDRCALL):
+    opnum = 42
+    structure = (
+
+    )
+
+class Opnum50NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class DownloadPriority(NDRCALL):
+    opnum = 43
+    structure = (
+
+    )
+
+class DownloadPriorityResponse(NDRCALL):
+    structure = (
+		('retval', DOWNLOADPRIORITY),
+    )
+        
+
+class DownloadContents(NDRCALL):
+    opnum = 44
+    structure = (
+
+    )
+
+class DownloadContentsResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATEDOWNLOADCONTENTCOLLECTION),
+    )
+        
+OPNUMS = {
+0 : (Title,TitleResponse),
+1 : (AutoSelectOnWebSites,AutoSelectOnWebSitesResponse),
+2 : (BundledUpdates,BundledUpdatesResponse),
+3 : (CanRequireSource,CanRequireSourceResponse),
+4 : (Categories,CategoriesResponse),
+5 : (Deadline,DeadlineResponse),
+6 : (DeltaCompressedContentAvailable,DeltaCompressedContentAvailableResponse),
+7 : (DeltaCompressedContentPreferred,DeltaCompressedContentPreferredResponse),
+8 : (Description,DescriptionResponse),
+9 : (EulaAccepted,EulaAcceptedResponse),
+10 : (EulaText,EulaTextResponse),
+11 : (HandlerID,HandlerIDResponse),
+12 : (Identity,IdentityResponse),
+13 : (Image,ImageResponse),
+14 : (InstallationBehavior,InstallationBehaviorResponse),
+15 : (IsBeta,IsBetaResponse),
+16 : (IsDownloaded,IsDownloadedResponse),
+17 : (IsHidden,IsHiddenResponse),
+18 : (Opnum26NotUsedOnWire,Opnum26NotUsedOnWireResponse),
+19 : (IsInstalled,IsInstalledResponse),
+20 : (IsMandatory,IsMandatoryResponse),
+21 : (IsUninstallable,IsUninstallableResponse),
+22 : (Languages,LanguagesResponse),
+23 : (LastDeploymentChangeTime,LastDeploymentChangeTimeResponse),
+24 : (MaxDownloadSize,MaxDownloadSizeResponse),
+25 : (MinDownloadSize,MinDownloadSizeResponse),
+26 : (MoreInfoUrls,MoreInfoUrlsResponse),
+27 : (MsrcSeverity,MsrcSeverityResponse),
+28 : (RecommendedCpuSpeed,RecommendedCpuSpeedResponse),
+29 : (RecommendedHardDiskSpace,RecommendedHardDiskSpaceResponse),
+30 : (RecommendedMemory,RecommendedMemoryResponse),
+31 : (ReleaseNotes,ReleaseNotesResponse),
+32 : (SecurityBulletinIDs,SecurityBulletinIDsResponse),
+33 : (SupersededUpdateIDs,SupersededUpdateIDsResponse),
+34 : (SupportUrl,SupportUrlResponse),
+35 : (Type,TypeResponse),
+36 : (UninstallationNotes,UninstallationNotesResponse),
+37 : (UninstallationBehavior,UninstallationBehaviorResponse),
+38 : (UninstallationSteps,UninstallationStepsResponse),
+39 : (KBArticleIDs,KBArticleIDsResponse),
+40 : (Opnum48NotUsedOnWire,Opnum48NotUsedOnWireResponse),
+41 : (DeploymentAction,DeploymentActionResponse),
+42 : (Opnum50NotUsedOnWire,Opnum50NotUsedOnWireResponse),
+43 : (DownloadPriority,DownloadPriorityResponse),
+44 : (DownloadContents,DownloadContentsResponse),
+}
+
+#################################################################################
+
+#IWindowsDriverUpdate Definition
+
+#################################################################################
+
+MSRPC_UUID_IWINDOWSDRIVERUPDATE = uuidtup_to_bin(('b383cd1a-5e9-4504-963-7641236191','0.0'))
+
+
+class DriverClass(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class DriverClassResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class DriverHardwareID(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class DriverHardwareIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class DriverManufacturer(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class DriverManufacturerResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class DriverModel(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class DriverModelResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class DriverProvider(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class DriverProviderResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class DriverVerDate(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class DriverVerDateResponse(NDRCALL):
+    structure = (
+		('retval', DATE),
+    )
+        
+
+class DeviceProblemNumber(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class DeviceProblemNumberResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class DeviceStatus(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class DeviceStatusResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+OPNUMS = {
+0 : (DriverClass,DriverClassResponse),
+1 : (DriverHardwareID,DriverHardwareIDResponse),
+2 : (DriverManufacturer,DriverManufacturerResponse),
+3 : (DriverModel,DriverModelResponse),
+4 : (DriverProvider,DriverProviderResponse),
+5 : (DriverVerDate,DriverVerDateResponse),
+6 : (DeviceProblemNumber,DeviceProblemNumberResponse),
+7 : (DeviceStatus,DeviceStatusResponse),
+}
+
+#################################################################################
+
+#IUpdate2 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATE2 = uuidtup_to_bin(('144fe9b0-d23d-4a8b-8634-fb4457533b7a','0.0'))
+
+
+class RebootRequired(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class RebootRequiredResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class IsPresent(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class IsPresentResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class CveIDs(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class CveIDsResponse(NDRCALL):
+    structure = (
+		('retval', ISTRINGCOLLECTION),
+    )
+        
+
+class Opnum56NotUsedOnWire(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class Opnum56NotUsedOnWireResponse(NDRCALL):
     structure = (
 
     )
         
 OPNUMS = {
-0 : (SetEvent,SetEventResponse),
+0 : (RebootRequired,RebootRequiredResponse),
+1 : (IsPresent,IsPresentResponse),
+2 : (CveIDs,CveIDsResponse),
+3 : (Opnum56NotUsedOnWire,Opnum56NotUsedOnWireResponse),
+}
+
+#################################################################################
+
+#IUpdate3 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATE3 = uuidtup_to_bin(('112EDA6B-95B3-476F-9D90-AEE82C6B8181','0.0'))
+
+
+class BrowseOnly(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class BrowseOnlyResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+OPNUMS = {
+0 : (BrowseOnly,BrowseOnlyResponse),
+}
+
+#################################################################################
+
+#IUpdate4 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATE4 = uuidtup_to_bin(('27e94b0d-5139-49a2-9a61-93522dc54652','0.0'))
+
+
+class PerUser(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class PerUserResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+OPNUMS = {
+0 : (PerUser,PerUserResponse),
+}
+
+#################################################################################
+
+#IUpdate5 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATE5 = uuidtup_to_bin(('C1C2F21A-D2F4-4902-B5C6-808119890','0.0'))
+
+
+class AutoSelection(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class AutoSelectionResponse(NDRCALL):
+    structure = (
+		('retval', AUTOSELECTIONMODE),
+    )
+        
+
+class AutoDownload(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class AutoDownloadResponse(NDRCALL):
+    structure = (
+		('retval', AUTODOWNLOADMODE),
+    )
+        
+OPNUMS = {
+0 : (AutoSelection,AutoSelectionResponse),
+1 : (AutoDownload,AutoDownloadResponse),
+}
+
+#################################################################################
+
+#IWindowsDriverUpdateEntry Definition
+
+#################################################################################
+
+MSRPC_UUID_IWINDOWSDRIVERUPDATEENTRY = uuidtup_to_bin(('ED8BFE40-A60B-42a-9652-817FCFA23EC','0.0'))
+
+
+class DriverClass(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class DriverClassResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class DriverHardwareID(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class DriverHardwareIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class DriverManufacturer(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class DriverManufacturerResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class DriverModel(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class DriverModelResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class DriverProvider(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class DriverProviderResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class DriverVerDate(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class DriverVerDateResponse(NDRCALL):
+    structure = (
+		('retval', DATE),
+    )
+        
+
+class DeviceProblemNumber(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class DeviceProblemNumberResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class DeviceStatus(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class DeviceStatusResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+OPNUMS = {
+0 : (DriverClass,DriverClassResponse),
+1 : (DriverHardwareID,DriverHardwareIDResponse),
+2 : (DriverManufacturer,DriverManufacturerResponse),
+3 : (DriverModel,DriverModelResponse),
+4 : (DriverProvider,DriverProviderResponse),
+5 : (DriverVerDate,DriverVerDateResponse),
+6 : (DeviceProblemNumber,DeviceProblemNumberResponse),
+7 : (DeviceStatus,DeviceStatusResponse),
+}
+
+#################################################################################
+
+#IWindowsDriverUpdateEntryCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IWINDOWSDRIVERUPDATEENTRYCOLLECTION = uuidtup_to_bin(('0D521700-A372-4bef-828B-3D00C10ADEBD','0.0'))
+
+
+class Item(NDRCALL):
+    opnum = 0
+    structure = (
+		('index', LONG),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('retval', IWINDOWSDRIVERUPDATEENTRY),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('retval', IUNKNOWN),
+    )
+        
+
+class Count(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+OPNUMS = {
+0 : (Item,ItemResponse),
+1 : (_NewEnum,_NewEnumResponse),
+2 : (Count,CountResponse),
+}
+
+#################################################################################
+
+#IWindowsDriverUpdate2 Definition
+
+#################################################################################
+
+MSRPC_UUID_IWINDOWSDRIVERUPDATE2 = uuidtup_to_bin(('615c4269-7a48-43bd-96b7-bf6ca27d6c3e','0.0'))
+
+
+class RebootRequired(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class RebootRequiredResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class IsPresent(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class IsPresentResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class CveIDs(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class CveIDsResponse(NDRCALL):
+    structure = (
+		('retval', ISTRINGCOLLECTION),
+    )
+        
+
+class Opnum64NotUsedOnWire(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class Opnum64NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (RebootRequired,RebootRequiredResponse),
+1 : (IsPresent,IsPresentResponse),
+2 : (CveIDs,CveIDsResponse),
+3 : (Opnum64NotUsedOnWire,Opnum64NotUsedOnWireResponse),
+}
+
+#################################################################################
+
+#IWindowsDriverUpdate3 Definition
+
+#################################################################################
+
+MSRPC_UUID_IWINDOWSDRIVERUPDATE3 = uuidtup_to_bin(('49EBD502-4A96-41BD-9E3E-4C5057F4250C','0.0'))
+
+
+class BrowseOnly(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class BrowseOnlyResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+OPNUMS = {
+0 : (BrowseOnly,BrowseOnlyResponse),
+}
+
+#################################################################################
+
+#IWindowsDriverUpdate4 Definition
+
+#################################################################################
+
+MSRPC_UUID_IWINDOWSDRIVERUPDATE4 = uuidtup_to_bin(('004C6A2B-0C19-4c69-9F5C-A269B2560DB9','0.0'))
+
+
+class WindowsDriverUpdateEntries(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class WindowsDriverUpdateEntriesResponse(NDRCALL):
+    structure = (
+		('retval', IWINDOWSDRIVERUPDATEENTRYCOLLECTION),
+    )
+        
+
+class PerUser(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class PerUserResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+OPNUMS = {
+0 : (WindowsDriverUpdateEntries,WindowsDriverUpdateEntriesResponse),
+1 : (PerUser,PerUserResponse),
+}
+
+#################################################################################
+
+#IWindowsDriverUpdate5 Definition
+
+#################################################################################
+
+MSRPC_UUID_IWINDOWSDRIVERUPDATE5 = uuidtup_to_bin(('70CF5C82-8642-42bb-9DBC-0CFD263C6C4F','0.0'))
+
+
+class AutoSelection(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class AutoSelectionResponse(NDRCALL):
+    structure = (
+		('retval', AUTOSELECTIONMODE),
+    )
+        
+
+class AutoDownload(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class AutoDownloadResponse(NDRCALL):
+    structure = (
+		('retval', AUTODOWNLOADMODE),
+    )
+        
+OPNUMS = {
+0 : (AutoSelection,AutoSelectionResponse),
+1 : (AutoDownload,AutoDownloadResponse),
+}
+
+#################################################################################
+
+#IUpdateCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATECOLLECTION = uuidtup_to_bin(('07f7438c-7709-4ca5-b518-91279288134e','0.0'))
+
+
+class Item(NDRCALL):
+    opnum = 0
+    structure = (
+		('index', LONG),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATE),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('index', LONG),
+		('value', IUPDATE),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('retval', IUNKNOWN),
+    )
+        
+
+class Count(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class ReadOnly(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class ReadOnlyResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class Add(NDRCALL):
+    opnum = 5
+    structure = (
+		('value', IUPDATE),
+    )
+
+class AddResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class Clear(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class ClearResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum15NotUsedOnWire(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class Opnum15NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Insert(NDRCALL):
+    opnum = 8
+    structure = (
+		('index', LONG),
+		('value', IUPDATE),
+    )
+
+class InsertResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RemoveAt(NDRCALL):
+    opnum = 9
+    structure = (
+		('index', LONG),
+    )
+
+class RemoveAtResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Item,ItemResponse),
+1 : (_NewEnum,_NewEnumResponse),
+2 : (Count,CountResponse),
+3 : (ReadOnly,ReadOnlyResponse),
+4 : (Add,AddResponse),
+5 : (Clear,ClearResponse),
+6 : (Opnum15NotUsedOnWire,Opnum15NotUsedOnWireResponse),
+7 : (Insert,InsertResponse),
+8 : (RemoveAt,RemoveAtResponse),
+}
+
+#################################################################################
+
+#IUpdateException Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATEEXCEPTION = uuidtup_to_bin(('a376dd5e-094-427-af7c-fed5b6e1c1d6','0.0'))
+
+
+class Message(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class MessageResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class HResult(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class HResultResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class Context(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class ContextResponse(NDRCALL):
+    structure = (
+		('retval', UPDATEEXCEPTIONCONTEXT),
+    )
+        
+OPNUMS = {
+0 : (Message,MessageResponse),
+1 : (HResult,HResultResponse),
+2 : (Context,ContextResponse),
+}
+
+#################################################################################
+
+#IUpdateExceptionCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATEEXCEPTIONCOLLECTION = uuidtup_to_bin(('503626a3-8e14-4729-9355-0fe664bd2321','0.0'))
+
+
+class Item(NDRCALL):
+    opnum = 0
+    structure = (
+		('index', LONG),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATEEXCEPTION),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('retval', IUNKNOWN),
+    )
+        
+
+class Count(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+OPNUMS = {
+0 : (Item,ItemResponse),
+1 : (_NewEnum,_NewEnumResponse),
+2 : (Count,CountResponse),
+}
+
+#################################################################################
+
+#ISearchResult Definition
+
+#################################################################################
+
+MSRPC_UUID_ISEARCHRESULT = uuidtup_to_bin(('d40cff62-e08c-4498-941-01250d33c','0.0'))
+
+
+class ResultCode(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class ResultCodeResponse(NDRCALL):
+    structure = (
+		('retval', OPERATIONRESULTCODE),
+    )
+        
+
+class RootCategories(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class RootCategoriesResponse(NDRCALL):
+    structure = (
+		('retval', ICATEGORYCOLLECTION),
+    )
+        
+
+class Updates(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class UpdatesResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATECOLLECTION),
+    )
+        
+
+class Warnings(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class WarningsResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATEEXCEPTIONCOLLECTION),
+    )
+        
+OPNUMS = {
+0 : (ResultCode,ResultCodeResponse),
+1 : (RootCategories,RootCategoriesResponse),
+2 : (Updates,UpdatesResponse),
+3 : (Warnings,WarningsResponse),
+}
+
+#################################################################################
+
+#IUpdateHistoryEntry Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATEHISTORYENTRY = uuidtup_to_bin(('be56a644-af0e-40-a311-c1d8e695cbff','0.0'))
+
+
+class Operation(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class OperationResponse(NDRCALL):
+    structure = (
+		('retval', UPDATEOPERATION),
+    )
+        
+
+class ResultCode(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class ResultCodeResponse(NDRCALL):
+    structure = (
+		('retval', OPERATIONRESULTCODE),
+    )
+        
+
+class HResult(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class HResultResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class Date(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class DateResponse(NDRCALL):
+    structure = (
+		('retval', DATE),
+    )
+        
+
+class UpdateIdentity(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class UpdateIdentityResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATEIDENTITY),
+    )
+        
+
+class Title(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class TitleResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class Description(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class DescriptionResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class UnmappedResultCode(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class UnmappedResultCodeResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class ClientApplicationID(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class ClientApplicationIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class ServerSelection(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class ServerSelectionResponse(NDRCALL):
+    structure = (
+		('retval', SERVERSELECTION),
+    )
+        
+
+class ServiceID(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class ServiceIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class UninstallationSteps(NDRCALL):
+    opnum = 11
+    structure = (
+
+    )
+
+class UninstallationStepsResponse(NDRCALL):
+    structure = (
+		('retval', ISTRINGCOLLECTION),
+    )
+        
+
+class UninstallationNotes(NDRCALL):
+    opnum = 12
+    structure = (
+
+    )
+
+class UninstallationNotesResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class SupportUrl(NDRCALL):
+    opnum = 13
+    structure = (
+
+    )
+
+class SupportUrlResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+OPNUMS = {
+0 : (Operation,OperationResponse),
+1 : (ResultCode,ResultCodeResponse),
+2 : (HResult,HResultResponse),
+3 : (Date,DateResponse),
+4 : (UpdateIdentity,UpdateIdentityResponse),
+5 : (Title,TitleResponse),
+6 : (Description,DescriptionResponse),
+7 : (UnmappedResultCode,UnmappedResultCodeResponse),
+8 : (ClientApplicationID,ClientApplicationIDResponse),
+9 : (ServerSelection,ServerSelectionResponse),
+10 : (ServiceID,ServiceIDResponse),
+11 : (UninstallationSteps,UninstallationStepsResponse),
+12 : (UninstallationNotes,UninstallationNotesResponse),
+13 : (SupportUrl,SupportUrlResponse),
+}
+
+#################################################################################
+
+#IUpdateHistoryEntry2 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATEHISTORYENTRY2 = uuidtup_to_bin(('c2bfb780-4539-4132-ab8c-08772013b6','0.0'))
+
+
+class Categories(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CategoriesResponse(NDRCALL):
+    structure = (
+		('retval', ICATEGORYCOLLECTION),
+    )
+        
+OPNUMS = {
+0 : (Categories,CategoriesResponse),
+}
+
+#################################################################################
+
+#IUpdateHistoryEntryCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATEHISTORYENTRYCOLLECTION = uuidtup_to_bin(('a7f04f3c-a290-435-aadf-a116c3357a5c','0.0'))
+
+
+class Item(NDRCALL):
+    opnum = 0
+    structure = (
+		('index', LONG),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATEHISTORYENTRY),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('retval', IUNKNOWN),
+    )
+        
+
+class Count(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+OPNUMS = {
+0 : (Item,ItemResponse),
+1 : (_NewEnum,_NewEnumResponse),
+2 : (Count,CountResponse),
+}
+
+#################################################################################
+
+#IUpdateSearcher Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESEARCHER = uuidtup_to_bin(('8f45abf1-f9ae-4b95-a933-f0f66e5056ea','0.0'))
+
+
+class CanAutomaticallyUpgradeService(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CanAutomaticallyUpgradeServiceResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class CanAutomaticallyUpgradeService(NDRCALL):
+    opnum = 1
+    structure = (
+		('value', VARIANT_BOOL),
+    )
+
+class CanAutomaticallyUpgradeServiceResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ClientApplicationID(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class ClientApplicationIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class ClientApplicationID(NDRCALL):
+    opnum = 3
+    structure = (
+		('value', BSTR),
+    )
+
+class ClientApplicationIDResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class IncludePotentiallySupersededUpdates(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class IncludePotentiallySupersededUpdatesResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class IncludePotentiallySupersededUpdates(NDRCALL):
+    opnum = 5
+    structure = (
+		('value', VARIANT_BOOL),
+    )
+
+class IncludePotentiallySupersededUpdatesResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ServerSelection(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class ServerSelectionResponse(NDRCALL):
+    structure = (
+		('retval', SERVERSELECTION),
+    )
+        
+
+class ServerSelection(NDRCALL):
+    opnum = 7
+    structure = (
+		('value', SERVERSELECTION),
+    )
+
+class ServerSelectionResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum16NotUsedOnWire(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class Opnum16NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum17NotUsedOnWire(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class Opnum17NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EscapeString(NDRCALL):
+    opnum = 10
+    structure = (
+		('unescaped', BSTR),
+    )
+
+class EscapeStringResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class QueryHistory(NDRCALL):
+    opnum = 11
+    structure = (
+		('startIndex', LONG),
+		('count', LONG),
+    )
+
+class QueryHistoryResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATEHISTORYENTRYCOLLECTION),
+    )
+        
+
+class Search(NDRCALL):
+    opnum = 12
+    structure = (
+		('criteria', BSTR),
+    )
+
+class SearchResponse(NDRCALL):
+    structure = (
+		('retval', ISEARCHRESULT),
+    )
+        
+
+class Online(NDRCALL):
+    opnum = 13
+    structure = (
+
+    )
+
+class OnlineResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class Online(NDRCALL):
+    opnum = 14
+    structure = (
+		('value', VARIANT_BOOL),
+    )
+
+class OnlineResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class GetTotalHistoryCount(NDRCALL):
+    opnum = 15
+    structure = (
+
+    )
+
+class GetTotalHistoryCountResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+
+class ServiceID(NDRCALL):
+    opnum = 16
+    structure = (
+
+    )
+
+class ServiceIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class ServiceID(NDRCALL):
+    opnum = 17
+    structure = (
+		('value', BSTR),
+    )
+
+class ServiceIDResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (CanAutomaticallyUpgradeService,CanAutomaticallyUpgradeServiceResponse),
+1 : (ClientApplicationID,ClientApplicationIDResponse),
+2 : (IncludePotentiallySupersededUpdates,IncludePotentiallySupersededUpdatesResponse),
+3 : (ServerSelection,ServerSelectionResponse),
+4 : (Opnum16NotUsedOnWire,Opnum16NotUsedOnWireResponse),
+5 : (Opnum17NotUsedOnWire,Opnum17NotUsedOnWireResponse),
+6 : (EscapeString,EscapeStringResponse),
+7 : (QueryHistory,QueryHistoryResponse),
+8 : (Search,SearchResponse),
+9 : (Online,OnlineResponse),
+10 : (GetTotalHistoryCount,GetTotalHistoryCountResponse),
+11 : (ServiceID,ServiceIDResponse),
+}
+
+#################################################################################
+
+#IUpdateSearcher2 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESEARCHER2 = uuidtup_to_bin(('4cbdcb2d-1589-4beb-bd1c-3e582ff0add0','0.0'))
+
+
+class IgnoreDownloadPriority(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class IgnoreDownloadPriorityResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class IgnoreDownloadPriority(NDRCALL):
+    opnum = 1
+    structure = (
+		('value', VARIANT_BOOL),
+    )
+
+class IgnoreDownloadPriorityResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (IgnoreDownloadPriority,IgnoreDownloadPriorityResponse),
+}
+
+#################################################################################
+
+#IUpdateSearcher3 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESEARCHER3 = uuidtup_to_bin(('04C6895D-EAF2-4034-97F3-311DE9BE413A','0.0'))
+
+
+class SearchScope(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class SearchScopeResponse(NDRCALL):
+    structure = (
+		('retval', SEARCHSCOPE),
+    )
+        
+
+class SearchScope(NDRCALL):
+    opnum = 1
+    structure = (
+		('value', SEARCHSCOPE),
+    )
+
+class SearchScopeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (SearchScope,SearchScopeResponse),
+}
+
+#################################################################################
+
+#IUpdateSession Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESESSION = uuidtup_to_bin(('816858a4-260d-4260-933a-2585f1abc76b','0.0'))
+
+
+class ClientApplicationID(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class ClientApplicationIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class ClientApplicationID(NDRCALL):
+    opnum = 1
+    structure = (
+		('value', BSTR),
+    )
+
+class ClientApplicationIDResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ReadOnly(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class ReadOnlyResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class Opnum11NotUsedOnWire(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class Opnum11NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum12NotUsedOnWire(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class Opnum12NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CreateUpdateSearcher(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class CreateUpdateSearcherResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATESEARCHER),
+    )
+        
+
+class Opnum14NotUsedOnWire(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class Opnum14NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum15NotUsedOnWire(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class Opnum15NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (ClientApplicationID,ClientApplicationIDResponse),
+1 : (ReadOnly,ReadOnlyResponse),
+2 : (Opnum11NotUsedOnWire,Opnum11NotUsedOnWireResponse),
+3 : (Opnum12NotUsedOnWire,Opnum12NotUsedOnWireResponse),
+4 : (CreateUpdateSearcher,CreateUpdateSearcherResponse),
+5 : (Opnum14NotUsedOnWire,Opnum14NotUsedOnWireResponse),
+6 : (Opnum15NotUsedOnWire,Opnum15NotUsedOnWireResponse),
+}
+
+#################################################################################
+
+#IUpdateSession2 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESESSION2 = uuidtup_to_bin(('91caf7b0-eb23-49ed-9937-c52d817f46f7','0.0'))
+
+
+class UserLocale(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class UserLocaleResponse(NDRCALL):
+    structure = (
+		('retval', LCID),
+    )
+        
+
+class UserLocale(NDRCALL):
+    opnum = 1
+    structure = (
+		('lcid', LCID),
+    )
+
+class UserLocaleResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (UserLocale,UserLocaleResponse),
+}
+
+#################################################################################
+
+#IUpdateSession3 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESESSION3 = uuidtup_to_bin(('918EFD1E-B5D8-4c90-8540-AEB9BDC56F9D','0.0'))
+
+
+class CreateUpdateServiceManager(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CreateUpdateServiceManagerResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATESERVICEMANAGER2),
+    )
+        
+
+class QueryHistory(NDRCALL):
+    opnum = 1
+    structure = (
+		('criteria', BSTR),
+		('startIndex', LONG),
+		('count', LONG),
+    )
+
+class QueryHistoryResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATEHISTORYENTRYCOLLECTION),
+    )
+        
+OPNUMS = {
+0 : (CreateUpdateServiceManager,CreateUpdateServiceManagerResponse),
+1 : (QueryHistory,QueryHistoryResponse),
+}
+
+#################################################################################
+
+#IUpdateService Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESERVICE = uuidtup_to_bin(('76b3b17e-aed6-4da5-85f0-83587f81abe3','0.0'))
+
+
+class Name(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class ContentValidationCert(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class ContentValidationCertResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT),
+    )
+        
+
+class ExpirationDate(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class ExpirationDateResponse(NDRCALL):
+    structure = (
+		('retval', DATE),
+    )
+        
+
+class IsManaged(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class IsManagedResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class IsRegisteredWithAU(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class IsRegisteredWithAUResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class IssueDate(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class IssueDateResponse(NDRCALL):
+    structure = (
+		('retval', DATE),
+    )
+        
+
+class OffersWindowsUpdates(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class OffersWindowsUpdatesResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class RedirectUrls(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class RedirectUrlsResponse(NDRCALL):
+    structure = (
+		('retval', ISTRINGCOLLECTION),
+    )
+        
+
+class ServiceID(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class ServiceIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class IsScanPackageService(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class IsScanPackageServiceResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class CanRegisterWithAU(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class CanRegisterWithAUResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class ServiceUrl(NDRCALL):
+    opnum = 11
+    structure = (
+
+    )
+
+class ServiceUrlResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class SetupPrefix(NDRCALL):
+    opnum = 12
+    structure = (
+
+    )
+
+class SetupPrefixResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+OPNUMS = {
+0 : (Name,NameResponse),
+1 : (ContentValidationCert,ContentValidationCertResponse),
+2 : (ExpirationDate,ExpirationDateResponse),
+3 : (IsManaged,IsManagedResponse),
+4 : (IsRegisteredWithAU,IsRegisteredWithAUResponse),
+5 : (IssueDate,IssueDateResponse),
+6 : (OffersWindowsUpdates,OffersWindowsUpdatesResponse),
+7 : (RedirectUrls,RedirectUrlsResponse),
+8 : (ServiceID,ServiceIDResponse),
+9 : (IsScanPackageService,IsScanPackageServiceResponse),
+10 : (CanRegisterWithAU,CanRegisterWithAUResponse),
+11 : (ServiceUrl,ServiceUrlResponse),
+12 : (SetupPrefix,SetupPrefixResponse),
+}
+
+#################################################################################
+
+#IUpdateService2 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESERVICE2 = uuidtup_to_bin(('1518b460-6518-4172-940f-c75883b24ceb','0.0'))
+
+
+class IsDefaultAUService(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class IsDefaultAUServiceResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+OPNUMS = {
+0 : (IsDefaultAUService,IsDefaultAUServiceResponse),
+}
+
+#################################################################################
+
+#IUpdateServiceCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESERVICECOLLECTION = uuidtup_to_bin(('9b0353aa-0e52-44ff-b8b0-1f7fa0437f88','0.0'))
+
+
+class Item(NDRCALL):
+    opnum = 0
+    structure = (
+		('index', LONG),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATESERVICE),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('retval', IUNKNOWN),
+    )
+        
+
+class Count(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('retval', LONG),
+    )
+        
+OPNUMS = {
+0 : (Item,ItemResponse),
+1 : (_NewEnum,_NewEnumResponse),
+2 : (Count,CountResponse),
+}
+
+#################################################################################
+
+#IUpdateServiceRegistration Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESERVICEREGISTRATION = uuidtup_to_bin(('dde02280-123-40-937-67476cb286','0.0'))
+
+
+class RegistrationState(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class RegistrationStateResponse(NDRCALL):
+    structure = (
+		('retval', UPDATESERVICEREGISTRATIONSTATE),
+    )
+        
+
+class ServiceID(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class ServiceIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class IsPendingRegistrationWithAU(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class IsPendingRegistrationWithAUResponse(NDRCALL):
+    structure = (
+		('retval', VARIANT_BOOL),
+    )
+        
+
+class Service(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class ServiceResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATESERVICE2),
+    )
+        
+OPNUMS = {
+0 : (RegistrationState,RegistrationStateResponse),
+1 : (ServiceID,ServiceIDResponse),
+2 : (IsPendingRegistrationWithAU,IsPendingRegistrationWithAUResponse),
+3 : (Service,ServiceResponse),
+}
+
+#################################################################################
+
+#IUpdateServiceManager Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESERVICEMANAGER = uuidtup_to_bin(('23857e3c-02ba-44a3-9423-b1c900805f37','0.0'))
+
+
+class Services(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class ServicesResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATESERVICECOLLECTION),
+    )
+        
+
+class Opnum9NotUsedOnWire(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class Opnum9NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RegisterServiceWithAU(NDRCALL):
+    opnum = 2
+    structure = (
+		('serviceID', BSTR),
+    )
+
+class RegisterServiceWithAUResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RemoveService(NDRCALL):
+    opnum = 3
+    structure = (
+		('serviceID', BSTR),
+    )
+
+class RemoveServiceResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum12NotUsedOnWire(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class Opnum12NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class AddScanPackageService(NDRCALL):
+    opnum = 5
+    structure = (
+		('serviceName', BSTR),
+		('scanFileLocation', BSTR),
+		('flags', LONG),
+    )
+
+class AddScanPackageServiceResponse(NDRCALL):
+    structure = (
+		('ppService', IUPDATESERVICE),
+    )
+        
+
+class SetOption(NDRCALL):
+    opnum = 6
+    structure = (
+		('optionName', BSTR),
+		('optionValue', VARIANT),
+    )
+
+class SetOptionResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Services,ServicesResponse),
+1 : (Opnum9NotUsedOnWire,Opnum9NotUsedOnWireResponse),
+2 : (RegisterServiceWithAU,RegisterServiceWithAUResponse),
+3 : (RemoveService,RemoveServiceResponse),
+4 : (Opnum12NotUsedOnWire,Opnum12NotUsedOnWireResponse),
+5 : (AddScanPackageService,AddScanPackageServiceResponse),
+6 : (SetOption,SetOptionResponse),
+}
+
+#################################################################################
+
+#IUpdateServiceManager2 Definition
+
+#################################################################################
+
+MSRPC_UUID_IUPDATESERVICEMANAGER2 = uuidtup_to_bin(('0bb8531d-7e8d-424f-986c-a0b8f60a3e7b','0.0'))
+
+
+class ClientApplicationID(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class ClientApplicationIDResponse(NDRCALL):
+    structure = (
+		('retval', BSTR),
+    )
+        
+
+class ClientApplicationID(NDRCALL):
+    opnum = 1
+    structure = (
+		('value', BSTR),
+    )
+
+class ClientApplicationIDResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class QueryServiceRegistration(NDRCALL):
+    opnum = 2
+    structure = (
+		('serviceID', BSTR),
+    )
+
+class QueryServiceRegistrationResponse(NDRCALL):
+    structure = (
+		('retval', IUPDATESERVICEREGISTRATION),
+    )
+        
+
+class AddService2(NDRCALL):
+    opnum = 3
+    structure = (
+		('serviceID', BSTR),
+		('flags', LONG),
+		('authorizationCabPath', BSTR),
+    )
+
+class AddService2Response(NDRCALL):
+    structure = (
+		('retval', IUPDATESERVICEREGISTRATION),
+    )
+        
+OPNUMS = {
+0 : (ClientApplicationID,ClientApplicationIDResponse),
+1 : (QueryServiceRegistration,QueryServiceRegistrationResponse),
+2 : (AddService2,AddService2Response),
 }
 

@@ -318,7 +318,7 @@ class MidlTokenizer:
         return False
 
     def get_curr_lc(self):
-        lc = 0
+        lc = 1
         for i in range(0, len(self.midl)):
             if i == self.ptr:
                 return lc

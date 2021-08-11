@@ -22,6 +22,7 @@ class MidlArrayParser(MidlBaseParser):
         super().__init__(token_generator=token_generator, end_state=ArrayState.END, tokenizer=tokenizer)
         self.dimensions = [-1, -1] # min, max
         self.cur_dim = ''
+        self.rbracket_level = 0
 
     def add_data_to_dimension(self, token):
         if self.state not in [ArrayState.BEGIN, ArrayState.END]:
