@@ -444,3 +444,137 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
         ('Data', SECURITY_DESCRIPTOR),
     )    
 
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+PCONTEXT_HANDLE = VOID
+PCONTEXT_HANDLE_SHARED = PCONTEXT_HANDLE
+PPCONTEXT_HANDLE = PCONTEXT_HANDLE
+
+class RESP_ASYNC_NOTIFY(NDRSTRUCT):
+    structure = (
+        ('MessageType', UINT),('Length', UINT),('NumberOfMessages', UINT),('MessageBuffer', PBYTE),
+    )
+class PRESP_ASYNC_NOTIFY(NDRPOINTER):
+    referent = (
+        ('Data', RESP_ASYNC_NOTIFY),
+    )    
+
+
+class WITNESS_INTERFACE_INFO(NDRSTRUCT):
+    structure = (
+        ('InterfaceGroupName', WCHAR),('Version', ULONG),('State', USHORT),('IPV4', ULONG),('IPV6', USHORT),('Flags', UINT),
+    )
+class PWITNESS_INTERFACE_INFO(NDRPOINTER):
+    referent = (
+        ('Data', WITNESS_INTERFACE_INFO),
+    )    
+
+
+class WITNESS_INTERFACE_LIST(NDRSTRUCT):
+    structure = (
+        ('NumberOfInterfaces', UINT),('InterfaceInfo', PWITNESS_INTERFACE_INFO),
+    )
+class PWITNESS_INTERFACE_LIST(NDRPOINTER):
+    referent = (
+        ('Data', WITNESS_INTERFACE_LIST),
+    )    
+
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#Witness Definition
+
+#################################################################################
+
+MSRPC_UUID_WITNESS = uuidtup_to_bin(('ccd8c074-d0e5-440-924-d074faa6ba28','0.0'))
+
+
+class WitnessrGetInterfaceList(NDRCALL):
+    opnum = 0
+    structure = (
+		('HANDLE', HANDLE_T),
+    )
+
+class WitnessrGetInterfaceListResponse(NDRCALL):
+    structure = (
+		('INTERFACELIST', PWITNESS_INTERFACE_LIST),
+    )
+        
+
+class WitnessrRegister(NDRCALL):
+    opnum = 1
+    structure = (
+		('HANDLE', HANDLE_T),
+		('VERSION', ULONG),
+		('NETNAME', LPWSTR),
+		('IPADDRESS', LPWSTR),
+		('CLIENTCOMPUTERNAME', LPWSTR),
+    )
+
+class WitnessrRegisterResponse(NDRCALL):
+    structure = (
+		('PPCONTEXT', PPCONTEXT_HANDLE),
+    )
+        
+
+class WitnessrUnRegister(NDRCALL):
+    opnum = 2
+    structure = (
+		('HANDLE', HANDLE_T),
+		('PCONTEXT', PCONTEXT_HANDLE),
+    )
+
+class WitnessrUnRegisterResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class WitnessrAsyncNotify(NDRCALL):
+    opnum = 3
+    structure = (
+		('HANDLE', HANDLE_T),
+		('PCONTEXT', PCONTEXT_HANDLE_SHARED),
+    )
+
+class WitnessrAsyncNotifyResponse(NDRCALL):
+    structure = (
+		('PRESP', PRESP_ASYNC_NOTIFY),
+    )
+        
+
+class WitnessrRegisterEx(NDRCALL):
+    opnum = 4
+    structure = (
+		('HANDLE', HANDLE_T),
+		('VERSION', ULONG),
+		('NETNAME', LPWSTR),
+		('SHARENAME', LPWSTR),
+		('IPADDRESS', LPWSTR),
+		('CLIENTCOMPUTERNAME', LPWSTR),
+		('FLAGS', ULONG),
+		('KEEPALIVETIMEOUT', ULONG),
+    )
+
+class WitnessrRegisterExResponse(NDRCALL):
+    structure = (
+		('PPCONTEXT', PPCONTEXT_HANDLE),
+    )
+        
+OPNUMS = {
+0 : (WitnessrGetInterfaceList,WitnessrGetInterfaceListResponse),
+1 : (WitnessrRegister,WitnessrRegisterResponse),
+2 : (WitnessrUnRegister,WitnessrUnRegisterResponse),
+3 : (WitnessrAsyncNotify,WitnessrAsyncNotifyResponse),
+4 : (WitnessrRegisterEx,WitnessrRegisterExResponse),
+}
+

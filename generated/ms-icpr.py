@@ -75,12 +75,6 @@ HYPER = NDRHYPER
 
 #################################################################################
 
-#"ms-dtyp.idl"
-
-#################################################################################
-
-#################################################################################
-
 #TYPEDEFS
 
 #################################################################################
@@ -1053,5 +1047,225 @@ class RemQueryInterface2Response(NDRCALL):
         
 OPNUMS = {
 0 : (RemQueryInterface2,RemQueryInterface2Response),
+}
+
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+BYTE = BYTE
+
+class DATA_CERTTRANSBLOB(NDRUniConformantArray):
+    item = BYTE
+
+class PTR_CERTTRANSBLOB(NDRPOINTER):
+    referent = (
+        ('Data', DATA_CERTTRANSBLOB),
+    )
+
+class CERTTRANSBLOB(NDRSTRUCT):
+    structure = (
+	('cb', ULONG),	('pb', PTR_CERTTRANSBLOB),
+
+    )
+        
+
+class CATRANSPROP(NDRSTRUCT):
+    structure = (
+        ('lPropID', LONG),('propType', BYTE),('Reserved', BYTE),('propFlags', USHORT),('obwszDisplayName', ULONG),
+    )
+
+
+class CAINFO(NDRSTRUCT):
+    structure = (
+        ('cbSize', DWORD),('CAType', LONG),('cCASignatureCerts', DWORD),('cCAExchangeCerts', DWORD),('cExitAlgorithms', DWORD),('lPropIDMax', LONG),('lRoleSeparationEnabled', LONG),('cKRACertUsedCount', DWORD),('cKRACertCount', DWORD),('fAdvancedServer', DWORD),
+    )
+
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#ICertRequestD Definition
+
+#################################################################################
+
+MSRPC_UUID_ICERTREQUESTD = uuidtup_to_bin(('d99e6e70-fc88-110-b498-000903123','0.0'))
+
+
+class Request(NDRCALL):
+    opnum = 0
+    structure = (
+		('DWFLAGS', DWORD),
+		('PWSZAUTHORITY', WCHAR_T ),
+		('PDWREQUESTID', DWORD),
+		('PWSZATTRIBUTES', WCHAR_T ),
+		('PCTBREQUEST', CERTTRANSBLOB ),
+    )
+
+class RequestResponse(NDRCALL):
+    structure = (
+		('PDWREQUESTID', DWORD),
+		('PDWDISPOSITION', DWORD),
+		('PCTBCERTCHAIN', CERTTRANSBLOB),
+		('PCTBENCODEDCERT', CERTTRANSBLOB),
+		('PCTBDISPOSITIONMESSAGE', CERTTRANSBLOB),
+    )
+        
+
+class GetCACert(NDRCALL):
+    opnum = 1
+    structure = (
+		('FCHAIN', DWORD),
+		('PWSZAUTHORITY', WCHAR_T ),
+    )
+
+class GetCACertResponse(NDRCALL):
+    structure = (
+		('PCTBOUT', CERTTRANSBLOB),
+    )
+        
+
+class Ping(NDRCALL):
+    opnum = 2
+    structure = (
+		('PWSZAUTHORITY', WCHAR_T ),
+    )
+
+class PingResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Request,RequestResponse),
+1 : (GetCACert,GetCACertResponse),
+2 : (Ping,PingResponse),
+}
+
+#################################################################################
+
+#ICertRequestD2 Definition
+
+#################################################################################
+
+MSRPC_UUID_ICERTREQUESTD2 = uuidtup_to_bin(('5422fd3a-d4b8-4cef-a12e-e87d4ca22e90','0.0'))
+
+
+class Request2(NDRCALL):
+    opnum = 0
+    structure = (
+		('PWSZAUTHORITY', WCHAR_T ),
+		('DWFLAGS', DWORD),
+		('PWSZSERIALNUMBER', WCHAR_T ),
+		('PDWREQUESTID', DWORD),
+		('PWSZATTRIBUTES', WCHAR_T ),
+		('PCTBREQUEST', CERTTRANSBLOB ),
+    )
+
+class Request2Response(NDRCALL):
+    structure = (
+		('PDWREQUESTID', DWORD),
+		('PDWDISPOSITION', DWORD),
+		('PCTBFULLRESPONSE', CERTTRANSBLOB),
+		('PCTBENCODEDCERT', CERTTRANSBLOB),
+		('PCTBDISPOSITIONMESSAGE', CERTTRANSBLOB),
+    )
+        
+
+class GetCAProperty(NDRCALL):
+    opnum = 1
+    structure = (
+		('PWSZAUTHORITY', WCHAR_T ),
+		('PROPID', LONG),
+		('PROPINDEX', LONG),
+		('PROPTYPE', LONG),
+    )
+
+class GetCAPropertyResponse(NDRCALL):
+    structure = (
+		('PCTBPROPERTYVALUE', CERTTRANSBLOB),
+    )
+        
+
+class GetCAPropertyInfo(NDRCALL):
+    opnum = 2
+    structure = (
+		('PWSZAUTHORITY', WCHAR_T ),
+    )
+
+class GetCAPropertyInfoResponse(NDRCALL):
+    structure = (
+		('PCPROPERTY', LONG),
+		('PCTBPROPINFO', CERTTRANSBLOB),
+    )
+        
+
+class Ping2(NDRCALL):
+    opnum = 3
+    structure = (
+		('PWSZAUTHORITY', WCHAR_T ),
+    )
+
+class Ping2Response(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Request2,Request2Response),
+1 : (GetCAProperty,GetCAPropertyResponse),
+2 : (GetCAPropertyInfo,GetCAPropertyInfoResponse),
+3 : (Ping2,Ping2Response),
+}
+
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#ICertPassage Definition
+
+#################################################################################
+
+MSRPC_UUID_ICERTPASSAGE = uuidtup_to_bin(('91ae6020-9e3c-11cf-8d7c-00aa00c091be','0.0'))
+
+
+class CertServerRequest(NDRCALL):
+    opnum = 0
+    structure = (
+		('H', HANDLE_T),
+		('DWFLAGS', DWORD),
+		('PWSZAUTHORITY', CONST_WCHAR_T),
+		('PDWREQUESTID', DWORD),
+		('PCTBATTRIBS',  CERTTRANSBLOB),
+		('PCTBREQUEST',  CERTTRANSBLOB),
+    )
+
+class CertServerRequestResponse(NDRCALL):
+    structure = (
+		('PDWREQUESTID', DWORD),
+		('PDWDISPOSITION', DWORD),
+		('PCTBCERT', CERTTRANSBLOB),
+		('PCTBENCODEDCERT', CERTTRANSBLOB),
+		('PCTBDISPOSITIONMESSAGE', CERTTRANSBLOB),
+    )
+        
+OPNUMS = {
+0 : (CertServerRequest,CertServerRequestResponse),
 }
 

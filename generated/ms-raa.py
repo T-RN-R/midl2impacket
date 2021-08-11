@@ -444,3 +444,301 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
         ('Data', SECURITY_DESCRIPTOR),
     )    
 
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#authzr Definition
+
+#################################################################################
+
+MSRPC_UUID_AUTHZR = uuidtup_to_bin(('0b1c2170-5732-4e0e-8cd3-d9b16f3b84d7','0.0'))
+
+AUTHZR_HANDLE = PVOID
+
+class DATA_AUTHZR_ACCESS_REQUEST(NDRUniConformantArray):
+    item = OBJECT_TYPE_LIST
+
+class PTR_AUTHZR_ACCESS_REQUEST(NDRPOINTER):
+    referent = (
+        ('Data', DATA_AUTHZR_ACCESS_REQUEST),
+    )
+
+class AUTHZR_ACCESS_REQUEST(NDRSTRUCT):
+    structure = (
+	('DesiredAccess', ACCESS_MASK),	('PrincipalSelfSid', RPC_SID),	('ObjectTypeListLength', DWORD),	('ObjectTypeList', PTR_AUTHZR_ACCESS_REQUEST),
+
+    )
+        
+
+class DATA_SR_SD(NDRUniConformantArray):
+    item = BYTE
+
+class PTR_SR_SD(NDRPOINTER):
+    referent = (
+        ('Data', DATA_SR_SD),
+    )
+
+class SR_SD(NDRSTRUCT):
+    structure = (
+	('dwLength', DWORD),	('pSrSd', PTR_SR_SD),
+
+    )
+        
+
+class DATA_AUTHZR_ACCESS_REPLY(NDRUniConformantArray):
+    item = DWORD
+
+class PTR_AUTHZR_ACCESS_REPLY(NDRPOINTER):
+    referent = (
+        ('Data', DATA_AUTHZR_ACCESS_REPLY),
+    )
+
+class AUTHZR_ACCESS_REPLY(NDRSTRUCT):
+    structure = (
+	('ResultListLength', DWORD),	('GrantedAccessMask', ACCESS_MASK),	('Error', PTR_AUTHZR_ACCESS_REPLY),
+
+    )
+        
+
+AuthzContextInfoUserSid = 1,
+AuthzContextInfoGroupsSids = 2,
+AuthzContextInfoRestrictedSids = 3,
+ReservedEnumValue4 = 4,
+ReservedEnumValue5 = 5,
+ReservedEnumValue6 = 6,
+ReservedEnumValue7 = 7,
+ReservedEnumValue8 = 8,
+ReservedEnumValue9 = 9,
+ReservedEnumValue10 = 10,
+ReservedEnumValue11 = 11,
+AuthzContextInfoDeviceSids = 12,
+AuthzContextInfoUserClaims = 13,
+AuthzContextInfoDeviceClaims = 14,
+ReservedEnumValue15 = 15,
+ReservedEnumValue16 = 16
+        
+
+class AUTHZR_SID_AND_ATTRIBUTES(NDRSTRUCT):
+    structure = (
+        ('Sid', RPC_SID),('Attributes', DWORD),
+    )
+
+
+class AUTHZR_TOKEN_USER(NDRSTRUCT):
+    structure = (
+        ('User', AUTHZR_SID_AND_ATTRIBUTES),
+    )
+
+
+class AUTHZR_TOKEN_GROUPS(NDRSTRUCT):
+    structure = (
+        ('GroupCount', DWORD),('Groups', AUTHZR_SID_AND_ATTRIBUTES),
+    )
+
+
+class DATA_AUTHZR_SECURITY_ATTRIBUTE_STRING_VALUE(NDRUniConformantArray):
+    item = WCHAR
+
+class PTR_AUTHZR_SECURITY_ATTRIBUTE_STRING_VALUE(NDRPOINTER):
+    referent = (
+        ('Data', DATA_AUTHZR_SECURITY_ATTRIBUTE_STRING_VALUE),
+    )
+
+class AUTHZR_SECURITY_ATTRIBUTE_STRING_VALUE(NDRSTRUCT):
+    structure = (
+	('Length', ULONG),	('Value', PTR_AUTHZR_SECURITY_ATTRIBUTE_STRING_VALUE),
+
+    )
+        
+
+class ATTRIBUTEUNION(NDRUNION):
+    union = {
+        1: ('Int64',LONG64),2: ('Uint64',ULONG64),3: ('String',AUTHZR_SECURITY_ATTRIBUTE_STRING_VALUE),
+    }
+        
+
+class AUTHZR_SECURITY_ATTRIBUTE_V1_VALUE(NDRSTRUCT):
+    structure = (
+        ('ValueType', USHORT),('AttributeUnion', ATTRIBUTEUNION),
+    )
+
+
+class DATA_AUTHZR_SECURITY_ATTRIBUTE_V1(NDRUniConformantArray):
+    item = AUTHZR_SECURITY_ATTRIBUTE_V1_VALUE
+
+class PTR_AUTHZR_SECURITY_ATTRIBUTE_V1(NDRPOINTER):
+    referent = (
+        ('Data', DATA_AUTHZR_SECURITY_ATTRIBUTE_V1),
+    )
+
+class AUTHZR_SECURITY_ATTRIBUTE_V1(NDRSTRUCT):
+    structure = (
+	('Length', ULONG),	('Value', WCHAR),	('ValueType', USHORT),	('Reserved', USHORT),	('Flags', ULONG),	('ValueCount', ULONG),	('Values', PTR_AUTHZR_SECURITY_ATTRIBUTE_V1),
+
+    )
+        
+
+class DATA_AUTHZR_SECURITY_ATTRIBUTES_INFORMATION(NDRUniConformantArray):
+    item = AUTHZR_SECURITY_ATTRIBUTE_V1
+
+class PTR_AUTHZR_SECURITY_ATTRIBUTES_INFORMATION(NDRPOINTER):
+    referent = (
+        ('Data', DATA_AUTHZR_SECURITY_ATTRIBUTES_INFORMATION),
+    )
+
+class AUTHZR_SECURITY_ATTRIBUTES_INFORMATION(NDRSTRUCT):
+    structure = (
+	('Version', USHORT),	('Reserved', USHORT),	('AttributeCount', ULONG),	('Attributes', PTR_AUTHZR_SECURITY_ATTRIBUTES_INFORMATION),
+
+    )
+        
+
+class CONTEXTINFOUNION(NDRUNION):
+    union = {
+        1: ('pTokenUser',AUTHZR_TOKEN_USER),2: ('pTokenGroups',AUTHZR_TOKEN_GROUPS),3: ('pTokenClaims',AUTHZR_SECURITY_ATTRIBUTES_INFORMATION),
+    }
+        
+
+class AUTHZR_CONTEXT_INFORMATION(NDRSTRUCT):
+    structure = (
+        ('ValueType', USHORT),('ContextInfoUnion', CONTEXTINFOUNION),
+    )
+
+
+AUTHZ_SECURITY_ATTRIBUTE_OPERATION_NONE = 0,
+AUTHZ_SECURITY_ATTRIBUTE_OPERATION_REPLACE_ALL = 1,
+AUTHZ_SECURITY_ATTRIBUTE_OPERATION_ADD = 2,
+AUTHZ_SECURITY_ATTRIBUTE_OPERATION_DELETE = 3,
+AUTHZ_SECURITY_ATTRIBUTE_OPERATION_REPLACE = 4
+        
+
+AUTHZ_SID_OPERATION_NONE = 0,
+AUTHZ_SID_OPERATION_REPLACE_ALL = 1,
+AUTHZ_SID_OPERATION_ADD = 2,
+AUTHZ_SID_OPERATION_DELETE = 3,
+AUTHZ_SID_OPERATION_REPLACE = 4
+        
+
+class AuthzrFreeContext(NDRCALL):
+    opnum = 0
+    structure = (
+		('CONTEXTHANDLE', AUTHZR_HANDLE),
+    )
+
+class AuthzrFreeContextResponse(NDRCALL):
+    structure = (
+		('CONTEXTHANDLE', AUTHZR_HANDLE),
+    )
+        
+
+class AuthzrInitializeContextFromSid(NDRCALL):
+    opnum = 1
+    structure = (
+		('BINDING', HANDLE_T),
+		('FLAGS', DWORD),
+		('SID', RPC_SID),
+		('PEXPIRATIONTIME', LARGE_INTEGER),
+		('IDENTIFIER', LUID),
+    )
+
+class AuthzrInitializeContextFromSidResponse(NDRCALL):
+    structure = (
+		('CONTEXTHANDLE', AUTHZR_HANDLE),
+    )
+        
+
+class AuthzrInitializeCompoundContext(NDRCALL):
+    opnum = 2
+    structure = (
+		('USERCONTEXTHANDLE', AUTHZR_HANDLE),
+		('DEVICECONTEXTHANDLE', AUTHZR_HANDLE),
+    )
+
+class AuthzrInitializeCompoundContextResponse(NDRCALL):
+    structure = (
+		('COMPOUNDCONTEXTHANDLE', AUTHZR_HANDLE),
+    )
+        
+
+class AuthzrAccessCheck(NDRCALL):
+    opnum = 3
+    structure = (
+		('CONTEXTHANDLE', AUTHZR_HANDLE),
+		('FLAGS', DWORD),
+		('PREQUEST', AUTHZR_ACCESS_REQUEST),
+		('SECURITYDESCRIPTORCOUNT', DWORD),
+		('PSECURITYDESCRIPTORS', SR_SD),
+		('PREPLY', AUTHZR_ACCESS_REPLY),
+    )
+
+class AuthzrAccessCheckResponse(NDRCALL):
+    structure = (
+		('PREPLY', AUTHZR_ACCESS_REPLY),
+    )
+        
+
+class AuthzGetInformationFromContext(NDRCALL):
+    opnum = 4
+    structure = (
+		('CONTEXTHANDLE', AUTHZR_HANDLE),
+		('INFOCLASS', AUTHZ_CONTEXT_INFORMATION_CLASS),
+    )
+
+class AuthzGetInformationFromContextResponse(NDRCALL):
+    structure = (
+		('PPCONTEXTINFORMATION', AUTHZR_CONTEXT_INFORMATION),
+    )
+        
+
+class AuthzrModifyClaims(NDRCALL):
+    opnum = 5
+    structure = (
+		('CONTEXTHANDLE', AUTHZR_HANDLE),
+		('CLAIMCLASS', AUTHZ_CONTEXT_INFORMATION_CLASS),
+		('OPERATIONCOUNT', DWORD),
+		('PCLAIMOPERATIONS', AUTHZ_SECURITY_ATTRIBUTE_OPERATION),
+		('PCLAIMS', AUTHZR_SECURITY_ATTRIBUTES_INFORMATION),
+    )
+
+class AuthzrModifyClaimsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class AuthzrModifySids(NDRCALL):
+    opnum = 6
+    structure = (
+		('CONTEXTHANDLE', AUTHZR_HANDLE),
+		('SIDCLASS', AUTHZ_CONTEXT_INFORMATION_CLASS),
+		('OPERATIONCOUNT', DWORD),
+		('PSIDOPERATIONS', AUTHZ_SID_OPERATION),
+		('PSIDS', AUTHZR_TOKEN_GROUPS),
+    )
+
+class AuthzrModifySidsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (AuthzrFreeContext,AuthzrFreeContextResponse),
+1 : (AuthzrInitializeContextFromSid,AuthzrInitializeContextFromSidResponse),
+2 : (AuthzrInitializeCompoundContext,AuthzrInitializeCompoundContextResponse),
+3 : (AuthzrAccessCheck,AuthzrAccessCheckResponse),
+4 : (AuthzGetInformationFromContext,AuthzGetInformationFromContextResponse),
+5 : (AuthzrModifyClaims,AuthzrModifyClaimsResponse),
+6 : (AuthzrModifySids,AuthzrModifySidsResponse),
+}
+

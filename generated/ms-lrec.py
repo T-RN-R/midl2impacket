@@ -444,3 +444,82 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
         ('Data', SECURITY_DESCRIPTOR),
     )    
 
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#NetEventForwarder Definition
+
+#################################################################################
+
+MSRPC_UUID_NETEVENTFORWARDER = uuidtup_to_bin(('22e5386d-8b12-4bf0-b0ec-6a1ea419e366','0.0'))
+
+PSESSION_HANDLE = VOID
+
+class DATA_EVENT_BUFFER(NDRUniConformantArray):
+    item = BYTE
+
+class PTR_EVENT_BUFFER(NDRPOINTER):
+    referent = (
+        ('Data', DATA_EVENT_BUFFER),
+    )
+
+class EVENT_BUFFER(NDRSTRUCT):
+    structure = (
+	('BufferLength', UNSIGNED_LONG),	('Buffer', PTR_EVENT_BUFFER),
+
+    )
+        
+
+class RpcNetEventOpenSession(NDRCALL):
+    opnum = 0
+    structure = (
+		('BINDINGHANDLE', HANDLE_T),
+		('LOGGERNAME', WCHAR_T),
+    )
+
+class RpcNetEventOpenSessionResponse(NDRCALL):
+    structure = (
+		('SESSIONHANDLE', PSESSION_HANDLE),
+    )
+        
+
+class RpcNetEventReceiveData(NDRCALL):
+    opnum = 1
+    structure = (
+		('SESSIONHANDLE', PSESSION_HANDLE),
+    )
+
+class RpcNetEventReceiveDataResponse(NDRCALL):
+    structure = (
+		('EVENTBUFFER', EVENT_BUFFER),
+    )
+        
+
+class RpcNetEventCloseSession(NDRCALL):
+    opnum = 2
+    structure = (
+		('SESSIONHANDLE', PSESSION_HANDLE),
+    )
+
+class RpcNetEventCloseSessionResponse(NDRCALL):
+    structure = (
+		('SESSIONHANDLE', PSESSION_HANDLE),
+    )
+        
+OPNUMS = {
+0 : (RpcNetEventOpenSession,RpcNetEventOpenSessionResponse),
+1 : (RpcNetEventReceiveData,RpcNetEventReceiveDataResponse),
+2 : (RpcNetEventCloseSession,RpcNetEventCloseSessionResponse),
+}
+

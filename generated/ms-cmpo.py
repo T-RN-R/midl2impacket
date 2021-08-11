@@ -75,6 +75,12 @@ HYPER = NDRHYPER
 
 #################################################################################
 
+#"ms-dtyp.idl"
+
+#################################################################################
+
+#################################################################################
+
 #TYPEDEFS
 
 #################################################################################
@@ -443,4 +449,206 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
     referent = (
         ('Data', SECURITY_DESCRIPTOR),
     )    
+
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#IXnRemote Definition
+
+#################################################################################
+
+MSRPC_UUID_IXNREMOTE = uuidtup_to_bin(('906B0CE0-C70B-1067-B317-00DD010662DA','0.0'))
+
+
+TT_FORCE = 0,
+TT_PROBLEM = 2
+        
+
+SRANK_PRIMARY = 1,
+SRANK_SECONDARY = 2
+        
+
+RT_CONNECTIONS = 0
+        
+
+class BIND_VERSION_SET(NDRSTRUCT):
+    structure = (
+        ('dwMinLevelOne', DWORD),('dwMaxLevelOne', DWORD),('dwMinLevelTwo', DWORD),('dwMaxLevelTwo', DWORD),('dwMinLevelThree', DWORD),('dwMaxLevelThree', DWORD),
+    )
+
+
+class BOUND_VERSION_SET(NDRSTRUCT):
+    structure = (
+        ('dwLevelOneAccepted', DWORD),('dwLevelTwoAccepted', DWORD),('dwLevelThreeAccepted', DWORD),
+    )
+
+COM_PROTOCOL = UNSIGNED_LONG
+
+class BIND_INFO_BLOB(NDRSTRUCT):
+    structure = (
+        ('dwcbThisStruct', DWORD),('grbitComProtocols', COM_PROTOCOL),
+    )
+
+
+class Poke(NDRCALL):
+    opnum = 0
+    structure = (
+		('HBINDING', HANDLE_T),
+		('SRANK', SESSION_RANK),
+		('PSZCALLEEUUID', UNSIGNED_CHAR),
+		('PSZHOSTNAME', UNSIGNED_CHAR),
+		('PSZUUIDSTRING', UNSIGNED_CHAR),
+		('DWCBSIZEOFBLOB', DWORD),
+		('RGUCHBLOB', UNSIGNED_CHAR),
+    )
+
+class PokeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class BuildContext(NDRCALL):
+    opnum = 1
+    structure = (
+		('HBINDING', HANDLE_T),
+		('SRANK', SESSION_RANK),
+		('BINDVERSIONSET', BIND_VERSION_SET),
+		('PSZCALLEEUUID', UNSIGNED_CHAR),
+		('PSZHOSTNAME', UNSIGNED_CHAR),
+		('PSZUUIDSTRING', UNSIGNED_CHAR),
+		('PSZGUIDIN', UNSIGNED_CHAR),
+		('PSZGUIDOUT', UNSIGNED_CHAR),
+		('PBOUNDVERSIONSET', BOUND_VERSION_SET),
+		('DWCBSIZEOFBLOB', DWORD),
+		('RGUCHBLOB', UNSIGNED_CHAR),
+    )
+
+class BuildContextResponse(NDRCALL):
+    structure = (
+		('PSZGUIDOUT', UNSIGNED_CHAR),
+		('PBOUNDVERSIONSET', BOUND_VERSION_SET),
+		('PPHANDLE', PPCONTEXT_HANDLE),
+    )
+        
+
+class NegotiateResources(NDRCALL):
+    opnum = 2
+    structure = (
+		('PHCONTEXT', PCONTEXT_HANDLE),
+		('RESOURCETYPE', RESOURCE_TYPE),
+		('DWCREQUESTED', DWORD),
+		('PDWCACCEPTED', DWORD),
+    )
+
+class NegotiateResourcesResponse(NDRCALL):
+    structure = (
+		('PDWCACCEPTED', DWORD),
+    )
+        
+
+class SendReceive(NDRCALL):
+    opnum = 3
+    structure = (
+		('PHCONTEXT', PCONTEXT_HANDLE),
+		('DWCMESSAGES', DWORD),
+		('DWCBSIZEOFBOXCAR', DWORD),
+		('RGUCHBOXCAR', UNSIGNED_CHAR),
+    )
+
+class SendReceiveResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class TearDownContext(NDRCALL):
+    opnum = 4
+    structure = (
+		('CONTEXTHANDLE', PPCONTEXT_HANDLE),
+		('SRANK', SESSION_RANK),
+		('TEARDOWNTYPE', TEARDOWN_TYPE),
+    )
+
+class TearDownContextResponse(NDRCALL):
+    structure = (
+		('CONTEXTHANDLE', PPCONTEXT_HANDLE),
+    )
+        
+
+class BeginTearDown(NDRCALL):
+    opnum = 5
+    structure = (
+		('CONTEXTHANDLE', PCONTEXT_HANDLE),
+		('TEARDOWNTYPE', TEARDOWN_TYPE),
+    )
+
+class BeginTearDownResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class PokeW(NDRCALL):
+    opnum = 6
+    structure = (
+		('HBINDING', HANDLE_T),
+		('SRANK', SESSION_RANK),
+		('PWSZCALLEEUUID', WCHAR_T),
+		('PWSZHOSTNAME', WCHAR_T),
+		('PWSZUUIDSTRING', WCHAR_T),
+		('DWCBSIZEOFBLOB', DWORD),
+		('RGUCHBLOB', UNSIGNED_CHAR),
+    )
+
+class PokeWResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class BuildContextW(NDRCALL):
+    opnum = 7
+    structure = (
+		('HBINDING', HANDLE_T),
+		('SRANK', SESSION_RANK),
+		('BINDVERSIONSET', BIND_VERSION_SET),
+		('PWSZCALLEEUUID', WCHAR_T),
+		('PWSZHOSTNAME', WCHAR_T),
+		('PWSZUUIDSTRING', WCHAR_T),
+		('PWSZGUIDIN', WCHAR_T),
+		('PWSZGUIDOUT', WCHAR_T),
+		('PBOUNDVERSIONSET', BOUND_VERSION_SET),
+		('DWCBSIZEOFBLOB', DWORD),
+		('RGUCHBLOB', UNSIGNED_CHAR),
+    )
+
+class BuildContextWResponse(NDRCALL):
+    structure = (
+		('PWSZGUIDOUT', WCHAR_T),
+		('PBOUNDVERSIONSET', BOUND_VERSION_SET),
+		('PPHANDLE', PPCONTEXT_HANDLE),
+    )
+        
+OPNUMS = {
+0 : (Poke,PokeResponse),
+1 : (BuildContext,BuildContextResponse),
+2 : (NegotiateResources,NegotiateResourcesResponse),
+3 : (SendReceive,SendReceiveResponse),
+4 : (TearDownContext,TearDownContextResponse),
+5 : (BeginTearDown,BeginTearDownResponse),
+6 : (PokeW,PokeWResponse),
+7 : (BuildContextW,BuildContextWResponse),
+}
 

@@ -69,78 +69,9 @@ CONST_LONG = NDRLONG
 VOID = CONTEXT_HANDLE
 __INT3264 = NDRLONG
 UNSIGNED___INT3264 = NDRULONG
-
-"""
-Generated from MIDL2Impacket.py
-"""
-
-
-from __future__ import division
-from __future__ import print_function
-from impacket.dcerpc.v5.ndr import *
-from impacket.dcerpc.v5.dtypes import *
-from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
-from impacket.structure import Structure
-from impacket import nt_errors
-from impacket.uuid import uuidtup_to_bin
-from impacket.dcerpc.v5.rpcrt import DCERPCException
-
-DWORD64 = NDRUHYPER
-__INT64 = NDRHYPER
-class CONTEXT_HANDLE(NDRSTRUCT):
-    align = 1
-    structure = (
-        ('Data', '20s=""'),
-    )
-HANDLE_T = CONTEXT_HANDLE
-class RPC_STRING(NDRSTRUCT):
-    structure = (
-        ('Length','<H=0'),
-        ('MaximumLength','<H=0'),
-        ('Data',LPSTR),
-    )
-
-    def __setitem__(self, key, value):
-        if key == 'Data' and isinstance(value, NDR) is False:
-            self['Length'] = len(value)
-            self['MaximumLength'] = len(value)
-        return NDRSTRUCT.__setitem__(self, key, value)
-
-    def dump(self, msg = None, indent = 0):
-        if msg is None: msg = self.__class__.__name__
-        if msg != '':
-            print("%s" % msg, end=' ')
-
-        if isinstance(self.fields['Data'] , NDRPOINTERNULL):
-            print(" NULL", end=' ')
-        elif self.fields['Data']['ReferentID'] == 0:
-            print(" NULL", end=' ')
-        else:
-            return self.fields['Data'].dump('',indent)
-
-class PRPC_STRING(NDRPOINTER):
-    referent = (
-        ('Data', RPC_STRING),
-    )
-
-UNSIGNED_SHORT = NDRUSHORT
-UNSIGNED_CHAR = NDRCHAR
-UNSIGNED_LONG = NDRULONG
-UNSIGNED_INT = NDRULONG
-UNSIGNED___INT64 = NDRUHYPER
-SIGNED___INT64 = NDRHYPER
-SIGNED_INT = NDRSHORT
-SIGNED_LONG = NDRLONG
-SIGNED_CHAR = NDRCHAR
-SIGNED_SHORT = NDRSHORT
-CONST_WCHAR_T = WSTR
-CONST_CHAR = NDRCHAR
-CONST_INT = NDRLONG
-CONST_VOID = CONTEXT_HANDLE
-CONST_LONG = NDRLONG
-VOID = CONTEXT_HANDLE
-__INT3264 = NDRLONG
-UNSIGNED___INT3264 = NDRULONG
+CONST_UNSIGNED_LONG = NDRULONG
+UNSIGNED_HYPER = NDRUHYPER
+HYPER = NDRHYPER
 
 #################################################################################
 
@@ -562,7 +493,7 @@ MAX_RPC_STRING_LENGTH = MAX_PAYLOAD / 4
 
 #################################################################################
 
-MSRPC_UUID_IEVENTSERVICE = uuidtup_to_bin(('f6beaff7-1e19-4fbb-9f8f-b89e2018337c','0.0'))
+MSRPC_UUID_IEVENTSERVICE = uuidtup_to_bin(('f6beaff7-119-4bb-98-b89e2018337c','0.0'))
 
 PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION = VOID
 PCONTEXT_HANDLE_LOG_QUERY = VOID
@@ -652,21 +583,20 @@ class GUIDARRAY(NDRSTRUCT):
     )
         
 
-class EVTRPCVARIANTTYPE:
-	EvtRpcVarTypeNull = 0,
-	EvtRpcVarTypeBoolean = 1,
-	EvtRpcVarTypeUInt32 = 2,
-	EvtRpcVarTypeUInt64 = 3,
-	EvtRpcVarTypeString = 4,
-	EvtRpcVarTypeGuid = 5,
-	EvtRpcVarTypeBooleanArray = 6,
-	EvtRpcVarTypeUInt32Array = 7,
-	EvtRpcVarTypeUInt64Array = 8,
-	EvtRpcVarTypeStringArray = 9
+EvtRpcVarTypeNull = 0,
+EvtRpcVarTypeBoolean = 0,
+EvtRpcVarTypeUInt32 = 0,
+EvtRpcVarTypeUInt64 = 0,
+EvtRpcVarTypeString = 0,
+EvtRpcVarTypeGuid = 0,
+EvtRpcVarTypeBooleanArray = 0,
+EvtRpcVarTypeUInt32Array = 0,
+EvtRpcVarTypeUInt64Array = 0,
+EvtRpcVarTypeStringArray = 0
         
 
-class EVTRPCASSERTCONFIGFLAGS:
-	EvtRpcChannelPath = 0
+EvtRpcChannelPath = 0,
+EvtRpcPublisherName = 1
         
 
 class U0(NDRUNION):
