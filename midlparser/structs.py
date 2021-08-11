@@ -151,10 +151,11 @@ class MidlStructParser(MidlBaseParser):
             self.invalid(token)
 
     def operator(self, token):
-        if token.data == "*" and self.state in [StructState.MEMBER_TYPE, StructState.STRUCT_END, StructState.STRUCT_BODY]:
-            if self.state == StructState.MEMBER_TYPE:
+        if token.data == "*" and self.state in [StructState.MEMBER_TYPE, StructState.STRUCT_END, StructState.STRUCT_BODY, StructState.MEMBER_TYPE_OR_ATTR]:
+            if self.state in [StructState.MEMBER_TYPE, StructState.MEMBER_TYPE_OR_ATTR]:
                 # Encountered a pointer, append it to the current type
                 self.cur_member_parts[-1] += "*"
+                self.state = StructState.MEMBER_TYPE
             elif self.state == StructState.STRUCT_END:
                 self.declared_names += '*'
             elif self.state == StructState.STRUCT_BODY:
