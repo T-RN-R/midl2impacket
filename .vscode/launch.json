@@ -5,10 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "All IDLs",
+            "name": "Parse All IDLs",
             "type": "python",
             "request": "launch",
             "program": "unittests/midlparser_test.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {"PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"}
+        },      
+        {
+            "name": "Convert All IDLs",
+            "type": "python",
+            "request": "launch",
+            "program": "unittests/idl2imp_test.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "env": {"PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"}

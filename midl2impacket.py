@@ -35,19 +35,6 @@ def generate(in_file, out_file, import_dir):
     generated_code = generate_impacket(midl_def, import_dir)
     out_file.write_text(generated_code)
 
-def generate_from_scraped():
-    f = []
-    for (dirpath, dirnames, filenames) in walk("./scraped"):
-        f.extend(filenames)
-        break
-    print(f)
-    failures = []
-    for _f in f:
-        try:
-            generate("./scraped/"+_f, "./generated/"+_f.split(".")[0]+".py", "./scraped/")
-        except:
-            failures.append(_f)
-    print(f"Failed to parse: {failures}")
 
 if __name__ == "__main__":
     main()
