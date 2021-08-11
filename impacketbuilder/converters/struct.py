@@ -148,7 +148,12 @@ class {base_name}(NDRSTRUCT):
             if vd is arr_var:
                 core_struct_fields += f"\t('{arr_var.name}', PTR_{self.mapper.canonicalize(name)}),\n"
             else:
-                core_struct_fields += f"\t('{vd.name}', {self.mapper.canonicalize(vd.type)}),"
+                name = None
+                if type(vd.type) is str:
+                    name = vd.type
+                else:
+                    name = vd.type.public_names[0]
+                core_struct_fields += f"\t('{vd.name}', {self.mapper.canonicalize(name)}),"
 
         underlying_type = arr_var.type.replace("*","")
         name = self.mapper.canonicalize(name)

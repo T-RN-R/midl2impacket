@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -641,17 +641,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -861,17 +861,17 @@ class ORPC_EXTENT(NDRSTRUCT):
     )
 
 
-class DATA_ORPC_EXTENT_ARRAY(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = ORPC_EXTENT
 
-class PTR_ORPC_EXTENT_ARRAY(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_ORPC_EXTENT_ARRAY),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class ORPC_EXTENT_ARRAY(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('size', UNSIGNED_LONG),	('reserved', UNSIGNED_LONG),	('extent', PTR_ORPC_EXTENT_ARRAY),
+	('size', UNSIGNED_LONG),	('reserved', UNSIGNED_LONG),	('extent', PTR_UNSIGNED_LONG),
 
     )
         
@@ -938,17 +938,17 @@ class COSERVERINFO(NDRSTRUCT):
     )
 
 
-class DATA_CUSTOMREMOTE_REQUEST_SCM_INFO(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = UNSIGNED_SHORT
 
-class PTR_CUSTOMREMOTE_REQUEST_SCM_INFO(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_CUSTOMREMOTE_REQUEST_SCM_INFO),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class CUSTOMREMOTE_REQUEST_SCM_INFO(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('ClientImpLevel', DWORD),	('cRequestedProtseqs', UNSIGNED_SHORT),	('pRequestedProtseqs', PTR_CUSTOMREMOTE_REQUEST_SCM_INFO),
+	('ClientImpLevel', DWORD),	('cRequestedProtseqs', UNSIGNED_SHORT),	('pRequestedProtseqs', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -959,17 +959,17 @@ class CUSTOMREMOTE_REPLY_SCM_INFO(NDRSTRUCT):
     )
 
 
-class DATA_INSTANTIATIONINFODATA(NDRUniConformantArray):
+class DATA_COMVERSION(NDRUniConformantArray):
     item = IID
 
-class PTR_INSTANTIATIONINFODATA(NDRPOINTER):
+class PTR_COMVERSION(NDRPOINTER):
     referent = (
-        ('Data', DATA_INSTANTIATIONINFODATA),
+        ('Data', DATA_COMVERSION),
     )
 
-class INSTANTIATIONINFODATA(NDRSTRUCT):
+class COMVERSION(NDRSTRUCT):
     structure = (
-	('classId', CLSID),	('classCtx', DWORD),	('actvflags', DWORD),	('fIsSurrogate', LONG),	('cIID', DWORD),	('instFlag', DWORD),	('pIID', PTR_INSTANTIATIONINFODATA),
+	('classId', CLSID),	('classCtx', DWORD),	('actvflags', DWORD),	('fIsSurrogate', LONG),	('cIID', DWORD),	('instFlag', DWORD),	('pIID', PTR_DWORD),
 	('thisSize', DWORD),	('clientCOMVersion', COMVERSION),
     )
         
@@ -986,32 +986,32 @@ class ACTIVATIONCONTEXTINFODATA(NDRSTRUCT):
     )
 
 
-class DATA_CUSTOMHEADER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DWORD
 
-class PTR_CUSTOMHEADER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_CUSTOMHEADER),
+        ('Data', DATA_DWORD),
     )
 
-class CUSTOMHEADER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('totalSize', DWORD),	('headerSize', DWORD),	('dwReserved', DWORD),	('destCtx', DWORD),	('cIfs', DWORD),	('classInfoClsid', CLSID),	('pclsid', CLSID),	('pSizes', PTR_CUSTOMHEADER),
+	('totalSize', DWORD),	('headerSize', DWORD),	('dwReserved', DWORD),	('destCtx', DWORD),	('cIfs', DWORD),	('classInfoClsid', CLSID),	('pclsid', CLSID),	('pSizes', PTR_CLSID),
 	('pdwReserved', DWORD),
     )
         
 
-class DATA_PROPSOUTINFO(NDRUniConformantArray):
+class DATA_HRESULT(NDRUniConformantArray):
     item = MINTERFACEPOINTER
 
-class PTR_PROPSOUTINFO(NDRPOINTER):
+class PTR_HRESULT(NDRPOINTER):
     referent = (
-        ('Data', DATA_PROPSOUTINFO),
+        ('Data', DATA_HRESULT),
     )
 
-class PROPSOUTINFO(NDRSTRUCT):
+class HRESULT(NDRSTRUCT):
     structure = (
-	('cIfs', DWORD),	('piid', IID),	('phresults', HRESULT),	('ppIntfData', PTR_PROPSOUTINFO),
+	('cIfs', DWORD),	('piid', IID),	('phresults', HRESULT),	('ppIntfData', PTR_HRESULT),
 
     )
         
@@ -1459,32 +1459,32 @@ OPNUMS = {
 MSRPC_UUID_TYPE_SCARD_PACK = uuidtup_to_bin(('A35AF600-9F4-11D-A076-080022D711','0.0'))
 
 
-class DATA_REDIR_SCARDCONTEXT(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_REDIR_SCARDCONTEXT(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_REDIR_SCARDCONTEXT),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class REDIR_SCARDCONTEXT(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cbContext', UNSIGNED_LONG),	('pbContext', PTR_REDIR_SCARDCONTEXT),
+	('cbContext', UNSIGNED_LONG),	('pbContext', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_REDIR_SCARDHANDLE(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_REDIR_SCARDHANDLE(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_REDIR_SCARDHANDLE),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class REDIR_SCARDHANDLE(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Context', REDIR_SCARDCONTEXT),	('cbHandle', UNSIGNED_LONG),	('pbHandle', PTR_REDIR_SCARDHANDLE),
+	('Context', REDIR_SCARDCONTEXT),	('cbHandle', UNSIGNED_LONG),	('pbHandle', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1495,17 +1495,17 @@ class LONG_RETURN(NDRSTRUCT):
     )
 
 
-class DATA_LISTREADERGROUPS_RETURN(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_LISTREADERGROUPS_RETURN(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LISTREADERGROUPS_RETURN),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LISTREADERGROUPS_RETURN(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('ReturnCode', LONG),	('cBytes', UNSIGNED_LONG),	('msz', PTR_LISTREADERGROUPS_RETURN),
+	('ReturnCode', LONG),	('cBytes', UNSIGNED_LONG),	('msz', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1558,17 +1558,17 @@ class LISTREADERGROUPS_CALL(NDRSTRUCT):
     )
 
 
-class DATA_LISTREADERS_CALL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item =  BYTE
 
-class PTR_LISTREADERS_CALL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LISTREADERS_CALL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LISTREADERS_CALL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Context', REDIR_SCARDCONTEXT),	('cBytes', UNSIGNED_LONG),	('mszGroups', PTR_LISTREADERS_CALL),
+	('Context', REDIR_SCARDCONTEXT),	('cBytes', UNSIGNED_LONG),	('mszGroups', PTR_UNSIGNED_LONG),
 	('fmszReadersIsNULL', LONG),	('cchReaders', UNSIGNED_LONG),
     )
         
@@ -1597,47 +1597,47 @@ class READERSTATE_RETURN(NDRSTRUCT):
     )
 
 
-class DATA_GETSTATUSCHANGEA_CALL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = READERSTATEA
 
-class PTR_GETSTATUSCHANGEA_CALL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_GETSTATUSCHANGEA_CALL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class GETSTATUSCHANGEA_CALL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Context', REDIR_SCARDCONTEXT),	('dwTimeOut', UNSIGNED_LONG),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_GETSTATUSCHANGEA_CALL),
+	('Context', REDIR_SCARDCONTEXT),	('dwTimeOut', UNSIGNED_LONG),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_LOCATECARDSA_CALL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = READERSTATEA
 
-class PTR_LOCATECARDSA_CALL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LOCATECARDSA_CALL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LOCATECARDSA_CALL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Context', REDIR_SCARDCONTEXT),	('cBytes', UNSIGNED_LONG),	('mszCards',  BYTE),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_LOCATECARDSA_CALL),
+	('Context', REDIR_SCARDCONTEXT),	('cBytes', UNSIGNED_LONG),	('mszCards',  BYTE),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_LOCATECARDSW_CALL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = READERSTATEW
 
-class PTR_LOCATECARDSW_CALL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LOCATECARDSW_CALL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LOCATECARDSW_CALL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Context', REDIR_SCARDCONTEXT),	('cBytes', UNSIGNED_LONG),	('mszCards',  BYTE),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_LOCATECARDSW_CALL),
+	('Context', REDIR_SCARDCONTEXT),	('cBytes', UNSIGNED_LONG),	('mszCards',  BYTE),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1648,62 +1648,62 @@ class LOCATECARDS_ATRMASK(NDRSTRUCT):
     )
 
 
-class DATA_LOCATECARDSBYATRA_CALL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = READERSTATEA
 
-class PTR_LOCATECARDSBYATRA_CALL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LOCATECARDSBYATRA_CALL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LOCATECARDSBYATRA_CALL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Context', REDIR_SCARDCONTEXT),	('cAtrs', UNSIGNED_LONG),	('rgAtrMasks', LOCATECARDS_ATRMASK),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_LOCATECARDSBYATRA_CALL),
+	('Context', REDIR_SCARDCONTEXT),	('cAtrs', UNSIGNED_LONG),	('rgAtrMasks', LOCATECARDS_ATRMASK),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_LOCATECARDSBYATRW_CALL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = READERSTATEW
 
-class PTR_LOCATECARDSBYATRW_CALL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LOCATECARDSBYATRW_CALL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LOCATECARDSBYATRW_CALL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Context', REDIR_SCARDCONTEXT),	('cAtrs', UNSIGNED_LONG),	('rgAtrMasks', LOCATECARDS_ATRMASK),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_LOCATECARDSBYATRW_CALL),
+	('Context', REDIR_SCARDCONTEXT),	('cAtrs', UNSIGNED_LONG),	('rgAtrMasks', LOCATECARDS_ATRMASK),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_LOCATECARDS_RETURN(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = READERSTATE_RETURN
 
-class PTR_LOCATECARDS_RETURN(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LOCATECARDS_RETURN),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LOCATECARDS_RETURN(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('ReturnCode', LONG),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_LOCATECARDS_RETURN),
+	('ReturnCode', LONG),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_GETSTATUSCHANGEW_CALL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = READERSTATEW
 
-class PTR_GETSTATUSCHANGEW_CALL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_GETSTATUSCHANGEW_CALL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class GETSTATUSCHANGEW_CALL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Context', REDIR_SCARDCONTEXT),	('dwTimeOut', UNSIGNED_LONG),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_GETSTATUSCHANGEW_CALL),
+	('Context', REDIR_SCARDCONTEXT),	('dwTimeOut', UNSIGNED_LONG),	('cReaders', UNSIGNED_LONG),	('rgReaderStates', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1756,17 +1756,17 @@ class STATE_CALL(NDRSTRUCT):
     )
 
 
-class DATA_STATE_RETURN(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_STATE_RETURN(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_STATE_RETURN),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class STATE_RETURN(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('ReturnCode', LONG),	('dwState', UNSIGNED_LONG),	('dwProtocol', UNSIGNED_LONG),	('cbAtrLen', UNSIGNED_LONG),	('rgAtr', PTR_STATE_RETURN),
+	('ReturnCode', LONG),	('dwState', UNSIGNED_LONG),	('dwProtocol', UNSIGNED_LONG),	('cbAtrLen', UNSIGNED_LONG),	('rgAtr', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1777,62 +1777,62 @@ class STATUS_CALL(NDRSTRUCT):
     )
 
 
-class DATA_STATUS_RETURN(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_STATUS_RETURN(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_STATUS_RETURN),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class STATUS_RETURN(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('ReturnCode', LONG),	('cBytes', UNSIGNED_LONG),	('mszReaderNames', PTR_STATUS_RETURN),
+	('ReturnCode', LONG),	('cBytes', UNSIGNED_LONG),	('mszReaderNames', PTR_UNSIGNED_LONG),
 	('dwState', UNSIGNED_LONG),	('dwProtocol', UNSIGNED_LONG),	('pbAtr', BYTE),	('cbAtrLen', UNSIGNED_LONG),
     )
         
 
-class DATA_SCARDIO_REQUEST(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_SCARDIO_REQUEST(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_SCARDIO_REQUEST),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class SCARDIO_REQUEST(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('dwProtocol', UNSIGNED_LONG),	('cbExtraBytes', UNSIGNED_LONG),	('pbExtraBytes', PTR_SCARDIO_REQUEST),
+	('dwProtocol', UNSIGNED_LONG),	('cbExtraBytes', UNSIGNED_LONG),	('pbExtraBytes', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_TRANSMIT_CALL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item =  BYTE
 
-class PTR_TRANSMIT_CALL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_TRANSMIT_CALL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class TRANSMIT_CALL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('hCard', REDIR_SCARDHANDLE),	('ioSendPci', SCARDIO_REQUEST),	('cbSendLength', UNSIGNED_LONG),	('pbSendBuffer', PTR_TRANSMIT_CALL),
+	('hCard', REDIR_SCARDHANDLE),	('ioSendPci', SCARDIO_REQUEST),	('cbSendLength', UNSIGNED_LONG),	('pbSendBuffer', PTR_UNSIGNED_LONG),
 	('pioRecvPci', SCARDIO_REQUEST),	('fpbRecvBufferIsNULL', LONG),	('cbRecvLength', UNSIGNED_LONG),
     )
         
 
-class DATA_TRANSMIT_RETURN(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_TRANSMIT_RETURN(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_TRANSMIT_RETURN),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class TRANSMIT_RETURN(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('ReturnCode', LONG),	('pioRecvPci', SCARDIO_REQUEST),	('cbRecvLength', UNSIGNED_LONG),	('pbRecvBuffer', PTR_TRANSMIT_RETURN),
+	('ReturnCode', LONG),	('pioRecvPci', SCARDIO_REQUEST),	('cbRecvLength', UNSIGNED_LONG),	('pbRecvBuffer', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1849,32 +1849,32 @@ class GETTRANSMITCOUNT_RETURN(NDRSTRUCT):
     )
 
 
-class DATA_CONTROL_CALL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item =  BYTE
 
-class PTR_CONTROL_CALL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_CONTROL_CALL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class CONTROL_CALL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('hCard', REDIR_SCARDHANDLE),	('dwControlCode', UNSIGNED_LONG),	('cbInBufferSize', UNSIGNED_LONG),	('pvInBuffer', PTR_CONTROL_CALL),
+	('hCard', REDIR_SCARDHANDLE),	('dwControlCode', UNSIGNED_LONG),	('cbInBufferSize', UNSIGNED_LONG),	('pvInBuffer', PTR_UNSIGNED_LONG),
 	('fpvOutBufferIsNULL', LONG),	('cbOutBufferSize', UNSIGNED_LONG),
     )
         
 
-class DATA_CONTROL_RETURN(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_CONTROL_RETURN(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_CONTROL_RETURN),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class CONTROL_RETURN(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('ReturnCode', LONG),	('cbOutBufferSize', UNSIGNED_LONG),	('pvOutBuffer', PTR_CONTROL_RETURN),
+	('ReturnCode', LONG),	('cbOutBufferSize', UNSIGNED_LONG),	('pvOutBuffer', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1885,32 +1885,32 @@ class GETATTRIB_CALL(NDRSTRUCT):
     )
 
 
-class DATA_GETATTRIB_RETURN(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_GETATTRIB_RETURN(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_GETATTRIB_RETURN),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class GETATTRIB_RETURN(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('ReturnCode', LONG),	('cbAttrLen', UNSIGNED_LONG),	('pbAttr', PTR_GETATTRIB_RETURN),
+	('ReturnCode', LONG),	('cbAttrLen', UNSIGNED_LONG),	('pbAttr', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_SETATTRIB_CALL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item =  BYTE
 
-class PTR_SETATTRIB_CALL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_SETATTRIB_CALL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class SETATTRIB_CALL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('hCard', REDIR_SCARDHANDLE),	('dwAttrId', UNSIGNED_LONG),	('cbAttrLen', UNSIGNED_LONG),	('pbAttr', PTR_SETATTRIB_CALL),
+	('hCard', REDIR_SCARDHANDLE),	('dwAttrId', UNSIGNED_LONG),	('cbAttrLen', UNSIGNED_LONG),	('pbAttr', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1933,32 +1933,32 @@ class READCACHEW_CALL(NDRSTRUCT):
     )
 
 
-class DATA_READCACHE_RETURN(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_READCACHE_RETURN(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_READCACHE_RETURN),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class READCACHE_RETURN(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('ReturnCode', LONG),	('cbDataLen', UNSIGNED_LONG),	('pbData', PTR_READCACHE_RETURN),
+	('ReturnCode', LONG),	('cbDataLen', UNSIGNED_LONG),	('pbData', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_WRITECACHE_COMMON(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_WRITECACHE_COMMON(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_WRITECACHE_COMMON),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class WRITECACHE_COMMON(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Context', REDIR_SCARDCONTEXT),	('CardIdentifier', UUID),	('FreshnessCounter', UNSIGNED_LONG),	('cbDataLen', UNSIGNED_LONG),	('pbData', PTR_WRITECACHE_COMMON),
+	('Context', REDIR_SCARDCONTEXT),	('CardIdentifier', UUID),	('FreshnessCounter', UNSIGNED_LONG),	('cbDataLen', UNSIGNED_LONG),	('pbData', PTR_UNSIGNED_LONG),
 
     )
         

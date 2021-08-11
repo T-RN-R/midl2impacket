@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -471,17 +471,17 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
 MSRPC_UUID_LOGON = uuidtup_to_bin(('12345678-1234-ABCD-EF00-01234567CFFB','0.0'))
 
 
-class DATA_STRING(NDRUniConformantArray):
+class DATA_USHORT(NDRUniConformantArray):
     item = CHAR
 
-class PTR_STRING(NDRPOINTER):
+class PTR_USHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_STRING),
+        ('Data', DATA_USHORT),
     )
 
-class STRING(NDRSTRUCT):
+class USHORT(NDRSTRUCT):
     structure = (
-	('Length', USHORT),	('MaximumLength', USHORT),	('Buffer', PTR_STRING),
+	('Length', USHORT),	('MaximumLength', USHORT),	('Buffer', PTR_USHORT),
 
     )
         
@@ -557,47 +557,47 @@ class PNLPR_SID_ARRAY(NDRPOINTER):
     )    
 
 
-class DATA_NLPR_CR_CIPHER_VALUE(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NLPR_CR_CIPHER_VALUE(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NLPR_CR_CIPHER_VALUE),
+        ('Data', DATA_ULONG),
     )
 
-class NLPR_CR_CIPHER_VALUE(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('Length', ULONG),	('MaximumLength', ULONG),	('Buffer', PTR_NLPR_CR_CIPHER_VALUE),
+	('Length', ULONG),	('MaximumLength', ULONG),	('Buffer', PTR_ULONG),
 
     )
         
 
-class DATA_NLPR_LOGON_HOURS(NDRUniConformantArray):
+class DATA_USHORT(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NLPR_LOGON_HOURS(NDRPOINTER):
+class PTR_USHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_NLPR_LOGON_HOURS),
+        ('Data', DATA_USHORT),
     )
 
-class NLPR_LOGON_HOURS(NDRSTRUCT):
+class USHORT(NDRSTRUCT):
     structure = (
-	('UnitsPerWeek', USHORT),	('LogonHours', PTR_NLPR_LOGON_HOURS),
+	('UnitsPerWeek', USHORT),	('LogonHours', PTR_USHORT),
 
     )
         
 
-class DATA_NLPR_USER_PRIVATE_INFO(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NLPR_USER_PRIVATE_INFO(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NLPR_USER_PRIVATE_INFO),
+        ('Data', DATA_ULONG),
     )
 
-class NLPR_USER_PRIVATE_INFO(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('SensitiveData', UCHAR),	('DataLength', ULONG),	('Data', PTR_NLPR_USER_PRIVATE_INFO),
+	('SensitiveData', UCHAR),	('DataLength', ULONG),	('Data', PTR_ULONG),
 
     )
         
@@ -622,62 +622,62 @@ class PNLPR_QUOTA_LIMITS(NDRPOINTER):
     )    
 
 
-class DATA_NETLOGON_DELTA_USER(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NETLOGON_DELTA_USER(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_DELTA_USER),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_DELTA_USER(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('UserName', RPC_UNICODE_STRING),	('FullName', RPC_UNICODE_STRING),	('UserId', ULONG),	('PrimaryGroupId', ULONG),	('HomeDirectory', RPC_UNICODE_STRING),	('HomeDirectoryDrive', RPC_UNICODE_STRING),	('ScriptPath', RPC_UNICODE_STRING),	('AdminComment', RPC_UNICODE_STRING),	('WorkStations', RPC_UNICODE_STRING),	('LastLogon', OLD_LARGE_INTEGER),	('LastLogoff', OLD_LARGE_INTEGER),	('LogonHours', NLPR_LOGON_HOURS),	('BadPasswordCount', USHORT),	('LogonCount', USHORT),	('PasswordLastSet', OLD_LARGE_INTEGER),	('AccountExpires', OLD_LARGE_INTEGER),	('UserAccountControl', ULONG),	('EncryptedNtOwfPassword', ENCRYPTED_NT_OWF_PASSWORD),	('EncryptedLmOwfPassword', ENCRYPTED_LM_OWF_PASSWORD),	('NtPasswordPresent', UCHAR),	('LmPasswordPresent', UCHAR),	('PasswordExpired', UCHAR),	('UserComment', RPC_UNICODE_STRING),	('Parameters', RPC_UNICODE_STRING),	('CountryCode', USHORT),	('CodePage', USHORT),	('PrivateData', NLPR_USER_PRIVATE_INFO),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_NETLOGON_DELTA_USER),
+	('UserName', RPC_UNICODE_STRING),	('FullName', RPC_UNICODE_STRING),	('UserId', ULONG),	('PrimaryGroupId', ULONG),	('HomeDirectory', RPC_UNICODE_STRING),	('HomeDirectoryDrive', RPC_UNICODE_STRING),	('ScriptPath', RPC_UNICODE_STRING),	('AdminComment', RPC_UNICODE_STRING),	('WorkStations', RPC_UNICODE_STRING),	('LastLogon', OLD_LARGE_INTEGER),	('LastLogoff', OLD_LARGE_INTEGER),	('LogonHours', NLPR_LOGON_HOURS),	('BadPasswordCount', USHORT),	('LogonCount', USHORT),	('PasswordLastSet', OLD_LARGE_INTEGER),	('AccountExpires', OLD_LARGE_INTEGER),	('UserAccountControl', ULONG),	('EncryptedNtOwfPassword', ENCRYPTED_NT_OWF_PASSWORD),	('EncryptedLmOwfPassword', ENCRYPTED_LM_OWF_PASSWORD),	('NtPasswordPresent', UCHAR),	('LmPasswordPresent', UCHAR),	('PasswordExpired', UCHAR),	('UserComment', RPC_UNICODE_STRING),	('Parameters', RPC_UNICODE_STRING),	('CountryCode', USHORT),	('CodePage', USHORT),	('PrivateData', NLPR_USER_PRIVATE_INFO),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_ULONG),
 	('ProfilePath', RPC_UNICODE_STRING),	('DummyString2', RPC_UNICODE_STRING),	('DummyString3', RPC_UNICODE_STRING),	('DummyString4', RPC_UNICODE_STRING),	('DummyLong1', ULONG),	('DummyLong2', ULONG),	('DummyLong3', ULONG),	('DummyLong4', ULONG),
     )
         
 
-class DATA_NETLOGON_DELTA_GROUP(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NETLOGON_DELTA_GROUP(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_DELTA_GROUP),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_DELTA_GROUP(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('Name', RPC_UNICODE_STRING),	('RelativeId', ULONG),	('Attributes', ULONG),	('AdminComment', RPC_UNICODE_STRING),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_NETLOGON_DELTA_GROUP),
+	('Name', RPC_UNICODE_STRING),	('RelativeId', ULONG),	('Attributes', ULONG),	('AdminComment', RPC_UNICODE_STRING),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_ULONG),
 	('DummyString1', RPC_UNICODE_STRING),	('DummyString2', RPC_UNICODE_STRING),	('DummyString3', RPC_UNICODE_STRING),	('DummyString4', RPC_UNICODE_STRING),	('DummyLong1', ULONG),	('DummyLong2', ULONG),	('DummyLong3', ULONG),	('DummyLong4', ULONG),
     )
         
 
-class DATA_NETLOGON_DELTA_GROUP_MEMBER(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = ULONG
 
-class PTR_NETLOGON_DELTA_GROUP_MEMBER(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_DELTA_GROUP_MEMBER),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_DELTA_GROUP_MEMBER(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('Members', ULONG),	('Attributes', PTR_NETLOGON_DELTA_GROUP_MEMBER),
+	('Members', ULONG),	('Attributes', PTR_ULONG),
 	('MemberCount', ULONG),	('DummyLong1', ULONG),	('DummyLong2', ULONG),	('DummyLong3', ULONG),	('DummyLong4', ULONG),
     )
         
 
-class DATA_NETLOGON_DELTA_ALIAS(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NETLOGON_DELTA_ALIAS(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_DELTA_ALIAS),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_DELTA_ALIAS(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('Name', RPC_UNICODE_STRING),	('RelativeId', ULONG),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_NETLOGON_DELTA_ALIAS),
+	('Name', RPC_UNICODE_STRING),	('RelativeId', ULONG),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_ULONG),
 	('Comment', RPC_UNICODE_STRING),	('DummyString2', RPC_UNICODE_STRING),	('DummyString3', RPC_UNICODE_STRING),	('DummyString4', RPC_UNICODE_STRING),	('DummyLong1', ULONG),	('DummyLong2', ULONG),	('DummyLong3', ULONG),	('DummyLong4', ULONG),
     )
         
@@ -692,17 +692,17 @@ class PNETLOGON_DELTA_ALIAS_MEMBER(NDRPOINTER):
     )    
 
 
-class DATA_NETLOGON_DELTA_DOMAIN(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NETLOGON_DELTA_DOMAIN(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_DELTA_DOMAIN),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_DELTA_DOMAIN(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('DomainName', RPC_UNICODE_STRING),	('OemInformation', RPC_UNICODE_STRING),	('ForceLogoff', OLD_LARGE_INTEGER),	('MinPasswordLength', USHORT),	('PasswordHistoryLength', USHORT),	('MaxPasswordAge', OLD_LARGE_INTEGER),	('MinPasswordAge', OLD_LARGE_INTEGER),	('DomainModifiedCount', OLD_LARGE_INTEGER),	('DomainCreationTime', OLD_LARGE_INTEGER),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_NETLOGON_DELTA_DOMAIN),
+	('DomainName', RPC_UNICODE_STRING),	('OemInformation', RPC_UNICODE_STRING),	('ForceLogoff', OLD_LARGE_INTEGER),	('MinPasswordLength', USHORT),	('PasswordHistoryLength', USHORT),	('MaxPasswordAge', OLD_LARGE_INTEGER),	('MinPasswordAge', OLD_LARGE_INTEGER),	('DomainModifiedCount', OLD_LARGE_INTEGER),	('DomainCreationTime', OLD_LARGE_INTEGER),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_ULONG),
 	('DomainLockoutInformation', RPC_UNICODE_STRING),	('DummyString2', RPC_UNICODE_STRING),	('DummyString3', RPC_UNICODE_STRING),	('DummyString4', RPC_UNICODE_STRING),	('PasswordProperties', ULONG),	('DummyLong2', ULONG),	('DummyLong3', ULONG),	('DummyLong4', ULONG),
     )
         
@@ -737,62 +737,62 @@ class PNETLOGON_DELTA_RENAME_ALIAS(NDRPOINTER):
     )    
 
 
-class DATA_NETLOGON_DELTA_POLICY(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NETLOGON_DELTA_POLICY(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_DELTA_POLICY),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_DELTA_POLICY(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('MaximumLogSize', ULONG),	('AuditRetentionPeriod', OLD_LARGE_INTEGER),	('AuditingMode', UCHAR),	('MaximumAuditEventCount', ULONG),	('EventAuditingOptions', ULONG),	('PrimaryDomainName', RPC_UNICODE_STRING),	('PrimaryDomainSid', PRPC_SID),	('QuotaLimits', NLPR_QUOTA_LIMITS),	('ModifiedId', OLD_LARGE_INTEGER),	('DatabaseCreationTime', OLD_LARGE_INTEGER),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_NETLOGON_DELTA_POLICY),
+	('MaximumLogSize', ULONG),	('AuditRetentionPeriod', OLD_LARGE_INTEGER),	('AuditingMode', UCHAR),	('MaximumAuditEventCount', ULONG),	('EventAuditingOptions', ULONG),	('PrimaryDomainName', RPC_UNICODE_STRING),	('PrimaryDomainSid', PRPC_SID),	('QuotaLimits', NLPR_QUOTA_LIMITS),	('ModifiedId', OLD_LARGE_INTEGER),	('DatabaseCreationTime', OLD_LARGE_INTEGER),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_ULONG),
 	('DummyString1', RPC_UNICODE_STRING),	('DummyString2', RPC_UNICODE_STRING),	('DummyString3', RPC_UNICODE_STRING),	('DummyString4', RPC_UNICODE_STRING),	('DummyLong1', ULONG),	('DummyLong2', ULONG),	('DummyLong3', ULONG),	('DummyLong4', ULONG),
     )
         
 
-class DATA_NETLOGON_DELTA_TRUSTED_DOMAINS(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NETLOGON_DELTA_TRUSTED_DOMAINS(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_DELTA_TRUSTED_DOMAINS),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_DELTA_TRUSTED_DOMAINS(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('DomainName', RPC_UNICODE_STRING),	('NumControllerEntries', ULONG),	('ControllerNames', PRPC_UNICODE_STRING),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_NETLOGON_DELTA_TRUSTED_DOMAINS),
+	('DomainName', RPC_UNICODE_STRING),	('NumControllerEntries', ULONG),	('ControllerNames', PRPC_UNICODE_STRING),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_ULONG),
 	('DummyString1', RPC_UNICODE_STRING),	('DummyString2', RPC_UNICODE_STRING),	('DummyString3', RPC_UNICODE_STRING),	('DummyString4', RPC_UNICODE_STRING),	('TrustedPosixOffset', ULONG),	('DummyLong2', ULONG),	('DummyLong3', ULONG),	('DummyLong4', ULONG),
     )
         
 
-class DATA_NETLOGON_DELTA_ACCOUNTS(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NETLOGON_DELTA_ACCOUNTS(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_DELTA_ACCOUNTS),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_DELTA_ACCOUNTS(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('PrivilegeEntries', ULONG),	('PrivilegeControl', ULONG),	('PrivilegeAttributes', ULONG),	('PrivilegeNames', PRPC_UNICODE_STRING),	('QuotaLimits', NLPR_QUOTA_LIMITS),	('SystemAccessFlags', ULONG),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_NETLOGON_DELTA_ACCOUNTS),
+	('PrivilegeEntries', ULONG),	('PrivilegeControl', ULONG),	('PrivilegeAttributes', ULONG),	('PrivilegeNames', PRPC_UNICODE_STRING),	('QuotaLimits', NLPR_QUOTA_LIMITS),	('SystemAccessFlags', ULONG),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_ULONG),
 	('DummyString1', RPC_UNICODE_STRING),	('DummyString2', RPC_UNICODE_STRING),	('DummyString3', RPC_UNICODE_STRING),	('DummyString4', RPC_UNICODE_STRING),	('DummyLong1', ULONG),	('DummyLong2', ULONG),	('DummyLong3', ULONG),	('DummyLong4', ULONG),
     )
         
 
-class DATA_NETLOGON_DELTA_SECRET(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NETLOGON_DELTA_SECRET(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_DELTA_SECRET),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_DELTA_SECRET(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('CurrentValue', NLPR_CR_CIPHER_VALUE),	('CurrentValueSetTime', OLD_LARGE_INTEGER),	('OldValue', NLPR_CR_CIPHER_VALUE),	('OldValueSetTime', OLD_LARGE_INTEGER),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_NETLOGON_DELTA_SECRET),
+	('CurrentValue', NLPR_CR_CIPHER_VALUE),	('CurrentValueSetTime', OLD_LARGE_INTEGER),	('OldValue', NLPR_CR_CIPHER_VALUE),	('OldValueSetTime', OLD_LARGE_INTEGER),	('SecurityInformation', SECURITY_INFORMATION),	('SecuritySize', ULONG),	('SecurityDescriptor', PTR_ULONG),
 	('DummyString1', RPC_UNICODE_STRING),	('DummyString2', RPC_UNICODE_STRING),	('DummyString3', RPC_UNICODE_STRING),	('DummyString4', RPC_UNICODE_STRING),	('DummyLong1', ULONG),	('DummyLong2', ULONG),	('DummyLong3', ULONG),	('DummyLong4', ULONG),
     )
         
@@ -936,17 +936,17 @@ class PNETLOGON_NETWORK_INFO(NDRPOINTER):
     )    
 
 
-class DATA_NETLOGON_GENERIC_INFO(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NETLOGON_GENERIC_INFO(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_GENERIC_INFO),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_GENERIC_INFO(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('Identity', NETLOGON_LOGON_IDENTITY_INFO),	('PackageName', RPC_UNICODE_STRING),	('DataLength', ULONG),	('LogonData', PTR_NETLOGON_GENERIC_INFO),
+	('Identity', NETLOGON_LOGON_IDENTITY_INFO),	('PackageName', RPC_UNICODE_STRING),	('DataLength', ULONG),	('LogonData', PTR_ULONG),
 
     )
         
@@ -1019,17 +1019,17 @@ class PNETLOGON_VALIDATION_SAM_INFO2(NDRPOINTER):
     )    
 
 
-class DATA_NETLOGON_VALIDATION_GENERIC_INFO2(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NETLOGON_VALIDATION_GENERIC_INFO2(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_VALIDATION_GENERIC_INFO2),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_VALIDATION_GENERIC_INFO2(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('DataLength', ULONG),	('ValidationData', PTR_NETLOGON_VALIDATION_GENERIC_INFO2),
+	('DataLength', ULONG),	('ValidationData', PTR_ULONG),
 
     )
         
@@ -1125,32 +1125,32 @@ AliasMemberState = 7,
 SamDoneState = 8
         
 
-class DATA_DOMAIN_NAME_BUFFER(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_DOMAIN_NAME_BUFFER(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_DOMAIN_NAME_BUFFER),
+        ('Data', DATA_ULONG),
     )
 
-class DOMAIN_NAME_BUFFER(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('DomainNameByteCount', ULONG),	('DomainNames', PTR_DOMAIN_NAME_BUFFER),
+	('DomainNameByteCount', ULONG),	('DomainNames', PTR_ULONG),
 
     )
         
 
-class DATA_NETLOGON_LSA_POLICY_INFO(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NETLOGON_LSA_POLICY_INFO(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NETLOGON_LSA_POLICY_INFO),
+        ('Data', DATA_ULONG),
     )
 
-class NETLOGON_LSA_POLICY_INFO(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('LsaPolicySize', ULONG),	('LsaPolicy', PTR_NETLOGON_LSA_POLICY_INFO),
+	('LsaPolicySize', ULONG),	('LsaPolicy', PTR_ULONG),
 
     )
         
@@ -1205,15 +1205,15 @@ class NETLOGON_WORKSTATION_INFORMATION(NDRUNION):
     )    
 
 
-class DATA_NL_SOCKET_ADDRESS(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_NL_SOCKET_ADDRESS(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NL_SOCKET_ADDRESS),
+        ('Data', DATA_ULONG),
     )
 
-class NL_SOCKET_ADDRESS(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
 	('lpSockaddr', PTR_NL_SOCKET_ADDRESS),
 	('iSockaddrLength', ULONG),
@@ -1260,17 +1260,17 @@ class PNL_SITE_NAME_EX_ARRAY(NDRPOINTER):
     )    
 
 
-class DATA_NL_GENERIC_RPC_DATA(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = PRPC_UNICODE_STRING
 
-class PTR_NL_GENERIC_RPC_DATA(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_NL_GENERIC_RPC_DATA),
+        ('Data', DATA_ULONG),
     )
 
-class NL_GENERIC_RPC_DATA(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('UlongEntryCount', ULONG),	('UlongData', ULONG),	('UnicodeStringEntryCount', ULONG),	('UnicodeStringData', PTR_NL_GENERIC_RPC_DATA),
+	('UlongEntryCount', ULONG),	('UlongData', ULONG),	('UnicodeStringEntryCount', ULONG),	('UnicodeStringData', PTR_ULONG),
 
     )
         
@@ -1393,17 +1393,17 @@ class PLSA_FOREST_TRUST_DOMAIN_INFO(NDRPOINTER):
     )    
 
 
-class DATA_LSA_FOREST_TRUST_BINARY_DATA(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_LSA_FOREST_TRUST_BINARY_DATA(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSA_FOREST_TRUST_BINARY_DATA),
+        ('Data', DATA_ULONG),
     )
 
-class LSA_FOREST_TRUST_BINARY_DATA(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('Length', ULONG),	('Buffer', PTR_LSA_FOREST_TRUST_BINARY_DATA),
+	('Length', ULONG),	('Buffer', PTR_ULONG),
 
     )
         
@@ -1424,17 +1424,17 @@ class PLSA_FOREST_TRUST_RECORD(NDRPOINTER):
     )    
 
 
-class DATA_LSA_FOREST_TRUST_INFORMATION(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = PLSA_FOREST_TRUST_RECORD
 
-class PTR_LSA_FOREST_TRUST_INFORMATION(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSA_FOREST_TRUST_INFORMATION),
+        ('Data', DATA_ULONG),
     )
 
-class LSA_FOREST_TRUST_INFORMATION(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('RecordCount', ULONG),	('Entries', PTR_LSA_FOREST_TRUST_INFORMATION),
+	('RecordCount', ULONG),	('Entries', PTR_ULONG),
 
     )
         

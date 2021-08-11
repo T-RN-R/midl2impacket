@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -483,122 +483,122 @@ class PROPERTYTAGARRAY_R(NDRSTRUCT):
     )
 
 
-class DATA_BINARY_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_BINARY_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_BINARY_R),
+        ('Data', DATA_DWORD),
     )
 
-class BINARY_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cb', DWORD),	('lpb', PTR_BINARY_R),
+	('cb', DWORD),	('lpb', PTR_DWORD),
 
     )
         
 
-class DATA_SHORTARRAY_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = SHORT INT
 
-class PTR_SHORTARRAY_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_SHORTARRAY_R),
+        ('Data', DATA_DWORD),
     )
 
-class SHORTARRAY_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cValues', DWORD),	('lpi', PTR_SHORTARRAY_R),
+	('cValues', DWORD),	('lpi', PTR_DWORD),
 
     )
         
 
-class DATA_LONGARRAY_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LONG
 
-class PTR_LONGARRAY_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_LONGARRAY_R),
+        ('Data', DATA_DWORD),
     )
 
-class LONGARRAY_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cValues', DWORD),	('lpl', PTR_LONGARRAY_R),
+	('cValues', DWORD),	('lpl', PTR_DWORD),
 
     )
         
 
-class DATA_STRINGARRAY_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = CHAR
 
-class PTR_STRINGARRAY_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_STRINGARRAY_R),
+        ('Data', DATA_DWORD),
     )
 
-class STRINGARRAY_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cValues', DWORD),	('lppszA', PTR_STRINGARRAY_R),
+	('cValues', DWORD),	('lppszA', PTR_DWORD),
 
     )
         
 
-class DATA_BINARYARRAY_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BINARY_R
 
-class PTR_BINARYARRAY_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_BINARYARRAY_R),
+        ('Data', DATA_DWORD),
     )
 
-class BINARYARRAY_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cValues', DWORD),	('lpbin', PTR_BINARYARRAY_R),
+	('cValues', DWORD),	('lpbin', PTR_DWORD),
 
     )
         
 
-class DATA_FLATUIDARRAY_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = FLATUID_R
 
-class PTR_FLATUIDARRAY_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_FLATUIDARRAY_R),
+        ('Data', DATA_DWORD),
     )
 
-class FLATUIDARRAY_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cValues', DWORD),	('lpguid', PTR_FLATUIDARRAY_R),
+	('cValues', DWORD),	('lpguid', PTR_DWORD),
 
     )
         
 
-class DATA_WSTRINGARRAY_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = WCHAR_T
 
-class PTR_WSTRINGARRAY_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_WSTRINGARRAY_R),
+        ('Data', DATA_DWORD),
     )
 
-class WSTRINGARRAY_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cValues', DWORD),	('lppszW', PTR_WSTRINGARRAY_R),
+	('cValues', DWORD),	('lppszW', PTR_DWORD),
 
     )
         
 
-class DATA_DATETIMEARRAY_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = FILETIME
 
-class PTR_DATETIMEARRAY_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DATETIMEARRAY_R),
+        ('Data', DATA_DWORD),
     )
 
-class DATETIMEARRAY_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cValues', DWORD),	('lpft', PTR_DATETIMEARRAY_R),
+	('cValues', DWORD),	('lpft', PTR_DWORD),
 
     )
         
@@ -609,17 +609,17 @@ class PROPERTYVALUE_R(NDRSTRUCT):
     )
 
 
-class DATA_PROPERTYROW_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = PROPERTYVALUE_R
 
-class PTR_PROPERTYROW_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_PROPERTYROW_R),
+        ('Data', DATA_DWORD),
     )
 
-class PROPERTYROW_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('Reserved', DWORD),	('cValues', DWORD),	('lpProps', PTR_PROPERTYROW_R),
+	('Reserved', DWORD),	('cValues', DWORD),	('lpProps', PTR_DWORD),
 
     )
         
@@ -636,17 +636,17 @@ class RESTRICTION_R(NDRSTRUCT):
     )
 
 
-class DATA_ANDRESTRICTION_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = RESTRICTION_R
 
-class PTR_ANDRESTRICTION_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_ANDRESTRICTION_R),
+        ('Data', DATA_DWORD),
     )
 
-class ANDRESTRICTION_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cRes', DWORD),	('lpRes', PTR_ANDRESTRICTION_R),
+	('cRes', DWORD),	('lpRes', PTR_DWORD),
 
     )
         
@@ -723,32 +723,32 @@ class PROPERTYNAMESET_R(NDRSTRUCT):
     )
 
 
-class DATA_STRINGSARRAY_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = CHAR
 
-class PTR_STRINGSARRAY_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_STRINGSARRAY_R),
+        ('Data', DATA_DWORD),
     )
 
-class STRINGSARRAY_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('Count', DWORD),	('Strings', PTR_STRINGSARRAY_R),
+	('Count', DWORD),	('Strings', PTR_DWORD),
 
     )
         
 
-class DATA_WSTRINGSARRAY_R(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = WCHAR_T
 
-class PTR_WSTRINGSARRAY_R(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_WSTRINGSARRAY_R),
+        ('Data', DATA_DWORD),
     )
 
-class WSTRINGSARRAY_R(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('Count', DWORD),	('Strings', PTR_WSTRINGSARRAY_R),
+	('Count', DWORD),	('Strings', PTR_DWORD),
 
     )
         

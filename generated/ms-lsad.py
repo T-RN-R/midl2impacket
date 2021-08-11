@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -476,17 +476,17 @@ PSECURITY_CONTEXT_TRACKING_MODE = UNSIGNED_CHAR
 SECURITY_DESCRIPTOR_CONTROL = UNSIGNED_SHORT
 PSECURITY_DESCRIPTOR_CONTROL = UNSIGNED_SHORT
 
-class DATA_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = CHAR
 
-class PTR_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -674,17 +674,17 @@ ForestTrustDomainInfo = 2,
 ForestTrustRecordTypeLast = ForestTrustDomainInfo
         
 
-class DATA_LSA_FOREST_TRUST_BINARY_DATA(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_LSA_FOREST_TRUST_BINARY_DATA(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSA_FOREST_TRUST_BINARY_DATA),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LSA_FOREST_TRUST_BINARY_DATA(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_LONG),	('Buffer', PTR_LSA_FOREST_TRUST_BINARY_DATA),
+	('Length', UNSIGNED_LONG),	('Buffer', PTR_UNSIGNED_LONG),
 
     )
         
@@ -715,17 +715,17 @@ class PLSA_FOREST_TRUST_RECORD(NDRPOINTER):
     )    
 
 
-class DATA_LSA_FOREST_TRUST_INFORMATION(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = PLSA_FOREST_TRUST_RECORD
 
-class PTR_LSA_FOREST_TRUST_INFORMATION(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSA_FOREST_TRUST_INFORMATION),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LSA_FOREST_TRUST_INFORMATION(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('RecordCount', UNSIGNED_LONG),	('Entries', PTR_LSA_FOREST_TRUST_INFORMATION),
+	('RecordCount', UNSIGNED_LONG),	('Entries', PTR_UNSIGNED_LONG),
 
     )
         
@@ -744,17 +744,17 @@ class PLSA_FOREST_TRUST_COLLISION_RECORD(NDRPOINTER):
     )    
 
 
-class DATA_LSA_FOREST_TRUST_COLLISION_INFORMATION(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = PLSA_FOREST_TRUST_COLLISION_RECORD
 
-class PTR_LSA_FOREST_TRUST_COLLISION_INFORMATION(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSA_FOREST_TRUST_COLLISION_INFORMATION),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LSA_FOREST_TRUST_COLLISION_INFORMATION(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('RecordCount', UNSIGNED_LONG),	('Entries', PTR_LSA_FOREST_TRUST_COLLISION_INFORMATION),
+	('RecordCount', UNSIGNED_LONG),	('Entries', PTR_UNSIGNED_LONG),
 
     )
         
@@ -780,17 +780,17 @@ class PLSAPR_ACCOUNT_ENUM_BUFFER(NDRPOINTER):
     )    
 
 
-class DATA_LSAPR_SR_SECURITY_DESCRIPTOR(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_LSAPR_SR_SECURITY_DESCRIPTOR(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSAPR_SR_SECURITY_DESCRIPTOR),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LSAPR_SR_SECURITY_DESCRIPTOR(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_LONG),	('SecurityDescriptor', PTR_LSAPR_SR_SECURITY_DESCRIPTOR),
+	('Length', UNSIGNED_LONG),	('SecurityDescriptor', PTR_UNSIGNED_LONG),
 
     )
         
@@ -835,17 +835,17 @@ class PLSAPR_PRIVILEGE_ENUM_BUFFER(NDRPOINTER):
     )    
 
 
-class DATA_LSAPR_CR_CIPHER_VALUE(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_LSAPR_CR_CIPHER_VALUE(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSAPR_CR_CIPHER_VALUE),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LSAPR_CR_CIPHER_VALUE(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_LONG),	('MaximumLength', UNSIGNED_LONG),	('Buffer', PTR_LSAPR_CR_CIPHER_VALUE),
+	('Length', UNSIGNED_LONG),	('MaximumLength', UNSIGNED_LONG),	('Buffer', PTR_UNSIGNED_LONG),
 
     )
         
@@ -910,17 +910,17 @@ class PLSAPR_POLICY_REPLICA_SRCE_INFO(NDRPOINTER):
     )    
 
 
-class DATA_LSAPR_POLICY_AUDIT_EVENTS_INFO(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_LONG
 
-class PTR_LSAPR_POLICY_AUDIT_EVENTS_INFO(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSAPR_POLICY_AUDIT_EVENTS_INFO),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LSAPR_POLICY_AUDIT_EVENTS_INFO(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('AuditingMode', UNSIGNED_CHAR),	('EventAuditingOptions', PTR_LSAPR_POLICY_AUDIT_EVENTS_INFO),
+	('AuditingMode', UNSIGNED_CHAR),	('EventAuditingOptions', PTR_UNSIGNED_CHAR),
 	('MaximumAuditEventCount', UNSIGNED_LONG),
     )
         
@@ -955,17 +955,17 @@ class PPOLICY_DOMAIN_QUALITY_OF_SERVICE_INFO(NDRPOINTER):
     )    
 
 
-class DATA_LSAPR_POLICY_DOMAIN_EFS_INFO(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_LSAPR_POLICY_DOMAIN_EFS_INFO(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSAPR_POLICY_DOMAIN_EFS_INFO),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LSAPR_POLICY_DOMAIN_EFS_INFO(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('InfoLength', UNSIGNED_LONG),	('EfsBlob', PTR_LSAPR_POLICY_DOMAIN_EFS_INFO),
+	('InfoLength', UNSIGNED_LONG),	('EfsBlob', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1020,17 +1020,17 @@ class PLSAPR_TRUSTED_DOMAIN_INFORMATION_EX(NDRPOINTER):
     )    
 
 
-class DATA_LSAPR_AUTH_INFORMATION(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_LSAPR_AUTH_INFORMATION(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSAPR_AUTH_INFORMATION),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LSAPR_AUTH_INFORMATION(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('LastUpdateTime', LARGE_INTEGER),	('AuthType', UNSIGNED_LONG),	('AuthInfoLength', UNSIGNED_LONG),	('AuthInfo', PTR_LSAPR_AUTH_INFORMATION),
+	('LastUpdateTime', LARGE_INTEGER),	('AuthType', UNSIGNED_LONG),	('AuthInfoLength', UNSIGNED_LONG),	('AuthInfo', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1056,17 +1056,17 @@ class PLSAPR_TRUSTED_DOMAIN_FULL_INFORMATION(NDRPOINTER):
 
 LSAPR_TRUSTED_DOMAIN_INFORMATION_BASIC = LSAPR_TRUST_INFORMATION
 
-class DATA_LSAPR_TRUSTED_DOMAIN_AUTH_BLOB(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_LSAPR_TRUSTED_DOMAIN_AUTH_BLOB(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSAPR_TRUSTED_DOMAIN_AUTH_BLOB),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LSAPR_TRUSTED_DOMAIN_AUTH_BLOB(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('AuthSize', UNSIGNED_LONG),	('AuthBlob', PTR_LSAPR_TRUSTED_DOMAIN_AUTH_BLOB),
+	('AuthSize', UNSIGNED_LONG),	('AuthBlob', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1091,17 +1091,17 @@ class PLSAPR_TRUSTED_DOMAIN_FULL_INFORMATION_INTERNAL(NDRPOINTER):
     )    
 
 
-class DATA_LSAPR_TRUSTED_DOMAIN_INFORMATION_EX2(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_LSAPR_TRUSTED_DOMAIN_INFORMATION_EX2(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_LSAPR_TRUSTED_DOMAIN_INFORMATION_EX2),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class LSAPR_TRUSTED_DOMAIN_INFORMATION_EX2(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Name', RPC_UNICODE_STRING),	('FlatName', RPC_UNICODE_STRING),	('Sid', PRPC_SID),	('TrustDirection', UNSIGNED_LONG),	('TrustType', UNSIGNED_LONG),	('TrustAttributes', UNSIGNED_LONG),	('ForestTrustLength', UNSIGNED_LONG),	('ForestTrustInfo', PTR_LSAPR_TRUSTED_DOMAIN_INFORMATION_EX2),
+	('Name', RPC_UNICODE_STRING),	('FlatName', RPC_UNICODE_STRING),	('Sid', PRPC_SID),	('TrustDirection', UNSIGNED_LONG),	('TrustType', UNSIGNED_LONG),	('TrustAttributes', UNSIGNED_LONG),	('ForestTrustLength', UNSIGNED_LONG),	('ForestTrustInfo', PTR_UNSIGNED_LONG),
 
     )
         

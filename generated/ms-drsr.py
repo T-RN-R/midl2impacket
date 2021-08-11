@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -504,17 +504,17 @@ class UPTODATE_VECTOR_V1_EXT(NDRSTRUCT):
     )
 
 
-class DATA_OID_T(NDRUniConformantArray):
+class DATA_UNSIGNED_INT(NDRUniConformantArray):
     item = BYTE
 
-class PTR_OID_T(NDRPOINTER):
+class PTR_UNSIGNED_INT(NDRPOINTER):
     referent = (
-        ('Data', DATA_OID_T),
+        ('Data', DATA_UNSIGNED_INT),
     )
 
-class OID_T(NDRSTRUCT):
+class UNSIGNED_INT(NDRSTRUCT):
     structure = (
-	('length', UNSIGNED_INT),	('elements', PTR_OID_T),
+	('length', UNSIGNED_INT),	('elements', PTR_UNSIGNED_INT),
 
     )
         
@@ -525,17 +525,17 @@ class PREFIXTABLEENTRY(NDRSTRUCT):
     )
 
 
-class DATA_SCHEMA_PREFIX_TABLE(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = PREFIXTABLEENTRY
 
-class PTR_SCHEMA_PREFIX_TABLE(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_SCHEMA_PREFIX_TABLE),
+        ('Data', DATA_DWORD),
     )
 
-class SCHEMA_PREFIX_TABLE(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('PrefixCount', DWORD),	('pPrefixEntry', PTR_SCHEMA_PREFIX_TABLE),
+	('PrefixCount', DWORD),	('pPrefixEntry', PTR_DWORD),
 
     )
         
@@ -553,32 +553,32 @@ class MTX_ADDR(NDRSTRUCT):
     )
 
 
-class DATA_ATTRVAL(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_ATTRVAL(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_ATTRVAL),
+        ('Data', DATA_ULONG),
     )
 
-class ATTRVAL(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('valLen', ULONG),	('pVal', PTR_ATTRVAL),
+	('valLen', ULONG),	('pVal', PTR_ULONG),
 
     )
         
 
-class DATA_ATTRVALBLOCK(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = ATTRVAL
 
-class PTR_ATTRVALBLOCK(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_ATTRVALBLOCK),
+        ('Data', DATA_ULONG),
     )
 
-class ATTRVALBLOCK(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('valCount', ULONG),	('pAVal', PTR_ATTRVALBLOCK),
+	('valCount', ULONG),	('pAVal', PTR_ULONG),
 
     )
         
@@ -589,17 +589,17 @@ class ATTR(NDRSTRUCT):
     )
 
 
-class DATA_ATTRBLOCK(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = ATTR
 
-class PTR_ATTRBLOCK(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_ATTRBLOCK),
+        ('Data', DATA_ULONG),
     )
 
-class ATTRBLOCK(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('attrCount', ULONG),	('pAttr', PTR_ATTRBLOCK),
+	('attrCount', ULONG),	('pAttr', PTR_ULONG),
 
     )
         
@@ -894,17 +894,17 @@ class DS_REPL_PENDING_OPSW(NDRSTRUCT):
     )
 
 
-class DATA_DS_REPL_VALUE_META_DATA(NDRUniConformantArray):
+class DATA_USN(NDRUniConformantArray):
     item = BYTE
 
-class PTR_DS_REPL_VALUE_META_DATA(NDRPOINTER):
+class PTR_USN(NDRPOINTER):
     referent = (
-        ('Data', DATA_DS_REPL_VALUE_META_DATA),
+        ('Data', DATA_USN),
     )
 
-class DS_REPL_VALUE_META_DATA(NDRSTRUCT):
+class USN(NDRSTRUCT):
     structure = (
-	('pszAttributeName', LPWSTR),	('pszObjectDn', LPWSTR),	('cbData', DWORD),	('pbData', PTR_DS_REPL_VALUE_META_DATA),
+	('pszAttributeName', LPWSTR),	('pszObjectDn', LPWSTR),	('cbData', DWORD),	('pbData', PTR_DWORD),
 	('ftimeDeleted', FILETIME),	('ftimeCreated', FILETIME),	('dwVersion', DWORD),	('ftimeLastOriginatingChange', FILETIME),	('uuidLastOriginatingDsaInvocationID', UUID),	('usnOriginatingChange', USN),	('usnLocalChange', USN),
     )
         
@@ -951,17 +951,17 @@ class DS_REPL_OBJ_META_DATA_2(NDRSTRUCT):
     )
 
 
-class DATA_DS_REPL_VALUE_META_DATA_2(NDRUniConformantArray):
+class DATA_LPWSTR(NDRUniConformantArray):
     item = BYTE
 
-class PTR_DS_REPL_VALUE_META_DATA_2(NDRPOINTER):
+class PTR_LPWSTR(NDRPOINTER):
     referent = (
-        ('Data', DATA_DS_REPL_VALUE_META_DATA_2),
+        ('Data', DATA_LPWSTR),
     )
 
-class DS_REPL_VALUE_META_DATA_2(NDRSTRUCT):
+class LPWSTR(NDRSTRUCT):
     structure = (
-	('pszAttributeName', LPWSTR),	('pszObjectDn', LPWSTR),	('cbData', DWORD),	('pbData', PTR_DS_REPL_VALUE_META_DATA_2),
+	('pszAttributeName', LPWSTR),	('pszObjectDn', LPWSTR),	('cbData', DWORD),	('pbData', PTR_DWORD),
 	('ftimeDeleted', FILETIME),	('ftimeCreated', FILETIME),	('dwVersion', DWORD),	('ftimeLastOriginatingChange', FILETIME),	('uuidLastOriginatingDsaInvocationID', UUID),	('usnOriginatingChange', USN),	('usnLocalChange', USN),	('pszLastOriginatingDsaDN', LPWSTR),
     )
         
@@ -1002,47 +1002,47 @@ class DRS_MSG_GETCHGREPLY_V1(NDRSTRUCT):
     )
 
 
-class DATA_DRS_MSG_GETCHGREPLY_V6(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = REPLVALINF_V1
 
-class PTR_DRS_MSG_GETCHGREPLY_V6(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_GETCHGREPLY_V6),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_GETCHGREPLY_V6(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('uuidDsaObjSrc', UUID),	('uuidInvocIdSrc', UUID),	('pNC', DSNAME),	('usnvecFrom', USN_VECTOR),	('usnvecTo', USN_VECTOR),	('pUpToDateVecSrc', UPTODATE_VECTOR_V2_EXT),	('PrefixTableSrc', SCHEMA_PREFIX_TABLE),	('ulExtendedRet', ULONG),	('cNumObjects', ULONG),	('cNumBytes', ULONG),	('pObjects', REPLENTINFLIST),	('fMoreData', BOOL),	('cNumNcSizeObjects', ULONG),	('cNumNcSizeValues', ULONG),	('cNumValues', DWORD),	('rgValues', PTR_DRS_MSG_GETCHGREPLY_V6),
+	('uuidDsaObjSrc', UUID),	('uuidInvocIdSrc', UUID),	('pNC', DSNAME),	('usnvecFrom', USN_VECTOR),	('usnvecTo', USN_VECTOR),	('pUpToDateVecSrc', UPTODATE_VECTOR_V2_EXT),	('PrefixTableSrc', SCHEMA_PREFIX_TABLE),	('ulExtendedRet', ULONG),	('cNumObjects', ULONG),	('cNumBytes', ULONG),	('pObjects', REPLENTINFLIST),	('fMoreData', BOOL),	('cNumNcSizeObjects', ULONG),	('cNumNcSizeValues', ULONG),	('cNumValues', DWORD),	('rgValues', PTR_DWORD),
 	('dwDRSError', DWORD),
     )
         
 
-class DATA_DRS_MSG_GETCHGREPLY_V9(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = REPLVALINF_V3
 
-class PTR_DRS_MSG_GETCHGREPLY_V9(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_GETCHGREPLY_V9),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_GETCHGREPLY_V9(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('uuidDsaObjSrc', UUID),	('uuidInvocIdSrc', UUID),	('pNC', DSNAME),	('usnvecFrom', USN_VECTOR),	('usnvecTo', USN_VECTOR),	('pUpToDateVecSrc', UPTODATE_VECTOR_V2_EXT),	('PrefixTableSrc', SCHEMA_PREFIX_TABLE),	('ulExtendedRet', ULONG),	('cNumObjects', ULONG),	('cNumBytes', ULONG),	('pObjects', REPLENTINFLIST),	('fMoreData', BOOL),	('cNumNcSizeObjects', ULONG),	('cNumNcSizeValues', ULONG),	('cNumValues', DWORD),	('rgValues', PTR_DRS_MSG_GETCHGREPLY_V9),
+	('uuidDsaObjSrc', UUID),	('uuidInvocIdSrc', UUID),	('pNC', DSNAME),	('usnvecFrom', USN_VECTOR),	('usnvecTo', USN_VECTOR),	('pUpToDateVecSrc', UPTODATE_VECTOR_V2_EXT),	('PrefixTableSrc', SCHEMA_PREFIX_TABLE),	('ulExtendedRet', ULONG),	('cNumObjects', ULONG),	('cNumBytes', ULONG),	('pObjects', REPLENTINFLIST),	('fMoreData', BOOL),	('cNumNcSizeObjects', ULONG),	('cNumNcSizeValues', ULONG),	('cNumValues', DWORD),	('rgValues', PTR_DWORD),
 	('dwDRSError', DWORD),
     )
         
 
-class DATA_DRS_COMPRESSED_BLOB(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_DRS_COMPRESSED_BLOB(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_COMPRESSED_BLOB),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_COMPRESSED_BLOB(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cbUncompressedSize', DWORD),	('cbCompressedSize', DWORD),	('pbCompressedData', PTR_DRS_COMPRESSED_BLOB),
+	('cbUncompressedSize', DWORD),	('cbCompressedSize', DWORD),	('pbCompressedData', PTR_DWORD),
 
     )
         
@@ -1191,17 +1191,17 @@ class DRS_MSG_REPMOD(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_VERIFYREQ_V1(NDRUniConformantArray):
+class DATA_SCHEMA_PREFIX_TABLE(NDRUniConformantArray):
     item = DSNAME
 
-class PTR_DRS_MSG_VERIFYREQ_V1(NDRPOINTER):
+class PTR_SCHEMA_PREFIX_TABLE(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_VERIFYREQ_V1),
+        ('Data', DATA_SCHEMA_PREFIX_TABLE),
     )
 
-class DRS_MSG_VERIFYREQ_V1(NDRSTRUCT):
+class SCHEMA_PREFIX_TABLE(NDRSTRUCT):
     structure = (
-	('dwFlags', DWORD),	('cNames', DWORD),	('rpNames', PTR_DRS_MSG_VERIFYREQ_V1),
+	('dwFlags', DWORD),	('cNames', DWORD),	('rpNames', PTR_DWORD),
 	('RequiredAttrs', ATTRBLOCK),	('PrefixTable', SCHEMA_PREFIX_TABLE),
     )
         
@@ -1212,17 +1212,17 @@ class DRS_MSG_VERIFYREQ(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_VERIFYREPLY_V1(NDRUniConformantArray):
+class DATA_SCHEMA_PREFIX_TABLE(NDRUniConformantArray):
     item = ENTINF
 
-class PTR_DRS_MSG_VERIFYREPLY_V1(NDRPOINTER):
+class PTR_SCHEMA_PREFIX_TABLE(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_VERIFYREPLY_V1),
+        ('Data', DATA_SCHEMA_PREFIX_TABLE),
     )
 
-class DRS_MSG_VERIFYREPLY_V1(NDRSTRUCT):
+class SCHEMA_PREFIX_TABLE(NDRSTRUCT):
     structure = (
-	('error', DWORD),	('cNames', DWORD),	('rpEntInf', PTR_DRS_MSG_VERIFYREPLY_V1),
+	('error', DWORD),	('cNames', DWORD),	('rpEntInf', PTR_DWORD),
 	('PrefixTable', SCHEMA_PREFIX_TABLE),
     )
         
@@ -1241,17 +1241,17 @@ RevMembGetUniversalGroups = 1,
 GroupMembersTransitive = 1
         
 
-class DATA_DRS_MSG_REVMEMB_REQ_V1(NDRUniConformantArray):
+class DATA_DSNAME(NDRUniConformantArray):
     item = DSNAME
 
-class PTR_DRS_MSG_REVMEMB_REQ_V1(NDRPOINTER):
+class PTR_DSNAME(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_REVMEMB_REQ_V1),
+        ('Data', DATA_DSNAME),
     )
 
-class DRS_MSG_REVMEMB_REQ_V1(NDRSTRUCT):
+class DSNAME(NDRSTRUCT):
     structure = (
-	('cDsNames', ULONG),	('ppDsNames', PTR_DRS_MSG_REVMEMB_REQ_V1),
+	('cDsNames', ULONG),	('ppDsNames', PTR_ULONG),
 	('dwFlags', DWORD),	('OperationType', REVERSE_MEMBERSHIP_OPERATION_TYPE),	('pLimitingDomain', DSNAME),
     )
         
@@ -1262,17 +1262,17 @@ class DRS_MSG_REVMEMB_REQ(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_REVMEMB_REPLY_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = NT4SID
 
-class PTR_DRS_MSG_REVMEMB_REPLY_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_REVMEMB_REPLY_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_REVMEMB_REPLY_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('errCode', ULONG),	('cDsNames', ULONG),	('cSidHistory', ULONG),	('ppDsNames', DSNAME),	('pAttributes', DWORD),	('ppSidHistory', PTR_DRS_MSG_REVMEMB_REPLY_V1),
+	('errCode', ULONG),	('cDsNames', ULONG),	('cSidHistory', ULONG),	('ppDsNames', DSNAME),	('pAttributes', DWORD),	('ppSidHistory', PTR_DWORD),
 
     )
         
@@ -1289,32 +1289,32 @@ class DRS_MSG_MOVEREQ_V1(NDRSTRUCT):
     )
 
 
-class DATA_DRS_SECBUFFER(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_DRS_SECBUFFER(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_SECBUFFER),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class DRS_SECBUFFER(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cbBuffer', UNSIGNED_LONG),	('BufferType', UNSIGNED_LONG),	('pvBuffer', PTR_DRS_SECBUFFER),
+	('cbBuffer', UNSIGNED_LONG),	('BufferType', UNSIGNED_LONG),	('pvBuffer', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_DRS_SECBUFFERDESC(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = DRS_SECBUFFER
 
-class PTR_DRS_SECBUFFERDESC(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_SECBUFFERDESC),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class DRS_SECBUFFERDESC(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('ulVersion', UNSIGNED_LONG),	('cBuffers', UNSIGNED_LONG),	('Buffers', PTR_DRS_SECBUFFERDESC),
+	('ulVersion', UNSIGNED_LONG),	('cBuffers', UNSIGNED_LONG),	('Buffers', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1349,17 +1349,17 @@ class DRS_MSG_MOVEREPLY(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_CRACKREQ_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_DRS_MSG_CRACKREQ_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_CRACKREQ_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_CRACKREQ_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('CodePage', ULONG),	('LocaleId', ULONG),	('dwFlags', DWORD),	('formatOffered', DWORD),	('formatDesired', DWORD),	('cNames', DWORD),	('rpNames', PTR_DRS_MSG_CRACKREQ_V1),
+	('CodePage', ULONG),	('LocaleId', ULONG),	('dwFlags', DWORD),	('formatOffered', DWORD),	('formatDesired', DWORD),	('cNames', DWORD),	('rpNames', PTR_DWORD),
 
     )
         
@@ -1382,17 +1382,17 @@ class DRS_MSG_CRACKREPLY(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_NT4_CHGLOG_REQ_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_DRS_MSG_NT4_CHGLOG_REQ_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_NT4_CHGLOG_REQ_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_NT4_CHGLOG_REQ_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwFlags', DWORD),	('PreferredMaximumLength', DWORD),	('cbRestart', DWORD),	('pRestart', PTR_DRS_MSG_NT4_CHGLOG_REQ_V1),
+	('dwFlags', DWORD),	('PreferredMaximumLength', DWORD),	('cbRestart', DWORD),	('pRestart', PTR_DWORD),
 
     )
         
@@ -1409,17 +1409,17 @@ class NT4_REPLICATION_STATE(NDRSTRUCT):
     )
 
 
-class DATA_DRS_MSG_NT4_CHGLOG_REPLY_V1(NDRUniConformantArray):
+class DATA_BYTE(NDRUniConformantArray):
     item = BYTE
 
-class PTR_DRS_MSG_NT4_CHGLOG_REPLY_V1(NDRPOINTER):
+class PTR_BYTE(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_NT4_CHGLOG_REPLY_V1),
+        ('Data', DATA_BYTE),
     )
 
-class DRS_MSG_NT4_CHGLOG_REPLY_V1(NDRSTRUCT):
+class BYTE(NDRSTRUCT):
     structure = (
-	('cbRestart', DWORD),	('cbLog', DWORD),	('ReplicationState', NT4_REPLICATION_STATE),	('ActualNtStatus', DWORD),	('pRestart', BYTE),	('pLog', PTR_DRS_MSG_NT4_CHGLOG_REPLY_V1),
+	('cbRestart', DWORD),	('cbLog', DWORD),	('ReplicationState', NT4_REPLICATION_STATE),	('ActualNtStatus', DWORD),	('pRestart', BYTE),	('pLog', PTR_BYTE),
 
     )
         
@@ -1430,17 +1430,17 @@ class DRS_MSG_NT4_CHGLOG_REPLY(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_SPNREQ_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item =  WCHAR
 
-class PTR_DRS_MSG_SPNREQ_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_SPNREQ_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_SPNREQ_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('operation', DWORD),	('flags', DWORD),	('pwszAccount',  WCHAR),	('cSPN', DWORD),	('rpwszSPN', PTR_DRS_MSG_SPNREQ_V1),
+	('operation', DWORD),	('flags', DWORD),	('pwszAccount',  WCHAR),	('cSPN', DWORD),	('rpwszSPN', PTR_DWORD),
 
     )
         
@@ -1527,62 +1527,62 @@ class DRS_MSG_DCINFOREQ(NDRUNION):
     )    
 
 
-class DATA_DRS_MSG_DCINFOREPLY_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DS_DOMAIN_CONTROLLER_INFO_1W
 
-class PTR_DRS_MSG_DCINFOREPLY_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_DCINFOREPLY_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_DCINFOREPLY_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cItems', DWORD),	('rItems', PTR_DRS_MSG_DCINFOREPLY_V1),
+	('cItems', DWORD),	('rItems', PTR_DWORD),
 
     )
         
 
-class DATA_DRS_MSG_DCINFOREPLY_V2(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DS_DOMAIN_CONTROLLER_INFO_2W
 
-class PTR_DRS_MSG_DCINFOREPLY_V2(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_DCINFOREPLY_V2),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_DCINFOREPLY_V2(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cItems', DWORD),	('rItems', PTR_DRS_MSG_DCINFOREPLY_V2),
+	('cItems', DWORD),	('rItems', PTR_DWORD),
 
     )
         
 
-class DATA_DRS_MSG_DCINFOREPLY_V3(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DS_DOMAIN_CONTROLLER_INFO_3W
 
-class PTR_DRS_MSG_DCINFOREPLY_V3(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_DCINFOREPLY_V3),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_DCINFOREPLY_V3(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cItems', DWORD),	('rItems', PTR_DRS_MSG_DCINFOREPLY_V3),
+	('cItems', DWORD),	('rItems', PTR_DWORD),
 
     )
         
 
-class DATA_DRS_MSG_DCINFOREPLY_VFFFFFFFF(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DS_DOMAIN_CONTROLLER_INFO_FFFFFFFFW
 
-class PTR_DRS_MSG_DCINFOREPLY_VFFFFFFFF(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_DCINFOREPLY_VFFFFFFFF),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_DCINFOREPLY_VFFFFFFFF(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cItems', DWORD),	('rItems', PTR_DRS_MSG_DCINFOREPLY_VFFFFFFFF),
+	('cItems', DWORD),	('rItems', PTR_DWORD),
 
     )
         
@@ -1629,17 +1629,17 @@ class ADDENTRY_REPLY_INFO(NDRSTRUCT):
     )
 
 
-class DATA_DRS_MSG_ADDENTRYREPLY_V2(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = ADDENTRY_REPLY_INFO
 
-class PTR_DRS_MSG_ADDENTRYREPLY_V2(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_ADDENTRYREPLY_V2),
+        ('Data', DATA_ULONG),
     )
 
-class DRS_MSG_ADDENTRYREPLY_V2(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('pErrorObject', DSNAME),	('errCode', DWORD),	('dsid', DWORD),	('extendedErr', DWORD),	('extendedData', DWORD),	('problem', USHORT),	('cObjectsAdded', ULONG),	('infoList', PTR_DRS_MSG_ADDENTRYREPLY_V2),
+	('pErrorObject', DSNAME),	('errCode', DWORD),	('dsid', DWORD),	('extendedErr', DWORD),	('extendedData', DWORD),	('problem', USHORT),	('cObjectsAdded', ULONG),	('infoList', PTR_ULONG),
 
     )
         
@@ -1656,17 +1656,17 @@ class DRS_ERROR_DATA(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_ADDENTRYREPLY_V3(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = ADDENTRY_REPLY_INFO
 
-class PTR_DRS_MSG_ADDENTRYREPLY_V3(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_ADDENTRYREPLY_V3),
+        ('Data', DATA_ULONG),
     )
 
-class DRS_MSG_ADDENTRYREPLY_V3(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('pdsErrObject', DSNAME),	('dwErrVer', DWORD),	('pErrData', DRS_ERROR_DATA),	('cObjectsAdded', ULONG),	('infoList', PTR_DRS_MSG_ADDENTRYREPLY_V3),
+	('pdsErrObject', DSNAME),	('dwErrVer', DWORD),	('pErrData', DRS_ERROR_DATA),	('cObjectsAdded', ULONG),	('infoList', PTR_ULONG),
 
     )
         
@@ -1737,17 +1737,17 @@ class DRS_MSG_GETREPLINFO_REPLY(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_ADDSIDREQ_V1(NDRUniConformantArray):
+class DATA_WCHAR(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_DRS_MSG_ADDSIDREQ_V1(NDRPOINTER):
+class PTR_WCHAR(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_ADDSIDREQ_V1),
+        ('Data', DATA_WCHAR),
     )
 
-class DRS_MSG_ADDSIDREQ_V1(NDRSTRUCT):
+class WCHAR(NDRSTRUCT):
     structure = (
-	('Flags', DWORD),	('SrcDomain', WCHAR),	('SrcPrincipal', WCHAR),	('SrcDomainController', WCHAR),	('SrcCredsUserLength', DWORD),	('SrcCredsUser', WCHAR),	('SrcCredsDomainLength', DWORD),	('SrcCredsDomain', WCHAR),	('SrcCredsPasswordLength', DWORD),	('SrcCredsPassword', PTR_DRS_MSG_ADDSIDREQ_V1),
+	('Flags', DWORD),	('SrcDomain', WCHAR),	('SrcPrincipal', WCHAR),	('SrcDomainController', WCHAR),	('SrcCredsUserLength', DWORD),	('SrcCredsUser', WCHAR),	('SrcCredsDomainLength', DWORD),	('SrcCredsDomain', WCHAR),	('SrcCredsPasswordLength', DWORD),	('SrcCredsPassword', PTR_DWORD),
 	('DstDomain', WCHAR),	('DstPrincipal', WCHAR),
     )
         
@@ -1770,17 +1770,17 @@ class DRS_MSG_ADDSIDREPLY(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_GETMEMBERSHIPS2_REQ_V1(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = DRS_MSG_REVMEMB_REQ_V1
 
-class PTR_DRS_MSG_GETMEMBERSHIPS2_REQ_V1(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_GETMEMBERSHIPS2_REQ_V1),
+        ('Data', DATA_ULONG),
     )
 
-class DRS_MSG_GETMEMBERSHIPS2_REQ_V1(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('Count', ULONG),	('Requests', PTR_DRS_MSG_GETMEMBERSHIPS2_REQ_V1),
+	('Count', ULONG),	('Requests', PTR_ULONG),
 
     )
         
@@ -1791,17 +1791,17 @@ class DRS_MSG_GETMEMBERSHIPS2_REQ(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_GETMEMBERSHIPS2_REPLY_V1(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = DRS_MSG_REVMEMB_REPLY_V1
 
-class PTR_DRS_MSG_GETMEMBERSHIPS2_REPLY_V1(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_GETMEMBERSHIPS2_REPLY_V1),
+        ('Data', DATA_ULONG),
     )
 
-class DRS_MSG_GETMEMBERSHIPS2_REPLY_V1(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('Count', ULONG),	('Replies', PTR_DRS_MSG_GETMEMBERSHIPS2_REPLY_V1),
+	('Count', ULONG),	('Replies', PTR_ULONG),
 
     )
         
@@ -1836,17 +1836,17 @@ class DRS_MSG_EXISTREQ(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_EXISTREPLY_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = UUID
 
-class PTR_DRS_MSG_EXISTREPLY_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_EXISTREPLY_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_EXISTREPLY_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwStatusFlags', DWORD),	('cNumGuids', DWORD),	('rgGuids', PTR_DRS_MSG_EXISTREPLY_V1),
+	('dwStatusFlags', DWORD),	('cNumGuids', DWORD),	('rgGuids', PTR_DWORD),
 
     )
         
@@ -1857,17 +1857,17 @@ class DRS_MSG_EXISTREPLY(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_QUERYSITESREQ_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_DRS_MSG_QUERYSITESREQ_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_QUERYSITESREQ_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_QUERYSITESREQ_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('pwszFromSite',  WCHAR),	('cToSites', DWORD),	('rgszToSites', PTR_DRS_MSG_QUERYSITESREQ_V1),
+	('pwszFromSite',  WCHAR),	('cToSites', DWORD),	('rgszToSites', PTR_DWORD),
 	('dwFlags', DWORD),
     )
         
@@ -1884,17 +1884,17 @@ class DRS_MSG_QUERYSITESREPLYELEMENT_V1(NDRSTRUCT):
     )
 
 
-class DATA_DRS_MSG_QUERYSITESREPLY_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DRS_MSG_QUERYSITESREPLYELEMENT_V1
 
-class PTR_DRS_MSG_QUERYSITESREPLY_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_QUERYSITESREPLY_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_QUERYSITESREPLY_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cToSites', DWORD),	('rgCostInfo', PTR_DRS_MSG_QUERYSITESREPLY_V1),
+	('cToSites', DWORD),	('rgCostInfo', PTR_DWORD),
 	('dwFlags', DWORD),
     )
         
@@ -1989,17 +1989,17 @@ class DRS_MSG_ADDCLONEDCREQ(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_ADDCLONEDCREPLY_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_DRS_MSG_ADDCLONEDCREPLY_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_ADDCLONEDCREPLY_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_ADDCLONEDCREPLY_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('pwszCloneDCName', WCHAR),	('pwszSite', WCHAR),	('cPasswordLength', DWORD),	('pwsNewDCAccountPassword', PTR_DRS_MSG_ADDCLONEDCREPLY_V1),
+	('pwszCloneDCName', WCHAR),	('pwszSite', WCHAR),	('cPasswordLength', DWORD),	('pwsNewDCAccountPassword', PTR_DWORD),
 
     )
         
@@ -2010,17 +2010,17 @@ class DRS_MSG_ADDCLONEDCREPLY(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_WRITENGCKEYREQ_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_DRS_MSG_WRITENGCKEYREQ_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_WRITENGCKEYREQ_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_WRITENGCKEYREQ_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('pwszAccount',  WCHAR),	('cNgcKey', DWORD),	('pNgcKey', PTR_DRS_MSG_WRITENGCKEYREQ_V1),
+	('pwszAccount',  WCHAR),	('cNgcKey', DWORD),	('pNgcKey', PTR_DWORD),
 
     )
         
@@ -2055,17 +2055,17 @@ class DRS_MSG_READNGCKEYREQ(NDRUNION):
     }
         
 
-class DATA_DRS_MSG_READNGCKEYREPLY_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = UCHAR
 
-class PTR_DRS_MSG_READNGCKEYREPLY_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DRS_MSG_READNGCKEYREPLY_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DRS_MSG_READNGCKEYREPLY_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('retVal', DWORD),	('cNgcKey', DWORD),	('pNgcKey', PTR_DRS_MSG_READNGCKEYREPLY_V1),
+	('retVal', DWORD),	('cNgcKey', DWORD),	('pNgcKey', PTR_DWORD),
 
     )
         
@@ -2573,17 +2573,17 @@ OPNUMS = {
 MSRPC_UUID_DSAOP = uuidtup_to_bin(('7c44d7d4-31d5-424c-bd5e-2b3e1f323d22','0.0'))
 
 
-class DATA_DSA_MSG_EXECUTE_SCRIPT_REQ_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_DSA_MSG_EXECUTE_SCRIPT_REQ_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DSA_MSG_EXECUTE_SCRIPT_REQ_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DSA_MSG_EXECUTE_SCRIPT_REQ_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('Flags', DWORD),	('cbPassword', DWORD),	('pbPassword', PTR_DSA_MSG_EXECUTE_SCRIPT_REQ_V1),
+	('Flags', DWORD),	('cbPassword', DWORD),	('pbPassword', PTR_DWORD),
 
     )
         
@@ -2618,17 +2618,17 @@ class DSA_MSG_PREPARE_SCRIPT_REQ(NDRUNION):
     }
         
 
-class DATA_DSA_MSG_PREPARE_SCRIPT_REPLY_V1(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_DSA_MSG_PREPARE_SCRIPT_REPLY_V1(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DSA_MSG_PREPARE_SCRIPT_REPLY_V1),
+        ('Data', DATA_DWORD),
     )
 
-class DSA_MSG_PREPARE_SCRIPT_REPLY_V1(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwOperationStatus', DWORD),	('pwErrMessage', LPWSTR),	('cbPassword', DWORD),	('pbPassword', BYTE),	('cbHashBody', DWORD),	('pbHashBody', BYTE),	('cbHashSignature', DWORD),	('pbHashSignature', PTR_DSA_MSG_PREPARE_SCRIPT_REPLY_V1),
+	('dwOperationStatus', DWORD),	('pwErrMessage', LPWSTR),	('cbPassword', DWORD),	('pbPassword', BYTE),	('cbHashBody', DWORD),	('pbHashBody', BYTE),	('cbHashSignature', DWORD),	('pbHashSignature', PTR_DWORD),
 
     )
         

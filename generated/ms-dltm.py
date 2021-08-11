@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -641,17 +641,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -1081,77 +1081,77 @@ class TRK_FILE_TRACKING_INFORMATION(NDRSTRUCT):
     )
 
 
-class DATA_OLD_TRKSVR_CALL_SEARCH(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = OLD_TRK_FILE_TRACKING_INFORMATION
 
-class PTR_OLD_TRKSVR_CALL_SEARCH(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_OLD_TRKSVR_CALL_SEARCH),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class OLD_TRKSVR_CALL_SEARCH(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cSearch', UNSIGNED_LONG),	('pSearches', PTR_OLD_TRKSVR_CALL_SEARCH),
+	('cSearch', UNSIGNED_LONG),	('pSearches', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_TRKSVR_CALL_SEARCH(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = TRK_FILE_TRACKING_INFORMATION
 
-class PTR_TRKSVR_CALL_SEARCH(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_TRKSVR_CALL_SEARCH),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class TRKSVR_CALL_SEARCH(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cSearch', UNSIGNED_LONG),	('pSearches', PTR_TRKSVR_CALL_SEARCH),
+	('cSearch', UNSIGNED_LONG),	('pSearches', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_TRKSVR_CALL_MOVE_NOTIFICATION(NDRUniConformantArray):
+class DATA_CDOMAINRELATIVEOBJID(NDRUniConformantArray):
     item = CDOMAINRELATIVEOBJID
 
-class PTR_TRKSVR_CALL_MOVE_NOTIFICATION(NDRPOINTER):
+class PTR_CDOMAINRELATIVEOBJID(NDRPOINTER):
     referent = (
-        ('Data', DATA_TRKSVR_CALL_MOVE_NOTIFICATION),
+        ('Data', DATA_CDOMAINRELATIVEOBJID),
     )
 
-class TRKSVR_CALL_MOVE_NOTIFICATION(NDRSTRUCT):
+class CDOMAINRELATIVEOBJID(NDRSTRUCT):
     structure = (
-	('cNotifications', UNSIGNED_LONG),	('cProcessed', UNSIGNED_LONG),	('seq', SEQUENCENUMBER),	('fForceSeqNumber', LONG),	('pvolid', CVOLUMEID),	('rgobjidCurrent', COBJID),	('rgdroidBirth', CDOMAINRELATIVEOBJID),	('rgdroidNew', PTR_TRKSVR_CALL_MOVE_NOTIFICATION),
+	('cNotifications', UNSIGNED_LONG),	('cProcessed', UNSIGNED_LONG),	('seq', SEQUENCENUMBER),	('fForceSeqNumber', LONG),	('pvolid', CVOLUMEID),	('rgobjidCurrent', COBJID),	('rgdroidBirth', CDOMAINRELATIVEOBJID),	('rgdroidNew', PTR_CDOMAINRELATIVEOBJID),
 
     )
         
 
-class DATA_TRKSVR_CALL_REFRESH(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = CVOLUMEID
 
-class PTR_TRKSVR_CALL_REFRESH(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_TRKSVR_CALL_REFRESH),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class TRKSVR_CALL_REFRESH(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cSources', UNSIGNED_LONG),	('adroidBirth', CDOMAINRELATIVEOBJID),	('cVolumes', UNSIGNED_LONG),	('avolid', PTR_TRKSVR_CALL_REFRESH),
+	('cSources', UNSIGNED_LONG),	('adroidBirth', CDOMAINRELATIVEOBJID),	('cVolumes', UNSIGNED_LONG),	('avolid', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_TRKSVR_CALL_DELETE(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = CVOLUMEID
 
-class PTR_TRKSVR_CALL_DELETE(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_TRKSVR_CALL_DELETE),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class TRKSVR_CALL_DELETE(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cdroidBirth', UNSIGNED_LONG),	('adroidBirth', CDOMAINRELATIVEOBJID),	('cVolumes', UNSIGNED_LONG),	('pVolumes', PTR_TRKSVR_CALL_DELETE),
+	('cdroidBirth', UNSIGNED_LONG),	('adroidBirth', CDOMAINRELATIVEOBJID),	('cVolumes', UNSIGNED_LONG),	('pVolumes', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1170,17 +1170,17 @@ class TRKSVR_SYNC_VOLUME(NDRSTRUCT):
     )
 
 
-class DATA_TRKSVR_CALL_SYNC_VOLUMES(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = TRKSVR_SYNC_VOLUME
 
-class PTR_TRKSVR_CALL_SYNC_VOLUMES(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_TRKSVR_CALL_SYNC_VOLUMES),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class TRKSVR_CALL_SYNC_VOLUMES(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cVolumes', UNSIGNED_LONG),	('pVolumes', PTR_TRKSVR_CALL_SYNC_VOLUMES),
+	('cVolumes', UNSIGNED_LONG),	('pVolumes', PTR_UNSIGNED_LONG),
 
     )
         

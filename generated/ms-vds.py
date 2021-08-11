@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -641,17 +641,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -861,17 +861,17 @@ class ORPC_EXTENT(NDRSTRUCT):
     )
 
 
-class DATA_ORPC_EXTENT_ARRAY(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = ORPC_EXTENT
 
-class PTR_ORPC_EXTENT_ARRAY(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_ORPC_EXTENT_ARRAY),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class ORPC_EXTENT_ARRAY(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('size', UNSIGNED_LONG),	('reserved', UNSIGNED_LONG),	('extent', PTR_ORPC_EXTENT_ARRAY),
+	('size', UNSIGNED_LONG),	('reserved', UNSIGNED_LONG),	('extent', PTR_UNSIGNED_LONG),
 
     )
         
@@ -938,17 +938,17 @@ class COSERVERINFO(NDRSTRUCT):
     )
 
 
-class DATA_CUSTOMREMOTE_REQUEST_SCM_INFO(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = UNSIGNED_SHORT
 
-class PTR_CUSTOMREMOTE_REQUEST_SCM_INFO(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_CUSTOMREMOTE_REQUEST_SCM_INFO),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class CUSTOMREMOTE_REQUEST_SCM_INFO(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('ClientImpLevel', DWORD),	('cRequestedProtseqs', UNSIGNED_SHORT),	('pRequestedProtseqs', PTR_CUSTOMREMOTE_REQUEST_SCM_INFO),
+	('ClientImpLevel', DWORD),	('cRequestedProtseqs', UNSIGNED_SHORT),	('pRequestedProtseqs', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -959,17 +959,17 @@ class CUSTOMREMOTE_REPLY_SCM_INFO(NDRSTRUCT):
     )
 
 
-class DATA_INSTANTIATIONINFODATA(NDRUniConformantArray):
+class DATA_COMVERSION(NDRUniConformantArray):
     item = IID
 
-class PTR_INSTANTIATIONINFODATA(NDRPOINTER):
+class PTR_COMVERSION(NDRPOINTER):
     referent = (
-        ('Data', DATA_INSTANTIATIONINFODATA),
+        ('Data', DATA_COMVERSION),
     )
 
-class INSTANTIATIONINFODATA(NDRSTRUCT):
+class COMVERSION(NDRSTRUCT):
     structure = (
-	('classId', CLSID),	('classCtx', DWORD),	('actvflags', DWORD),	('fIsSurrogate', LONG),	('cIID', DWORD),	('instFlag', DWORD),	('pIID', PTR_INSTANTIATIONINFODATA),
+	('classId', CLSID),	('classCtx', DWORD),	('actvflags', DWORD),	('fIsSurrogate', LONG),	('cIID', DWORD),	('instFlag', DWORD),	('pIID', PTR_DWORD),
 	('thisSize', DWORD),	('clientCOMVersion', COMVERSION),
     )
         
@@ -986,32 +986,32 @@ class ACTIVATIONCONTEXTINFODATA(NDRSTRUCT):
     )
 
 
-class DATA_CUSTOMHEADER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DWORD
 
-class PTR_CUSTOMHEADER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_CUSTOMHEADER),
+        ('Data', DATA_DWORD),
     )
 
-class CUSTOMHEADER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('totalSize', DWORD),	('headerSize', DWORD),	('dwReserved', DWORD),	('destCtx', DWORD),	('cIfs', DWORD),	('classInfoClsid', CLSID),	('pclsid', CLSID),	('pSizes', PTR_CUSTOMHEADER),
+	('totalSize', DWORD),	('headerSize', DWORD),	('dwReserved', DWORD),	('destCtx', DWORD),	('cIfs', DWORD),	('classInfoClsid', CLSID),	('pclsid', CLSID),	('pSizes', PTR_CLSID),
 	('pdwReserved', DWORD),
     )
         
 
-class DATA_PROPSOUTINFO(NDRUniConformantArray):
+class DATA_HRESULT(NDRUniConformantArray):
     item = MINTERFACEPOINTER
 
-class PTR_PROPSOUTINFO(NDRPOINTER):
+class PTR_HRESULT(NDRPOINTER):
     referent = (
-        ('Data', DATA_PROPSOUTINFO),
+        ('Data', DATA_HRESULT),
     )
 
-class PROPSOUTINFO(NDRSTRUCT):
+class HRESULT(NDRSTRUCT):
     structure = (
-	('cIfs', DWORD),	('piid', IID),	('phresults', HRESULT),	('ppIntfData', PTR_PROPSOUTINFO),
+	('cIfs', DWORD),	('piid', IID),	('phresults', HRESULT),	('ppIntfData', PTR_HRESULT),
 
     )
         
@@ -1800,62 +1800,62 @@ class VDS_PARTITION_INFO_GPT(NDRSTRUCT):
     )
 
 
-class DATA_VDS_STORAGE_IDENTIFIER(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_VDS_STORAGE_IDENTIFIER(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_VDS_STORAGE_IDENTIFIER),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class VDS_STORAGE_IDENTIFIER(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('m_CodeSet', VDS_STORAGE_IDENTIFIER_CODE_SET),	('m_Type', VDS_STORAGE_IDENTIFIER_TYPE),	('m_cbIdentifier', UNSIGNED_LONG),	('m_rgbIdentifier', PTR_VDS_STORAGE_IDENTIFIER),
+	('m_CodeSet', VDS_STORAGE_IDENTIFIER_CODE_SET),	('m_Type', VDS_STORAGE_IDENTIFIER_TYPE),	('m_cbIdentifier', UNSIGNED_LONG),	('m_rgbIdentifier', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_VDS_STORAGE_DEVICE_ID_DESCRIPTOR(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = VDS_STORAGE_IDENTIFIER
 
-class PTR_VDS_STORAGE_DEVICE_ID_DESCRIPTOR(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_VDS_STORAGE_DEVICE_ID_DESCRIPTOR),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class VDS_STORAGE_DEVICE_ID_DESCRIPTOR(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('m_version', UNSIGNED_LONG),	('m_cIdentifiers', UNSIGNED_LONG),	('m_rgIdentifiers', PTR_VDS_STORAGE_DEVICE_ID_DESCRIPTOR),
+	('m_version', UNSIGNED_LONG),	('m_cIdentifiers', UNSIGNED_LONG),	('m_rgIdentifiers', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_VDS_INTERCONNECT(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_VDS_INTERCONNECT(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_VDS_INTERCONNECT),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class VDS_INTERCONNECT(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('m_addressType', VDS_INTERCONNECT_ADDRESS_TYPE),	('m_cbPort', UNSIGNED_LONG),	('m_pbPort', BYTE),	('m_cbAddress', UNSIGNED_LONG),	('m_pbAddress', PTR_VDS_INTERCONNECT),
+	('m_addressType', VDS_INTERCONNECT_ADDRESS_TYPE),	('m_cbPort', UNSIGNED_LONG),	('m_pbPort', BYTE),	('m_cbAddress', UNSIGNED_LONG),	('m_pbAddress', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_VDS_LUN_INFORMATION(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = VDS_INTERCONNECT
 
-class PTR_VDS_LUN_INFORMATION(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_VDS_LUN_INFORMATION),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class VDS_LUN_INFORMATION(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('m_version', UNSIGNED_LONG),	('m_DeviceType', BYTE),	('m_DeviceTypeModifier', BYTE),	('m_bCommandQueuing', LONG),	('m_BusType', VDS_STORAGE_BUS_TYPE),	('m_szVendorId', CHAR),	('m_szProductId', CHAR),	('m_szProductRevision', CHAR),	('m_szSerialNumber', CHAR),	('m_diskSignature', GUID),	('m_deviceIdDescriptor', VDS_STORAGE_DEVICE_ID_DESCRIPTOR),	('m_cInterconnects', UNSIGNED_LONG),	('m_rgInterconnects', PTR_VDS_LUN_INFORMATION),
+	('m_version', UNSIGNED_LONG),	('m_DeviceType', BYTE),	('m_DeviceTypeModifier', BYTE),	('m_bCommandQueuing', LONG),	('m_BusType', VDS_STORAGE_BUS_TYPE),	('m_szVendorId', CHAR),	('m_szProductId', CHAR),	('m_szProductRevision', CHAR),	('m_szSerialNumber', CHAR),	('m_diskSignature', GUID),	('m_deviceIdDescriptor', VDS_STORAGE_DEVICE_ID_DESCRIPTOR),	('m_cInterconnects', UNSIGNED_LONG),	('m_rgInterconnects', PTR_UNSIGNED_LONG),
 
     )
         
@@ -2184,15 +2184,15 @@ class VDS_IPADDRESS(NDRSTRUCT):
     )
 
 
-class DATA_VDS_ISCSI_SHARED_SECRET(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_VDS_ISCSI_SHARED_SECRET(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_VDS_ISCSI_SHARED_SECRET),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class VDS_ISCSI_SHARED_SECRET(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
 	('pSharedSecret', PTR_VDS_ISCSI_SHARED_SECRET),
 	('ulSharedSecretSize', UNSIGNED_LONG),
@@ -2297,17 +2297,17 @@ class PVDS_VOLUME_PROP(NDRPOINTER):
     )    
 
 
-class DATA_VDS_VOLUME_PROP2(NDRUniConformantArray):
+class DATA_WCHAR(NDRUniConformantArray):
     item = BYTE
 
-class PTR_VDS_VOLUME_PROP2(NDRPOINTER):
+class PTR_WCHAR(NDRPOINTER):
     referent = (
-        ('Data', DATA_VDS_VOLUME_PROP2),
+        ('Data', DATA_WCHAR),
     )
 
-class VDS_VOLUME_PROP2(NDRSTRUCT):
+class WCHAR(NDRSTRUCT):
     structure = (
-	('id', VDS_OBJECT_ID),	('type', VDS_VOLUME_TYPE),	('status', VDS_VOLUME_STATUS),	('health', VDS_HEALTH),	('TransitionState', VDS_TRANSITION_STATE),	('ullSize', ULONGLONG),	('ulFlags', UNSIGNED_LONG),	('RecommendedFileSystemType', VDS_FILE_SYSTEM_TYPE),	('cbUniqueId', ULONG),	('pwszName', WCHAR),	('pUniqueId', PTR_VDS_VOLUME_PROP2),
+	('id', VDS_OBJECT_ID),	('type', VDS_VOLUME_TYPE),	('status', VDS_VOLUME_STATUS),	('health', VDS_HEALTH),	('TransitionState', VDS_TRANSITION_STATE),	('ullSize', ULONGLONG),	('ulFlags', UNSIGNED_LONG),	('RecommendedFileSystemType', VDS_FILE_SYSTEM_TYPE),	('cbUniqueId', ULONG),	('pwszName', WCHAR),	('pUniqueId', PTR_WCHAR),
 
     )
         

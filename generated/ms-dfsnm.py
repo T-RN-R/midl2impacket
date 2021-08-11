@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -545,32 +545,32 @@ class DFS_INFO_2(NDRSTRUCT):
     )
 
 
-class DATA_DFS_INFO_3(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DFS_STORAGE_INFO
 
-class PTR_DFS_INFO_3(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DFS_INFO_3),
+        ('Data', DATA_DWORD),
     )
 
-class DFS_INFO_3(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('EntryPath', WCHAR),	('Comment', WCHAR),	('State', DWORD),	('NumberOfStorages', DWORD),	('Storage', PTR_DFS_INFO_3),
+	('EntryPath', WCHAR),	('Comment', WCHAR),	('State', DWORD),	('NumberOfStorages', DWORD),	('Storage', PTR_DWORD),
 
     )
         
 
-class DATA_DFS_INFO_4(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DFS_STORAGE_INFO
 
-class PTR_DFS_INFO_4(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DFS_INFO_4),
+        ('Data', DATA_DWORD),
     )
 
-class DFS_INFO_4(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('EntryPath', WCHAR),	('Comment', WCHAR),	('State', DWORD),	('Timeout', UNSIGNED_LONG),	('Guid', GUID),	('NumberOfStorages', DWORD),	('Storage', PTR_DFS_INFO_4),
+	('EntryPath', WCHAR),	('Comment', WCHAR),	('State', DWORD),	('Timeout', UNSIGNED_LONG),	('Guid', GUID),	('NumberOfStorages', DWORD),	('Storage', PTR_DWORD),
 
     )
         
@@ -581,17 +581,17 @@ class DFS_INFO_5(NDRSTRUCT):
     )
 
 
-class DATA_DFS_INFO_6(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DFS_STORAGE_INFO_1
 
-class PTR_DFS_INFO_6(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DFS_INFO_6),
+        ('Data', DATA_DWORD),
     )
 
-class DFS_INFO_6(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('EntryPath', WCHAR),	('Comment', WCHAR),	('State', DWORD),	('Timeout', UNSIGNED_LONG),	('Guid', GUID),	('PropertyFlags', UNSIGNED_LONG),	('MetadataSize', UNSIGNED_LONG),	('NumberOfStorages', DWORD),	('Storage', PTR_DFS_INFO_6),
+	('EntryPath', WCHAR),	('Comment', WCHAR),	('State', DWORD),	('Timeout', UNSIGNED_LONG),	('Guid', GUID),	('PropertyFlags', UNSIGNED_LONG),	('MetadataSize', UNSIGNED_LONG),	('NumberOfStorages', DWORD),	('Storage', PTR_DWORD),
 
     )
         
@@ -700,92 +700,92 @@ class DFS_INFO_STRUCT(NDRUNION):
     }
         
 
-class DATA_DFS_INFO_1_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DFS_INFO_1
 
-class PTR_DFS_INFO_1_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DFS_INFO_1_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class DFS_INFO_1_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('EntriesRead', DWORD),	('Buffer', PTR_DFS_INFO_1_CONTAINER),
+	('EntriesRead', DWORD),	('Buffer', PTR_DWORD),
 
     )
         
 
-class DATA_DFS_INFO_2_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DFS_INFO_2
 
-class PTR_DFS_INFO_2_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DFS_INFO_2_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class DFS_INFO_2_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('EntriesRead', DWORD),	('Buffer', PTR_DFS_INFO_2_CONTAINER),
+	('EntriesRead', DWORD),	('Buffer', PTR_DWORD),
 
     )
         
 
-class DATA_DFS_INFO_3_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DFS_INFO_3
 
-class PTR_DFS_INFO_3_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DFS_INFO_3_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class DFS_INFO_3_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('EntriesRead', DWORD),	('Buffer', PTR_DFS_INFO_3_CONTAINER),
+	('EntriesRead', DWORD),	('Buffer', PTR_DWORD),
 
     )
         
 
-class DATA_DFS_INFO_4_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DFS_INFO_4
 
-class PTR_DFS_INFO_4_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DFS_INFO_4_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class DFS_INFO_4_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('EntriesRead', DWORD),	('Buffer', PTR_DFS_INFO_4_CONTAINER),
+	('EntriesRead', DWORD),	('Buffer', PTR_DWORD),
 
     )
         
 
-class DATA_DFS_INFO_5_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DFS_INFO_5
 
-class PTR_DFS_INFO_5_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DFS_INFO_5_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class DFS_INFO_5_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('EntriesRead', DWORD),	('Buffer', PTR_DFS_INFO_5_CONTAINER),
+	('EntriesRead', DWORD),	('Buffer', PTR_DWORD),
 
     )
         
 
-class DATA_DFS_INFO_6_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DFS_INFO_6
 
-class PTR_DFS_INFO_6_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DFS_INFO_6_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class DFS_INFO_6_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('EntriesRead', DWORD),	('Buffer', PTR_DFS_INFO_6_CONTAINER),
+	('EntriesRead', DWORD),	('Buffer', PTR_DWORD),
 
     )
         
@@ -810,32 +810,32 @@ class LPDFS_INFO_9_CONTAINER(NDRPOINTER):
     )    
 
 
-class DATA_DFS_INFO_200_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DFS_INFO_200
 
-class PTR_DFS_INFO_200_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DFS_INFO_200_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class DFS_INFO_200_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('EntriesRead', DWORD),	('Buffer', PTR_DFS_INFO_200_CONTAINER),
+	('EntriesRead', DWORD),	('Buffer', PTR_DWORD),
 
     )
         
 
-class DATA_DFS_INFO_300_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DFS_INFO_300
 
-class PTR_DFS_INFO_300_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DFS_INFO_300_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class DFS_INFO_300_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('EntriesRead', DWORD),	('Buffer', PTR_DFS_INFO_300_CONTAINER),
+	('EntriesRead', DWORD),	('Buffer', PTR_DWORD),
 
     )
         

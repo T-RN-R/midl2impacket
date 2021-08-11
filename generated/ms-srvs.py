@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -798,17 +798,17 @@ class LPSESSION_ENUM_STRUCT(NDRPOINTER):
     )    
 
 
-class DATA_SHARE_INFO_502_I(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_SHARE_INFO_502_I(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_SHARE_INFO_502_I),
+        ('Data', DATA_DWORD),
     )
 
-class SHARE_INFO_502_I(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('shi502_netname', WCHAR),	('shi502_type', DWORD),	('shi502_remark', WCHAR),	('shi502_permissions', DWORD),	('shi502_max_uses', DWORD),	('shi502_current_uses', DWORD),	('shi502_path', WCHAR),	('shi502_passwd', WCHAR),	('shi502_reserved', DWORD),	('shi502_security_descriptor', PTR_SHARE_INFO_502_I),
+	('shi502_netname', WCHAR),	('shi502_type', DWORD),	('shi502_remark', WCHAR),	('shi502_permissions', DWORD),	('shi502_max_uses', DWORD),	('shi502_current_uses', DWORD),	('shi502_path', WCHAR),	('shi502_passwd', WCHAR),	('shi502_reserved', DWORD),	('shi502_security_descriptor', PTR_DWORD),
 
     )
         
@@ -841,17 +841,17 @@ class LPSHARE_INFO_503_CONTAINER(NDRPOINTER):
     )    
 
 
-class DATA_SHARE_INFO_1501_I(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_SHARE_INFO_1501_I(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_SHARE_INFO_1501_I),
+        ('Data', DATA_DWORD),
     )
 
-class SHARE_INFO_1501_I(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('shi1501_reserved', DWORD),	('shi1501_security_descriptor', PTR_SHARE_INFO_1501_I),
+	('shi1501_reserved', DWORD),	('shi1501_security_descriptor', PTR_DWORD),
 
     )
         
@@ -1762,17 +1762,17 @@ class DISK_ENUM_CONTAINER(NDRSTRUCT):
     )
 
 
-class DATA_SERVER_TRANSPORT_INFO_0(NDRUniConformantArray):
+class DATA_WCHAR_T(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_SERVER_TRANSPORT_INFO_0(NDRPOINTER):
+class PTR_WCHAR_T(NDRPOINTER):
     referent = (
-        ('Data', DATA_SERVER_TRANSPORT_INFO_0),
+        ('Data', DATA_WCHAR_T),
     )
 
-class SERVER_TRANSPORT_INFO_0(NDRSTRUCT):
+class WCHAR_T(NDRSTRUCT):
     structure = (
-	('svti0_numberofvcs', DWORD),	('svti0_transportname', WCHAR_T),	('svti0_transportaddress', PTR_SERVER_TRANSPORT_INFO_0),
+	('svti0_numberofvcs', DWORD),	('svti0_transportname', WCHAR_T),	('svti0_transportaddress', PTR_WCHAR_T),
 	('svti0_transportaddresslength', DWORD),	('svti0_networkaddress', WCHAR_T),
     )
         
@@ -1787,17 +1787,17 @@ class PSERVER_XPORT_INFO_0_CONTAINER(NDRPOINTER):
     )    
 
 
-class DATA_SERVER_TRANSPORT_INFO_1(NDRUniConformantArray):
+class DATA_WCHAR_T(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_SERVER_TRANSPORT_INFO_1(NDRPOINTER):
+class PTR_WCHAR_T(NDRPOINTER):
     referent = (
-        ('Data', DATA_SERVER_TRANSPORT_INFO_1),
+        ('Data', DATA_WCHAR_T),
     )
 
-class SERVER_TRANSPORT_INFO_1(NDRSTRUCT):
+class WCHAR_T(NDRSTRUCT):
     structure = (
-	('svti1_numberofvcs', DWORD),	('svti1_transportname', WCHAR_T),	('svti1_transportaddress', PTR_SERVER_TRANSPORT_INFO_1),
+	('svti1_numberofvcs', DWORD),	('svti1_transportname', WCHAR_T),	('svti1_transportaddress', PTR_WCHAR_T),
 	('svti1_transportaddresslength', DWORD),	('svti1_networkaddress', WCHAR_T),	('svti1_domain', WCHAR_T),
     )
         
@@ -1812,17 +1812,17 @@ class PSERVER_XPORT_INFO_1_CONTAINER(NDRPOINTER):
     )    
 
 
-class DATA_SERVER_TRANSPORT_INFO_2(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_SERVER_TRANSPORT_INFO_2(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_SERVER_TRANSPORT_INFO_2),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class SERVER_TRANSPORT_INFO_2(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('svti2_numberofvcs', DWORD),	('svti2_transportname', WCHAR_T),	('svti2_transportaddress', PTR_SERVER_TRANSPORT_INFO_2),
+	('svti2_numberofvcs', DWORD),	('svti2_transportname', WCHAR_T),	('svti2_transportaddress', PTR_WCHAR_T),
 	('svti2_transportaddresslength', DWORD),	('svti2_networkaddress', WCHAR_T),	('svti2_domain', WCHAR_T),	('svti2_flags', UNSIGNED_LONG),
     )
         
@@ -1837,17 +1837,17 @@ class PSERVER_XPORT_INFO_2_CONTAINER(NDRPOINTER):
     )    
 
 
-class DATA_SERVER_TRANSPORT_INFO_3(NDRUniConformantArray):
+class DATA_UNSIGNED_CHAR(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_SERVER_TRANSPORT_INFO_3(NDRPOINTER):
+class PTR_UNSIGNED_CHAR(NDRPOINTER):
     referent = (
-        ('Data', DATA_SERVER_TRANSPORT_INFO_3),
+        ('Data', DATA_UNSIGNED_CHAR),
     )
 
-class SERVER_TRANSPORT_INFO_3(NDRSTRUCT):
+class UNSIGNED_CHAR(NDRSTRUCT):
     structure = (
-	('svti3_numberofvcs', DWORD),	('svti3_transportname', WCHAR_T),	('svti3_transportaddress', PTR_SERVER_TRANSPORT_INFO_3),
+	('svti3_numberofvcs', DWORD),	('svti3_transportname', WCHAR_T),	('svti3_transportaddress', PTR_WCHAR_T),
 	('svti3_transportaddresslength', DWORD),	('svti3_networkaddress', WCHAR_T),	('svti3_domain', WCHAR_T),	('svti3_flags', UNSIGNED_LONG),	('svti3_passwordlength', DWORD),	('svti3_password', UNSIGNED_CHAR),
     )
         
@@ -1898,17 +1898,17 @@ class LPSERVER_XPORT_ENUM_STRUCT(NDRPOINTER):
 SHARE_DEL_HANDLE = VOID
 PSHARE_DEL_HANDLE = SHARE_DEL_HANDLE
 
-class DATA_ADT_SECURITY_DESCRIPTOR(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_ADT_SECURITY_DESCRIPTOR(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_ADT_SECURITY_DESCRIPTOR),
+        ('Data', DATA_DWORD),
     )
 
-class ADT_SECURITY_DESCRIPTOR(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('Length', DWORD),	('Buffer', PTR_ADT_SECURITY_DESCRIPTOR),
+	('Length', DWORD),	('Buffer', PTR_DWORD),
 
     )
         

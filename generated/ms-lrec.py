@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -472,17 +472,17 @@ MSRPC_UUID_NETEVENTFORWARDER = uuidtup_to_bin(('22e5386d-8b12-4bf0-b0ec-6a1ea419
 
 PSESSION_HANDLE = VOID
 
-class DATA_EVENT_BUFFER(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_EVENT_BUFFER(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_EVENT_BUFFER),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class EVENT_BUFFER(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('BufferLength', UNSIGNED_LONG),	('Buffer', PTR_EVENT_BUFFER),
+	('BufferLength', UNSIGNED_LONG),	('Buffer', PTR_UNSIGNED_LONG),
 
     )
         

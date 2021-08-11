@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -471,47 +471,47 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
 MSRPC_UUID_EXTENDEDERROR = uuidtup_to_bin(('14a8831c-bc82-11d2-8a64-0008c7457e5d','0.0'))
 
 
-class DATA_EEASTRING(NDRUniConformantArray):
+class DATA_SHORT(NDRUniConformantArray):
     item = BYTE
 
-class PTR_EEASTRING(NDRPOINTER):
+class PTR_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_EEASTRING),
+        ('Data', DATA_SHORT),
     )
 
-class EEASTRING(NDRSTRUCT):
+class SHORT(NDRSTRUCT):
     structure = (
-	('nLength', SHORT),	('pString', PTR_EEASTRING),
+	('nLength', SHORT),	('pString', PTR_SHORT),
 
     )
         
 
-class DATA_EEUSTRING(NDRUniConformantArray):
+class DATA_SHORT(NDRUniConformantArray):
     item = UNSIGNED_SHORT
 
-class PTR_EEUSTRING(NDRPOINTER):
+class PTR_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_EEUSTRING),
+        ('Data', DATA_SHORT),
     )
 
-class EEUSTRING(NDRSTRUCT):
+class SHORT(NDRSTRUCT):
     structure = (
-	('nLength', SHORT),	('pString', PTR_EEUSTRING),
+	('nLength', SHORT),	('pString', PTR_SHORT),
 
     )
         
 
-class DATA_BINARYEEINFO(NDRUniConformantArray):
+class DATA_SHORT(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_BINARYEEINFO(NDRPOINTER):
+class PTR_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_BINARYEEINFO),
+        ('Data', DATA_SHORT),
     )
 
-class BINARYEEINFO(NDRSTRUCT):
+class SHORT(NDRSTRUCT):
     structure = (
-	('nSize', SHORT),	('pBlob', PTR_BINARYEEINFO),
+	('nSize', SHORT),	('pBlob', PTR_SHORT),
 
     )
         

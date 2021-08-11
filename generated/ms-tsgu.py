@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -476,17 +476,17 @@ PTUNNEL_CONTEXT_HANDLE_SERIALIZE = PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE
 PCHANNEL_CONTEXT_HANDLE_SERIALIZE = PCHANNEL_CONTEXT_HANDLE_NOSERIALIZE
 RESOURCENAME = WCHAR_T
 
-class DATA_TSENDPOINTINFO(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = RESOURCENAME
 
-class PTR_TSENDPOINTINFO(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_TSENDPOINTINFO),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class TSENDPOINTINFO(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('resourceName', RESOURCENAME),	('numResourceNames', UNSIGNED_LONG),	('alternateResourceNames', PTR_TSENDPOINTINFO),
+	('resourceName', RESOURCENAME),	('numResourceNames', UNSIGNED_LONG),	('alternateResourceNames', PTR_UNSIGNED_LONG),
 	('numAlternateResourceNames', UNSIGNED_SHORT),	('Port', UNSIGNED_LONG),
     )
         
@@ -551,17 +551,17 @@ class PTSG_PACKET_QUARCONFIGREQUEST(NDRPOINTER):
     )    
 
 
-class DATA_TSG_PACKET_QUARREQUEST(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_TSG_PACKET_QUARREQUEST(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_TSG_PACKET_QUARREQUEST),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class TSG_PACKET_QUARREQUEST(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('flags', UNSIGNED_LONG),	('machineName', WCHAR_T),	('nameLength', UNSIGNED_LONG),	('data', PTR_TSG_PACKET_QUARREQUEST),
+	('flags', UNSIGNED_LONG),	('machineName', WCHAR_T),	('nameLength', UNSIGNED_LONG),	('data', PTR_UNSIGNED_LONG),
 	('dataLen', UNSIGNED_LONG),
     )
         
@@ -576,32 +576,32 @@ class PTSG_REDIRECTION_FLAGS(NDRPOINTER):
     )    
 
 
-class DATA_TSG_PACKET_RESPONSE(NDRUniConformantArray):
+class DATA_TSG_REDIRECTION_FLAGS(NDRUniConformantArray):
     item = BYTE
 
-class PTR_TSG_PACKET_RESPONSE(NDRPOINTER):
+class PTR_TSG_REDIRECTION_FLAGS(NDRPOINTER):
     referent = (
-        ('Data', DATA_TSG_PACKET_RESPONSE),
+        ('Data', DATA_TSG_REDIRECTION_FLAGS),
     )
 
-class TSG_PACKET_RESPONSE(NDRSTRUCT):
+class TSG_REDIRECTION_FLAGS(NDRSTRUCT):
     structure = (
-	('flags', UNSIGNED_LONG),	('reserved', UNSIGNED_LONG),	('responseData', PTR_TSG_PACKET_RESPONSE),
+	('flags', UNSIGNED_LONG),	('reserved', UNSIGNED_LONG),	('responseData', PTR_UNSIGNED_LONG),
 	('responseDataLen', UNSIGNED_LONG),	('redirectionFlags', TSG_REDIRECTION_FLAGS),
     )
         
 
-class DATA_TSG_PACKET_QUARENC_RESPONSE(NDRUniConformantArray):
+class DATA_PTSG_PACKET_VERSIONCAPS(NDRUniConformantArray):
     item = WCHAR_T
 
-class PTR_TSG_PACKET_QUARENC_RESPONSE(NDRPOINTER):
+class PTR_PTSG_PACKET_VERSIONCAPS(NDRPOINTER):
     referent = (
-        ('Data', DATA_TSG_PACKET_QUARENC_RESPONSE),
+        ('Data', DATA_PTSG_PACKET_VERSIONCAPS),
     )
 
-class TSG_PACKET_QUARENC_RESPONSE(NDRSTRUCT):
+class PTSG_PACKET_VERSIONCAPS(NDRSTRUCT):
     structure = (
-	('flags', UNSIGNED_LONG),	('certChainLen', UNSIGNED_LONG),	('certChainData', PTR_TSG_PACKET_QUARENC_RESPONSE),
+	('flags', UNSIGNED_LONG),	('certChainLen', UNSIGNED_LONG),	('certChainData', PTR_UNSIGNED_LONG),
 	('nonce', GUID),	('versionCaps', PTSG_PACKET_VERSIONCAPS),
     )
         
@@ -616,17 +616,17 @@ class PTSG_PACKET_MSG_REQUEST(NDRPOINTER):
     )    
 
 
-class DATA_TSG_PACKET_STRING_MESSAGE(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = WCHAR_T
 
-class PTR_TSG_PACKET_STRING_MESSAGE(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_TSG_PACKET_STRING_MESSAGE),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class TSG_PACKET_STRING_MESSAGE(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('isDisplayMandatory', LONG),	('isConsentMandatory', LONG),	('msgBytes', UNSIGNED_LONG),	('msgBuffer', PTR_TSG_PACKET_STRING_MESSAGE),
+	('isDisplayMandatory', LONG),	('isConsentMandatory', LONG),	('msgBytes', UNSIGNED_LONG),	('msgBuffer', PTR_UNSIGNED_LONG),
 
     )
         
@@ -671,17 +671,17 @@ class PTSG_PACKET_CAPS_RESPONSE(NDRPOINTER):
     )    
 
 
-class DATA_TSG_PACKET_AUTH(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_TSG_PACKET_AUTH(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_TSG_PACKET_AUTH),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class TSG_PACKET_AUTH(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('TSGVersionCaps', TSG_PACKET_VERSIONCAPS),	('cookieLen', UNSIGNED_LONG),	('cookie', PTR_TSG_PACKET_AUTH),
+	('TSGVersionCaps', TSG_PACKET_VERSIONCAPS),	('cookieLen', UNSIGNED_LONG),	('cookie', PTR_UNSIGNED_LONG),
 
     )
         

@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -575,17 +575,17 @@ class FRS_RDC_FILEINFO(NDRSTRUCT):
     )
 
 
-class DATA_FRS_ASYNC_VERSION_VECTOR_RESPONSE(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = FRS_EPOQUE_VECTOR
 
-class PTR_FRS_ASYNC_VERSION_VECTOR_RESPONSE(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_FRS_ASYNC_VERSION_VECTOR_RESPONSE),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class FRS_ASYNC_VERSION_VECTOR_RESPONSE(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('vvGeneration', ULONGLONG),	('versionVectorCount', UNSIGNED_LONG),	('versionVector', FRS_VERSION_VECTOR),	('epoqueVectorCount', UNSIGNED_LONG),	('epoqueVector', PTR_FRS_ASYNC_VERSION_VECTOR_RESPONSE),
+	('vvGeneration', ULONGLONG),	('versionVectorCount', UNSIGNED_LONG),	('versionVector', FRS_VERSION_VECTOR),	('epoqueVectorCount', UNSIGNED_LONG),	('epoqueVector', PTR_UNSIGNED_LONG),
 
     )
         

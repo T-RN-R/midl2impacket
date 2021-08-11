@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -1030,32 +1030,32 @@ class PDNS_RPC_IP_VALIDATE(NDRPOINTER):
     )    
 
 
-class DATA_DNS_RPC_UTF8_STRING_LIST(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = CHAR
 
-class PTR_DNS_RPC_UTF8_STRING_LIST(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DNS_RPC_UTF8_STRING_LIST),
+        ('Data', DATA_DWORD),
     )
 
-class DNS_RPC_UTF8_STRING_LIST(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwCount', DWORD),	('pszStrings', PTR_DNS_RPC_UTF8_STRING_LIST),
+	('dwCount', DWORD),	('pszStrings', PTR_DWORD),
 
     )
         
 
-class DATA_DNS_RPC_UNICODE_STRING_LIST(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = WCHAR_T
 
-class PTR_DNS_RPC_UNICODE_STRING_LIST(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DNS_RPC_UNICODE_STRING_LIST),
+        ('Data', DATA_DWORD),
     )
 
-class DNS_RPC_UNICODE_STRING_LIST(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwCount', DWORD),	('pwszStrings', PTR_DNS_RPC_UNICODE_STRING_LIST),
+	('dwCount', DWORD),	('pwszStrings', PTR_DWORD),
 
     )
         

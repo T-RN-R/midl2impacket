@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -514,77 +514,77 @@ class RPCINFO(NDRSTRUCT):
     )
 
 
-class DATA_BOOLEANARRAY(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BOOLEAN
 
-class PTR_BOOLEANARRAY(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_BOOLEANARRAY),
+        ('Data', DATA_DWORD),
     )
 
-class BOOLEANARRAY(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('count', DWORD),	('ptr', PTR_BOOLEANARRAY),
+	('count', DWORD),	('ptr', PTR_DWORD),
 
     )
         
 
-class DATA_UINT32ARRAY(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DWORD
 
-class PTR_UINT32ARRAY(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_UINT32ARRAY),
+        ('Data', DATA_DWORD),
     )
 
-class UINT32ARRAY(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('count', DWORD),	('ptr', PTR_UINT32ARRAY),
+	('count', DWORD),	('ptr', PTR_DWORD),
 
     )
         
 
-class DATA_UINT64ARRAY(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DWORD64
 
-class PTR_UINT64ARRAY(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_UINT64ARRAY),
+        ('Data', DATA_DWORD),
     )
 
-class UINT64ARRAY(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('count', DWORD),	('ptr', PTR_UINT64ARRAY),
+	('count', DWORD),	('ptr', PTR_DWORD),
 
     )
         
 
-class DATA_STRINGARRAY(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPWSTR
 
-class PTR_STRINGARRAY(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_STRINGARRAY),
+        ('Data', DATA_DWORD),
     )
 
-class STRINGARRAY(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('count', DWORD),	('ptr', PTR_STRINGARRAY),
+	('count', DWORD),	('ptr', PTR_DWORD),
 
     )
         
 
-class DATA_GUIDARRAY(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = GUID
 
-class PTR_GUIDARRAY(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_GUIDARRAY),
+        ('Data', DATA_DWORD),
     )
 
-class GUIDARRAY(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('count', DWORD),	('ptr', PTR_GUIDARRAY),
+	('count', DWORD),	('ptr', PTR_DWORD),
 
     )
         
@@ -617,17 +617,17 @@ class EVTRPCVARIANT(NDRSTRUCT):
     )
 
 
-class DATA_EVTRPCVARIANTLIST(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = EVTRPCVARIANT
 
-class PTR_EVTRPCVARIANTLIST(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_EVTRPCVARIANTLIST),
+        ('Data', DATA_DWORD),
     )
 
-class EVTRPCVARIANTLIST(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('count', DWORD),	('props', PTR_EVTRPCVARIANTLIST),
+	('count', DWORD),	('props', PTR_DWORD),
 
     )
         
