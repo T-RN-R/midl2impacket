@@ -24,7 +24,7 @@ class Macroable(Visitable):
         return s
 
     def _do_macro_iterable(self, iterable, macro):
-        iterable[:] = [i.replace(macro[0], macro[1]) for i in iterable]
+        iterable[:] = [self._do_macro(i, macro) for i in iterable]
         return iterable
 
 class MidlImport:
