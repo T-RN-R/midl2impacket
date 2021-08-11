@@ -42,11 +42,13 @@ def generate_from_scraped():
         f.extend(filenames)
         break
     print(f)
+    failures = []
     for _f in f:
         try:
             generate("./scraped/"+_f, "./generated/"+_f.split(".")[0]+".py", "./scraped/")
         except:
-            pass
+            failures.append(_f)
+    print(f"Failed to parse: {failures}")
 
 if __name__ == "__main__":
-    main()
+    generate_from_scraped()
