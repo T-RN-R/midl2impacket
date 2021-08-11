@@ -48,8 +48,9 @@ class MidlDefinition(Visitable):
         self.imports = []  # Imports
         self.comments = []
         self.instantiation = []  # Variable instantiation
-        self.interfaces = []  # Interface defintions. Usually only 1 per file...
-        self.dispinterfaces = []  # Interface defintions. Usually only 1 per file...
+        self.interfaces = []  
+        self.dispinterfaces = []  
+        self.libraries = []
         self.coclasses = []
         self.typedefs = []
         self.defines = []
@@ -78,6 +79,8 @@ class MidlDefinition(Visitable):
         for i in self.dispinterfaces:
             out += str(i) + "\n"
         for i in self.coclasses:
+            out += str(i) + "\n"
+        for i in self.libraries:
             out += str(i) + "\n"
         return out
 
@@ -187,6 +190,21 @@ class MidlDispInterface(Visitable):
         out += '\n    '.join([str(property) for property in self.properties])
         out += "methods\n"
         out += '\n    '.join([str(method) for method in self.methods])
+        return out
+
+
+class MidlLibrary(Visitable):
+    def __init__(self, name=None, attributes=None, members=None):
+        self.name = name
+        self.attributes = attributes or []
+        self.members = members or []
+        self.comments = []
+
+    def __str__(self):
+        out = f"library {self.name}\n"
+        out += f"attributes: {self.attributes}"
+        out += "members\n"
+        out += '\n    '.join([str(member) for member in self.members])
         return out
 
 
