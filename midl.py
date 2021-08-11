@@ -297,8 +297,12 @@ class MidlVarDef(Macroable):
         self.array_info = array_info or []
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
-        self.name = self._do_macro(self.name, macro)
-        self.type = self._do_macro(self.type, macro)
+        if self.name != None:
+            self.name = self._do_macro(self.name, macro)
+        if type(self.type) != str and self.type != None:
+            self.type = self.type.accept(visitor)
+        elif self.type != None:
+            self.type = self._do_macro(self.type, macro)
 
     def __str__(self):
         out = f"{self.type} {self.name}"

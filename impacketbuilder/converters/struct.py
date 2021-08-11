@@ -25,10 +25,13 @@ class MidlStructConverter(Converter):
 
     def handle_ndr_union(self, struct):
         #TODO if a union has multiple public_names, create Python mappings for them as well
-        if struct.public_names[0] == '':
-            name = __class__.get_anonymous_name()
+        if len(struct.public_names) > 0:
+            if struct.public_names[0] == '':
+                name = __class__.get_anonymous_name()
+            else:
+                name = struct.public_names[0]
         else:
-            name = struct.public_names[0]
+            name = __class__.get_anonymous_name()
         
 
         mem_str = ""
@@ -36,7 +39,7 @@ class MidlStructConverter(Converter):
         for m in struct.members:
             key = None
             if m.attributes:
-                if m.attributes["case"]:
+                if "case" in m.attributes.keys():
                     key = m.attributes["case"].params[0]
             type_name = None
             if type(m.type) is str:
@@ -47,6 +50,8 @@ class MidlStructConverter(Converter):
             elif type(m.type) is MidlUnionDef:
                 type_name = m.type.public_names[0]
                 self.convert(m.type)
+            elif m.type is None:
+                continue
             else:
                 raise Exception(f"Unexpected type: {type(m.type)}")
             if key is None:
