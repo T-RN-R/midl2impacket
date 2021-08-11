@@ -86,11 +86,11 @@ class {pointer_name}(NDRPOINTER):
     def handle_midl_enum(self, td:MidlEnumDef):
         vars = ""
         for key in td.map.keys():
-            vars+="\t"+key + " = " + str(td.map[key])+",\n"
+            vars+= key + " = " + str(td.map[key])+",\n"
         vars = vars[:-2] #eliminate the final comma and newline
+#class {self.mapper.canonicalize(td.public_names[0])}:
 
         class_def = f"""
-class {self.mapper.canonicalize(td.public_names[0])}:
 {vars}
         """
         self.write(class_def)

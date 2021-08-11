@@ -7,6 +7,7 @@ from .constants import MidlConstantConverter
 from .interface import MidlInterfaceConverter
 from .comments import MidlCommentWriter
 from .static import MidlStaticConverter
+from .enum import MidlEnumConverter
 
 class MidlDefinitionConverter(Converter):
     def convert(self, definition : MidlDefinition, import_dir:str) -> str:
@@ -16,12 +17,11 @@ class MidlDefinitionConverter(Converter):
         static_converter = MidlStaticConverter(self.io, self.tab_level, mapper=self.mapper)
         comment_writer = MidlCommentWriter(self.io, self.tab_level)
 
-        static_converter.convert(definition.imports)
+        static_converter.convert()
         imports_converter.convert(definition.imports, import_dir, self)
         comment_writer.banner_comment("TYPEDEFS")
         for td in definition.typedefs:
             interface_converter.handle_typedef(td)
-
         if len(definition.instantiation) > 0:
             comment_writer.banner_comment("CONSTANTS")
         for const in definition.instantiation:
