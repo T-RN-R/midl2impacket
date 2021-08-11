@@ -8,11 +8,12 @@ class SkipClosureState(enum.Enum):
     END = enum.auto()
 
 class SkipClosureParser(MidlBaseParser):
-    """Skip over closures we don't care about e.g. pragma warning (...)
+    """Skip over closures we don't care about parsing internally and return the whole blob
     """
     def __init__(self, token_generator, tokenizer, closure_open, closure_close):
         self.state = SkipClosureState.BEGIN
         super().__init__(token_generator=token_generator, end_state=SkipClosureState.END, tokenizer=tokenizer)
+        self.data = ''
         self.closure_level = 0
         self.closure_open = closure_open
         self.closure_close = closure_close
@@ -23,14 +24,11 @@ class SkipClosureParser(MidlBaseParser):
             self.closure_level += 1
         elif token.data == self.closure_close:
             if self.closure_level <= 0:
-                self.invalid()
+                self.invalid(token)
             self.closure_level -= 1
-        else:
-            # We don't care about this token
-            pass
-
+        self.data += token.data
         if self.closure_level == 0:
             self.state = SkipClosureState.END
 
     def finished(self):
-        return
+        return self.data

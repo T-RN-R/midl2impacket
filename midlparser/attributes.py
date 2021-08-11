@@ -1,4 +1,5 @@
 import enum
+from midlparser.util import SkipClosureParser
 
 from midl import MidlAttribute
 from .base import MidlBaseParser, MidlParserException
@@ -17,13 +18,12 @@ class MidlAttributesParser(MidlBaseParser):
         self.cur_attr_param = ''
         self.cur_attr_params = []
         self.attributes = {}
-        self.rbracket_level = 0
 
     def add_to_cur_param(self, token):            
         if self.state != AttributeState.PARAMETERS:
             self.invalid(token)
         self.cur_attr_param += token.data
-    
+
     def symbol(self, token):
         self.add_to_cur_param(token)
 
@@ -50,25 +50,20 @@ class MidlAttributesParser(MidlBaseParser):
         
     def rbracket(self, token):
         if token.data == '(':
-            self.rbracket_level += 1
-            # If we're already parsing parameters this is part of one, e.g. attr(param_with_rbracket(x))
-            if self.state == AttributeState.PARAMETERS:
-                if self.rbracket_level >= 1:
-                    self.add_to_cur_param(token)
-            self.state = AttributeState.PARAMETERS
-            self.rbracket_level += 1
-        elif token.data == ')':
-            self.rbracket_level -= 1
-            # Closing bracket only valid within parameters
-            if self.state != AttributeState.PARAMETERS:
-                if self.rbracket_level >= 1:
-                    self.add_to_cur_param(token)
+            if self.state == AttributeState.DEFAULT:
+                self.state = AttributeState.PARAMETERS
+            elif self.state == AttributeState.PARAMETERS:
+                # Just grab the whole blob and add it to the current member
+                self.cur_attr_param += SkipClosureParser(self.tokens, self.tokenizer, closure_open='(', closure_close=')').parse(token)
+            else:
+                self.invalid(token)
+        elif token.data == ')' and self.state == AttributeState.PARAMETERS:
             self.cur_attr_params.append(self.cur_attr_param)
             self.cur_attr_param = ''
-            assert(self.rbracket_level >= 1)
-            self.rbracket_level -= 1
-            if self.rbracket_level == 0:
-                self.state = AttributeState.DEFAULT
+            self.state = AttributeState.DEFAULT
+        else:
+            self.invalid(token)
+            
 
     def comma(self, token):
         if self.state == AttributeState.PARAMETERS:
@@ -84,8 +79,8 @@ class MidlAttributesParser(MidlBaseParser):
             self.invalid(token)
 
     def keyword(self, token):
-        if self.state == AttributeState.PARAMETERS and not self.cur_attr_param:
-            self.cur_attr_param = token.data
+        if self.state == AttributeState.PARAMETERS:
+            self.add_to_cur_param(token)
         elif self.state == AttributeState.DEFAULT and not self.cur_attr:
             self.cur_attr = token.data
         else:
