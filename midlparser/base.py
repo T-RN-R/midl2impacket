@@ -35,7 +35,11 @@ class MidlBaseParser(abc.ABC):
         self.tokenizer=tokenizer
 
     def invalid(self, token):
-        raise MidlInvalidTokenException(f"\n\nUnexpected token [{token.type}: {token.data}] in state {self.state} \n\t{self.tokenizer.get_error()}")
+        try:
+            finished = self.finished()
+        except:
+            finished = ''
+        raise MidlInvalidTokenException(f"\n\nUnexpected token [{token.type}: {token.data}] in state {self.state} \n\t{self.tokenizer.get_error()}\n\tResulting in:\n{finished}")
 
     def keyword(self, token):
         self.invalid(token)

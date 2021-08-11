@@ -51,6 +51,7 @@ class MidlTokenizer:
         self.max_size = len(self.midl)
         self.ptr = 0
         self.filename = filename
+        self.line_count = 1
 
     def get_token(self):
         """[summary]
@@ -65,7 +66,7 @@ class MidlTokenizer:
         while self.ptr < self.max_size:
             cur_char = self.midl[self.ptr]
             to_yield = None
-            if MidlTokenizer.iswspace(cur_char):
+            if self.iswspace(cur_char):
                 # Clear out extraneous whitespace
                 self.ptr += 1
                 continue
@@ -187,7 +188,7 @@ class MidlTokenizer:
             elif next_char in string.digits:
                 is_octal = True
             
-        while not MidlTokenizer.iswspace(cur_char):
+        while not self.iswspace(cur_char):
             if cur_char in Token.operators:
                 if cur_char == '.':
                     if not has_decimal and not is_hex and not is_octal and int_suffixes == 0:
@@ -253,6 +254,7 @@ class MidlTokenizer:
         while True:
             directive_end = self.midl[directive_pos:].find("\n") + directive_pos
             # Make sure it wasn't escaped (multi-line macros)
+            self.line_count+=1
             if self.midl[directive_end-1] != '\\':
                 break
             directive_pos = directive_end+1
@@ -295,7 +297,7 @@ class MidlTokenizer:
         cur_char = self.midl[self.ptr]
         illegal_chars = ["[", "{", "(", ")", "}", "]", ";", ",", ":"]
         s = ""
-        while not MidlTokenizer.iswspace(cur_char):
+        while not self.iswspace(cur_char):
             if cur_char in illegal_chars:
                 self.ptr -= 1
                 return s
@@ -305,7 +307,7 @@ class MidlTokenizer:
 
         return s
 
-    def iswspace(char):
+    def iswspace(self, char):
         """Checks if the character is a whitespace
 
         Args:
@@ -314,10 +316,12 @@ class MidlTokenizer:
             bool: Returns result of the whitespace check
         """
         wspace = [" ", "\n", "\r\n", "\r", "\t"]
+        if char in ["\n", "\r\n", "\r"]:
+            self.line_count += 1
         if char in wspace:
             return True
         return False
 
 
     def get_error(self):
-        return 'In file: ' + self.filename + '\n\tAt: ' + self.midl[self.ptr-1:].split("\n")[0]
+        return 'In file: ' + self.filename +":"+str(self.line_count) + '\n\tAt: ' + self.midl[self.ptr-1:].split("\n")[0]

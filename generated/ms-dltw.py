@@ -519,6 +519,31 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
 
 #################################################################################
 
+SEQUENCENUMBER = SIGNED_LONG
+
+class COBJID(NDRSTRUCT):
+    structure = (
+        ('_object', GUID),
+    )
+
+
+class CVOLUMEID(NDRSTRUCT):
+    structure = (
+        ('_volume', GUID),
+    )
+
+
+class CMACHINEID(NDRSTRUCT):
+    structure = (
+        ('_szMachine', CHAR),
+    )
+
+
+class CDOMAINRELATIVEOBJID(NDRSTRUCT):
+    structure = (
+        ('_volume', CVOLUMEID),('_object', COBJID),
+    )
+
 #################################################################################
 
 #INTERFACE DEFINITION
@@ -527,140 +552,186 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
 
 #################################################################################
 
-#PerflibV2 Definition
+#trkwks Definition
 
 #################################################################################
 
-MSRPC_UUID_PERFLIBV2 = uuidtup_to_bin(('da5a86c5-12c2-4943-ab30-7f74a813d853','0.0'))
+MSRPC_UUID_TRKWKS = uuidtup_to_bin(('300f3532-38cc-11d0-a3f0-0020af6b0add','0.0'))
 
-RPC_HQUERY = HANDLE
-PRPC_HQUERY = RPC_HQUERY
 
-class PerflibV2EnumerateCounterSet(NDRCALL):
+class Opnum0NotUsedOnWire(NDRCALL):
     opnum = 0
     structure = (
-		('SZMACHINE', WCHAR_T),
-		('DWINSIZE', DWORD),
+
     )
 
-class PerflibV2EnumerateCounterSetResponse(NDRCALL):
+class Opnum0NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', GUID),
+
     )
         
 
-class PerflibV2QueryCounterSetRegistrationInfo(NDRCALL):
+class Opnum1NotUsedOnWire(NDRCALL):
     opnum = 1
     structure = (
-		('SZMACHINE', WCHAR_T),
-		('COUNTERSETGUID', GUID),
-		('REQUESTCODE', DWORD),
-		('REQUESTLCID', DWORD),
-		('DWINSIZE', DWORD),
+
     )
 
-class PerflibV2QueryCounterSetRegistrationInfoResponse(NDRCALL):
+class Opnum1NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
+
     )
         
 
-class PerflibV2EnumerateCounterSetInstances(NDRCALL):
+class Opnum2NotUsedOnWire(NDRCALL):
     opnum = 2
     structure = (
-		('SZMACHINE', WCHAR_T),
-		('COUNTERSETGUID', GUID),
-		('DWINSIZE', DWORD),
+
     )
 
-class PerflibV2EnumerateCounterSetInstancesResponse(NDRCALL):
+class Opnum2NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
+
     )
         
 
-class PerflibV2OpenQueryHandle(NDRCALL):
+class Opnum3NotUsedOnWire(NDRCALL):
     opnum = 3
     structure = (
-		('SZMACHINE', WCHAR_T),
+
     )
 
-class PerflibV2OpenQueryHandleResponse(NDRCALL):
+class Opnum3NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('PHQUERY', PRPC_HQUERY),
+
     )
         
 
-class PerflibV2CloseQueryHandle(NDRCALL):
+class Opnum4NotUsedOnWire(NDRCALL):
     opnum = 4
     structure = (
-		('PHQUERY', PRPC_HQUERY),
+
     )
 
-class PerflibV2CloseQueryHandleResponse(NDRCALL):
+class Opnum4NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('PHQUERY', PRPC_HQUERY),
+
     )
         
 
-class PerflibV2QueryCounterInfo(NDRCALL):
+class Opnum5NotUsedOnWire(NDRCALL):
     opnum = 5
     structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
+
     )
 
-class PerflibV2QueryCounterInfoResponse(NDRCALL):
+class Opnum5NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
+
     )
         
 
-class PerflibV2QueryCounterData(NDRCALL):
+class Opnum6NotUsedOnWire(NDRCALL):
     opnum = 6
     structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
+
     )
 
-class PerflibV2QueryCounterDataResponse(NDRCALL):
+class Opnum6NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
+
     )
         
 
-class PerflibV2ValidateCounters(NDRCALL):
+class Opnum7NotUsedOnWire(NDRCALL):
     opnum = 7
     structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
-		('DWADD', DWORD),
+
     )
 
-class PerflibV2ValidateCountersResponse(NDRCALL):
+class Opnum7NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('LPDATA', UNSIGNED_CHAR),
+
+    )
+        
+
+class Opnum8NotUsedOnWire(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class Opnum8NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum9NotUsedOnWire(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class Opnum9NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum10NotUsedOnWire(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class Opnum10NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum11NotUsedOnWire(NDRCALL):
+    opnum = 11
+    structure = (
+
+    )
+
+class Opnum11NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class LnkSearchMachine(NDRCALL):
+    opnum = 12
+    structure = (
+		('RESTRICTIONS', UNSIGNED_LONG),
+		('PDROIDBIRTHLAST', CONST CDOMAINRELATIVEOBJID),
+		('PDROIDLAST', CONST CDOMAINRELATIVEOBJID),
+    )
+
+class LnkSearchMachineResponse(NDRCALL):
+    structure = (
+		('PDROIDBIRTHNEXT', CDOMAINRELATIVEOBJID),
+		('PDROIDNEXT', CDOMAINRELATIVEOBJID),
+		('PMCIDNEXT', CMACHINEID),
+		('PTSZPATH', WCHAR_T),
     )
         
 OPNUMS = {
-0 : (PerflibV2EnumerateCounterSet,PerflibV2EnumerateCounterSetResponse),
-1 : (PerflibV2QueryCounterSetRegistrationInfo,PerflibV2QueryCounterSetRegistrationInfoResponse),
-2 : (PerflibV2EnumerateCounterSetInstances,PerflibV2EnumerateCounterSetInstancesResponse),
-3 : (PerflibV2OpenQueryHandle,PerflibV2OpenQueryHandleResponse),
-4 : (PerflibV2CloseQueryHandle,PerflibV2CloseQueryHandleResponse),
-5 : (PerflibV2QueryCounterInfo,PerflibV2QueryCounterInfoResponse),
-6 : (PerflibV2QueryCounterData,PerflibV2QueryCounterDataResponse),
-7 : (PerflibV2ValidateCounters,PerflibV2ValidateCountersResponse),
+0 : (Opnum0NotUsedOnWire,Opnum0NotUsedOnWireResponse),
+1 : (Opnum1NotUsedOnWire,Opnum1NotUsedOnWireResponse),
+2 : (Opnum2NotUsedOnWire,Opnum2NotUsedOnWireResponse),
+3 : (Opnum3NotUsedOnWire,Opnum3NotUsedOnWireResponse),
+4 : (Opnum4NotUsedOnWire,Opnum4NotUsedOnWireResponse),
+5 : (Opnum5NotUsedOnWire,Opnum5NotUsedOnWireResponse),
+6 : (Opnum6NotUsedOnWire,Opnum6NotUsedOnWireResponse),
+7 : (Opnum7NotUsedOnWire,Opnum7NotUsedOnWireResponse),
+8 : (Opnum8NotUsedOnWire,Opnum8NotUsedOnWireResponse),
+9 : (Opnum9NotUsedOnWire,Opnum9NotUsedOnWireResponse),
+10 : (Opnum10NotUsedOnWire,Opnum10NotUsedOnWireResponse),
+11 : (Opnum11NotUsedOnWire,Opnum11NotUsedOnWireResponse),
+12 : (LnkSearchMachine,LnkSearchMachineResponse),
 }
 
