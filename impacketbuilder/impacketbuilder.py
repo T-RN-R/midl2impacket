@@ -4,6 +4,7 @@ from .converters.typing import TypeMapper, IDL_TYPES
 
 from midl import *
 from .converters.definition import MidlDefinitionConverter
+from .converters.static import MidlStaticConverter
 
 
 
@@ -23,5 +24,9 @@ class ImpacketBuilder:
         assert(self.__midl_def != None)
         io = StringIO()
         tm = TypeMapper(IDL_TYPES)
-        python_code = MidlDefinitionConverter(io, tab_level=0, mapper=tm).convert(self.__midl_def, self.__import_dir)
+        tabs = 0
+        static_converter = MidlStaticConverter(io, tabs, mapper=tm)
+        static_converter.convert()
+
+        python_code = MidlDefinitionConverter(io, tabs, mapper=tm).convert(self.__midl_def, self.__import_dir)
         return python_code

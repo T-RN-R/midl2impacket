@@ -8,7 +8,8 @@ class MidlInterfaceConverter(Converter):
     def convert(self, interface):
         # write uuid def
         self.uuid(interface)
-
+        for vd in interface.vardefs:
+            self.handle_vardef(vd)
         for td in interface.typedefs:
             self.handle_typedef(td)
         count = 0
@@ -46,7 +47,8 @@ class MidlInterfaceConverter(Converter):
         else:
             raise Exception(f"MidlInterfaceConverter: Unhandled typedef type: {td.__class__}")
 
-
+    def handle_vardef(self, vd:MidlVarDef):
+        self.write(f"{vd.name} = {self.mapper.canonicalize(vd.type)}")
     def handle_midl_td(self, td:MidlTypeDef):
         if type(td) is MidlTypeDef:
             attr_names = [td.attrs[k].name for k in td.attrs.keys()]
@@ -84,11 +86,11 @@ class {pointer_name}(NDRPOINTER):
     def handle_midl_enum(self, td:MidlEnumDef):
         vars = ""
         for key in td.map.keys():
-            vars+="\t"+key + " = " + str(td.map[key])+",\n"
+            vars+= key + " = " + str(td.map[key])+",\n"
         vars = vars[:-2] #eliminate the final comma and newline
+#class {self.mapper.canonicalize(td.public_names[0])}:
 
         class_def = f"""
-class {self.mapper.canonicalize(td.public_names[0])}:
 {vars}
         """
         self.write(class_def)

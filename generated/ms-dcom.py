@@ -69,78 +69,9 @@ CONST_LONG = NDRLONG
 VOID = CONTEXT_HANDLE
 __INT3264 = NDRLONG
 UNSIGNED___INT3264 = NDRULONG
-
-"""
-Generated from MIDL2Impacket.py
-"""
-
-
-from __future__ import division
-from __future__ import print_function
-from impacket.dcerpc.v5.ndr import *
-from impacket.dcerpc.v5.dtypes import *
-from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
-from impacket.structure import Structure
-from impacket import nt_errors
-from impacket.uuid import uuidtup_to_bin
-from impacket.dcerpc.v5.rpcrt import DCERPCException
-
-DWORD64 = NDRUHYPER
-__INT64 = NDRHYPER
-class CONTEXT_HANDLE(NDRSTRUCT):
-    align = 1
-    structure = (
-        ('Data', '20s=""'),
-    )
-HANDLE_T = CONTEXT_HANDLE
-class RPC_STRING(NDRSTRUCT):
-    structure = (
-        ('Length','<H=0'),
-        ('MaximumLength','<H=0'),
-        ('Data',LPSTR),
-    )
-
-    def __setitem__(self, key, value):
-        if key == 'Data' and isinstance(value, NDR) is False:
-            self['Length'] = len(value)
-            self['MaximumLength'] = len(value)
-        return NDRSTRUCT.__setitem__(self, key, value)
-
-    def dump(self, msg = None, indent = 0):
-        if msg is None: msg = self.__class__.__name__
-        if msg != '':
-            print("%s" % msg, end=' ')
-
-        if isinstance(self.fields['Data'] , NDRPOINTERNULL):
-            print(" NULL", end=' ')
-        elif self.fields['Data']['ReferentID'] == 0:
-            print(" NULL", end=' ')
-        else:
-            return self.fields['Data'].dump('',indent)
-
-class PRPC_STRING(NDRPOINTER):
-    referent = (
-        ('Data', RPC_STRING),
-    )
-
-UNSIGNED_SHORT = NDRUSHORT
-UNSIGNED_CHAR = NDRCHAR
-UNSIGNED_LONG = NDRULONG
-UNSIGNED_INT = NDRULONG
-UNSIGNED___INT64 = NDRUHYPER
-SIGNED___INT64 = NDRHYPER
-SIGNED_INT = NDRSHORT
-SIGNED_LONG = NDRLONG
-SIGNED_CHAR = NDRCHAR
-SIGNED_SHORT = NDRSHORT
-CONST_WCHAR_T = WSTR
-CONST_CHAR = NDRCHAR
-CONST_INT = NDRLONG
-CONST_VOID = CONTEXT_HANDLE
-CONST_LONG = NDRLONG
-VOID = CONTEXT_HANDLE
-__INT3264 = NDRLONG
-UNSIGNED___INT3264 = NDRULONG
+CONST_UNSIGNED_LONG = NDRULONG
+UNSIGNED_HYPER = NDRUHYPER
+HYPER = NDRHYPER
 
 #################################################################################
 
@@ -521,13 +452,13 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
 
 CLSID = GUID
 IID = GUID
-ID = UNSIGNED HYPER
-OXID = UNSIGNED HYPER
-OID = UNSIGNED HYPER
-SETID = UNSIGNED HYPER
+ID = UNSIGNED_HYPER
+OXID = UNSIGNED_HYPER
+OID = UNSIGNED_HYPER
+SETID = UNSIGNED_HYPER
 IPID = GUID
 CID = GUID
-REFIPID = REFGUID
+REFIPID =  GUID 
 
 class COMVERSION(NDRSTRUCT):
     structure = (
@@ -574,10 +505,9 @@ class DUALSTRINGARRAY(NDRSTRUCT):
     )
 
 
-class :
-	CPFLAG_PROPAGATE = 1,
-	CPFLAG_EXPOSE = 2,
-	CPFLAG_ENVOY = 4
+CPFLAG_PROPAGATE = 1,
+CPFLAG_EXPOSE = 2,
+CPFLAG_ENVOY = 4
         
 
 class MINTERFACEPOINTER(NDRSTRUCT):
@@ -721,9 +651,8 @@ class INSTANCEINFODATA(NDRSTRUCT):
     )
 
 
-class SPD_FLAGS:
-	SPD_FLAG_USE_CONSOLE_SESSION = 1,
-	SPD_FLAG_USE_DEFAULT_AUTHN_LVL = 2
+SPD_FLAG_USE_CONSOLE_SESSION = 1,
+SPD_FLAG_USE_DEFAULT_AUTHN_LVL = 2
         
 
 class SPECIALPROPERTIESDATA(NDRSTRUCT):
@@ -759,6 +688,8 @@ MAX_ACTPROP_LIMIT = 10
 
 MSRPC_UUID_IACTIVATION = uuidtup_to_bin(('4d9f4ab8-7d1c-11cf-861e-0020af6e7c57','0.0'))
 
+MAX_REQUESTED_INTERFACES = CONST_UNSIGNED_LONG
+MAX_REQUESTED_PROTSEQS = CONST_UNSIGNED_LONG
 
 class RemoteActivation(NDRCALL):
     opnum = 0
