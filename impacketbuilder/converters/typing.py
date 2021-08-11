@@ -16,7 +16,10 @@ IDL_TYPES = [
     "const long",
     "void",
     "__int3264",
-    "unsigned __int3264"
+    "unsigned __int3264",
+    "const unsigned long",
+    "unsigned hyper",
+    "hyper"
     ]
 
 IDL_TO_NDR = {
@@ -38,6 +41,9 @@ IDL_TO_NDR = {
     "void"                  : "CONTEXT_HANDLE",
     "__int3264"             : "NDRLONG",
     "unsigned __int3264"    : "NDRULONG",
+    "const unsigned long"   : "NDRULONG",
+    "unsigned hyper"        : "NDRUHYPER",
+    "hyper"                 : "NDRHYPER"
 
 }
 
@@ -96,5 +102,5 @@ class TypeMapper():
         type_name = self.idl2python.get_python_type_name(name)
         if type_name != None:
             return type_name
-
+        name = name.replace("const","")
         return name.replace("*","").upper()

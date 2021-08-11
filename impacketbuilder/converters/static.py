@@ -10,7 +10,7 @@ class MidlStaticConverter(Converter):
     def __init__(self, *args, **kwargs):
         super().__init__( *args, **kwargs)
         self.HAS_RUN=False
-    def convert(self, imports:list[MidlImport]):
+    def convert(self):
         if not self.HAS_RUN:
             comment_writer = MidlCommentWriter(self.io, self.tab_level)
             comment_writer.comment_block("Generated from MIDL2Impacket.py")
