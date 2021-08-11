@@ -69,6 +69,9 @@ class MidlEnumParser(MidlBaseParser):
         if token.data == '{' and self.state in [EnumState.BODY, EnumState.NAME]:
             self.state = EnumState.MEMBER_NAME
         elif token.data == '}' and self.state in [EnumState.MEMBER_NAME, EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE]:
+            if self.state in [EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE]:
+                # Add the last member
+                self.map[self.cur_member_name] = self.cur_member_value
             self.state = EnumState.ENUM_END
         else:
             self.invalid(token)

@@ -19,7 +19,7 @@ class MidlCoclassParser(MidlBaseParser):
         self.state = CoclassState.BEGIN
         super().__init__(token_generator=token_generator, end_state=CoclassState.END, tokenizer=tokenizer)
         self.cur_iface_parts = []
-        self.cur_iface_attrs = []
+        self.cur_iface_attrs = {}
         self.interfaces = []
 
     def keyword(self, token):
@@ -56,7 +56,7 @@ class MidlCoclassParser(MidlBaseParser):
 
     def sqbracket(self, token):
         if self.state == CoclassState.ATTR_OR_TYPE and token.data == '[':
-            self.cur_iface_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
+            self.cur_iface_attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
         else:
             self.invalid(token)
 

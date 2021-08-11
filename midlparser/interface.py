@@ -41,8 +41,7 @@ class MidlInterfaceParser(MidlBaseParser):
         """ Handle attributes for procedures
         """
         if token.data == "[" and self.state == InterfaceState.DEFINITION:
-            self.cur_proc_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
-            self.state = InterfaceState.PROC_TYPE
+            self.cur_proc_attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
         else: 
             self.invalid(token)
 

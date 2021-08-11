@@ -17,6 +17,7 @@ class MidlAttributesParser(MidlBaseParser):
         self.cur_attr_param = ''
         self.cur_attr_params = []
         self.attributes = {}
+        self.rbracket_level = 0
 
     def add_to_cur_param(self, token):            
         if self.state != AttributeState.PARAMETERS:
@@ -49,15 +50,23 @@ class MidlAttributesParser(MidlBaseParser):
         
     def rbracket(self, token):
         if token.data == '(':
+            self.rbracket_level += 1
+            # If we're already parsing parameters this is part of one, e.g. attr(param_with_rbracket(x))
             if self.state == AttributeState.PARAMETERS:
-                self.invalid(token)
+                self.cur_attr_param += '('
             self.state = AttributeState.PARAMETERS
         elif token.data == ')':
+            self.rbracket_level -= 1
+            # Closing bracket only valid within parameters
             if self.state != AttributeState.PARAMETERS:
                 self.invalid(token)
-            self.state = AttributeState.DEFAULT
-            self.cur_attr_params.append(self.cur_attr_param)
-            self.cur_attr_param = ''
+            if self.rbracket_level == 0:                
+                self.cur_attr_params.append(self.cur_attr_param)
+                self.cur_attr_param = ''
+                self.state = AttributeState.DEFAULT
+            else:
+                # This is part of a parameter e.g. attr(param_with_rbracket(x))
+                self.cur_attr_param += ')'
 
     def comma(self, token):
         if self.state == AttributeState.PARAMETERS:

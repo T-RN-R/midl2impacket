@@ -21,7 +21,7 @@ class MidlTypedefParser(MidlBaseParser):
     def __init__(self, token_generator, tokenizer):
         self.state = TypedefState.BEGIN
         super().__init__(token_generator=token_generator, end_state=TypedefState.END, tokenizer=tokenizer)
-        self.attrs = []
+        self.attrs = {}
         self.td_parts = []
         self.comments = []
         self.cur_additional_name = ''
@@ -86,8 +86,7 @@ class MidlTypedefParser(MidlBaseParser):
         """ Handles typedef attributes e.g. [v1_enum]
         """
         if self.state == TypedefState.TYPE_OR_ATTRS:
-            self.attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
-            self.state = TypedefState.TYPE
+            self.attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
         else:
             self.invalid(token)
 
