@@ -5,13 +5,32 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "All IDLs",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "unittests/midlparser_test.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {"PYTHONPATH": "${workspaceFolder}${pathSeparator}${env:PYTHONPATH}"}
+        },
+        {
+            "name": "IDL Scraper",
+            "type": "python",
+            "request": "launch",
+            "program": "idl_scraper.py",
+            "console": "integratedTerminal",
+        },
+        {
+            "name": "IDL Test",
+            "type": "python",
+            "request": "launch",
+            "program": "midl2impacket.py",
             "console": "integratedTerminal",
             "args":[
-                "--in-file", "tests/even.idl"
+                "--in-file", "\"scraped/ms-vds.idl\"",
+                "--out-file", "\"generated/ms-vds.py\"",
+                "--import-dir", "\"scraped/\""
+
             ]
         }
     ]

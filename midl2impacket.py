@@ -50,4 +50,4 @@ def generate_from_scraped():
     print(f"Failed to parse: {failures}")
 
 if __name__ == "__main__":
-    generate_from_scraped()
+    main()
