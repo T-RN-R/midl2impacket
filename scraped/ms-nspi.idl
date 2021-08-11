@@ -1,3 +1,10 @@
+/*
+File: ms-nspi.idl
+Protocol: [MS-NSPI]: Name Service Provider Interface (NSPI) Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-nspi/2554418c-a060-473a-950a-e009a53e33d9
+Retrieval Date: Wed Aug 11 14:22:40 2021
+*/
+
  import "ms-dtyp.idl";
   
   

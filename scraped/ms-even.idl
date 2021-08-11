@@ -1,3 +1,10 @@
+/*
+File: ms-even.idl
+Protocol: [MS-EVEN]: EventLog Remoting Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-even/0d0bee9c-dac5-46d9-b19b-2087826c02db
+Retrieval Date: Wed Aug 11 14:19:10 2021
+*/
+
  import "ms-dtyp.idl";
   
  [
@@ -190,3 +197,91 @@
      [out]   unsigned long * NumberOfBytesRead,
      [out]   unsigned long * MinNumberOfBytesNeeded
      );
+  
+ NTSTATUS
+ ElfrReportEventA (
+     [in]    IELF_HANDLE LogHandle,
+     [in]    unsigned long Time,
+     [in]    unsigned short EventType,
+     [in]    unsigned short EventCategory,
+     [in]    unsigned long EventID,
+     [in, range(0, 256)]    unsigned short NumStrings,
+     [in, range(0, 61440)]    unsigned long DataSize,
+     [in]    PRPC_STRING ComputerName,
+     [in, unique] PRPC_SID UserSID,
+     [in, size_is(NumStrings), unique] PRPC_STRING Strings[*],
+     [in, size_is(DataSize), unique] unsigned char * Data,
+     [in]    unsigned short Flags,
+     [in,out,unique] unsigned long * RecordNumber,
+     [in,out,unique] unsigned long * TimeWritten
+     );
+  
+ void Opnum19NotUsedOnWire(void);
+ void Opnum20NotUsedOnWire(void);
+ void Opnum21NotUsedOnWire(void);
+  
+ NTSTATUS
+ ElfrGetLogInformation(
+     [in]     IELF_HANDLE             LogHandle,
+     [in]     unsigned long                   InfoLevel,
+     [out, size_is(cbBufSize)] unsigned char *  lpBuffer,
+     [in, range(0, 1024)]      unsigned long  cbBufSize,
+     [out]    unsigned long *                  pcbBytesNeeded
+ );
+  
+ void Opnum23NotUsedOnWire(void); 
+ NTSTATUS
+ ElfrReportEventAndSourceW (
+     [in]         IELF_HANDLE LogHandle,
+     [in]         unsigned long Time,
+     [in]         unsigned short EventType,
+     [in]         unsigned short EventCategory,
+     [in]         unsigned long EventID,
+     [in]         PRPC_UNICODE_STRING SourceName,
+     [in, range(0, 256)]         unsigned short NumStrings,
+     [in, range(0, 61440)]         unsigned long DataSize,
+     [in]         PRPC_UNICODE_STRING ComputerName,
+     [in, unique] PRPC_SID UserSID,
+     [in, size_is(NumStrings), unique] PRPC_UNICODE_STRING Strings[*],
+     [in, size_is(DataSize), unique] unsigned char * Data,
+     [in]         unsigned short Flags,
+     [in,out,unique] unsigned long * RecordNumber,
+     [in,out,unique] unsigned long * TimeWritten
+     ); 
+  
+ NTSTATUS ElfrReportEventExW(
+   [in] IELF_HANDLE LogHandle,
+   [in] PFILETIME TimeGenerated,
+   [in] unsigned short EventType,
+   [in] unsigned short EventCategory,
+   [in] unsigned long EventID,
+   [in, range(0, 256)] unsigned short NumStrings,
+   [in, range(0, 61440)] unsigned long DataSize,
+   [in] PRPC_UNICODE_STRING ComputerName,
+   [in, unique] PRPC_SID UserSID,
+   [in, size_is(NumStrings), unique] PRPC_UNICODE_STRING Strings[*],
+   [in, size_is(DataSize), unique] unsigned char* Data,
+   [in] unsigned short Flags,
+   [in, out, unique] unsigned long* RecordNumber
+ );
+  
+ NTSTATUS ElfrReportEventExA(
+   [in] IELF_HANDLE LogHandle,
+   [in] PFILETIME TimeGenerated,
+   [in] unsigned short EventType,
+   [in] unsigned short EventCategory,
+   [in] unsigned long EventID,
+   [in, range(0, 256)] unsigned short NumStrings,
+   [in, range(0, 61440)] unsigned long DataSize,
+   [in] PRPC_STRING ComputerName,
+   [in, unique] PRPC_SID UserSID,
+   [in, size_is(NumStrings), unique] PRPC_STRING Strings[*],
+   [in, size_is(DataSize), unique] unsigned char* Data,
+   [in] unsigned short Flags,
+   [in, out, unique] unsigned long* RecordNumber
+ );
+  
+  
+  
+ }
+  

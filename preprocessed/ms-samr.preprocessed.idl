@@ -1150,3 +1150,13 @@
      );
  void Opnum68NotUsedOnWire(void);
  void Opnum69NotUsedOnWire(void);
+    void Opnum70NotUsedOnWire(void);
+    void Opnum71NotUsedOnWire(void);
+    void Opnum72NotUsedOnWire(void);
+    NTSTATUS
+    SamrUnicodeChangePasswordUser4(
+        [in]                handle_t                        BindingHandle,
+        [in,unique]         PRPC_UNICODE_STRING             ServerName,
+        [in]                PRPC_UNICODE_STRING             UserName,
+        [in]                PSAMPR_ENCRYPTED_PASSWORD_AES   EncryptedPassword
+     ); }

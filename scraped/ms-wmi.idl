@@ -1,3 +1,10 @@
+/*
+File: ms-wmi.idl
+Protocol: [MS-WMI]: Windows Management Instrumentation Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-wmi/c2ea576a-0a62-4da8-a472-bafde9541f0f
+Retrieval Date: Wed Aug 11 14:28:13 2021
+*/
+
  import "ms-dtyp.idl";
  import "ms-oaut.idl";
   

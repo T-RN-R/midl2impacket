@@ -1,3 +1,10 @@
+/*
+File: ms-pla.idl
+Protocol: [MS-PLA]: Performance Logs and Alerts Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-pla/73f1326e-2bf4-4658-b3e9-409b59e2d742
+Retrieval Date: Wed Aug 11 14:23:31 2021
+*/
+
  import "ms-dtyp.idl";
  import "ms-oaut.idl";
  #define SAFEARRAY(item) SAFEARRAY 

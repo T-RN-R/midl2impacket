@@ -1,3 +1,10 @@
+/*
+File: ms-dltw.idl
+Protocol: [MS-DLTW]: Distributed Link Tracking: Workstation Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dltw/e415dc67-3969-45c8-ba63-731e78870dfc
+Retrieval Date: Wed Aug 11 14:17:36 2021
+*/
+
  import "ms-dtyp.idl";
   
  typedef signed long SequenceNumber;

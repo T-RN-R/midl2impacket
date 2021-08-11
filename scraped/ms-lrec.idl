@@ -1,3 +1,10 @@
+/*
+File: ms-lrec.idl
+Protocol: [MS-LREC]: Live Remote Event Capture (LREC) Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lrec/38d3f038-84ba-49ea-8828-3249ff2b5f9a
+Retrieval Date: Wed Aug 11 14:21:06 2021
+*/
+
   
  import "ms-dtyp.idl";
   

@@ -1,3 +1,10 @@
+/*
+File: ms-ocspa.idl
+Protocol: [MS-OCSPA]: Microsoft OCSP Administration Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-ocspa/9f493310-4b38-4d9a-99ef-2c99578c6104
+Retrieval Date: Wed Aug 11 14:22:53 2021
+*/
+
  import "ms-oaut.idl";
   
   

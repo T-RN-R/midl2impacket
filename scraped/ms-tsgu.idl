@@ -1,3 +1,10 @@
+/*
+File: ms-tsgu.idl
+Protocol: [MS-TSGU]: Terminal Services Gateway Server Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-tsgu/ea0ac9e8-2d53-477e-ba57-b1ad01e38039
+Retrieval Date: Wed Aug 11 14:27:08 2021
+*/
+
  import "ms-dtyp.idl";
   
  [

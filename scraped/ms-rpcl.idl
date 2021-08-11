@@ -1,3 +1,10 @@
+/*
+File: ms-rpcl.idl
+Protocol: [MS-RPCL]: Remote Procedure Call Location Services Extensions
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-rpcl/17f647e6-54e2-4885-a31f-c585086f4783
+Retrieval Date: Wed Aug 11 14:25:24 2021
+*/
+
  import "ms-dtyp.idl";
   
  typedef struct _RPC_VERSION {

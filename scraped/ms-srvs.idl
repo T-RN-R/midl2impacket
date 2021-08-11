@@ -1,3 +1,10 @@
+/*
+File: ms-srvs.idl
+Protocol: [MS-SRVS]: Server Service Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-srvs/77aacc74-f8f9-4b46-b2d8-bfe04a7d9c44
+Retrieval Date: Wed Aug 11 14:26:34 2021
+*/
+
  import "ms-dtyp.idl";
   
  [

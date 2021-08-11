@@ -1,3 +1,10 @@
+/*
+File: ms-mqmr.idl
+Protocol: [MS-MQMR]: Message Queuing (MSMQ): Queue Manager Management Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-mqmr/227c88b0-f73a-4527-8f61-6e272d0dceb3
+Retrieval Date: Wed Aug 11 14:21:48 2021
+*/
+
  import "ms-dtyp.idl";
  import "ms-mqmq.idl";
   

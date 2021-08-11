@@ -1,3 +1,10 @@
+/*
+File: ms-dhcpm.idl
+Protocol: [MS-DHCPM]: Microsoft Dynamic Host Configuration Protocol (DHCP) Server Management Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dhcpm/d1932d08-3249-44cb-90f1-8661f8fb5b90
+Retrieval Date: Wed Aug 11 14:17:25 2021
+*/
+
      import "ms-dtyp.idl";
       
       #define LPWSTR [string] wchar_t*

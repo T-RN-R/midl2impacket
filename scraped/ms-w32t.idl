@@ -1,3 +1,10 @@
+/*
+File: ms-w32t.idl
+Protocol: [MS-W32T]: W32Time Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-w32t/5793e908-22ef-4cea-962f-fca8a72c485a
+Retrieval Date: Wed Aug 11 14:27:38 2021
+*/
+
  typedef struct {
      unsigned __int32 ulSize;
      unsigned __int32 ulResolveAttempts;

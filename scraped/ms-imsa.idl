@@ -1,3 +1,10 @@
+/*
+File: ms-imsa.idl
+Protocol: [MS-IMSA]: Internet Information Services (IIS) IMSAdminBaseW Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-imsa/23b73d93-cdf4-4673-a881-650f2461c80f
+Retrieval Date: Wed Aug 11 14:20:37 2021
+*/
+
  import "ms-dtyp.idl"; 
  import "ms-dcom.idl";
  import "ms-oaut.idl";

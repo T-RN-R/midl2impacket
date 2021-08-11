@@ -1,5 +1,6 @@
 import argparse
 import pathlib
+from datetime import datetime
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.webdriver import WebDriver
@@ -8,7 +9,7 @@ import time
 
 SCRAPED_DIR = pathlib.Path(__file__).parent / 'scraped'
 SCRAPED_DIR.mkdir(exist_ok=True)
-DEFAULT_DRIVER = "<your_chrome_driver_path>"
+DEFAULT_DRIVER = "C:\\Users\\coryc\\Downloads\\chromedriver_win32\\chromedriver.exe"
 
 def process_procotol_link(driver: WebDriver, protocol_name, protocol_link):
     print(f"Processing protocol: {protocol_name}")
@@ -20,12 +21,27 @@ def process_procotol_link(driver: WebDriver, protocol_name, protocol_link):
         idl_link = driver.find_element_by_xpath("//a[contains(text(),'Full IDL')]")
         idl_href = idl_link.get_attribute('href')  
         print(f"Retrieving full IDL for {protocol_name}")
+        scraped_protocol = driver.title.rsplit('|', 1)[0].strip()
         driver.get(idl_href)
         time.sleep(1)
-        idl_element = driver.find_element_by_xpath("//dl/dd/div/pre")
-        scraped_idl = SCRAPED_DIR / f"{protocol_name.lower()[1:-1]}.idl"
-        scraped_idl.write_text(idl_element.text)
-    except NoSuchElementException as nse:
+        scraped_file_name = f"{protocol_name.lower()[1:-1]}.idl"
+        retrieved = datetime.today()
+        scraped_idl_data = """\
+/*
+File: {}
+Protocol: {}
+Source: {}
+Retrieval Date: {}
+*/
+
+""".format(scraped_file_name, scraped_protocol, idl_href, retrieved.ctime())
+        idl_elements = driver.find_elements_by_xpath("//dl/dd/div/pre")
+        for idl_element in idl_elements:
+            scraped_idl_data += idl_element.text
+            scraped_idl_data += '\n'
+        scraped_idl = SCRAPED_DIR / scraped_file_name
+        scraped_idl.write_text(scraped_idl_data)
+    except NoSuchElementException:
         print(f"No link for Full IDL in {protocol_name}/{protocol_link}")
 
 def scrape(webdriver_path: pathlib.Path):

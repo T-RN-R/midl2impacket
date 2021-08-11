@@ -1,3 +1,10 @@
+/*
+File: ms-com.idl
+Protocol: [MS-COM]: Component Object Model Plus (COM+) Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-com/fb70ca19-10d0-42cd-bf56-04b8834ccae1
+Retrieval Date: Wed Aug 11 14:16:41 2021
+*/
+
  import "ms-dcom.idl";
  // Disable new Vista MIDL attribute if using an older MIDL compiler
  #if __midl < 700

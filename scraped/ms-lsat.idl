@@ -1,3 +1,10 @@
+/*
+File: ms-lsat.idl
+Protocol: [MS-LSAT]: Local Security Authority (Translation Methods) Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lsat/23cd602f-e46c-430d-ab5d-a678b9044a7d
+Retrieval Date: Wed Aug 11 14:21:12 2021
+*/
+
  import "ms-dtyp.idl";
   
  [

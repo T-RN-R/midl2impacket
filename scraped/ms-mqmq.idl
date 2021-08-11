@@ -1,3 +1,10 @@
+/*
+File: ms-mqmq.idl
+Protocol: [MS-MQMQ]: Message Queuing (MSMQ): Data Structures
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-mqmq/56cc73e0-f57a-4bd9-aa45-861be5b85049
+Retrieval Date: Wed Aug 11 14:21:44 2021
+*/
+
  import "ms-dtyp.idl";
   
  // forward declaration

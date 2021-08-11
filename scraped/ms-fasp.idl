@@ -1,3 +1,10 @@
+/*
+File: ms-fasp.idl
+Protocol: [MS-FASP]: Firewall and Advanced Security Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fasp/1503b9d7-7fec-4793-9972-6ad58720c9db
+Retrieval Date: Wed Aug 11 14:19:16 2021
+*/
+
  import "ms-dtyp.idl";
   
  cpp_quote("#ifndef __FIREWALL_H_")
@@ -1909,3 +1916,1981 @@
      FW_DYNAMIC_KEYWORD_ADDRESS_ID_LIST  RemoteDynamicKeywordAddresses;
  
 }  FW_RULE, *PFW_RULE;
+ /********************************************************
+  *                                                      *
+  *  Configuration settings structures                   *
+  *                                                      *
+  ********************************************************/
+  
+ #define FW_PROFILE_CONFIG_LOG_FILE_SIZE_MIN             1
+ #define FW_PROFILE_CONFIG_LOG_FILE_SIZE_MAX             32767
+  
+ //All config settings are read-only for dynamic store
+ typedef enum _tag_FW_PROFILE_CONFIG
+ {   //                                                          Type
+     FW_PROFILE_CONFIG_INVALID,
+     FW_PROFILE_CONFIG_ENABLE_FW,                          //    Boolean (as DWORD)
+     FW_PROFILE_CONFIG_DISABLE_STEALTH_MODE,               //    Boolean (as DWORD)
+     FW_PROFILE_CONFIG_SHIELDED,                           //    Boolean (as DWORD)
+     FW_PROFILE_CONFIG_DISABLE_UNICAST_RESPONSES_TO_MULTICAST_BROADCAST,
+                                                           //    Boolean (as DWORD)
+     FW_PROFILE_CONFIG_LOG_DROPPED_PACKETS,                //    Boolean (as DWORD)
+     FW_PROFILE_CONFIG_LOG_SUCCESS_CONNECTIONS,            //    Boolean (as DWORD)
+     FW_PROFILE_CONFIG_LOG_IGNORED_RULES,                  //    Boolean (as DWORD)
+     FW_PROFILE_CONFIG_LOG_MAX_FILE_SIZE,                  //    DWORD (in KBytes)
+     FW_PROFILE_CONFIG_LOG_FILE_PATH,                      //    String
+     FW_PROFILE_CONFIG_DISABLE_INBOUND_NOTIFICATIONS,      //    Boolean (as DWORD)
+     FW_PROFILE_CONFIG_AUTH_APPS_ALLOW_USER_PREF_MERGE,    //    Boolean (as DWORD) - GP_RSOP/GPO store only
+     FW_PROFILE_CONFIG_GLOBAL_PORTS_ALLOW_USER_PREF_MERGE, //    Boolean (as DWORD) - GP_RSOP/GPO store only
+     FW_PROFILE_CONFIG_ALLOW_LOCAL_POLICY_MERGE,           //    Boolean (as DWORD) - GP_RSOP/GPO store only
+     FW_PROFILE_CONFIG_ALLOW_LOCAL_IPSEC_POLICY_MERGE,     //    Boolean (as DWORD) - GP_RSOP/GPO store only
+     FW_PROFILE_CONFIG_DISABLED_INTERFACES,                //    PFW_INTERFACE_LUIDS - Local store only
+     FW_PROFILE_CONFIG_DEFAULT_OUTBOUND_ACTION,            //    DWORD(0 = Allow, 1 = block)
+     FW_PROFILE_CONFIG_DEFAULT_INBOUND_ACTION,             //    DWORD(0 = Allow, 1 = block)
+     FW_PROFILE_CONFIG_DISABLE_STEALTH_MODE_IPSEC_SECURED_PACKET_EXEMPTION,
+                                                           //    Boolean (as DWORD)
+     FW_PROFILE_CONFIG_MAX
+ } FW_PROFILE_CONFIG;
+  
+  
+ typedef enum _FW_GLOBAL_CONFIG_IPSEC_EXEMPT_VALUES
+ {
+     FW_GLOBAL_CONFIG_IPSEC_EXEMPT_NONE               =  0x0000,
+     FW_GLOBAL_CONFIG_IPSEC_EXEMPT_NEIGHBOR_DISC      =  0x0001,
+     FW_GLOBAL_CONFIG_IPSEC_EXEMPT_ICMP               =  0x0002,
+     FW_GLOBAL_CONFIG_IPSEC_EXEMPT_ROUTER_DISC        =  0x0004,
+     FW_GLOBAL_CONFIG_IPSEC_EXEMPT_NEIGHBOR_DISC_RFC  =  
+         FW_GLOBAL_CONFIG_IPSEC_EXEMPT_NEIGHBOR_DISC | FW_GLOBAL_CONFIG_IPSEC_EXEMPT_ROUTER_DISC,   
+     FW_GLOBAL_CONFIG_IPSEC_EXEMPT_DHCP               =  0x0008,
+     FW_GLOBAL_CONFIG_IPSEC_EXEMPT_MAX                =  0x0010
+ }FW_GLOBAL_CONFIG_IPSEC_EXEMPT_VALUES;
+  
+ typedef enum _FW_GLOBAL_CONFIG_PRESHARED_KEY_ENCODING_VALUES
+ {
+     FW_GLOBAL_CONFIG_PRESHARED_KEY_ENCODING_NONE       = 0, // Preshared key is not encoded. Kept in its wide-char format.
+     FW_GLOBAL_CONFIG_PRESHARED_KEY_ENCODING_UTF_8,       
+     FW_GLOBAL_CONFIG_PRESHARED_KEY_ENCODING_MAX    
+ } FW_GLOBAL_CONFIG_PRESHARED_KEY_ENCODING_VALUES;
+  
+ typedef enum _FW_GLOBAL_CONFIG_IPSEC_THROUGH_NAT_VALUES
+ {
+     FW_GLOBAL_CONFIG_IPSEC_THROUGH_NAT_NEVER                        = 0, // IPsec does not cross NAT boundaries
+     FW_GLOBAL_CONFIG_IPSEC_THROUGH_NAT_SERVER_BEHIND_NAT,
+     FW_GLOBAL_CONFIG_IPSEC_THROUGH_NAT_SERVER_AND_CLIENT_BEHIND_NAT,
+     FW_GLOBAL_CONFIG_IPSEC_THROUGH_NAT_MAX
+ } FW_GLOBAL_CONFIG_IPSEC_THROUGH_NAT_VALUES;
+  
+ #define FW_GLOBAL_CONFIG_CRL_CHECK_MAX           2
+ #define FW_GLOBAL_CONFIG_SA_IDLE_TIME_MAX     3600
+ #define FW_GLOBAL_CONFIG_SA_IDLE_TIME_MIN      300
+  
+ typedef enum _FW_GLOBAL_CONFIG_ENABLE_PACKET_QUEUE_FLAGS
+ {
+   FW_GLOBAL_CONFIG_PACKET_QUEUE_NONE,   
+   FW_GLOBAL_CONFIG_PACKET_QUEUE_INBOUND,
+   FW_GLOBAL_CONFIG_PACKET_QUEUE_FORWARD,
+   FW_GLOBAL_CONFIG_PACKET_QUEUE_MAX  
+ } FW_GLOBAL_CONFIG_ENABLE_PACKET_QUEUE_FLAGS;
+  
+ #define FW_GLOBAL_CONFIG_PACKET_QUEUE_VALIDATION_MASK 0x00000003
+  
+ //All config settings are read-only for dynamic store
+ typedef enum _tag_FW_GLOBAL_CONFIG
+ {   //                                                                    Type
+     FW_GLOBAL_CONFIG_INVALID,
+     FW_GLOBAL_CONFIG_POLICY_VERSION_SUPPORTED,                       //   Policy version supported by the Firewall service
+     FW_GLOBAL_CONFIG_CURRENT_PROFILE,                                //    FW_PROFILE_TYPE (dynamic store only)
+     FW_GLOBAL_CONFIG_DISABLE_STATEFUL_FTP,                           //    Boolean (as DWORD)
+     FW_GLOBAL_CONFIG_DISABLE_STATEFUL_PPTP,                          //    Deprecated, Boolean as (DWORD)
+     FW_GLOBAL_CONFIG_SA_IDLE_TIME,                                   //    DWORD (300-3600 seconds)
+     FW_GLOBAL_CONFIG_PRESHARED_KEY_ENCODING,                         //    DWORD (a value from FW_GLOBAL_CONFIG_PRESHARED_KEY_ENCODING_VALUES)
+     FW_GLOBAL_CONFIG_IPSEC_EXEMPT,                                   //    DWORD (bit-flags from FW_GLOBAL_CONFIG_IPSEC_EXEMPT_VALUES)
+                                                                      //    Max value: FW_GLOBAL_CONFIG_IPSEC_EXEMPT_MAX-1
+     FW_GLOBAL_CONFIG_CRL_CHECK,                                      //    DWORD 0 - disables CRL checking 
+                                                                      //    1 - CRL checking is attempted and certificate validation fails only if the 
+                                                                      //    certificate is revoked. Other failures that are encountered during CRL checking 
+                                                                      //    (such as the revocation URL being unreachable) do not cause certificate validation to fail.
+                                                                      //    2 - checking is required and that certificate validation fails if any error is encountered 
+                                                                      //    during CRL processing.
+     FW_GLOBAL_CONFIG_IPSEC_THROUGH_NAT,                              //    FW_GLOBAL_CONFIG_IPSEC_THROUGH_NAT_VALUES
+     FW_GLOBAL_CONFIG_POLICY_VERSION,                                 //    Policy version
+     FW_GLOBAL_CONFIG_BINARY_VERSION_SUPPORTED,                       //    Binary version supported by the Firewall Service (structures)
+     FW_GLOBAL_CONFIG_IPSEC_TUNNEL_REMOTE_MACHINE_AUTHORIZATION_LIST, //    May be zero-length to indicate that all machines or users are authorized or may contain
+     FW_GLOBAL_CONFIG_IPSEC_TUNNEL_REMOTE_USER_AUTHORIZATION_LIST,    //    a null-terminated, Unicode string describing a security descriptor in SDDL.
+     FW_GLOBAL_CONFIG_OPPORTUNISTICALLY_MATCH_AUTH_SET_PER_KM,        //    Boolean (as DWORD)
+     FW_GLOBAL_CONFIG_IPSEC_TRANSPORT_REMOTE_MACHINE_AUTHORIZATION_LIST,
+     FW_GLOBAL_CONFIG_IPSEC_TRANSPORT_REMOTE_USER_AUTHORIZATION_LIST,
+     FW_GLOBAL_CONFIG_ENABLE_PACKET_QUEUE,
+     FW_GLOBAL_CONFIG_MAX
+ } FW_GLOBAL_CONFIG;
+  
+ typedef enum _FW_CONFIG_FLAGS
+ {
+     FW_CONFIG_FLAG_RETURN_DEFAULT_IF_NOT_FOUND  = 0x0001  // If specified, if FWGetConfig or FWGetGlobalConfig fail to 
+                                                           // find the configuration value in the store, the call will succeed and 
+                                                           // return the default value used by the firewall service.
+                                                           // If not specified, if FWGetConfig or FWGetGlobalConfig fail to 
+                                                           // find the configuration value in the store, the call will fail
+                                                           // with ERROR_FILE_NOT_FOUND.
+ } FW_CONFIG_FLAGS;
+  
+  
+ /********************************************************
+  *                                                      *
+  *  Network state structures.
+  *                                                      *
+  ********************************************************/
+  
+ // Based on INetwork (q.v.)
+ typedef struct tag_FW_NETWORK
+ {
+    [string, unique]
+    wchar_t* pszName;
+    FW_PROFILE_TYPE ProfileType;
+ } FW_NETWORK, *PFW_NETWORK;
+  
+ // Adapter that can have the firewall enabled/disabled.
+ typedef struct tag_FW_ADAPTER
+ {
+    [string, unique]
+    wchar_t* pszFriendlyName;
+    GUID Guid;
+ } FW_ADAPTER, *PFW_ADAPTER;
+  
+  
+ typedef struct tag_FW_DIAG_APP
+ {
+    [string, unique]
+    wchar_t* pszAppPath;
+ } FW_DIAG_APP, *PFW_DIAG_APP;
+  
+  
+ /********************************************************
+  *                                                      *
+  *  Third-party firewall products structures.
+  *                                                      *
+  ********************************************************/
+  
+ // Different types of rules that the firewall supports.
+ typedef
+ [v1_enum]
+ enum tag_FW_RULE_CATEGORY
+ {
+    FW_RULE_CATEGORY_BOOT,
+    FW_RULE_CATEGORY_STEALTH,
+    FW_RULE_CATEGORY_FIREWALL,
+    FW_RULE_CATEGORY_CONSEC,
+    // Not a valid rule category -- only used for bounds checking.
+    FW_RULE_CATEGORY_MAX
+ } FW_RULE_CATEGORY, *PFW_RULE_CATEGORY;
+  
+ // Struct representing a third-party firewall product.
+ typedef struct tag_FW_PRODUCT
+ {
+    // Currently, no flags are defined, so this is just a placeholder.
+    DWORD dwFlags;
+    // Array of rule types implemented by the firewall. May be zero length in
+    // which case branding is confirmed but Windows Firewall functionality is
+    // not replaced.
+    DWORD dwNumRuleCategories;
+    [size_is(dwNumRuleCategories), unique]
+    FW_RULE_CATEGORY* pRuleCategories;
+    [string, ref]
+    wchar_t* pszDisplayName;
+  
+    // The following field is only used when enumerating the registered
+    // products. It must be null when calling FWRegisterProduct.
+    [string, unique]
+    wchar_t* pszPathToSignedProductExe;
+ } FW_PRODUCT, *PFW_PRODUCT;
+  
+  
+ /********************************************************
+  *                                                      *
+  *  Connection Security Rule structures                 *
+  *                                                      *
+  ********************************************************/
+  
+ typedef enum _tag_FW_IP_VERSION
+ {
+     FW_IP_VERSION_INVALID,
+     FW_IP_VERSION_V4,
+     FW_IP_VERSION_V6,
+     FW_IP_VERSION_MAX
+ }FW_IP_VERSION;
+  
+ typedef enum _tag_FW_IPSEC_PHASE
+ {
+     FW_IPSEC_PHASE_INVALID,
+     FW_IPSEC_PHASE_1,
+     FW_IPSEC_PHASE_2,
+     FW_IPSEC_PHASE_MAX
+ }FW_IPSEC_PHASE;
+  
+ typedef enum _tag_FW_CS_RULE_FLAGS
+ {
+     FW_CS_RULE_FLAGS_NONE                        = 0x00,
+     FW_CS_RULE_FLAGS_ACTIVE                      = 0x01,
+     FW_CS_RULE_FLAGS_DTM                         = 0x02,
+     FW_CS_RULE_FLAGS_TUNNEL_BYPASS_IF_ENCRYPTED  = 0x08,
+     FW_CS_RULE_FLAGS_OUTBOUND_CLEAR              = 0x10,
+     FW_CS_RULE_FLAGS_APPLY_AUTHZ                 = 0x20,
+     FW_CS_RULE_FLAGS_KEY_MANAGER_ALLOW_DICTATE_KEY = 0x40,
+     FW_CS_RULE_FLAGS_KEY_MANAGER_ALLOW_NOTIFY_KEY = 0x80,
+     FW_CS_RULE_FLAGS_SECURITY_REALM              = 0x100,
+     FW_CS_RULE_FLAGS_MAX                         = 0x200,
+     FW_CS_RULE_FLAGS_MAX_V2_1                    = 0x02,
+     FW_CS_RULE_FLAGS_MAX_V2_8                    = 0x04,
+     FW_CS_RULE_FLAGS_MAX_V2_10                   = 0x40,
+     FW_CS_RULE_FLAGS_MAX_V2_20                   = 0x100
+ }FW_CS_RULE_FLAGS;
+  
+  
+ typedef enum _tag_FW_CS_RULE_ACTION
+ {
+     FW_CS_RULE_ACTION_INVALID,
+     FW_CS_RULE_ACTION_SECURE_SERVER,
+     FW_CS_RULE_ACTION_BOUNDARY,
+     FW_CS_RULE_ACTION_SECURE,
+     FW_CS_RULE_ACTION_DO_NOT_SECURE,
+     FW_CS_RULE_ACTION_MAX
+ }FW_CS_RULE_ACTION;
+  
+  
+ typedef struct _tag_FW_CS_RULE2_0
+ {
+     struct _tag_FW_CS_RULE2_0 *pNext;                  
+     WORD                wSchemaVersion;
+     [string, range(1,512), ref]
+     WCHAR*              wszRuleId;
+     [string, range(1,10001)]
+     WCHAR*              wszName;
+     [string, range(1,10001)]
+     WCHAR*              wszDescription;
+  
+     DWORD               dwProfiles;
+  
+     FW_ADDRESSES        Endpoint1;
+     FW_ADDRESSES        Endpoint2;
+     FW_INTERFACE_LUIDS  LocalInterfaceIds;
+     DWORD               dwLocalInterfaceTypes;    // Bit flags from FW_INTERFACE_TYPE
+  
+     DWORD               dwLocalTunnelEndpointV4;
+     BYTE                LocalTunnelEndpointV6[16];   
+  
+     DWORD               dwRemoteTunnelEndpointV4;
+     BYTE                RemoteTunnelEndpointV6[16];   
+     
+     FW_PORTS            Endpoint1Ports;
+     FW_PORTS            Endpoint2Ports;
+     [range(0,256)]
+     WORD                wIpProtocol;
+     [string, range(1,255)]
+     WCHAR*              wszPhase1AuthSet;   // Set this to FW_DEFAULT_PHASE1_AUTH_SET to use the default
+     [string, range(1,255)]
+     WCHAR*              wszPhase2CryptoSet; // Set this to FW_DEFAULT_PHASE2_CRYPTO_SET to use the default
+     [string, range(1,255)]
+     WCHAR*              wszPhase2AuthSet;   // If NULL, no phase 2 authentication is performed       
+                                             // Set this to FW_DEFAULT_PHASE2_AUTH_SET to use the default
+     // Phase 1 crypto is global; Set Id unnecessary
+     [range(FW_CS_RULE_ACTION_SECURE_SERVER, FW_CS_RULE_ACTION_MAX)]
+     FW_CS_RULE_ACTION   Action;                    
+     WORD                wFlags;            // Bit flags from FW_CS_RULE_FLAGS
+     [string, range(1,10001)]
+     WCHAR*              wszEmbeddedContext;
+     FW_OS_PLATFORM_LIST PlatformValidityList;
+     [range(FW_RULE_ORIGIN_INVALID, FW_RULE_ORIGIN_MAX-1)]
+     FW_RULE_ORIGIN_TYPE Origin;      //Rule origin, filled on enumerated rules. Ignored on input
+     [string, range(1,10001)]
+     WCHAR*              wszGPOName; //Name of originating GPO, if rule origin is GP.
+     FW_RULE_STATUS      Status;     //Parsing error if any, filled on return. On input, set this to FW_RULE_STATUS_OK
+  
+ }FW_CS_RULE2_0, *PFW_CS_RULE2_0;
+  
+ typedef enum _tag_FW_KEY_MODULE_
+ {
+     FW_KEY_MODULE_DEFAULT = 0x0,
+     FW_KEY_MODULE_IKEv1 = 0x1,
+     FW_KEY_MODULE_AUTHIP = 0x2,
+     FW_KEY_MODULE_IKEv2 = 0x4,
+     FW_KEY_MODULE_MAX = 0x8   
+ } FW_KEY_MODULE;
+  
+  
+ typedef struct _tag_FW_CS_RULE2_10
+ {
+     struct _tag_FW_CS_RULE2_10 *pNext;                  
+     WORD                wSchemaVersion;
+     [string, range(1,512), ref]
+     WCHAR*              wszRuleId;
+     [string, range(1,10001)]
+     WCHAR*              wszName;
+     [string, range(1,10001)]
+     WCHAR*              wszDescription;
+  
+     DWORD               dwProfiles;
+  
+     FW_ADDRESSES        Endpoint1;
+     FW_ADDRESSES        Endpoint2;
+     FW_INTERFACE_LUIDS  LocalInterfaceIds;
+     DWORD               dwLocalInterfaceTypes;    // Bit flags from FW_INTERFACE_TYPE
+  
+     DWORD               dwLocalTunnelEndpointV4;
+     BYTE                LocalTunnelEndpointV6[16];   
+  
+     DWORD               dwRemoteTunnelEndpointV4;
+     BYTE                RemoteTunnelEndpointV6[16];   
+     
+     FW_PORTS            Endpoint1Ports;
+     FW_PORTS            Endpoint2Ports;
+     [range(0,256)]
+     WORD                wIpProtocol;
+     [string, range(1,255)]
+     WCHAR*              wszPhase1AuthSet;   // Set this to FW_DEFAULT_PHASE1_AUTH_SET to use the default
+     [string, range(1,255)]
+     WCHAR*              wszPhase2CryptoSet; // Set this to FW_DEFAULT_PHASE2_CRYPTO_SET to use the default
+     [string, range(1,255)]
+     WCHAR*              wszPhase2AuthSet;   // If NULL, no phase 2 authentication is performed       
+                                             // Set this to FW_DEFAULT_PHASE2_AUTH_SET to use the default
+     // Phase 1 crypto is global; Set Id unnecessary
+     [range(FW_CS_RULE_ACTION_SECURE_SERVER, FW_CS_RULE_ACTION_MAX)]
+     FW_CS_RULE_ACTION   Action;                    
+     WORD                wFlags;            // Bit flags from FW_CS_RULE_FLAGS
+     [string, range(1,10001)]
+     WCHAR*              wszEmbeddedContext;
+     FW_OS_PLATFORM_LIST PlatformValidityList;
+     [range(FW_RULE_ORIGIN_INVALID, FW_RULE_ORIGIN_MAX-1)]
+     FW_RULE_ORIGIN_TYPE Origin;      //Rule origin, filled on enumerated rules. Ignored on input
+     [string, range(1,10001)]
+     WCHAR*              wszGPOName; //Name of originating GPO, if rule origin is GP.
+     FW_RULE_STATUS      Status;     //Parsing error if any, filled on return. On input, set this to FW_RULE_STATUS_OK
+     [string, range(1,512)]
+     WCHAR*              wszMMParentRuleId;
+     DWORD               Reserved;
+  
+     [size_is((Reserved & FW_OBJECT_CTRL_FLAG_INCLUDE_METADATA) ? 1 : 0)]
+     PFW_OBJECT_METADATA pMetaData;
+  
+ }FW_CS_RULE2_10, *PFW_CS_RULE2_10;
+  
+  
+ typedef struct _tag_FW_CS_RULE
+ {
+     struct _tag_FW_CS_RULE *pNext;                  
+     WORD                wSchemaVersion;
+     [string, range(1,512), ref]
+     WCHAR*              wszRuleId;
+     [string, range(1,10001)]
+     WCHAR*              wszName;
+     [string, range(1,10001)]
+     WCHAR*              wszDescription;
+  
+     DWORD               dwProfiles;
+  
+     FW_ADDRESSES        Endpoint1;
+     FW_ADDRESSES        Endpoint2;
+     FW_INTERFACE_LUIDS  LocalInterfaceIds;
+     DWORD               dwLocalInterfaceTypes;    // Bit flags from FW_INTERFACE_TYPE
+  
+     DWORD               dwLocalTunnelEndpointV4;
+     BYTE                LocalTunnelEndpointV6[16];   
+  
+     DWORD               dwRemoteTunnelEndpointV4;
+     BYTE                RemoteTunnelEndpointV6[16];   
+     
+     FW_PORTS            Endpoint1Ports;
+     FW_PORTS            Endpoint2Ports;
+     [range(0,256)]
+     WORD                wIpProtocol;
+     [string, range(1,255)]
+     WCHAR*              wszPhase1AuthSet;   // Set this to FW_DEFAULT_PHASE1_AUTH_SET to use the default
+     [string, range(1,255)]
+     WCHAR*              wszPhase2CryptoSet; // Set this to FW_DEFAULT_PHASE2_CRYPTO_SET to use the default
+     [string, range(1,255)]
+     WCHAR*              wszPhase2AuthSet;   // If NULL, no phase 2 authentication is performed       
+                                             // Set this to FW_DEFAULT_PHASE2_AUTH_SET to use the default
+     // Phase 1 crypto is global; Set Id unnecessary
+     [range(FW_CS_RULE_ACTION_SECURE_SERVER, FW_CS_RULE_ACTION_MAX)]
+     FW_CS_RULE_ACTION   Action;                    
+     WORD                wFlags;            // Bit flags from FW_CS_RULE_FLAGS
+     [string, range(1,10001)]
+     WCHAR*              wszEmbeddedContext;
+     FW_OS_PLATFORM_LIST PlatformValidityList;
+     [range(FW_RULE_ORIGIN_INVALID, FW_RULE_ORIGIN_MAX-1)]
+     FW_RULE_ORIGIN_TYPE Origin;      //Rule origin, filled on enumerated rules. Ignored on input
+     [string, range(1,10001)]
+     WCHAR*              wszGPOName; //Name of originating GPO, if rule origin is GP.
+     FW_RULE_STATUS      Status;     //Parsing error if any, filled on return. On input, set this to FW_RULE_STATUS_OK
+     [string, range(1,512)]
+     WCHAR*              wszMMParentRuleId;
+     DWORD               Reserved;
+  
+     [size_is((Reserved & FW_OBJECT_CTRL_FLAG_INCLUDE_METADATA) ? 1 : 0)]
+     PFW_OBJECT_METADATA pMetaData;
+  
+     [string, range(1,512)]
+     WCHAR*              wszRemoteTunnelEndpointFqdn;    
+     FW_ADDRESSES        RemoteTunnelEndpoints;
+     DWORD               dwKeyModules;
+     DWORD               FwdPathSALifetime;  //in seconds.  Lifetime of SAs initiated by FWD path traffic
+  
+     [string, range(1,10001)]
+     LPWSTR               wszTransportMachineAuthzSDDL; // SDDL describing machine authorization
+     [string, range(1,10001)]
+     LPWSTR               wszTransportUserAuthzSDDL; // SDDL describing user authorization
+  
+ }FW_CS_RULE, *PFW_CS_RULE;
+  
+  
+ /*****************************************************************
+  *                                                               *
+  *  Ipsec Authentication Sets (Phase 1 and 2) structures         *
+  *                                                               *
+  *****************************************************************/
+  
+ typedef enum _tag_FW_AUTH_METHOD
+ {
+     FW_AUTH_METHOD_INVALID,
+     FW_AUTH_METHOD_ANONYMOUS,                   // Phase 1 and 2
+     FW_AUTH_METHOD_MACHINE_KERB,                // Phase 1 only
+     FW_AUTH_METHOD_MACHINE_SHKEY,               // Phase 1 (IKE) only
+     FW_AUTH_METHOD_MACHINE_NTLM,                // Phase 1 (AuthIp) only
+     // If machine cert is specified for Phase2, it MUST be a health cert,
+     // and no other authentication suites may be defined other than possibly anonymous.
+     FW_AUTH_METHOD_MACHINE_CERT,                // Phase 1 and 2
+     FW_AUTH_METHOD_USER_KERB,                   // Phase 2 only
+     FW_AUTH_METHOD_USER_CERT,                   // Phase 2 only
+     FW_AUTH_METHOD_USER_NTLM,                   // Phase 2 only
+     FW_AUTH_METHOD_MACHINE_RESERVED,              // Phase 1 and 2
+     FW_AUTH_METHOD_USER_RESERVED,                 // Phase 2
+     FW_AUTH_METHOD_MAX,
+     FW_AUTH_METHOD_MAX_2_10 = (FW_AUTH_METHOD_USER_NTLM + 1)
+ }FW_AUTH_METHOD;
+  
+  
+ typedef enum _tag_FW_AUTH_SUITE_FLAGS
+ {
+     FW_AUTH_SUITE_FLAGS_NONE                                = 0x0000,
+     // For Method = FW_AUTH_METHOD_MACHINE_CERT, Phase 1 only
+     FW_AUTH_SUITE_FLAGS_CERT_EXCLUDE_CA_NAME                = 0x0001,
+     // For Method = FW_AUTH_METHOD_MACHINE_CERT, Phase 1 and 2
+     // For phase2, if Method = FW_AUTH_METHOD_MACHINE_CERT, this flag MUST be specified 
+     FW_AUTH_SUITE_FLAGS_HEALTH_CERT                         = 0x0002,
+     // For Method = FW_AUTH_METHOD_MACHINE_CERT (Phase 1 and 2),FW_AUTH_METHOD_USER_CERT
+     FW_AUTH_SUITE_FLAGS_PERFORM_CERT_ACCOUNT_MAPPING        = 0x0004,
+     FW_AUTH_SUITE_FLAGS_CERT_SIGNING_ECDSA256               = 0x0008,
+     FW_AUTH_SUITE_FLAGS_CERT_SIGNING_ECDSA384               = 0x0010,
+  
+     FW_AUTH_SUITE_FLAGS_MAX_V2_1                            = 0x0020,
+     FW_AUTH_SUITE_FLAGS_INTERMEDIATE_CA                     = 0x0020,
+     FW_AUTH_SUITE_FLAGS_MAX_V2_10                           = 0x0040,
+     FW_AUTH_SUITE_FLAGS_ALLOW_PROXY                         = 0x0040,
+     FW_AUTH_SUITE_FLAGS_MAX                                 = 0x0080
+  
+ }FW_AUTH_SUITE_FLAGS;
+  
+ typedef struct _tag_FW_AUTH_SUITE2_10
+ {
+     [range(FW_AUTH_METHOD_INVALID+1, FW_AUTH_METHOD_MAX)]
+     FW_AUTH_METHOD     Method;
+     WORD               wFlags;            // Bit-flags from FW_AUTH_SUITE_FLAGS
+  
+     [switch_type(FW_AUTH_METHOD), switch_is(Method)]
+     union
+     {
+         // For Method = FW_AUTH_METHOD_MACHINE_CERT
+         // For Method = FW_AUTH_METHOD_USER_CERT
+  
+         [case(FW_AUTH_METHOD_MACHINE_CERT,FW_AUTH_METHOD_USER_CERT)]
+         struct
+         {
+             [ref, string]
+             WCHAR*      wszCAName;
+         };
+  
+         // For Method = FW_AUTH_METHOD_MACHINE_SHKEY
+         [case(FW_AUTH_METHOD_MACHINE_SHKEY)]
+         struct
+         {
+             [ref, string]
+             WCHAR*          wszSHKey; 
+         };
+         [default] 
+         ;
+     };
+ }FW_AUTH_SUITE2_10, *PFW_AUTH_SUITE2_10;
+  
+ typedef enum _tag_FW_CERT_CRITERIA_NAME_TYPE
+ {
+     FW_CERT_CRITERIA_NAME_NONE,
+     FW_CERT_CRITERIA_NAME_DNS,
+     FW_CERT_CRITERIA_NAME_UPN,
+     FW_CERT_CRITERIA_NAME_RFC822,
+     FW_CERT_CRITERIA_NAME_CN,
+     FW_CERT_CRITERIA_NAME_OU,
+     FW_CERT_CRITERIA_NAME_O,
+     FW_CERT_CRITERIA_NAME_DC,
+     FW_CERT_CRITERIA_NAME_MAX
+ }FW_CERT_CRITERIA_NAME_TYPE;
+  
+ typedef enum _tag_FW_CERT_CRITERIA_TYPE
+ {
+     FW_CERT_CRITERIA_TYPE_BOTH,
+     FW_CERT_CRITERIA_TYPE_SELECTION,
+     FW_CERT_CRITERIA_TYPE_VALIDATION,
+     FW_CERT_CRITERIA_TYPE_MAX
+ }FW_CERT_CRITERIA_TYPE;
+  
+ typedef enum _tag_FW_CERT_CRITERIA_FLAGS
+ {
+     FW_AUTH_CERT_CRITERIA_FLAGS_NONE            = 0x0000,
+     FW_AUTH_CERT_CRITERIA_FLAGS_FOLLOW_RENEWAL  = 0x0001,
+     FW_AUTH_CERT_CRITERIA_FLAGS_MAX             = 0x0002
+  
+ }FW_AUTH_CERT_CRITERIA_FLAGS;
+  
+ typedef struct _tag_FW_CERT_CRITERIA
+ {
+     WORD wSchemaVersion;
+     WORD wFlags;
+     FW_CERT_CRITERIA_TYPE CertCriteriaType;
+     FW_CERT_CRITERIA_NAME_TYPE NameType;
+     [string, unique]
+     LPWSTR wszName;
+     DWORD dwNumEku;
+     [size_is(dwNumEku), unique]
+     LPSTR* ppEku;
+     [string, unique]
+     LPWSTR wszHash;
+ }FW_CERT_CRITERIA, *PFW_CERT_CRITERIA;
+  
+ typedef struct _tag_FW_AUTH_SUITE
+ {
+     [range(FW_AUTH_METHOD_INVALID+1, FW_AUTH_METHOD_MAX)]
+     FW_AUTH_METHOD     Method;
+     WORD               wFlags;     // Bit-flags from FW_AUTH_SUITE_FLAGS
+  
+     [switch_type(FW_AUTH_METHOD), switch_is(Method)]
+     union
+     {
+         // For Method = FW_AUTH_METHOD_MACHINE_CERT
+         // For Method = FW_AUTH_METHOD_USER_CERT
+  
+         [case(FW_AUTH_METHOD_MACHINE_CERT,FW_AUTH_METHOD_USER_CERT)]
+         struct
+         {
+             [ref, string]
+             WCHAR*    wszCAName;
+             [unique]
+             PFW_CERT_CRITERIA pCertCriteria;
+         };
+  
+         // For Method = FW_AUTH_METHOD_MACHINE_SHKEY
+         [case(FW_AUTH_METHOD_MACHINE_SHKEY)]
+         struct
+         {
+             [ref, string]
+             WCHAR*   wszSHKey; 
+         };
+  
+         // For Method = FW_AUTH_METHOD_MACHINE_KERB
+         // For Method = FW_AUTH_METHOD_USER_KERB
+         [case(FW_AUTH_METHOD_MACHINE_KERB, FW_AUTH_METHOD_USER_KERB)]
+         struct
+         {
+             [unique, string]
+             WCHAR*   wszProxyServer; 
+         };
+         [default] 
+         ;
+     };
+ }FW_AUTH_SUITE, *PFW_AUTH_SUITE;
+  
+ typedef enum _tag_FW_AUTH_SET_FLAGS
+ {
+     FW_AUTH_SET_FLAGS_NONE  = 0x00,
+     FW_AUTH_SET_FLAGS_MAX   = 0x01,
+ } FW_AUTH_SET_FLAGS;
+  
+ typedef struct _tag_FW_AUTH_SET2_10
+ {
+     struct _tag_FW_AUTH_SET2_10*    pNext;
+     WORD                wSchemaVersion;
+  
+     [range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)]
+     FW_IPSEC_PHASE      IpSecPhase;
+     [string, range(1,255), ref]
+     WCHAR*              wszSetId;       // To make this the default auth set, set the Id to FW_DEFAULT_PHASE1_AUTH_SET 
+                                         // or FW_DEFAULT_PHASE2_AUTH_SET as appropriate.
+     [string, range(1,10001)]
+     WCHAR*              wszName;
+     [string, range(1,10001)]
+     WCHAR*              wszDescription;
+     [string, range(1,10001)]
+     WCHAR*              wszEmbeddedContext;
+     [range(0, 10000)]
+     DWORD               dwNumSuites;
+     [size_is(dwNumSuites)]
+     PFW_AUTH_SUITE2_10      pSuites;
+  
+     [range(FW_RULE_ORIGIN_INVALID, FW_RULE_ORIGIN_MAX-1)]
+     FW_RULE_ORIGIN_TYPE Origin;      //Rule origin, filled on enumerated rules. Ignored on input
+     [string, range(1,10001)]
+     WCHAR*              wszGPOName;  //Name of originating GPO, if rule origin is GP.
+     FW_RULE_STATUS      Status;      //Parsing error if any, filled on return. On input, set this to FW_RULE_STATUS_OK
+     DWORD               dwAuthSetFlags;    
+ }FW_AUTH_SET2_10, *PFW_AUTH_SET2_10;
+  
+ typedef struct _tag_FW_AUTH_SET
+ {
+     struct _tag_FW_AUTH_SET*    pNext;
+     WORD                wSchemaVersion;
+  
+     [range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)]
+     FW_IPSEC_PHASE      IpSecPhase;
+     [string, range(1,255), ref]
+     WCHAR*              wszSetId;       // To make this the default auth set, set the Id to FW_DEFAULT_PHASE1_AUTH_SET 
+                                         // or FW_DEFAULT_PHASE2_AUTH_SET as appropriate.
+     [string, range(1,10001)]
+     WCHAR*              wszName;
+     [string, range(1,10001)]
+     WCHAR*              wszDescription;
+     [string, range(1,10001)]
+     WCHAR*              wszEmbeddedContext;
+     [range(0, 10000)]
+     DWORD               dwNumSuites;
+     [size_is(dwNumSuites)]
+     PFW_AUTH_SUITE      pSuites;
+  
+     [range(FW_RULE_ORIGIN_INVALID, FW_RULE_ORIGIN_MAX-1)]
+     FW_RULE_ORIGIN_TYPE Origin;      //Rule origin, filled on enumerated rules. Ignored on input
+     [string, range(1,10001)]
+     WCHAR*              wszGPOName;  //Name of originating GPO, if rule origin is GP.
+     FW_RULE_STATUS      Status;      //Parsing error if any, filled on return. On input, set this to FW_RULE_STATUS_OK
+     DWORD               dwAuthSetFlags; //Flags from FW_AUTH_SET_FLAGS
+ }FW_AUTH_SET, *PFW_AUTH_SET;
+  
+  
+ /********************************************************
+  *                                                      *
+  *   Ipsec Crypto Set structures                        *
+  *                                                      *
+  ********************************************************/
+  
+ typedef enum _tag_FW_CRYPTO_KEY_EXCHANGE_TYPE
+ {
+     FW_CRYPTO_KEY_EXCHANGE_NONE = 0,    //When enumerating SAs, this value may be returned. Invalid for all other cases
+     FW_CRYPTO_KEY_EXCHANGE_DH1,
+     FW_CRYPTO_KEY_EXCHANGE_DH2,
+     FW_CRYPTO_KEY_EXCHANGE_ECDH256,
+     FW_CRYPTO_KEY_EXCHANGE_ECDH384,
+     FW_CRYPTO_KEY_EXCHANGE_DH2048,
+     FW_CRYPTO_KEY_EXCHANGE_DH24,
+     FW_CRYPTO_KEY_EXCHANGE_MAX,
+     FW_CRYPTO_KEY_EXCHANGE_DH14 = FW_CRYPTO_KEY_EXCHANGE_DH2048,
+     FW_CRYPTO_KEY_EXCHANGE_MAX_V2_10 = FW_CRYPTO_KEY_EXCHANGE_DH24
+ }FW_CRYPTO_KEY_EXCHANGE_TYPE;
+  
+  
+ typedef enum _tag_FW_CRYPTO_ENCRYPTION_TYPE
+ {
+     FW_CRYPTO_ENCRYPTION_NONE,
+     FW_CRYPTO_ENCRYPTION_DES,
+     FW_CRYPTO_ENCRYPTION_3DES,
+     FW_CRYPTO_ENCRYPTION_AES128,
+     FW_CRYPTO_ENCRYPTION_AES192,
+     FW_CRYPTO_ENCRYPTION_AES256,
+     FW_CRYPTO_ENCRYPTION_AES_GCM128,
+     FW_CRYPTO_ENCRYPTION_AES_GCM192,
+     FW_CRYPTO_ENCRYPTION_AES_GCM256,
+     FW_CRYPTO_ENCRYPTION_MAX,
+     FW_CRYPTO_ENCRYPTION_MAX_V2_0 = FW_CRYPTO_ENCRYPTION_AES_GCM128
+ }FW_CRYPTO_ENCRYPTION_TYPE;
+  
+  
+ typedef enum _tag_FW_CRYPTO_HASH_TYPE
+ {
+     FW_CRYPTO_HASH_NONE,
+     FW_CRYPTO_HASH_MD5,
+     FW_CRYPTO_HASH_SHA1,
+     FW_CRYPTO_HASH_SHA256,
+     FW_CRYPTO_HASH_SHA384,
+     FW_CRYPTO_HASH_AES_GMAC128,
+     FW_CRYPTO_HASH_AES_GMAC192,
+     FW_CRYPTO_HASH_AES_GMAC256,
+     FW_CRYPTO_HASH_MAX,
+     FW_CRYPTO_HASH_MAX_V2_0 = FW_CRYPTO_HASH_SHA256
+ }FW_CRYPTO_HASH_TYPE;
+  
+  
+ typedef enum _tag_FW_CRYPTO_PROTOCOL_TYPE
+ {
+     FW_CRYPTO_PROTOCOL_INVALID,
+     FW_CRYPTO_PROTOCOL_AH,
+     FW_CRYPTO_PROTOCOL_ESP,
+     FW_CRYPTO_PROTOCOL_BOTH,
+     FW_CRYPTO_PROTOCOL_AUTH_NO_ENCAP,
+     FW_CRYPTO_PROTOCOL_MAX,
+     FW_CRYPTO_PROTOCOL_MAX_2_1 = (FW_CRYPTO_PROTOCOL_BOTH + 1)
+ }FW_CRYPTO_PROTOCOL_TYPE;
+  
+  
+ typedef enum _tag_FW_CRYPTO_SET_FLAGS
+ {
+     FW_CRYPTO_SET_FLAGS_NONE     = 0x00,
+     FW_CRYPTO_SET_FLAGS_MAX      = 0x01,
+ } FW_CRYPTO_SET_FLAGS;
+  
+  
+ typedef struct _tag_FW_PHASE1_CRYPTO_SUITE
+ {
+     [range(FW_CRYPTO_KEY_EXCHANGE_NONE, FW_CRYPTO_KEY_EXCHANGE_MAX-1)]
+     FW_CRYPTO_KEY_EXCHANGE_TYPE KeyExchange;
+     [range(FW_CRYPTO_ENCRYPTION_NONE+1, FW_CRYPTO_ENCRYPTION_MAX-1)]
+     FW_CRYPTO_ENCRYPTION_TYPE   Encryption;
+     [range(FW_CRYPTO_HASH_NONE+1, FW_CRYPTO_HASH_MAX-1)]
+     FW_CRYPTO_HASH_TYPE         Hash;
+     DWORD                       dwP1CryptoSuiteFlags;
+ }FW_PHASE1_CRYPTO_SUITE, *PFW_PHASE1_CRYPTO_SUITE;
+  
+  
+  
+ typedef struct _tag_FW_PHASE2_CRYPTO_SUITE
+ {
+     [range(FW_CRYPTO_PROTOCOL_INVALID+1, FW_CRYPTO_PROTOCOL_MAX-1)]
+     FW_CRYPTO_PROTOCOL_TYPE    Protocol;
+     FW_CRYPTO_HASH_TYPE        AhHash;
+     FW_CRYPTO_HASH_TYPE        EspHash;
+     FW_CRYPTO_ENCRYPTION_TYPE  Encryption;
+     DWORD                      dwTimeoutMinutes; 
+     DWORD                      dwTimeoutKBytes;   
+     DWORD                      dwP2CryptoSuiteFlags;
+ }FW_PHASE2_CRYPTO_SUITE, *PFW_PHASE2_CRYPTO_SUITE;
+  
+  
+ typedef enum _tag_FW_PHASE1_CRYPTO_FLAGS
+ {
+     FW_PHASE1_CRYPTO_FLAGS_NONE            = 0x00,
+     FW_PHASE1_CRYPTO_FLAGS_DO_NOT_SKIP_DH  = 0x01,
+     FW_PHASE1_CRYPTO_FLAGS_MAX             = 0x02
+ }FW_PHASE1_CRYPTO_FLAGS;
+  
+ typedef enum _tag_FW_PHASE2_CRYPTO_PFS
+ {
+     FW_PHASE2_CRYPTO_PFS_INVALID,
+     FW_PHASE2_CRYPTO_PFS_DISABLE,
+     FW_PHASE2_CRYPTO_PFS_PHASE1,
+     FW_PHASE2_CRYPTO_PFS_DH1,
+     FW_PHASE2_CRYPTO_PFS_DH2,
+     FW_PHASE2_CRYPTO_PFS_DH2048,
+     FW_PHASE2_CRYPTO_PFS_ECDH256,
+     FW_PHASE2_CRYPTO_PFS_ECDH384,    
+     FW_PHASE2_CRYPTO_PFS_DH24,
+     FW_PHASE2_CRYPTO_PFS_MAX,
+     FW_PHASE2_CRYPTO_PFS_MAX_V2_10 = FW_PHASE2_CRYPTO_PFS_DH24
+ }FW_PHASE2_CRYPTO_PFS;
+  
+ typedef struct _tag_FW_CRYPTO_SET
+ {
+     struct _tag_FW_CRYPTO_SET*  pNext;
+     WORD                wSchemaVersion;
+     [range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)]
+     FW_IPSEC_PHASE      IpSecPhase;
+     [string, range(1,255), ref]
+     WCHAR*              wszSetId;   // For phase 1 crypto, this MUST be set to FW_PHASE1_CRYPTO_SET (there can only be one phase 1 crypto set)
+                                     // For phase 2 crypto, set this to FW_DEFAULT_PHASE2_CRYPTO_SET to make it the default.
+  
+     [string, range(1,10001)]
+     WCHAR*              wszName;
+     [string, range(1,10001)]
+     WCHAR*              wszDescription;
+     [string, range(1,10001)]
+     WCHAR*              wszEmbeddedContext;
+  
+     [switch_type(FW_IPSEC_PHASE), switch_is(IpSecPhase)]
+     union
+     {
+         [case(FW_IPSEC_PHASE_1)]
+         struct
+         {
+             WORD                      wFlags;       // Bit-flags from FW_PHASE1_CRYPTO_FLAGS
+             [range(0, 10000)]
+             DWORD                     dwNumPhase1Suites;
+             [size_is(dwNumPhase1Suites)]
+             PFW_PHASE1_CRYPTO_SUITE   pPhase1Suites;
+             DWORD                     dwTimeOutMinutes;
+             DWORD                     dwTimeOutSessions;
+         };
+         [case(FW_IPSEC_PHASE_2)]
+         struct
+         {
+             FW_PHASE2_CRYPTO_PFS      Pfs;
+             [range(0, 10000)]
+             DWORD                     dwNumPhase2Suites;
+             [size_is(dwNumPhase2Suites)]
+             PFW_PHASE2_CRYPTO_SUITE   pPhase2Suites;
+         };
+     };
+     [range(FW_RULE_ORIGIN_INVALID, FW_RULE_ORIGIN_MAX-1)]
+     FW_RULE_ORIGIN_TYPE Origin;      //Rule origin, filled on enumerated rules. Ignored on input
+     [string, range(1,10001)]
+     WCHAR*              wszGPOName; //Name of originating GPO, if rule origin is GP.
+     FW_RULE_STATUS      Status;     //Parsing error if any, filled on return. On input, set this to FW_RULE_STATUS_OK 
+     DWORD               dwCryptoSetFlags; //flags from FW_CRYPTO_SET_FLAGS
+ }FW_CRYPTO_SET, *PFW_CRYPTO_SET;
+  
+  
+ /********************************************************
+  *                                                      *
+  *   SA structures (dynamic store only)                 *
+  *                                                      *
+  ********************************************************/
+  
+ typedef struct _tag_FW_BYTE_BLOB
+ {
+     [range(0, 10000)]
+     DWORD       dwSize;
+     [size_is(dwSize)]
+     BYTE*       Blob;
+ }FW_BYTE_BLOB, *PFW_BYTE_BLOB;
+  
+  
+ typedef struct _tag_FW_COOKIE_PAIR
+ {
+     UINT64      Initiator;
+     UINT64      Responder;
+ }FW_COOKIE_PAIR, *PFW_COOKIE_PAIR;
+  
+ typedef enum _tag_FW_PHASE1_KEY_MODULE_TYPE
+ {
+     FW_PHASE1_KEY_MODULE_INVALID,
+     FW_PHASE1_KEY_MODULE_IKE,
+     FW_PHASE1_KEY_MODULE_AUTH_IP,
+     FW_PHASE1_KEY_MODULE_MAX 
+ }FW_PHASE1_KEY_MODULE_TYPE;
+  
+ typedef struct _tag_FW_CERT_INFO
+ {
+     FW_BYTE_BLOB SubjectName;
+     [range(FW_AUTH_SUITE_FLAGS_NONE, FW_AUTH_SUITE_FLAGS_MAX-1)]
+     //only FW_AUTH_SUITE_FLAGS_HEALTH_CERT and/or FW_AUTH_SUITE_FLAGS_PERFORM_CERT_ACCOUNT_MAPPING will be set
+     DWORD        dwCertFlags;   //bit-flags from FW_AUTH_SUITE_FLAGS
+ }FW_CERT_INFO, *PFW_CERT_INFO;
+  
+ typedef struct _tag_FW_AUTH_INFO
+ {
+     [range(FW_AUTH_METHOD_INVALID + 1, FW_AUTH_METHOD_MAX)]
+     FW_AUTH_METHOD  AuthMethod;
+     [switch_type(FW_AUTH_METHOD), switch_is(AuthMethod)]
+     union
+     {
+         [case(FW_AUTH_METHOD_MACHINE_CERT,FW_AUTH_METHOD_USER_CERT)]
+         //for auth method = cert
+         struct
+         {
+             FW_CERT_INFO        MyCert;
+             FW_CERT_INFO        PeerCert;
+         };
+         [case(FW_AUTH_METHOD_MACHINE_KERB,FW_AUTH_METHOD_USER_KERB,
+               FW_AUTH_METHOD_MACHINE_RESERVED,FW_AUTH_METHOD_USER_RESERVED)]
+         //for auth_method = kerb
+         struct
+         {
+             [string, range(1,10001)]
+             WCHAR*       wszMyId;
+             [string, range(1,10001)]
+             WCHAR*       wszPeerId;
+         };
+         [default] 
+         ;
+     };
+     DWORD           dwAuthInfoFlags;    
+ }FW_AUTH_INFO, *PFW_AUTH_INFO;
+  
+ typedef struct _tag_FW_ENDPOINTS
+ {
+     [range(FW_IP_VERSION_INVALID+1, FW_IP_VERSION_MAX-1)]
+     FW_IP_VERSION  IpVersion;
+     DWORD          dwSourceV4Address;
+     DWORD          dwDestinationV4Address;
+     BYTE           SourceV6Address[16];
+     BYTE           DestinationV6Address[16];
+ }FW_ENDPOINTS, *PFW_ENDPOINTS;
+  
+ typedef struct _tag_FW_PHASE1_SA_DETAILS
+ {
+     UINT64                      SaId;
+     [range(FW_PHASE1_KEY_MODULE_INVALID+1, FW_PHASE1_KEY_MODULE_MAX-1)]
+     FW_PHASE1_KEY_MODULE_TYPE   KeyModuleType;    
+  
+     FW_ENDPOINTS                Endpoints; //0 = Any
+  
+     FW_PHASE1_CRYPTO_SUITE      SelectedProposal;
+     DWORD                       dwProposalLifetimeKBytes;       //currently not supported
+     DWORD                       dwProposalLifetimeMinutes;
+     DWORD                       dwProposalMaxNumPhase2;
+  
+     FW_COOKIE_PAIR              CookiePair;
+  
+     PFW_AUTH_INFO               pFirstAuth;     //First authentication - always present
+     PFW_AUTH_INFO               pSecondAuth;    //First authentication - may be NULL
+  
+     DWORD                       dwP1SaFlags;    // currently set to 0    
+ }FW_PHASE1_SA_DETAILS, *PFW_PHASE1_SA_DETAILS;
+  
+  
+ typedef enum _tag_FW_PHASE2_TRAFFIC_TYPE
+ {
+     FW_PHASE2_TRAFFIC_TYPE_INVALID,
+     FW_PHASE2_TRAFFIC_TYPE_TRANSPORT,
+     FW_PHASE2_TRAFFIC_TYPE_TUNNEL,
+     FW_PHASE2_TRAFFIC_TYPE_MAX
+ }FW_PHASE2_TRAFFIC_TYPE;
+  
+  
+ typedef struct _tag_FW_PHASE2_SA_DETAILS
+ {
+     UINT64              SaId;
+     [range(FW_DIR_INVALID+1, FW_DIR_MAX-1)]
+     FW_DIRECTION        Direction;
+    
+     FW_ENDPOINTS        Endpoints;   //0 = Any
+  
+     WORD                wLocalPort;  //0 = Any
+     WORD                wRemotePort; //0 = Any
+     WORD                wIpProtocol; //0-255 or FW_IP_PROTOCOL_ANY
+  
+     FW_PHASE2_CRYPTO_SUITE  SelectedProposal;
+     FW_PHASE2_CRYPTO_PFS    Pfs;
+     
+     GUID                TransportFilterId;
+  
+     DWORD               dwP2SaFlags;    // currently set to 0
+  
+ }FW_PHASE2_SA_DETAILS, *PFW_PHASE2_SA_DETAILS;
+  
+  
+  
+ typedef
+     [switch_type(FW_PROFILE_CONFIG)]
+ union   _FW_PROFILE_CONFIG_VALUE
+ {
+     [case(FW_PROFILE_CONFIG_LOG_FILE_PATH)]
+     [string, range(1,10001)]
+     WCHAR* wszStr;
+     [case(FW_PROFILE_CONFIG_DISABLED_INTERFACES)]
+     PFW_INTERFACE_LUIDS  pDisabledInterfaces;
+  
+     [case(FW_PROFILE_CONFIG_ENABLE_FW,
+         FW_PROFILE_CONFIG_DISABLE_STEALTH_MODE,
+         FW_PROFILE_CONFIG_SHIELDED,                           
+         FW_PROFILE_CONFIG_DISABLE_UNICAST_RESPONSES_TO_MULTICAST_BROADCAST,
+         FW_PROFILE_CONFIG_LOG_DROPPED_PACKETS,                
+         FW_PROFILE_CONFIG_LOG_SUCCESS_CONNECTIONS,            
+         FW_PROFILE_CONFIG_LOG_IGNORED_RULES,                  
+         FW_PROFILE_CONFIG_LOG_MAX_FILE_SIZE,                  
+         FW_PROFILE_CONFIG_DISABLE_INBOUND_NOTIFICATIONS,      
+         FW_PROFILE_CONFIG_AUTH_APPS_ALLOW_USER_PREF_MERGE,    
+         FW_PROFILE_CONFIG_GLOBAL_PORTS_ALLOW_USER_PREF_MERGE, 
+         FW_PROFILE_CONFIG_ALLOW_LOCAL_POLICY_MERGE,           
+         FW_PROFILE_CONFIG_ALLOW_LOCAL_IPSEC_POLICY_MERGE,     
+         FW_PROFILE_CONFIG_DEFAULT_OUTBOUND_ACTION,            
+         FW_PROFILE_CONFIG_DEFAULT_INBOUND_ACTION,
+         FW_PROFILE_CONFIG_DISABLE_STEALTH_MODE_IPSEC_SECURED_PACKET_EXEMPTION)]
+     DWORD*  pdwVal;
+ }FW_PROFILE_CONFIG_VALUE, *PFW_PROFILE_CONFIG_VALUE;    
+  
+  
+ /***********************************************************************
+  *                                                                     *
+  *   Main Mode Rule Structures                                         *
+  *                                                                     *
+  ***********************************************************************/
+  
+ typedef struct _tag_FW_MM_RULE
+ {
+     struct _tag_FW_MM_RULE *pNext;
+     WORD                wSchemaVersion;
+     [string, range(1,512), ref]
+     WCHAR*              wszRuleId;
+     [string, range(1,10001)]
+     WCHAR*              wszName;
+     [string, range(1,10001)]
+     WCHAR*              wszDescription;
+  
+     DWORD               dwProfiles;
+  
+     FW_ADDRESSES        Endpoint1;
+     FW_ADDRESSES        Endpoint2;
+     [string, range(1,255)]
+     WCHAR*              wszPhase1AuthSet;   // Set this to FW_DEFAULT_PHASE1_AUTH_SET to use the default
+     [string, range(1,255)]
+     WCHAR*              wszPhase1CryptoSet; // Set this to FW_DEFAULT_PHASE1_CRYPTO_SET to use the default
+     WORD                wFlags;            // Bit flags from FW_CS_RULE_FLAGS
+     [string, range(1,10001)]
+     WCHAR*              wszEmbeddedContext;
+     FW_OS_PLATFORM_LIST PlatformValidityList;
+     [range(FW_RULE_ORIGIN_INVALID, FW_RULE_ORIGIN_MAX-1)]
+     FW_RULE_ORIGIN_TYPE Origin;      //Rule origin, filled on enumerated rules. Ignored on input
+     [string, range(1,10001)]
+     WCHAR*              wszGPOName; //Name of originating GPO, if rule origin is GP.
+     FW_RULE_STATUS      Status;     //Parsing error if any, filled on return. On input, set this to FW_RULE_STATUS_OK
+     DWORD               Reserved;
+  
+     [size_is((Reserved & FW_OBJECT_CTRL_FLAG_INCLUDE_METADATA) ? 1 : 0)]
+     PFW_OBJECT_METADATA pMetaData;
+  
+ }FW_MM_RULE, *PFW_MM_RULE;
+  
+  
+ /***********************************************************************
+  *                                                                     *
+  *   Query Structures                                                  *
+  *                                                                     *
+  ***********************************************************************/
+  
+  
+ typedef enum _tag_FW_MATCH_KEY
+ {
+     FW_MATCH_KEY_PROFILE,
+     FW_MATCH_KEY_STATUS,
+     FW_MATCH_KEY_OBJECTID,
+     FW_MATCH_KEY_FILTERID,
+     FW_MATCH_KEY_APP_PATH, //The APP Path
+     FW_MATCH_KEY_PROTOCOL,
+     FW_MATCH_KEY_LOCAL_PORT,  
+     FW_MATCH_KEY_REMOTE_PORT,  
+     FW_MATCH_KEY_GROUP,
+     FW_MATCH_KEY_SVC_NAME,
+     FW_MATCH_KEY_DIRECTION,
+     FW_MATCH_KEY_LOCAL_USER_OWNER,
+     FW_MATCH_KEY_PACKAGE_ID,
+     FW_MATCH_KEY_FQBN,
+     FW_MATCH_KEY_COMPARTMENT_ID,
+ FW_MATCH_KEY_MAX
+ }FW_MATCH_KEY;
+  
+ typedef enum _tag_FW_DATA_TYPE
+ {
+     FW_DATA_TYPE_EMPTY,
+     FW_DATA_TYPE_UINT8,
+     FW_DATA_TYPE_UINT16,
+     FW_DATA_TYPE_UINT32,
+     FW_DATA_TYPE_UINT64,
+     FW_DATA_TYPE_UNICODE_STRING
+ }FW_DATA_TYPE;
+  
+ typedef struct _tag_FW_MATCH_VALUE
+ {
+     FW_DATA_TYPE type;
+     [switch_type(FW_DATA_TYPE), switch_is(type)]
+     union
+     {
+        [case(FW_DATA_TYPE_UINT8)]
+        UINT8 uInt8;
+        [case(FW_DATA_TYPE_UINT16)]
+        UINT16 uInt16;
+        [case(FW_DATA_TYPE_UINT32)]
+        UINT32 uInt32;
+        [case(FW_DATA_TYPE_UINT64)]
+        UINT64 uInt64;
+        [case(FW_DATA_TYPE_UNICODE_STRING)]
+        struct
+        {
+            [string, range(1,10001)]
+            LPWSTR wszString;
+        };
+  
+        [case(FW_DATA_TYPE_EMPTY)]
+        ;
+  
+     };
+ }FW_MATCH_VALUE;
+  
+ typedef enum _tag_FW_MATCH_TYPE
+ {
+     FW_MATCH_TYPE_TRAFFIC_MATCH,
+     FW_MATCH_TYPE_EQUAL,
+     FW_MATCH_TYPE_MAX
+ }FW_MATCH_TYPE;
+  
+ typedef struct _tag_FW_QUERY_CONDITION
+ {
+     FW_MATCH_KEY matchKey;
+     FW_MATCH_TYPE matchType;
+     FW_MATCH_VALUE matchValue;
+ }FW_QUERY_CONDITION, *PFW_QUERY_CONDITION;
+  
+ typedef struct _tag_FW_QUERY_CONDITIONS
+ {
+     DWORD dwNumEntries;
+     [size_is(dwNumEntries)]
+     FW_QUERY_CONDITION *AndedConditions;
+ }FW_QUERY_CONDITIONS, *PFW_QUERY_CONDITIONS;
+  
+  
+ typedef struct _tag_FW_QUERY
+ {
+     WORD   wSchemaVersion;
+     UINT32 dwNumEntries;
+     [size_is(dwNumEntries)]
+     FW_QUERY_CONDITIONS *ORConditions;
+  
+     FW_RULE_STATUS Status;
+ }FW_QUERY, *PFW_QUERY;
+  
+  
+  
+ cpp_quote("#endif //__FIREWALL_H_")
+  
+  
+ cpp_quote("#define MIDL_user_allocate MIDL_fw_allocate")
+ cpp_quote("#define MIDL_user_free MIDL_fw_free")
+ cpp_quote("void  * __RPC_USER MIDL_fw_allocate(size_t size);")
+ cpp_quote("void __RPC_USER MIDL_fw_free(void  * );")
+  
+  
+ [
+    uuid(6b5bdd1e-528c-422c-af8c-a4079be4fe48),
+    version(1.0),
+    pointer_default(unique)
+ ]
+ interface RemoteFW
+  
+  
+ {
+  
+ typedef 
+ handle_t FW_CONN_HANDLE;
+  
+  
+ typedef
+ [context_handle]
+ HANDLE FW_POLICY_STORE_HANDLE;
+  
+ typedef
+ [ref]
+ FW_POLICY_STORE_HANDLE *PFW_POLICY_STORE_HANDLE;
+  
+ typedef
+ [context_handle]
+ void* FW_PRODUCT_HANDLE;
+  
+  
+     DWORD
+     RRPC_FWOpenPolicyStore(
+         [in] FW_CONN_HANDLE                      rpcConnHandle,
+         [in] WORD                                BinaryVersion,
+         [in, range(FW_STORE_TYPE_INVALID+1, FW_STORE_TYPE_MAX-1)]       FW_STORE_TYPE                       StoreType, 
+         [in, range(FW_POLICY_ACCESS_RIGHT_INVALID+1, FW_POLICY_ACCESS_RIGHT_MAX-1)]  FW_POLICY_ACCESS_RIGHT AccessRight,
+         [in]  DWORD                              dwFlags,
+         [out] PFW_POLICY_STORE_HANDLE           phPolicyStore
+         );
+  
+  
+     DWORD 
+     RRPC_FWClosePolicyStore(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in, out] PFW_POLICY_STORE_HANDLE  phPolicyStore
+         );
+  
+  
+     DWORD
+     RRPC_FWRestoreDefaults([in] FW_CONN_HANDLE rpcConnHandle);
+  
+     DWORD 
+     RRPC_FWGetGlobalConfig(
+         [in] FW_CONN_HANDLE           rpcConnHandle,
+         [in] WORD                     BinaryVersion,
+         [in] FW_STORE_TYPE            StoreType,
+         [in, range(FW_GLOBAL_CONFIG_INVALID+1, FW_GLOBAL_CONFIG_MAX-1)]
+           FW_GLOBAL_CONFIG            configID, 
+         [in] DWORD                    dwFlags,            // Bit-wise combination of flags from FW_CONFIG_FLAGS
+         [in, out, unique, size_is(cbData), length_is(*pcbTransmittedLen)] 
+         BYTE*                       pBuffer, 
+         [in] DWORD                  cbData,
+         [in,out]  LPDWORD           pcbTransmittedLen,
+         [out] LPDWORD               pcbRequired
+         );
+  
+    DWORD 
+    RRPC_FWSetGlobalConfig(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] WORD                       BinaryVersion,
+         [in] FW_STORE_TYPE              StoreType,
+         [in, range(FW_GLOBAL_CONFIG_INVALID+1, FW_GLOBAL_CONFIG_MAX-1)] FW_GLOBAL_CONFIG              configID,
+         [in, unique, size_is(dwBufSize)] 
+          BYTE *                         lpBuffer,
+         [in, range(0, 10*1024)] DWORD dwBufSize
+         );
+  
+    DWORD 
+    RRPC_FWAddFirewallRule(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_0             pRule
+         );
+  
+     DWORD 
+     RRPC_FWSetFirewallRule(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_0             pRule
+         );
+  
+     DWORD 
+     RRPC_FWDeleteFirewallRule(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in, string, ref] LPCWSTR    wszRuleID
+         );
+  
+     DWORD 
+     RRPC_FWDeleteAllFirewallRules(
+         [in] FW_CONN_HANDLE         rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE hPolicyStore
+         );
+  
+     DWORD
+     RRPC_FWEnumFirewallRules(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore, 
+         [in] DWORD                   dwFilteredByStatus,
+         [in] DWORD                   dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                    wFlags,  // Bit-flags from ENUM_RULES_FLAGS
+         [out, ref] DWORD            *pdwNumRules,
+         [out] PFW_RULE2_0           *ppRules 
+         );
+  
+  
+     DWORD 
+     RRPC_FWGetConfig(
+         [in] FW_CONN_HANDLE           rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE   hPolicyStore,
+         [in, range(FW_PROFILE_CONFIG_ENABLE_FW, FW_PROFILE_CONFIG_MAX-1)] FW_PROFILE_CONFIG             configID, 
+         [in] FW_PROFILE_TYPE          Profile, 
+         [in] DWORD                    dwFlags,            // Bit-wise combination of flags from FW_CONFIG_FLAGS
+         [in, out, unique, size_is(cbData), length_is(*pcbTransmittedLen)] 
+         BYTE*                       pBuffer, 
+         [in] DWORD                  cbData,
+         [in,out]  LPDWORD           pcbTransmittedLen,
+         [out] LPDWORD               pcbRequired
+         );
+  
+     DWORD 
+     RRPC_FWSetConfig(
+         [in] FW_CONN_HANDLE            rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE    hPolicyStore,
+         [in, range(FW_PROFILE_CONFIG_ENABLE_FW, FW_PROFILE_CONFIG_MAX-1)] FW_PROFILE_CONFIG              configID,
+         [in] FW_PROFILE_TYPE          Profile, 
+         [in, switch_is(configID)] FW_PROFILE_CONFIG_VALUE  pConfig,
+         [in, range(0, 10*1024)] DWORD  dwBufSize
+         );
+  
+     DWORD
+     RRPC_FWAddConnectionSecurityRule(
+         [in]  FW_CONN_HANDLE              rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE      hPolicyStore,
+         [in] PFW_CS_RULE2_0              pRule
+         );
+  
+     DWORD
+     RRPC_FWSetConnectionSecurityRule(
+         [in] FW_CONN_HANDLE              rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE      hPolicyStore,
+         [in] PFW_CS_RULE2_0              pRule
+         );
+  
+     DWORD
+     RRPC_FWDeleteConnectionSecurityRule(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in, string, ref] LPWSTR        pRuleId
+         );
+  
+     DWORD
+     RRPC_FWDeleteAllConnectionSecurityRules(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore
+         );
+  
+     DWORD
+     RRPC_FWEnumConnectionSecurityRules(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] DWORD                   dwFilteredByStatus,// Bit-flags from FW_RULE_STATUS_CLASS
+         [in] DWORD                   dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                    wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD *           pdwNumRules,
+         [out] PFW_CS_RULE2_0*        ppRules
+         );
+  
+  
+     DWORD
+     RRPC_FWAddAuthenticationSet(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_AUTH_SET2_10       pAuth
+         );
+  
+     DWORD
+     RRPC_FWSetAuthenticationSet(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_AUTH_SET2_10       pAuth
+         );
+  
+     DWORD
+     RRPC_FWDeleteAuthenticationSet(
+         [in] FW_CONN_HANDLE            rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE    hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE            IpSecPhase,
+         [in, string, ref] LPCWSTR      wszSetId
+         );
+  
+     DWORD
+     RRPC_FWDeleteAllAuthenticationSets(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE          IpSecPhase
+         );
+  
+     DWORD
+     RRPC_FWEnumAuthenticationSets(
+         [in] FW_CONN_HANDLE            rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE    hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE            IpSecPhase,
+         [in] DWORD                     dwFilteredByStatus,// Bit-flags from FW_RULE_STATUS_CLASS
+         [in] WORD                      wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out] DWORD*                   pdwNumAuthSets,
+         [out] PFW_AUTH_SET2_10*       ppAuth
+         );
+  
+     DWORD
+     RRPC_FWAddCryptoSet(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_CRYPTO_SET     pCrypto
+         );
+  
+     DWORD
+     RRPC_FWSetCryptoSet(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_CRYPTO_SET          pCrypto
+         );
+  
+     DWORD
+     RRPC_FWDeleteCryptoSet(
+         [in] FW_CONN_HANDLE            rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE    hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE            IpSecPhase,
+         [in, string, ref] LPCWSTR      wszSetId
+         );
+  
+  
+     DWORD
+     RRPC_FWDeleteAllCryptoSets(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE          IpSecPhase
+         );
+  
+     DWORD
+     RRPC_FWEnumCryptoSets(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE             IpSecPhase,
+         [in] DWORD                      dwFilteredByStatus,// Bit-flags from FW_RULE_STATUS_CLASS
+         [in] WORD                       wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumSets,
+         [out] PFW_CRYPTO_SET*      ppCryptoSets
+         );
+  
+     DWORD
+     RRPC_FWEnumPhase1SAs(
+         [in] FW_CONN_HANDLE                   rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE           hPolicyStore,
+         [in,unique] PFW_ENDPOINTS             pEndpoints,   //NULL or empty implies all endpoints
+         [out,ref]  DWORD*                     pdwNumSAs,
+         [out,size_is( , *pdwNumSAs)]  PFW_PHASE1_SA_DETAILS*         ppSAs
+         );
+  
+     DWORD
+     RRPC_FWEnumPhase2SAs(
+         [in] FW_CONN_HANDLE                   rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE           hPolicyStore,
+         [in, unique] PFW_ENDPOINTS            pEndpoints,   //NULL or empty implies all endpoints
+         [out,ref]  DWORD*                     pdwNumSAs,
+         [out,size_is( , *pdwNumSAs)]  PFW_PHASE2_SA_DETAILS*         ppSAs
+         );
+  
+     DWORD
+     RRPC_FWDeletePhase1SAs(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in, unique]PFW_ENDPOINTS       pEndpoints  //NULL or empty implies all endpoints
+         );
+  
+     DWORD
+     RRPC_FWDeletePhase2SAs(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in, unique]PFW_ENDPOINTS       pEndpoints  //NULL or empty implies all endpoints
+         );
+  
+     DWORD 
+     RRPC_FWEnumProducts(
+        [in] FW_CONN_HANDLE rpcConnHandle,
+        [in] FW_POLICY_STORE_HANDLE hPolicyStore,
+        [out] DWORD* pdwNumProducts,
+        [out, size_is(,*pdwNumProducts)] PFW_PRODUCT* ppProducts
+        );
+  
+     DWORD
+     RRPC_FWAddMainModeRule(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_MM_RULE             pMMRule,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD
+     RRPC_FWSetMainModeRule(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_MM_RULE             pMMRule,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD
+     RRPC_FWDeleteMainModeRule(
+         [in] FW_CONN_HANDLE            rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE    hPolicyStore,
+         [in, string, ref] LPWSTR       pRuleId
+         );
+  
+     DWORD
+     RRPC_FWDeleteAllMainModeRules(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore
+         );
+  
+     DWORD
+     RRPC_FWEnumMainModeRules(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in] DWORD                      dwFilteredByStatus,// Bit-flags from FW_RULE_STATUS_CLASS
+         [in] DWORD                      dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                       wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumRules,
+         [out] PFW_MM_RULE  *            ppMMRules
+         );
+  
+     DWORD
+     RRPC_FWQueryFirewallRules(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in] PFW_QUERY                  pQuery,            // Query selecting the rules to return
+         [in] WORD                       wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumRules,
+         [out] PFW_RULE2_10  *           ppRules
+         );
+  
+     DWORD
+     RRPC_FWQueryConnectionSecurityRules2_10(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in] PFW_QUERY                  pQuery,            // Query selecting the rules to return
+         [in] WORD                       wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumRules,
+         [out] PFW_CS_RULE2_10  *        ppRules
+         );
+  
+     DWORD
+     RRPC_FWQueryMainModeRules(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in] PFW_QUERY                  pQuery,            // Query selecting the rules to return
+         [in] WORD                       wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumRules,
+         [out] PFW_MM_RULE  *            ppMMRules
+         );
+  
+     DWORD
+     RRPC_FWQueryAuthenticationSets(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE             IPsecPhase,
+         [in] PFW_QUERY                  pQuery,            // Query selecting the rules to return
+         [in] WORD                       wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumSets,
+         [out] PFW_AUTH_SET2_10 *            ppAuthSets
+         );
+  
+     DWORD
+     RRPC_FWQueryCryptoSets(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE             IPsecPhase,
+         [in] PFW_QUERY                  pQuery,            // Query selecting the rules to return
+         [in] WORD                       wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumSets,
+         [out] PFW_CRYPTO_SET *          ppCryptoSets
+         );
+  
+     DWORD 
+     RRPC_FWEnumNetworks(
+        [in] FW_CONN_HANDLE rpcConnHandle,
+        [in] FW_POLICY_STORE_HANDLE hPolicyStore,
+        [out] DWORD* pdwNumNetworks,
+        [out, size_is(,*pdwNumNetworks)] PFW_NETWORK* ppNetworks
+        );
+  
+     DWORD 
+     RRPC_FWEnumAdapters(
+        [in] FW_CONN_HANDLE rpcConnHandle,
+        [in] FW_POLICY_STORE_HANDLE hPolicyStore,
+        [out] DWORD* pdwNumAdapters,
+        [out, size_is(,*pdwNumAdapters)] PFW_ADAPTER* ppAdapters
+        );
+  
+     DWORD 
+     RRPC_FWGetGlobalConfig2_10(
+         [in] FW_CONN_HANDLE           rpcConnHandle,
+         [in] WORD                     BinaryVersion,
+         [in] FW_STORE_TYPE            StoreType,
+         [in, range(FW_GLOBAL_CONFIG_INVALID+1, FW_GLOBAL_CONFIG_MAX-1)]
+           FW_GLOBAL_CONFIG            configID, 
+         [in] DWORD                    dwFlags,            // Bit-wise combination of flags from FW_CONFIG_FLAGS
+         [in, out, unique, size_is(cbData), length_is(*pcbTransmittedLen)] 
+         BYTE*                       pBuffer, 
+         [in] DWORD                  cbData,
+         [in,out]  LPDWORD           pcbTransmittedLen,
+         [out] LPDWORD               pcbRequired,
+         [out] FW_RULE_ORIGIN_TYPE * pOrigin
+         );
+  
+  
+     DWORD 
+     RRPC_FWGetConfig2_10(
+         [in] FW_CONN_HANDLE           rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE   hPolicyStore,
+         [in, range(FW_PROFILE_CONFIG_ENABLE_FW, FW_PROFILE_CONFIG_MAX-1)] FW_PROFILE_CONFIG             configID, 
+         [in] FW_PROFILE_TYPE          Profile, 
+         [in] DWORD                    dwFlags,            // Bit-wise combination of flags from FW_CONFIG_FLAGS
+         [in, out, unique, size_is(cbData), length_is(*pcbTransmittedLen)] 
+         BYTE*                       pBuffer, 
+         [in] DWORD                  cbData,
+         [in,out]  LPDWORD           pcbTransmittedLen,
+         [out] LPDWORD               pcbRequired,
+         [out] FW_RULE_ORIGIN_TYPE * pOrigin
+         );
+  
+    DWORD 
+    RRPC_FWAddFirewallRule2_10(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_10            pRule,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD 
+     RRPC_FWSetFirewallRule2_10(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_10            pRule,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD
+     RRPC_FWEnumFirewallRules2_10(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore, 
+         [in] DWORD                   dwFilteredByStatus,
+         [in] DWORD                   dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                    wFlags,  // Bit-flags from ENUM_RULES_FLAGS
+         [out, ref] DWORD            *pdwNumRules,
+         [out] PFW_RULE2_10          *ppRules 
+         );
+  
+     DWORD
+     RRPC_FWAddConnectionSecurityRule2_10(
+         [in] FW_CONN_HANDLE              rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE      hPolicyStore,
+         [in] PFW_CS_RULE2_10             pRule,
+         [out] FW_RULE_STATUS *           pStatus
+         );
+  
+     DWORD
+     RRPC_FWSetConnectionSecurityRule2_10(
+         [in] FW_CONN_HANDLE              rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE      hPolicyStore,
+         [in] PFW_CS_RULE2_10             pRule,
+         [out] FW_RULE_STATUS *           pStatus
+         );
+  
+     DWORD
+     RRPC_FWEnumConnectionSecurityRules2_10(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] DWORD                   dwFilteredByStatus,// Bit-flags from FW_RULE_STATUS_CLASS
+         [in] DWORD                   dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                    wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD *           pdwNumRules,
+         [out] PFW_CS_RULE2_10*       ppRules
+         );
+  
+     DWORD
+     RRPC_FWAddAuthenticationSet2_10(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_AUTH_SET2_10            pAuth,
+         [out] FW_RULE_STATUS *       pStatus
+  
+         );
+  
+     DWORD
+     RRPC_FWSetAuthenticationSet2_10(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_AUTH_SET2_10            pAuth,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD
+     RRPC_FWEnumAuthenticationSets2_10(
+         [in] FW_CONN_HANDLE            rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE    hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE            IpSecPhase,
+         [in] DWORD                     dwFilteredByStatus,// Bit-flags from FW_RULE_STATUS_CLASS
+         [in] WORD                      wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out] DWORD*                   pdwNumAuthSets,
+         [out] PFW_AUTH_SET2_10*        ppAuth
+         );
+  
+     DWORD
+     RRPC_FWAddCryptoSet2_10(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_CRYPTO_SET          pCrypto,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD
+     RRPC_FWSetCryptoSet2_10(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_CRYPTO_SET          pCrypto,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD
+     RRPC_FWEnumCryptoSets2_10(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE             IpSecPhase,
+         [in] DWORD                      dwFilteredByStatus,// Bit-flags from FW_RULE_STATUS_CLASS
+         [in] WORD                       wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumSets,
+         [out] PFW_CRYPTO_SET*      ppCryptoSets
+         );
+  
+  
+     DWORD
+     RRPC_FWAddConnectionSecurityRule2_20(
+         [in] FW_CONN_HANDLE              rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE      hPolicyStore,
+         [in] PFW_CS_RULE                 pRule,
+         [out] FW_RULE_STATUS *           pStatus
+         );
+  
+     DWORD
+     RRPC_FWSetConnectionSecurityRule2_20(
+         [in] FW_CONN_HANDLE              rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE      hPolicyStore,
+         [in] PFW_CS_RULE                 pRule,
+         [out] FW_RULE_STATUS *           pStatus
+         );
+  
+     DWORD
+     RRPC_FWEnumConnectionSecurityRules2_20(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] DWORD                   dwFilteredByStatus,// Bit-flags from FW_RULE_STATUS_CLASS
+         [in] DWORD                   dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                    wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD *           pdwNumRules,
+         [out] PFW_CS_RULE*           ppRules
+         );
+  
+     DWORD
+     RRPC_FWQueryConnectionSecurityRules2_20(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in] PFW_QUERY                  pQuery,            // Query selecting the rules to return
+         [in] WORD                       wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumRules,
+         [out] PFW_CS_RULE  *            ppRules
+         );
+  
+     DWORD
+     RRPC_FWAddAuthenticationSet2_20(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_AUTH_SET            pAuth,
+         [out] FW_RULE_STATUS *       pStatus
+  
+         );
+  
+     DWORD
+     RRPC_FWSetAuthenticationSet2_20(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_AUTH_SET            pAuth,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD
+     RRPC_FWEnumAuthenticationSets2_20(
+         [in] FW_CONN_HANDLE            rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE    hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE            IpSecPhase,
+         [in] DWORD                     dwFilteredByStatus,// Bit-flags from FW_RULE_STATUS_CLASS
+         [in] WORD                      wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out] DWORD*                   pdwNumAuthSets,
+         [out] PFW_AUTH_SET*       ppAuth
+         );
+  
+     DWORD
+     RRPC_FWQueryAuthenticationSets2_20(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in, range(FW_IPSEC_PHASE_INVALID+1, FW_IPSEC_PHASE_MAX-1)] FW_IPSEC_PHASE             IPsecPhase,
+         [in] PFW_QUERY                  pQuery,            // Query selecting the rules to return
+         [in] WORD                       wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumSets,
+         [out] PFW_AUTH_SET*            ppAuthSets
+         );
+  
+    DWORD 
+    RRPC_FWAddFirewallRule2_20(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_20            pRule,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD 
+     RRPC_FWSetFirewallRule2_20(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_20            pRule,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD
+     RRPC_FWEnumFirewallRules2_20(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore, 
+         [in] DWORD                   dwFilteredByStatus,
+         [in] DWORD                   dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                    wFlags,  // Bit-flags from ENUM_RULES_FLAGS
+         [out, ref] DWORD            *pdwNumRules,
+         [out] PFW_RULE2_20          *ppRules 
+         );
+  
+     DWORD
+     RRPC_FWQueryFirewallRules2_20(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in] PFW_QUERY                  pQuery,            // Query selecting the rules to return
+         [in] WORD                       wFlags,            // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumRules,
+         [out] PFW_RULE2_20  *           ppRules
+         );
+  
+    DWORD 
+    RRPC_FWAddFirewallRule2_24(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_24            pRule,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD 
+     RRPC_FWSetFirewallRule2_24(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_24            pRule,
+         [out] FW_RULE_STATUS *       pStatus
+         );
+  
+     DWORD
+     RRPC_FWEnumFirewallRules2_24(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore, 
+         [in] DWORD                   dwFilteredByStatus,
+         [in] DWORD                   dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                    wFlags,  // Bit-flags from ENUM_RULES_FLAGS
+         [out, ref] DWORD            *pdwNumRules,
+         [out] PFW_RULE2_24          *ppRules 
+         );
+  
+     DWORD
+     RRPC_FWQueryFirewallRules2_24(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in] PFW_QUERY                  pQuery,      // Query selecting the rules to return
+         [in] WORD                       wFlags,      // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumRules,
+         [out] PFW_RULE2_24*             ppRules
+         );
+  
+    DWORD 
+    RRPC_FWAddFirewallRule2_25(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_25            pRule,
+         [out] FW_RULE_STATUS*        pStatus
+         );
+  
+     DWORD 
+     RRPC_FWSetFirewallRule2_25(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_25            pRule,
+         [out] FW_RULE_STATUS*        pStatus
+         );
+  
+     DWORD
+     RRPC_FWEnumFirewallRules2_25(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore, 
+         [in] DWORD                   dwFilteredByStatus,
+         [in] DWORD                   dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                    wFlags,  // Bit-flags from ENUM_RULES_FLAGS
+         [out, ref] DWORD*            pdwNumRules,
+         [out] PFW_RULE2_25*          ppRules 
+         );
+  
+     DWORD
+     RRPC_FWQueryFirewallRules2_25(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in] PFW_QUERY                  pQuery,       // Query selecting the rules to return
+         [in] WORD                       wFlags,       // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumRules,
+         [out] PFW_RULE2_25*             ppRules
+         );
+  
+    DWORD 
+    RRPC_FWAddFirewallRule2_26(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_26            pRule,
+         [out] FW_RULE_STATUS*        pStatus
+         );
+  
+  
+     DWORD 
+     RRPC_FWSetFirewallRule2_26(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore,
+         [in] PFW_RULE2_26            pRule,
+         [out] FW_RULE_STATUS*        pStatus
+         );
+  
+     DWORD
+     RRPC_FWEnumFirewallRules2_26(
+         [in] FW_CONN_HANDLE          rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE  hPolicyStore, 
+         [in] DWORD                   dwFilteredByStatus,
+         [in] DWORD                   dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                    wFlags,  // Bit-flags from ENUM_RULES_FLAGS
+         [out, ref] DWORD            *pdwNumRules,
+         [out] PFW_RULE2_26          *ppRules 
+         );
+  
+     DWORD
+     RRPC_FWQueryFirewallRules2_26(
+         [in] FW_CONN_HANDLE             rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE     hPolicyStore,
+         [in] PFW_QUERY                  pQuery,       // Query selecting the rules to return
+         [in] WORD                       wFlags,       // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*               pdwNumRules,
+         [out] PFW_RULE2_26*             ppRules
+         );
+  
+     DWORD 
+     RRPC_FWAddFirewallRule2_27(
+         [in] FW_CONN_HANDLE            rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE    hPolicyStore,
+         [in] PFW_RULE2_27              pRule,
+         [out] FW_RULE_STATUS*          pStatus
+         );
+  
+      DWORD 
+      RRPC_FWSetFirewallRule2_27(
+         [in] FW_CONN_HANDLE            rpcConnHandle,
+         [in]  FW_POLICY_STORE_HANDLE   hPolicyStore,
+         [in]  PFW_RULE2_27             pRule,
+         [out] FW_RULE_STATUS*          pStatus
+         );
+  
+      DWORD
+      RRPC_FWEnumFirewallRules2_27(
+         [in] FW_CONN_HANDLE           rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE   hPolicyStore, 
+         [in] DWORD                    dwFilteredByStatus,
+         [in] DWORD                    dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                     wFlags,  // Bit-flags from ENUM_RULES_FLAGS
+         [out, ref] DWORD*             pdwNumRules,
+         [out] PFW_RULE2_27*           ppRules 
+         );
+  
+     DWORD
+     RRPC_FWQueryFirewallRules2_27(
+         [in] FW_CONN_HANDLE           rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE   hPolicyStore,
+         [in] PFW_QUERY                pQuery,       // Query selecting the rules to return
+         [in] WORD                     wFlags,       // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*             pdwNumRules,
+         [out] PFW_RULE2_27*           ppRules
+         );
+     DWORD 
+     RRPC_FWAddFirewallRule2_31(
+         [in]  FW_CONN_HANDLE           rpcConnHandle,
+         [in]  FW_POLICY_STORE_HANDLE   hPolicyStore,
+         [in]  PFW_RULE                 pRule,
+         [out] FW_RULE_STATUS*          pStatus
+         );
+  
+      DWORD 
+      RRPC_FWSetFirewallRule2_31(
+         [in]  FW_CONN_HANDLE           rpcConnHandle,
+         [in]  FW_POLICY_STORE_HANDLE   hPolicyStore,
+         [in]  PFW_RULE                 pRule,
+         [out] FW_RULE_STATUS*          pStatus
+         );
+  
+      DWORD
+      RRPC_FWEnumFirewallRules2_31(
+         [in] FW_CONN_HANDLE           rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE   hPolicyStore, 
+         [in] DWORD                    dwFilteredByStatus,
+         [in] DWORD                    dwProfileFilter,    // Bit-flags from FW_PROFILE_TYPE
+         [in] WORD                     wFlags,  // Bit-flags from ENUM_RULES_FLAGS
+         [out, ref] DWORD*             pdwNumRules,
+         [out] PFW_RULE*               ppRules 
+         );
+  
+     DWORD
+     RRPC_FWQueryFirewallRules2_31(
+         [in] FW_CONN_HANDLE           rpcConnHandle,
+         [in] FW_POLICY_STORE_HANDLE   hPolicyStore,
+         [in] PFW_QUERY                pQuery,       // Query selecting the rules to return
+         [in] WORD                     wFlags,       // Bit-flags from FW_ENUM_RULES_FLAGS
+         [out, ref] DWORD*             pdwNumRules,
+         [out] PFW_RULE*               ppRules
+         );}

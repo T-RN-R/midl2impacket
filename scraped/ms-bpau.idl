@@ -1,3 +1,10 @@
+/*
+File: ms-bpau.idl
+Protocol: [MS-BPAU]: Background Intelligent Transfer Service (BITS) Peer-Caching: Peer Authentication Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-bpau/723a0a96-2855-402f-a7d5-d97703edb353
+Retrieval Date: Wed Aug 11 14:16:07 2021
+*/
+
  import "ms-dtyp.idl";
  [
    uuid(e3d0d746-d2af-40fd-8a7a-0d7078bb7092), version(1.0),

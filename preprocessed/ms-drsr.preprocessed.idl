@@ -1190,3 +1190,332 @@
  typedef [switch_type(DWORD)] union {
      [case(1)] DRS_MSG_ADDCLONEDCREPLY_V1 V1;
  } DRS_MSG_ADDCLONEDCREPLY;
+ typedef struct _DRS_MSG_WRITENGCKEYREQ_V1{
+   [string] const WCHAR* pwszAccount;
+   [range(0,0xFFFF)] DWORD cNgcKey;
+   [size_is(cNgcKey)] UCHAR * pNgcKey;
+ } DRS_MSG_WRITENGCKEYREQ_V1;
+ typedef
+ [switch_type(DWORD)]
+ union {
+   [case(1)]
+     DRS_MSG_WRITENGCKEYREQ_V1 V1;
+ } DRS_MSG_WRITENGCKEYREQ;
+ typedef struct _DRS_MSG_WRITENGCKEYREPLY_V1{
+   DWORD retVal;
+ } DRS_MSG_WRITENGCKEYREPLY_V1;
+ typedef
+ [switch_type(DWORD)]
+ union {
+   [case(1)]
+     DRS_MSG_WRITENGCKEYREPLY_V1 V1;
+ } DRS_MSG_WRITENGCKEYREPLY;
+ typedef struct _DRS_MSG_READNGCKEYREQ_V1{
+   [string] const WCHAR* pwszAccount;
+ } DRS_MSG_READNGCKEYREQ_V1;
+ typedef
+ [switch_type(DWORD)]
+ union {
+   [case(1)]
+     DRS_MSG_READNGCKEYREQ_V1 V1;
+ } DRS_MSG_READNGCKEYREQ;
+ typedef struct _DRS_MSG_READNGCKEYREPLY_V1{
+   DWORD retVal;
+   [range(0,0xFFFF)] DWORD cNgcKey;
+   [size_is(cNgcKey)] UCHAR * pNgcKey;
+ } DRS_MSG_READNGCKEYREPLY_V1;
+ typedef
+ [switch_type(DWORD)]
+ union {
+   [case(1)]
+     DRS_MSG_READNGCKEYREPLY_V1 V1;
+ } DRS_MSG_READNGCKEYREPLY;
+ ULONG
+ IDL_DRSBind(
+     [in] handle_t rpc_handle,
+     [in, unique] UUID *puuidClientDsa,
+     [in, unique] DRS_EXTENSIONS *pextClient,
+     [out] DRS_EXTENSIONS **ppextServer,
+     [out, ref] DRS_HANDLE *phDrs);
+ ULONG
+ IDL_DRSUnbind(
+     [in, out, ref] DRS_HANDLE *phDrs);
+ ULONG
+ IDL_DRSReplicaSync(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwVersion,
+     [in, ref, switch_is(dwVersion)] DRS_MSG_REPSYNC *pmsgSync);
+ ULONG
+ IDL_DRSGetNCChanges(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_GETCHGREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_GETCHGREPLY *pmsgOut);
+ ULONG
+ IDL_DRSUpdateRefs(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwVersion,
+     [in, ref, switch_is(dwVersion)] DRS_MSG_UPDREFS *pmsgUpdRefs);
+ ULONG
+ IDL_DRSReplicaAdd(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwVersion,
+     [in, ref, switch_is(dwVersion)] DRS_MSG_REPADD *pmsgAdd);
+ ULONG
+ IDL_DRSReplicaDel(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwVersion,
+     [in, ref, switch_is(dwVersion)] DRS_MSG_REPDEL *pmsgDel);
+ ULONG
+ IDL_DRSReplicaModify(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwVersion,
+     [in, ref, switch_is(dwVersion)] DRS_MSG_REPMOD *pmsgMod);
+ ULONG
+ IDL_DRSVerifyNames(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_VERIFYREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_VERIFYREPLY *pmsgOut);
+ ULONG
+ IDL_DRSGetMemberships(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_REVMEMB_REQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+          DRS_MSG_REVMEMB_REPLY *pmsgOut);
+ ULONG
+ IDL_DRSInterDomainMove(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_MOVEREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)] DRS_MSG_MOVEREPLY *pmsgOut);
+ ULONG
+ IDL_DRSGetNT4ChangeLog(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_NT4_CHGLOG_REQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_NT4_CHGLOG_REPLY *pmsgOut);
+ ULONG
+ IDL_DRSCrackNames(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_CRACKREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_CRACKREPLY *pmsgOut);
+ ULONG
+ IDL_DRSWriteSPN(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_SPNREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)] DRS_MSG_SPNREPLY *pmsgOut);
+ ULONG
+ IDL_DRSRemoveDsServer(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_RMSVRREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_RMSVRREPLY *pmsgOut);
+ ULONG
+ IDL_DRSRemoveDsDomain(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_RMDMNREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_RMDMNREPLY *pmsgOut);
+ ULONG
+ IDL_DRSDomainControllerInfo(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_DCINFOREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_DCINFOREPLY *pmsgOut);
+ ULONG
+ IDL_DRSAddEntry(
+     [in, ref]  DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)]  DRS_MSG_ADDENTRYREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_ADDENTRYREPLY *pmsgOut);
+ ULONG
+ IDL_DRSExecuteKCC(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_KCC_EXECUTE *pmsgIn);
+ ULONG
+ IDL_DRSGetReplInfo(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_GETREPLINFO_REQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_GETREPLINFO_REPLY *pmsgOut);
+ ULONG
+ IDL_DRSAddSidHistory(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_ADDSIDREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_ADDSIDREPLY *pmsgOut);
+ ULONG
+ IDL_DRSGetMemberships2(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)]
+         DRS_MSG_GETMEMBERSHIPS2_REQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_GETMEMBERSHIPS2_REPLY *pmsgOut);
+ ULONG
+ IDL_DRSReplicaVerifyObjects(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwVersion,
+     [in, ref, switch_is(dwVersion)] DRS_MSG_REPVERIFYOBJ *pmsgVerify);
+ ULONG
+ IDL_DRSGetObjectExistence (
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_EXISTREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_EXISTREPLY *pmsgOut);
+ ULONG
+ IDL_DRSQuerySitesByCost(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)] DRS_MSG_QUERYSITESREQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_QUERYSITESREPLY *pmsgOut);
+ ULONG
+ IDL_DRSInitDemotion(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)]
+         DRS_MSG_INIT_DEMOTIONREQ* pmsgIn,
+     [out, ref] DWORD* pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_INIT_DEMOTIONREPLY* pmsgOut);
+ ULONG
+ IDL_DRSReplicaDemotion(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)]
+         DRS_MSG_REPLICA_DEMOTIONREQ* pmsgIn,
+     [out, ref] DWORD* pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_REPLICA_DEMOTIONREPLY* pmsgOut);
+ ULONG
+ IDL_DRSFinishDemotion(
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)]
+         DRS_MSG_FINISH_DEMOTIONREQ* pmsgIn,
+     [out, ref] DWORD* pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_FINISH_DEMOTIONREPLY* pmsgOut);
+ ULONG
+ IDL_DRSAddCloneDC (
+     [in, ref] DRS_HANDLE hDrs,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)]
+         DRS_MSG_ADDCLONEDCREQ* pmsgIn,
+     [out, ref] DWORD * pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DRS_MSG_ADDCLONEDCREPLY* pmsgOut
+  );
+  ULONG
+  IDL_DRSWriteNgcKey(
+    [in, ref] DRS_HANDLE hDrs,
+    [in] DWORD dwInVersion,
+    [in, ref, switch_is(dwInVersion)]
+      DRS_MSG_WRITENGCKEYREQ* pmsgIn,
+    [out, ref] DWORD* pdwOutVersion,
+    [out, ref, switch_is(*pdwOutVersion)]
+      DRS_MSG_WRITENGCKEYREPLY* pmsgOut
+  );
+  ULONG
+  IDL_DRSReadNgcKey(
+    [in, ref] DRS_HANDLE hDrs,
+    [in] DWORD dwInVersion,
+    [in, ref, switch_is(dwInVersion)]
+      DRS_MSG_READNGCKEYREQ* pmsgIn,
+    [out, ref] DWORD* pdwOutVersion,
+    [out, ref, switch_is(*pdwOutVersion)]
+      DRS_MSG_READNGCKEYREPLY* pmsgOut
+  );
+ }
+ [
+     uuid(7c44d7d4-31d5-424c-bd5e-2b3e1f323d22), version(1.0),
+     pointer_default (unique)
+ ]
+ interface dsaop
+ {
+ typedef struct {
+     DWORD Flags;
+     [range(1,1024)] DWORD cbPassword;
+     [size_is(cbPassword)] BYTE *pbPassword;
+ } DSA_MSG_EXECUTE_SCRIPT_REQ_V1;
+ typedef [switch_type(DWORD)] union {
+     [case(1)] DSA_MSG_EXECUTE_SCRIPT_REQ_V1 V1;
+ } DSA_MSG_EXECUTE_SCRIPT_REQ;
+ typedef struct {
+     DWORD dwOperationStatus;
+     [string] LPWSTR pwErrMessage;
+ } DSA_MSG_EXECUTE_SCRIPT_REPLY_V1;
+ typedef [switch_type(DWORD)] union {
+     [case(1)] DSA_MSG_EXECUTE_SCRIPT_REPLY_V1 V1;
+ } DSA_MSG_EXECUTE_SCRIPT_REPLY;
+ typedef struct {
+     DWORD Reserved;
+ } DSA_MSG_PREPARE_SCRIPT_REQ_V1;
+ typedef [switch_type(DWORD)] union {
+     [case(1)] DSA_MSG_PREPARE_SCRIPT_REQ_V1 V1;
+ } DSA_MSG_PREPARE_SCRIPT_REQ;
+ typedef struct {
+     DWORD dwOperationStatus;
+     [string] LPWSTR pwErrMessage;
+     [range(0,1024)] DWORD cbPassword;
+     [size_is(cbPassword)] BYTE *pbPassword;
+     [range(0,10485760)] DWORD cbHashBody;
+     [size_is(cbHashBody)] BYTE *pbHashBody;
+     [range(0,10485760)] DWORD cbHashSignature;
+     [size_is(cbHashSignature)] BYTE *pbHashSignature;
+ } DSA_MSG_PREPARE_SCRIPT_REPLY_V1;
+ typedef [switch_type(DWORD)] union {
+     [case(1)] DSA_MSG_PREPARE_SCRIPT_REPLY_V1 V1;
+ } DSA_MSG_PREPARE_SCRIPT_REPLY;
+ ULONG
+ IDL_DSAPrepareScript(
+     [in] handle_t hRpc,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)]
+         DSA_MSG_PREPARE_SCRIPT_REQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DSA_MSG_PREPARE_SCRIPT_REPLY *pmsgOut);
+ ULONG
+ IDL_DSAExecuteScript(
+     [in] handle_t hRpc,
+     [in] DWORD dwInVersion,
+     [in, ref, switch_is(dwInVersion)]
+         DSA_MSG_EXECUTE_SCRIPT_REQ *pmsgIn,
+     [out, ref] DWORD *pdwOutVersion,
+     [out, ref, switch_is(*pdwOutVersion)]
+         DSA_MSG_EXECUTE_SCRIPT_REPLY *pmsgOut);
+ }

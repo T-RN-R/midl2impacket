@@ -1,3 +1,10 @@
+/*
+File: ms-gkdi.idl
+Protocol: [MS-GKDI]: Group Key Distribution Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gkdi/441a75fd-ab11-478c-881a-332e6f3a4bf7
+Retrieval Date: Wed Aug 11 14:19:40 2021
+*/
+
  import "ms-dtyp.idl";
  [uuid(b9785960-524f-11df-8b6d-83dcded72085)]
  [version(1.0)]

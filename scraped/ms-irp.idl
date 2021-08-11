@@ -1,3 +1,10 @@
+/*
+File: ms-irp.idl
+Protocol: [MS-IRP]: Internet Information Services (IIS) Inetinfo Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-irp/ed7e5940-9700-4a1f-8555-de29f99fe115
+Retrieval Date: Wed Aug 11 14:20:50 2021
+*/
+
  import "ms-dtyp.idl";
   
  [

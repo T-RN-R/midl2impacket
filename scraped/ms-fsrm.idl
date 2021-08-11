@@ -1,3 +1,10 @@
+/*
+File: ms-fsrm.idl
+Protocol: [MS-FSRM]: File Server Resource Manager Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-fsrm/34e0b65c-aa84-464a-8e3a-96caaa25ce4e
+Retrieval Date: Wed Aug 11 14:19:31 2021
+*/
+
  import "ms-dtyp.idl";
  import "ms-oaut.idl";
   

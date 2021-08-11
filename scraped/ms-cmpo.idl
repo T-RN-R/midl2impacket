@@ -1,3 +1,10 @@
+/*
+File: ms-cmpo.idl
+Protocol: [MS-CMPO]: MSDTC Connection Manager: OleTx Transports Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-cmpo/3a4677f0-9aef-41f9-9bca-f9c2469cefa6
+Retrieval Date: Wed Aug 11 14:16:36 2021
+*/
+
     import "ms-dtyp.idl";
   
     [

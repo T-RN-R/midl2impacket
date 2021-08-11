@@ -1,3 +1,10 @@
+/*
+File: ms-oaut.idl
+Protocol: [MS-OAUT]: OLE Automation Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-oaut/b37f57b1-ac27-4bdf-9cf0-5b8ecccb65af
+Retrieval Date: Wed Aug 11 14:22:48 2021
+*/
+
  import "ms-dtyp.idl";
  import "ms-dcom.idl";
   

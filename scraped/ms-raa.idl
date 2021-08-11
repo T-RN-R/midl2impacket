@@ -1,3 +1,10 @@
+/*
+File: ms-raa.idl
+Protocol: [MS-RAA]: Remote Authorization API Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-raa/0cae6068-686e-4f85-b064-7ba70d47da44
+Retrieval Date: Wed Aug 11 14:23:55 2021
+*/
+
  import "ms-dtyp.idl";
   
  [uuid(0b1c2170-5732-4e0e-8cd3-d9b16f3b84d7)]

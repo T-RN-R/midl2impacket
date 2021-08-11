@@ -1,3 +1,10 @@
+/*
+File: ms-dssp.idl
+Protocol: [MS-DSSP]: Directory Services Setup Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dssp/ae6edaa5-b40e-4cc9-9ebc-42cc657ce61e
+Retrieval Date: Wed Aug 11 14:18:11 2021
+*/
+
  import "ms-dtyp.idl";
   [
      uuid(3919286a-b10c-11d0-9ba8-00c04fd92ef5),

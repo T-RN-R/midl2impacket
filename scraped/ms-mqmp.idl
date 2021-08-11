@@ -1,3 +1,10 @@
+/*
+File: ms-mqmp.idl
+Protocol: [MS-MQMP]: Message Queuing (MSMQ): Queue Manager Client Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-mqmp/a54c09de-1d72-47f0-9184-d7e5046b2ba1
+Retrieval Date: Wed Aug 11 14:21:41 2021
+*/
+
  // Please refer to [MS-MQMQ] for definitions of the 
  // following types:
   

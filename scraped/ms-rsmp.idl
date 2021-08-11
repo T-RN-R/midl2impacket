@@ -1,3 +1,10 @@
+/*
+File: ms-rsmp.idl
+Protocol: [MS-RSMP]: Removable Storage Manager (RSM) Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-rsmp/dfde19fd-51a5-4921-a154-8e228eaea4d6
+Retrieval Date: Wed Aug 11 14:25:40 2021
+*/
+
  import "ms-dtyp.idl";
   
   
