@@ -1,15 +1,31 @@
 from base import Visitable, Visitor
-
+import string
 
 class Macroable(Visitable):
     def apply_macro(self, visitor:Visitor, macro):
         raise Exception(f"Class {self.__class__} must implement `apply_macro()`")
 
-    def _do_macro(self, string:str, macro):
-        return string.replace(macro[0], macro[1])
+
+    def _do_macro(self, s:str, macro):
+        idx = s.find(macro[0])
+        if idx == -1:
+            return s
+        invalid_prev = string.ascii_letters + string.digits + "_"
+
+        substr = s[:idx+len(macro[0])]
+        if idx > 0:
+            if s[idx-1] not in invalid_prev:
+                substr = substr.replace(macro[0], macro[1])
+        print(macro)
+        cont = s[idx+len(macro[0])+1:]
+        if len(cont) > 1:
+            s = substr + self._do_macro(s[idx+len(macro[0])+1:], macro)
+        else:
+            s = substr
+        return s
 
     def _do_macro_iterable(self, iterable, macro):
-        iterable[:] = [i.replace(macro[0], macro[1]) for i in iterable]
+        iterable[:] = [self._do_macro(i, macro) for i in iterable]
         return iterable
 
 class MidlImport:
@@ -222,6 +238,7 @@ class MidlDispInterface(Macroable):
         out += "methods\n"
         out += '\n    '.join([str(method) for method in self.methods])
         return out
+
 
 class MidlCoclass(Macroable):
     def __init__(self, name, interfaces):

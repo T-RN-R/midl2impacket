@@ -69,78 +69,15 @@ CONST_LONG = NDRLONG
 VOID = CONTEXT_HANDLE
 __INT3264 = NDRLONG
 UNSIGNED___INT3264 = NDRULONG
+CONST_UNSIGNED_LONG = NDRULONG
+UNSIGNED_HYPER = NDRUHYPER
+HYPER = NDRHYPER
 
-"""
-Generated from MIDL2Impacket.py
-"""
+#################################################################################
 
+#"ms-dtyp.idl"
 
-from __future__ import division
-from __future__ import print_function
-from impacket.dcerpc.v5.ndr import *
-from impacket.dcerpc.v5.dtypes import *
-from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
-from impacket.structure import Structure
-from impacket import nt_errors
-from impacket.uuid import uuidtup_to_bin
-from impacket.dcerpc.v5.rpcrt import DCERPCException
-
-DWORD64 = NDRUHYPER
-__INT64 = NDRHYPER
-class CONTEXT_HANDLE(NDRSTRUCT):
-    align = 1
-    structure = (
-        ('Data', '20s=""'),
-    )
-HANDLE_T = CONTEXT_HANDLE
-class RPC_STRING(NDRSTRUCT):
-    structure = (
-        ('Length','<H=0'),
-        ('MaximumLength','<H=0'),
-        ('Data',LPSTR),
-    )
-
-    def __setitem__(self, key, value):
-        if key == 'Data' and isinstance(value, NDR) is False:
-            self['Length'] = len(value)
-            self['MaximumLength'] = len(value)
-        return NDRSTRUCT.__setitem__(self, key, value)
-
-    def dump(self, msg = None, indent = 0):
-        if msg is None: msg = self.__class__.__name__
-        if msg != '':
-            print("%s" % msg, end=' ')
-
-        if isinstance(self.fields['Data'] , NDRPOINTERNULL):
-            print(" NULL", end=' ')
-        elif self.fields['Data']['ReferentID'] == 0:
-            print(" NULL", end=' ')
-        else:
-            return self.fields['Data'].dump('',indent)
-
-class PRPC_STRING(NDRPOINTER):
-    referent = (
-        ('Data', RPC_STRING),
-    )
-
-UNSIGNED_SHORT = NDRUSHORT
-UNSIGNED_CHAR = NDRCHAR
-UNSIGNED_LONG = NDRULONG
-UNSIGNED_INT = NDRULONG
-UNSIGNED___INT64 = NDRUHYPER
-SIGNED___INT64 = NDRHYPER
-SIGNED_INT = NDRSHORT
-SIGNED_LONG = NDRLONG
-SIGNED_CHAR = NDRCHAR
-SIGNED_SHORT = NDRSHORT
-CONST_WCHAR_T = WSTR
-CONST_CHAR = NDRCHAR
-CONST_INT = NDRLONG
-CONST_VOID = CONTEXT_HANDLE
-CONST_LONG = NDRLONG
-VOID = CONTEXT_HANDLE
-__INT3264 = NDRLONG
-UNSIGNED___INT3264 = NDRULONG
+#################################################################################
 
 #################################################################################
 
@@ -706,21 +643,19 @@ class PDNS_RPC_ZONE_LIST(NDRPOINTER):
     )    
 
 
-class TRUSTPOINT_STATE:
-	TRUSTPOINT_STATE_INITIALIZED = 0,
-	TRUSTPOINT_STATE_DSPENDING = 1,
-	TRUSTPOINT_STATE_ACTIVE = 2,
-	TRUSTPOINT_STATE_DELETE_PENDING = 3
+TRUSTPOINT_STATE_INITIALIZED = ,
+TRUSTPOINT_STATE_DSPENDING = ,
+TRUSTPOINT_STATE_ACTIVE = ,
+TRUSTPOINT_STATE_DELETE_PENDING = 
         
 
-class TRUSTANCHOR_STATE:
-	TRUSTANCHOR_STATE_INITIALIZED = 0,
-	TRUSTANCHOR_STATE_DSPENDING = 1,
-	TRUSTANCHOR_STATE_DSINVALID = 2,
-	TRUSTANCHOR_STATE_ADDPEND = 3,
-	TRUSTANCHOR_STATE_VALID = 4,
-	TRUSTANCHOR_STATE_MISSING = 5,
-	TRUSTANCHOR_STATE_REVOKED = 6
+TRUSTANCHOR_STATE_INITIALIZED = ,
+TRUSTANCHOR_STATE_DSPENDING = ,
+TRUSTANCHOR_STATE_DSINVALID = ,
+TRUSTANCHOR_STATE_ADDPEND = ,
+TRUSTANCHOR_STATE_VALID = ,
+TRUSTANCHOR_STATE_MISSING = ,
+TRUSTANCHOR_STATE_REVOKED = 
         
 
 class DNS_RPC_TRUST_POINT(NDRSTRUCT):
@@ -753,12 +688,11 @@ class PDNS_RPC_SKD(NDRPOINTER):
     )    
 
 
-class KEYSIGNSCOPE:
-	SIGN_SCOPE_DEFAULT = 0,
-	SIGN_SCOPE_DNSKEY_ONLY = 1,
-	SIGN_SCOPE_ALL_RECORDS = 2,
-	SIGN_SCOPE_ADD_ONLY = 3,
-	SIGN_SCOPE_DO_NOT_PUBLISH = 4
+SIGN_SCOPE_DEFAULT = ,
+SIGN_SCOPE_DNSKEY_ONLY = ,
+SIGN_SCOPE_ALL_RECORDS = ,
+SIGN_SCOPE_ADD_ONLY = ,
+SIGN_SCOPE_DO_NOT_PUBLISH = 
         
 
 class DNS_RPC_SKD_STATE_EX(NDRSTRUCT):
@@ -793,7 +727,7 @@ class PDNS_RPC_ZONE_SKD(NDRPOINTER):
 
 class DNS_RPC_ZONE_DNSSEC_SETTINGS(NDRSTRUCT):
     structure = (
-        ('dwRpcStructureVersion', DWORD),('dwReserved0', DWORD),('fIsSigned', DWORD),('fSignWithNSEC3', DWORD),('fNSEC3OptOut', DWORD),('dwMaintainTrustAnchor', DWORD),('fParentHasSecureDelegation', DWORD),('dwDSRecordAlgorithms', DWORD),('fRFC5011KeyRollovers', DWORD),('bNSEC3HashAlgorithm', BYTE),('bNSEC3RandomSaltLength', BYTE),('wNSEC3IterationCount', WORD),('pwszNSEC3UserSalt', LPWSTR),('dwDNSKEYRecordSetTtl', DWORD),('dwDSRecordSetTtl', DWORD),('dwSignatureInceptionOffset', DWORD),('dwSecureDelegationPollingPeriod', DWORD),('dwPropagationTime', DWORD),('cbNSEC3CurrentSaltLength', DWORD),('pbNSEC3CurrentSalt', PBYTE),('CurrentRollingSKDGuid', GUID),('dwBufferLength', DWORD),('pBuffer', PBYTE),('dwCount', DWORD),('pZoneSkdArray', PDNS_RPC_ZONE_SKD),
+        ('dwRpcStructureVersion', DWORD),('dwReserved0', DWORD),('fIsSigned', DWORD),('fSignWithNSEC3', DWORD),('fNSEC3OptOut', DWORD),('dwMaintainTrustAnchor', DWORD),('fParentHasSecureDelegation', DWORD),('dwDSRecordAlgorithms', DWORD),('fRFC501KeyRollovers', DWORD),('bNSEC3HashAlgorithm', BYTE),('bNSEC3RandomSaltLength', BYTE),('wNSEC3IterationCount', WORD),('pwszNSEC3UserSalt', LPWSTR),('dwDNSKEYRecordSetTtl', DWORD),('dwDSRecordSetTtl', DWORD),('dwSignatureInceptionOffset', DWORD),('dwSecureDelegationPollingPeriod', DWORD),('dwPropagationTime', DWORD),('cbNSEC3CurrentSaltLength', DWORD),('pbNSEC3CurrentSalt', PBYTE),('CurrentRollingSKDGuid', GUID),('dwBufferLength', DWORD),('pBuffer', PBYTE),('dwCount', DWORD),('pZoneSkdArray', PDNS_RPC_ZONE_SKD),
     )
 class PDNS_RPC_ZONE_DNSSEC_SETTINGS(NDRPOINTER):
     referent = (
@@ -1126,40 +1060,34 @@ class DNS_RPC_UNICODE_STRING_LIST(NDRSTRUCT):
     )
         
 
-class DNS_RPC_CRITERIA_COMPARATOR:
-	Equals=1 = 0
+Equals = 1
         
 
-class DNS_RPC_POLICY_CONDITION:
-	DNS_AND = 0
+DNS_AND = 
         
 
-class DNS_RPC_POLICY_LEVEL:
-	DnsPolicyServerLevel = 0,
-	DnsPolicyZoneLevel = 1
+DnsPolicyServerLevel = ,
+DnsPolicyZoneLevel = 
         
 
-class DNS_RPC_POLICY_ACTION_TYPE:
-	DnsPolicyDeny = 0,
-	DnsPolicyAllow = 1,
-	DnsPolicyIgnore = 2
+DnsPolicyDeny = ,
+DnsPolicyAllow = ,
+DnsPolicyIgnore = 
         
 
-class DNS_RPC_POLICY_TYPE:
-	DnsPolicyQueryProcessing = 0,
-	DnsPolicyZoneTransfer = 1,
-	DnsPolicyDynamicUpdate = 2,
-	DnsPolicyRecursion = 3
+DnsPolicyQueryProcessing = ,
+DnsPolicyZoneTransfer = ,
+DnsPolicyDynamicUpdate = ,
+DnsPolicyRecursion = 
         
 
-class DNS_RPC_CRITERIA_ENUM:
-	DnsPolicyCriteriaSubnet = 0,
-	DnsPolicyCriteriaTransportProtocol = 1,
-	DnsPolicyCriteriaNetworkProtocol = 2,
-	DnsPolicyCriteriaInterface = 3,
-	DnsPolicyCriteriaFqdn = 4,
-	DnsPolicyCriteriaQtype = 5,
-	DnsPolicyCriteriaTime = 6
+DnsPolicyCriteriaSubnet = ,
+DnsPolicyCriteriaTransportProtocol = ,
+DnsPolicyCriteriaNetworkProtocol = ,
+DnsPolicyCriteriaInterface = ,
+DnsPolicyCriteriaFqdn = ,
+DnsPolicyCriteriaQtype = ,
+DnsPolicyCriteriaTime = 
         
 
 class DNS_RPC_CLIENT_SUBNET_RECORD(NDRSTRUCT):
@@ -1232,9 +1160,8 @@ class PDNS_RPC_ENUMERATE_POLICY_LIST(NDRPOINTER):
     )    
 
 
-class DNS_RRL_MODE_ENUM:
-	DnsRRLLogOnly = 0,
-	DnsRRLEnabled = 1
+DnsRRLLogOnly = ,
+DnsRRLEnabled = 
         
 
 class DNS_RPC_RRL_PARAMS(NDRSTRUCT):

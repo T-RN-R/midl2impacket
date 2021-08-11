@@ -4,10 +4,13 @@ from impacketbuilder.converters.typing import IDL_TYPES
 from midl import MidlImport
 from .base import *
 from .typing import *
+from .comments import MidlCommentWriter
 
 class MidlImportsConverter(Converter):
     def convert(self, imports:list[MidlImport], import_dir:str, def_converter):
-        #TODO add imports here
+        comment_writer = MidlCommentWriter(self.io, self.tab_level)
         for _import in imports:
+            comment_writer = MidlCommentWriter(self.io, self.tab_level)
+            comment_writer.banner_comment(_import.file)
             in_file = pathlib.Path(import_dir+_import.file.replace("\"",""))
             def_converter.convert(parse_idl(in_file), import_dir)
