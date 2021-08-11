@@ -102,5 +102,5 @@ class TypeMapper():
         type_name = self.idl2python.get_python_type_name(name)
         if type_name != None:
             return type_name
-
+        name = name.replace("const","")
         return name.replace("*","").upper()

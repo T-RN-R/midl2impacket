@@ -6,15 +6,20 @@ from .base import *
 from .constants import MidlConstantConverter
 from .interface import MidlInterfaceConverter
 from .comments import MidlCommentWriter
-from .enum import MidlEnumConverter
+from preprocessor import MidlPreprocessor
 
 class MidlDefinitionConverter(Converter):
     def convert(self, definition : MidlDefinition, import_dir:str) -> str:
+        # Run the preprocessor to handle all `#defines` 
+        definition = MidlPreprocessor().preprocess(definition)
+
+        # Instantiate all of the converters
         const_converter = MidlConstantConverter(self.io, tab_level=self.tab_level, mapper=self.mapper)
         interface_converter = MidlInterfaceConverter(self.io, tab_level=self.tab_level, mapper=self.mapper)
         imports_converter = MidlImportsConverter(self.io, self.tab_level, mapper=self.mapper)
         comment_writer = MidlCommentWriter(self.io, self.tab_level)
 
+        # Do all of the conversion and writing
         imports_converter.convert(definition.imports, import_dir, self)
         comment_writer.banner_comment("TYPEDEFS")
         for td in definition.typedefs:
