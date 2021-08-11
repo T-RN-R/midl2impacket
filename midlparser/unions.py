@@ -92,9 +92,6 @@ class MidlUnionParser(MidlBaseParser):
     def sqbracket(self, token):
         if self.state == UnionState.MEMBER_TYPE_OR_ATTR:
             self.cur_member_attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
-            # Don't transition out of the TYPE_OR_ATTR if the attributes was a switch-case
-            if 'case' not in self.cur_member_attrs and 'default' not in self.cur_member_attrs:
-                self.state == UnionState.MEMBER_TYPE
         elif self.state in [UnionState.MEMBER_TYPE, UnionState.MEMBER_ARRAY]:
             # The member has (possibly additional?) array dimensions specified..
             array_parser = MidlArrayParser(self.tokens, self.tokenizer)
