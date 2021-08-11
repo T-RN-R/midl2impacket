@@ -590,6 +590,659 @@ class EFS_ENCRYPTION_STATUS_INFO(NDRSTRUCT):
         ('bHasCurrentKey', BOOL),('dwEncryptionError', DWORD),
     )
 
+
+class ENCRYPTION_PROTECTOR(NDRSTRUCT):
+    structure = (
+        ('cbTotalLength', DWORD),('UserSid', RPC_SID),('lpProtectorDescriptor', WCHAR_T),
+    )
+class PENCRYPTION_PROTECTOR(NDRPOINTER):
+    referent = (
+        ('Data', ENCRYPTION_PROTECTOR),
+    )    
+
+
+class DATA_ENCRYPTION_PROTECTOR_LIST(NDRUniConformantArray):
+    item = PENCRYPTION_PROTECTOR
+
+class PTR_ENCRYPTION_PROTECTOR_LIST(NDRPOINTER):
+    referent = (
+        ('Data', DATA_ENCRYPTION_PROTECTOR_LIST),
+    )
+
+class ENCRYPTION_PROTECTOR_LIST(NDRSTRUCT):
+    structure = (
+	('nProtectors', DWORD),	('pProtectors', PTR_ENCRYPTION_PROTECTOR_LIST),
+
+    )
+        
+
+class EfsRpcOpenFileRaw(NDRCALL):
+    opnum = 0
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+		('Flags', LONG),
+    )
+
+class EfsRpcOpenFileRawResponse(NDRCALL):
+    structure = (
+		('hContext', PEXIMPORT_CONTEXT_HANDLE),
+    )
+        
+
+class EfsRpcReadFileRaw(NDRCALL):
+    opnum = 1
+    structure = (
+		('hContext', PEXIMPORT_CONTEXT_HANDLE),
+    )
+
+class EfsRpcReadFileRawResponse(NDRCALL):
+    structure = (
+		('EfsOutPipe', EFS_EXIM_PIPE),
+    )
+        
+
+class EfsRpcWriteFileRaw(NDRCALL):
+    opnum = 2
+    structure = (
+		('hContext', PEXIMPORT_CONTEXT_HANDLE),
+		('EfsInPipe', EFS_EXIM_PIPE),
+    )
+
+class EfsRpcWriteFileRawResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcCloseRaw(NDRCALL):
+    opnum = 3
+    structure = (
+		('hContext', PEXIMPORT_CONTEXT_HANDLE),
+    )
+
+class EfsRpcCloseRawResponse(NDRCALL):
+    structure = (
+		('hContext', PEXIMPORT_CONTEXT_HANDLE),
+    )
+        
+
+class EfsRpcEncryptFileSrv(NDRCALL):
+    opnum = 4
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+    )
+
+class EfsRpcEncryptFileSrvResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcDecryptFileSrv(NDRCALL):
+    opnum = 5
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+		('OpenFlag', UNSIGNED_LONG),
+    )
+
+class EfsRpcDecryptFileSrvResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcQueryUsersOnFile(NDRCALL):
+    opnum = 6
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+    )
+
+class EfsRpcQueryUsersOnFileResponse(NDRCALL):
+    structure = (
+		('Users', ENCRYPTION_CERTIFICATE_HASH_LIST),
+    )
+        
+
+class EfsRpcQueryRecoveryAgents(NDRCALL):
+    opnum = 7
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+    )
+
+class EfsRpcQueryRecoveryAgentsResponse(NDRCALL):
+    structure = (
+		('RecoveryAgents', ENCRYPTION_CERTIFICATE_HASH_LIST),
+    )
+        
+
+class EfsRpcRemoveUsersFromFile(NDRCALL):
+    opnum = 8
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+		('Users', ENCRYPTION_CERTIFICATE_HASH_LIST),
+    )
+
+class EfsRpcRemoveUsersFromFileResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcAddUsersToFile(NDRCALL):
+    opnum = 9
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+		('EncryptionCertificates', ENCRYPTION_CERTIFICATE_LIST),
+    )
+
+class EfsRpcAddUsersToFileResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum10NotUsedOnWire(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class Opnum10NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcNotSupported(NDRCALL):
+    opnum = 11
+    structure = (
+		('binding_h', HANDLE_T),
+		('Reserved1', WCHAR_T),
+		('Reserved2', WCHAR_T),
+		('dwReserved1', DWORD),
+		('dwReserved2', DWORD),
+		('Reserved', EFS_RPC_BLOB),
+		('bReserved', BOOL),
+    )
+
+class EfsRpcNotSupportedResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcFileKeyInfo(NDRCALL):
+    opnum = 12
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+		('InfoClass', DWORD),
+    )
+
+class EfsRpcFileKeyInfoResponse(NDRCALL):
+    structure = (
+		('KeyInfo', EFS_RPC_BLOB),
+    )
+        
+
+class EfsRpcDuplicateEncryptionInfoFile(NDRCALL):
+    opnum = 13
+    structure = (
+		('binding_h', HANDLE_T),
+		('SrcFileName', WCHAR_T),
+		('DestFileName', WCHAR_T),
+		('dwCreationDisposition', DWORD),
+		('dwAttributes', DWORD),
+		('RelativeSD', EFS_RPC_BLOB),
+		('bInheritHandle', BOOL),
+    )
+
+class EfsRpcDuplicateEncryptionInfoFileResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum14NotUsedOnWire(NDRCALL):
+    opnum = 14
+    structure = (
+
+    )
+
+class Opnum14NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcAddUsersToFileEx(NDRCALL):
+    opnum = 15
+    structure = (
+		('binding_h', HANDLE_T),
+		('dwFlags', DWORD),
+		('Reserved', EFS_RPC_BLOB),
+		('FileName', WCHAR_T),
+		('EncryptionCertificates', ENCRYPTION_CERTIFICATE_LIST),
+    )
+
+class EfsRpcAddUsersToFileExResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcFileKeyInfoEx(NDRCALL):
+    opnum = 16
+    structure = (
+		('binding_h', HANDLE_T),
+		('dwFileKeyInfoFlags', DWORD),
+		('Reserved', EFS_RPC_BLOB),
+		('FileName', WCHAR_T),
+		('InfoClass', DWORD),
+    )
+
+class EfsRpcFileKeyInfoExResponse(NDRCALL):
+    structure = (
+		('KeyInfo', EFS_RPC_BLOB),
+    )
+        
+
+class Opnum17NotUsedOnWire(NDRCALL):
+    opnum = 17
+    structure = (
+
+    )
+
+class Opnum17NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcGetEncryptedFileMetadata(NDRCALL):
+    opnum = 18
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+    )
+
+class EfsRpcGetEncryptedFileMetadataResponse(NDRCALL):
+    structure = (
+		('EfsStreamBlob', EFS_RPC_BLOB),
+    )
+        
+
+class EfsRpcSetEncryptedFileMetadata(NDRCALL):
+    opnum = 19
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+		('OldEfsStreamBlob', EFS_RPC_BLOB),
+		('NewEfsStreamBlob', EFS_RPC_BLOB),
+		('NewEfsSignature', ENCRYPTED_FILE_METADATA_SIGNATURE),
+    )
+
+class EfsRpcSetEncryptedFileMetadataResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcFlushEfsCache(NDRCALL):
+    opnum = 20
+    structure = (
+		('binding_h', HANDLE_T),
+    )
+
+class EfsRpcFlushEfsCacheResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcEncryptFileExSrv(NDRCALL):
+    opnum = 21
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+		('ProtectorDescriptor', WCHAR_T),
+		('Flags', UNSIGNED_LONG),
+    )
+
+class EfsRpcEncryptFileExSrvResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EfsRpcQueryProtectors(NDRCALL):
+    opnum = 22
+    structure = (
+		('binding_h', HANDLE_T),
+		('FileName', WCHAR_T),
+    )
+
+class EfsRpcQueryProtectorsResponse(NDRCALL):
+    structure = (
+		('ppProtectorList', PENCRYPTION_PROTECTOR_LIST),
+    )
+        
+
+class Opnum23NotUsedOnWire(NDRCALL):
+    opnum = 23
+    structure = (
+
+    )
+
+class Opnum23NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum24NotUsedOnWire(NDRCALL):
+    opnum = 24
+    structure = (
+
+    )
+
+class Opnum24NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum25NotUsedOnWire(NDRCALL):
+    opnum = 25
+    structure = (
+
+    )
+
+class Opnum25NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum26NotUsedOnWire(NDRCALL):
+    opnum = 26
+    structure = (
+
+    )
+
+class Opnum26NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum27NotUsedOnWire(NDRCALL):
+    opnum = 27
+    structure = (
+
+    )
+
+class Opnum27NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum28NotUsedOnWire(NDRCALL):
+    opnum = 28
+    structure = (
+
+    )
+
+class Opnum28NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum29NotUsedOnWire(NDRCALL):
+    opnum = 29
+    structure = (
+
+    )
+
+class Opnum29NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum30NotUsedOnWire(NDRCALL):
+    opnum = 30
+    structure = (
+
+    )
+
+class Opnum30NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum31NotUsedOnWire(NDRCALL):
+    opnum = 31
+    structure = (
+
+    )
+
+class Opnum31NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum32NotUsedOnWire(NDRCALL):
+    opnum = 32
+    structure = (
+
+    )
+
+class Opnum32NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum33NotUsedOnWire(NDRCALL):
+    opnum = 33
+    structure = (
+
+    )
+
+class Opnum33NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum34NotUsedOnWire(NDRCALL):
+    opnum = 34
+    structure = (
+
+    )
+
+class Opnum34NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum35NotUsedOnWire(NDRCALL):
+    opnum = 35
+    structure = (
+
+    )
+
+class Opnum35NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum36NotUsedOnWire(NDRCALL):
+    opnum = 36
+    structure = (
+
+    )
+
+class Opnum36NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum37NotUsedOnWire(NDRCALL):
+    opnum = 37
+    structure = (
+
+    )
+
+class Opnum37NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum38NotUsedOnWire(NDRCALL):
+    opnum = 38
+    structure = (
+
+    )
+
+class Opnum38NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum39NotUsedOnWire(NDRCALL):
+    opnum = 39
+    structure = (
+
+    )
+
+class Opnum39NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum40NotUsedOnWire(NDRCALL):
+    opnum = 40
+    structure = (
+
+    )
+
+class Opnum40NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum41NotUsedOnWire(NDRCALL):
+    opnum = 41
+    structure = (
+
+    )
+
+class Opnum41NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum42NotUsedOnWire(NDRCALL):
+    opnum = 42
+    structure = (
+
+    )
+
+class Opnum42NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum43NotUsedOnWire(NDRCALL):
+    opnum = 43
+    structure = (
+
+    )
+
+class Opnum43NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum44NotUsedOnWire(NDRCALL):
+    opnum = 44
+    structure = (
+
+    )
+
+class Opnum44NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
 OPNUMS = {
+0 : (EfsRpcOpenFileRaw,EfsRpcOpenFileRawResponse),
+1 : (EfsRpcReadFileRaw,EfsRpcReadFileRawResponse),
+2 : (EfsRpcWriteFileRaw,EfsRpcWriteFileRawResponse),
+3 : (EfsRpcCloseRaw,EfsRpcCloseRawResponse),
+4 : (EfsRpcEncryptFileSrv,EfsRpcEncryptFileSrvResponse),
+5 : (EfsRpcDecryptFileSrv,EfsRpcDecryptFileSrvResponse),
+6 : (EfsRpcQueryUsersOnFile,EfsRpcQueryUsersOnFileResponse),
+7 : (EfsRpcQueryRecoveryAgents,EfsRpcQueryRecoveryAgentsResponse),
+8 : (EfsRpcRemoveUsersFromFile,EfsRpcRemoveUsersFromFileResponse),
+9 : (EfsRpcAddUsersToFile,EfsRpcAddUsersToFileResponse),
+10 : (Opnum10NotUsedOnWire,Opnum10NotUsedOnWireResponse),
+11 : (EfsRpcNotSupported,EfsRpcNotSupportedResponse),
+12 : (EfsRpcFileKeyInfo,EfsRpcFileKeyInfoResponse),
+13 : (EfsRpcDuplicateEncryptionInfoFile,EfsRpcDuplicateEncryptionInfoFileResponse),
+14 : (Opnum14NotUsedOnWire,Opnum14NotUsedOnWireResponse),
+15 : (EfsRpcAddUsersToFileEx,EfsRpcAddUsersToFileExResponse),
+16 : (EfsRpcFileKeyInfoEx,EfsRpcFileKeyInfoExResponse),
+17 : (Opnum17NotUsedOnWire,Opnum17NotUsedOnWireResponse),
+18 : (EfsRpcGetEncryptedFileMetadata,EfsRpcGetEncryptedFileMetadataResponse),
+19 : (EfsRpcSetEncryptedFileMetadata,EfsRpcSetEncryptedFileMetadataResponse),
+20 : (EfsRpcFlushEfsCache,EfsRpcFlushEfsCacheResponse),
+21 : (EfsRpcEncryptFileExSrv,EfsRpcEncryptFileExSrvResponse),
+22 : (EfsRpcQueryProtectors,EfsRpcQueryProtectorsResponse),
+23 : (Opnum23NotUsedOnWire,Opnum23NotUsedOnWireResponse),
+24 : (Opnum24NotUsedOnWire,Opnum24NotUsedOnWireResponse),
+25 : (Opnum25NotUsedOnWire,Opnum25NotUsedOnWireResponse),
+26 : (Opnum26NotUsedOnWire,Opnum26NotUsedOnWireResponse),
+27 : (Opnum27NotUsedOnWire,Opnum27NotUsedOnWireResponse),
+28 : (Opnum28NotUsedOnWire,Opnum28NotUsedOnWireResponse),
+29 : (Opnum29NotUsedOnWire,Opnum29NotUsedOnWireResponse),
+30 : (Opnum30NotUsedOnWire,Opnum30NotUsedOnWireResponse),
+31 : (Opnum31NotUsedOnWire,Opnum31NotUsedOnWireResponse),
+32 : (Opnum32NotUsedOnWire,Opnum32NotUsedOnWireResponse),
+33 : (Opnum33NotUsedOnWire,Opnum33NotUsedOnWireResponse),
+34 : (Opnum34NotUsedOnWire,Opnum34NotUsedOnWireResponse),
+35 : (Opnum35NotUsedOnWire,Opnum35NotUsedOnWireResponse),
+36 : (Opnum36NotUsedOnWire,Opnum36NotUsedOnWireResponse),
+37 : (Opnum37NotUsedOnWire,Opnum37NotUsedOnWireResponse),
+38 : (Opnum38NotUsedOnWire,Opnum38NotUsedOnWireResponse),
+39 : (Opnum39NotUsedOnWire,Opnum39NotUsedOnWireResponse),
+40 : (Opnum40NotUsedOnWire,Opnum40NotUsedOnWireResponse),
+41 : (Opnum41NotUsedOnWire,Opnum41NotUsedOnWireResponse),
+42 : (Opnum42NotUsedOnWire,Opnum42NotUsedOnWireResponse),
+43 : (Opnum43NotUsedOnWire,Opnum43NotUsedOnWireResponse),
+44 : (Opnum44NotUsedOnWire,Opnum44NotUsedOnWireResponse),
 }
 

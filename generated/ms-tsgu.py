@@ -464,501 +464,404 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
 
 #################################################################################
 
-#eventlog Definition
+#TsProxyRpcInterface Definition
 
 #################################################################################
 
-MSRPC_UUID_EVENTLOG = uuidtup_to_bin(('82273FDC-E32A-18C3-3F78-827929DC23EA','0.0'))
+MSRPC_UUID_TSPROXYRPCINTERFACE = uuidtup_to_bin(('44e265dd-7daf-42cd-8560-3cdb6e7a2729','0.0'))
 
+PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE = VOID
+PCHANNEL_CONTEXT_HANDLE_NOSERIALIZE = VOID
+PTUNNEL_CONTEXT_HANDLE_SERIALIZE = PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE
+PCHANNEL_CONTEXT_HANDLE_SERIALIZE = PCHANNEL_CONTEXT_HANDLE_NOSERIALIZE
+RESOURCENAME = WCHAR_T
 
-class DATA_RPC_STRING(NDRUniConformantArray):
-    item = CHAR
+class DATA_TSENDPOINTINFO(NDRUniConformantArray):
+    item = RESOURCENAME
 
-class PTR_RPC_STRING(NDRPOINTER):
+class PTR_TSENDPOINTINFO(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_STRING),
+        ('Data', DATA_TSENDPOINTINFO),
     )
 
-class RPC_STRING(NDRSTRUCT):
+class TSENDPOINTINFO(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_STRING),
-
+	('resourceName', RESOURCENAME),	('numResourceNames', UNSIGNED_LONG),	('alternateResourceNames', PTR_TSENDPOINTINFO),
+	('numAlternateResourceNames', UNSIGNED_SHORT),	('Port', UNSIGNED_LONG),
     )
         
 
-class RPC_CLIENT_ID(NDRSTRUCT):
+class TSG_PACKET_HEADER(NDRSTRUCT):
     structure = (
-        ('UniqueProcess', UNSIGNED_LONG),('UniqueThread', UNSIGNED_LONG),
+        ('ComponentId', UNSIGNED_SHORT),('PacketId', UNSIGNED_SHORT),
     )
-class PRPC_CLIENT_ID(NDRPOINTER):
+class PTSG_PACKET_HEADER(NDRPOINTER):
     referent = (
-        ('Data', RPC_CLIENT_ID),
+        ('Data', TSG_PACKET_HEADER),
     )    
 
-EVENTLOG_HANDLE_W = WCHAR_T
-EVENTLOG_HANDLE_A = CHAR
-IELF_HANDLE = VOID
-PIELF_HANDLE = VOID
-RULONG = UNSIGNED_LONG
 
-class ElfrClearELFW(NDRCALL):
+class TSG_CAPABILITY_NAP(NDRSTRUCT):
+    structure = (
+        ('capabilities', UNSIGNED_LONG),
+    )
+class PTSG_CAPABILITY_NAP(NDRPOINTER):
+    referent = (
+        ('Data', TSG_CAPABILITY_NAP),
+    )    
+
+
+class TSG_CAPABILITIES_UNION(NDRUNION):
+    union = {
+        TSG_CAPABILITY_TYPE_NAP: ('TSGCapNap',TSG_CAPABILITY_NAP),
+    }
+        class PTSG_CAPABILITIES_UNION(NDRPOINTER):
+    referent = (
+        ('Data', TSG_CAPABILITIES_UNION),
+    )    
+
+
+class TSG_PACKET_CAPABILITIES(NDRSTRUCT):
+    structure = (
+        ('capabilityType', UNSIGNED_LONG),('TSGPacket', TSG_CAPABILITIES_UNION),
+    )
+class PTSG_PACKET_CAPABILITIES(NDRPOINTER):
+    referent = (
+        ('Data', TSG_PACKET_CAPABILITIES),
+    )    
+
+
+class TSG_PACKET_VERSIONCAPS(NDRSTRUCT):
+    structure = (
+        ('tsgHeader', TSG_PACKET_HEADER),('TSGCaps', PTSG_PACKET_CAPABILITIES),('numCapabilities', UNSIGNED_LONG),('majorVersion', UNSIGNED_SHORT),('minorVersion', UNSIGNED_SHORT),('quarantineCapabilities', UNSIGNED_SHORT),
+    )
+class PTSG_PACKET_VERSIONCAPS(NDRPOINTER):
+    referent = (
+        ('Data', TSG_PACKET_VERSIONCAPS),
+    )    
+
+
+class TSG_PACKET_QUARCONFIGREQUEST(NDRSTRUCT):
+    structure = (
+        ('flags', UNSIGNED_LONG),
+    )
+class PTSG_PACKET_QUARCONFIGREQUEST(NDRPOINTER):
+    referent = (
+        ('Data', TSG_PACKET_QUARCONFIGREQUEST),
+    )    
+
+
+class DATA_TSG_PACKET_QUARREQUEST(NDRUniConformantArray):
+    item = BYTE
+
+class PTR_TSG_PACKET_QUARREQUEST(NDRPOINTER):
+    referent = (
+        ('Data', DATA_TSG_PACKET_QUARREQUEST),
+    )
+
+class TSG_PACKET_QUARREQUEST(NDRSTRUCT):
+    structure = (
+	('flags', UNSIGNED_LONG),	('machineName', WCHAR_T),	('nameLength', UNSIGNED_LONG),	('data', PTR_TSG_PACKET_QUARREQUEST),
+	('dataLen', UNSIGNED_LONG),
+    )
+        
+
+class TSG_REDIRECTION_FLAGS(NDRSTRUCT):
+    structure = (
+        ('enableAllRedirections', BOOL),('disableAllRedirections', BOOL),('driveRedirectionDisabled', BOOL),('printerRedirectionDisabled', BOOL),('portRedirectionDisabled', BOOL),('reserved', BOOL),('clipboardRedirectionDisabled', BOOL),('pnpRedirectionDisabled', BOOL),
+    )
+class PTSG_REDIRECTION_FLAGS(NDRPOINTER):
+    referent = (
+        ('Data', TSG_REDIRECTION_FLAGS),
+    )    
+
+
+class DATA_TSG_PACKET_RESPONSE(NDRUniConformantArray):
+    item = BYTE
+
+class PTR_TSG_PACKET_RESPONSE(NDRPOINTER):
+    referent = (
+        ('Data', DATA_TSG_PACKET_RESPONSE),
+    )
+
+class TSG_PACKET_RESPONSE(NDRSTRUCT):
+    structure = (
+	('flags', UNSIGNED_LONG),	('reserved', UNSIGNED_LONG),	('responseData', PTR_TSG_PACKET_RESPONSE),
+	('responseDataLen', UNSIGNED_LONG),	('redirectionFlags', TSG_REDIRECTION_FLAGS),
+    )
+        
+
+class DATA_TSG_PACKET_QUARENC_RESPONSE(NDRUniConformantArray):
+    item = WCHAR_T
+
+class PTR_TSG_PACKET_QUARENC_RESPONSE(NDRPOINTER):
+    referent = (
+        ('Data', DATA_TSG_PACKET_QUARENC_RESPONSE),
+    )
+
+class TSG_PACKET_QUARENC_RESPONSE(NDRSTRUCT):
+    structure = (
+	('flags', UNSIGNED_LONG),	('certChainLen', UNSIGNED_LONG),	('certChainData', PTR_TSG_PACKET_QUARENC_RESPONSE),
+	('nonce', GUID),	('versionCaps', PTSG_PACKET_VERSIONCAPS),
+    )
+        
+
+class TSG_PACKET_MSG_REQUEST(NDRSTRUCT):
+    structure = (
+        ('maxMessagesPerBatch', UNSIGNED_LONG),
+    )
+class PTSG_PACKET_MSG_REQUEST(NDRPOINTER):
+    referent = (
+        ('Data', TSG_PACKET_MSG_REQUEST),
+    )    
+
+
+class DATA_TSG_PACKET_STRING_MESSAGE(NDRUniConformantArray):
+    item = WCHAR_T
+
+class PTR_TSG_PACKET_STRING_MESSAGE(NDRPOINTER):
+    referent = (
+        ('Data', DATA_TSG_PACKET_STRING_MESSAGE),
+    )
+
+class TSG_PACKET_STRING_MESSAGE(NDRSTRUCT):
+    structure = (
+	('isDisplayMandatory', LONG),	('isConsentMandatory', LONG),	('msgBytes', UNSIGNED_LONG),	('msgBuffer', PTR_TSG_PACKET_STRING_MESSAGE),
+
+    )
+        
+
+class TSG_PACKET_REAUTH_MESSAGE(NDRSTRUCT):
+    structure = (
+        ('tunnelContext', UNSIGNED___INT64),
+    )
+class PTSG_PACKET_REAUTH_MESSAGE(NDRPOINTER):
+    referent = (
+        ('Data', TSG_PACKET_REAUTH_MESSAGE),
+    )    
+
+
+class TSG_PACKET_TYPE_MESSAGE_UNION(NDRUNION):
+    union = {
+        TSG_ASYNC_MESSAGE_CONSENT_MESSAGE: ('consentMessage',PTSG_PACKET_STRING_MESSAGE),TSG_ASYNC_MESSAGE_SERVICE_MESSAGE: ('serviceMessage',PTSG_PACKET_STRING_MESSAGE),TSG_ASYNC_MESSAGE_REAUTH: ('reauthMessage',PTSG_PACKET_REAUTH_MESSAGE),
+    }
+        class PTSG_PACKET_TYPE_MESSAGE_UNION(NDRPOINTER):
+    referent = (
+        ('Data', TSG_PACKET_TYPE_MESSAGE_UNION),
+    )    
+
+
+class TSG_PACKET_MSG_RESPONSE(NDRSTRUCT):
+    structure = (
+        ('msgID', UNSIGNED_LONG),('msgType', UNSIGNED_LONG),('isMsgPresent', LONG),('messagePacket', TSG_PACKET_TYPE_MESSAGE_UNION),
+    )
+class PTSG_PACKET_MSG_RESPONSE(NDRPOINTER):
+    referent = (
+        ('Data', TSG_PACKET_MSG_RESPONSE),
+    )    
+
+
+class TSG_PACKET_CAPS_RESPONSE(NDRSTRUCT):
+    structure = (
+        ('pktQuarEncResponse', TSG_PACKET_QUARENC_RESPONSE),('pktConsentMessage', TSG_PACKET_MSG_RESPONSE),
+    )
+class PTSG_PACKET_CAPS_RESPONSE(NDRPOINTER):
+    referent = (
+        ('Data', TSG_PACKET_CAPS_RESPONSE),
+    )    
+
+
+class DATA_TSG_PACKET_AUTH(NDRUniConformantArray):
+    item = BYTE
+
+class PTR_TSG_PACKET_AUTH(NDRPOINTER):
+    referent = (
+        ('Data', DATA_TSG_PACKET_AUTH),
+    )
+
+class TSG_PACKET_AUTH(NDRSTRUCT):
+    structure = (
+	('TSGVersionCaps', TSG_PACKET_VERSIONCAPS),	('cookieLen', UNSIGNED_LONG),	('cookie', PTR_TSG_PACKET_AUTH),
+
+    )
+        
+
+class TSG_INITIAL_PACKET_TYPE_UNION(NDRUNION):
+    union = {
+        TSG_PACKET_TYPE_VERSIONCAPS: ('packetVersionCaps',PTSG_PACKET_VERSIONCAPS),TSG_PACKET_TYPE_AUTH: ('packetAuth',PTSG_PACKET_AUTH),
+    }
+        class PTSG_INITIAL_PACKET_TYPE_UNION(NDRPOINTER):
+    referent = (
+        ('Data', TSG_INITIAL_PACKET_TYPE_UNION),
+    )    
+
+
+class TSG_PACKET_REAUTH(NDRSTRUCT):
+    structure = (
+        ('tunnelContext', UNSIGNED___INT64),('packetId', UNSIGNED_LONG),('TSGInitialPacket', TSG_INITIAL_PACKET_TYPE_UNION),
+    )
+class PTSG_PACKET_REAUTH(NDRPOINTER):
+    referent = (
+        ('Data', TSG_PACKET_REAUTH),
+    )    
+
+
+class TSG_PACKET_TYPE_UNION(NDRUNION):
+    union = {
+        TSG_PACKET_TYPE_HEADER: ('packetHeader',PTSG_PACKET_HEADER),TSG_PACKET_TYPE_VERSIONCAPS: ('packetVersionCaps',PTSG_PACKET_VERSIONCAPS),TSG_PACKET_TYPE_QUARCONFIGREQUEST: ('packetQuarConfigRequest',PTSG_PACKET_QUARCONFIGREQUEST),TSG_PACKET_TYPE_QUARREQUEST: ('packetQuarRequest',PTSG_PACKET_QUARREQUEST),TSG_PACKET_TYPE_RESPONSE: ('packetResponse',PTSG_PACKET_RESPONSE),TSG_PACKET_TYPE_QUARENC_RESPONSE: ('packetQuarEncResponse',PTSG_PACKET_QUARENC_RESPONSE),TSG_PACKET_TYPE_CAPS_RESPONSE: ('packetCapsResponse',PTSG_PACKET_CAPS_RESPONSE),TSG_PACKET_TYPE_MSGREQUEST_PACKET: ('packetMsgRequest',PTSG_PACKET_MSG_REQUEST),TSG_PACKET_TYPE_MESSAGE_PACKET: ('packetMsgResponse',PTSG_PACKET_MSG_RESPONSE),TSG_PACKET_TYPE_AUTH: ('packetAuth',PTSG_PACKET_AUTH),TSG_PACKET_TYPE_REAUTH: ('packetReauth',PTSG_PACKET_REAUTH),
+    }
+        class PTSG_PACKET_TYPE_UNION(NDRPOINTER):
+    referent = (
+        ('Data', TSG_PACKET_TYPE_UNION),
+    )    
+
+
+class TSG_PACKET(NDRSTRUCT):
+    structure = (
+        ('packetId', UNSIGNED_LONG),('TSGPacket', TSG_PACKET_TYPE_UNION),
+    )
+class PTSG_PACKET(NDRPOINTER):
+    referent = (
+        ('Data', TSG_PACKET),
+    )    
+
+
+class Opnum0NotUsedOnWire(NDRCALL):
     opnum = 0
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_UNICODE_STRING),
+
     )
 
-class ElfrClearELFWResponse(NDRCALL):
+class Opnum0NotUsedOnWireResponse(NDRCALL):
     structure = (
 
     )
         
 
-class ElfrBackupELFW(NDRCALL):
+class TsProxyCreateTunnel(NDRCALL):
     opnum = 1
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_UNICODE_STRING),
+		('TSGPacket', PTSG_PACKET),
     )
 
-class ElfrBackupELFWResponse(NDRCALL):
+class TsProxyCreateTunnelResponse(NDRCALL):
     structure = (
-
+		('TSGPacketResponse', PTSG_PACKET),
+		('tunnelContext', PTUNNEL_CONTEXT_HANDLE_SERIALIZE),
+		('tunnelId', UNSIGNED_LONG),
     )
         
 
-class ElfrCloseEL(NDRCALL):
+class TsProxyAuthorizeTunnel(NDRCALL):
     opnum = 2
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('tunnelContext', PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE),
+		('TSGPacket', PTSG_PACKET),
     )
 
-class ElfrCloseELResponse(NDRCALL):
+class TsProxyAuthorizeTunnelResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('TSGPacketResponse', PTSG_PACKET),
     )
         
 
-class ElfrDeregisterEventSource(NDRCALL):
+class TsProxyMakeTunnelCall(NDRCALL):
     opnum = 3
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('tunnelContext', PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE),
+		('procId', UNSIGNED_LONG),
+		('TSGPacket', PTSG_PACKET),
     )
 
-class ElfrDeregisterEventSourceResponse(NDRCALL):
+class TsProxyMakeTunnelCallResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('TSGPacketResponse', PTSG_PACKET),
     )
         
 
-class ElfrNumberOfRecords(NDRCALL):
+class TsProxyCreateChannel(NDRCALL):
     opnum = 4
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('tunnelContext', PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE),
+		('tsEndPointInfo', PTSENDPOINTINFO),
     )
 
-class ElfrNumberOfRecordsResponse(NDRCALL):
+class TsProxyCreateChannelResponse(NDRCALL):
     structure = (
-		('NumberOfRecords', UNSIGNED_LONG),
+		('channelContext', PCHANNEL_CONTEXT_HANDLE_SERIALIZE),
+		('channelId', UNSIGNED_LONG),
     )
         
 
-class ElfrOldestRecord(NDRCALL):
+class Opnum5NotUsedOnWire(NDRCALL):
     opnum = 5
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
 
-class ElfrOldestRecordResponse(NDRCALL):
+class Opnum5NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('OldestRecordNumber', UNSIGNED_LONG),
+
     )
         
 
-class ElfrChangeNotify(NDRCALL):
+class TsProxyCloseChannel(NDRCALL):
     opnum = 6
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('ClientId', RPC_CLIENT_ID),
-		('Event', ULONG),
+		('context', PCHANNEL_CONTEXT_HANDLE_NOSERIALIZE),
     )
 
-class ElfrChangeNotifyResponse(NDRCALL):
+class TsProxyCloseChannelResponse(NDRCALL):
     structure = (
-
+		('context', PCHANNEL_CONTEXT_HANDLE_NOSERIALIZE),
     )
         
 
-class ElfrOpenELW(NDRCALL):
+class TsProxyCloseTunnel(NDRCALL):
     opnum = 7
     structure = (
-		('UNCServerName', EVENTLOG_HANDLE_W),
-		('ModuleName', PRPC_UNICODE_STRING),
-		('RegModuleName', PRPC_UNICODE_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
+		('context', PTUNNEL_CONTEXT_HANDLE_SERIALIZE),
     )
 
-class ElfrOpenELWResponse(NDRCALL):
+class TsProxyCloseTunnelResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('context', PTUNNEL_CONTEXT_HANDLE_SERIALIZE),
     )
         
 
-class ElfrRegisterEventSourceW(NDRCALL):
+class TsProxySetupReceivePipe(NDRCALL):
     opnum = 8
     structure = (
-		('UNCServerName', EVENTLOG_HANDLE_W),
-		('ModuleName', PRPC_UNICODE_STRING),
-		('RegModuleName', PRPC_UNICODE_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
+		('pRpcMessage', BYTE),
     )
 
-class ElfrRegisterEventSourceWResponse(NDRCALL):
+class TsProxySetupReceivePipeResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
         
 
-class ElfrOpenBELW(NDRCALL):
+class TsProxySendToServer(NDRCALL):
     opnum = 9
     structure = (
-		('UNCServerName', EVENTLOG_HANDLE_W),
-		('BackupFileName', PRPC_UNICODE_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
+		('pRpcMessage', BYTE),
     )
 
-class ElfrOpenBELWResponse(NDRCALL):
-    structure = (
-		('LogHandle', IELF_HANDLE),
-    )
-        
-
-class ElfrReadELW(NDRCALL):
-    opnum = 10
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('ReadFlags', UNSIGNED_LONG),
-		('RecordOffset', UNSIGNED_LONG),
-		('NumberOfBytesToRead', RULONG),
-    )
-
-class ElfrReadELWResponse(NDRCALL):
-    structure = (
-		('Buffer', UNSIGNED_CHAR),
-		('NumberOfBytesRead', UNSIGNED_LONG),
-		('MinNumberOfBytesNeeded', UNSIGNED_LONG),
-    )
-        
-
-class ElfrReportEventW(NDRCALL):
-    opnum = 11
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('Time', UNSIGNED_LONG),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_UNICODE_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_UNICODE_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventWResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-        
-
-class ElfrClearELFA(NDRCALL):
-    opnum = 12
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_STRING),
-    )
-
-class ElfrClearELFAResponse(NDRCALL):
+class TsProxySendToServerResponse(NDRCALL):
     structure = (
 
-    )
-        
-
-class ElfrBackupELFA(NDRCALL):
-    opnum = 13
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_STRING),
-    )
-
-class ElfrBackupELFAResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ElfrOpenELA(NDRCALL):
-    opnum = 14
-    structure = (
-		('UNCServerName', EVENTLOG_HANDLE_A),
-		('ModuleName', PRPC_STRING),
-		('RegModuleName', PRPC_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
-    )
-
-class ElfrOpenELAResponse(NDRCALL):
-    structure = (
-		('LogHandle', IELF_HANDLE),
-    )
-        
-
-class ElfrRegisterEventSourceA(NDRCALL):
-    opnum = 15
-    structure = (
-		('UNCServerName', EVENTLOG_HANDLE_A),
-		('ModuleName', PRPC_STRING),
-		('RegModuleName', PRPC_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
-    )
-
-class ElfrRegisterEventSourceAResponse(NDRCALL):
-    structure = (
-		('LogHandle', IELF_HANDLE),
-    )
-        
-
-class ElfrOpenBELA(NDRCALL):
-    opnum = 16
-    structure = (
-		('UNCServerName', EVENTLOG_HANDLE_A),
-		('BackupFileName', PRPC_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
-    )
-
-class ElfrOpenBELAResponse(NDRCALL):
-    structure = (
-		('LogHandle', IELF_HANDLE),
-    )
-        
-
-class ElfrReadELA(NDRCALL):
-    opnum = 17
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('ReadFlags', UNSIGNED_LONG),
-		('RecordOffset', UNSIGNED_LONG),
-		('NumberOfBytesToRead', RULONG),
-    )
-
-class ElfrReadELAResponse(NDRCALL):
-    structure = (
-		('Buffer', UNSIGNED_CHAR),
-		('NumberOfBytesRead', UNSIGNED_LONG),
-		('MinNumberOfBytesNeeded', UNSIGNED_LONG),
-    )
-        
-
-class ElfrReportEventA(NDRCALL):
-    opnum = 18
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('Time', UNSIGNED_LONG),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventAResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-        
-
-class Opnum19NotUsedOnWire(NDRCALL):
-    opnum = 19
-    structure = (
-
-    )
-
-class Opnum19NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Opnum20NotUsedOnWire(NDRCALL):
-    opnum = 20
-    structure = (
-
-    )
-
-class Opnum20NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Opnum21NotUsedOnWire(NDRCALL):
-    opnum = 21
-    structure = (
-
-    )
-
-class Opnum21NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ElfrGetLogInformation(NDRCALL):
-    opnum = 22
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('InfoLevel', UNSIGNED_LONG),
-		('cbBufSize', UNSIGNED_LONG),
-    )
-
-class ElfrGetLogInformationResponse(NDRCALL):
-    structure = (
-		('lpBuffer', UNSIGNED_CHAR),
-		('pcbBytesNeeded', UNSIGNED_LONG),
-    )
-        
-
-class Opnum23NotUsedOnWire(NDRCALL):
-    opnum = 23
-    structure = (
-
-    )
-
-class Opnum23NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ElfrReportEventAndSourceW(NDRCALL):
-    opnum = 24
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('Time', UNSIGNED_LONG),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('SourceName', PRPC_UNICODE_STRING),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_UNICODE_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_UNICODE_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventAndSourceWResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-        
-
-class ElfrReportEventExW(NDRCALL):
-    opnum = 25
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('TimeGenerated', PFILETIME),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_UNICODE_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_UNICODE_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventExWResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
-    )
-        
-
-class ElfrReportEventExA(NDRCALL):
-    opnum = 26
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('TimeGenerated', PFILETIME),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventExAResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
     )
         
 OPNUMS = {
-0 : (ElfrClearELFW,ElfrClearELFWResponse),
-1 : (ElfrBackupELFW,ElfrBackupELFWResponse),
-2 : (ElfrCloseEL,ElfrCloseELResponse),
-3 : (ElfrDeregisterEventSource,ElfrDeregisterEventSourceResponse),
-4 : (ElfrNumberOfRecords,ElfrNumberOfRecordsResponse),
-5 : (ElfrOldestRecord,ElfrOldestRecordResponse),
-6 : (ElfrChangeNotify,ElfrChangeNotifyResponse),
-7 : (ElfrOpenELW,ElfrOpenELWResponse),
-8 : (ElfrRegisterEventSourceW,ElfrRegisterEventSourceWResponse),
-9 : (ElfrOpenBELW,ElfrOpenBELWResponse),
-10 : (ElfrReadELW,ElfrReadELWResponse),
-11 : (ElfrReportEventW,ElfrReportEventWResponse),
-12 : (ElfrClearELFA,ElfrClearELFAResponse),
-13 : (ElfrBackupELFA,ElfrBackupELFAResponse),
-14 : (ElfrOpenELA,ElfrOpenELAResponse),
-15 : (ElfrRegisterEventSourceA,ElfrRegisterEventSourceAResponse),
-16 : (ElfrOpenBELA,ElfrOpenBELAResponse),
-17 : (ElfrReadELA,ElfrReadELAResponse),
-18 : (ElfrReportEventA,ElfrReportEventAResponse),
-19 : (Opnum19NotUsedOnWire,Opnum19NotUsedOnWireResponse),
-20 : (Opnum20NotUsedOnWire,Opnum20NotUsedOnWireResponse),
-21 : (Opnum21NotUsedOnWire,Opnum21NotUsedOnWireResponse),
-22 : (ElfrGetLogInformation,ElfrGetLogInformationResponse),
-23 : (Opnum23NotUsedOnWire,Opnum23NotUsedOnWireResponse),
-24 : (ElfrReportEventAndSourceW,ElfrReportEventAndSourceWResponse),
-25 : (ElfrReportEventExW,ElfrReportEventExWResponse),
-26 : (ElfrReportEventExA,ElfrReportEventExAResponse),
+0 : (Opnum0NotUsedOnWire,Opnum0NotUsedOnWireResponse),
+1 : (TsProxyCreateTunnel,TsProxyCreateTunnelResponse),
+2 : (TsProxyAuthorizeTunnel,TsProxyAuthorizeTunnelResponse),
+3 : (TsProxyMakeTunnelCall,TsProxyMakeTunnelCallResponse),
+4 : (TsProxyCreateChannel,TsProxyCreateChannelResponse),
+5 : (Opnum5NotUsedOnWire,Opnum5NotUsedOnWireResponse),
+6 : (TsProxyCloseChannel,TsProxyCloseChannelResponse),
+7 : (TsProxyCloseTunnel,TsProxyCloseTunnelResponse),
+8 : (TsProxySetupReceivePipe,TsProxySetupReceivePipeResponse),
+9 : (TsProxySendToServer,TsProxySendToServerResponse),
 }
 

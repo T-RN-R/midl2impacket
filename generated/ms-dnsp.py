@@ -1173,3 +1173,671 @@ class PDNS_RPC_RRL_PARAMS(NDRPOINTER):
         ('Data', DNS_RPC_RRL_PARAMS),
     )    
 
+
+class DNS_RPC_VIRTUALIZATION_INSTANCE(NDRSTRUCT):
+    structure = (
+        ('dwRpcStructureVersion', DWORD),('dwReserved', DWORD),('dwFlags', DWORD),('pwszVirtualizationID', LPWSTR),('pwszFriendlyName', LPWSTR),('pwszDescription', LPWSTR),
+    )
+class PDNS_RPC_VIRTUALIZATION_INSTANCE(NDRPOINTER):
+    referent = (
+        ('Data', DNS_RPC_VIRTUALIZATION_INSTANCE),
+    )    
+
+
+class DNS_RPC_VIRTUALIZATION_INSTANCE_INFO(NDRSTRUCT):
+    structure = (
+        ('pwszVirtualizationID', LPWSTR),('pwszFriendlyName', LPWSTR),('pwszDescription', LPWSTR),
+    )
+class PDNS_RPC_VIRTUALIZATION_INSTANCE_INFO(NDRPOINTER):
+    referent = (
+        ('Data', DNS_RPC_VIRTUALIZATION_INSTANCE_INFO),
+    )    
+
+
+class DNS_RPC_ENUM_VIRTUALIZATION_INSTANCE_LIST(NDRSTRUCT):
+    structure = (
+        ('dwRpcStructureVersion', DWORD),('dwVirtualizationInstanceCount', DWORD),('VirtualizationInstanceArray', PDNS_RPC_VIRTUALIZATION_INSTANCE_INFO),
+    )
+class PDNS_RPC_ENUM_VIRTUALIZATION_INSTANCE_LIST(NDRPOINTER):
+    referent = (
+        ('Data', DNS_RPC_ENUM_VIRTUALIZATION_INSTANCE_LIST),
+    )    
+
+
+DNSSRV_TYPEID_ANY = -1),
+DNSSRV_TYPEID_NULL = 0,
+DNSSRV_TYPEID_DWORD = 0,
+DNSSRV_TYPEID_LPSTR = 0,
+DNSSRV_TYPEID_LPWSTR = 0,
+DNSSRV_TYPEID_IPARRAY = 0,
+DNSSRV_TYPEID_BUFFER = 0,
+DNSSRV_TYPEID_SERVER_INFO_W2K = 0,
+DNSSRV_TYPEID_STATS = 0,
+DNSSRV_TYPEID_FORWARDERS_W2K = 0,
+DNSSRV_TYPEID_ZONE_W2K = 0,
+DNSSRV_TYPEID_ZONE_INFO_W2K = 0,
+DNSSRV_TYPEID_ZONE_SECONDARIES_W2K = 0,
+DNSSRV_TYPEID_ZONE_DATABASE_W2K = 0,
+DNSSRV_TYPEID_ZONE_TYPE_RESET_W2K = 0,
+DNSSRV_TYPEID_ZONE_CREATE_W2K = 0,
+DNSSRV_TYPEID_NAME_AND_PARAM = 0,
+DNSSRV_TYPEID_ZONE_LIST_W2K = 0,
+DNSSRV_TYPEID_ZONE_RENAME = 0,
+DNSSRV_TYPEID_ZONE_EXPORT = 0,
+DNSSRV_TYPEID_SERVER_INFO_DOTNET = 0,
+DNSSRV_TYPEID_FORWARDERS_DOTNET = 0,
+DNSSRV_TYPEID_ZONE = 0,
+DNSSRV_TYPEID_ZONE_INFO_DOTNET = 0,
+DNSSRV_TYPEID_ZONE_SECONDARIES_DOTNET = 0,
+DNSSRV_TYPEID_ZONE_DATABASE = 0,
+DNSSRV_TYPEID_ZONE_TYPE_RESET_DOTNET = 0,
+DNSSRV_TYPEID_ZONE_CREATE_DOTNET = 0,
+DNSSRV_TYPEID_ZONE_LIST = 0,
+DNSSRV_TYPEID_DP_ENUM = 0,
+DNSSRV_TYPEID_DP_INFO = 0,
+DNSSRV_TYPEID_DP_LIST = 0,
+DNSSRV_TYPEID_ENLIST_DP = 0,
+DNSSRV_TYPEID_ZONE_CHANGE_DP = 0,
+DNSSRV_TYPEID_ENUM_ZONES_FILTER = 0,
+DNSSRV_TYPEID_ADDRARRAY = 0,
+DNSSRV_TYPEID_SERVER_INFO = 0,
+DNSSRV_TYPEID_ZONE_INFO = 0,
+DNSSRV_TYPEID_FORWARDERS = 0,
+DNSSRV_TYPEID_ZONE_SECONDARIES = 0,
+DNSSRV_TYPEID_ZONE_TYPE_RESET = 0,
+DNSSRV_TYPEID_ZONE_CREATE = 0,
+DNSSRV_TYPEID_IP_VALIDATE = 0,
+DNSSRV_TYPEID_AUTOCONFIGURE = 0,
+DNSSRV_TYPEID_UTF8_STRING_LIST = 0,
+DNSSRV_TYPEID_UNICODE_STRING_LIST = 0,
+DNSSRV_TYPEID_SKD = 0,
+DNSSRV_TYPEID_SKD_LIST = 0,
+DNSSRV_TYPEID_SKD_STATE = 0,
+DNSSRV_TYPEID_SIGNING_VALIDATION_ERROR = 0,
+DNSSRV_TYPEID_TRUST_POINT_LIST = 0,
+DNSSRV_TYPEID_TRUST_ANCHOR_LIST = 0,
+DNSSRV_TYPEID_ZONE_SIGNING_SETTINGS = 0,
+DNSSRV_TYPEID_ZONE_SCOPE_ENUM = 0,
+DNSSRV_TYPEID_ZONE_STATS = 0,
+DNSSRV_TYPEID_ZONE_SCOPE_CREATE = 0,
+DNSSRV_TYPEID_ZONE_SCOPE_INFO = 0,
+DNSSRV_TYPEID_SCOPE_ENUM = 0,
+DNSSRV_TYPEID_CLIENT_SUBNET_RECORD = 0,
+DNSSRV_TYPEID_POLICY = 0,
+DNSSRV_TYPEID_POLICY_NAME = 0,
+DNSSRV_TYPEID_POLICY_ENUM = 0,
+DNSSRV_TYPEID_RRL = 0,
+DNSSRV_TYPEID_VIRTUALIZATION_INSTANCE = 0
+        
+
+class DNS_RPC_ENUM_ZONE_SCOPE_LIST(NDRSTRUCT):
+    structure = (
+        ('dwRpcStructureVersion', DWORD),('dwZoneScopeCount', DWORD),('ZoneScopeArray', LPWSTR),
+    )
+class PDNS_RPC_ENUM_ZONE_SCOPE_LIST(NDRPOINTER):
+    referent = (
+        ('Data', DNS_RPC_ENUM_ZONE_SCOPE_LIST),
+    )    
+
+
+class DNS_SYSTEMTIME(NDRSTRUCT):
+    structure = (
+        ('wYear', WORD),('wMonth', WORD),('wDayOfWeek', WORD),('wDay', WORD),('wHour', WORD),('wMinute', WORD),('wSecond', WORD),('wMilliseconds', WORD),
+    )
+
+
+class DNSSRV_ZONE_TIME_STATS(NDRSTRUCT):
+    structure = (
+        ('StatsCollectionStartTime', DNS_SYSTEMTIME),
+    )
+class PDNSSRV_ZONE_TIME_STATS(NDRPOINTER):
+    referent = (
+        ('Data', DNSSRV_ZONE_TIME_STATS),
+    )    
+
+
+ZONE_STATS_TYPE_RECORD_A = 0,
+ZONE_STATS_TYPE_RECORD_AAAA = 0,
+ZONE_STATS_TYPE_RECORD_PTR = 0,
+ZONE_STATS_TYPE_RECORD_CNAME = 0,
+ZONE_STATS_TYPE_RECORD_MX = 0,
+ZONE_STATS_TYPE_RECORD_AFSDB = 0,
+ZONE_STATS_TYPE_RECORD_ATMA = 0,
+ZONE_STATS_TYPE_RECORD_DHCID = 0,
+ZONE_STATS_TYPE_RECORD_DNAME = 0,
+ZONE_STATS_TYPE_RECORD_HINFO = 0,
+ZONE_STATS_TYPE_RECORD_ISDN = 0,
+ZONE_STATS_TYPE_RECORD_MG = 0,
+ZONE_STATS_TYPE_RECORD_MB = 0,
+ZONE_STATS_TYPE_RECORD_MINFO = 0,
+ZONE_STATS_TYPE_RECORD_NAPTR = 0,
+ZONE_STATS_TYPE_RECORD_NXT = 0,
+ZONE_STATS_TYPE_RECORD_KEY = 0,
+ZONE_STATS_TYPE_RECORD_MR = 0,
+ZONE_STATS_TYPE_RECORD_RP = 0,
+ZONE_STATS_TYPE_RECORD_RT = 0,
+ZONE_STATS_TYPE_RECORD_SRV = 0,
+ZONE_STATS_TYPE_RECORD_SIG = 0,
+ZONE_STATS_TYPE_RECORD_TEXT = 0,
+ZONE_STATS_TYPE_RECORD_WKS = 0,
+ZONE_STATS_TYPE_RECORD_X25 = 0,
+ZONE_STATS_TYPE_RECORD_DNSKEY = 0,
+ZONE_STATS_TYPE_RECORD_DS = 0,
+ZONE_STATS_TYPE_RECORD_NS = 0,
+ZONE_STATS_TYPE_RECORD_SOA = 0,
+ZONE_STATS_TYPE_RECORD_TLSA = 0,
+ZONE_STATS_TYPE_RECORD_ALL = 0,
+ZONE_STATS_TYPE_RECORD_OTHERS = 0,
+ZONE_STATS_TYPE_TRANSFER_AXFR = 0,
+ZONE_STATS_TYPE_TRANSFER_IXFR = 0,
+ZONE_STATS_TYPE_UPDATE = 0,
+ZONE_STATS_TYPE_RRL = 0
+        
+
+class DNSSRV_ZONE_QUERY_STATS(NDRSTRUCT):
+    structure = (
+        ('RecordType', DNS_ZONE_STATS_TYPE),('QueriesResponded', ULONG64),('QueriesReceived', ULONG64),('QueriesFailure', ULONG64),('QueriesNameError', ULONG64),
+    )
+class PDNSSRV_ZONE_QUERY_STATS(NDRPOINTER):
+    referent = (
+        ('Data', DNSSRV_ZONE_QUERY_STATS),
+    )    
+
+
+class DNSSRV_RRL_STATS(NDRSTRUCT):
+    structure = (
+        ('Header', DNSSRV_STAT_HEADER),('TotalResponsesSent', DWORD),('TotalResponsesDropped', DWORD),('TotalResponsesTruncated', DWORD),('TotalResponsesLeaked', DWORD),
+    )
+class PDNSSRV_RRL_STATS(NDRPOINTER):
+    referent = (
+        ('Data', DNSSRV_RRL_STATS),
+    )    
+
+
+class DNSSRV_ZONE_TRANSFER_STATS(NDRSTRUCT):
+    structure = (
+        ('TransferType', DNS_ZONE_STATS_TYPE),('RequestReceived', ULONG64),('RequestSent', ULONG64),('ResponseReceived', ULONG64),('SuccessReceived', ULONG64),('SuccessSent', ULONG64),
+    )
+class PDNSSRV_ZONE_TRANSFER_STATS(NDRPOINTER):
+    referent = (
+        ('Data', DNSSRV_ZONE_TRANSFER_STATS),
+    )    
+
+
+class DNSSRV_ZONE_UPDATE_STATS(NDRSTRUCT):
+    structure = (
+        ('Type', DNS_ZONE_STATS_TYPE),('DynamicUpdateReceived', ULONG64),('DynamicUpdateRejected', ULONG64),
+    )
+class PDNSSRV_ZONE_UPDATE_STATS(NDRPOINTER):
+    referent = (
+        ('Data', DNSSRV_ZONE_UPDATE_STATS),
+    )    
+
+
+class DNSSRV_ZONE_RRL_STATS(NDRSTRUCT):
+    structure = (
+        ('Type', DNS_ZONE_STATS_TYPE),('TotalResponsesSent', DWORD),('TotalResponsesDropped', DWORD),('TotalResponsesTruncated', DWORD),('TotalResponsesLeaked', DWORD),
+    )
+class PDNSSRV_ZONE_RRL_STATS(NDRPOINTER):
+    referent = (
+        ('Data', DNSSRV_ZONE_RRL_STATS),
+    )    
+
+
+class DNS_RPC_ZONE_STATS_V1(NDRSTRUCT):
+    structure = (
+        ('dwRpcStructureVersion', DWORD),('ZoneTimeStats', DNSSRV_ZONE_TIME_STATS),('ZoneQueryStats', DNSSRV_ZONE_QUERY_STATS),('ZoneTransferStats', DNSSRV_ZONE_TRANSFER_STATS),('ZoneUpdateStats', DNSSRV_ZONE_UPDATE_STATS),('ZoneRRLStats', DNSSRV_ZONE_RRL_STATS),
+    )
+class PDNS_RPC_ZONE_STATS_V1(NDRPOINTER):
+    referent = (
+        ('Data', DNS_RPC_ZONE_STATS_V1),
+    )    
+
+
+class DNS_RPC_ZONE_SCOPE_CREATE_INFO_V1(NDRSTRUCT):
+    structure = (
+        ('dwFlags', DWORD),('pwszScopeName', LPWSTR),
+    )
+class PDNS_RPC_ZONE_SCOPE_CREATE_INFO_V1(NDRPOINTER):
+    referent = (
+        ('Data', DNS_RPC_ZONE_SCOPE_CREATE_INFO_V1),
+    )    
+
+
+class DNS_RPC_ZONE_SCOPE_INFO_V1(NDRSTRUCT):
+    structure = (
+        ('dwRpcStructureVersion', DWORD),('pwszScopeName', LPWSTR),('pwszDataFile', LPWSTR),
+    )
+class PDNS_RPC_ZONE_SCOPE_INFO_V1(NDRPOINTER):
+    referent = (
+        ('Data', DNS_RPC_ZONE_SCOPE_INFO_V1),
+    )    
+
+
+class DNS_RPC_ENUM_SCOPE_LIST(NDRSTRUCT):
+    structure = (
+        ('dwRpcStructureVersion', DWORD),('dwScopeCount', DWORD),('ScopeArray', LPWSTR),
+    )
+class PDNS_RPC_ENUM_SCOPE_LIST(NDRPOINTER):
+    referent = (
+        ('Data', DNS_RPC_ENUM_SCOPE_LIST),
+    )    
+
+
+class DNSSRV_RPC_UNION(NDRUNION):
+    union = {
+        DNSSRV_TYPEID_NULL: ('Null',PBYTE),DNSSRV_TYPEID_DWORD: ('Dword',DWORD),DNSSRV_TYPEID_LPSTR: ('String',CHAR),DNSSRV_TYPEID_LPWSTR: ('WideString',WCHAR_T),DNSSRV_TYPEID_IPARRAY: ('IpArray',PIP4_ARRAY),DNSSRV_TYPEID_BUFFER: ('Buffer',PDNS_RPC_BUFFER),DNSSRV_TYPEID_SERVER_INFO_W2K: ('ServerInfoW2K',PDNS_RPC_SERVER_INFO_W2K),DNSSRV_TYPEID_STATS: ('Stats',PDNSSRV_STATS),DNSSRV_TYPEID_FORWARDERS_W2K: ('ForwardersW2K',PDNS_RPC_FORWARDERS_W2K),DNSSRV_TYPEID_ZONE_W2K: ('ZoneW2K',PDNS_RPC_ZONE_W2K),DNSSRV_TYPEID_ZONE_INFO_W2K: ('ZoneInfoW2K',PDNS_RPC_ZONE_INFO_W2K),DNSSRV_TYPEID_ZONE_SECONDARIES_W2K: ('SecondariesW2K',PDNS_RPC_ZONE_SECONDARIES_W2K),DNSSRV_TYPEID_ZONE_DATABASE_W2K: ('DatabaseW2K',PDNS_RPC_ZONE_DATABASE_W2K),DNSSRV_TYPEID_ZONE_CREATE_W2K: ('ZoneCreateW2K',PDNS_RPC_ZONE_CREATE_INFO_W2K),DNSSRV_TYPEID_NAME_AND_PARAM: ('NameAndParam',PDNS_RPC_NAME_AND_PARAM),DNSSRV_TYPEID_ZONE_LIST_W2K: ('ZoneListW2K',PDNS_RPC_ZONE_LIST_W2K),DNSSRV_TYPEID_SERVER_INFO_DOTNET: ('ServerInfoDotNet',PDNS_RPC_SERVER_INFO_DOTNET),DNSSRV_TYPEID_FORWARDERS_DOTNET: ('ForwardersDotNet',PDNS_RPC_FORWARDERS_DOTNET),DNSSRV_TYPEID_ZONE: ('Zone',PDNS_RPC_ZONE),DNSSRV_TYPEID_ZONE_INFO_DOTNET: ('ZoneInfoDotNet',PDNS_RPC_ZONE_INFO_DOTNET),DNSSRV_TYPEID_ZONE_SECONDARIES_DOTNET: ('SecondariesDotNet',PDNS_RPC_ZONE_SECONDARIES_DOTNET),DNSSRV_TYPEID_ZONE_DATABASE: ('Database',PDNS_RPC_ZONE_DATABASE),DNSSRV_TYPEID_ZONE_CREATE_DOTNET: ('ZoneCreateDotNet',PDNS_RPC_ZONE_CREATE_INFO_DOTNET),DNSSRV_TYPEID_ZONE_LIST: ('ZoneList',PDNS_RPC_ZONE_LIST),DNSSRV_TYPEID_ZONE_EXPORT: ('ZoneExport',PDNS_RPC_ZONE_EXPORT_INFO),DNSSRV_TYPEID_DP_INFO: ('DirectoryPartition',PDNS_RPC_DP_INFO),DNSSRV_TYPEID_DP_ENUM: ('DirectoryPartitionEnum',PDNS_RPC_DP_ENUM),DNSSRV_TYPEID_DP_LIST: ('DirectoryPartitionList',PDNS_RPC_DP_LIST),DNSSRV_TYPEID_ENLIST_DP: ('EnlistDirectoryPartition',PDNS_RPC_ENLIST_DP),DNSSRV_TYPEID_ZONE_CHANGE_DP: ('ZoneChangeDirectoryPartition',PDNS_RPC_ZONE_CHANGE_DP),DNSSRV_TYPEID_ENUM_ZONES_FILTER: ('EnumZonesFilter',PDNS_RPC_ENUM_ZONES_FILTER),DNSSRV_TYPEID_ADDRARRAY: ('AddrArray',PDNS_ADDR_ARRAY),DNSSRV_TYPEID_SERVER_INFO: ('ServerInfo',PDNS_RPC_SERVER_INFO),DNSSRV_TYPEID_ZONE_CREATE: ('ZoneCreate',PDNS_RPC_ZONE_CREATE_INFO),DNSSRV_TYPEID_FORWARDERS: ('Forwarders',PDNS_RPC_FORWARDERS),DNSSRV_TYPEID_ZONE_SECONDARIES: ('Secondaries',PDNS_RPC_ZONE_SECONDARIES),DNSSRV_TYPEID_IP_VALIDATE: ('IpValidate',PDNS_RPC_IP_VALIDATE),DNSSRV_TYPEID_ZONE_INFO: ('ZoneInfo',PDNS_RPC_ZONE_INFO),DNSSRV_TYPEID_AUTOCONFIGURE: ('AutoConfigure',PDNS_RPC_AUTOCONFIGURE),DNSSRV_TYPEID_UTF8_STRING_LIST: ('Utf8StringList',PDNS_RPC_UTF8_STRING_LIST),DNSSRV_TYPEID_UNICODE_STRING_LIST: ('UnicodeStringList',PDNS_RPC_UNICODE_STRING_LIST),DNSSRV_TYPEID_SKD: ('Skd',PDNS_RPC_SKD),DNSSRV_TYPEID_SKD_LIST: ('SkdList',PDNS_RPC_SKD_LIST),DNSSRV_TYPEID_SKD_STATE: ('SkdState',PDNS_RPC_SKD_STATE),DNSSRV_TYPEID_SIGNING_VALIDATION_ERROR: ('SigningValidationError',PDNS_RPC_SIGNING_VALIDATION_ERROR),DNSSRV_TYPEID_TRUST_POINT_LIST: ('TrustPointList',PDNS_RPC_TRUST_POINT_LIST),DNSSRV_TYPEID_TRUST_ANCHOR_LIST: ('TrustAnchorList',PDNS_RPC_TRUST_ANCHOR_LIST),DNSSRV_TYPEID_ZONE_SIGNING_SETTINGS: ('ZoneDnsSecSettings',PDNS_RPC_ZONE_DNSSEC_SETTINGS),DNSSRV_TYPEID_ZONE_SCOPE_ENUM: ('ZoneScopeList',PDNS_RPC_ENUM_ZONE_SCOPE_LIST),DNSSRV_TYPEID_ZONE_STATS: ('ZoneStats',PDNS_RPC_ZONE_STATS),DNSSRV_TYPEID_ZONE_SCOPE_CREATE: ('ScopeCreate',PDNS_RPC_ZONE_SCOPE_CREATE_INFO),DNSSRV_TYPEID_ZONE_SCOPE_INFO: ('ScopeInfo',PDNS_RPC_ZONE_SCOPE_INFO),DNSSRV_TYPEID_SCOPE_ENUM: ('ScopeList',PDNS_RPC_ENUM_SCOPE_LIST),DNSSRV_TYPEID_CLIENT_SUBNET_RECORD: ('SubnetList',PDNS_RPC_CLIENT_SUBNET_RECORD),DNSSRV_TYPEID_POLICY: ('pPolicy',PDNS_RPC_POLICY),DNSSRV_TYPEID_POLICY_NAME: ('pPolicyName',PDNS_RPC_POLICY_NAME),DNSSRV_TYPEID_POLICY_ENUM: ('pPolicyList',PDNS_RPC_ENUMERATE_POLICY_LIST),DNSSRV_TYPEID_RRL: ('pRRLParams',PDNS_RPC_RRL_PARAMS),DNSSRV_TYPEID_VIRTUALIZATION_INSTANCE: ('VirtualizationInstance',PDNS_RPC_VIRTUALIZATION_INSTANCE),DNSSRV_TYPEID_VIRTUALIZATION_INSTANCE_ENUM: ('VirtualizationInstanceList',PDNS_RPC_ENUM_VIRTUALIZATION_INSTANCE_LIST),
+    }
+        
+
+IMPORT_STATUS_NOOP = ,
+IMPORT_STATUS_SIGNING_READY = ,
+IMPORT_STATUS_UNSIGNING_READY = 
+        
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#DnsServer Definition
+
+#################################################################################
+
+MSRPC_UUID_DNSSERVER = uuidtup_to_bin(('50abc2a4-574d-40b3-9d66-ee4fd5fba076','0.0'))
+
+
+class R_DnssrvOperation(NDRCALL):
+    opnum = 0
+    structure = (
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('dwContext', DWORD),
+		('pszOperation', LPCSTR),
+		('dwTypeId', DWORD),
+		('pData', DNSSRV_RPC_UNION),
+    )
+
+class R_DnssrvOperationResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class R_DnssrvQuery(NDRCALL):
+    opnum = 1
+    structure = (
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pszOperation', LPCSTR),
+    )
+
+class R_DnssrvQueryResponse(NDRCALL):
+    structure = (
+		('pdwTypeId', PDWORD),
+		('ppData', DNSSRV_RPC_UNION),
+    )
+        
+
+class R_DnssrvComplexOperation(NDRCALL):
+    opnum = 2
+    structure = (
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pszOperation', LPCSTR),
+		('dwTypeIn', DWORD),
+		('pDataIn', DNSSRV_RPC_UNION),
+    )
+
+class R_DnssrvComplexOperationResponse(NDRCALL):
+    structure = (
+		('pdwTypeOut', PDWORD),
+		('ppDataOut', DNSSRV_RPC_UNION),
+    )
+        
+
+class R_DnssrvEnumRecords(NDRCALL):
+    opnum = 3
+    structure = (
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pszNodeName', LPCSTR),
+		('pszStartChild', LPCSTR),
+		('wRecordType', WORD),
+		('fSelectFlag', DWORD),
+		('pszFilterStart', LPCSTR),
+		('pszFilterStop', LPCSTR),
+    )
+
+class R_DnssrvEnumRecordsResponse(NDRCALL):
+    structure = (
+		('pdwBufferLength', PDWORD),
+		('ppBuffer', PBYTE),
+    )
+        
+
+class R_DnssrvUpdateRecord(NDRCALL):
+    opnum = 4
+    structure = (
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pszNodeName', LPCSTR),
+		('pAddRecord', PDNS_RPC_RECORD),
+		('pDeleteRecord', PDNS_RPC_RECORD),
+    )
+
+class R_DnssrvUpdateRecordResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class R_DnssrvOperation2(NDRCALL):
+    opnum = 5
+    structure = (
+		('hBindingHandle', HANDLE_T),
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('dwContext', DWORD),
+		('pszOperation', LPCSTR),
+		('dwTypeId', DWORD),
+		('pData', DNSSRV_RPC_UNION),
+    )
+
+class R_DnssrvOperation2Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class R_DnssrvQuery2(NDRCALL):
+    opnum = 6
+    structure = (
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pszOperation', LPCSTR),
+    )
+
+class R_DnssrvQuery2Response(NDRCALL):
+    structure = (
+		('pdwTypeId', PDWORD),
+		('ppData', DNSSRV_RPC_UNION),
+    )
+        
+
+class R_DnssrvComplexOperation2(NDRCALL):
+    opnum = 7
+    structure = (
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pszOperation', LPCSTR),
+		('dwTypeIn', DWORD),
+		('pDataIn', DNSSRV_RPC_UNION),
+    )
+
+class R_DnssrvComplexOperation2Response(NDRCALL):
+    structure = (
+		('pdwTypeOut', PDWORD),
+		('ppDataOut', DNSSRV_RPC_UNION),
+    )
+        
+
+class R_DnssrvEnumRecords2(NDRCALL):
+    opnum = 8
+    structure = (
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pszNodeName', LPCSTR),
+		('pszStartChild', LPCSTR),
+		('wRecordType', WORD),
+		('fSelectFlag', DWORD),
+		('pszFilterStart', LPCSTR),
+		('pszFilterStop', LPCSTR),
+    )
+
+class R_DnssrvEnumRecords2Response(NDRCALL):
+    structure = (
+		('pdwBufferLength', PDWORD),
+		('ppBuffer', PBYTE),
+    )
+        
+
+class R_DnssrvUpdateRecord2(NDRCALL):
+    opnum = 9
+    structure = (
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pszNodeName', LPCSTR),
+		('pAddRecord', PDNS_RPC_RECORD),
+		('pDeleteRecord', PDNS_RPC_RECORD),
+    )
+
+class R_DnssrvUpdateRecord2Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class R_DnssrvUpdateRecord3(NDRCALL):
+    opnum = 10
+    structure = (
+		('hBindingHandle', HANDLE_T),
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pwszZoneScope', LPCWSTR),
+		('pszNodeName', LPCSTR),
+		('pAddRecord', PDNS_RPC_RECORD),
+		('pDeleteRecord', PDNS_RPC_RECORD),
+    )
+
+class R_DnssrvUpdateRecord3Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class R_DnssrvEnumRecords3(NDRCALL):
+    opnum = 11
+    structure = (
+		('hBindingHandle', HANDLE_T),
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pwszZoneScope', LPCWSTR),
+		('pszNodeName', LPCSTR),
+		('pszStartChild', LPCSTR),
+		('wRecordType', WORD),
+		('fSelectFlag', DWORD),
+		('pszFilterStart', LPCSTR),
+		('pszFilterStop', LPCSTR),
+    )
+
+class R_DnssrvEnumRecords3Response(NDRCALL):
+    structure = (
+		('pdwBufferLength', PDWORD),
+		('ppBuffer', PBYTE),
+    )
+        
+
+class R_DnssrvOperation3(NDRCALL):
+    opnum = 12
+    structure = (
+		('hBindingHandle', HANDLE_T),
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pwszZoneScopeName', LPCWSTR),
+		('dwContext', DWORD),
+		('pszOperation', LPCSTR),
+		('dwTypeId', DWORD),
+		('pData', DNSSRV_RPC_UNION),
+    )
+
+class R_DnssrvOperation3Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class R_DnssrvQuery3(NDRCALL):
+    opnum = 13
+    structure = (
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pszZoneScopeName', LPCWSTR),
+		('pszOperation', LPCSTR),
+    )
+
+class R_DnssrvQuery3Response(NDRCALL):
+    structure = (
+		('pdwTypeId', PDWORD),
+		('ppData', DNSSRV_RPC_UNION),
+    )
+        
+
+class R_DnssrvComplexOperation3(NDRCALL):
+    opnum = 14
+    structure = (
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pwszVirtualizationInstanceID', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pszOperation', LPCSTR),
+		('dwTypeIn', DWORD),
+		('pDataIn', DNSSRV_RPC_UNION),
+    )
+
+class R_DnssrvComplexOperation3Response(NDRCALL):
+    structure = (
+		('pdwTypeOut', PDWORD),
+		('ppDataOut', DNSSRV_RPC_UNION),
+    )
+        
+
+class R_DnssrvOperation4(NDRCALL):
+    opnum = 15
+    structure = (
+		('hBindingHandle', HANDLE_T),
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pwszVirtualizationInstanceID', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pwszZoneScopeName', LPCWSTR),
+		('dwContext', DWORD),
+		('pszOperation', LPCSTR),
+		('dwTypeId', DWORD),
+		('pData', DNSSRV_RPC_UNION),
+    )
+
+class R_DnssrvOperation4Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class R_DnssrvQuery4(NDRCALL):
+    opnum = 16
+    structure = (
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pwszVirtualizationInstanceID', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pszZoneScopeName', LPCWSTR),
+		('pszOperation', LPCSTR),
+    )
+
+class R_DnssrvQuery4Response(NDRCALL):
+    structure = (
+		('pdwTypeId', PDWORD),
+		('ppData', DNSSRV_RPC_UNION),
+    )
+        
+
+class R_DnssrvUpdateRecord4(NDRCALL):
+    opnum = 17
+    structure = (
+		('hBindingHandle', HANDLE_T),
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pwszVirtualizationInstanceID', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pwszZoneScope', LPCWSTR),
+		('pszNodeName', LPCSTR),
+		('pAddRecord', PDNS_RPC_RECORD),
+		('pDeleteRecord', PDNS_RPC_RECORD),
+    )
+
+class R_DnssrvUpdateRecord4Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class R_DnssrvEnumRecords4(NDRCALL):
+    opnum = 18
+    structure = (
+		('hBindingHandle', HANDLE_T),
+		('dwClientVersion', DWORD),
+		('dwSettingFlags', DWORD),
+		('pwszServerName', LPCWSTR),
+		('pwszVirtualizationInstanceID', LPCWSTR),
+		('pszZone', LPCSTR),
+		('pwszZoneScope', LPCWSTR),
+		('pszNodeName', LPCSTR),
+		('pszStartChild', LPCSTR),
+		('wRecordType', WORD),
+		('fSelectFlag', DWORD),
+		('pszFilterStart', LPCSTR),
+		('pszFilterStop', LPCSTR),
+    )
+
+class R_DnssrvEnumRecords4Response(NDRCALL):
+    structure = (
+		('pdwBufferLength', PDWORD),
+		('ppBuffer', PBYTE),
+    )
+        
+OPNUMS = {
+0 : (R_DnssrvOperation,R_DnssrvOperationResponse),
+1 : (R_DnssrvQuery,R_DnssrvQueryResponse),
+2 : (R_DnssrvComplexOperation,R_DnssrvComplexOperationResponse),
+3 : (R_DnssrvEnumRecords,R_DnssrvEnumRecordsResponse),
+4 : (R_DnssrvUpdateRecord,R_DnssrvUpdateRecordResponse),
+5 : (R_DnssrvOperation2,R_DnssrvOperation2Response),
+6 : (R_DnssrvQuery2,R_DnssrvQuery2Response),
+7 : (R_DnssrvComplexOperation2,R_DnssrvComplexOperation2Response),
+8 : (R_DnssrvEnumRecords2,R_DnssrvEnumRecords2Response),
+9 : (R_DnssrvUpdateRecord2,R_DnssrvUpdateRecord2Response),
+10 : (R_DnssrvUpdateRecord3,R_DnssrvUpdateRecord3Response),
+11 : (R_DnssrvEnumRecords3,R_DnssrvEnumRecords3Response),
+12 : (R_DnssrvOperation3,R_DnssrvOperation3Response),
+13 : (R_DnssrvQuery3,R_DnssrvQuery3Response),
+14 : (R_DnssrvComplexOperation3,R_DnssrvComplexOperation3Response),
+15 : (R_DnssrvOperation4,R_DnssrvOperation4Response),
+16 : (R_DnssrvQuery4,R_DnssrvQuery4Response),
+17 : (R_DnssrvUpdateRecord4,R_DnssrvUpdateRecord4Response),
+18 : (R_DnssrvEnumRecords4,R_DnssrvEnumRecords4Response),
+}
+

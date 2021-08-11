@@ -464,501 +464,226 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
 
 #################################################################################
 
-#eventlog Definition
+#FileServerVssAgent Definition
 
 #################################################################################
 
-MSRPC_UUID_EVENTLOG = uuidtup_to_bin(('82273FDC-E32A-18C3-3F78-827929DC23EA','0.0'))
+MSRPC_UUID_FILESERVERVSSAGENT = uuidtup_to_bin(('A8E0653C-2744-4389-A61D-7373F8B2292','0.0'))
 
 
-class DATA_RPC_STRING(NDRUniConformantArray):
-    item = CHAR
-
-class PTR_RPC_STRING(NDRPOINTER):
-    referent = (
-        ('Data', DATA_RPC_STRING),
-    )
-
-class RPC_STRING(NDRSTRUCT):
+class FSSAGENT_SHARE_MAPPING_1(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_STRING),
-
+        ('ShadowCopySetId', GUID),('ShadowCopyId', GUID),('ShareNameUNC', LPWSTR),('ShadowCopyShareName', LPWSTR),('CreationTimestamp', LONGLONG),
     )
-        
-
-class RPC_CLIENT_ID(NDRSTRUCT):
-    structure = (
-        ('UniqueProcess', UNSIGNED_LONG),('UniqueThread', UNSIGNED_LONG),
-    )
-class PRPC_CLIENT_ID(NDRPOINTER):
+class PFSSAGENT_SHARE_MAPPING_1(NDRPOINTER):
     referent = (
-        ('Data', RPC_CLIENT_ID),
+        ('Data', FSSAGENT_SHARE_MAPPING_1),
     )    
 
-EVENTLOG_HANDLE_W = WCHAR_T
-EVENTLOG_HANDLE_A = CHAR
-IELF_HANDLE = VOID
-PIELF_HANDLE = VOID
-RULONG = UNSIGNED_LONG
 
-class ElfrClearELFW(NDRCALL):
+class FSSAGENT_SHARE_MAPPING(NDRUNION):
+    union = {
+        1: ('ShareMapping1',PFSSAGENT_SHARE_MAPPING_1),
+    }
+        class PFSSAGENT_SHARE_MAPPING(NDRPOINTER):
+    referent = (
+        ('Data', FSSAGENT_SHARE_MAPPING),
+    )    
+
+
+class GetSupportedVersion(NDRCALL):
     opnum = 0
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_UNICODE_STRING),
+
     )
 
-class ElfrClearELFWResponse(NDRCALL):
+class GetSupportedVersionResponse(NDRCALL):
     structure = (
-
+		('MinVersion', DWORD),
+		('MaxVersion', DWORD),
     )
         
 
-class ElfrBackupELFW(NDRCALL):
+class SetContext(NDRCALL):
     opnum = 1
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_UNICODE_STRING),
+		('hBinding', HANDLE_T),
+		('Context', UNSIGNED_LONG),
     )
 
-class ElfrBackupELFWResponse(NDRCALL):
+class SetContextResponse(NDRCALL):
     structure = (
 
     )
         
 
-class ElfrCloseEL(NDRCALL):
+class StartShadowCopySet(NDRCALL):
     opnum = 2
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('hBinding', HANDLE_T),
+		('ClientShadowCopySetId', GUID),
     )
 
-class ElfrCloseELResponse(NDRCALL):
+class StartShadowCopySetResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('pShadowCopySetId', GUID),
     )
         
 
-class ElfrDeregisterEventSource(NDRCALL):
+class AddToShadowCopySet(NDRCALL):
     opnum = 3
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('hBinding', HANDLE_T),
+		('ClientShadowCopyId', GUID),
+		('ShadowCopySetId', GUID),
+		('ShareName', LPWSTR),
     )
 
-class ElfrDeregisterEventSourceResponse(NDRCALL):
+class AddToShadowCopySetResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('pShadowCopyId', GUID),
     )
         
 
-class ElfrNumberOfRecords(NDRCALL):
+class CommitShadowCopySet(NDRCALL):
     opnum = 4
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('hBinding', HANDLE_T),
+		('ShadowCopySetId', GUID),
+		('TimeOutInMilliseconds', UNSIGNED_LONG),
     )
 
-class ElfrNumberOfRecordsResponse(NDRCALL):
+class CommitShadowCopySetResponse(NDRCALL):
     structure = (
-		('NumberOfRecords', UNSIGNED_LONG),
+
     )
         
 
-class ElfrOldestRecord(NDRCALL):
+class ExposeShadowCopySet(NDRCALL):
     opnum = 5
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('hBinding', HANDLE_T),
+		('ShadowCopySetId', GUID),
+		('TimeOutInMilliseconds', UNSIGNED_LONG),
     )
 
-class ElfrOldestRecordResponse(NDRCALL):
+class ExposeShadowCopySetResponse(NDRCALL):
     structure = (
-		('OldestRecordNumber', UNSIGNED_LONG),
+
     )
         
 
-class ElfrChangeNotify(NDRCALL):
+class RecoveryCompleteShadowCopySet(NDRCALL):
     opnum = 6
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('ClientId', RPC_CLIENT_ID),
-		('Event', ULONG),
+		('hBinding', HANDLE_T),
+		('ShadowCopySetId', GUID),
     )
 
-class ElfrChangeNotifyResponse(NDRCALL):
+class RecoveryCompleteShadowCopySetResponse(NDRCALL):
     structure = (
 
     )
         
 
-class ElfrOpenELW(NDRCALL):
+class AbortShadowCopySet(NDRCALL):
     opnum = 7
     structure = (
-		('UNCServerName', EVENTLOG_HANDLE_W),
-		('ModuleName', PRPC_UNICODE_STRING),
-		('RegModuleName', PRPC_UNICODE_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
+		('hBinding', HANDLE_T),
+		('ShadowCopySetId', GUID),
     )
 
-class ElfrOpenELWResponse(NDRCALL):
+class AbortShadowCopySetResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
         
 
-class ElfrRegisterEventSourceW(NDRCALL):
+class IsPathSupported(NDRCALL):
     opnum = 8
     structure = (
-		('UNCServerName', EVENTLOG_HANDLE_W),
-		('ModuleName', PRPC_UNICODE_STRING),
-		('RegModuleName', PRPC_UNICODE_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
+		('hBinding', HANDLE_T),
+		('ShareName', LPWSTR),
     )
 
-class ElfrRegisterEventSourceWResponse(NDRCALL):
+class IsPathSupportedResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('SupportedByThisProvider', BOOL),
+		('OwnerMachineName', LPWSTR),
     )
         
 
-class ElfrOpenBELW(NDRCALL):
+class IsPathShadowCopied(NDRCALL):
     opnum = 9
     structure = (
-		('UNCServerName', EVENTLOG_HANDLE_W),
-		('BackupFileName', PRPC_UNICODE_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
+		('hBinding', HANDLE_T),
+		('ShareName', LPWSTR),
     )
 
-class ElfrOpenBELWResponse(NDRCALL):
+class IsPathShadowCopiedResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+		('ShadowCopyPresent', BOOL),
+		('ShadowCopyCompatibility', LONG),
     )
         
 
-class ElfrReadELW(NDRCALL):
+class GetShareMapping(NDRCALL):
     opnum = 10
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('ReadFlags', UNSIGNED_LONG),
-		('RecordOffset', UNSIGNED_LONG),
-		('NumberOfBytesToRead', RULONG),
+		('hBinding', HANDLE_T),
+		('ShadowCopyId', GUID),
+		('ShadowCopySetId', GUID),
+		('ShareName', LPWSTR),
+		('Level', DWORD),
     )
 
-class ElfrReadELWResponse(NDRCALL):
+class GetShareMappingResponse(NDRCALL):
     structure = (
-		('Buffer', UNSIGNED_CHAR),
-		('NumberOfBytesRead', UNSIGNED_LONG),
-		('MinNumberOfBytesNeeded', UNSIGNED_LONG),
+		('ShareMapping', PFSSAGENT_SHARE_MAPPING),
     )
         
 
-class ElfrReportEventW(NDRCALL):
+class DeleteShareMapping(NDRCALL):
     opnum = 11
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('Time', UNSIGNED_LONG),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_UNICODE_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_UNICODE_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
+		('hBinding', HANDLE_T),
+		('ShadowCopySetId', GUID),
+		('ShadowCopyId', GUID),
+		('ShareName', LPWSTR),
     )
 
-class ElfrReportEventWResponse(NDRCALL):
+class DeleteShareMappingResponse(NDRCALL):
     structure = (
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
+
     )
         
 
-class ElfrClearELFA(NDRCALL):
+class PrepareShadowCopySet(NDRCALL):
     opnum = 12
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_STRING),
+		('hBinding', HANDLE_T),
+		('ShadowCopySetId', GUID),
+		('TimeOutInMilliseconds', UNSIGNED_LONG),
     )
 
-class ElfrClearELFAResponse(NDRCALL):
+class PrepareShadowCopySetResponse(NDRCALL):
     structure = (
 
-    )
-        
-
-class ElfrBackupELFA(NDRCALL):
-    opnum = 13
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_STRING),
-    )
-
-class ElfrBackupELFAResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ElfrOpenELA(NDRCALL):
-    opnum = 14
-    structure = (
-		('UNCServerName', EVENTLOG_HANDLE_A),
-		('ModuleName', PRPC_STRING),
-		('RegModuleName', PRPC_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
-    )
-
-class ElfrOpenELAResponse(NDRCALL):
-    structure = (
-		('LogHandle', IELF_HANDLE),
-    )
-        
-
-class ElfrRegisterEventSourceA(NDRCALL):
-    opnum = 15
-    structure = (
-		('UNCServerName', EVENTLOG_HANDLE_A),
-		('ModuleName', PRPC_STRING),
-		('RegModuleName', PRPC_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
-    )
-
-class ElfrRegisterEventSourceAResponse(NDRCALL):
-    structure = (
-		('LogHandle', IELF_HANDLE),
-    )
-        
-
-class ElfrOpenBELA(NDRCALL):
-    opnum = 16
-    structure = (
-		('UNCServerName', EVENTLOG_HANDLE_A),
-		('BackupFileName', PRPC_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
-    )
-
-class ElfrOpenBELAResponse(NDRCALL):
-    structure = (
-		('LogHandle', IELF_HANDLE),
-    )
-        
-
-class ElfrReadELA(NDRCALL):
-    opnum = 17
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('ReadFlags', UNSIGNED_LONG),
-		('RecordOffset', UNSIGNED_LONG),
-		('NumberOfBytesToRead', RULONG),
-    )
-
-class ElfrReadELAResponse(NDRCALL):
-    structure = (
-		('Buffer', UNSIGNED_CHAR),
-		('NumberOfBytesRead', UNSIGNED_LONG),
-		('MinNumberOfBytesNeeded', UNSIGNED_LONG),
-    )
-        
-
-class ElfrReportEventA(NDRCALL):
-    opnum = 18
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('Time', UNSIGNED_LONG),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventAResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-        
-
-class Opnum19NotUsedOnWire(NDRCALL):
-    opnum = 19
-    structure = (
-
-    )
-
-class Opnum19NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Opnum20NotUsedOnWire(NDRCALL):
-    opnum = 20
-    structure = (
-
-    )
-
-class Opnum20NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Opnum21NotUsedOnWire(NDRCALL):
-    opnum = 21
-    structure = (
-
-    )
-
-class Opnum21NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ElfrGetLogInformation(NDRCALL):
-    opnum = 22
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('InfoLevel', UNSIGNED_LONG),
-		('cbBufSize', UNSIGNED_LONG),
-    )
-
-class ElfrGetLogInformationResponse(NDRCALL):
-    structure = (
-		('lpBuffer', UNSIGNED_CHAR),
-		('pcbBytesNeeded', UNSIGNED_LONG),
-    )
-        
-
-class Opnum23NotUsedOnWire(NDRCALL):
-    opnum = 23
-    structure = (
-
-    )
-
-class Opnum23NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ElfrReportEventAndSourceW(NDRCALL):
-    opnum = 24
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('Time', UNSIGNED_LONG),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('SourceName', PRPC_UNICODE_STRING),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_UNICODE_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_UNICODE_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventAndSourceWResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-        
-
-class ElfrReportEventExW(NDRCALL):
-    opnum = 25
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('TimeGenerated', PFILETIME),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_UNICODE_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_UNICODE_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventExWResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
-    )
-        
-
-class ElfrReportEventExA(NDRCALL):
-    opnum = 26
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('TimeGenerated', PFILETIME),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventExAResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
     )
         
 OPNUMS = {
-0 : (ElfrClearELFW,ElfrClearELFWResponse),
-1 : (ElfrBackupELFW,ElfrBackupELFWResponse),
-2 : (ElfrCloseEL,ElfrCloseELResponse),
-3 : (ElfrDeregisterEventSource,ElfrDeregisterEventSourceResponse),
-4 : (ElfrNumberOfRecords,ElfrNumberOfRecordsResponse),
-5 : (ElfrOldestRecord,ElfrOldestRecordResponse),
-6 : (ElfrChangeNotify,ElfrChangeNotifyResponse),
-7 : (ElfrOpenELW,ElfrOpenELWResponse),
-8 : (ElfrRegisterEventSourceW,ElfrRegisterEventSourceWResponse),
-9 : (ElfrOpenBELW,ElfrOpenBELWResponse),
-10 : (ElfrReadELW,ElfrReadELWResponse),
-11 : (ElfrReportEventW,ElfrReportEventWResponse),
-12 : (ElfrClearELFA,ElfrClearELFAResponse),
-13 : (ElfrBackupELFA,ElfrBackupELFAResponse),
-14 : (ElfrOpenELA,ElfrOpenELAResponse),
-15 : (ElfrRegisterEventSourceA,ElfrRegisterEventSourceAResponse),
-16 : (ElfrOpenBELA,ElfrOpenBELAResponse),
-17 : (ElfrReadELA,ElfrReadELAResponse),
-18 : (ElfrReportEventA,ElfrReportEventAResponse),
-19 : (Opnum19NotUsedOnWire,Opnum19NotUsedOnWireResponse),
-20 : (Opnum20NotUsedOnWire,Opnum20NotUsedOnWireResponse),
-21 : (Opnum21NotUsedOnWire,Opnum21NotUsedOnWireResponse),
-22 : (ElfrGetLogInformation,ElfrGetLogInformationResponse),
-23 : (Opnum23NotUsedOnWire,Opnum23NotUsedOnWireResponse),
-24 : (ElfrReportEventAndSourceW,ElfrReportEventAndSourceWResponse),
-25 : (ElfrReportEventExW,ElfrReportEventExWResponse),
-26 : (ElfrReportEventExA,ElfrReportEventExAResponse),
+0 : (GetSupportedVersion,GetSupportedVersionResponse),
+1 : (SetContext,SetContextResponse),
+2 : (StartShadowCopySet,StartShadowCopySetResponse),
+3 : (AddToShadowCopySet,AddToShadowCopySetResponse),
+4 : (CommitShadowCopySet,CommitShadowCopySetResponse),
+5 : (ExposeShadowCopySet,ExposeShadowCopySetResponse),
+6 : (RecoveryCompleteShadowCopySet,RecoveryCompleteShadowCopySetResponse),
+7 : (AbortShadowCopySet,AbortShadowCopySetResponse),
+8 : (IsPathSupported,IsPathSupportedResponse),
+9 : (IsPathShadowCopied,IsPathShadowCopiedResponse),
+10 : (GetShareMapping,GetShareMappingResponse),
+11 : (DeleteShareMapping,DeleteShareMappingResponse),
+12 : (PrepareShadowCopySet,PrepareShadowCopySetResponse),
 }
 
