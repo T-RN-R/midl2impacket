@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -471,17 +471,17 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
 MSRPC_UUID_SAMR = uuidtup_to_bin(('12345778-1234-ABCD-EF00-0123456789AC','0.0'))
 
 
-class DATA_RPC_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = CHAR
 
-class PTR_RPC_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -513,17 +513,17 @@ class PENCRYPTED_NT_OWF_PASSWORD(NDRPOINTER):
     )    
 
 
-class DATA_SAMPR_ULONG_ARRAY(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_LONG
 
-class PTR_SAMPR_ULONG_ARRAY(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_SAMPR_ULONG_ARRAY),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class SAMPR_ULONG_ARRAY(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Count', UNSIGNED_LONG),	('Element', PTR_SAMPR_ULONG_ARRAY),
+	('Count', UNSIGNED_LONG),	('Element', PTR_UNSIGNED_LONG),
 
     )
         
@@ -579,17 +579,17 @@ SidTypeUnknown = 1,
 SidTypeComputer = 1
         
 
-class DATA_RPC_SHORT_BLOB(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = UNSIGNED_SHORT
 
-class PTR_RPC_SHORT_BLOB(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_SHORT_BLOB),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_SHORT_BLOB(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_SHORT_BLOB),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -614,17 +614,17 @@ class PSAMPR_ENUMERATION_BUFFER(NDRPOINTER):
     )    
 
 
-class DATA_SAMPR_SR_SECURITY_DESCRIPTOR(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_SAMPR_SR_SECURITY_DESCRIPTOR(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_SAMPR_SR_SECURITY_DESCRIPTOR),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class SAMPR_SR_SECURITY_DESCRIPTOR(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_LONG),	('SecurityDescriptor', PTR_SAMPR_SR_SECURITY_DESCRIPTOR),
+	('Length', UNSIGNED_LONG),	('SecurityDescriptor', PTR_UNSIGNED_LONG),
 
     )
         
@@ -649,17 +649,17 @@ class PSAMPR_GET_GROUPS_BUFFER(NDRPOINTER):
     )    
 
 
-class DATA_SAMPR_GET_MEMBERS_BUFFER(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_LONG
 
-class PTR_SAMPR_GET_MEMBERS_BUFFER(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_SAMPR_GET_MEMBERS_BUFFER),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class SAMPR_GET_MEMBERS_BUFFER(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('MemberCount', UNSIGNED_LONG),	('Members', UNSIGNED_LONG),	('Attributes', PTR_SAMPR_GET_MEMBERS_BUFFER),
+	('MemberCount', UNSIGNED_LONG),	('Members', UNSIGNED_LONG),	('Attributes', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1111,17 +1111,17 @@ class PUSER_EXPIRES_INFORMATION(NDRPOINTER):
     )    
 
 
-class DATA_SAMPR_LOGON_HOURS(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_SAMPR_LOGON_HOURS(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_SAMPR_LOGON_HOURS),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class SAMPR_LOGON_HOURS(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('UnitsPerWeek', UNSIGNED_SHORT),	('LogonHours', PTR_SAMPR_LOGON_HOURS),
+	('UnitsPerWeek', UNSIGNED_SHORT),	('LogonHours', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -1397,17 +1397,17 @@ SamValidateAuthentication = 1,
 SamValidatePasswordChange = 1
         
 
-class DATA_SAM_VALIDATE_PASSWORD_HASH(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_SAM_VALIDATE_PASSWORD_HASH(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_SAM_VALIDATE_PASSWORD_HASH),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class SAM_VALIDATE_PASSWORD_HASH(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_LONG),	('Hash', PTR_SAM_VALIDATE_PASSWORD_HASH),
+	('Length', UNSIGNED_LONG),	('Hash', PTR_UNSIGNED_LONG),
 
     )
         

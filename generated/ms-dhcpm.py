@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -464,17 +464,17 @@ DHCP_IP_MASK = DWORD
 DHCP_RESUME_HANDLE = DWORD
 DHCP_OPTION_ID = DWORD
 
-class DATA_DHCP_BINARY_DATA(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_DHCP_BINARY_DATA(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_BINARY_DATA),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_BINARY_DATA(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('DataLength', DWORD),	('Data', PTR_DHCP_BINARY_DATA),
+	('DataLength', DWORD),	('Data', PTR_DWORD),
 
     )
         
@@ -758,32 +758,32 @@ class LPDHCP_SEARCH_INFO(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_CLIENT_INFO_ARRAY(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPDHCP_CLIENT_INFO
 
-class PTR_DHCP_CLIENT_INFO_ARRAY(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_CLIENT_INFO_ARRAY),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_CLIENT_INFO_ARRAY(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumElements', DWORD),	('Clients', PTR_DHCP_CLIENT_INFO_ARRAY),
+	('NumElements', DWORD),	('Clients', PTR_DWORD),
 
     )
         
 
-class DATA_DHCP_OPTION_LIST(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DHCP_OPTION_VALUE
 
-class PTR_DHCP_OPTION_LIST(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_OPTION_LIST),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_OPTION_LIST(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumOptions', DWORD),	('Options', PTR_DHCP_OPTION_LIST),
+	('NumOptions', DWORD),	('Options', PTR_DWORD),
 
     )
         
@@ -838,17 +838,17 @@ class LPDHCP_SCAN_ITEM(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_SCAN_LIST(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DHCP_SCAN_ITEM
 
-class PTR_DHCP_SCAN_LIST(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_SCAN_LIST),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_SCAN_LIST(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumScanItems', DWORD),	('ScanItems', PTR_DHCP_SCAN_LIST),
+	('NumScanItems', DWORD),	('ScanItems', PTR_DWORD),
 
     )
         
@@ -899,17 +899,17 @@ class LPDHCP_CLIENT_INFO_V4(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_CLIENT_INFO_ARRAY_V4(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPDHCP_CLIENT_INFO_V4
 
-class PTR_DHCP_CLIENT_INFO_ARRAY_V4(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_CLIENT_INFO_ARRAY_V4),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_CLIENT_INFO_ARRAY_V4(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumElements', DWORD),	('Clients', PTR_DHCP_CLIENT_INFO_ARRAY_V4),
+	('NumElements', DWORD),	('Clients', PTR_DWORD),
 
     )
         
@@ -924,47 +924,47 @@ class LPDHCP_SUPER_SCOPE_TABLE_ENTRY(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_SUPER_SCOPE_TABLE(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DHCP_SUPER_SCOPE_TABLE_ENTRY
 
-class PTR_DHCP_SUPER_SCOPE_TABLE(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_SUPER_SCOPE_TABLE),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_SUPER_SCOPE_TABLE(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cEntries', DWORD),	('pEntries', PTR_DHCP_SUPER_SCOPE_TABLE),
+	('cEntries', DWORD),	('pEntries', PTR_DWORD),
 
     )
         
 
-class DATA_DHCP_SERVER_CONFIG_INFO_V4(NDRUniConformantArray):
+class DATA_BOOL(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_DHCP_SERVER_CONFIG_INFO_V4(NDRPOINTER):
+class PTR_BOOL(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_SERVER_CONFIG_INFO_V4),
+        ('Data', DATA_BOOL),
     )
 
-class DHCP_SERVER_CONFIG_INFO_V4(NDRSTRUCT):
+class BOOL(NDRSTRUCT):
     structure = (
-	('APIProtocolSupport', DWORD),	('DatabaseName', LPWSTR),	('DatabasePath', LPWSTR),	('BackupPath', LPWSTR),	('BackupInterval', DWORD),	('DatabaseLoggingFlag', DWORD),	('RestoreFlag', DWORD),	('DatabaseCleanupInterval', DWORD),	('DebugFlag', DWORD),	('dwPingRetries', DWORD),	('cbBootTableString', DWORD),	('wszBootTableString', PTR_DHCP_SERVER_CONFIG_INFO_V4),
+	('APIProtocolSupport', DWORD),	('DatabaseName', LPWSTR),	('DatabasePath', LPWSTR),	('BackupPath', LPWSTR),	('BackupInterval', DWORD),	('DatabaseLoggingFlag', DWORD),	('RestoreFlag', DWORD),	('DatabaseCleanupInterval', DWORD),	('DebugFlag', DWORD),	('dwPingRetries', DWORD),	('cbBootTableString', DWORD),	('wszBootTableString', PTR_DWORD),
 	('fAuditLog', BOOL),
     )
         
 
-class DATA_DHCP_SERVER_CONFIG_INFO_VQ(NDRUniConformantArray):
+class DATA_BOOL(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_DHCP_SERVER_CONFIG_INFO_VQ(NDRPOINTER):
+class PTR_BOOL(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_SERVER_CONFIG_INFO_VQ),
+        ('Data', DATA_BOOL),
     )
 
-class DHCP_SERVER_CONFIG_INFO_VQ(NDRSTRUCT):
+class BOOL(NDRSTRUCT):
     structure = (
-	('APIProtocolSupport', DWORD),	('DatabaseName', LPWSTR),	('DatabasePath', LPWSTR),	('BackupPath', LPWSTR),	('BackupInterval', DWORD),	('DatabaseLoggingFlag', DWORD),	('RestoreFlag', DWORD),	('DatabaseCleanupInterval', DWORD),	('DebugFlag', DWORD),	('dwPingRetries', DWORD),	('cbBootTableString', DWORD),	('wszBootTableString', PTR_DHCP_SERVER_CONFIG_INFO_VQ),
+	('APIProtocolSupport', DWORD),	('DatabaseName', LPWSTR),	('DatabasePath', LPWSTR),	('BackupPath', LPWSTR),	('BackupInterval', DWORD),	('DatabaseLoggingFlag', DWORD),	('RestoreFlag', DWORD),	('DatabaseCleanupInterval', DWORD),	('DebugFlag', DWORD),	('dwPingRetries', DWORD),	('cbBootTableString', DWORD),	('wszBootTableString', PTR_DWORD),
 	('fAuditLog', BOOL),	('QuarantineOn', BOOL),	('QuarDefFail', DWORD),	('QuarRuntimeStatus', BOOL),
     )
         
@@ -999,17 +999,17 @@ class LPDHCP_CLIENT_INFO_VQ(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_CLIENT_INFO_ARRAY_VQ(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPDHCP_CLIENT_INFO_VQ
 
-class PTR_DHCP_CLIENT_INFO_ARRAY_VQ(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_CLIENT_INFO_ARRAY_VQ),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_CLIENT_INFO_ARRAY_VQ(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumElements', DWORD),	('Clients', PTR_DHCP_CLIENT_INFO_ARRAY_VQ),
+	('NumElements', DWORD),	('Clients', PTR_DWORD),
 
     )
         
@@ -1065,17 +1065,17 @@ class LPDHCP_CLIENT_INFO_V5(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_CLIENT_INFO_ARRAY_V5(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPDHCP_CLIENT_INFO_V5
 
-class PTR_DHCP_CLIENT_INFO_ARRAY_V5(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_CLIENT_INFO_ARRAY_V5),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_CLIENT_INFO_ARRAY_V5(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumElements', DWORD),	('Clients', PTR_DHCP_CLIENT_INFO_ARRAY_V5),
+	('NumElements', DWORD),	('Clients', PTR_DWORD),
 
     )
         
@@ -1090,17 +1090,17 @@ class LPDHCP_MSCOPE_INFO(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_MSCOPE_TABLE(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPWSTR
 
-class PTR_DHCP_MSCOPE_TABLE(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_MSCOPE_TABLE),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_MSCOPE_TABLE(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumElements', DWORD),	('pMScopeNames', PTR_DHCP_MSCOPE_TABLE),
+	('NumElements', DWORD),	('pMScopeNames', PTR_DWORD),
 
     )
         
@@ -1115,17 +1115,17 @@ class LPDHCP_MCLIENT_INFO(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_MCLIENT_INFO_ARRAY(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPDHCP_MCLIENT_INFO
 
-class PTR_DHCP_MCLIENT_INFO_ARRAY(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_MCLIENT_INFO_ARRAY),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_MCLIENT_INFO_ARRAY(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumElements', DWORD),	('Clients', PTR_DHCP_MCLIENT_INFO_ARRAY),
+	('NumElements', DWORD),	('Clients', PTR_DWORD),
 
     )
         
@@ -1482,17 +1482,17 @@ class LPDHCP_CLIENT_INFO_V6(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_CLIENT_INFO_ARRAY_V6(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPDHCP_CLIENT_INFO_V6
 
-class PTR_DHCP_CLIENT_INFO_ARRAY_V6(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_CLIENT_INFO_ARRAY_V6),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_CLIENT_INFO_ARRAY_V6(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumElements', DWORD),	('Clients', PTR_DHCP_CLIENT_INFO_ARRAY_V6),
+	('NumElements', DWORD),	('Clients', PTR_DWORD),
 
     )
         
@@ -1593,17 +1593,17 @@ class LPDHCP_CLIENT_FILTER_STATUS_INFO(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_CLIENT_FILTER_STATUS_INFO_ARRAY(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPDHCP_CLIENT_FILTER_STATUS_INFO
 
-class PTR_DHCP_CLIENT_FILTER_STATUS_INFO_ARRAY(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_CLIENT_FILTER_STATUS_INFO_ARRAY),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_CLIENT_FILTER_STATUS_INFO_ARRAY(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumElements', DWORD),	('Clients', PTR_DHCP_CLIENT_FILTER_STATUS_INFO_ARRAY),
+	('NumElements', DWORD),	('Clients', PTR_DWORD),
 
     )
         
@@ -1680,17 +1680,17 @@ class LPDHCP_IP_RESERVATION_INFO(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_RESERVATION_INFO_ARRAY(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPDHCP_IP_RESERVATION_INFO
 
-class PTR_DHCP_RESERVATION_INFO_ARRAY(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_RESERVATION_INFO_ARRAY),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_RESERVATION_INFO_ARRAY(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumElements', DWORD),	('Elements', PTR_DHCP_RESERVATION_INFO_ARRAY),
+	('NumElements', DWORD),	('Elements', PTR_DWORD),
 
     )
         
@@ -1888,17 +1888,17 @@ class LPDHCP_CLIENT_INFO_PB(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_CLIENT_INFO_PB_ARRAY(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPDHCP_CLIENT_INFO_PB
 
-class PTR_DHCP_CLIENT_INFO_PB_ARRAY(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_CLIENT_INFO_PB_ARRAY),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_CLIENT_INFO_PB_ARRAY(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumElements', DWORD),	('Clients', PTR_DHCP_CLIENT_INFO_PB_ARRAY),
+	('NumElements', DWORD),	('Clients', PTR_DWORD),
 
     )
         
@@ -1958,17 +1958,17 @@ class LPDHCP_CLIENT_INFO_EX(NDRPOINTER):
     )    
 
 
-class DATA_DHCP_CLIENT_INFO_EX_ARRAY(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPDHCP_CLIENT_INFO_EX
 
-class PTR_DHCP_CLIENT_INFO_EX_ARRAY(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DHCP_CLIENT_INFO_EX_ARRAY),
+        ('Data', DATA_DWORD),
     )
 
-class DHCP_CLIENT_INFO_EX_ARRAY(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('NumElements', DWORD),	('Clients', PTR_DHCP_CLIENT_INFO_EX_ARRAY),
+	('NumElements', DWORD),	('Clients', PTR_DWORD),
 
     )
         

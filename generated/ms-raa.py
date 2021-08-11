@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -472,47 +472,47 @@ MSRPC_UUID_AUTHZR = uuidtup_to_bin(('0b1c2170-5732-4e0e-8cd3-d9b16f3b84d7','0.0'
 
 AUTHZR_HANDLE = PVOID
 
-class DATA_AUTHZR_ACCESS_REQUEST(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = OBJECT_TYPE_LIST
 
-class PTR_AUTHZR_ACCESS_REQUEST(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_AUTHZR_ACCESS_REQUEST),
+        ('Data', DATA_DWORD),
     )
 
-class AUTHZR_ACCESS_REQUEST(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('DesiredAccess', ACCESS_MASK),	('PrincipalSelfSid', RPC_SID),	('ObjectTypeListLength', DWORD),	('ObjectTypeList', PTR_AUTHZR_ACCESS_REQUEST),
+	('DesiredAccess', ACCESS_MASK),	('PrincipalSelfSid', RPC_SID),	('ObjectTypeListLength', DWORD),	('ObjectTypeList', PTR_DWORD),
 
     )
         
 
-class DATA_SR_SD(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_SR_SD(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_SR_SD),
+        ('Data', DATA_DWORD),
     )
 
-class SR_SD(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwLength', DWORD),	('pSrSd', PTR_SR_SD),
+	('dwLength', DWORD),	('pSrSd', PTR_DWORD),
 
     )
         
 
-class DATA_AUTHZR_ACCESS_REPLY(NDRUniConformantArray):
+class DATA_ACCESS_MASK(NDRUniConformantArray):
     item = DWORD
 
-class PTR_AUTHZR_ACCESS_REPLY(NDRPOINTER):
+class PTR_ACCESS_MASK(NDRPOINTER):
     referent = (
-        ('Data', DATA_AUTHZR_ACCESS_REPLY),
+        ('Data', DATA_ACCESS_MASK),
     )
 
-class AUTHZR_ACCESS_REPLY(NDRSTRUCT):
+class ACCESS_MASK(NDRSTRUCT):
     structure = (
-	('ResultListLength', DWORD),	('GrantedAccessMask', ACCESS_MASK),	('Error', PTR_AUTHZR_ACCESS_REPLY),
+	('ResultListLength', DWORD),	('GrantedAccessMask', ACCESS_MASK),	('Error', PTR_ACCESS_MASK),
 
     )
         
@@ -553,17 +553,17 @@ class AUTHZR_TOKEN_GROUPS(NDRSTRUCT):
     )
 
 
-class DATA_AUTHZR_SECURITY_ATTRIBUTE_STRING_VALUE(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_AUTHZR_SECURITY_ATTRIBUTE_STRING_VALUE(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_AUTHZR_SECURITY_ATTRIBUTE_STRING_VALUE),
+        ('Data', DATA_ULONG),
     )
 
-class AUTHZR_SECURITY_ATTRIBUTE_STRING_VALUE(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('Length', ULONG),	('Value', PTR_AUTHZR_SECURITY_ATTRIBUTE_STRING_VALUE),
+	('Length', ULONG),	('Value', PTR_ULONG),
 
     )
         
@@ -580,32 +580,32 @@ class AUTHZR_SECURITY_ATTRIBUTE_V1_VALUE(NDRSTRUCT):
     )
 
 
-class DATA_AUTHZR_SECURITY_ATTRIBUTE_V1(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = AUTHZR_SECURITY_ATTRIBUTE_V1_VALUE
 
-class PTR_AUTHZR_SECURITY_ATTRIBUTE_V1(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_AUTHZR_SECURITY_ATTRIBUTE_V1),
+        ('Data', DATA_ULONG),
     )
 
-class AUTHZR_SECURITY_ATTRIBUTE_V1(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('Length', ULONG),	('Value', WCHAR),	('ValueType', USHORT),	('Reserved', USHORT),	('Flags', ULONG),	('ValueCount', ULONG),	('Values', PTR_AUTHZR_SECURITY_ATTRIBUTE_V1),
+	('Length', ULONG),	('Value', WCHAR),	('ValueType', USHORT),	('Reserved', USHORT),	('Flags', ULONG),	('ValueCount', ULONG),	('Values', PTR_ULONG),
 
     )
         
 
-class DATA_AUTHZR_SECURITY_ATTRIBUTES_INFORMATION(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = AUTHZR_SECURITY_ATTRIBUTE_V1
 
-class PTR_AUTHZR_SECURITY_ATTRIBUTES_INFORMATION(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_AUTHZR_SECURITY_ATTRIBUTES_INFORMATION),
+        ('Data', DATA_ULONG),
     )
 
-class AUTHZR_SECURITY_ATTRIBUTES_INFORMATION(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('Version', USHORT),	('Reserved', USHORT),	('AttributeCount', ULONG),	('Attributes', PTR_AUTHZR_SECURITY_ATTRIBUTES_INFORMATION),
+	('Version', USHORT),	('Reserved', USHORT),	('AttributeCount', ULONG),	('Attributes', PTR_ULONG),
 
     )
         

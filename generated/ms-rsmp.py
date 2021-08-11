@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -658,17 +658,17 @@ class NTMS_LIBRARYINFORMATION(NDRSTRUCT):
     )
 
 
-class DATA_SECURITY_ATTRIBUTES_NTMS(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_SECURITY_ATTRIBUTES_NTMS(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_SECURITY_ATTRIBUTES_NTMS),
+        ('Data', DATA_DWORD),
     )
 
-class SECURITY_ATTRIBUTES_NTMS(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('nLength', DWORD),	('lpSecurityDescriptor', PTR_SECURITY_ATTRIBUTES_NTMS),
+	('nLength', DWORD),	('lpSecurityDescriptor', PTR_DWORD),
 	('bInheritHandle', BOOL),	('nDescriptorLength', DWORD),
     )
         

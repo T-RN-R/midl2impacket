@@ -157,62 +157,62 @@ class DRIVER_INFO_2(NDRSTRUCT):
     )
 
 
-class DATA_RPC_DRIVER_INFO_3(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = WCHAR_T
 
-class PTR_RPC_DRIVER_INFO_3(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_DRIVER_INFO_3),
+        ('Data', DATA_DWORD),
     )
 
-class RPC_DRIVER_INFO_3(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cVersion', DWORD),	('pName', WCHAR_T),	('pEnvironment', WCHAR_T),	('pDriverPath', WCHAR_T),	('pDataFile', WCHAR_T),	('pConfigFile', WCHAR_T),	('pHelpFile', WCHAR_T),	('pMonitorName', WCHAR_T),	('pDefaultDataType', WCHAR_T),	('cchDependentFiles', DWORD),	('pDependentFiles', PTR_RPC_DRIVER_INFO_3),
+	('cVersion', DWORD),	('pName', WCHAR_T),	('pEnvironment', WCHAR_T),	('pDriverPath', WCHAR_T),	('pDataFile', WCHAR_T),	('pConfigFile', WCHAR_T),	('pHelpFile', WCHAR_T),	('pMonitorName', WCHAR_T),	('pDefaultDataType', WCHAR_T),	('cchDependentFiles', DWORD),	('pDependentFiles', PTR_DWORD),
 
     )
         
 
-class DATA_RPC_DRIVER_INFO_4(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = WCHAR_T
 
-class PTR_RPC_DRIVER_INFO_4(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_DRIVER_INFO_4),
+        ('Data', DATA_DWORD),
     )
 
-class RPC_DRIVER_INFO_4(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cVersion', DWORD),	('pName', WCHAR_T),	('pEnvironment', WCHAR_T),	('pDriverPath', WCHAR_T),	('pDataFile', WCHAR_T),	('pConfigFile', WCHAR_T),	('pHelpFile', WCHAR_T),	('pMonitorName', WCHAR_T),	('pDefaultDataType', WCHAR_T),	('cchDependentFiles', DWORD),	('pDependentFiles', WCHAR_T),	('cchPreviousNames', DWORD),	('pszzPreviousNames', PTR_RPC_DRIVER_INFO_4),
+	('cVersion', DWORD),	('pName', WCHAR_T),	('pEnvironment', WCHAR_T),	('pDriverPath', WCHAR_T),	('pDataFile', WCHAR_T),	('pConfigFile', WCHAR_T),	('pHelpFile', WCHAR_T),	('pMonitorName', WCHAR_T),	('pDefaultDataType', WCHAR_T),	('cchDependentFiles', DWORD),	('pDependentFiles', WCHAR_T),	('cchPreviousNames', DWORD),	('pszzPreviousNames', PTR_DWORD),
 
     )
         
 
-class DATA_RPC_DRIVER_INFO_6(NDRUniConformantArray):
+class DATA_WCHAR_T(NDRUniConformantArray):
     item = WCHAR_T
 
-class PTR_RPC_DRIVER_INFO_6(NDRPOINTER):
+class PTR_WCHAR_T(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_DRIVER_INFO_6),
+        ('Data', DATA_WCHAR_T),
     )
 
-class RPC_DRIVER_INFO_6(NDRSTRUCT):
+class WCHAR_T(NDRSTRUCT):
     structure = (
-	('cVersion', DWORD),	('pName', WCHAR_T),	('pEnvironment', WCHAR_T),	('pDriverPath', WCHAR_T),	('pDataFile', WCHAR_T),	('pConfigFile', WCHAR_T),	('pHelpFile', WCHAR_T),	('pMonitorName', WCHAR_T),	('pDefaultDataType', WCHAR_T),	('cchDependentFiles', DWORD),	('pDependentFiles', WCHAR_T),	('cchPreviousNames', DWORD),	('pszzPreviousNames', PTR_RPC_DRIVER_INFO_6),
+	('cVersion', DWORD),	('pName', WCHAR_T),	('pEnvironment', WCHAR_T),	('pDriverPath', WCHAR_T),	('pDataFile', WCHAR_T),	('pConfigFile', WCHAR_T),	('pHelpFile', WCHAR_T),	('pMonitorName', WCHAR_T),	('pDefaultDataType', WCHAR_T),	('cchDependentFiles', DWORD),	('pDependentFiles', WCHAR_T),	('cchPreviousNames', DWORD),	('pszzPreviousNames', PTR_DWORD),
 	('ftDriverDate', FILETIME),	('dwlDriverVersion', DWORDLONG),	('pMfgName', WCHAR_T),	('pOEMUrl', WCHAR_T),	('pHardwareID', WCHAR_T),	('pProvider', WCHAR_T),
     )
         
 
-class DATA_RPC_DRIVER_INFO_8(NDRUniConformantArray):
+class DATA_DWORDLONG(NDRUniConformantArray):
     item = WCHAR_T
 
-class PTR_RPC_DRIVER_INFO_8(NDRPOINTER):
+class PTR_DWORDLONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_DRIVER_INFO_8),
+        ('Data', DATA_DWORDLONG),
     )
 
-class RPC_DRIVER_INFO_8(NDRSTRUCT):
+class DWORDLONG(NDRSTRUCT):
     structure = (
-	('cVersion', DWORD),	('pName', WCHAR_T),	('pEnvironment', WCHAR_T),	('pDriverPath', WCHAR_T),	('pDataFile', WCHAR_T),	('pConfigFile', WCHAR_T),	('pHelpFile', WCHAR_T),	('pMonitorName', WCHAR_T),	('pDefaultDataType', WCHAR_T),	('cchDependentFiles', DWORD),	('pDependentFiles', WCHAR_T),	('cchPreviousNames', DWORD),	('pszzPreviousNames', WCHAR_T),	('ftDriverDate', FILETIME),	('dwlDriverVersion', DWORDLONG),	('pMfgName', WCHAR_T),	('pOEMUrl', WCHAR_T),	('pHardwareID', WCHAR_T),	('pProvider', WCHAR_T),	('pPrintProcessor', WCHAR_T),	('pVendorSetup', WCHAR_T),	('cchColorProfiles', DWORD),	('pszzColorProfiles', WCHAR_T),	('pInfPath', WCHAR_T),	('dwPrinterDriverAttributes', DWORD),	('cchCoreDependencies', DWORD),	('pszzCoreDriverDependencies', PTR_RPC_DRIVER_INFO_8),
+	('cVersion', DWORD),	('pName', WCHAR_T),	('pEnvironment', WCHAR_T),	('pDriverPath', WCHAR_T),	('pDataFile', WCHAR_T),	('pConfigFile', WCHAR_T),	('pHelpFile', WCHAR_T),	('pMonitorName', WCHAR_T),	('pDefaultDataType', WCHAR_T),	('cchDependentFiles', DWORD),	('pDependentFiles', WCHAR_T),	('cchPreviousNames', DWORD),	('pszzPreviousNames', WCHAR_T),	('ftDriverDate', FILETIME),	('dwlDriverVersion', DWORDLONG),	('pMfgName', WCHAR_T),	('pOEMUrl', WCHAR_T),	('pHardwareID', WCHAR_T),	('pProvider', WCHAR_T),	('pPrintProcessor', WCHAR_T),	('pVendorSetup', WCHAR_T),	('cchColorProfiles', DWORD),	('pszzColorProfiles', WCHAR_T),	('pInfPath', WCHAR_T),	('dwPrinterDriverAttributes', DWORD),	('cchCoreDependencies', DWORD),	('pszzCoreDriverDependencies', PTR_DWORD),
 	('ftMinInboxDriverVerDate', FILETIME),	('dwlMinInboxDriverVerVersion', DWORDLONG),
     )
         
@@ -367,17 +367,17 @@ class SPLCLIENT_INFO_3(NDRSTRUCT):
     )
 
 
-class DATA_DEVMODE_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_DEVMODE_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_DEVMODE_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class DEVMODE_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cbBuf', DWORD),	('pDevMode', PTR_DEVMODE_CONTAINER),
+	('cbBuf', DWORD),	('pDevMode', PTR_DWORD),
 
     )
         
@@ -454,17 +454,17 @@ class PORT_CONTAINER(NDRSTRUCT):
     )
 
 
-class DATA_PORT_VAR_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_PORT_VAR_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_PORT_VAR_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class PORT_VAR_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cbMonitorData', DWORD),	('pMonitorData', PTR_PORT_VAR_CONTAINER),
+	('cbMonitorData', DWORD),	('pMonitorData', PTR_DWORD),
 
     )
         
@@ -481,17 +481,17 @@ class PRINTER_CONTAINER(NDRSTRUCT):
     )
 
 
-class DATA_RPC_BINARY_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_RPC_BINARY_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_BINARY_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class RPC_BINARY_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cbBuf', DWORD),	('pszString', PTR_RPC_BINARY_CONTAINER),
+	('cbBuf', DWORD),	('pszString', PTR_DWORD),
 
     )
         
@@ -532,17 +532,17 @@ class RPC_BIDI_RESPONSE_CONTAINER(NDRSTRUCT):
     )
 
 
-class DATA_SECURITY_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_SECURITY_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_SECURITY_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class SECURITY_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cbBuf', DWORD),	('pSecurity', PTR_SECURITY_CONTAINER),
+	('cbBuf', DWORD),	('pSecurity', PTR_DWORD),
 
     )
         
@@ -559,17 +559,17 @@ class SPLCLIENT_CONTAINER(NDRSTRUCT):
     )
 
 
-class DATA_STRING_CONTAINER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_STRING_CONTAINER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_STRING_CONTAINER),
+        ('Data', DATA_DWORD),
     )
 
-class STRING_CONTAINER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cbBuf', DWORD),	('pszString', PTR_STRING_CONTAINER),
+	('cbBuf', DWORD),	('pszString', PTR_DWORD),
 
     )
         
@@ -580,32 +580,32 @@ class SYSTEMTIME_CONTAINER(NDRSTRUCT):
     )
 
 
-class DATA_RPC_V2_NOTIFY_OPTIONS_TYPE(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = UNSIGNED_SHORT
 
-class PTR_RPC_V2_NOTIFY_OPTIONS_TYPE(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_V2_NOTIFY_OPTIONS_TYPE),
+        ('Data', DATA_DWORD),
     )
 
-class RPC_V2_NOTIFY_OPTIONS_TYPE(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('Type', UNSIGNED_SHORT),	('Reserved0', UNSIGNED_SHORT),	('Reserved1', DWORD),	('Reserved2', DWORD),	('Count', DWORD),	('pFields', PTR_RPC_V2_NOTIFY_OPTIONS_TYPE),
+	('Type', UNSIGNED_SHORT),	('Reserved0', UNSIGNED_SHORT),	('Reserved1', DWORD),	('Reserved2', DWORD),	('Count', DWORD),	('pFields', PTR_DWORD),
 
     )
         
 
-class DATA_RPC_V2_NOTIFY_OPTIONS(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = RPC_V2_NOTIFY_OPTIONS_TYPE
 
-class PTR_RPC_V2_NOTIFY_OPTIONS(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_V2_NOTIFY_OPTIONS),
+        ('Data', DATA_DWORD),
     )
 
-class RPC_V2_NOTIFY_OPTIONS(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('Version', DWORD),	('Reserved', DWORD),	('Count', DWORD),	('pTypes', PTR_RPC_V2_NOTIFY_OPTIONS),
+	('Version', DWORD),	('Reserved', DWORD),	('Count', DWORD),	('pTypes', PTR_DWORD),
 
     )
         
@@ -724,17 +724,17 @@ class RPCPRINTNAMEDPROPERTY(NDRSTRUCT):
     )
 
 
-class DATA_RPCPRINTPROPERTIESCOLLECTION(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = RPCPRINTNAMEDPROPERTY
 
-class PTR_RPCPRINTPROPERTIESCOLLECTION(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPCPRINTPROPERTIESCOLLECTION),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class RPCPRINTPROPERTIESCOLLECTION(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('numberOfProperties', UNSIGNED_LONG),	('propertiesCollection', PTR_RPCPRINTPROPERTIESCOLLECTION),
+	('numberOfProperties', UNSIGNED_LONG),	('propertiesCollection', PTR_UNSIGNED_LONG),
 
     )
         
@@ -745,17 +745,17 @@ class CORE_PRINTER_DRIVER(NDRSTRUCT):
     )
 
 
-class DATA_PROPERTYBLOB(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_PROPERTYBLOB(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_PROPERTYBLOB),
+        ('Data', DATA_DWORD),
     )
 
-class PROPERTYBLOB(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cbBuf', DWORD),	('pBuf', PTR_PROPERTYBLOB),
+	('cbBuf', DWORD),	('pBuf', PTR_DWORD),
 
     )
         

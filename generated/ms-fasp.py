@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -649,17 +649,17 @@ class PFW_ICMP_TYPE_CODE_LIST(NDRPOINTER):
     )    
 
 
-class DATA_FW_INTERFACE_LUIDS(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = GUID
 
-class PTR_FW_INTERFACE_LUIDS(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_FW_INTERFACE_LUIDS),
+        ('Data', DATA_DWORD),
     )
 
-class FW_INTERFACE_LUIDS(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwNumLUIDs', DWORD),	('pLUIDs', PTR_FW_INTERFACE_LUIDS),
+	('dwNumLUIDs', DWORD),	('pLUIDs', PTR_DWORD),
 
     )
         
@@ -970,17 +970,17 @@ FW_ENFORCEMENT_STATE_TUPLE_RESOLUTION_EMPTY = ,
 FW_ENFORCEMENT_STATE_NETNAME_RESOLUTION_EMPTY = 
         
 
-class DATA_FW_OBJECT_METADATA(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = FW_ENFORCEMENT_STATE
 
-class PTR_FW_OBJECT_METADATA(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_FW_OBJECT_METADATA),
+        ('Data', DATA_DWORD),
     )
 
-class FW_OBJECT_METADATA(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('qwFilterContextID', UINT64),	('dwNumEntries', DWORD),	('pEnforcementStates', PTR_FW_OBJECT_METADATA),
+	('qwFilterContextID', UINT64),	('dwNumEntries', DWORD),	('pEnforcementStates', PTR_DWORD),
 
     )
         
@@ -1012,17 +1012,17 @@ class PFW_OS_PLATFORM_LIST(NDRPOINTER):
     )    
 
 
-class DATA_FW_NETWORK_NAMES(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = LPWSTR
 
-class PTR_FW_NETWORK_NAMES(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_FW_NETWORK_NAMES),
+        ('Data', DATA_DWORD),
     )
 
-class FW_NETWORK_NAMES(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwNumEntries', DWORD),	('wszNames', PTR_FW_NETWORK_NAMES),
+	('dwNumEntries', DWORD),	('wszNames', PTR_DWORD),
 
     )
         
@@ -1286,17 +1286,17 @@ class PFW_RULE2_27(NDRPOINTER):
     )    
 
 
-class DATA_FW_DYNAMIC_KEYWORD_ADDRESS_ID_LIST(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = UINT32
 
-class PTR_FW_DYNAMIC_KEYWORD_ADDRESS_ID_LIST(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_FW_DYNAMIC_KEYWORD_ADDRESS_ID_LIST),
+        ('Data', DATA_DWORD),
     )
 
-class FW_DYNAMIC_KEYWORD_ADDRESS_ID_LIST(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwNumIds', DWORD),	('ids', PTR_FW_DYNAMIC_KEYWORD_ADDRESS_ID_LIST),
+	('dwNumIds', DWORD),	('ids', PTR_DWORD),
 
     )
         
@@ -1432,17 +1432,17 @@ FW_RULE_CATEGORY_FIREWALL = ,
 FW_RULE_CATEGORY_CONSEC = 
         
 
-class DATA_FW_PRODUCT(NDRUniConformantArray):
+class DATA_WCHAR_T(NDRUniConformantArray):
     item = FW_RULE_CATEGORY
 
-class PTR_FW_PRODUCT(NDRPOINTER):
+class PTR_WCHAR_T(NDRPOINTER):
     referent = (
-        ('Data', DATA_FW_PRODUCT),
+        ('Data', DATA_WCHAR_T),
     )
 
-class FW_PRODUCT(NDRSTRUCT):
+class WCHAR_T(NDRSTRUCT):
     structure = (
-	('dwFlags', DWORD),	('dwNumRuleCategories', DWORD),	('pRuleCategories', PTR_FW_PRODUCT),
+	('dwFlags', DWORD),	('dwNumRuleCategories', DWORD),	('pRuleCategories', PTR_DWORD),
 	('pszDisplayName', WCHAR_T),	('pszPathToSignedProductExe', WCHAR_T),
     )
         
@@ -1611,17 +1611,17 @@ FW_AUTH_CERT_CRITERIA_FLAGS_FOLLOW_RENEWAL = 1,
 FW_AUTH_CERT_CRITERIA_FLAGS_MAX = 2
         
 
-class DATA_FW_CERT_CRITERIA(NDRUniConformantArray):
+class DATA_LPWSTR(NDRUniConformantArray):
     item = LPSTR
 
-class PTR_FW_CERT_CRITERIA(NDRPOINTER):
+class PTR_LPWSTR(NDRPOINTER):
     referent = (
-        ('Data', DATA_FW_CERT_CRITERIA),
+        ('Data', DATA_LPWSTR),
     )
 
-class FW_CERT_CRITERIA(NDRSTRUCT):
+class LPWSTR(NDRSTRUCT):
     structure = (
-	('wSchemaVersion', WORD),	('wFlags', WORD),	('CertCriteriaType', FW_CERT_CRITERIA_TYPE),	('NameType', FW_CERT_CRITERIA_NAME_TYPE),	('wszName', LPWSTR),	('dwNumEku', DWORD),	('ppEku', PTR_FW_CERT_CRITERIA),
+	('wSchemaVersion', WORD),	('wFlags', WORD),	('CertCriteriaType', FW_CERT_CRITERIA_TYPE),	('NameType', FW_CERT_CRITERIA_NAME_TYPE),	('wszName', LPWSTR),	('dwNumEku', DWORD),	('ppEku', PTR_DWORD),
 	('wszHash', LPWSTR),
     )
         
@@ -1818,17 +1818,17 @@ class PFW_CRYPTO_SET(NDRPOINTER):
     )    
 
 
-class DATA_FW_BYTE_BLOB(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = BYTE
 
-class PTR_FW_BYTE_BLOB(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_FW_BYTE_BLOB),
+        ('Data', DATA_DWORD),
     )
 
-class FW_BYTE_BLOB(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwSize', DWORD),	('Blob', PTR_FW_BYTE_BLOB),
+	('dwSize', DWORD),	('Blob', PTR_DWORD),
 
     )
         
@@ -2003,32 +2003,32 @@ class PFW_QUERY_CONDITION(NDRPOINTER):
     )    
 
 
-class DATA_FW_QUERY_CONDITIONS(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = FW_QUERY_CONDITION
 
-class PTR_FW_QUERY_CONDITIONS(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_FW_QUERY_CONDITIONS),
+        ('Data', DATA_DWORD),
     )
 
-class FW_QUERY_CONDITIONS(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwNumEntries', DWORD),	('AndedConditions', PTR_FW_QUERY_CONDITIONS),
+	('dwNumEntries', DWORD),	('AndedConditions', PTR_DWORD),
 
     )
         
 
-class DATA_FW_QUERY(NDRUniConformantArray):
+class DATA_FW_RULE_STATUS(NDRUniConformantArray):
     item = FW_QUERY_CONDITIONS
 
-class PTR_FW_QUERY(NDRPOINTER):
+class PTR_FW_RULE_STATUS(NDRPOINTER):
     referent = (
-        ('Data', DATA_FW_QUERY),
+        ('Data', DATA_FW_RULE_STATUS),
     )
 
-class FW_QUERY(NDRSTRUCT):
+class FW_RULE_STATUS(NDRSTRUCT):
     structure = (
-	('wSchemaVersion', WORD),	('dwNumEntries', UINT32),	('ORConditions', PTR_FW_QUERY),
+	('wSchemaVersion', WORD),	('dwNumEntries', UINT32),	('ORConditions', PTR_UINT32),
 	('Status', FW_RULE_STATUS),
     )
         

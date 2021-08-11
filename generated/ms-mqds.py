@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -641,17 +641,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -849,137 +849,137 @@ class XACTUOW(NDRSTRUCT):
     )
 
 
-class DATA_BLOB(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_BLOB(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_BLOB),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class BLOB(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cbSize', UNSIGNED_LONG),	('pBlobData', PTR_BLOB),
+	('cbSize', UNSIGNED_LONG),	('pBlobData', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_CAUB(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_CAUB(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_CAUB),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class CAUB(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_CAUB),
+	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_CAUI(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_SHORT
 
-class PTR_CAUI(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_CAUI),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class CAUI(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_CAUI),
+	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_CAL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = LONG
 
-class PTR_CAL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_CAL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class CAL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_CAL),
+	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_CAUL(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = UNSIGNED_LONG
 
-class PTR_CAUL(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_CAUL),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class CAUL(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_CAUL),
+	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_CAUH(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = ULARGE_INTEGER
 
-class PTR_CAUH(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_CAUH),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class CAUH(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_CAUH),
+	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_CACLSID(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = GUID
 
-class PTR_CACLSID(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_CACLSID),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class CACLSID(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_CACLSID),
+	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_CALPWSTR(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = WCHAR_T
 
-class PTR_CALPWSTR(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_CALPWSTR),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class CALPWSTR(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_CALPWSTR),
+	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_CAPROPVARIANT(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = PROPVARIANT
 
-class PTR_CAPROPVARIANT(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_CAPROPVARIANT),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class CAPROPVARIANT(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_CAPROPVARIANT),
+	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1068,32 +1068,32 @@ class MQPROPERTYRESTRICTION(NDRSTRUCT):
     )
 
 
-class DATA_MQRESTRICTION(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = MQPROPERTYRESTRICTION
 
-class PTR_MQRESTRICTION(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_MQRESTRICTION),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class MQRESTRICTION(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cRes', UNSIGNED_LONG),	('paPropRes', PTR_MQRESTRICTION),
+	('cRes', UNSIGNED_LONG),	('paPropRes', PTR_UNSIGNED_LONG),
 
     )
         
 
-class DATA_MQCOLUMNSET(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = PROPID
 
-class PTR_MQCOLUMNSET(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_MQCOLUMNSET),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class MQCOLUMNSET(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cCol', UNSIGNED_LONG),	('aCol', PTR_MQCOLUMNSET),
+	('cCol', UNSIGNED_LONG),	('aCol', PTR_UNSIGNED_LONG),
 
     )
         
@@ -1104,17 +1104,17 @@ class MQSORTKEY(NDRSTRUCT):
     )
 
 
-class DATA_MQSORTSET(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = MQSORTKEY
 
-class PTR_MQSORTSET(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_MQSORTSET),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class MQSORTSET(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('cCol', UNSIGNED_LONG),	('aCol', PTR_MQSORTSET),
+	('cCol', UNSIGNED_LONG),	('aCol', PTR_UNSIGNED_LONG),
 
     )
         

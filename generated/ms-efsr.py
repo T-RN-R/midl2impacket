@@ -258,17 +258,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -473,17 +473,17 @@ MSRPC_UUID_EFSRPC = uuidtup_to_bin(('c681d488-d850-110-852-0004d90f7e','0.0'))
 PEXIMPORT_CONTEXT_HANDLE = VOID
 EFS_EXIM_PIPE = PIPE UNSIGNED CHAR
 
-class DATA_EFS_RPC_BLOB(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_EFS_RPC_BLOB(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_EFS_RPC_BLOB),
+        ('Data', DATA_DWORD),
     )
 
-class EFS_RPC_BLOB(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cbData', DWORD),	('bData', PTR_EFS_RPC_BLOB),
+	('cbData', DWORD),	('bData', PTR_DWORD),
 
     )
         
@@ -495,17 +495,17 @@ class EFS_COMPATIBILITY_INFO(NDRSTRUCT):
 
 ALG_ID = UNSIGNED_INT
 
-class DATA_EFS_HASH_BLOB(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_EFS_HASH_BLOB(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_EFS_HASH_BLOB),
+        ('Data', DATA_DWORD),
     )
 
-class EFS_HASH_BLOB(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('cbData', DWORD),	('bData', PTR_EFS_HASH_BLOB),
+	('cbData', DWORD),	('bData', PTR_DWORD),
 
     )
         
@@ -516,32 +516,32 @@ class ENCRYPTION_CERTIFICATE_HASH(NDRSTRUCT):
     )
 
 
-class DATA_ENCRYPTION_CERTIFICATE_HASH_LIST(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = ENCRYPTION_CERTIFICATE_HASH
 
-class PTR_ENCRYPTION_CERTIFICATE_HASH_LIST(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_ENCRYPTION_CERTIFICATE_HASH_LIST),
+        ('Data', DATA_DWORD),
     )
 
-class ENCRYPTION_CERTIFICATE_HASH_LIST(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('nCert_Hash', DWORD),	('Users', PTR_ENCRYPTION_CERTIFICATE_HASH_LIST),
+	('nCert_Hash', DWORD),	('Users', PTR_DWORD),
 
     )
         
 
-class DATA_EFS_CERTIFICATE_BLOB(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = UNSIGNED_CHAR
 
-class PTR_EFS_CERTIFICATE_BLOB(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_EFS_CERTIFICATE_BLOB),
+        ('Data', DATA_DWORD),
     )
 
-class EFS_CERTIFICATE_BLOB(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('dwCertEncodingType', DWORD),	('cbData', DWORD),	('bData', PTR_EFS_CERTIFICATE_BLOB),
+	('dwCertEncodingType', DWORD),	('cbData', DWORD),	('bData', PTR_DWORD),
 
     )
         
@@ -552,17 +552,17 @@ class ENCRYPTION_CERTIFICATE(NDRSTRUCT):
     )
 
 
-class DATA_ENCRYPTION_CERTIFICATE_LIST(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = ENCRYPTION_CERTIFICATE
 
-class PTR_ENCRYPTION_CERTIFICATE_LIST(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_ENCRYPTION_CERTIFICATE_LIST),
+        ('Data', DATA_DWORD),
     )
 
-class ENCRYPTION_CERTIFICATE_LIST(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('nUsers', DWORD),	('Users', PTR_ENCRYPTION_CERTIFICATE_LIST),
+	('nUsers', DWORD),	('Users', PTR_DWORD),
 
     )
         
@@ -601,17 +601,17 @@ class PENCRYPTION_PROTECTOR(NDRPOINTER):
     )    
 
 
-class DATA_ENCRYPTION_PROTECTOR_LIST(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = PENCRYPTION_PROTECTOR
 
-class PTR_ENCRYPTION_PROTECTOR_LIST(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_ENCRYPTION_PROTECTOR_LIST),
+        ('Data', DATA_DWORD),
     )
 
-class ENCRYPTION_PROTECTOR_LIST(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('nProtectors', DWORD),	('pProtectors', PTR_ENCRYPTION_PROTECTOR_LIST),
+	('nProtectors', DWORD),	('pProtectors', PTR_DWORD),
 
     )
         

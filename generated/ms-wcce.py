@@ -264,17 +264,17 @@ class MULTI_SZ(NDRSTRUCT):
     )
 
 
-class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = WCHAR
 
-class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_RPC_UNICODE_STRING),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class RPC_UNICODE_STRING(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_UNICODE_STRING),
+	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -484,17 +484,17 @@ class ORPC_EXTENT(NDRSTRUCT):
     )
 
 
-class DATA_ORPC_EXTENT_ARRAY(NDRUniConformantArray):
+class DATA_UNSIGNED_LONG(NDRUniConformantArray):
     item = ORPC_EXTENT
 
-class PTR_ORPC_EXTENT_ARRAY(NDRPOINTER):
+class PTR_UNSIGNED_LONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_ORPC_EXTENT_ARRAY),
+        ('Data', DATA_UNSIGNED_LONG),
     )
 
-class ORPC_EXTENT_ARRAY(NDRSTRUCT):
+class UNSIGNED_LONG(NDRSTRUCT):
     structure = (
-	('size', UNSIGNED_LONG),	('reserved', UNSIGNED_LONG),	('extent', PTR_ORPC_EXTENT_ARRAY),
+	('size', UNSIGNED_LONG),	('reserved', UNSIGNED_LONG),	('extent', PTR_UNSIGNED_LONG),
 
     )
         
@@ -561,17 +561,17 @@ class COSERVERINFO(NDRSTRUCT):
     )
 
 
-class DATA_CUSTOMREMOTE_REQUEST_SCM_INFO(NDRUniConformantArray):
+class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
     item = UNSIGNED_SHORT
 
-class PTR_CUSTOMREMOTE_REQUEST_SCM_INFO(NDRPOINTER):
+class PTR_UNSIGNED_SHORT(NDRPOINTER):
     referent = (
-        ('Data', DATA_CUSTOMREMOTE_REQUEST_SCM_INFO),
+        ('Data', DATA_UNSIGNED_SHORT),
     )
 
-class CUSTOMREMOTE_REQUEST_SCM_INFO(NDRSTRUCT):
+class UNSIGNED_SHORT(NDRSTRUCT):
     structure = (
-	('ClientImpLevel', DWORD),	('cRequestedProtseqs', UNSIGNED_SHORT),	('pRequestedProtseqs', PTR_CUSTOMREMOTE_REQUEST_SCM_INFO),
+	('ClientImpLevel', DWORD),	('cRequestedProtseqs', UNSIGNED_SHORT),	('pRequestedProtseqs', PTR_UNSIGNED_SHORT),
 
     )
         
@@ -582,17 +582,17 @@ class CUSTOMREMOTE_REPLY_SCM_INFO(NDRSTRUCT):
     )
 
 
-class DATA_INSTANTIATIONINFODATA(NDRUniConformantArray):
+class DATA_COMVERSION(NDRUniConformantArray):
     item = IID
 
-class PTR_INSTANTIATIONINFODATA(NDRPOINTER):
+class PTR_COMVERSION(NDRPOINTER):
     referent = (
-        ('Data', DATA_INSTANTIATIONINFODATA),
+        ('Data', DATA_COMVERSION),
     )
 
-class INSTANTIATIONINFODATA(NDRSTRUCT):
+class COMVERSION(NDRSTRUCT):
     structure = (
-	('classId', CLSID),	('classCtx', DWORD),	('actvflags', DWORD),	('fIsSurrogate', LONG),	('cIID', DWORD),	('instFlag', DWORD),	('pIID', PTR_INSTANTIATIONINFODATA),
+	('classId', CLSID),	('classCtx', DWORD),	('actvflags', DWORD),	('fIsSurrogate', LONG),	('cIID', DWORD),	('instFlag', DWORD),	('pIID', PTR_DWORD),
 	('thisSize', DWORD),	('clientCOMVersion', COMVERSION),
     )
         
@@ -609,32 +609,32 @@ class ACTIVATIONCONTEXTINFODATA(NDRSTRUCT):
     )
 
 
-class DATA_CUSTOMHEADER(NDRUniConformantArray):
+class DATA_DWORD(NDRUniConformantArray):
     item = DWORD
 
-class PTR_CUSTOMHEADER(NDRPOINTER):
+class PTR_DWORD(NDRPOINTER):
     referent = (
-        ('Data', DATA_CUSTOMHEADER),
+        ('Data', DATA_DWORD),
     )
 
-class CUSTOMHEADER(NDRSTRUCT):
+class DWORD(NDRSTRUCT):
     structure = (
-	('totalSize', DWORD),	('headerSize', DWORD),	('dwReserved', DWORD),	('destCtx', DWORD),	('cIfs', DWORD),	('classInfoClsid', CLSID),	('pclsid', CLSID),	('pSizes', PTR_CUSTOMHEADER),
+	('totalSize', DWORD),	('headerSize', DWORD),	('dwReserved', DWORD),	('destCtx', DWORD),	('cIfs', DWORD),	('classInfoClsid', CLSID),	('pclsid', CLSID),	('pSizes', PTR_CLSID),
 	('pdwReserved', DWORD),
     )
         
 
-class DATA_PROPSOUTINFO(NDRUniConformantArray):
+class DATA_HRESULT(NDRUniConformantArray):
     item = MINTERFACEPOINTER
 
-class PTR_PROPSOUTINFO(NDRPOINTER):
+class PTR_HRESULT(NDRPOINTER):
     referent = (
-        ('Data', DATA_PROPSOUTINFO),
+        ('Data', DATA_HRESULT),
     )
 
-class PROPSOUTINFO(NDRSTRUCT):
+class HRESULT(NDRSTRUCT):
     structure = (
-	('cIfs', DWORD),	('piid', IID),	('phresults', HRESULT),	('ppIntfData', PTR_PROPSOUTINFO),
+	('cIfs', DWORD),	('piid', IID),	('phresults', HRESULT),	('ppIntfData', PTR_HRESULT),
 
     )
         
@@ -1069,17 +1069,17 @@ OPNUMS = {
 
 BYTE = BYTE
 
-class DATA_CERTTRANSBLOB(NDRUniConformantArray):
+class DATA_ULONG(NDRUniConformantArray):
     item = BYTE
 
-class PTR_CERTTRANSBLOB(NDRPOINTER):
+class PTR_ULONG(NDRPOINTER):
     referent = (
-        ('Data', DATA_CERTTRANSBLOB),
+        ('Data', DATA_ULONG),
     )
 
-class CERTTRANSBLOB(NDRSTRUCT):
+class ULONG(NDRSTRUCT):
     structure = (
-	('cb', ULONG),	('pb', PTR_CERTTRANSBLOB),
+	('cb', ULONG),	('pb', PTR_ULONG),
 
     )
         
