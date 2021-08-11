@@ -20,7 +20,6 @@ class MidlState(enum.Enum):
     IMPORT = enum.auto()
     IMPORT_COMPLETE = enum.auto()
     DEF_COMPLETE = enum.auto()
-    ATTR_DEFINITION = enum.auto()
     MIDL_PRAGMA = enum.auto()
     DEFINITION = enum.auto()
     OPEN_SQBRACKET = enum.auto()
@@ -42,6 +41,8 @@ class MidlParser(MidlBaseParser):
     def keyword(self, token):
         """Handles encountered keywords
         """
+        if self.state not in [MidlState.DEFAULT, MidlState.DEF_COMPLETE]:
+            self.invalid(token)
         if token.data == "import":
             self.state = MidlState.IMPORT
         elif token.data == 'typedef':
@@ -55,23 +56,24 @@ class MidlParser(MidlBaseParser):
         elif token.data == 'midl_pragma':
             assert(next(self.tokens).data == 'warning')
             SkipClosureParser(self.tokens, self.tokenizer, '(', ')').parse(next(self.tokens))
-        elif self.state == MidlState.ATTR_DEFINITION:
-            if token.data == 'interface':
-                iface = MidlInterfaceParser(self.tokens, self.tokenizer).parse(token)
-                iface.attributes = self.cur_def_attrs
-                self.definition.interfaces.append(iface)
-                self.cur_def_attrs = {}
-                self.state = MidlState.DEF_COMPLETE
-            elif token.data == 'coclass':
-                coclass = MidlCoclassParser(self.tokens, self.tokenizer).parse(token)
-                self.definition.coclasses.append(coclass)
-                self.state = MidlState.DEF_COMPLETE
-            elif token.data == 'dispinterface':
-                dispinterface = MidlDispInterfaceParser(self.tokens, self.tokenizer).parse(token)
-                self.definition.dispinterfaces.append(dispinterface)
-                self.state = MidlState.DEF_COMPLETE
-            else:
-                self.invalid(token)
+        elif token.data == 'interface' and self.cur_def_attrs:
+            iface = MidlInterfaceParser(self.tokens, self.tokenizer).parse(token)
+            iface.attributes = self.cur_def_attrs
+            self.definition.interfaces.append(iface)
+            self.cur_def_attrs = {}
+            self.state = MidlState.DEF_COMPLETE
+        elif token.data == 'coclass':
+            coclass = MidlCoclassParser(self.tokens, self.tokenizer).parse(token)
+            coclass.attributes = self.cur_def_attrs
+            self.definition.coclasses.append(coclass)
+            self.cur_def_attrs = {}
+            self.state = MidlState.DEF_COMPLETE
+        elif token.data == 'dispinterface':
+            dispinterface = MidlDispInterfaceParser(self.tokens, self.tokenizer).parse(token)
+            dispinterface.attributes = self.cur_def_attrs
+            self.definition.dispinterfaces.append(dispinterface)
+            self.cur_def_attrs = {}
+            self.state = MidlState.DEF_COMPLETE
         else:
             self.state = MidlState.DEFINITION
             self.definition.instantiation.append(
@@ -93,8 +95,8 @@ class MidlParser(MidlBaseParser):
         """Encountered a square bracket. Only opening brackets are handled here.
         """
         if token.data == "[" and self.state in [MidlState.DEFAULT, MidlState.DEF_COMPLETE]:
-            self.cur_def_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
-            self.state = MidlState.ATTR_DEFINITION
+            self.cur_def_attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
+            self.state = MidlState.DEFAULT
         else:
             # Note that the closing square bracket is handled within the MidlInterfaceParser
             self.invalid(token)
@@ -113,6 +115,7 @@ class MidlParser(MidlBaseParser):
     def directive(self, token):
         if token.data.startswith("#define"):
             self.definition.defines.append(token.data)
+            self.state = MidlState.DEFAULT
 
     def parse(self, cur_token):
         try:

@@ -121,10 +121,8 @@ class MidlStructParser(MidlBaseParser):
         # Both the attributes parser and the array parser consume the ']'
         if token == ']':
             self.invalid(token)
-
         if self.state == StructState.MEMBER_TYPE_OR_ATTR:
-            self.cur_member_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
-            self.state = StructState.MEMBER_TYPE
+            self.cur_member_attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
         elif self.state in [StructState.MEMBER_TYPE, StructState.MEMBER_ARRAY]:
             # The member has (possibly additional) array dimensions specified..
             self.cur_member_array_info.append(MidlArrayParser(self.tokens, self.tokenizer).parse(token))

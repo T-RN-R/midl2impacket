@@ -31,16 +31,17 @@ class MidlDispInterfaceParser(MidlBaseParser):
         self.dispinterface = MidlDispInterface()
         self.state = DispInterfaceState.BEGIN
         self.brace_level = 0
+        self.cur_method_attrs = {}
+        self.cur_prop_attrs = {}
 
     def sqbracket(self, token):
         """ Handle attributes for procedures
         """
         if token.data == "[":
             if self.state == DispInterfaceState.PROP_ATTR_OR_TYPE:
-                self.cur_prop_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
-                self.state = DispInterfaceState.PROP_TYPE
+                self.cur_prop_attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
             elif self.state == DispInterfaceState.METHOD_ATTR_OR_TYPE:
-                self.cur_method_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
+                self.cur_method_attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
                 self.state = DispInterfaceState.METHOD_TYPE
             else:
                 self.invalid(token)

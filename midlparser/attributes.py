@@ -50,18 +50,22 @@ class MidlAttributesParser(MidlBaseParser):
         
     def rbracket(self, token):
         if token.data == '(':
+            self.rbracket_level += 1
+            # If we're already parsing parameters this is part of one, e.g. attr(param_with_rbracket(x))
             if self.state == AttributeState.PARAMETERS:
-                if self.rbracket_level >=1:
+                if self.rbracket_level >= 1:
                     self.add_to_cur_param(token)
             self.state = AttributeState.PARAMETERS
             self.rbracket_level += 1
         elif token.data == ')':
+            self.rbracket_level -= 1
+            # Closing bracket only valid within parameters
             if self.state != AttributeState.PARAMETERS:
-                if self.rbracket_level >=1:
+                if self.rbracket_level >= 1:
                     self.add_to_cur_param(token)
             self.cur_attr_params.append(self.cur_attr_param)
             self.cur_attr_param = ''
-            assert(self.rbracket_level >=1)
+            assert(self.rbracket_level >= 1)
             self.rbracket_level -= 1
             if self.rbracket_level == 0:
                 self.state = AttributeState.DEFAULT
