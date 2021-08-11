@@ -727,7 +727,7 @@ class PDNS_RPC_ZONE_SKD(NDRPOINTER):
 
 class DNS_RPC_ZONE_DNSSEC_SETTINGS(NDRSTRUCT):
     structure = (
-        ('dwRpcStructureVersion', DWORD),('dwReserved0', DWORD),('fIsSigned', DWORD),('fSignWithNSEC3', DWORD),('fNSEC3OptOut', DWORD),('dwMaintainTrustAnchor', DWORD),('fParentHasSecureDelegation', DWORD),('dwDSRecordAlgorithms', DWORD),('fRFC501KeyRollovers', DWORD),('bNSEC3HashAlgorithm', BYTE),('bNSEC3RandomSaltLength', BYTE),('wNSEC3IterationCount', WORD),('pwszNSEC3UserSalt', LPWSTR),('dwDNSKEYRecordSetTtl', DWORD),('dwDSRecordSetTtl', DWORD),('dwSignatureInceptionOffset', DWORD),('dwSecureDelegationPollingPeriod', DWORD),('dwPropagationTime', DWORD),('cbNSEC3CurrentSaltLength', DWORD),('pbNSEC3CurrentSalt', PBYTE),('CurrentRollingSKDGuid', GUID),('dwBufferLength', DWORD),('pBuffer', PBYTE),('dwCount', DWORD),('pZoneSkdArray', PDNS_RPC_ZONE_SKD),
+        ('dwRpcStructureVersion', DWORD),('dwReserved0', DWORD),('fIsSigned', DWORD),('fSignWithNSEC3', DWORD),('fNSEC3OptOut', DWORD),('dwMaintainTrustAnchor', DWORD),('fParentHasSecureDelegation', DWORD),('dwDSRecordAlgorithms', DWORD),('fRFC5011KeyRollovers', DWORD),('bNSEC3HashAlgorithm', BYTE),('bNSEC3RandomSaltLength', BYTE),('wNSEC3IterationCount', WORD),('pwszNSEC3UserSalt', LPWSTR),('dwDNSKEYRecordSetTtl', DWORD),('dwDSRecordSetTtl', DWORD),('dwSignatureInceptionOffset', DWORD),('dwSecureDelegationPollingPeriod', DWORD),('dwPropagationTime', DWORD),('cbNSEC3CurrentSaltLength', DWORD),('pbNSEC3CurrentSalt', PBYTE),('CurrentRollingSKDGuid', GUID),('dwBufferLength', DWORD),('pBuffer', PBYTE),('dwCount', DWORD),('pZoneSkdArray', PDNS_RPC_ZONE_SKD),
     )
 class PDNS_RPC_ZONE_DNSSEC_SETTINGS(NDRPOINTER):
     referent = (

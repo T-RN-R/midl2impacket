@@ -32,7 +32,7 @@ class MidlProcedureParser(MidlBaseParser):
         self.cur_param_attrs = {}
         self.cur_param_array_info = []
         self.type_parts = []
-        self.attrs = {}
+        self.attributes = {}
         self.parameters = []
         self.comments = []
         self.name = None
@@ -105,7 +105,7 @@ class MidlProcedureParser(MidlBaseParser):
     def sqbracket(self, token):
         if self.state == ProcedureState.PROC_TYPE_OR_ATTRS:
             if token.data == "[":
-                self.attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
+                self.attributes.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
             else:
                 self.invalid(token)
         elif self.state == ProcedureState.PARAM_TYPE_OR_ATTRS:
@@ -137,5 +137,5 @@ class MidlProcedureParser(MidlBaseParser):
             raise MidlParserException("No name was parsed")
         elif not self.parameters and not self.void:
             raise MidlParserException("No parameters were parsed")
-        return MidlProcedure(self.name, self.attrs, self.parameters)
+        return MidlProcedure(self.name, self.attributes, self.parameters)
 

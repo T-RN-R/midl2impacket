@@ -13,10 +13,15 @@ class Macroable(Visitable):
         invalid_prev = string.ascii_letters + string.digits + "_"
 
         substr = s[:idx+len(macro[0])]
+        valid_replacement = True
         if idx > 0:
-            if s[idx-1] not in invalid_prev:
-                substr = substr.replace(macro[0], macro[1])
-        print(macro)
+            if s[idx-1] in invalid_prev:
+                valid_replacement = False
+        if idx != len(s)-1:
+            if s[idx+1] in invalid_prev:
+                valid_replacement = False
+        if valid_replacement:
+            substr = substr.replace(macro[0], macro[1])
         cont = s[idx+len(macro[0])+1:]
         if len(cont) > 1:
             s = substr + self._do_macro(s[idx+len(macro[0])+1:], macro)
@@ -288,7 +293,7 @@ class MidlVarDef(Macroable):
     ):
         self.type = var_type
         self.name = name
-        self.attrs = attrs or {}
+        self.attributes = attrs or {}
         self.array_info = array_info or []
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
@@ -306,7 +311,11 @@ class MidlTypeDef(Macroable):
     def __init__(self, td, attrs):
         self.type = td
         self.name = td.name
+<<<<<<< HEAD
         self.attrs = attrs or {}
+=======
+        self.attributes = attrs
+>>>>>>> db3af239b7364f44a43e6aca4d420442296333a1
 
     def __str__(self):
         out = "typedef "
@@ -329,7 +338,10 @@ class MidlStructDef(Macroable):
 
     def __str__(self):
         out = "typedef struct "
-        out += self.private_name +"\n{\n"
+        if self.private_name:
+            out += self.private_name +"\n{\n"
+        else:
+            out += "\n{\n"
         for member in self.members:
             out += str(member)
             out += ",\n"
@@ -447,7 +459,7 @@ class MidlProcedure(Macroable):
 
     def __init__(self, name, attrs, params):
         self.name = name
-        self.attrs = attrs
+        self.attributes = attrs
         self.params = params
 
     def apply_macro(self, visitor:Visitor, macro:tuple):

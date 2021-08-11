@@ -66,7 +66,7 @@ class MidlDispInterfaceParser(MidlBaseParser):
             # Procedure declaration return type
             method = MidlProcedureParser(self.tokens, self.tokenizer).parse(token)
             if method:
-                method.attrs = self.cur_method_attrs
+                method.attributes = self.cur_method_attrs
                 self.dispinterface.methods.append(method)
             self.cur_method_attrs = {}
             self.state = DispInterfaceState.METHOD_ATTR_OR_TYPE
@@ -74,7 +74,7 @@ class MidlDispInterfaceParser(MidlBaseParser):
             # Procedure declaration return type
             prop = MidlVariableInstantiation(self.tokens, self.tokenizer).parse(token)
             if prop:
-                prop.attrs = self.cur_prop_attrs
+                prop.attributes = self.cur_prop_attrs
                 self.dispinterface.properties.append(prop)
             self.cur_prop_attrs = {}
             self.state = DispInterfaceState.PROP_ATTR_OR_TYPE
@@ -89,7 +89,7 @@ class MidlDispInterfaceParser(MidlBaseParser):
             # Procedure declaration return type
             method = MidlProcedureParser(self.tokens, self.tokenizer).parse(token)
             if method:
-                method.attrs = self.cur_method_attrs
+                method.attributes = self.cur_method_attrs
                 self.dispinterface.methods.append(method)
             self.cur_method_attrs = {}
             self.state = DispInterfaceState.METHOD_ATTR_OR_TYPE
@@ -97,7 +97,7 @@ class MidlDispInterfaceParser(MidlBaseParser):
             # Procedure declaration return type
             prop = MidlVariableInstantiation(self.tokens, self.tokenizer).parse(token)
             if prop:
-                prop.attrs = self.cur_prop_attrs
+                prop.attributes = self.cur_prop_attrs
                 self.dispinterface.properties.append(prop)
             self.cur_prop_attrs = {}
             self.state = DispInterfaceState.PROP_ATTR_OR_TYPE

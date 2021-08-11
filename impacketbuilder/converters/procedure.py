@@ -32,7 +32,7 @@ class {procedure.name}Response(NDRCALL):
     def get_input(self, procedure:MidlProcedure):
         inp = []
         for param in procedure.params:
-            if "in" in param.attrs.keys():
+            if "in" in param.attributes.keys():
                 if param.type == "void**": #TODO Stop cheating here
                     param.type = "CONTEXT_HANDLE"
                 inp.append(param)
@@ -41,7 +41,7 @@ class {procedure.name}Response(NDRCALL):
     def get_output(self, procedure:MidlProcedure):
         outp = []
         for param in procedure.params:
-            if "out" in param.attrs.keys():
+            if "out" in param.attributes.keys():
                 if param.type == "void**": #TODO Stop cheating here
                     param.type = "CONTEXT_HANDLE"
                 outp.append(param)

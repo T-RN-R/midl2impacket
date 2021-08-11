@@ -51,7 +51,7 @@ class MidlInterfaceConverter(Converter):
         self.write(f"{vd.name} = {self.mapper.canonicalize(vd.type)}")
     def handle_midl_td(self, td:MidlTypeDef):
         if type(td) is MidlTypeDef:
-            attr_names = [td.attrs[k].name for k in td.attrs.keys()]
+            attr_names = [td.attributes[k].name for k in td.attributes.keys()]
             if "context_handle" in attr_names:
                 self.handle_context_handle(td)
             else:

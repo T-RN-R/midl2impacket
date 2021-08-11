@@ -93,7 +93,7 @@ class MidlInterfaceParser(MidlBaseParser):
         # Procedure declaration return type
         proc = MidlProcedureParser(self.tokens, self.tokenizer).parse(token)
         if proc:
-            proc.attrs = self.cur_member_attrs
+            proc.attributes = self.cur_member_attrs
             self.interface.add_procedure(proc)
         self.cur_member_attrs = {}
 
