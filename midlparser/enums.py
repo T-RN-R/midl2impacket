@@ -1,6 +1,8 @@
 import enum
+from midlparser.midltokenizer import Token
 from midl import MidlEnumDef
 from .base import MidlBaseParser, MidlParserException
+from midlparser.midlreserved import RHS_OPERATORS
 
 class EnumState(enum.Enum):
     BEGIN = enum.auto()
@@ -22,7 +24,7 @@ class MidlEnumParser(MidlBaseParser):
         self.comments = []
         self.declared_names = ''
         self.cur_member_name = None
-        self.cur_member_value = 0
+        self.cur_member_value = ''
         self.map = {}
 
     def comment(self, token):
@@ -48,8 +50,7 @@ class MidlEnumParser(MidlBaseParser):
                 numeric_val = int(numeric_str, 8)
             else:
                 numeric_val = int(numeric_str)
-            self.cur_member_value = numeric_val
-            self.state = EnumState.MEMBER_COMPLETE
+            self.cur_member_value = str(numeric_val)
         else:
             self.invalid(token)
 
@@ -62,24 +63,32 @@ class MidlEnumParser(MidlBaseParser):
             self.state = EnumState.MEMBER_OP
         elif self.state == EnumState.ENUM_END:
             self.declared_names += token.data
+        elif self.state == EnumState.MEMBER_VALUE:
+            self.cur_member_value = token.data
         else:
             self.invalid(token)
 
     def brace(self, token):
         if token.data == '{' and self.state in [EnumState.BODY, EnumState.NAME]:
             self.state = EnumState.MEMBER_NAME
-        elif token.data == '}' and self.state in [EnumState.MEMBER_NAME, EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE]:
-            if self.state in [EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE]:
-                # Add the last member
+        elif token.data == '}' and self.state in [EnumState.MEMBER_NAME, EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE, EnumState.MEMBER_VALUE]:
+            if self.state == EnumState.MEMBER_VALUE:
                 self.map[self.cur_member_name] = self.cur_member_value
             self.state = EnumState.ENUM_END
         else:
             self.invalid(token)
+            
+    def rbracket(self,token):
+        if self.state == EnumState.MEMBER_VALUE:
+            self.cur_member_value += token.data
+        else:
+            self.invalid(token)
 
     def comma(self, token):
-        if self.state in [EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE]:
+        if self.state in [EnumState.MEMBER_OP, EnumState.MEMBER_COMPLETE,EnumState.MEMBER_VALUE]:
             self.map[self.cur_member_name] = self.cur_member_value
-            self.cur_member_value += 1
+            if type(self.cur_member_value) is int:
+                self.cur_member_value += 1
             self.state = EnumState.MEMBER_NAME
         elif self.state == EnumState.ENUM_END:
             self.declared_names += ','
@@ -91,6 +100,11 @@ class MidlEnumParser(MidlBaseParser):
             self.state = EnumState.MEMBER_VALUE
         elif token.data == "*" and self.state == EnumState.ENUM_END:
                 self.declared_names += '*'
+        elif self.state == EnumState.MEMBER_VALUE:
+            if token.data in RHS_OPERATORS:
+                self.cur_member_value += token.data
+            else:
+                self.invalid(token)
         else:
             self.invalid(token)
 

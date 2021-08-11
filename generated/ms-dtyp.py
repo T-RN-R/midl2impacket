@@ -21,6 +21,35 @@ class CONTEXT_HANDLE(NDRSTRUCT):
         ('Data', '20s=""'),
     )
 HANDLE_T = CONTEXT_HANDLE
+class RPC_STRING(NDRSTRUCT):
+    structure = (
+        ('Length','<H=0'),
+        ('MaximumLength','<H=0'),
+        ('Data',LPSTR),
+    )
+
+    def __setitem__(self, key, value):
+        if key == 'Data' and isinstance(value, NDR) is False:
+            self['Length'] = len(value)
+            self['MaximumLength'] = len(value)
+        return NDRSTRUCT.__setitem__(self, key, value)
+
+    def dump(self, msg = None, indent = 0):
+        if msg is None: msg = self.__class__.__name__
+        if msg != '':
+            print("%s" % msg, end=' ')
+
+        if isinstance(self.fields['Data'] , NDRPOINTERNULL):
+            print(" NULL", end=' ')
+        elif self.fields['Data']['ReferentID'] == 0:
+            print(" NULL", end=' ')
+        else:
+            return self.fields['Data'].dump('',indent)
+
+class PRPC_STRING(NDRPOINTER):
+    referent = (
+        ('Data', RPC_STRING),
+    )
 
 UNSIGNED_SHORT = NDRUSHORT
 UNSIGNED_CHAR = NDRCHAR
