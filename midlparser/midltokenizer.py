@@ -295,10 +295,10 @@ class MidlTokenizer:
             str: Found keyword or symbol
         """
         cur_char = self.midl[self.ptr]
-        illegal_chars = ["[", "{", "(", ")", "}", "]", ";", ",", ":"]
         s = ""
+        valid_chars = string.ascii_letters + string.digits + '_'
         while not self.iswspace(cur_char):
-            if cur_char in illegal_chars:
+            if cur_char not in valid_chars:
                 self.ptr -= 1
                 return s
             s += cur_char
