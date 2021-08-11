@@ -58,11 +58,13 @@ class MidlParser(MidlBaseParser):
         self.definition.typedefs.extend(
                 MidlTypedefParser(self.tokens, self.tokenizer).parse(token)
             )
+        self.cur_def_attrs = {}
 
     def _enum(self, token):
-           self.definition.typedefs.append(
+        self.definition.typedefs.append(
                 MidlEnumParser(self.tokens, self.tokenizer).parse(token)
             )
+        self.cur_def_attrs = {}
 
     def _midl_pragma(self, _):
         assert(next(self.tokens).data == 'warning')
@@ -105,6 +107,7 @@ class MidlParser(MidlBaseParser):
             MidlVariableInstantiationParser(self.tokens, self.tokenizer).parse(token)
         )
         self.state = MidlState.DEFAULT
+        self.cur_def_attrs = {}
 
     def keyword(self, token):
         """Handles encountered keywords

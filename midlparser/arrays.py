@@ -1,6 +1,8 @@
 import enum
+
 from midl import MidlArrayDimensions
 from .base import MidlBaseParser
+from .expression import MidlExpressionParser
 from .midltokenizer import Token
 
 class ArrayState(enum.Enum):
@@ -68,13 +70,10 @@ class MidlArrayParser(MidlBaseParser):
             self.invalid(token)
 
     def rbracket(self, token):
-        if token.data == '(':
-            self.rbracket_level += 1
-        elif token.data == ')' and self.rbracket_level >= 1:
-            self.rbracket_level -= 1
+        if token.data == '(' and self.state not in [ArrayState.BEGIN, ArrayState.END]:
+            self.cur_dim += MidlExpressionParser(self.tokens, self.tokenizer).parse(token)
         else:
             self.invalid(token)
-        self.cur_dim += token.data
 
     def finished(self) -> MidlArrayDimensions:
         dims = MidlArrayDimensions(self.dimensions[0], self.dimensions[1])
