@@ -129,10 +129,11 @@ class MidlUnionParser(MidlBaseParser):
             self.invalid(token)
 
     def operator(self, token):
-        if token.data == "*" and self.state in [UnionState.MEMBER_TYPE, UnionState.UNION_END]:
-            if self.state == UnionState.MEMBER_TYPE:
+        if token.data == "*" and self.state in [UnionState.MEMBER_TYPE, UnionState.UNION_END, UnionState.MEMBER_TYPE_OR_ATTR]:
+            if self.state in [UnionState.MEMBER_TYPE, UnionState.MEMBER_TYPE_OR_ATTR]:
                 # Encountered a pointer, append it to the current type
                 self.cur_member_parts[-1] += "*"
+                self.state = UnionState.MEMBER_TYPE
             elif self.state == UnionState.UNION_END:
                 self.declared_names += '*'
         else:

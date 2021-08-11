@@ -122,9 +122,10 @@ class MidlProcedureParser(MidlBaseParser):
             self.invalid(token)
 
     def operator(self, token):
-        if token.data == "*" and self.state == ProcedureState.PARAM_TYPE:
+        if token.data == "*" and self.state in [ProcedureState.PARAM_TYPE, ProcedureState.PARAM_TYPE_OR_ATTRS]:
             # Encountered a pointer, append it to the current type
             self.cur_param_type_parts[-1] += "*"
+            self.state = ProcedureState.PARAM_TYPE
         else:
             self.invalid(token)
 
