@@ -1396,7 +1396,7 @@
      [out]                          DWORD                  *pcProperties,
      [out, size_is(,*pcProperties)] RPC_PrintNamedProperty **ppProperties);
  void
- Opnum114NotUsedOnWire();}
+ Opnum114NotUsedOnWire();
  void
  Opnum115NotUsedOnWire();
  DWORD
@@ -1453,3 +1453,4 @@
      [out, ref] DWORD* ippResponseBufferSize,
      [out, size_is(, *ippResponseBufferSize), ref] BYTE** ippResponseBuffer
  );
+}

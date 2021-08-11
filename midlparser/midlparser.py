@@ -8,6 +8,7 @@ from .coclass import MidlCoclassParser
 from .dispinterface import MidlDispInterfaceParser
 from .enums import MidlEnumParser
 from .interface import MidlInterfaceParser
+from .libraries import MidlLibraryParser
 from .typedefs import MidlTypedefParser
 from .variables import MidlVariableInstantiationParser
 from .util import SkipClosureParser
@@ -46,10 +47,14 @@ class MidlParser(MidlBaseParser):
             'coclass': self._coclass,
             'dispinterface': self._dispinterface,
             'cpp_quote': self._cpp_quote,
-            'library' : self._unimplemented
+            'library' : self._library,
         }
-    def _unimplemented(self, token):
-        raise Exception(f"Unimplemented keyword handle for {token.data}")
+    def _library(self, token):
+        lib = MidlLibraryParser(self.tokens, self.tokenizer).parse(token)
+        lib.attributes = self.cur_def_attrs
+        self.definition.libraries.append(lib)
+        self.cur_def_attrs = {}
+        self.state = MidlState.DEF_COMPLETE
         
     def _import(self, _):
         self.state = MidlState.IMPORT

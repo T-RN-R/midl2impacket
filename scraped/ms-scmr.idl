@@ -963,8 +963,7 @@ Retrieval Date: Wed Aug 11 14:26:04 2021
      [in]    DWORD                   dwInfoLevel,
      [out]   SC_RPC_CONFIG_INFOW  *  pInfo
      );
- }
-  
+   
  void Opnum57NotUsedOnWire(void);
  void Opnum58NotUsedOnWire(void);
  void Opnum59NotUsedOnWire(void);
@@ -1008,3 +1007,5 @@ Retrieval Date: Wed Aug 11 14:26:04 2021
      [in] DWORD DesiredAccess,
      [out] LPSC_RPC_HANDLE ScmHandle
  );
+
+}
