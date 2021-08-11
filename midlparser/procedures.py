@@ -29,10 +29,10 @@ class MidlProcedureParser(MidlBaseParser):
         self.state = ProcedureState.PROC_TYPE_OR_ATTRS
         super().__init__(token_generator=token_generator, end_state=ProcedureState.END, tokenizer=tokenizer)
         self.cur_param_type_parts = []
-        self.cur_param_attrs = []
+        self.cur_param_attrs = {}
         self.cur_param_array_info = []
         self.type_parts = []
-        self.attrs = []
+        self.attrs = {}
         self.parameters = []
         self.comments = []
         self.name = None
@@ -45,7 +45,7 @@ class MidlProcedureParser(MidlBaseParser):
         param_type = ' '.join(self.cur_param_type_parts[:-1])
         self.parameters.append(MidlVarDef(param_type, param_name, self.cur_param_attrs, self.cur_param_array_info))
         self.cur_param_type_parts = []
-        self.cur_param_attrs = []
+        self.cur_param_attrs = {}
         self.cur_param_array_info = []
 
     def semicolon(self, token: Token):
@@ -105,14 +105,12 @@ class MidlProcedureParser(MidlBaseParser):
     def sqbracket(self, token):
         if self.state == ProcedureState.PROC_TYPE_OR_ATTRS:
             if token.data == "[":
-                self.attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
-                self.state = ProcedureState.PROC_TYPE
+                self.attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
             else:
                 self.invalid(token)
         elif self.state == ProcedureState.PARAM_TYPE_OR_ATTRS:
             if token.data == "[":
-                self.cur_param_attrs = MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
-                self.state = ProcedureState.PARAM_TYPE
+                self.cur_param_attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
             else:
                 self.invalid(token)
         elif self.state in [ProcedureState.PARAM_TYPE, ProcedureState.PARAM_ARRAY]:
