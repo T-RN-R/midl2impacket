@@ -1508,8 +1508,7 @@ Retrieval Date: Wed Aug 11 14:23:08 2021
     [in, string, unique]    wchar_t*           pDatatype,
     [in]                    DEVMODE_CONTAINER* pDevModeContainer
  );
- }
-  
+   
  DWORD
  RpcAsyncGetJobNamedPropertyValue(
      [in]  PRINTER_HANDLE         hPrinter,
@@ -1546,3 +1545,4 @@ Retrieval Date: Wed Aug 11 14:23:08 2021
      [in, ref] RPC_BranchOfficeJobDataContainer *pBranchOfficeJobDataContainer
      );
   
+}

@@ -1623,7 +1623,7 @@ Retrieval Date: Wed Aug 11 14:25:27 2021
      [out, size_is(,*pcProperties)] RPC_PrintNamedProperty **ppProperties);
   
  void
- Opnum114NotUsedOnWire();}
+ Opnum114NotUsedOnWire();
   
  void
  Opnum115NotUsedOnWire();
@@ -1690,3 +1690,4 @@ Retrieval Date: Wed Aug 11 14:25:27 2021
      [out, size_is(, *ippResponseBufferSize), ref] BYTE** ippResponseBuffer
  );
   
+}
