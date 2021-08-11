@@ -5,6 +5,7 @@ class Macroable(Visitable):
     def apply_macro(self, visitor:Visitor, macro):
         raise Exception(f"Class {self.__class__} must implement `apply_macro()`")
 
+
     def _do_macro(self, s:str, macro):
         idx = s.find(macro[0])
         if idx == -1:
@@ -237,6 +238,7 @@ class MidlDispInterface(Macroable):
         out += "methods\n"
         out += '\n    '.join([str(method) for method in self.methods])
         return out
+
 
 class MidlCoclass(Macroable):
     def __init__(self, name, interfaces):
