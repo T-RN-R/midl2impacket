@@ -135,7 +135,11 @@ class MidlInterface:
         self.cpp_quotes = []
         self.defines = []
         self.parents = []
-
+        self.vardefs = []
+    
+    def add_vardef(self, vd):
+        self.vardefs.append(vd)
+        
     def add_typedef(self, td):
         self.typedefs.append(td)
 

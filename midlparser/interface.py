@@ -6,6 +6,7 @@ from .attributes import MidlAttributesParser
 from .base import MidlBaseParser, MidlParserException
 from .procedures import MidlProcedureParser
 from .typedefs import MidlTypedefParser
+from .variables import MidlVariableInstantiationParser
 
 class InterfaceState(enum.Enum):
     """Class used to handle state transitions for MidlInterfaceParser
@@ -72,6 +73,9 @@ class MidlInterfaceParser(MidlBaseParser):
                 self.state = InterfaceState.IMPORT
             elif token.data == "cpp_quote":
                 self.state = InterfaceState.CPP_QUOTE
+            elif token.data == "const":
+                vd = MidlVariableInstantiationParser(self.tokens, self.tokenizer).parse(token)
+                self.interface.add_vardef(vd)
             else:
                 # Treat it as the return type of a procedure?
                 proc = MidlProcedureParser(self.tokens, self.tokenizer).parse(token)
