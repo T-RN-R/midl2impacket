@@ -1,0 +1,179 @@
+ import "oaidl.idl";
+ import "ocidl.idl";
+ typedef [v1_enum] enum TPMVSC_ATTESTATION_TYPE
+ {
+     TPMVSC_ATTESTATION_NONE = 0,
+     TPMVSC_ATTESTATION_AIK_ONLY = 1,
+     TPMVSC_ATTESTATION_AIK_AND_CERTIFICATE = 2,
+ } TPMVSC_ATTESTATION_TYPE;
+ typedef [v1_enum] enum
+ {
+     TPMVSCMGR_STATUS_VTPMSMARTCARD_INITIALIZING,
+     TPMVSCMGR_STATUS_VTPMSMARTCARD_CREATING,
+     TPMVSCMGR_STATUS_VTPMSMARTCARD_DESTROYING,
+     TPMVSCMGR_STATUS_VGIDSSIMULATOR_INITIALIZING,
+     TPMVSCMGR_STATUS_VGIDSSIMULATOR_CREATING,
+     TPMVSCMGR_STATUS_VGIDSSIMULATOR_DESTROYING,
+     TPMVSCMGR_STATUS_VREADER_INITIALIZING,
+     TPMVSCMGR_STATUS_VREADER_CREATING,
+     TPMVSCMGR_STATUS_VREADER_DESTROYING,
+     TPMVSCMGR_STATUS_GENERATE_WAITING,
+     TPMVSCMGR_STATUS_GENERATE_AUTHENTICATING,
+     TPMVSCMGR_STATUS_GENERATE_RUNNING,
+     TPMVSCMGR_STATUS_CARD_CREATED,
+     TPMVSCMGR_STATUS_CARD_DESTROYED,
+ } TPMVSCMGR_STATUS;
+ typedef [v1_enum] enum
+ {
+     TPMVSCMGR_ERROR_IMPERSONATION,
+     TPMVSCMGR_ERROR_PIN_COMPLEXITY,
+     TPMVSCMGR_ERROR_READER_COUNT_LIMIT,
+     TPMVSCMGR_ERROR_TERMINAL_SERVICES_SESSION,
+     TPMVSCMGR_ERROR_VTPMSMARTCARD_INITIALIZE,
+     TPMVSCMGR_ERROR_VTPMSMARTCARD_CREATE,
+     TPMVSCMGR_ERROR_VTPMSMARTCARD_DESTROY,
+     TPMVSCMGR_ERROR_VGIDSSIMULATOR_INITIALIZE,
+     TPMVSCMGR_ERROR_VGIDSSIMULATOR_CREATE,
+     TPMVSCMGR_ERROR_VGIDSSIMULATOR_DESTROY,
+     TPMVSCMGR_ERROR_VGIDSSIMULATOR_WRITE_PROPERTY,
+     TPMVSCMGR_ERROR_VGIDSSIMULATOR_READ_PROPERTY,
+     TPMVSCMGR_ERROR_VREADER_INITIALIZE,
+     TPMVSCMGR_ERROR_VREADER_CREATE,
+     TPMVSCMGR_ERROR_VREADER_DESTROY,
+     TPMVSCMGR_ERROR_GENERATE_LOCATE_READER,
+     TPMVSCMGR_ERROR_GENERATE_FILESYSTEM,
+     TPMVSCMGR_ERROR_CARD_CREATE,
+     TPMVSCMGR_ERROR_CARD_DESTROY,
+ } TPMVSCMGR_ERROR;
+ [
+     object,
+     uuid(1A1BB35F-ABB8-451C-A1AE-33D98F1BEF4A),
+     pointer_default(unique)
+ ]
+ interface ITpmVirtualSmartCardManagerStatusCallback : IUnknown
+ {
+     HRESULT
+     ReportProgress(
+         [in] TPMVSCMGR_STATUS Status
+     );
+     HRESULT
+     ReportError(
+         [in] TPMVSCMGR_ERROR Error
+     );
+ };
+ cpp_quote("//")
+ cpp_quote("// TPM Virtual Smart Card Default Admin Key Algorithm ID")
+ cpp_quote("// 0x82 = 0x02 (3-key triple DES) |")
+ cpp_quote("//        0x80 (ISO/IEC 9797 padding method 2) |")
+ cpp_quote("//        0x00 (CBC mode)")
+ cpp_quote("//")
+ const unsigned char TPMVSC_DEFAULT_ADMIN_ALGORITHM_ID = 0x82;
+ [
+     object,
+     uuid(112B1DFF-D9DC-41F7-869F-D67FEE7CB591),
+     pointer_default(unique)
+ ]
+ interface ITpmVirtualSmartCardManager : IUnknown
+ {
+     HRESULT
+     CreateVirtualSmartCard(
+         [in, string] const wchar_t* pszFriendlyName,
+         [in] unsigned char bAdminAlgId,
+         [in, size_is(cbAdminKey)] const unsigned char* pbAdminKey,
+         [in] unsigned long cbAdminKey,
+         [in, unique, size_is(cbAdminKcv)] const unsigned char* pbAdminKcv,
+         [in] unsigned long cbAdminKcv,
+         [in, unique, size_is(cbPuk)] const unsigned char* pbPuk,
+         [in] unsigned long cbPuk,
+         [in, size_is(cbPin)] const unsigned char* pbPin,
+         [in] unsigned long cbPin,
+         [in] int fGenerate,
+         [in, unique] ITpmVirtualSmartCardManagerStatusCallback* pStatusCallback,
+         [out, string] wchar_t** ppszInstanceId,
+         [out] int* pfNeedReboot
+     );
+     HRESULT
+     DestroyVirtualSmartCard(
+         [in, string] const wchar_t* pszInstanceId,
+         [in, unique] ITpmVirtualSmartCardManagerStatusCallback* pStatusCallback,
+         [out] int* pfNeedReboot
+     );
+ };
+ [
+     object,
+     uuid(FDF8A2B9-02DE-47F4-BC26-AA85AB5E5267),
+     pointer_default(unique)
+ ]
+ interface ITpmVirtualSmartCardManager2 : ITpmVirtualSmartCardManager
+ {
+     HRESULT
+     CreateVirtualSmartCardWithPinPolicy(
+         [in, string] const wchar_t* pszFriendlyName,
+         [in] unsigned char bAdminAlgId,
+         [in, size_is(cbAdminKey)] const unsigned char* pbAdminKey,
+         [in] unsigned long cbAdminKey,
+         [in, unique, size_is(cbAdminKcv)] const unsigned char* pbAdminKcv,
+         [in] unsigned long cbAdminKcv,
+         [in, unique, size_is(cbPuk)] const unsigned char* pbPuk,
+         [in] unsigned long cbPuk,
+         [in, size_is(cbPin)] const unsigned char* pbPin,
+         [in] unsigned long cbPin,
+         [in, unique, size_is(cbPinPolicy)] const unsigned char* pbPinPolicy,
+         [in] unsigned long cbPinPolicy,
+         [in] int fGenerate,
+         [in, unique] ITpmVirtualSmartCardManagerStatusCallback* pStatusCallback,
+         [out, string] wchar_t** ppszInstanceId,
+         [out] int* pfNeedReboot
+     );
+ }
+ [
+     object,
+     uuid(3C745A97-F375-4150-BE17-5950F694C699),
+     pointer_default(unique)
+ ]
+ interface ITpmVirtualSmartCardManager3 : ITpmVirtualSmartCardManager2
+ {
+     HRESULT
+     CreateVirtualSmartCardWithAttestation(
+         [in, string] const wchar_t* pszFriendlyName,
+         [in] unsigned char bAdminAlgId,
+         [in, size_is(cbAdminKey)] const unsigned char* pbAdminKey,
+         [in] unsigned long cbAdminKey,
+         [in, unique, size_is(cbAdminKcv)] const unsigned char* pbAdminKcv,
+         [in] unsigned long cbAdminKcv,
+         [in, unique, size_is(cbPuk)] const unsigned char* pbPuk,
+         [in] unsigned long cbPuk,
+         [in, size_is(cbPin)] const unsigned char* pbPin,
+         [in] unsigned long cbPin,
+         [in, unique, size_is(cbPinPolicy)] const unsigned char* pbPinPolicy,
+         [in] unsigned long cbPinPolicy,
+         [in] TPMVSC_ATTESTATION_TYPE attestationType,
+         [in] int fGenerate,
+         [in, unique] ITpmVirtualSmartCardManagerStatusCallback* pStatusCallback,
+         [out, string] wchar_t** ppszInstanceId
+     );
+ }
+ [
+     uuid(1C60A923-2D86-46AA-928A-E7F3E37577AF)
+ ]
+ library TpmVirtualSmartCardManagers
+ {
+     [
+         uuid(16A18E86-7F6E-4C20-AD89-4FFC0DB7A96A)
+     ]
+     coclass TpmVirtualSmartCardManager
+     {
+         [default] interface ITpmVirtualSmartCardManager;
+         interface ITpmVirtualSmartCardManager2;
+         interface ITpmVirtualSmartCardManager3;
+     }
+     [
+         uuid(152EA2A8-70DC-4C59-8B2A-32AA3CA0DCAC)
+     ]
+     coclass RemoteTpmVirtualSmartCardManager
+     {
+         [default] interface ITpmVirtualSmartCardManager;
+         interface ITpmVirtualSmartCardManager2;
+         interface ITpmVirtualSmartCardManager3;
+     }
+ };

@@ -1,0 +1,35 @@
+ import "ms-dcom.idl";
+ [
+     object,
+     uuid(97199110-DB2E-11d1-A251-0000F805CA53),
+     pointer_default(unique)
+ ]
+ interface ITransactionStream : IUnknown
+ {
+     HRESULT GetSeqAndTxViaExport (
+         [in] unsigned long ulKnownSeq,
+         [in] unsigned long ulcbWhereabouts,
+         [in, size_is(ulcbWhereabouts)] BYTE* rgbWhereabouts,
+         [out] unsigned long* pulCurrentSeq,
+         [out] unsigned long* pulcbExportCookie,
+         [out, size_is(,*pulcbExportCookie)]
+         BYTE ** prgbExportCookie);
+     HRESULT GetSeqAndTxViaTransmitter (
+         [in] unsigned long ulKnownSeq,
+         [out] unsigned long* pulCurrentSeq,
+         [out] unsigned long* pulcbTransmitterBuffer,
+         [out, size_is(,*pulcbTransmitterBuffer)]
+         BYTE** prgbTransmitterBuffer);
+     HRESULT GetTxViaExport (
+         [in] unsigned long ulRequestSeq,
+         [in] unsigned long ulcbWhereabouts,
+         [in, size_is(ulcbWhereabouts)] BYTE* rgbWhereabouts,
+         [out] unsigned long* pulcbExportCookie,
+         [out, size_is(,*pulcbExportCookie)]
+         BYTE** prgbExportCookie);
+     HRESULT GetTxViaTransmitter (
+         [in] unsigned long ulRequestSeq,
+         [out] unsigned long* pulcbTransmitterBuffer,
+         [out, size_is(,*pulcbTransmitterBuffer)]
+         BYTE** prgbTransmitterBuffer);
+ };

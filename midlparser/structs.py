@@ -122,6 +122,9 @@ class MidlStructParser(MidlBaseParser):
         else:
             self.invalid(token)
     
+    def directive(self, _):
+        pass
+
     def sqbracket(self, token):
         # Both the attributes parser and the array parser consume the ']'
         if token == ']':
@@ -151,7 +154,7 @@ class MidlStructParser(MidlBaseParser):
             self.state = StructState.STRUCT_END
         else:
             self.invalid(token)
-        
+    
     def semicolon(self, token):
         # End of variable definition, add the current type
         if self.state in [StructState.MEMBER_TYPE, StructState.MEMBER_REPEAT, StructState.MEMBER_ARRAY]:

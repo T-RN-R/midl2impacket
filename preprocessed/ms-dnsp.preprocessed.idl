@@ -1,0 +1,914 @@
+ import "ms-dtyp.idl";
+ typedef struct _DnsStatHeader
+ {
+     DWORD       StatId;
+     WORD        wLength;
+     BOOLEAN     fClear;
+     UCHAR       fReserved;
+ }DNSSRV_STAT_HEADER, *PDNSSRV_STAT_HEADER;
+ typedef struct _DnsStat
+ {
+     DNSSRV_STAT_HEADER  Header;
+     BYTE                Buffer[1];
+ }DNSSRV_STAT, *PDNSSRV_STAT, *PDNSSRV_STATS;
+ typedef struct  _IP4_ARRAY
+ {
+     DWORD           AddrCount;
+     [size_is( AddrCount )]  DWORD  AddrArray[];
+ }
+ IP4_ARRAY, *PIP4_ARRAY;
+ typedef struct _DnsAddr
+ {
+     CHAR MaxSa[32];
+     DWORD  DnsAddrUserDword[8];
+ }
+ DNS_ADDR, *PDNS_ADDR;
+ typedef struct _DnsAddrArray
+ {
+     DWORD           MaxCount;
+     DWORD           AddrCount;
+     DWORD           Tag;
+     WORD            Family;
+     WORD            WordReserved;
+     DWORD           Flags;
+     DWORD           MatchFlag;
+     DWORD           Reserved1;
+     DWORD           Reserved2;
+     [size_is( AddrCount )]  DNS_ADDR    AddrArray[];
+ }
+ DNS_ADDR_ARRAY, *PDNS_ADDR_ARRAY;
+ typedef struct _DnssrvRpcBuffer
+ {
+     DWORD                       dwLength;
+     [size_is(dwLength)] BYTE    Buffer[];
+ }
+ DNS_RPC_BUFFER, *PDNS_RPC_BUFFER;
+ typedef struct _DnsRpcServerInfoW2K
+ {
+     DWORD       dwVersion;
+     UCHAR       fBootMethod;
+     BOOLEAN     fAdminConfigured;
+     BOOLEAN     fAllowUpdate;
+     BOOLEAN     fDsAvailable;
+     [string] char *      pszServerName;
+     [string] wchar_t *   pszDsContainer;
+     PIP4_ARRAY  aipServerAddrs;
+     PIP4_ARRAY  aipListenAddrs;
+     PIP4_ARRAY  aipForwarders;
+     PDWORD      pExtension1;
+     PDWORD      pExtension2;
+     PDWORD      pExtension3;
+     PDWORD      pExtension4;
+     PDWORD      pExtension5;
+     DWORD       dwLogLevel;
+     DWORD       dwDebugLevel;
+     DWORD       dwForwardTimeout;
+     DWORD       dwRpcProtocol;
+     DWORD       dwNameCheckFlag;
+     DWORD       cAddressAnswerLimit;
+     DWORD       dwRecursionRetry;
+     DWORD       dwRecursionTimeout;
+     DWORD       dwMaxCacheTtl;
+     DWORD       dwDsPollingInterval;
+     DWORD       dwScavengingInterval;
+     DWORD       dwDefaultRefreshInterval;
+     DWORD       dwDefaultNoRefreshInterval;
+     DWORD       dwReserveArray[10];
+     BOOLEAN     fAutoReverseZones;
+     BOOLEAN     fAutoCacheUpdate;
+     BOOLEAN     fRecurseAfterForwarding;
+     BOOLEAN     fForwardDelegations;
+     BOOLEAN     fNoRecursion;
+     BOOLEAN     fSecureResponses;
+     BOOLEAN     fRoundRobin;
+     BOOLEAN     fLocalNetPriority;
+     BOOLEAN     fBindSecondaries;
+     BOOLEAN     fWriteAuthorityNs;
+     BOOLEAN     fStrictFileParsing;
+     BOOLEAN     fLooseWildcarding;
+     BOOLEAN     fDefaultAgingState;
+     BOOLEAN     fReserveArray[15];
+ }
+ DNS_RPC_SERVER_INFO_W2K, *PDNS_RPC_SERVER_INFO_W2K;
+ typedef struct _DnsRpcServerInfoDotNet
+ {
+     DWORD       dwRpcStructureVersion;
+     DWORD       dwReserved0;
+     DWORD       dwVersion;
+     UCHAR       fBootMethod;
+     BOOLEAN     fAdminConfigured;
+     BOOLEAN     fAllowUpdate;
+     BOOLEAN     fDsAvailable;
+     [string] char *     pszServerName;
+     [string] wchar_t *  pszDsContainer;
+     PIP4_ARRAY  aipServerAddrs;
+     PIP4_ARRAY  aipListenAddrs;
+     PIP4_ARRAY  aipForwarders;
+     PIP4_ARRAY  aipLogFilter;
+     [string] wchar_t *   pwszLogFilePath;
+     [string] char *      pszDomainName;
+     [string] char *      pszForestName;
+     [string] char *      pszDomainDirectoryPartition;
+     [string] char *      pszForestDirectoryPartition;
+     [string] char *      pExtensions[ 6 ];
+     DWORD       dwLogLevel;
+     DWORD       dwDebugLevel;
+     DWORD       dwForwardTimeout;
+     DWORD       dwRpcProtocol;
+     DWORD       dwNameCheckFlag;
+     DWORD       cAddressAnswerLimit;
+     DWORD       dwRecursionRetry;
+     DWORD       dwRecursionTimeout;
+     DWORD       dwMaxCacheTtl;
+     DWORD       dwDsPollingInterval;
+     DWORD       dwLocalNetPriorityNetMask;
+     DWORD       dwScavengingInterval;
+     DWORD       dwDefaultRefreshInterval;
+     DWORD       dwDefaultNoRefreshInterval;
+     DWORD       dwLastScavengeTime;
+     DWORD       dwEventLogLevel;
+     DWORD       dwLogFileMaxSize;
+     DWORD       dwDsForestVersion;
+     DWORD       dwDsDomainVersion;
+     DWORD       dwDsDsaVersion;
+     DWORD       dwReserveArray[ 4 ];
+     BOOLEAN     fAutoReverseZones;
+     BOOLEAN     fAutoCacheUpdate;
+     BOOLEAN     fRecurseAfterForwarding;
+     BOOLEAN     fForwardDelegations;
+     BOOLEAN     fNoRecursion;
+     BOOLEAN     fSecureResponses;
+     BOOLEAN     fRoundRobin;
+     BOOLEAN     fLocalNetPriority;
+     BOOLEAN     fBindSecondaries;
+     BOOLEAN     fWriteAuthorityNs;
+     BOOLEAN     fStrictFileParsing;
+     BOOLEAN     fLooseWildcarding;
+     BOOLEAN     fDefaultAgingState;
+     BOOLEAN     fReserveArray[ 15 ];
+ }
+ DNS_RPC_SERVER_INFO_DOTNET, *PDNS_RPC_SERVER_INFO_DOTNET;
+ typedef struct _DnsRpcServerInfoLonghorn
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     DWORD               dwVersion;
+     UCHAR               fBootMethod;
+     BOOLEAN             fAdminConfigured;
+     BOOLEAN             fAllowUpdate;
+     BOOLEAN             fDsAvailable;
+     [string] char *              pszServerName;
+     [string] wchar_t *           pszDsContainer;
+     PDNS_ADDR_ARRAY     aipServerAddrs;
+     PDNS_ADDR_ARRAY     aipListenAddrs;
+     PDNS_ADDR_ARRAY     aipForwarders;
+     PDNS_ADDR_ARRAY     aipLogFilter;
+     [string] wchar_t *           pwszLogFilePath;
+     [string] char *              pszDomainName;
+     [string] char *              pszForestName;
+     [string] char *      pszDomainDirectoryPartition;
+     [string] char *      pszForestDirectoryPartition;
+     [string] char *              pExtensions[ 6 ];
+     DWORD       dwLogLevel;
+     DWORD       dwDebugLevel;
+     DWORD       dwForwardTimeout;
+     DWORD       dwRpcProtocol;
+     DWORD       dwNameCheckFlag;
+     DWORD       cAddressAnswerLimit;
+     DWORD       dwRecursionRetry;
+     DWORD       dwRecursionTimeout;
+     DWORD       dwMaxCacheTtl;
+     DWORD       dwDsPollingInterval;
+     DWORD       dwLocalNetPriorityNetMask;
+     DWORD       dwScavengingInterval;
+     DWORD       dwDefaultRefreshInterval;
+     DWORD       dwDefaultNoRefreshInterval;
+     DWORD       dwLastScavengeTime;
+     DWORD       dwEventLogLevel;
+     DWORD       dwLogFileMaxSize;
+     DWORD       dwDsForestVersion;
+     DWORD       dwDsDomainVersion;
+     DWORD       dwDsDsaVersion;
+     BOOLEAN     fReadOnlyDC;
+     DWORD       dwReserveArray[ 3 ];
+     BOOLEAN     fAutoReverseZones;
+     BOOLEAN     fAutoCacheUpdate;
+     BOOLEAN     fRecurseAfterForwarding;
+     BOOLEAN     fForwardDelegations;
+     BOOLEAN     fNoRecursion;
+     BOOLEAN     fSecureResponses;
+     BOOLEAN     fRoundRobin;
+     BOOLEAN     fLocalNetPriority;
+     BOOLEAN     fBindSecondaries;
+     BOOLEAN     fWriteAuthorityNs;
+     BOOLEAN     fStrictFileParsing;
+     BOOLEAN     fLooseWildcarding;
+     BOOLEAN     fDefaultAgingState;
+     BOOLEAN     fReserveArray[ 15 ];
+ }
+ DNS_RPC_SERVER_INFO_LONGHORN, *PDNS_RPC_SERVER_INFO_LONGHORN, DNS_RPC_SERVER_INFO, *PDNS_RPC_SERVER_INFO;
+ typedef struct _DnssrvRpcForwardersW2K
+ {
+     DWORD       fRecurseAfterForwarding;
+     DWORD       dwForwardTimeout;
+     PIP4_ARRAY  aipForwarders;
+ }
+ DNS_RPC_FORWARDERS_W2K, *PDNS_RPC_FORWARDERS_W2K;
+ typedef struct _DnssrvRpcForwardersDotNet
+ {
+     DWORD       dwRpcStructureVersion;
+     DWORD       dwReserved0;
+     DWORD       fRecurseAfterForwarding;
+     DWORD       dwForwardTimeout;
+     PIP4_ARRAY  aipForwarders;
+ }
+ DNS_RPC_FORWARDERS_DOTNET, *PDNS_RPC_FORWARDERS_DOTNET;
+ typedef struct _DnssrvRpcForwardersLonghorn
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     DWORD               fRecurseAfterForwarding;
+     DWORD               dwForwardTimeout;
+     PDNS_ADDR_ARRAY     aipForwarders;
+ }
+ DNS_RPC_FORWARDERS_LONGHORN, *PDNS_RPC_FORWARDERS_LONGHORN, DNS_RPC_FORWARDERS, *PDNS_RPC_FORWARDERS;
+ typedef DWORD DNS_RPC_ZONE_FLAGS, *PDNS_RPC_ZONE_FLAGS;
+ typedef struct _DnssrvRpcZoneW2K
+ {
+     [string] wchar_t *      pszZoneName;
+     DNS_RPC_ZONE_FLAGS      Flags;
+     UCHAR                   ZoneType;
+     UCHAR                   Version;
+ }
+ DNS_RPC_ZONE_W2K, *PDNS_RPC_ZONE_W2K;
+ typedef struct _DnssrvRpcZoneDotNet
+ {
+     DWORD                   dwRpcStructureVersion;
+     DWORD                   dwReserved0;
+     [string] wchar_t *      pszZoneName;
+     DNS_RPC_ZONE_FLAGS      Flags;
+     UCHAR                   ZoneType;
+     UCHAR                   Version;
+     DWORD                   dwDpFlags;
+     [string] char *         pszDpFqdn;
+ }
+ DNS_RPC_ZONE_DOTNET, *PDNS_RPC_ZONE_DOTNET, DNS_RPC_ZONE, *PDNS_RPC_ZONE;
+ typedef struct _DnssrvRpcZoneListW2K
+ {
+     [range(0,500000)]       DWORD               dwZoneCount;
+     [size_is(dwZoneCount)]  PDNS_RPC_ZONE_W2K   ZoneArray[];
+ }
+ DNS_RPC_ZONE_LIST_W2K, *PDNS_RPC_ZONE_LIST_W2K;
+ typedef struct _DnssrvRpcZoneListDotNet
+ {
+     DWORD                   dwRpcStructureVersion;
+     DWORD                   dwReserved0;
+     [range(0,500000)]       DWORD                   dwZoneCount;
+     [size_is(dwZoneCount)]  PDNS_RPC_ZONE_DOTNET    ZoneArray[];
+ }
+ DNS_RPC_ZONE_LIST_DOTNET, *PDNS_RPC_ZONE_LIST_DOTNET, DNS_RPC_ZONE_LIST, *PDNS_RPC_ZONE_LIST;
+ typedef enum
+ {
+     TRUSTPOINT_STATE_INITIALIZED,
+     TRUSTPOINT_STATE_DSPENDING,
+     TRUSTPOINT_STATE_ACTIVE,
+     TRUSTPOINT_STATE_DELETE_PENDING,
+     TRUSTPOINT_STATE_DELETED
+ }
+ TRUSTPOINT_STATE, *PTRUSTPOINT_STATE;
+ typedef enum
+ {
+     TRUSTANCHOR_STATE_INITIALIZED,
+     TRUSTANCHOR_STATE_DSPENDING,
+     TRUSTANCHOR_STATE_DSINVALID,
+     TRUSTANCHOR_STATE_ADDPEND,
+     TRUSTANCHOR_STATE_VALID,
+     TRUSTANCHOR_STATE_MISSING,
+     TRUSTANCHOR_STATE_REVOKED,
+     TRUSTANCHOR_STATE_DELETED
+ }
+ TRUSTANCHOR_STATE, *PTRUSTANCHOR_STATE;
+ typedef struct _DnssrvRpcTrustPoint
+ {
+     DWORD                   dwRpcStructureVersion;
+     DWORD                   dwReserved0;
+     [string] char *         pszTrustPointName;
+     TRUSTPOINT_STATE        eTrustPointState;
+     __int64                 i64LastActiveRefreshTime;
+     __int64                 i64NextActiveRefreshTime;
+     __int64                 i64LastSuccessfulActiveRefreshTime;
+     DWORD                   dwLastActiveRefreshResult;
+     DWORD                   dwReserved;
+ }
+ DNS_RPC_TRUST_POINT, *PDNS_RPC_TRUST_POINT;
+ typedef struct _DnssrvRpcTrustPointList
+ {
+     DWORD                         dwRpcStructureVersion;
+     DWORD                         dwReserved0;
+     [range(0,500000)]             DWORD                   dwTrustPointCount;
+     [size_is(dwTrustPointCount)]  PDNS_RPC_TRUST_POINT    TrustPointArray[];
+ }
+ DNS_RPC_TRUST_POINT_LIST, *PDNS_RPC_TRUST_POINT_LIST;
+ typedef struct _DnssrvRpcSigningKeyDescriptor
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     GUID                Guid;
+     [string] wchar_t*   pwszKeyStorageProvider;
+     BOOL                fStoreKeysInDirectory;
+     BOOL                fIsKSK;
+     BYTE                bSigningAlgorithm;
+     DWORD               dwKeyLength;
+     DWORD               dwInitialRolloverOffset;
+     DWORD               dwDNSKEYSignatureValidityPeriod;
+     DWORD               dwDSSignatureValidityPeriod;
+     DWORD               dwStandardSignatureValidityPeriod;
+     DWORD               dwRolloverType;
+     DWORD               dwRolloverPeriod;
+     DWORD               dwNextRolloverAction;
+     DWORD               dwReserved;
+ }
+ DNS_RPC_SKD, *PDNS_RPC_SKD;
+ typedef enum _KeySignScope
+ {
+     SIGN_SCOPE_DEFAULT,
+     SIGN_SCOPE_DNSKEY_ONLY,
+     SIGN_SCOPE_ALL_RECORDS,
+     SIGN_SCOPE_ADD_ONLY,
+     SIGN_SCOPE_DO_NOT_PUBLISH,
+     SIGN_SCOPE_REVOKED
+ } KeySignScope;
+ typedef struct _DnsRpcSigningKeyDescriptorStateEx
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     GUID                Guid;
+     DWORD               dwCurrentRollState;
+     DWORD               fManualTrigger;
+     DWORD               dwPreRollEventFired;
+     FILETIME            ftNextKeyGenerationTime;
+     DWORD               dwRevokedOrSwappedDnskeysLength;
+     PBYTE               pRevokedOrSwappedDnskeysBuffer;
+     DWORD               dwFinalDnskeysLength;
+     PBYTE               pFinalDnskeys;
+     KeySignScope        eActiveKeyScope;
+     KeySignScope        eStandByKeyScope;
+     KeySignScope        eNextKeyScope;
+ }
+ DNS_RPC_SKD_STATE_EX, *PDNS_RPC_SKD_STATE_EX;
+ typedef struct _DnsRpcSigningKeyDescriptorState
+ {
+     DWORD                   dwRpcStructureVersion;
+     DWORD                   dwReserved0;
+     GUID                    Guid;
+     FILETIME                ftLastRolloverTime;
+     FILETIME                ftNextRolloverTime;
+     DWORD                   dwState;
+     DWORD                   dwCurrentRolloverStatus;
+     [string] wchar_t *      pwszActiveKey;
+     [string] wchar_t *      pwszStandbyKey;
+     [string] wchar_t *      pwszNextKey;
+     DWORD                   dwReserved;
+ }
+ DNS_RPC_SKD_STATE, *PDNS_RPC_SKD_STATE;
+ typedef struct _DnssrvRpcZoneSKDSettings
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     PDNS_RPC_SKD        pSkd;
+     PDNS_RPC_SKD_STATE  pSkdState;
+     PDNS_RPC_SKD_STATE_EX pSkdStateEx;
+ } DNS_RPC_ZONE_SKD, *PDNS_RPC_ZONE_SKD;
+ typedef struct _DnssrvRpcZoneDnssecSettings
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     DWORD               fIsSigned;
+     DWORD               fSignWithNSEC3;
+     DWORD               fNSEC3OptOut;
+     DWORD               dwMaintainTrustAnchor;
+     DWORD               fParentHasSecureDelegation;
+     DWORD               dwDSRecordAlgorithms;
+     DWORD               fRFC5011KeyRollovers;
+     BYTE                bNSEC3HashAlgorithm;
+     BYTE                bNSEC3RandomSaltLength;
+     WORD                wNSEC3IterationCount;
+     LPWSTR              pwszNSEC3UserSalt;
+     DWORD               dwDNSKEYRecordSetTtl;
+     DWORD               dwDSRecordSetTtl;
+     DWORD               dwSignatureInceptionOffset;
+     DWORD               dwSecureDelegationPollingPeriod;
+     DWORD               dwPropagationTime;
+     DWORD               cbNSEC3CurrentSaltLength;
+     PBYTE               pbNSEC3CurrentSalt;
+     GUID                CurrentRollingSKDGuid;
+     DWORD               dwBufferLength;
+     PBYTE               pBuffer;
+     DWORD               dwCount;
+     PDNS_RPC_ZONE_SKD   pZoneSkdArray[1] ;
+ } DNS_RPC_ZONE_DNSSEC_SETTINGS, *PDNS_RPC_ZONE_DNSSEC_SETTINGS;
+ typedef struct _DnssrvRpcTrustAnchor
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     WORD                wTrustAnchorType;
+     WORD                wKeyTag;
+     WORD                wRRLength;
+     TRUSTANCHOR_STATE   eTrustAnchorState;
+     __int64             i64EnteredStateTime;
+     __int64             i64NextStateTime;
+     DWORD               dwReserved;
+     [size_is(wRRLength)]
+         BYTE            RRData[];
+ }
+ DNS_RPC_TRUST_ANCHOR, *PDNS_RPC_TRUST_ANCHOR;
+ typedef struct _DnssrvRpcTrustAnchorList
+ {
+     DWORD                         dwRpcStructureVersion;
+     DWORD                         dwReserved0;
+     [range(0,500000)]              DWORD                   dwTrustAnchorCount;
+     [size_is(dwTrustAnchorCount)]  PDNS_RPC_TRUST_ANCHOR   TrustAnchorArray[];
+ }
+ DNS_RPC_TRUST_ANCHOR_LIST, *PDNS_RPC_TRUST_ANCHOR_LIST;
+ typedef struct _DnssrvRpcDirectoryPartitionEnum
+ {
+     DWORD           dwRpcStructureVersion;
+     DWORD           dwReserved0;
+     [string] char * pszDpFqdn;
+     DWORD           dwFlags;
+     DWORD           dwZoneCount;
+ }
+ DNS_RPC_DP_ENUM, *PDNS_RPC_DP_ENUM;
+ typedef struct _DnssrvRpcDirectoryPartitionList
+ {
+     DWORD                   dwRpcStructureVersion;
+     DWORD                   dwReserved0;
+     [range(0,5000)]         DWORD               dwDpCount;
+     [size_is(dwDpCount)]    PDNS_RPC_DP_ENUM    DpArray[];
+ }
+ DNS_RPC_DP_LIST, *PDNS_RPC_DP_LIST;
+ typedef struct _DnssrvRpcDirectoryPartitionReplica
+ {
+     [string]  wchar_t *     pszReplicaDn;
+ }
+ DNS_RPC_DP_REPLICA, *PDNS_RPC_DP_REPLICA;
+ typedef struct _DnssrvRpcDirectoryPartition
+ {
+     DWORD           dwRpcStructureVersion;
+     DWORD           dwReserved0;
+     [string] char *          pszDpFqdn;
+     [string] wchar_t *       pszDpDn;
+     [string] wchar_t *       pszCrDn;
+     DWORD           dwFlags;
+     DWORD           dwZoneCount;
+     DWORD           dwState;
+     DWORD           dwReserved[ 3 ];
+     [string]  wchar_t *         pwszReserved[ 3 ];
+     [range(0,10000)]            DWORD                   dwReplicaCount;
+     [size_is(dwReplicaCount)]   PDNS_RPC_DP_REPLICA     ReplicaArray[];
+ }
+ DNS_RPC_DP_INFO, *PDNS_RPC_DP_INFO;
+ typedef struct _DnssrvRpcEnlistDirPart
+ {
+     DWORD       dwRpcStructureVersion;
+     DWORD       dwReserved0;
+     [string] char *  pszDpFqdn;
+     DWORD       dwOperation;
+ }
+ DNS_RPC_ENLIST_DP, *PDNS_RPC_ENLIST_DP;
+ typedef struct _DnssrvRpcZoneExport
+ {
+     DWORD       dwRpcStructureVersion;
+     DWORD       dwReserved0;
+     [string] char *  pszZoneExportFile;
+ }
+ DNS_RPC_ZONE_EXPORT_INFO, *PDNS_RPC_ZONE_EXPORT_INFO;
+ typedef struct _DnssrvRpcZoneSecondariesW2K
+ {
+     DWORD       fSecureSecondaries;
+     DWORD       fNotifyLevel;
+     PIP4_ARRAY  aipSecondaries;
+     PIP4_ARRAY  aipNotify;
+ }
+ DNS_RPC_ZONE_SECONDARIES_W2K, *PDNS_RPC_ZONE_SECONDARIES_W2K;
+ typedef struct _DnssrvRpcZoneSecondariesDotNet
+ {
+     DWORD       dwRpcStructureVersion;
+     DWORD       dwReserved0;
+     DWORD       fSecureSecondaries;
+     DWORD       fNotifyLevel;
+     PIP4_ARRAY  aipSecondaries;
+     PIP4_ARRAY  aipNotify;
+ }
+ DNS_RPC_ZONE_SECONDARIES_DOTNET, *PDNS_RPC_ZONE_SECONDARIES_DOTNET;
+ typedef struct _DnssrvRpcZoneSecondariesLonghorn
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     DWORD               fSecureSecondaries;
+     DWORD               fNotifyLevel;
+     PDNS_ADDR_ARRAY     aipSecondaries;
+     PDNS_ADDR_ARRAY     aipNotify;
+ }
+ DNS_RPC_ZONE_SECONDARIES_LONGHORN, *PDNS_RPC_ZONE_SECONDARIES_LONGHORN, DNS_RPC_ZONE_SECONDARIES, *PDNS_RPC_ZONE_SECONDARIES;
+ typedef struct _DnssrvRpcZoneDatabaseW2K
+ {
+     DWORD       fDsIntegrated;
+     [string] char *  pszFileName;
+ }
+ DNS_RPC_ZONE_DATABASE_W2K, *PDNS_RPC_ZONE_DATABASE_W2K;
+ typedef struct _DnssrvRpcZoneDatabaseDotNet
+ {
+     DWORD       dwRpcStructureVersion;
+     DWORD       dwReserved0;
+     DWORD       fDsIntegrated;
+     [string] char *  pszFileName;
+ }
+ DNS_RPC_ZONE_DATABASE_DOTNET, *PDNS_RPC_ZONE_DATABASE_DOTNET, DNS_RPC_ZONE_DATABASE, *PDNS_RPC_ZONE_DATABASE;
+ typedef struct _DnssrvRpcZoneChangePartition
+ {
+     DWORD       dwRpcStructureVersion;
+     DWORD       dwReserved0;
+     [string] char *  pszDestPartition;
+ }
+ DNS_RPC_ZONE_CHANGE_DP, *PDNS_RPC_ZONE_CHANGE_DP;
+ typedef struct _DnsRpcZoneInfoW2K
+ {
+     [string] char * pszZoneName;
+     DWORD       dwZoneType;
+     DWORD       fReverse;
+     DWORD       fAllowUpdate;
+     DWORD       fPaused;
+     DWORD       fShutdown;
+     DWORD       fAutoCreated;
+     DWORD       fUseDatabase;
+     [string] char * pszDataFile;
+     PIP4_ARRAY  aipMasters;
+     DWORD       fSecureSecondaries;
+     DWORD       fNotifyLevel;
+     PIP4_ARRAY  aipSecondaries;
+     PIP4_ARRAY  aipNotify;
+     DWORD       fUseWins;
+     DWORD       fUseNbstat;
+     DWORD       fAging;
+     DWORD       dwNoRefreshInterval;
+     DWORD       dwRefreshInterval;
+     DWORD       dwAvailForScavengeTime;
+     PIP4_ARRAY  aipScavengeServers;
+     DWORD       pvReserved1;
+     DWORD       pvReserved2;
+     DWORD       pvReserved3;
+     DWORD       pvReserved4;
+ }
+ DNS_RPC_ZONE_INFO_W2K, *PDNS_RPC_ZONE_INFO_W2K;
+ typedef struct _DnsRpcZoneInfoDotNet
+ {
+     DWORD       dwRpcStructureVersion;
+     DWORD       dwReserved0;
+     [string] char *  pszZoneName;
+     DWORD       dwZoneType;
+     DWORD       fReverse;
+     DWORD       fAllowUpdate;
+     DWORD       fPaused;
+     DWORD       fShutdown;
+     DWORD       fAutoCreated;
+     DWORD       fUseDatabase;
+     [string] char * pszDataFile;
+     PIP4_ARRAY  aipMasters;
+     DWORD       fSecureSecondaries;
+     DWORD       fNotifyLevel;
+     PIP4_ARRAY  aipSecondaries;
+     PIP4_ARRAY  aipNotify;
+     DWORD       fUseWins;
+     DWORD       fUseNbstat;
+     DWORD       fAging;
+     DWORD       dwNoRefreshInterval;
+     DWORD       dwRefreshInterval;
+     DWORD       dwAvailForScavengeTime;
+     PIP4_ARRAY  aipScavengeServers;
+     DWORD       dwForwarderTimeout;
+     DWORD       fForwarderSlave;
+     PIP4_ARRAY  aipLocalMasters;
+     DWORD       dwDpFlags;
+     [string] char *      pszDpFqdn;
+     [string] wchar_t *   pwszZoneDn;
+     DWORD       dwLastSuccessfulSoaCheck;
+     DWORD       dwLastSuccessfulXfr;
+     DWORD       dwReserved1;
+     DWORD       dwReserved2;
+     DWORD       dwReserved3;
+     DWORD       dwReserved4;
+     DWORD       dwReserved5;
+     [string] char *       pReserved1;
+     [string] char *       pReserved2;
+     [string] char *       pReserved3;
+     [string] char *       pReserved4;
+ }
+ DNS_RPC_ZONE_INFO_DOTNET, *PDNS_RPC_ZONE_INFO_DOTNET;
+ typedef struct _DnsRpcZoneInfoLonghorn
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     [string] char *               pszZoneName;
+     DWORD               dwZoneType;
+     DWORD               fReverse;
+     DWORD               fAllowUpdate;
+     DWORD               fPaused;
+     DWORD               fShutdown;
+     DWORD               fAutoCreated;
+     DWORD               fUseDatabase;
+     [string] char *               pszDataFile;
+     PDNS_ADDR_ARRAY     aipMasters;
+     DWORD               fSecureSecondaries;
+     DWORD               fNotifyLevel;
+     PDNS_ADDR_ARRAY     aipSecondaries;
+     PDNS_ADDR_ARRAY     aipNotify;
+     DWORD               fUseWins;
+     DWORD               fUseNbstat;
+     DWORD               fAging;
+     DWORD               dwNoRefreshInterval;
+     DWORD               dwRefreshInterval;
+     DWORD               dwAvailForScavengeTime;
+     PDNS_ADDR_ARRAY     aipScavengeServers;
+     DWORD               dwForwarderTimeout;
+     DWORD               fForwarderSlave;
+     PDNS_ADDR_ARRAY     aipLocalMasters;
+     DWORD               dwDpFlags;
+     [string] char *               pszDpFqdn;
+     [string] wchar_t *              pwszZoneDn;
+     DWORD               dwLastSuccessfulSoaCheck;
+     DWORD               dwLastSuccessfulXfr;
+     DWORD               fQueuedForBackgroundLoad;
+     DWORD               fBackgroundLoadInProgress;
+     BOOL                fReadOnlyZone;
+     DWORD               dwLastXfrAttempt;
+     DWORD               dwLastXfrResult;
+ }
+ DNS_RPC_ZONE_INFO_LONGHORN, *PDNS_RPC_ZONE_INFO_LONGHORN, DNS_RPC_ZONE_INFO, *PDNS_RPC_ZONE_INFO;
+ typedef struct _DnsRpcZoneCreateInfo
+ {
+     [string] char *       pszZoneName;
+     DWORD       dwZoneType;
+     DWORD       fAllowUpdate;
+     DWORD       fAging;
+     DWORD       dwFlags;
+     [string] char *       pszDataFile;
+     DWORD       fDsIntegrated;
+     DWORD       fLoadExisting;
+     [string] char *       pszAdmin;
+     PIP4_ARRAY  aipMasters;
+     PIP4_ARRAY  aipSecondaries;
+     DWORD       fSecureSecondaries;
+     DWORD       fNotifyLevel;
+     [string] char *       pvReserved1;
+     [string] char *       pvReserved2;
+     [string] char *       pvReserved3;
+     [string] char *       pvReserved4;
+     [string] char *       pvReserved5;
+     [string] char *       pvReserved6;
+     [string] char *       pvReserved7;
+     [string] char *       pvReserved8;
+     DWORD       dwReserved1;
+     DWORD       dwReserved2;
+     DWORD       dwReserved3;
+     DWORD       dwReserved4;
+     DWORD       dwReserved5;
+     DWORD       dwReserved6;
+     DWORD       dwReserved7;
+     DWORD       dwReserved8;
+ }
+ DNS_RPC_ZONE_CREATE_INFO_W2K, *PDNS_RPC_ZONE_CREATE_INFO_W2K;
+ typedef struct _DnsRpcZoneCreateInfoDotNet
+ {
+     DWORD       dwRpcStructureVersion;
+     DWORD       dwReserved0;
+     [string] char *       pszZoneName;
+     DWORD       dwZoneType;
+     DWORD       fAllowUpdate;
+     DWORD       fAging;
+     DWORD       dwFlags;
+     [string] char *       pszDataFile;
+     DWORD       fDsIntegrated;
+     DWORD       fLoadExisting;
+     [string] char *       pszAdmin;
+     PIP4_ARRAY  aipMasters;
+     PIP4_ARRAY  aipSecondaries;
+     DWORD       fSecureSecondaries;
+     DWORD       fNotifyLevel;
+     DWORD       dwTimeout;
+     DWORD       fRecurseAfterForwarding;
+     DWORD       dwDpFlags;
+     [string] char *       pszDpFqdn;
+     DWORD       dwReserved[ 32 ];
+ }
+ DNS_RPC_ZONE_CREATE_INFO_DOTNET, *PDNS_RPC_ZONE_CREATE_INFO_DOTNET;
+ typedef struct _DnsRpcZoneCreateInfoLonghorn
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     [string] char *               pszZoneName;
+     DWORD               dwZoneType;
+     DWORD               fAllowUpdate;
+     DWORD               fAging;
+     DWORD               dwFlags;
+     [string] char *               pszDataFile;
+     DWORD               fDsIntegrated;
+     DWORD               fLoadExisting;
+     [string] char *               pszAdmin;
+     PDNS_ADDR_ARRAY     aipMasters;
+     PDNS_ADDR_ARRAY     aipSecondaries;
+     DWORD               fSecureSecondaries;
+     DWORD               fNotifyLevel;
+     DWORD               dwTimeout;
+     DWORD               fRecurseAfterForwarding;
+     DWORD               dwDpFlags;
+     [string] char *               pszDpFqdn;
+     DWORD               dwReserved[ 32 ];
+ }
+ DNS_RPC_ZONE_CREATE_INFO_LONGHORN, *PDNS_RPC_ZONE_CREATE_INFO_LONGHORN, DNS_RPC_ZONE_CREATE_INFO, *PDNS_RPC_ZONE_CREATE_INFO;
+ typedef struct _DnssrvRpcZoneSigningKeyList
+ {
+     DWORD                   dwRpcStructureVersion;
+     DWORD                   dwReserved0;
+     [range(0,1000)]         DWORD          dwCount;
+     [size_is(dwCount)]      PDNS_RPC_SKD   SkdArray[];
+ }
+ DNS_RPC_SKD_LIST, *PDNS_RPC_SKD_LIST;
+ typedef struct _DnssrvRpcSigningValidationError
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     GUID                guidSKD;
+     [string] wchar_t *  pwszSigningKeyPointerString;
+     DWORD               dwExtendedError;
+     DWORD               dwReserved;
+ }
+ DNS_RPC_SIGNING_VALIDATION_ERROR, *PDNS_RPC_SIGNING_VALIDATION_ERROR;
+ typedef struct _DnsRpcAutoConfigureLonghorn
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     DWORD               dwAutoConfigFlags;
+     DWORD               dwReserved1;
+     [string] char *               pszNewDomainName;
+ }
+ DNS_RPC_AUTOCONFIGURE, *PDNS_RPC_AUTOCONFIGURE;
+ typedef struct _DnsRpcEnumZonesFilter
+ {
+     DWORD       dwRpcStructureVersion;
+     DWORD       dwReserved0;
+     DWORD       dwFilter;
+     [string] char *       pszPartitionFqdn;
+     [string] char *       pszQueryString;
+     [string] char *       pszReserved[ 6 ];
+ }
+ DNS_RPC_ENUM_ZONES_FILTER, *PDNS_RPC_ENUM_ZONES_FILTER;
+ typedef struct _DnssrvRpcRecord
+ {
+     WORD        wDataLength;
+     WORD        wType;
+     DWORD       dwFlags;
+     DWORD       dwSerial;
+     DWORD       dwTtlSeconds;
+     DWORD       dwTimeStamp;
+     DWORD       dwReserved;
+     [size_is(wDataLength)]  BYTE    Buffer[];
+ }
+ DNS_RPC_RECORD, *PDNS_RPC_RECORD,
+ DNS_FLAT_RECORD, *PDNS_FLAT_RECORD;
+ typedef struct _DnssrvRpcNameAndParam
+ {
+     DWORD       dwParam;
+     [string] char *       pszNodeName;
+ }
+ DNS_RPC_NAME_AND_PARAM, *PDNS_RPC_NAME_AND_PARAM;
+ typedef struct _DnsRpcIPValidate
+ {
+     DWORD               dwRpcStructureVersion;
+     DWORD               dwReserved0;
+     DWORD               dwContext;
+     DWORD               dwReserved1;
+     [string] char *               pszContextName;
+     PDNS_ADDR_ARRAY     aipValidateAddrs;
+ }
+ DNS_RPC_IP_VALIDATE, *PDNS_RPC_IP_VALIDATE;
+ typedef struct _DnsRpcUtf8StringList
+ {
+     [range(0,10000)]        DWORD       dwCount;
+     [size_is(dwCount),string]      char *       pszStrings[];
+ }
+ DNS_RPC_UTF8_STRING_LIST, *PDNS_RPC_UTF8_STRING_LIST;
+ typedef struct _DnsRpcUnicodeStringList
+ {
+     [range(0,10000)]            DWORD       dwCount;
+     [size_is(dwCount),string]   wchar_t *   pwszStrings[];
+ }
+ DNS_RPC_UNICODE_STRING_LIST, *PDNS_RPC_UNICODE_STRING_LIST;
+ typedef enum
+ {
+     Equals=1,
+     NotEquals
+ }
+ DNS_RPC_CRITERIA_COMPARATOR;
+ typedef enum
+ {
+     DNS_AND,
+     DNS_OR
+ }
+ DNS_RPC_POLICY_CONDITION;
+ typedef enum
+ {
+     DnsPolicyServerLevel,
+     DnsPolicyZoneLevel,
+     DnsPolicyLevelMax
+ }DNS_RPC_POLICY_LEVEL;
+ typedef enum
+ {
+     DnsPolicyDeny,
+     DnsPolicyAllow,
+     DnsPolicyIgnore,
+     DnsPolicyActionMax
+ }DNS_RPC_POLICY_ACTION_TYPE;
+ typedef enum
+ {
+     DnsPolicyQueryProcessing,
+     DnsPolicyZoneTransfer,
+     DnsPolicyDynamicUpdate,
+     DnsPolicyRecursion,
+     DnsPolicyMax
+ } DNS_RPC_POLICY_TYPE;
+ typedef enum {
+      DnsPolicyCriteriaSubnet,
+      DnsPolicyCriteriaTransportProtocol,
+      DnsPolicyCriteriaNetworkProtocol,
+      DnsPolicyCriteriaInterface,
+      DnsPolicyCriteriaFqdn,
+      DnsPolicyCriteriaQtype,
+      DnsPolicyCriteriaTime,
+      DnsPolicyCriteriaMax
+ }DNS_RPC_CRITERIA_ENUM;
+ typedef struct _ClientSubnetRecord
+ {
+     LPWSTR            pwszClientSubnetName;
+     PDNS_ADDR_ARRAY   pIPAddr;
+     PDNS_ADDR_ARRAY   pIPv6Addr;
+ }DNS_RPC_CLIENT_SUBNET_RECORD,*PDNS_RPC_CLIENT_SUBNET_RECORD;
+ typedef struct _DnssrvRpcPolicyActionContent
+ {
+     LPWSTR    pwszScopeName;
+     DWORD     dwWeight;
+ }DNS_RPC_POLICY_CONTENT, * PDNS_RPC_POLICY_CONTENT;
+ typedef struct _DnssrvRpcPolicyAction
+ {
+     [range (0,50000)]            DWORD                         dwContentCount;
+     [size_is (dwContentCount)]   PDNS_RPC_POLICY_CONTENT       pContent[];
+ }DNS_RPC_POLICY_CONTENT_LIST, * PDNS_RPC_POLICY_CONTENT_LIST;
+ typedef struct _CriteriaList
+ {
+     DNS_RPC_CRITERIA_ENUM  type;
+     LPWSTR                 pCriteria;
+ }DNS_RPC_CRITERIA,*PDNS_RPC_CRITERIA;
+ typedef struct _DnssrvRpcPolicy
+ {
+     LPWSTR                            pwszPolicyName;
+     DNS_RPC_POLICY_LEVEL              level;
+     DNS_RPC_POLICY_TYPE               appliesOn;
+     DNS_RPC_POLICY_ACTION_TYPE        action;
+     DNS_RPC_POLICY_CONDITION          condition;
+     BOOL                              isEnabled;
+     DWORD                             dwProcessingOrder;
+     LPSTR                             pszZoneName;
+     PDNS_RPC_POLICY_CONTENT_LIST      pContentList;
+     DWORDLONG                         flags;
+     [range (0,50000)]            DWORD              dwCriteriaCount;
+     [size_is (dwCriteriaCount)]  PDNS_RPC_CRITERIA  pCriteriaList[];
+ }DNS_RPC_POLICY, *PDNS_RPC_POLICY;
+ typedef struct _DnsRpcPolicyType {
+     LPWSTR                   pwszPolicyName;
+     DNS_RPC_POLICY_TYPE      appliesOn;
+     BOOL                     fEnabled;
+     DWORD                    processingOrder;
+ }DNS_RPC_POLICY_NAME, * PDNS_RPC_POLICY_NAME;
+ typedef struct _DnsRpcEnumPolicyList
+ {
+     [range(0,50000)]          DWORD                    dwPolicyCount;
+     [size_is(dwPolicyCount)]  PDNS_RPC_POLICY_NAME     pPolicyArray[];
+ } DNS_RPC_ENUMERATE_POLICY_LIST, * PDNS_RPC_ENUMERATE_POLICY_LIST;
+ typedef enum {
+     DnsRRLLogOnly,
+     DnsRRLEnabled,
+     DnsRRLDisabled
+ } DNS_RRL_MODE_ENUM;
+ typedef struct _DnsRRLParams_ {
+     DWORD                     dwResponsesPerSecond;
+     DWORD                     dwErrorsPerSecond;
+     DWORD                     dwLeakRate;
+     DWORD                     dwTCRate;
+     DWORD                     dwTotalResponsesInWindow;
+     DWORD                     dwWindowSize;
+     DWORD                     dwIPv4PrefixLength;
+     DWORD                     dwIPv6PrefixLength;
+     DNS_RRL_MODE_ENUM         eMode;
+     DWORD                     dwFlags;
+     BOOL                      fSetDefault;
+ } DNS_RPC_RRL_PARAMS, *PDNS_RPC_RRL_PARAMS;
