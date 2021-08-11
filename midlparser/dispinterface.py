@@ -55,10 +55,12 @@ class MidlDispInterfaceParser(MidlBaseParser):
         if token.data == "dispinterface" and self.state == DispInterfaceState.BEGIN:
             self.state = DispInterfaceState.NAME
         elif token.data == "properties" and self.state in [DispInterfaceState.DEFINITION, DispInterfaceState.METHOD_ATTR_OR_TYPE]:
-            assert(next(self.tokens).type == TokenType.COLON)
+            next_token = next(self.tokens)
+            assert(next_token.type == TokenType.OPERATOR and next_token.data == ':')
             self.state = DispInterfaceState.PROP_ATTR_OR_TYPE
         elif token.data == "methods" and self.state in [DispInterfaceState.DEFINITION, DispInterfaceState.PROP_ATTR_OR_TYPE]:
-            assert(next(self.tokens).type == TokenType.COLON)
+            next_token = next(self.tokens)
+            assert(next_token.type == TokenType.OPERATOR and next_token.data == ':')
             self.state = DispInterfaceState.METHOD_ATTR_OR_TYPE
         elif self.state in [DispInterfaceState.METHOD_ATTR_OR_TYPE, DispInterfaceState.METHOD_TYPE]:
             # Procedure declaration return type

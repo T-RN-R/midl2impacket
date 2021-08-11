@@ -108,8 +108,6 @@ class MidlTokenizer:
                     to_yield = Token(cur_char, TokenType.OPERATOR)
             elif cur_char == ";":
                 to_yield = Token(cur_char, TokenType.SEMICOLON)
-            elif cur_char == ':':
-                to_yield = Token(cur_char, TokenType.COLON)
             elif cur_char in string.ascii_letters or cur_char == "_":
                 # Some symbols may start with an underscore.
                 s = self.get_keyword_or_symbol()

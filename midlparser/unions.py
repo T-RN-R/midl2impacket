@@ -100,6 +100,12 @@ class MidlUnionParser(MidlBaseParser):
         else:
             self.invalid(token)
 
+    def comma(self, token):
+        if self.state == UnionState.UNION_END:
+            self.declared_names += ','
+        else:
+            self.invalid(token)
+
     def brace(self, token):
         # Unions can be unnamed
         if token.data == '{' and self.state in [UnionState.UNION_BODY, UnionState.UNION_NAME]:
