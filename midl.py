@@ -13,10 +13,15 @@ class Macroable(Visitable):
         invalid_prev = string.ascii_letters + string.digits + "_"
 
         substr = s[:idx+len(macro[0])]
+        valid_replacement = True
         if idx > 0:
-            if s[idx-1] not in invalid_prev:
-                substr = substr.replace(macro[0], macro[1])
-        print(macro)
+            if s[idx-1] in invalid_prev:
+                valid_replacement = False
+        if idx != len(s)-1:
+            if s[idx+1] in invalid_prev:
+                valid_replacement = False
+        if valid_replacement:
+            substr = substr.replace(macro[0], macro[1])
         cont = s[idx+len(macro[0])+1:]
         if len(cont) > 1:
             s = substr + self._do_macro(s[idx+len(macro[0])+1:], macro)
