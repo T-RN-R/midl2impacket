@@ -1,3 +1,10 @@
+/*
+File: ms-comt.idl
+Protocol: [MS-COMT]: Component Object Model Plus (COM+) Tracker Service Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-comt/65670101-35aa-4f10-b162-149fae7b8659
+Retrieval Date: Wed Aug 11 14:16:51 2021
+*/
+
  import "ms-dcom.idl";
  import "ms-dtyp.idl";
  import "ms-oaut.idl";

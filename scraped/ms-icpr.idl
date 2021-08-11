@@ -1,3 +1,10 @@
+/*
+File: ms-icpr.idl
+Protocol: [MS-ICPR]: ICertPassage Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-icpr/5950cc59-a9f7-461a-b928-b1f631ac0d0a
+Retrieval Date: Wed Aug 11 14:20:29 2021
+*/
+
  // Please refer to [MS-WCCE] for the definition of the 
  // CERTTRANSBLOB
   

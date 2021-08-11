@@ -1,3 +1,10 @@
+/*
+File: ms-eerr.idl
+Protocol: [MS-EERR]: ExtendedError Remote Data Structure
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-eerr/27966728-b969-4e2e-a32e-f358d9d1922f
+Retrieval Date: Wed Aug 11 14:18:59 2021
+*/
+
  import "ms-dtyp.idl";
   
  [                       

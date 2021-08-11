@@ -1,3 +1,10 @@
+/*
+File: ms-vds.idl
+Protocol: [MS-VDS]: Virtual Disk Service (VDS) Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-vds/3c1c4893-41bb-4958-886c-2e9a3aec99f7
+Retrieval Date: Wed Aug 11 14:27:31 2021
+*/
+
  import "ms-dtyp.idl";
  import "ms-dcom.idl";
   

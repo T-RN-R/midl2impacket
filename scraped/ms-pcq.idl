@@ -1,3 +1,10 @@
+/*
+File: ms-pcq.idl
+Protocol: [MS-PCQ]: Performance Counter Query Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-pcq/dcee10e3-0512-495e-9566-26e56cc21c5c
+Retrieval Date: Wed Aug 11 14:23:23 2021
+*/
+
  import "ms-dtyp.idl";
   
  [

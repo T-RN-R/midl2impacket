@@ -1,3 +1,10 @@
+/*
+File: ms-rai.idl
+Protocol: [MS-RAI]: Remote Assistance Initiation Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-rai/30e51593-7296-4387-9851-63878119c0dc
+Retrieval Date: Wed Aug 11 14:23:59 2021
+*/
+
  import "ms-oaut.idl";
  #define SAFEARRAY(type) SAFEARRAY
  #define DISPID_PCH_BASE                           0x08010000

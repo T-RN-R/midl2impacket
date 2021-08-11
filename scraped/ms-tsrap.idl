@@ -1,3 +1,10 @@
+/*
+File: ms-tsrap.idl
+Protocol: [MS-TSRAP]: Telnet Server Remote Administration Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-tsrap/5a55266b-6745-4475-a21c-cb0921bcd255
+Retrieval Date: Wed Aug 11 14:27:11 2021
+*/
+
  import "ms-oaut.idl";
   
  [

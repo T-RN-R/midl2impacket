@@ -1,3 +1,10 @@
+/*
+File: ms-rrasm.idl
+Protocol: [MS-RRASM]: Routing and Remote Access Server (RRAS) Management Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-rrasm/8e6e89fb-9c80-4a9a-a222-d7d8948244bb
+Retrieval Date: Wed Aug 11 14:25:30 2021
+*/
+
  import "ms-oaut.idl";
   
  #define IN

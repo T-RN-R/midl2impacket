@@ -1,3 +1,10 @@
+/*
+File: ms-even6.idl
+Protocol: [MS-EVEN6]: EventLog Remoting Protocol Version 6.0
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-even6/2d808edd-719a-4c69-b34a-df766adb5f0c
+Retrieval Date: Wed Aug 11 14:19:13 2021
+*/
+
  import "ms-dtyp.idl";
   
  const int MAX_PAYLOAD = 2 * 1024 * 1024;

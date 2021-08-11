@@ -1,3 +1,10 @@
+/*
+File: ms-csvp.idl
+Protocol: [MS-CSVP]: Failover Cluster: Setup and Validation Protocol (ClusPrep)
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-csvp/eb003a1e-fbd5-4f04-ac89-c1d2093129b0
+Retrieval Date: Wed Aug 11 14:17:01 2021
+*/
+
  import "ms-oaut.idl";
     #define SAFEARRAY(type) SAFEARRAY
     

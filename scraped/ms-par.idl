@@ -1,3 +1,10 @@
+/*
+File: ms-par.idl
+Protocol: [MS-PAR]: Print System Asynchronous Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-par/d81865df-838d-4c13-a705-d41ee24890de
+Retrieval Date: Wed Aug 11 14:23:08 2021
+*/
+
  // [MS-PAR] interface
  [
      uuid(76F03F96-CDFD-44fc-A22C-64950A001209),
@@ -1501,7 +1508,7 @@
     [in, string, unique]    wchar_t*           pDatatype,
     [in]                    DEVMODE_CONTAINER* pDevModeContainer
  );
- 
+ }
   
  DWORD
  RpcAsyncGetJobNamedPropertyValue(
@@ -1538,4 +1545,4 @@
      [in]      PRINTER_HANDLE                   hPrinter,
      [in, ref] RPC_BranchOfficeJobDataContainer *pBranchOfficeJobDataContainer
      );
-  }
+  

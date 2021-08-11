@@ -1,3 +1,10 @@
+/*
+File: ms-tpmvsc.idl
+Protocol: [MS-TPMVSC]: Trusted Platform Module (TPM) Virtual Smart Card Management Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-tpmvsc/3c192940-b9cb-4e9c-9ad8-ef9077c0b090
+Retrieval Date: Wed Aug 11 14:27:00 2021
+*/
+
  import "oaidl.idl";
  import "ocidl.idl";
   

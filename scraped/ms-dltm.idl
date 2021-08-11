@@ -1,3 +1,10 @@
+/*
+File: ms-dltm.idl
+Protocol: [MS-DLTM]: Distributed Link Tracking: Central Manager Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dltm/6183a6ce-f7d8-496c-bd37-70c984dd1c67
+Retrieval Date: Wed Aug 11 14:17:33 2021
+*/
+
  import "ms-dtyp.idl";
  import "ms-dltw.idl";
   

@@ -1,3 +1,10 @@
+/*
+File: ms-scmp.idl
+Protocol: [MS-SCMP]: Shadow Copy Management Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-scmp/50905ca4-98bb-4ea6-aa89-4ba273c4a9d4
+Retrieval Date: Wed Aug 11 14:26:01 2021
+*/
+
  import "ms-dtyp.idl";
  import "ms-dcom.idl";
  import "ms-oaut.idl";

@@ -1,3 +1,10 @@
+/*
+File: ms-rprn.idl
+Protocol: [MS-RPRN]: Print System Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-rprn/e8f9dad8-d114-41cc-9a52-fc927e908cf4
+Retrieval Date: Wed Aug 11 14:25:27 2021
+*/
+
  // [MS-RPRN] interface
  [
      uuid(12345678-1234-ABCD-EF00-0123456789AB),
@@ -1616,7 +1623,7 @@
      [out, size_is(,*pcProperties)] RPC_PrintNamedProperty **ppProperties);
   
  void
- Opnum114NotUsedOnWire();
+ Opnum114NotUsedOnWire();}
   
  void
  Opnum115NotUsedOnWire();
@@ -1682,4 +1689,4 @@
      [out, ref] DWORD* ippResponseBufferSize,
      [out, size_is(, *ippResponseBufferSize), ref] BYTE** ippResponseBuffer
  );
-  }
+  

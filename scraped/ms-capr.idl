@@ -1,3 +1,10 @@
+/*
+File: ms-capr.idl
+Protocol: [MS-CAPR]: Central Access Policy Identifier (ID) Retrieval Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-capr/3b30e288-7f4f-4d05-bcac-d8e33086d0cc
+Retrieval Date: Wed Aug 11 14:16:18 2021
+*/
+
   
   
  import "ms-dtyp.idl";

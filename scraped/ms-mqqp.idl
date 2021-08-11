@@ -1,3 +1,10 @@
+/*
+File: ms-mqqp.idl
+Protocol: [MS-MQQP]: Message Queuing (MSMQ): Queue Manager to Queue Manager Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-mqqp/e3ad0b4f-51ab-4a7c-936b-c4f3e6f57b2d
+Retrieval Date: Wed Aug 11 14:21:52 2021
+*/
+
  import "ms-dtyp.idl";
  import "ms-mqmq.idl";
   

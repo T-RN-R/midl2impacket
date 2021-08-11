@@ -1,3 +1,10 @@
+/*
+File: ms-coma.idl
+Protocol: [MS-COMA]: Component Object Model Plus (COM+) Remote Administration Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-coma/c74c3017-289c-490a-bd60-80ab84355661
+Retrieval Date: Wed Aug 11 14:16:44 2021
+*/
+
  import "ms-dtyp.idl";
  import "ms-oaut.idl";
   

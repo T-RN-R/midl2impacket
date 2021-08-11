@@ -1,3 +1,10 @@
+/*
+File: ms-samr.idl
+Protocol: [MS-SAMR]: Security Account Manager (SAM) Remote Protocol (Client-to-Server)
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-samr/1cd138b9-cc1b-4706-b115-49e53189e32e
+Retrieval Date: Wed Aug 11 14:25:56 2021
+*/
+
  import "ms-dtyp.idl";
   
  [
@@ -1396,3 +1403,21 @@
   
  // Opnum 69
  void Opnum69NotUsedOnWire(void);
+ // Opnum 70
+    void Opnum70NotUsedOnWire(void);
+  
+ // Opnum 71
+    void Opnum71NotUsedOnWire(void);
+  
+ // Opnum 72
+    void Opnum72NotUsedOnWire(void);
+  
+ // Opnum 73
+    NTSTATUS
+    SamrUnicodeChangePasswordUser4(
+        [in]                handle_t                        BindingHandle,
+        [in,unique]         PRPC_UNICODE_STRING             ServerName,
+        [in]                PRPC_UNICODE_STRING             UserName,
+        [in]                PSAMPR_ENCRYPTED_PASSWORD_AES   EncryptedPassword
+     ); }
+  

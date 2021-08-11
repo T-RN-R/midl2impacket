@@ -1,3 +1,10 @@
+/*
+File: ms-dcom.idl
+Protocol: [MS-DCOM]: Distributed Component Object Model (DCOM) Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dcom/49aef5a4-f0ad-4478-abb5-cb9446dc13c6
+Retrieval Date: Wed Aug 11 14:17:09 2021
+*/
+
  import "ms-dtyp.idl";
   
   

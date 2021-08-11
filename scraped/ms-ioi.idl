@@ -1,3 +1,10 @@
+/*
+File: ms-ioi.idl
+Protocol: [MS-IOI]: IManagedObject Interface Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-ioi/9208fb9d-3c19-49be-a92f-866eade4ce47
+Retrieval Date: Wed Aug 11 14:20:40 2021
+*/
+
  import "ms-oaut.idl";
   
  #ifdef _64BIT

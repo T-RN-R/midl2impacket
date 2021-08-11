@@ -1,3 +1,10 @@
+/*
+File: ms-lsad.idl
+Protocol: [MS-LSAD]: Local Security Authority (Domain Policy) Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lsad/d86ca799-b122-4fb6-bfa0-5c99dd862b11
+Retrieval Date: Wed Aug 11 14:21:09 2021
+*/
+
  import "ms-dtyp.idl";
   
  [

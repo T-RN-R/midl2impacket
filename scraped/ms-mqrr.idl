@@ -1,3 +1,10 @@
+/*
+File: ms-mqrr.idl
+Protocol: [MS-MQRR]: Message Queuing (MSMQ): Queue Manager Remote Read Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-mqrr/59dd45ce-abf5-4b70-a8c7-92221019d254
+Retrieval Date: Wed Aug 11 14:21:56 2021
+*/
+
   
  import "ms-dtyp.idl";
  import "ms-mqmq.idl";

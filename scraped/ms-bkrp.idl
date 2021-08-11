@@ -1,3 +1,10 @@
+/*
+File: ms-bkrp.idl
+Protocol: [MS-BKRP]: BackupKey Remote Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-bkrp/9dc083a6-541f-47ef-aa05-afc4891aa1dc
+Retrieval Date: Wed Aug 11 14:16:02 2021
+*/
+
  import "ms-dtyp.idl";
   
  [

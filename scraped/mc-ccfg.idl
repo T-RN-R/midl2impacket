@@ -1,3 +1,10 @@
+/*
+File: mc-ccfg.idl
+Protocol: [MC-CCFG]: Server Cluster: Configuration (ClusCfg) Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/mc-ccfg/431186bd-33d3-4c97-b79b-6475ec174609
+Retrieval Date: Wed Aug 11 14:14:43 2021
+*/
+
  import "ms-oaut.idl";
   
  [

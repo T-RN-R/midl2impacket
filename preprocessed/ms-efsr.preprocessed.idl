@@ -65,3 +65,149 @@
    BOOL bHasCurrentKey;
    DWORD dwEncryptionError;
  } EFS_ENCRYPTION_STATUS_INFO;
+ typedef struct _ENCRYPTION_PROTECTOR {
+ DWORD cbTotalLength;
+ RPC_SID* UserSid;
+ [string] wchar_t* lpProtectorDescriptor;
+ } ENCRYPTION_PROTECTOR, * PENCRYPTION_PROTECTOR;
+ typedef struct _ENCRYPTION_PROTECTOR_LIST {
+ DWORD nProtectors;
+ [size_is(nProtectors)] PENCRYPTION_PROTECTOR* pProtectors;
+} ENCRYPTION_PROTECTOR_LIST, *PENCRYPTION_PROTECTOR_LIST;
+ long EfsRpcOpenFileRaw(
+     [in]            handle_t                   binding_h,
+     [out]           PEXIMPORT_CONTEXT_HANDLE * hContext,
+     [in, string]    wchar_t                  * FileName,
+     [in]            long                       Flags
+     );
+ long EfsRpcReadFileRaw(
+     [in]            PEXIMPORT_CONTEXT_HANDLE   hContext,
+     [out]           EFS_EXIM_PIPE            * EfsOutPipe
+     );
+ long EfsRpcWriteFileRaw(
+     [in]            PEXIMPORT_CONTEXT_HANDLE   hContext,
+     [in]            EFS_EXIM_PIPE            * EfsInPipe
+     );
+ void EfsRpcCloseRaw(
+     [in, out]       PEXIMPORT_CONTEXT_HANDLE * hContext
+     );
+ long EfsRpcEncryptFileSrv(
+     [in]            handle_t    binding_h,
+     [in, string]    wchar_t   * FileName
+     );
+ long EfsRpcDecryptFileSrv(
+     [in]            handle_t        binding_h,
+     [in, string]    wchar_t       * FileName,
+     [in]            unsigned long   OpenFlag
+     );
+ DWORD EfsRpcQueryUsersOnFile(
+     [in]            handle_t                        binding_h,
+     [in, string]    wchar_t                        * FileName,
+     [out]           ENCRYPTION_CERTIFICATE_HASH_LIST ** Users
+     );
+ DWORD EfsRpcQueryRecoveryAgents(
+     [in]            handle_t                            binding_h,
+     [in, string]    wchar_t                           * FileName,
+     [out]           ENCRYPTION_CERTIFICATE_HASH_LIST ** RecoveryAgents
+     );
+ DWORD EfsRpcRemoveUsersFromFile(
+     [in]            handle_t                            binding_h,
+     [in, string]    wchar_t                           * FileName,
+     [in]            ENCRYPTION_CERTIFICATE_HASH_LIST  * Users
+     );
+ DWORD EfsRpcAddUsersToFile(
+     [in]         handle_t                      binding_h,
+     [in, string] wchar_t                     * FileName,
+     [in]         ENCRYPTION_CERTIFICATE_LIST * EncryptionCertificates
+     );
+ void Opnum10NotUsedOnWire(void);
+ DWORD EfsRpcNotSupported(
+     [in]            handle_t        binding_h,
+     [in, string]    wchar_t       * Reserved1,
+     [in, string]    wchar_t       * Reserved2,
+     [in]            DWORD           dwReserved1,
+     [in]            DWORD           dwReserved2,
+     [in, unique]    EFS_RPC_BLOB  * Reserved,
+     [in]            BOOL         bReserved
+     );
+ DWORD EfsRpcFileKeyInfo(
+     [in]            handle_t        binding_h,
+     [in, string]    wchar_t       * FileName,
+     [in]            DWORD           InfoClass,
+     [out]           EFS_RPC_BLOB ** KeyInfo
+     );
+ DWORD EfsRpcDuplicateEncryptionInfoFile(
+     [in]            handle_t        binding_h,
+     [in, string]    wchar_t       * SrcFileName,
+     [in, string]    wchar_t       * DestFileName,
+     [in]            DWORD           dwCreationDisposition,
+     [in]            DWORD           dwAttributes,
+     [in, unique]    EFS_RPC_BLOB  * RelativeSD,
+     [in]            BOOL         bInheritHandle
+     );
+ void Opnum14NotUsedOnWire(void);
+ DWORD EfsRpcAddUsersToFileEx(
+     [in]            handle_t                        binding_h,
+     [in]            DWORD                           dwFlags,
+     [in, unique]    EFS_RPC_BLOB                  * Reserved,
+     [in, string]    wchar_t                       * FileName,
+     [in]    ENCRYPTION_CERTIFICATE_LIST   * EncryptionCertificates
+     );
+ DWORD EfsRpcFileKeyInfoEx(
+     [in]            handle_t        binding_h,
+     [in]            DWORD           dwFileKeyInfoFlags,
+     [in, unique]    EFS_RPC_BLOB  * Reserved,
+     [in, string]    wchar_t       * FileName,
+     [in]            DWORD           InfoClass,
+     [out]           EFS_RPC_BLOB ** KeyInfo
+     );
+ void Opnum17NotUsedOnWire(void);
+ DWORD EfsRpcGetEncryptedFileMetadata(
+     [in]                handle_t        binding_h,
+     [in, string, ref]   wchar_t       * FileName,
+     [out, ref]          EFS_RPC_BLOB ** EfsStreamBlob
+     );
+ DWORD EfsRpcSetEncryptedFileMetadata(
+     [in]              handle_t                       binding_h,
+     [in, string, ref] wchar_t                      * FileName,
+     [in, unique]      EFS_RPC_BLOB                * OldEfsStreamBlob,
+     [in, ref]         EFS_RPC_BLOB                * NewEfsStreamBlob,
+     [in, unique] ENCRYPTED_FILE_METADATA_SIGNATURE * NewEfsSignature
+     );
+ DWORD EfsRpcFlushEfsCache(
+     [in]    handle_t    binding_h
+     );
+ long EfsRpcEncryptFileExSrv(
+     [in] handle_t binding_h,
+     [in, string] wchar_t* FileName,
+     [in, string, unique] wchar_t* ProtectorDescriptor,
+     [in] unsigned long Flags
+     );
+ DWORD EfsRpcQueryProtectors(
+     [in] handle_t binding_h,
+     [in, string] wchar_t* FileName,
+     [out] PENCRYPTION_PROTECTOR_LIST **ppProtectorList
+     );
+ void Opnum23NotUsedOnWire(void);
+ void Opnum24NotUsedOnWire(void);
+ void Opnum25NotUsedOnWire(void);
+ void Opnum26NotUsedOnWire(void);
+ void Opnum27NotUsedOnWire(void);
+ void Opnum28NotUsedOnWire(void);
+ void Opnum29NotUsedOnWire(void);
+ void Opnum30NotUsedOnWire(void);
+ void Opnum31NotUsedOnWire(void);
+ void Opnum32NotUsedOnWire(void);
+ void Opnum33NotUsedOnWire(void);
+ void Opnum34NotUsedOnWire(void);
+ void Opnum35NotUsedOnWire(void);
+ void Opnum36NotUsedOnWire(void);
+ void Opnum37NotUsedOnWire(void);
+ void Opnum38NotUsedOnWire(void);
+ void Opnum39NotUsedOnWire(void);
+ void Opnum40NotUsedOnWire(void);
+ void Opnum41NotUsedOnWire(void);
+ void Opnum42NotUsedOnWire(void);
+ void Opnum43NotUsedOnWire(void);
+ void Opnum44NotUsedOnWire(void);
+ }

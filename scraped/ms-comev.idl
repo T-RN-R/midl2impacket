@@ -1,3 +1,10 @@
+/*
+File: ms-comev.idl
+Protocol: [MS-COMEV]: Component Object Model Plus (COM+) Event System Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-comev/7d2b69d9-7f37-48ec-8b9f-5954c8ae7953
+Retrieval Date: Wed Aug 11 14:16:47 2021
+*/
+
   
  import "ms-oaut.idl";
   

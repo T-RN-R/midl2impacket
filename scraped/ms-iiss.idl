@@ -1,3 +1,10 @@
+/*
+File: ms-iiss.idl
+Protocol: [MS-IISS]: Internet Information Services (IIS) ServiceControl Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-iiss/2a86f63c-569c-4055-aeb0-471e50e090a3
+Retrieval Date: Wed Aug 11 14:20:33 2021
+*/
+
  import "ms-dtyp.idl"; 
  import "ms-oaut.idl";
   

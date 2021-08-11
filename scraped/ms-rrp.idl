@@ -1,3 +1,10 @@
+/*
+File: ms-rrp.idl
+Protocol: [MS-RRP]: Windows Remote Registry Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-rrp/47f3edf6-4c2d-45d8-ab5b-2dc077738903
+Retrieval Date: Wed Aug 11 14:25:33 2021
+*/
+
  import "ms-dtyp.idl";
   
  [

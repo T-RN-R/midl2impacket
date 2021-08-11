@@ -1,3 +1,10 @@
+/*
+File: ms-swn.idl
+Protocol: [MS-SWN]: Service Witness Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-swn/ccebaef8-60b0-4847-9ed7-2519d2b6ef19
+Retrieval Date: Wed Aug 11 14:26:44 2021
+*/
+
   
  import "ms-dtyp.idl";
  typedef [context_handle] void * PCONTEXT_HANDLE;

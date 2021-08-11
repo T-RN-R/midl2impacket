@@ -1,3 +1,10 @@
+/*
+File: ms-frs2.idl
+Protocol: [MS-FRS2]: Distributed File System Replication Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-frs2/39bd498b-2a94-41b7-914e-10921d543912
+Retrieval Date: Wed Aug 11 14:19:24 2021
+*/
+
  import "ms-dtyp.idl";
   
   

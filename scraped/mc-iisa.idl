@@ -1,3 +1,10 @@
+/*
+File: mc-iisa.idl
+Protocol: [MC-IISA]: Internet Information Services (IIS) Application Host COM Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/mc-iisa/f1369d54-d657-4268-9af9-f5e924fcf849
+Retrieval Date: Wed Aug 11 14:15:05 2021
+*/
+
  import "ms-dtyp.idl";
  import "ms-dcom.idl";
  import "ms-oaut.idl";

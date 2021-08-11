@@ -323,3 +323,149 @@
          [in, switch_is(Level)] LPUSE_INFO InfoStruct,
          [in, out, unique] unsigned long* ErrorParameter
      );
+          unsigned long NetrUseGetInfo(
+            [in, string, unique] WKSSVC_IMPERSONATE_HANDLE ServerName,
+            [in, string] wchar_t* UseName,
+            [in] unsigned long Level,
+            [out, switch_is(Level)] LPUSE_INFO InfoStruct
+          );
+     unsigned long
+     NetrUseDel (
+         [in, string, unique] WKSSVC_IMPERSONATE_HANDLE ServerName,
+         [in, string] wchar_t* UseName,
+         [in] unsigned long ForceLevel
+     );
+     unsigned long
+     NetrUseEnum (
+         [in, string, unique] WKSSVC_IDENTIFY_HANDLE ServerName,
+         [in, out] LPUSE_ENUM_STRUCT InfoStruct,
+         [in] unsigned long PreferredMaximumLength,
+         [out] unsigned long* TotalEntries,
+         [in, out, unique] unsigned long* ResumeHandle
+     );
+     void Opnum12NotUsedOnWire(void);
+     unsigned long
+     NetrWorkstationStatisticsGet(
+         [in,string,unique] WKSSVC_IDENTIFY_HANDLE ServerName,
+         [in,string,unique] wchar_t* ServiceName,
+         [in] unsigned long Level,
+         [in] unsigned long Options,
+         [out] LPSTAT_WORKSTATION_0* Buffer
+     );
+     void Opnum14NotUsedOnWire(void);
+     void Opnum15NotUsedOnWire(void);
+     void Opnum16NotUsedOnWire(void);
+     void Opnum17NotUsedOnWire(void);
+     void Opnum18NotUsedOnWire(void);
+     void Opnum19NotUsedOnWire(void);
+     unsigned long
+     NetrGetJoinInformation(
+         [in,string,unique] WKSSVC_IMPERSONATE_HANDLE ServerName,
+         [in,out,string] wchar_t**    NameBuffer,
+         [out] PNETSETUP_JOIN_STATUS BufferType
+     );
+     void Opnum21NotUsedOnWire(void);
+     typedef struct _JOINPR_USER_PASSWORD {
+         unsigned char Obfuscator[8];
+         wchar_t Buffer[256];
+         unsigned long Length;
+     } JOINPR_USER_PASSWORD,
+      *PJOINPR_USER_PASSWORD;
+     typedef struct _JOINPR_ENCRYPTED_USER_PASSWORD {
+         unsigned char Buffer[8 +
+             (256 * sizeof(wchar_t)) +
+             sizeof(unsigned long)];
+     } JOINPR_ENCRYPTED_USER_PASSWORD,
+      *PJOINPR_ENCRYPTED_USER_PASSWORD;
+     typedef struct _UNICODE_STRING {
+         unsigned short Length;
+         unsigned short MaximumLength;
+         [size_is(MaximumLength / 2), length_is((Length) / 2)]
+             unsigned short* Buffer;
+     } UNICODE_STRING,
+      *PUNICODE_STRING;
+     unsigned long
+     NetrJoinDomain2(
+         [in] handle_t RpcBindingHandle,
+         [in,string,unique] wchar_t* ServerName,
+         [in,string] wchar_t* DomainNameParam,
+         [in,string,unique] wchar_t* MachineAccountOU,
+         [in,string,unique] wchar_t* AccountName,
+         [in,unique] PJOINPR_ENCRYPTED_USER_PASSWORD Password,
+         [in] unsigned long Options
+     );
+     unsigned long
+     NetrUnjoinDomain2(
+         [in] handle_t RpcBindingHandle,
+         [in,string,unique] wchar_t* ServerName,
+         [in,string,unique] wchar_t* AccountName,
+         [in,unique] PJOINPR_ENCRYPTED_USER_PASSWORD Password,
+         [in] unsigned long Options
+     );
+     unsigned long
+     NetrRenameMachineInDomain2(
+         [in] handle_t RpcBindingHandle,
+         [in,string,unique] wchar_t* ServerName,
+         [in,string,unique] wchar_t* MachineName,
+         [in,string,unique] wchar_t* AccountName,
+         [in,unique] PJOINPR_ENCRYPTED_USER_PASSWORD Password,
+         [in] unsigned long Options
+     );
+     unsigned long
+     NetrValidateName2(
+         [in] handle_t RpcBindingHandle,
+         [in,string,unique] wchar_t* ServerName,
+         [in,string] wchar_t* NameToValidate,
+         [in,string,unique] wchar_t* AccountName,
+         [in,unique] PJOINPR_ENCRYPTED_USER_PASSWORD Password,
+         [in] NETSETUP_NAME_TYPE NameType
+     );
+     unsigned long
+     NetrGetJoinableOUs2(
+         [in] handle_t  RpcBindingHandle,
+         [in,string,unique] wchar_t*  ServerName,
+         [in,string] wchar_t*  DomainNameParam,
+         [in,string,unique] wchar_t*  AccountName,
+         [in,unique] PJOINPR_ENCRYPTED_USER_PASSWORD Password,
+         [in,out] unsigned long*  OUCount,
+         [out,string,size_is(,*OUCount)] wchar_t*** OUs
+     );
+     unsigned long
+     NetrAddAlternateComputerName(
+         [in] handle_t  RpcBindingHandle,
+         [in,string,unique] wchar_t*  ServerName,
+         [in,string,unique] wchar_t*  AlternateName,
+         [in,string,unique] wchar_t*  DomainAccount,
+         [in,unique] PJOINPR_ENCRYPTED_USER_PASSWORD EncryptedPassword,
+         [in] unsigned long  Reserved
+     );
+     unsigned long
+     NetrRemoveAlternateComputerName(
+         [in] handle_t  RpcBindingHandle,
+         [in,string,unique] wchar_t*  ServerName,
+         [in,string,unique] wchar_t*  AlternateName,
+         [in,string,unique] wchar_t*  DomainAccount,
+         [in,unique] PJOINPR_ENCRYPTED_USER_PASSWORD EncryptedPassword,
+         [in] unsigned long  Reserved
+     );
+     unsigned long
+     NetrSetPrimaryComputerName(
+         [in] handle_t  RpcBindingHandle,
+         [in,string,unique] wchar_t*  ServerName,
+         [in,string,unique] wchar_t*  PrimaryName,
+         [in,string,unique] wchar_t*  DomainAccount,
+         [in,unique] PJOINPR_ENCRYPTED_USER_PASSWORD  EncryptedPassword,
+         [in] unsigned long  Reserved
+     );
+     typedef struct _NET_COMPUTER_NAME_ARRAY {
+         unsigned long EntryCount;
+         [size_is(EntryCount)] PUNICODE_STRING ComputerNames;
+     } NET_COMPUTER_NAME_ARRAY, *PNET_COMPUTER_NAME_ARRAY;
+     unsigned long
+     NetrEnumerateComputerNames(
+         [in,string,unique] WKSSVC_IMPERSONATE_HANDLE ServerName,
+         [in] NET_COMPUTER_NAME_TYPE  NameType,
+         [in] unsigned long  Reserved,
+         [out] PNET_COMPUTER_NAME_ARRAY  *ComputerNames
+     );
+ }

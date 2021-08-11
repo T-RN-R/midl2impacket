@@ -1,3 +1,10 @@
+/*
+File: ms-dfsnm.idl
+Protocol: [MS-DFSNM]: Distributed File System (DFS): Namespace Management Protocol
+Source: https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-dfsnm/b471e023-618d-4c48-877f-f30c3005320c
+Retrieval Date: Wed Aug 11 14:17:14 2021
+*/
+
  import "ms-dtyp.idl";
   
  /* ----- structures and methods described [MS-DFSNM], section 2 and 3 ----- */
