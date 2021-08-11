@@ -190,8 +190,12 @@ class MidlInterface(Macroable):
             version = self.attributes["version"].params[0]
         else:
             version = '-1'
+        if "uuid" in self.attributes:
+            iface_uuid = self.attributes["uuid"].params[0]
+        else:
+            iface_uuid = ''
         out = ""
-        out += "UUID: " + self.attributes["uuid"].params[0] + ";\n"
+        out += "UUID: " + iface_uuid + ";\n"
         out += "Version: " + version + ";\n"
         out += "interface " + self.name + "{\n"
         for imp in self.imports:

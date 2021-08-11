@@ -37,49 +37,78 @@ class MidlParser(MidlBaseParser):
         super().__init__(token_generator=token_generator, end_state=MidlState.END,tokenizer=tokenizer)
         self.definition = MidlDefinition() # data to be returned by calling parse()
         self.cur_def_attrs = {}
+        self.kw_handlers = {
+            'import': self._import,
+            'typedef': self._typedef,
+            'enum': self._enum,
+            'midl_pragma': self._midl_pragma,
+            'interface': self._interface,
+            'coclass': self._coclass,
+            'dispinterface': self._dispinterface,
+            'cpp_quote': self._cpp_quote,
+        }
+
+    def _import(self, _):
+        self.state = MidlState.IMPORT
+
+    def _typedef(self, token):
+        self.definition.typedefs.extend(
+                MidlTypedefParser(self.tokens, self.tokenizer).parse(token)
+            )
+
+    def _enum(self, token):
+           self.definition.typedefs.append(
+                MidlEnumParser(self.tokens, self.tokenizer).parse(token)
+            )
+
+    def _midl_pragma(self, _):
+        assert(next(self.tokens).data == 'warning')
+        SkipClosureParser(self.tokens, self.tokenizer, '(', ')').parse(next(self.tokens))
+
+    def _interface(self, token):
+        if self.cur_def_attrs:
+            iface = MidlInterfaceParser(self.tokens, self.tokenizer).parse(token)
+            iface.attributes = self.cur_def_attrs
+            self.definition.interfaces.append(iface)
+            self.cur_def_attrs = {}
+            self.state = MidlState.DEF_COMPLETE
+        else:
+            # This is just a forward declaration
+            self.default_kw_handler(token)
+
+    def _coclass(self, token):
+        coclass = MidlCoclassParser(self.tokens, self.tokenizer).parse(token)
+        coclass.attributes = self.cur_def_attrs
+        self.definition.coclasses.append(coclass)
+        self.cur_def_attrs = {}
+        self.state = MidlState.DEF_COMPLETE
+
+    def _dispinterface(self, token):
+        dispinterface = MidlDispInterfaceParser(self.tokens, self.tokenizer).parse(token)
+        dispinterface.attributes = self.cur_def_attrs
+        self.definition.dispinterfaces.append(dispinterface)
+        self.cur_def_attrs = {}
+        self.state = MidlState.DEF_COMPLETE
+
+    def _cpp_quote(self, _):
+        closure_token = next(self.tokens)
+        assert( closure_token.data == '(')
+        cpp_quote = SkipClosureParser(self.tokens, self.tokenizer, closure_open='(', closure_close=')').parse(closure_token)[1:-1]
+        self.definition.cpp_quotes.append(cpp_quote)
+
+    def default_kw_handler(self, token):
+        self.state = MidlState.DEFINITION
+        self.definition.instantiation.append(
+            MidlVariableInstantiationParser(self.tokens, self.tokenizer).parse(token)
+        )
+        self.state = MidlState.DEFAULT
 
     def keyword(self, token):
         """Handles encountered keywords
         """
         if self.state not in [MidlState.DEFAULT, MidlState.DEF_COMPLETE]:
             self.invalid(token)
-        if token.data == "import":
-            self.state = MidlState.IMPORT
-        elif token.data == 'typedef':
-            self.definition.typedefs.extend(
-                MidlTypedefParser(self.tokens, self.tokenizer).parse(token)
-            )
-        elif token.data == 'enum':
-            self.definition.typedefs.append(
-                MidlEnumParser(self.tokens, self.tokenizer).parse(token)
-            )
-        elif token.data == 'midl_pragma':
-            assert(next(self.tokens).data == 'warning')
-            SkipClosureParser(self.tokens, self.tokenizer, '(', ')').parse(next(self.tokens))
-        elif token.data == 'interface' and self.cur_def_attrs:
-            iface = MidlInterfaceParser(self.tokens, self.tokenizer).parse(token)
-            iface.attributes = self.cur_def_attrs
-            self.definition.interfaces.append(iface)
-            self.cur_def_attrs = {}
-            self.state = MidlState.DEF_COMPLETE
-        elif token.data == 'coclass':
-            coclass = MidlCoclassParser(self.tokens, self.tokenizer).parse(token)
-            coclass.attributes = self.cur_def_attrs
-            self.definition.coclasses.append(coclass)
-            self.cur_def_attrs = {}
-            self.state = MidlState.DEF_COMPLETE
-        elif token.data == 'dispinterface':
-            dispinterface = MidlDispInterfaceParser(self.tokens, self.tokenizer).parse(token)
-            dispinterface.attributes = self.cur_def_attrs
-            self.definition.dispinterfaces.append(dispinterface)
-            self.cur_def_attrs = {}
-            self.state = MidlState.DEF_COMPLETE
-        else:
-            self.state = MidlState.DEFINITION
-            self.definition.instantiation.append(
-                MidlVariableInstantiationParser(self.tokens, self.tokenizer).parse(token)
-            )
-            self.state = MidlState.DEFAULT
+        self.kw_handlers.get(token.data, self.default_kw_handler)(token)
 
     def string(self, token):
         """Encountered a string. Should only ever be imports encountered here.

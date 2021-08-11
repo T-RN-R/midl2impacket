@@ -25,7 +25,6 @@ class MidlBaseParser(abc.ABC):
             TokenType.NUMERIC: self.numeric,
             TokenType.OPERATOR: self.operator,
             TokenType.SEMICOLON: self.semicolon,
-            TokenType.COLON: self.colon,
             TokenType.COMMA: self.comma,
             TokenType.GUID: self.guid,
             TokenType.COMMENT: self.comment,
@@ -69,9 +68,6 @@ class MidlBaseParser(abc.ABC):
         self.invalid(token)
         
     def semicolon(self, token):
-        self.invalid(token)
-        
-    def colon(self, token):
         self.invalid(token)
         
     def comma(self, token):
