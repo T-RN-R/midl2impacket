@@ -8,7 +8,8 @@ class MidlInterfaceConverter(Converter):
     def convert(self, interface):
         # write uuid def
         self.uuid(interface)
-
+        for vd in interface.vardefs:
+            self.handle_vardef(vd)
         for td in interface.typedefs:
             self.handle_typedef(td)
         count = 0
@@ -46,7 +47,8 @@ class MidlInterfaceConverter(Converter):
         else:
             raise Exception(f"MidlInterfaceConverter: Unhandled typedef type: {td.__class__}")
 
-
+    def handle_vardef(self, vd:MidlVarDef):
+        self.write(f"{vd.name} = {self.mapper.canonicalize(vd.type)}")
     def handle_midl_td(self, td:MidlTypeDef):
         if type(td) is MidlTypeDef:
             attr_names = [td.attrs[k].name for k in td.attrs.keys()]
