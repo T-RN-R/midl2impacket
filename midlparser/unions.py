@@ -103,6 +103,14 @@ class MidlUnionParser(MidlBaseParser):
         else:
             self.invalid(token)
 
+    def numeric(self, token):
+        if self.state == UnionState.MEMBER_CASE:
+            self.cur_member_attrs['case'] = MidlAttribute(name="case", params=[token.data])
+            assert(next(self.tokens).data == ':')
+            self.state = UnionState.MEMBER_TYPE_OR_ATTR
+        else:
+            self.invalid(token)
+
     def symbol(self, token):
         if self.state == UnionState.UNION_NAME:
             self.private_name = token.data
