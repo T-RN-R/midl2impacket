@@ -507,36 +507,36 @@ MSRPC_UUID_WITNESS = uuidtup_to_bin(('ccd8c074-d0e5-440-924-d074faa6ba28','0.0')
 class WitnessrGetInterfaceList(NDRCALL):
     opnum = 0
     structure = (
-		('HANDLE', HANDLE_T),
+		('Handle', HANDLE_T),
     )
 
 class WitnessrGetInterfaceListResponse(NDRCALL):
     structure = (
-		('INTERFACELIST', PWITNESS_INTERFACE_LIST),
+		('InterfaceList', PWITNESS_INTERFACE_LIST),
     )
         
 
 class WitnessrRegister(NDRCALL):
     opnum = 1
     structure = (
-		('HANDLE', HANDLE_T),
-		('VERSION', ULONG),
-		('NETNAME', LPWSTR),
-		('IPADDRESS', LPWSTR),
-		('CLIENTCOMPUTERNAME', LPWSTR),
+		('Handle', HANDLE_T),
+		('Version', ULONG),
+		('NetName', LPWSTR),
+		('IpAddress', LPWSTR),
+		('ClientComputerName', LPWSTR),
     )
 
 class WitnessrRegisterResponse(NDRCALL):
     structure = (
-		('PPCONTEXT', PPCONTEXT_HANDLE),
+		('ppContext', PPCONTEXT_HANDLE),
     )
         
 
 class WitnessrUnRegister(NDRCALL):
     opnum = 2
     structure = (
-		('HANDLE', HANDLE_T),
-		('PCONTEXT', PCONTEXT_HANDLE),
+		('Handle', HANDLE_T),
+		('pContext', PCONTEXT_HANDLE),
     )
 
 class WitnessrUnRegisterResponse(NDRCALL):
@@ -548,32 +548,32 @@ class WitnessrUnRegisterResponse(NDRCALL):
 class WitnessrAsyncNotify(NDRCALL):
     opnum = 3
     structure = (
-		('HANDLE', HANDLE_T),
-		('PCONTEXT', PCONTEXT_HANDLE_SHARED),
+		('Handle', HANDLE_T),
+		('pContext', PCONTEXT_HANDLE_SHARED),
     )
 
 class WitnessrAsyncNotifyResponse(NDRCALL):
     structure = (
-		('PRESP', PRESP_ASYNC_NOTIFY),
+		('pResp', PRESP_ASYNC_NOTIFY),
     )
         
 
 class WitnessrRegisterEx(NDRCALL):
     opnum = 4
     structure = (
-		('HANDLE', HANDLE_T),
-		('VERSION', ULONG),
-		('NETNAME', LPWSTR),
-		('SHARENAME', LPWSTR),
-		('IPADDRESS', LPWSTR),
-		('CLIENTCOMPUTERNAME', LPWSTR),
-		('FLAGS', ULONG),
-		('KEEPALIVETIMEOUT', ULONG),
+		('Handle', HANDLE_T),
+		('Version', ULONG),
+		('NetName', LPWSTR),
+		('ShareName', LPWSTR),
+		('IpAddress', LPWSTR),
+		('ClientComputerName', LPWSTR),
+		('Flags', ULONG),
+		('KeepAliveTimeout', ULONG),
     )
 
 class WitnessrRegisterExResponse(NDRCALL):
     structure = (
-		('PPCONTEXT', PPCONTEXT_HANDLE),
+		('ppContext', PPCONTEXT_HANDLE),
     )
         
 OPNUMS = {

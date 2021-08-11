@@ -476,118 +476,118 @@ PRPC_HQUERY = RPC_HQUERY
 class PerflibV2EnumerateCounterSet(NDRCALL):
     opnum = 0
     structure = (
-		('SZMACHINE', WCHAR_T),
-		('DWINSIZE', DWORD),
+		('szMachine', WCHAR_T),
+		('dwInSize', DWORD),
     )
 
 class PerflibV2EnumerateCounterSetResponse(NDRCALL):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', GUID),
+		('pdwOutSize', DWORD),
+		('pdwRtnSize', DWORD),
+		('lpData', GUID),
     )
         
 
 class PerflibV2QueryCounterSetRegistrationInfo(NDRCALL):
     opnum = 1
     structure = (
-		('SZMACHINE', WCHAR_T),
-		('COUNTERSETGUID', GUID),
-		('REQUESTCODE', DWORD),
-		('REQUESTLCID', DWORD),
-		('DWINSIZE', DWORD),
+		('szMachine', WCHAR_T),
+		('CounterSetGuid', GUID),
+		('RequestCode', DWORD),
+		('RequestLCID', DWORD),
+		('dwInSize', DWORD),
     )
 
 class PerflibV2QueryCounterSetRegistrationInfoResponse(NDRCALL):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
+		('pdwOutSize', DWORD),
+		('pdwRtnSize', DWORD),
+		('lpData', UNSIGNED_CHAR),
     )
         
 
 class PerflibV2EnumerateCounterSetInstances(NDRCALL):
     opnum = 2
     structure = (
-		('SZMACHINE', WCHAR_T),
-		('COUNTERSETGUID', GUID),
-		('DWINSIZE', DWORD),
+		('szMachine', WCHAR_T),
+		('CounterSetGuid', GUID),
+		('dwInSize', DWORD),
     )
 
 class PerflibV2EnumerateCounterSetInstancesResponse(NDRCALL):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
+		('pdwOutSize', DWORD),
+		('pdwRtnSize', DWORD),
+		('lpData', UNSIGNED_CHAR),
     )
         
 
 class PerflibV2OpenQueryHandle(NDRCALL):
     opnum = 3
     structure = (
-		('SZMACHINE', WCHAR_T),
+		('szMachine', WCHAR_T),
     )
 
 class PerflibV2OpenQueryHandleResponse(NDRCALL):
     structure = (
-		('PHQUERY', PRPC_HQUERY),
+		('phQuery', PRPC_HQUERY),
     )
         
 
 class PerflibV2CloseQueryHandle(NDRCALL):
     opnum = 4
     structure = (
-		('PHQUERY', PRPC_HQUERY),
+		('phQuery', PRPC_HQUERY),
     )
 
 class PerflibV2CloseQueryHandleResponse(NDRCALL):
     structure = (
-		('PHQUERY', PRPC_HQUERY),
+		('phQuery', PRPC_HQUERY),
     )
         
 
 class PerflibV2QueryCounterInfo(NDRCALL):
     opnum = 5
     structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
+		('hQuery', RPC_HQUERY),
+		('dwInSize', DWORD),
     )
 
 class PerflibV2QueryCounterInfoResponse(NDRCALL):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
+		('pdwOutSize', DWORD),
+		('pdwRtnSize', DWORD),
+		('lpData', UNSIGNED_CHAR),
     )
         
 
 class PerflibV2QueryCounterData(NDRCALL):
     opnum = 6
     structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
+		('hQuery', RPC_HQUERY),
+		('dwInSize', DWORD),
     )
 
 class PerflibV2QueryCounterDataResponse(NDRCALL):
     structure = (
-		('PDWOUTSIZE', DWORD),
-		('PDWRTNSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
+		('pdwOutSize', DWORD),
+		('pdwRtnSize', DWORD),
+		('lpData', UNSIGNED_CHAR),
     )
         
 
 class PerflibV2ValidateCounters(NDRCALL):
     opnum = 7
     structure = (
-		('HQUERY', RPC_HQUERY),
-		('DWINSIZE', DWORD),
-		('LPDATA', UNSIGNED_CHAR),
-		('DWADD', DWORD),
+		('hQuery', RPC_HQUERY),
+		('dwInSize', DWORD),
+		('lpData', UNSIGNED_CHAR),
+		('dwAdd', DWORD),
     )
 
 class PerflibV2ValidateCountersResponse(NDRCALL):
     structure = (
-		('LPDATA', UNSIGNED_CHAR),
+		('lpData', UNSIGNED_CHAR),
     )
         
 OPNUMS = {

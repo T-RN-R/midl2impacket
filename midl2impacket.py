@@ -10,7 +10,6 @@ def generate_impacket(midl_def: midl.MidlDefinition, import_dir:str):
     return ImpacketBuilder().midl_def(midl_def).import_dir(import_dir).build()
 
 def main():
-    #TODO Once the Impacket generator is fully implemented, the commandline should accept --out_file arguments
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('--in-file', '-in', type=str, help='IDL file to convert to Impacket', required=True)
     parser.add_argument('--out-file', '-out', type=str, help='Impacket output file', default=None, required=False)

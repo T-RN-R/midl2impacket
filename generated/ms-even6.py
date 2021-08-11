@@ -641,63 +641,63 @@ class EVTRPCQUERYCHANNELINFO(NDRSTRUCT):
 class EvtRpcRegisterRemoteSubscription(NDRCALL):
     opnum = 0
     structure = (
-		('CHANNELPATH', LPCWSTR),
-		('QUERY', LPCWSTR),
-		('BOOKMARKXML', LPCWSTR),
-		('FLAGS', DWORD),
+		('channelPath', LPCWSTR),
+		('query', LPCWSTR),
+		('bookmarkXml', LPCWSTR),
+		('flags', DWORD),
     )
 
 class EvtRpcRegisterRemoteSubscriptionResponse(NDRCALL):
     structure = (
-		('HANDLE', PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION),
-		('CONTROL', PCONTEXT_HANDLE_OPERATION_CONTROL),
-		('QUERYCHANNELINFOSIZE', DWORD),
-		('QUERYCHANNELINFO', EVTRPCQUERYCHANNELINFO),
-		('ERROR', RPCINFO),
+		('handle', PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION),
+		('control', PCONTEXT_HANDLE_OPERATION_CONTROL),
+		('queryChannelInfoSize', DWORD),
+		('queryChannelInfo', EVTRPCQUERYCHANNELINFO),
+		('error', RPCINFO),
     )
         
 
 class EvtRpcRemoteSubscriptionNextAsync(NDRCALL):
     opnum = 1
     structure = (
-		('HANDLE', PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION),
-		('NUMREQUESTEDRECORDS', DWORD),
-		('FLAGS', DWORD),
+		('handle', PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION),
+		('numRequestedRecords', DWORD),
+		('flags', DWORD),
     )
 
 class EvtRpcRemoteSubscriptionNextAsyncResponse(NDRCALL):
     structure = (
-		('NUMACTUALRECORDS', DWORD),
-		('EVENTDATAINDICES', DWORD),
-		('EVENTDATASIZES', DWORD),
-		('RESULTBUFFERSIZE', DWORD),
-		('RESULTBUFFER', BYTE),
+		('numActualRecords', DWORD),
+		('eventDataIndices', DWORD),
+		('eventDataSizes', DWORD),
+		('resultBufferSize', DWORD),
+		('resultBuffer', BYTE),
     )
         
 
 class EvtRpcRemoteSubscriptionNext(NDRCALL):
     opnum = 2
     structure = (
-		('HANDLE', PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION),
-		('NUMREQUESTEDRECORDS', DWORD),
-		('TIMEOUT', DWORD),
-		('FLAGS', DWORD),
+		('handle', PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION),
+		('numRequestedRecords', DWORD),
+		('timeOut', DWORD),
+		('flags', DWORD),
     )
 
 class EvtRpcRemoteSubscriptionNextResponse(NDRCALL):
     structure = (
-		('NUMACTUALRECORDS', DWORD),
-		('EVENTDATAINDICES', DWORD),
-		('EVENTDATASIZES', DWORD),
-		('RESULTBUFFERSIZE', DWORD),
-		('RESULTBUFFER', BYTE),
+		('numActualRecords', DWORD),
+		('eventDataIndices', DWORD),
+		('eventDataSizes', DWORD),
+		('resultBufferSize', DWORD),
+		('resultBuffer', BYTE),
     )
         
 
 class EvtRpcRemoteSubscriptionWaitAsync(NDRCALL):
     opnum = 3
     structure = (
-		('HANDLE', PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION),
+		('handle', PCONTEXT_HANDLE_REMOTE_SUBSCRIPTION),
     )
 
 class EvtRpcRemoteSubscriptionWaitAsyncResponse(NDRCALL):
@@ -714,166 +714,166 @@ class EvtRpcRegisterControllableOperation(NDRCALL):
 
 class EvtRpcRegisterControllableOperationResponse(NDRCALL):
     structure = (
-		('HANDLE', PCONTEXT_HANDLE_OPERATION_CONTROL),
+		('handle', PCONTEXT_HANDLE_OPERATION_CONTROL),
     )
         
 
 class EvtRpcRegisterLogQuery(NDRCALL):
     opnum = 5
     structure = (
-		('PATH', LPCWSTR),
-		('QUERY', LPCWSTR),
-		('FLAGS', DWORD),
+		('path', LPCWSTR),
+		('query', LPCWSTR),
+		('flags', DWORD),
     )
 
 class EvtRpcRegisterLogQueryResponse(NDRCALL):
     structure = (
-		('HANDLE', PCONTEXT_HANDLE_LOG_QUERY),
-		('OPCONTROL', PCONTEXT_HANDLE_OPERATION_CONTROL),
-		('QUERYCHANNELINFOSIZE', DWORD),
-		('QUERYCHANNELINFO', EVTRPCQUERYCHANNELINFO),
-		('ERROR', RPCINFO),
+		('handle', PCONTEXT_HANDLE_LOG_QUERY),
+		('opControl', PCONTEXT_HANDLE_OPERATION_CONTROL),
+		('queryChannelInfoSize', DWORD),
+		('queryChannelInfo', EVTRPCQUERYCHANNELINFO),
+		('error', RPCINFO),
     )
         
 
 class EvtRpcClearLog(NDRCALL):
     opnum = 6
     structure = (
-		('CONTROL', PCONTEXT_HANDLE_OPERATION_CONTROL),
-		('CHANNELPATH', LPCWSTR),
-		('BACKUPPATH', LPCWSTR),
-		('FLAGS', DWORD),
+		('control', PCONTEXT_HANDLE_OPERATION_CONTROL),
+		('channelPath', LPCWSTR),
+		('backupPath', LPCWSTR),
+		('flags', DWORD),
     )
 
 class EvtRpcClearLogResponse(NDRCALL):
     structure = (
-		('ERROR', RPCINFO),
+		('error', RPCINFO),
     )
         
 
 class EvtRpcExportLog(NDRCALL):
     opnum = 7
     structure = (
-		('CONTROL', PCONTEXT_HANDLE_OPERATION_CONTROL),
-		('CHANNELPATH', LPCWSTR),
-		('QUERY', LPCWSTR),
-		('BACKUPPATH', LPCWSTR),
-		('FLAGS', DWORD),
+		('control', PCONTEXT_HANDLE_OPERATION_CONTROL),
+		('channelPath', LPCWSTR),
+		('query', LPCWSTR),
+		('backupPath', LPCWSTR),
+		('flags', DWORD),
     )
 
 class EvtRpcExportLogResponse(NDRCALL):
     structure = (
-		('ERROR', RPCINFO),
+		('error', RPCINFO),
     )
         
 
 class EvtRpcLocalizeExportLog(NDRCALL):
     opnum = 8
     structure = (
-		('CONTROL', PCONTEXT_HANDLE_OPERATION_CONTROL),
-		('LOGFILEPATH', LPCWSTR),
-		('LOCALE', LCID),
-		('FLAGS', DWORD),
+		('control', PCONTEXT_HANDLE_OPERATION_CONTROL),
+		('logFilePath', LPCWSTR),
+		('locale', LCID),
+		('flags', DWORD),
     )
 
 class EvtRpcLocalizeExportLogResponse(NDRCALL):
     structure = (
-		('ERROR', RPCINFO),
+		('error', RPCINFO),
     )
         
 
 class EvtRpcMessageRender(NDRCALL):
     opnum = 9
     structure = (
-		('PUBCFGOBJ', PCONTEXT_HANDLE_PUBLISHER_METADATA),
-		('SIZEEVENTID', DWORD),
-		('EVENTID', BYTE),
-		('MESSAGEID', DWORD),
-		('VALUES', EVTRPCVARIANTLIST),
-		('FLAGS', DWORD),
-		('MAXSIZESTRING', DWORD),
+		('pubCfgObj', PCONTEXT_HANDLE_PUBLISHER_METADATA),
+		('sizeEventId', DWORD),
+		('eventId', BYTE),
+		('messageId', DWORD),
+		('values', EVTRPCVARIANTLIST),
+		('flags', DWORD),
+		('maxSizeString', DWORD),
     )
 
 class EvtRpcMessageRenderResponse(NDRCALL):
     structure = (
-		('ACTUALSIZESTRING', DWORD),
-		('NEEDEDSIZESTRING', DWORD),
-		('STRING', BYTE),
-		('ERROR', RPCINFO),
+		('actualSizeString', DWORD),
+		('neededSizeString', DWORD),
+		('string', BYTE),
+		('error', RPCINFO),
     )
         
 
 class EvtRpcMessageRenderDefault(NDRCALL):
     opnum = 10
     structure = (
-		('SIZEEVENTID', DWORD),
-		('EVENTID', BYTE),
-		('MESSAGEID', DWORD),
-		('VALUES', EVTRPCVARIANTLIST),
-		('FLAGS', DWORD),
-		('MAXSIZESTRING', DWORD),
+		('sizeEventId', DWORD),
+		('eventId', BYTE),
+		('messageId', DWORD),
+		('values', EVTRPCVARIANTLIST),
+		('flags', DWORD),
+		('maxSizeString', DWORD),
     )
 
 class EvtRpcMessageRenderDefaultResponse(NDRCALL):
     structure = (
-		('ACTUALSIZESTRING', DWORD),
-		('NEEDEDSIZESTRING', DWORD),
-		('STRING', BYTE),
-		('ERROR', RPCINFO),
+		('actualSizeString', DWORD),
+		('neededSizeString', DWORD),
+		('string', BYTE),
+		('error', RPCINFO),
     )
         
 
 class EvtRpcQueryNext(NDRCALL):
     opnum = 11
     structure = (
-		('LOGQUERY', PCONTEXT_HANDLE_LOG_QUERY),
-		('NUMREQUESTEDRECORDS', DWORD),
-		('TIMEOUTEND', DWORD),
-		('FLAGS', DWORD),
+		('logQuery', PCONTEXT_HANDLE_LOG_QUERY),
+		('numRequestedRecords', DWORD),
+		('timeOutEnd', DWORD),
+		('flags', DWORD),
     )
 
 class EvtRpcQueryNextResponse(NDRCALL):
     structure = (
-		('NUMACTUALRECORDS', DWORD),
-		('EVENTDATAINDICES', DWORD),
-		('EVENTDATASIZES', DWORD),
-		('RESULTBUFFERSIZE', DWORD),
-		('RESULTBUFFER', BYTE),
+		('numActualRecords', DWORD),
+		('eventDataIndices', DWORD),
+		('eventDataSizes', DWORD),
+		('resultBufferSize', DWORD),
+		('resultBuffer', BYTE),
     )
         
 
 class EvtRpcQuerySeek(NDRCALL):
     opnum = 12
     structure = (
-		('LOGQUERY', PCONTEXT_HANDLE_LOG_QUERY),
-		('POS', __INT64),
-		('BOOKMARKXML', LPCWSTR),
-		('TIMEOUT', DWORD),
-		('FLAGS', DWORD),
+		('logQuery', PCONTEXT_HANDLE_LOG_QUERY),
+		('pos', __INT64),
+		('bookmarkXml', LPCWSTR),
+		('timeOut', DWORD),
+		('flags', DWORD),
     )
 
 class EvtRpcQuerySeekResponse(NDRCALL):
     structure = (
-		('ERROR', RPCINFO),
+		('error', RPCINFO),
     )
         
 
 class EvtRpcClose(NDRCALL):
     opnum = 13
     structure = (
-		('HANDLE', CONTEXT_HANDLE),
+		('handle', CONTEXT_HANDLE),
     )
 
 class EvtRpcCloseResponse(NDRCALL):
     structure = (
-		('HANDLE', CONTEXT_HANDLE),
+		('handle', CONTEXT_HANDLE),
     )
         
 
 class EvtRpcCancel(NDRCALL):
     opnum = 14
     structure = (
-		('HANDLE', PCONTEXT_HANDLE_OPERATION_CONTROL),
+		('handle', PCONTEXT_HANDLE_OPERATION_CONTROL),
     )
 
 class EvtRpcCancelResponse(NDRCALL):
@@ -885,8 +885,8 @@ class EvtRpcCancelResponse(NDRCALL):
 class EvtRpcAssertConfig(NDRCALL):
     opnum = 15
     structure = (
-		('PATH', LPCWSTR),
-		('FLAGS', DWORD),
+		('path', LPCWSTR),
+		('flags', DWORD),
     )
 
 class EvtRpcAssertConfigResponse(NDRCALL):
@@ -898,8 +898,8 @@ class EvtRpcAssertConfigResponse(NDRCALL):
 class EvtRpcRetractConfig(NDRCALL):
     opnum = 16
     structure = (
-		('PATH', LPCWSTR),
-		('FLAGS', DWORD),
+		('path', LPCWSTR),
+		('flags', DWORD),
     )
 
 class EvtRpcRetractConfigResponse(NDRCALL):
@@ -911,169 +911,169 @@ class EvtRpcRetractConfigResponse(NDRCALL):
 class EvtRpcOpenLogHandle(NDRCALL):
     opnum = 17
     structure = (
-		('CHANNEL', LPCWSTR),
-		('FLAGS', DWORD),
+		('channel', LPCWSTR),
+		('flags', DWORD),
     )
 
 class EvtRpcOpenLogHandleResponse(NDRCALL):
     structure = (
-		('HANDLE', PCONTEXT_HANDLE_LOG_HANDLE),
-		('ERROR', RPCINFO),
+		('handle', PCONTEXT_HANDLE_LOG_HANDLE),
+		('error', RPCINFO),
     )
         
 
 class EvtRpcGetLogFileInfo(NDRCALL):
     opnum = 18
     structure = (
-		('LOGHANDLE', PCONTEXT_HANDLE_LOG_HANDLE),
-		('PROPERTYID', DWORD),
-		('PROPERTYVALUEBUFFERSIZE', DWORD),
+		('logHandle', PCONTEXT_HANDLE_LOG_HANDLE),
+		('propertyId', DWORD),
+		('propertyValueBufferSize', DWORD),
     )
 
 class EvtRpcGetLogFileInfoResponse(NDRCALL):
     structure = (
-		('PROPERTYVALUEBUFFER', BYTE),
-		('PROPERTYVALUEBUFFERLENGTH', DWORD),
+		('propertyValueBuffer', BYTE),
+		('propertyValueBufferLength', DWORD),
     )
         
 
 class EvtRpcGetChannelList(NDRCALL):
     opnum = 19
     structure = (
-		('FLAGS', DWORD),
+		('flags', DWORD),
     )
 
 class EvtRpcGetChannelListResponse(NDRCALL):
     structure = (
-		('NUMCHANNELPATHS', DWORD),
-		('CHANNELPATHS', LPWSTR),
+		('numChannelPaths', DWORD),
+		('channelPaths', LPWSTR),
     )
         
 
 class EvtRpcGetChannelConfig(NDRCALL):
     opnum = 20
     structure = (
-		('CHANNELPATH', LPCWSTR),
-		('FLAGS', DWORD),
+		('channelPath', LPCWSTR),
+		('flags', DWORD),
     )
 
 class EvtRpcGetChannelConfigResponse(NDRCALL):
     structure = (
-		('PROPS', EVTRPCVARIANTLIST),
+		('props', EVTRPCVARIANTLIST),
     )
         
 
 class EvtRpcPutChannelConfig(NDRCALL):
     opnum = 21
     structure = (
-		('CHANNELPATH', LPCWSTR),
-		('FLAGS', DWORD),
-		('PROPS', EVTRPCVARIANTLIST),
+		('channelPath', LPCWSTR),
+		('flags', DWORD),
+		('props', EVTRPCVARIANTLIST),
     )
 
 class EvtRpcPutChannelConfigResponse(NDRCALL):
     structure = (
-		('ERROR', RPCINFO),
+		('error', RPCINFO),
     )
         
 
 class EvtRpcGetPublisherList(NDRCALL):
     opnum = 22
     structure = (
-		('FLAGS', DWORD),
+		('flags', DWORD),
     )
 
 class EvtRpcGetPublisherListResponse(NDRCALL):
     structure = (
-		('NUMPUBLISHERIDS', DWORD),
-		('PUBLISHERIDS', LPWSTR),
+		('numPublisherIds', DWORD),
+		('publisherIds', LPWSTR),
     )
         
 
 class EvtRpcGetPublisherListForChannel(NDRCALL):
     opnum = 23
     structure = (
-		('CHANNELNAME', LPCWSTR),
-		('FLAGS', DWORD),
+		('channelName', LPCWSTR),
+		('flags', DWORD),
     )
 
 class EvtRpcGetPublisherListForChannelResponse(NDRCALL):
     structure = (
-		('NUMPUBLISHERIDS', DWORD),
-		('PUBLISHERIDS', LPWSTR),
+		('numPublisherIds', DWORD),
+		('publisherIds', LPWSTR),
     )
         
 
 class EvtRpcGetPublisherMetadata(NDRCALL):
     opnum = 24
     structure = (
-		('PUBLISHERID', LPCWSTR),
-		('LOGFILEPATH', LPCWSTR),
-		('LOCALE', LCID),
-		('FLAGS', DWORD),
+		('publisherId', LPCWSTR),
+		('logFilePath', LPCWSTR),
+		('locale', LCID),
+		('flags', DWORD),
     )
 
 class EvtRpcGetPublisherMetadataResponse(NDRCALL):
     structure = (
-		('PUBMETADATAPROPS', EVTRPCVARIANTLIST),
-		('PUBMETADATA', PCONTEXT_HANDLE_PUBLISHER_METADATA),
+		('pubMetadataProps', EVTRPCVARIANTLIST),
+		('pubMetadata', PCONTEXT_HANDLE_PUBLISHER_METADATA),
     )
         
 
 class EvtRpcGetPublisherResourceMetadata(NDRCALL):
     opnum = 25
     structure = (
-		('HANDLE', PCONTEXT_HANDLE_PUBLISHER_METADATA),
-		('PROPERTYID', DWORD),
-		('FLAGS', DWORD),
+		('handle', PCONTEXT_HANDLE_PUBLISHER_METADATA),
+		('propertyId', DWORD),
+		('flags', DWORD),
     )
 
 class EvtRpcGetPublisherResourceMetadataResponse(NDRCALL):
     structure = (
-		('PUBMETADATAPROPS', EVTRPCVARIANTLIST),
+		('pubMetadataProps', EVTRPCVARIANTLIST),
     )
         
 
 class EvtRpcGetEventMetadataEnum(NDRCALL):
     opnum = 26
     structure = (
-		('PUBMETADATA', PCONTEXT_HANDLE_PUBLISHER_METADATA),
-		('FLAGS', DWORD),
-		('RESERVEDFORFILTER', LPCWSTR),
+		('pubMetadata', PCONTEXT_HANDLE_PUBLISHER_METADATA),
+		('flags', DWORD),
+		('reservedForFilter', LPCWSTR),
     )
 
 class EvtRpcGetEventMetadataEnumResponse(NDRCALL):
     structure = (
-		('EVENTMETADATAENUM', PCONTEXT_HANDLE_EVENT_METADATA_ENUM),
+		('eventMetaDataEnum', PCONTEXT_HANDLE_EVENT_METADATA_ENUM),
     )
         
 
 class EvtRpcGetNextEventMetadata(NDRCALL):
     opnum = 27
     structure = (
-		('EVENTMETADATAENUM', PCONTEXT_HANDLE_EVENT_METADATA_ENUM),
-		('FLAGS', DWORD),
-		('NUMREQUESTED', DWORD),
+		('eventMetaDataEnum', PCONTEXT_HANDLE_EVENT_METADATA_ENUM),
+		('flags', DWORD),
+		('numRequested', DWORD),
     )
 
 class EvtRpcGetNextEventMetadataResponse(NDRCALL):
     structure = (
-		('NUMRETURNED', DWORD),
-		('EVENTMETADATAINSTANCES', EVTRPCVARIANTLIST),
+		('numReturned', DWORD),
+		('eventMetadataInstances', EVTRPCVARIANTLIST),
     )
         
 
 class EvtRpcGetClassicLogDisplayName(NDRCALL):
     opnum = 28
     structure = (
-		('LOGNAME', LPCWSTR),
-		('LOCALE', LCID),
-		('FLAGS', DWORD),
+		('logName', LPCWSTR),
+		('locale', LCID),
+		('flags', DWORD),
     )
 
 class EvtRpcGetClassicLogDisplayNameResponse(NDRCALL):
     structure = (
-		('DISPLAYNAME', LPWSTR),
+		('displayName', LPWSTR),
     )
         
 OPNUMS = {

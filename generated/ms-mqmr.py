@@ -1096,25 +1096,25 @@ class MGMT_OBJECT(NDRSTRUCT):
 class R_QMMgmtGetInfo(NDRCALL):
     opnum = 0
     structure = (
-		('HBIND', HANDLE_T),
-		('POBJECTFORMAT',  MGMT_OBJECT),
-		('CP', DWORD),
-		('APROP', ULONG),
-		('APVAR', PROPVARIANT),
+		('hBind', HANDLE_T),
+		('pObjectFormat',  MGMT_OBJECT),
+		('cp', DWORD),
+		('aProp', ULONG),
+		('apVar', PROPVARIANT),
     )
 
 class R_QMMgmtGetInfoResponse(NDRCALL):
     structure = (
-		('APVAR', PROPVARIANT),
+		('apVar', PROPVARIANT),
     )
         
 
 class R_QMMgmtAction(NDRCALL):
     opnum = 1
     structure = (
-		('HBIND', HANDLE_T),
-		('POBJECTFORMAT',  MGMT_OBJECT),
-		('LPWSZACTION', CONST_WCHAR_T),
+		('hBind', HANDLE_T),
+		('pObjectFormat',  MGMT_OBJECT),
+		('lpwszAction', CONST_WCHAR_T),
     )
 
 class R_QMMgmtActionResponse(NDRCALL):

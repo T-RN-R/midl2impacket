@@ -639,82 +639,82 @@ AUTHZ_SID_OPERATION_REPLACE = 4
 class AuthzrFreeContext(NDRCALL):
     opnum = 0
     structure = (
-		('CONTEXTHANDLE', AUTHZR_HANDLE),
+		('ContextHandle', AUTHZR_HANDLE),
     )
 
 class AuthzrFreeContextResponse(NDRCALL):
     structure = (
-		('CONTEXTHANDLE', AUTHZR_HANDLE),
+		('ContextHandle', AUTHZR_HANDLE),
     )
         
 
 class AuthzrInitializeContextFromSid(NDRCALL):
     opnum = 1
     structure = (
-		('BINDING', HANDLE_T),
-		('FLAGS', DWORD),
-		('SID', RPC_SID),
-		('PEXPIRATIONTIME', LARGE_INTEGER),
-		('IDENTIFIER', LUID),
+		('Binding', HANDLE_T),
+		('Flags', DWORD),
+		('Sid', RPC_SID),
+		('pExpirationTime', LARGE_INTEGER),
+		('Identifier', LUID),
     )
 
 class AuthzrInitializeContextFromSidResponse(NDRCALL):
     structure = (
-		('CONTEXTHANDLE', AUTHZR_HANDLE),
+		('ContextHandle', AUTHZR_HANDLE),
     )
         
 
 class AuthzrInitializeCompoundContext(NDRCALL):
     opnum = 2
     structure = (
-		('USERCONTEXTHANDLE', AUTHZR_HANDLE),
-		('DEVICECONTEXTHANDLE', AUTHZR_HANDLE),
+		('UserContextHandle', AUTHZR_HANDLE),
+		('DeviceContextHandle', AUTHZR_HANDLE),
     )
 
 class AuthzrInitializeCompoundContextResponse(NDRCALL):
     structure = (
-		('COMPOUNDCONTEXTHANDLE', AUTHZR_HANDLE),
+		('CompoundContextHandle', AUTHZR_HANDLE),
     )
         
 
 class AuthzrAccessCheck(NDRCALL):
     opnum = 3
     structure = (
-		('CONTEXTHANDLE', AUTHZR_HANDLE),
-		('FLAGS', DWORD),
-		('PREQUEST', AUTHZR_ACCESS_REQUEST),
-		('SECURITYDESCRIPTORCOUNT', DWORD),
-		('PSECURITYDESCRIPTORS', SR_SD),
-		('PREPLY', AUTHZR_ACCESS_REPLY),
+		('ContextHandle', AUTHZR_HANDLE),
+		('Flags', DWORD),
+		('pRequest', AUTHZR_ACCESS_REQUEST),
+		('SecurityDescriptorCount', DWORD),
+		('pSecurityDescriptors', SR_SD),
+		('pReply', AUTHZR_ACCESS_REPLY),
     )
 
 class AuthzrAccessCheckResponse(NDRCALL):
     structure = (
-		('PREPLY', AUTHZR_ACCESS_REPLY),
+		('pReply', AUTHZR_ACCESS_REPLY),
     )
         
 
 class AuthzGetInformationFromContext(NDRCALL):
     opnum = 4
     structure = (
-		('CONTEXTHANDLE', AUTHZR_HANDLE),
-		('INFOCLASS', AUTHZ_CONTEXT_INFORMATION_CLASS),
+		('ContextHandle', AUTHZR_HANDLE),
+		('InfoClass', AUTHZ_CONTEXT_INFORMATION_CLASS),
     )
 
 class AuthzGetInformationFromContextResponse(NDRCALL):
     structure = (
-		('PPCONTEXTINFORMATION', AUTHZR_CONTEXT_INFORMATION),
+		('ppContextInformation', AUTHZR_CONTEXT_INFORMATION),
     )
         
 
 class AuthzrModifyClaims(NDRCALL):
     opnum = 5
     structure = (
-		('CONTEXTHANDLE', AUTHZR_HANDLE),
-		('CLAIMCLASS', AUTHZ_CONTEXT_INFORMATION_CLASS),
-		('OPERATIONCOUNT', DWORD),
-		('PCLAIMOPERATIONS', AUTHZ_SECURITY_ATTRIBUTE_OPERATION),
-		('PCLAIMS', AUTHZR_SECURITY_ATTRIBUTES_INFORMATION),
+		('ContextHandle', AUTHZR_HANDLE),
+		('ClaimClass', AUTHZ_CONTEXT_INFORMATION_CLASS),
+		('OperationCount', DWORD),
+		('pClaimOperations', AUTHZ_SECURITY_ATTRIBUTE_OPERATION),
+		('pClaims', AUTHZR_SECURITY_ATTRIBUTES_INFORMATION),
     )
 
 class AuthzrModifyClaimsResponse(NDRCALL):
@@ -726,11 +726,11 @@ class AuthzrModifyClaimsResponse(NDRCALL):
 class AuthzrModifySids(NDRCALL):
     opnum = 6
     structure = (
-		('CONTEXTHANDLE', AUTHZR_HANDLE),
-		('SIDCLASS', AUTHZ_CONTEXT_INFORMATION_CLASS),
-		('OPERATIONCOUNT', DWORD),
-		('PSIDOPERATIONS', AUTHZ_SID_OPERATION),
-		('PSIDS', AUTHZR_TOKEN_GROUPS),
+		('ContextHandle', AUTHZR_HANDLE),
+		('SidClass', AUTHZ_CONTEXT_INFORMATION_CLASS),
+		('OperationCount', DWORD),
+		('pSidOperations', AUTHZ_SID_OPERATION),
+		('pSids', AUTHZR_TOKEN_GROUPS),
     )
 
 class AuthzrModifySidsResponse(NDRCALL):

@@ -504,13 +504,13 @@ class BIND_INFO_BLOB(NDRSTRUCT):
 class Poke(NDRCALL):
     opnum = 0
     structure = (
-		('HBINDING', HANDLE_T),
-		('SRANK', SESSION_RANK),
-		('PSZCALLEEUUID', UNSIGNED_CHAR),
-		('PSZHOSTNAME', UNSIGNED_CHAR),
-		('PSZUUIDSTRING', UNSIGNED_CHAR),
-		('DWCBSIZEOFBLOB', DWORD),
-		('RGUCHBLOB', UNSIGNED_CHAR),
+		('hBinding', HANDLE_T),
+		('sRank', SESSION_RANK),
+		('pszCalleeUuid', UNSIGNED_CHAR),
+		('pszHostName', UNSIGNED_CHAR),
+		('pszUuidString', UNSIGNED_CHAR),
+		('dwcbSizeOfBlob', DWORD),
+		('rguchBlob', UNSIGNED_CHAR),
     )
 
 class PokeResponse(NDRCALL):
@@ -522,49 +522,49 @@ class PokeResponse(NDRCALL):
 class BuildContext(NDRCALL):
     opnum = 1
     structure = (
-		('HBINDING', HANDLE_T),
-		('SRANK', SESSION_RANK),
-		('BINDVERSIONSET', BIND_VERSION_SET),
-		('PSZCALLEEUUID', UNSIGNED_CHAR),
-		('PSZHOSTNAME', UNSIGNED_CHAR),
-		('PSZUUIDSTRING', UNSIGNED_CHAR),
-		('PSZGUIDIN', UNSIGNED_CHAR),
-		('PSZGUIDOUT', UNSIGNED_CHAR),
-		('PBOUNDVERSIONSET', BOUND_VERSION_SET),
-		('DWCBSIZEOFBLOB', DWORD),
-		('RGUCHBLOB', UNSIGNED_CHAR),
+		('hBinding', HANDLE_T),
+		('sRank', SESSION_RANK),
+		('BindVersionSet', BIND_VERSION_SET),
+		('pszCalleeUuid', UNSIGNED_CHAR),
+		('pszHostName', UNSIGNED_CHAR),
+		('pszUuidString', UNSIGNED_CHAR),
+		('pszGuidIn', UNSIGNED_CHAR),
+		('pszGuidOut', UNSIGNED_CHAR),
+		('pBoundVersionSet', BOUND_VERSION_SET),
+		('dwcbSizeOfBlob', DWORD),
+		('rguchBlob', UNSIGNED_CHAR),
     )
 
 class BuildContextResponse(NDRCALL):
     structure = (
-		('PSZGUIDOUT', UNSIGNED_CHAR),
-		('PBOUNDVERSIONSET', BOUND_VERSION_SET),
-		('PPHANDLE', PPCONTEXT_HANDLE),
+		('pszGuidOut', UNSIGNED_CHAR),
+		('pBoundVersionSet', BOUND_VERSION_SET),
+		('ppHandle', PPCONTEXT_HANDLE),
     )
         
 
 class NegotiateResources(NDRCALL):
     opnum = 2
     structure = (
-		('PHCONTEXT', PCONTEXT_HANDLE),
-		('RESOURCETYPE', RESOURCE_TYPE),
-		('DWCREQUESTED', DWORD),
-		('PDWCACCEPTED', DWORD),
+		('phContext', PCONTEXT_HANDLE),
+		('resourceType', RESOURCE_TYPE),
+		('dwcRequested', DWORD),
+		('pdwcAccepted', DWORD),
     )
 
 class NegotiateResourcesResponse(NDRCALL):
     structure = (
-		('PDWCACCEPTED', DWORD),
+		('pdwcAccepted', DWORD),
     )
         
 
 class SendReceive(NDRCALL):
     opnum = 3
     structure = (
-		('PHCONTEXT', PCONTEXT_HANDLE),
-		('DWCMESSAGES', DWORD),
-		('DWCBSIZEOFBOXCAR', DWORD),
-		('RGUCHBOXCAR', UNSIGNED_CHAR),
+		('phContext', PCONTEXT_HANDLE),
+		('dwcMessages', DWORD),
+		('dwcbSizeOfBoxCar', DWORD),
+		('rguchBoxCar', UNSIGNED_CHAR),
     )
 
 class SendReceiveResponse(NDRCALL):
@@ -576,22 +576,22 @@ class SendReceiveResponse(NDRCALL):
 class TearDownContext(NDRCALL):
     opnum = 4
     structure = (
-		('CONTEXTHANDLE', PPCONTEXT_HANDLE),
-		('SRANK', SESSION_RANK),
-		('TEARDOWNTYPE', TEARDOWN_TYPE),
+		('contextHandle', PPCONTEXT_HANDLE),
+		('sRank', SESSION_RANK),
+		('tearDownType', TEARDOWN_TYPE),
     )
 
 class TearDownContextResponse(NDRCALL):
     structure = (
-		('CONTEXTHANDLE', PPCONTEXT_HANDLE),
+		('contextHandle', PPCONTEXT_HANDLE),
     )
         
 
 class BeginTearDown(NDRCALL):
     opnum = 5
     structure = (
-		('CONTEXTHANDLE', PCONTEXT_HANDLE),
-		('TEARDOWNTYPE', TEARDOWN_TYPE),
+		('contextHandle', PCONTEXT_HANDLE),
+		('tearDownType', TEARDOWN_TYPE),
     )
 
 class BeginTearDownResponse(NDRCALL):
@@ -603,13 +603,13 @@ class BeginTearDownResponse(NDRCALL):
 class PokeW(NDRCALL):
     opnum = 6
     structure = (
-		('HBINDING', HANDLE_T),
-		('SRANK', SESSION_RANK),
-		('PWSZCALLEEUUID', WCHAR_T),
-		('PWSZHOSTNAME', WCHAR_T),
-		('PWSZUUIDSTRING', WCHAR_T),
-		('DWCBSIZEOFBLOB', DWORD),
-		('RGUCHBLOB', UNSIGNED_CHAR),
+		('hBinding', HANDLE_T),
+		('sRank', SESSION_RANK),
+		('pwszCalleeUuid', WCHAR_T),
+		('pwszHostName', WCHAR_T),
+		('pwszUuidString', WCHAR_T),
+		('dwcbSizeOfBlob', DWORD),
+		('rguchBlob', UNSIGNED_CHAR),
     )
 
 class PokeWResponse(NDRCALL):
@@ -621,24 +621,24 @@ class PokeWResponse(NDRCALL):
 class BuildContextW(NDRCALL):
     opnum = 7
     structure = (
-		('HBINDING', HANDLE_T),
-		('SRANK', SESSION_RANK),
-		('BINDVERSIONSET', BIND_VERSION_SET),
-		('PWSZCALLEEUUID', WCHAR_T),
-		('PWSZHOSTNAME', WCHAR_T),
-		('PWSZUUIDSTRING', WCHAR_T),
-		('PWSZGUIDIN', WCHAR_T),
-		('PWSZGUIDOUT', WCHAR_T),
-		('PBOUNDVERSIONSET', BOUND_VERSION_SET),
-		('DWCBSIZEOFBLOB', DWORD),
-		('RGUCHBLOB', UNSIGNED_CHAR),
+		('hBinding', HANDLE_T),
+		('sRank', SESSION_RANK),
+		('BindVersionSet', BIND_VERSION_SET),
+		('pwszCalleeUuid', WCHAR_T),
+		('pwszHostName', WCHAR_T),
+		('pwszUuidString', WCHAR_T),
+		('pwszGuidIn', WCHAR_T),
+		('pwszGuidOut', WCHAR_T),
+		('pBoundVersionSet', BOUND_VERSION_SET),
+		('dwcbSizeOfBlob', DWORD),
+		('rguchBlob', UNSIGNED_CHAR),
     )
 
 class BuildContextWResponse(NDRCALL):
     structure = (
-		('PWSZGUIDOUT', WCHAR_T),
-		('PBOUNDVERSIONSET', BOUND_VERSION_SET),
-		('PPHANDLE', PPCONTEXT_HANDLE),
+		('pwszGuidOut', WCHAR_T),
+		('pBoundVersionSet', BOUND_VERSION_SET),
+		('ppHandle', PPCONTEXT_HANDLE),
     )
         
 OPNUMS = {

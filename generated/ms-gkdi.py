@@ -474,19 +474,19 @@ MSRPC_UUID_ISDKEY = uuidtup_to_bin(('b9785960-524-11f-86-83cded72085','0.0'))
 class GetKey(NDRCALL):
     opnum = 0
     structure = (
-		('HBINDING', HANDLE_T),
-		('CBTARGETSD', ULONG),
-		('PBTARGETSD', CHAR),
-		('PROOTKEYID', GUID),
-		('L0KEYID', LONG),
-		('L1KEYID', LONG),
-		('L2KEYID', LONG),
+		('hBinding', HANDLE_T),
+		('cbTargetSD', ULONG),
+		('pbTargetSD', CHAR),
+		('pRootKeyID', GUID),
+		('L0KeyID', LONG),
+		('L1KeyID', LONG),
+		('L2KeyID', LONG),
     )
 
 class GetKeyResponse(NDRCALL):
     structure = (
-		('PCBOUT', UNSIGNED_LONG),
-		('PPBOUT', BYTE),
+		('pcbOut', UNSIGNED_LONG),
+		('ppbOut', BYTE),
     )
         
 OPNUMS = {

@@ -41,6 +41,7 @@ class MidlEnumParser(MidlBaseParser):
     def numeric(self, token):
         if self.state == EnumState.MEMBER_VALUE:
             # We need to figure out what kind of integer this is.. TODO: move to a util module?
+            #TODO Handle the case where a numeric ends in `L`
             numeric_str = token.data
             if numeric_str.lower().startswith("0x"):
                 numeric_val = int(numeric_str, 16)

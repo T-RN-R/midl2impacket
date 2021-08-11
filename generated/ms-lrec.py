@@ -490,37 +490,37 @@ class EVENT_BUFFER(NDRSTRUCT):
 class RpcNetEventOpenSession(NDRCALL):
     opnum = 0
     structure = (
-		('BINDINGHANDLE', HANDLE_T),
-		('LOGGERNAME', WCHAR_T),
+		('BindingHandle', HANDLE_T),
+		('LoggerName', WCHAR_T),
     )
 
 class RpcNetEventOpenSessionResponse(NDRCALL):
     structure = (
-		('SESSIONHANDLE', PSESSION_HANDLE),
+		('SessionHandle', PSESSION_HANDLE),
     )
         
 
 class RpcNetEventReceiveData(NDRCALL):
     opnum = 1
     structure = (
-		('SESSIONHANDLE', PSESSION_HANDLE),
+		('SessionHandle', PSESSION_HANDLE),
     )
 
 class RpcNetEventReceiveDataResponse(NDRCALL):
     structure = (
-		('EVENTBUFFER', EVENT_BUFFER),
+		('EventBuffer', EVENT_BUFFER),
     )
         
 
 class RpcNetEventCloseSession(NDRCALL):
     opnum = 2
     structure = (
-		('SESSIONHANDLE', PSESSION_HANDLE),
+		('SessionHandle', PSESSION_HANDLE),
     )
 
 class RpcNetEventCloseSessionResponse(NDRCALL):
     structure = (
-		('SESSIONHANDLE', PSESSION_HANDLE),
+		('SessionHandle', PSESSION_HANDLE),
     )
         
 OPNUMS = {

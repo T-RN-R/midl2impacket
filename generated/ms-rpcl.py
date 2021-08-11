@@ -510,102 +510,102 @@ MSRPC_UUID_LOCTOLOC = uuidtup_to_bin(('e33c0cc4-0482-101-bc0c-026086a218','0.0')
 class I_nsi_lookup_begin(NDRCALL):
     opnum = 0
     structure = (
-		('HRPCPRIMARYLOCATORHNDL', HANDLE_T),
-		('ENTRY_NAME_SYNTAX', UNSIGNED_LONG),
-		('ENTRY_NAME', STRING_T),
-		('INTERFACEID', RPC_SYNTAX_IDENTIFIER),
-		('XFERSYNTAX', RPC_SYNTAX_IDENTIFIER),
-		('OBJ_UUID', NSI_UUID_P_T),
-		('BINDING_MAX_COUNT', UNSIGNED_LONG),
-		('MAXCACHEAGE', UNSIGNED_LONG),
+		('hrpcPrimaryLocatorHndl', HANDLE_T),
+		('entry_name_syntax', UNSIGNED_LONG),
+		('entry_name', STRING_T),
+		('interfaceid', RPC_SYNTAX_IDENTIFIER),
+		('xfersyntax', RPC_SYNTAX_IDENTIFIER),
+		('obj_uuid', NSI_UUID_P_T),
+		('binding_max_count', UNSIGNED_LONG),
+		('MaxCacheAge', UNSIGNED_LONG),
     )
 
 class I_nsi_lookup_beginResponse(NDRCALL):
     structure = (
-		('IMPORT_CONTEXT', NSI_NS_HANDLE_T),
-		('STATUS', UNSIGNED_SHORT),
+		('import_context', NSI_NS_HANDLE_T),
+		('status', UNSIGNED_SHORT),
     )
         
 
 class I_nsi_lookup_done(NDRCALL):
     opnum = 1
     structure = (
-		('HRPCPRIMARYLOCATORHNDL', HANDLE_T),
-		('IMPORT_CONTEXT', NSI_NS_HANDLE_T),
+		('hrpcPrimaryLocatorHndl', HANDLE_T),
+		('import_context', NSI_NS_HANDLE_T),
     )
 
 class I_nsi_lookup_doneResponse(NDRCALL):
     structure = (
-		('IMPORT_CONTEXT', NSI_NS_HANDLE_T),
-		('STATUS', UNSIGNED_SHORT),
+		('import_context', NSI_NS_HANDLE_T),
+		('status', UNSIGNED_SHORT),
     )
         
 
 class I_nsi_lookup_next(NDRCALL):
     opnum = 2
     structure = (
-		('HRPCPRIMARYLOCATORHNDL', HANDLE_T),
-		('IMPORT_CONTEXT', NSI_NS_HANDLE_T),
+		('hrpcPrimaryLocatorHndl', HANDLE_T),
+		('import_context', NSI_NS_HANDLE_T),
     )
 
 class I_nsi_lookup_nextResponse(NDRCALL):
     structure = (
-		('BINDING_VECTOR', NSI_BINDING_VECTOR_P_T),
-		('STATUS', UNSIGNED_SHORT),
+		('binding_vector', NSI_BINDING_VECTOR_P_T),
+		('status', UNSIGNED_SHORT),
     )
         
 
 class I_nsi_entry_object_inq_next(NDRCALL):
     opnum = 3
     structure = (
-		('HRPCPRIMARYLOCATORHNDL', HANDLE_T),
-		('INQCONTEXT', NSI_NS_HANDLE_T),
+		('hrpcPrimaryLocatorHndl', HANDLE_T),
+		('InqContext', NSI_NS_HANDLE_T),
     )
 
 class I_nsi_entry_object_inq_nextResponse(NDRCALL):
     structure = (
-		('UUID_VEC', NSI_UUID_VECTOR_P_T),
-		('STATUS', UNSIGNED_SHORT),
+		('uuid_vec', NSI_UUID_VECTOR_P_T),
+		('status', UNSIGNED_SHORT),
     )
         
 
 class I_nsi_ping_locator(NDRCALL):
     opnum = 4
     structure = (
-		('HLOCATORTOPING', HANDLE_T),
+		('hLocatortoPing', HANDLE_T),
     )
 
 class I_nsi_ping_locatorResponse(NDRCALL):
     structure = (
-		('STATUS', ERROR_STATUS_T),
+		('status', ERROR_STATUS_T),
     )
         
 
 class I_nsi_entry_object_inq_done(NDRCALL):
     opnum = 5
     structure = (
-		('INQCONTEXT', NSI_NS_HANDLE_T),
+		('InqContext', NSI_NS_HANDLE_T),
     )
 
 class I_nsi_entry_object_inq_doneResponse(NDRCALL):
     structure = (
-		('INQCONTEXT', NSI_NS_HANDLE_T),
-		('STATUS', UNSIGNED_SHORT),
+		('InqContext', NSI_NS_HANDLE_T),
+		('status', UNSIGNED_SHORT),
     )
         
 
 class I_nsi_entry_object_inq_begin(NDRCALL):
     opnum = 6
     structure = (
-		('HRPCPRIMARYLOCATORHNDL', HANDLE_T),
-		('ENTRYNAMESYNTAX', UNSIGNED_LONG),
-		('ENTRYNAME', STRING_T),
+		('hrpcPrimaryLocatorHndl', HANDLE_T),
+		('EntryNameSyntax', UNSIGNED_LONG),
+		('EntryName', STRING_T),
     )
 
 class I_nsi_entry_object_inq_beginResponse(NDRCALL):
     structure = (
-		('INQCONTEXT', NSI_NS_HANDLE_T),
-		('STATUS', UNSIGNED_SHORT),
+		('InqContext', NSI_NS_HANDLE_T),
+		('status', UNSIGNED_SHORT),
     )
         
 OPNUMS = {
