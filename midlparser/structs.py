@@ -48,7 +48,7 @@ class MidlStructParser(MidlBaseParser):
             # Since we're repeating, set the attributes
             member_name = self.cur_member_parts[0]
             member_type = self.prev_member.type
-            member_attrs = self.prev_member.attrs
+            member_attrs = self.prev_member.attributes
         else:
             member_name = self.cur_member_parts[-1]
             member_type = ' '.join(self.cur_member_parts[:-1])

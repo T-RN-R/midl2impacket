@@ -34,10 +34,10 @@ class MidlStructConverter(Converter):
         mem_str = ""
         count = 1
         for m in struct.members:
+            key = None
             if m.attributes:
                 if m.attributes["case"]:
-                    # TODO handle the case attributes and set the appropriate NDRUNION key
-                    pass
+                    key = m.attributes["case"].params[0]
             type_name = None
             if type(m.type) is str:
                 type_name = m.type
@@ -49,7 +49,9 @@ class MidlStructConverter(Converter):
                 self.convert(m.type)
             else:
                 raise Exception(f"Unexpected type: {type(m.type)}")
-            mem_str += f"{count}: ('{m.name}',{self.mapper.canonicalize(type_name)}),"
+            if key is None:
+                key = count
+            mem_str += f"{key}: ('{m.name}',{self.mapper.canonicalize(type_name)}),"
             count += 1
         base_name = self.mapper.canonicalize(name)
         union_def = """
