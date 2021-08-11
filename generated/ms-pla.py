@@ -2235,7 +2235,7 @@ class HYPER_SIZEDARR(NDRSTRUCT):
     )
         
 
-class ANONYMOUS9(NDRUNION):
+class ANONYMOUS15(NDRUNION):
     union = {
         SF_BSTR: ('BstrStr',SAFEARR_BSTR),SF_UNKNOWN: ('UnknownStr',SAFEARR_UNKNOWN),SF_DISPATCH: ('DispatchStr',SAFEARR_DISPATCH),SF_VARIANT: ('VariantStr',SAFEARR_VARIANT),SF_RECORD: ('RecordStr',SAFEARR_BRECORD),SF_HAVEIID: ('HaveIidStr',SAFEARR_HAVEIID),SF_I1: ('ByteStr',BYTE_SIZEDARR),SF_I2: ('WordStr',WORD_SIZEDARR),SF_I4: ('LongStr',DWORD_SIZEDARR),SF_I8: ('HyperStr',HYPER_SIZEDARR),
     }
@@ -2243,7 +2243,7 @@ class ANONYMOUS9(NDRUNION):
 
 class SAFEARRAYUNION(NDRSTRUCT):
     structure = (
-        ('sfType', UNSIGNED_LONG),('Anonymous9', ANONYMOUS9),
+        ('sfType', UNSIGNED_LONG),('Anonymous15', ANONYMOUS15),
     )
 
 
@@ -3331,350 +3331,118 @@ OPNUMS = {
 
 #################################################################################
 
-FSRM_OBJECT_ID = GUID
+BYTE = BYTE
 
-FsrmQuotaFlags_Enforce = 256,
-FsrmQuotaFlags_Disable = 512,
-FsrmQuotaFlags_StatusIncomplete = 65536,
-FsrmQuotaFlags_StatusRebuilding = 131072
+plaPerformanceCounter = 0,
+plaTrace = 1,
+plaConfiguration = 2,
+plaAlert = 3,
+plaApiTrace = 4
         
 
-FsrmFileScreenFlags_Enforce = 1
+plaCommaSeparated = 0,
+plaTabSeparated = 1,
+plaSql = 2,
+plaBinary = 3
         
 
-FsrmCollectionState_Fetching = 1,
-FsrmCollectionState_Committing = 2,
-FsrmCollectionState_Complete = 3,
-FsrmCollectionState_Cancelled = 4
+plaNone = 0,
+plaPattern = 1,
+plaComputer = 2,
+plaMonthDayHour = 256,
+plaSerialNumber = 512,
+plaYearDayOfYear = 1024,
+plaYearMonth = 2048,
+plaYearMonthDay = 4096,
+plaYearMonthDayHour = 8192,
+plaMonthDayHourMinute = 16384
         
 
-FsrmEnumOptions_None = 0,
-FsrmEnumOptions_Asynchronous = 1,
-FsrmEnumOptions_CheckRecycleBin = 2,
-FsrmEnumOptions_IncludeClusterNodes = 4,
-FsrmEnumOptions_IncludeDeprecatedObjects = 8
+plaStopped = 0,
+plaRunning = 1,
+plaCompiling = 2,
+plaPending = 3,
+plaUndefined = 4
         
 
-FsrmCommitOptions_None = 0,
-FsrmCommitOptions_Asynchronous = 1
+plaTimeStamp = 0,
+plaPerformance = 1,
+plaSystem = 2,
+plaCycle = 3
         
 
-FsrmTemplateApplyOptions_ApplyToDerivedMatching = 1,
-FsrmTemplateApplyOptions_ApplyToDerivedAll = 2
+plaFile = 1,
+plaRealTime = 2,
+plaBoth = 3,
+plaBuffering = 4
         
 
-FsrmActionType_Unknown = 0,
-FsrmActionType_EventLog = 1,
-FsrmActionType_Email = 2,
-FsrmActionType_Command = 3,
-FsrmActionType_Report = 4
+plaCreateNew = 1,
+plaModify = 2,
+plaCreateOrModify = 3,
+plaUpdateRunningInstance = 16,
+plaFlushTrace = 32,
+plaValidateOnly = 4096
         
 
-FsrmEventType_Unknown = 0,
-FsrmEventType_Information = 1,
-FsrmEventType_Warning = 2,
-FsrmEventType_Error = 3
+plaIndex = 1,
+plaFlag = 2,
+plaFlagArray = 3,
+plaValidation = 4
         
 
-FsrmAccountType_Unknown = 0,
-FsrmAccountType_NetworkService = 1,
-FsrmAccountType_LocalService = 2,
-FsrmAccountType_LocalSystem = 3,
-FsrmAccountType_InProc = 4,
-FsrmAccountType_External = 5,
-FsrmAccountType_Automatic = 500
+plaRunOnce = 0,
+plaSunday = 1,
+plaMonday = 2,
+plaTuesday = 4,
+plaWednesday = 8,
+plaThursday = 16,
+plaFriday = 32,
+plaSaturday = 64,
+plaEveryday = 127
         
 
-FsrmReportType_Unknown = 0,
-FsrmReportType_LargeFiles = 1,
-FsrmReportType_FilesByType = 2,
-FsrmReportType_LeastRecentlyAccessed = 3,
-FsrmReportType_MostRecentlyAccessed = 4,
-FsrmReportType_QuotaUsage = 5,
-FsrmReportType_FilesByOwner = 6,
-FsrmReportType_ExportReport = 7,
-FsrmReportType_DuplicateFiles = 8,
-FsrmReportType_FileScreenAudit = 9,
-FsrmReportType_FilesByProperty = 10,
-FsrmReportType_AutomaticClassification = 11,
-FsrmReportType_Expiration = 12,
-FsrmReportType_FoldersByProperty = 13
+plaDeleteLargest = 0,
+plaDeleteOldest = 1
         
 
-FsrmReportFormat_Unknown = 0,
-FsrmReportFormat_DHtml = 1,
-FsrmReportFormat_Html = 2,
-FsrmReportFormat_Txt = 3,
-FsrmReportFormat_Csv = 4,
-FsrmReportFormat_Xml = 5
+plaCreateReport = 1,
+plaRunRules = 2,
+plaCreateHtml = 4,
+plaFolderActions = 8,
+plaResourceFreeing = 16
         
 
-FsrmReportRunningStatus_Unknown = 0,
-FsrmReportRunningStatus_NotRunning = 1,
-FsrmReportRunningStatus_Queued = 2,
-FsrmReportRunningStatus_Running = 3
+plaCreateCab = 1,
+plaDeleteData = 2,
+plaSendCab = 4,
+plaDeleteCab = 8,
+plaDeleteReport = 16
         
-
-FsrmReportGenerationContext_Undefined = 1,
-FsrmReportGenerationContext_ScheduledReport = 2,
-FsrmReportGenerationContext_InteractiveReport = 3,
-FsrmReportGenerationContext_IncidentReport = 4
-        
-
-FsrmReportFilter_MinSize = 1,
-FsrmReportFilter_MinAgeDays = 2,
-FsrmReportFilter_MaxAgeDays = 3,
-FsrmReportFilter_MinQuotaUsage = 4,
-FsrmReportFilter_FileGroups = 5,
-FsrmReportFilter_Owners = 6,
-FsrmReportFilter_NamePattern = 7,
-FsrmReportFilter_Property = 8
-        
-
-FsrmReportLimit_MaxFiles = 1,
-FsrmReportLimit_MaxFileGroups = 2,
-FsrmReportLimit_MaxOwners = 3,
-FsrmReportLimit_MaxFilesPerFileGroup = 4,
-FsrmReportLimit_MaxFilesPerOwner = 5,
-FsrmReportLimit_MaxFilesPerDuplGroup = 6,
-FsrmReportLimit_MaxDuplicateGroups = 7,
-FsrmReportLimit_MaxQuotas = 8,
-FsrmReportLimit_MaxFileScreenEvents = 9,
-FsrmReportLimit_MaxPropertyValues = 10,
-FsrmReportLimit_MaxFilesPerPropertyValue = 11,
-FsrmReportLimit_MaxFolders = 12
-        
-
-FsrmPropertyDefinitionType_Unknown = 0,
-FsrmPropertyDefinitionType_OrderedList = 1,
-FsrmPropertyDefinitionType_MultiChoiceList = 2,
-FsrmPropertyDefinitionType_SingleChoiceList = 3,
-FsrmPropertyDefinitionType_String = 4,
-FsrmPropertyDefinitionType_MultiString = 5,
-FsrmPropertyDefinitionType_Int = 6,
-FsrmPropertyDefinitionType_Bool = 7,
-FsrmPropertyDefinitionType_Date = 8
-        
-
-FsrmRuleType_Unknown = 0,
-FsrmRuleType_Classification = 1,
-FsrmRuleType_Generic = 2
-        
-
-FsrmRuleFlags_Disabled = 256,
-FsrmRuleFlags_Invalid = 4096
-        
-
-FsrmClassificationLoggingFlags_None = 0,
-FsrmClassificationLoggingFlags_ClassificationsInLogFile = 1,
-FsrmClassificationLoggingFlags_ErrorsInLogFile = 2,
-FsrmClassificationLoggingFlags_ClassificationsInSystemLog = 4,
-FsrmClassificationLoggingFlags_ErrorsInSystemLog = 8
-        
-
-FsrmExecutionOption_Unknown = 0,
-FsrmExecutionOption_EvaluateUnset = 1,
-FsrmExecutionOption_ReEvaluate_ConsiderExistingValue = 2,
-FsrmExecutionOption_ReEvaluate_IgnoreExistingValue = 3
-        
-
-FsrmStorageModuleCaps_Unknown = 0,
-FsrmStorageModuleCaps_CanGet = 1,
-FsrmStorageModuleCaps_CanSet = 2,
-FsrmStorageModuleCaps_CanHandleDirectories = 4,
-FsrmStorageModuleCaps_CanHandleFiles = 8
-        
-
-FsrmStorageModuleType_Unknown = 0,
-FsrmStorageModuleType_Cache = 1,
-FsrmStorageModuleType_InFile = 2,
-FsrmStorageModuleType_Database = 3,
-FsrmStorageModuleType_System = 100
-        
-
-FsrmPropertyFlags_Orphaned = 1,
-FsrmPropertyFlags_RetrievedFromCache = 2,
-FsrmPropertyFlags_RetrievedFromStorage = 4,
-FsrmPropertyFlags_SetByClassifier = 8,
-FsrmPropertyFlags_Deleted = 16,
-FsrmPropertyFlags_Reclassified = 32,
-FsrmPropertyFlags_AggregationFailed = 64,
-FsrmPropertyFlags_Existing = 128,
-FsrmPropertyFlags_FailedLoadingProperties = 256,
-FsrmPropertyFlags_FailedClassifyingProperties = 512,
-FsrmPropertyFlags_FailedSavingProperties = 1024,
-FsrmPropertyFlags_Secure = 2048,
-FsrmPropertyFlags_PolicyDerived = 4096,
-FsrmPropertyFlags_Inherited = 8192,
-FsrmPropertyFlags_Manual = 16384,
-FsrmPropertyFlags_PropertySourceMask = 14
-        
-
-FsrmPipelineModuleType_Unknown = 0,
-FsrmPipelineModuleType_Storage = 1,
-FsrmPipelineModuleType_Classifier = 2
-        
-
-FsrmGetFilePropertyOptions_None = 0,
-FsrmGetFilePropertyOptions_NoRuleEvaluation = 1,
-FsrmGetFilePropertyOptions_Persistent = 2,
-FsrmGetFilePropertyOptions_FailOnPersistErrors = 4,
-FsrmGetFilePropertyOptions_SkipOrphaned = 8
-        
-
-FsrmFileManagementType_Unknown = 0,
-FsrmFileManagementType_Expiration = 1,
-FsrmFileManagementType_Custom = 2,
-FsrmFileManagementType_Rms = 3
-        
-
-FsrmFileManagementLoggingFlags_None = 0,
-FsrmFileManagementLoggingFlags_Error = 1,
-FsrmFileManagementLoggingFlags_Information = 2,
-FsrmFileManagementLoggingFlags_Audit = 4
-        
-
-FsrmPropertyConditionType_Unknown = 0,
-FsrmPropertyConditionType_Equal = 1,
-FsrmPropertyConditionType_NotEqual = 2,
-FsrmPropertyConditionType_GreaterThan = 3,
-FsrmPropertyConditionType_LessThan = 4,
-FsrmPropertyConditionType_Contain = 5,
-FsrmPropertyConditionType_Exist = 6,
-FsrmPropertyConditionType_NotExist = 7,
-FsrmPropertyConditionType_StartWith = 8,
-FsrmPropertyConditionType_EndWith = 9,
-FsrmPropertyConditionType_ContainedIn = 10,
-FsrmPropertyConditionType_PrefixOf = 11,
-FsrmPropertyConditionType_SuffixOf = 12
-        
-FSRM_QUOTA_THRESHOLD = LONG
 #################################################################################
 
 #CONSTANTS
 
 #################################################################################
 
-IFSRMOBJECT = 
-IFSRMCOLLECTION = 
-IFSRMMUTABLECOLLECTION = 
-IFSRMCOMMITTABLECOLLECTION = 
-IFSRMACTION = 
-IFSRMACTIONEMAIL = 
-IFSRMACTIONREPORT = 
-IFSRMACTIONEVENTLOG = 
-IFSRMACTIONCOMMAND = 
-IFSRMSETTING = 
-IFSRMPATHMAPPER = 
-FSRM_DISPID_FEATURE_MASK = 0x0F000000
-FSRM_DISPID_INTERFACE_A_MASK = 0x00F00000
-FSRM_DISPID_INTERFACE_B_MASK = 0x000F0000
-FSRM_DISPID_INTERFACE_C_MASK = 0x0000F000
-FSRM_DISPID_INTERFACE_D_MASK = 0x00000F00
-FSRM_DISPID_INTERFACE_MASK = FSRM_DISPID_INTERFACE_A_MASK | FSRM_DISPID_INTERFACE_B_MASK | FSRM_DISPID_INTERFACE_C_MASK | FSRM_DISPID_INTERFACE_D_MASK
-FSRM_DISPID_IS_PROPERTY = 0x00000080
-FSRM_DISPID_METHOD_NUM_MASK = 0x0000007F
-FSRM_DISPID_METHOD_MASK = FSRM_DISPID_IS_PROPERTY | FSRM_DISPID_METHOD_NUM_MASK
-FSRM_DISPID_FEATURE_GENERAL = 0x01000000
-FSRM_DISPID_FEATURE_QUOTA = 0x02000000
-FSRM_DISPID_FEATURE_FILESCREEN = 0x03000000
-FSRM_DISPID_FEATURE_REPORTS = 0x04000000
-FSRM_DISPID_FEATURE_CLASSIFICATION = 0x05000000
-FSRM_DISPID_FEATURE_PIPELINE = 0x06000000
-FSRM_DISPID_OBJECT = FSRM_DISPID_FEATURE_GENERAL | 0x100000
-FSRM_DISPID_COLLECTION = FSRM_DISPID_FEATURE_GENERAL | 0x200000
-FSRM_DISPID_COLLECTION_MUTABLE = FSRM_DISPID_COLLECTION | 0x010000
-FSRM_DISPID_COLLECTION_COMMITTABLE = FSRM_DISPID_COLLECTION_MUTABLE | 0x001000
-FSRM_DISPID_ACTION = FSRM_DISPID_FEATURE_GENERAL | 0x300000
-FSRM_DISPID_ACTION_EMAIL = FSRM_DISPID_ACTION | 0x010000
-FSRM_DISPID_ACTION_REPORT = FSRM_DISPID_ACTION | 0x020000
-FSRM_DISPID_ACTION_EVENTLOG = FSRM_DISPID_ACTION | 0x030000
-FSRM_DISPID_ACTION_COMMAND = FSRM_DISPID_ACTION | 0x040000
-FSRM_DISPID_ACTION_EMAIL2 = FSRM_DISPID_ACTION | 0x050000
-FSRM_DISPID_SETTING = FSRM_DISPID_FEATURE_GENERAL | 0x400000
-FSRM_DISPID_PATHMAPPER = FSRM_DISPID_FEATURE_GENERAL | 0x500000
-FSRM_DISPID_DERIVEDOBJECTSRESULT = FSRM_DISPID_FEATURE_GENERAL | 0x700000
-IFSRMPROPERTYDEFINITION = 
-IFSRMPROPERTYDEFINITION2 = 
-IFSRMPROPERTYDEFINITIONVALUE = 
-IFSRMPROPERTY = 
-IFSRMRULE = 
-IFSRMCLASSIFICATIONRULE = 
-IFSRMPIPELINEMODULEDEFINITION = 
-FSRM_DISPID_PROPERTY_DEFINITION = FSRM_DISPID_FEATURE_CLASSIFICATION | 0x100000
-FSRM_DISPID_PROPERTY_DEFINITION2 = FSRM_DISPID_PROPERTY_DEFINITION | 0x010000
-FSRM_DISPID_PROPERTY = FSRM_DISPID_FEATURE_CLASSIFICATION | 0x200000
-FSRM_DISPID_RULE = FSRM_DISPID_FEATURE_CLASSIFICATION | 0x300000
-FSRM_DISPID_CLASSIFICATION_RULE = FSRM_DISPID_RULE | 0x010000
-FSRM_DISPID_EXPIRATION_RULE = FSRM_DISPID_RULE | 0x020000
-FSRM_DISPID_PIPELINE_MODULE_DEFINITION = FSRM_DISPID_FEATURE_CLASSIFICATION | 0x400000
-FSRM_DISPID_CLASSIFIER_MODULE_DEFINITION = FSRM_DISPID_PIPELINE_MODULE_DEFINITION | 0x010000
-FSRM_DISPID_STORAGE_MODULE_DEFINITION = FSRM_DISPID_PIPELINE_MODULE_DEFINITION | 0x020000
-FSRM_DISPID_CLASSIFICATION_MANAGER = FSRM_DISPID_FEATURE_CLASSIFICATION | 0x500000
-FSRM_DISPID_CLASSIFICATION_MANAGER2 = FSRM_DISPID_CLASSIFICATION_MANAGER | 0x010000
-FSRM_DISPID_CLASSIFICATION_EVENTS = FSRM_DISPID_FEATURE_CLASSIFICATION | 0x600000
-FSRM_DISPID_PROPERTY_DEFINITION_VALUE = FSRM_DISPID_FEATURE_CLASSIFICATION | 0x700000
-FSRM_DISPID_PROPERTY_BAG = FSRM_DISPID_FEATURE_PIPELINE | 0x600000
-FSRM_DISPID_PIPELINE_MODULE_IMPLEMENTATION = FSRM_DISPID_FEATURE_PIPELINE | 0x700000
-FSRM_DISPID_PIPELINE_MODULE_CONNECTOR = FSRM_DISPID_FEATURE_PIPELINE | 0x800000
-FSRM_DISPID_PIPELINE_MODULE_HOST = FSRM_DISPID_FEATURE_PIPELINE | 0x900000
-FSRMMAXNUMBERPROPERTYDEFINITIONS = 200
-IFSRMQUOTABASE = 
-IFSRMQUOTAOBJECT = 
-IFSRMQUOTA = 
-IFSRMAUTOAPPLYQUOTA = 
-IFSRMQUOTAMANAGER = 
-IFSRMQUOTATEMPLATE = 
-IFSRMQUOTATEMPLATEIMPORTED = 
-IFSRMQUOTATEMPLATEMANAGER = 
-FSRM_DISPID_QUOTA_BASE = FSRM_DISPID_FEATURE_QUOTA | 0x100000
-FSRM_DISPID_QUOTA_OBJECT = FSRM_DISPID_QUOTA_BASE | 0x010000
-FSRM_DISPID_QUOTA = FSRM_DISPID_QUOTA_OBJECT | 0x001000
-FSRM_DISPID_AUTOAPPLYQUOTA = FSRM_DISPID_QUOTA_OBJECT | 0x002000
-FSRM_DISPID_QUOTA_TEMPLATE = FSRM_DISPID_QUOTA_BASE | 0x020000
-FSRM_DISPID_QUOTA_TEMPLATE_IMPORTED = FSRM_DISPID_QUOTA_TEMPLATE | 0x001000
-FSRM_DISPID_QUOTA_MANAGER = FSRM_DISPID_FEATURE_QUOTA | 0x200000
-FSRM_DISPID_QUOTA_TEMPLATE_MANAGER = FSRM_DISPID_FEATURE_QUOTA | 0x300000
-FSRM_DISPID_QUOTA_MANAGER_EX = FSRM_DISPID_FEATURE_QUOTA | 0x400000
-FSRMMAXNUMBERTHRESHOLDS = 16
-FSRMMINTHRESHOLDVALUE = 1
-FSRMMAXTHRESHOLDVALUE = 250
-FSRMMINQUOTALIMIT = 1024
-FSRMMAXEXCLUDEFOLDERS = 32
-IFSRMREPORTMANAGER = 
-IFSRMREPORTJOB = 
-IFSRMREPORT = 
-IFSRMFILEMANAGEMENTJOBMANAGER = 
-IFSRMFILEMANAGEMENTJOB = 
-IFSRMPROPERTYCONDITION = 
-FSRM_DISPID_REPORT_MANAGER = FSRM_DISPID_FEATURE_REPORTS | 0x100000
-FSRM_DISPID_REPORT_JOB = FSRM_DISPID_FEATURE_REPORTS | 0x200000
-FSRM_DISPID_REPORT = FSRM_DISPID_FEATURE_REPORTS | 0x300000
-FSRM_DISPID_REPORT_SCHEDULER = FSRM_DISPID_FEATURE_REPORTS | 0x400000
-FSRM_DISPID_FILE_MANAGEMENT_JOB_MANAGER = FSRM_DISPID_FEATURE_REPORTS | 0x500000
-FSRM_DISPID_FILE_MANAGEMENT_JOB = FSRM_DISPID_FEATURE_REPORTS | 0x600000
-FSRM_DISPID_FILE_MANAGEMENT_NOTIFICATION = FSRM_DISPID_FEATURE_REPORTS | 0x700000
-FSRM_DISPID_PROPERTY_CONDITION = FSRM_DISPID_FEATURE_REPORTS | 0x800000
-IFSRMFILEGROUP = 
-IFSRMFILEGROUPIMPORTED = 
-IFSRMFILEGROUPMANAGER = 
-IFSRMFILESCREENBASE = 
-IFSRMFILESCREEN = 
-IFSRMFILESCREENEXCEPTION = 
-IFSRMFILESCREENMANAGER = 
-IFSRMFILESCREENTEMPLATE = 
-IFSRMFILESCREENTEMPLATEIMPORTED = 
-IFSRMFILESCREENTEMPLATEMANAGER = 
-FSRM_DISPID_FILEGROUP = FSRM_DISPID_FEATURE_FILESCREEN | 0x100000
-FSRM_DISPID_FILEGROUP_IMPORTED = FSRM_DISPID_FILEGROUP | 0x010000
-FSRM_DISPID_FILEGROUP_MANAGER = FSRM_DISPID_FEATURE_FILESCREEN | 0x200000
-FSRM_DISPID_FILESCREEN_BASE = FSRM_DISPID_FEATURE_FILESCREEN | 0x300000
-FSRM_DISPID_FILESCREEN = FSRM_DISPID_FILESCREEN_BASE | 0x010000
-FSRM_DISPID_FILESCREEN_TEMPLATE = FSRM_DISPID_FILESCREEN_BASE | 0x020000
-FSRM_DISPID_FILESCREEN_TEMPLATE_IMPORTED = FSRM_DISPID_FILESCREEN_TEMPLATE | 0x001000
-FSRM_DISPID_FILESCREEN_EXCEPTION = FSRM_DISPID_FEATURE_FILESCREEN | 0x400000
-FSRM_DISPID_FILESCREEN_MANAGER = FSRM_DISPID_FEATURE_FILESCREEN | 0x500000
-FSRM_DISPID_FILESCREEN_TEMPLATE_MANAGER = FSRM_DISPID_FEATURE_FILESCREEN | 0x600000
+IDATACOLLECTORSET = 
+IDATAMANAGER = 
+IFOLDERACTION = 
+IFOLDERACTIONCOLLECTION = 
+IDATACOLLECTOR = 
+IPERFORMANCECOUNTERDATACOLLECTOR = 
+ITRACEDATACOLLECTOR = 
+ICONFIGURATIONDATACOLLECTOR = 
+IALERTDATACOLLECTOR = 
+IAPITRACINGDATACOLLECTOR = 
+IDATACOLLECTORCOLLECTION = 
+IDATACOLLECTORSETCOLLECTION = 
+ITRACEDATAPROVIDER = 
+ITRACEDATAPROVIDERCOLLECTION = 
+ISCHEDULE = 
+ISCHEDULECOLLECTION = 
+IVALUEMAPITEM = 
+IVALUEMAP = 
 #################################################################################
 
 #INTERFACE DEFINITION
@@ -3683,27 +3451,51 @@ FSRM_DISPID_FILESCREEN_TEMPLATE_MANAGER = FSRM_DISPID_FEATURE_FILESCREEN | 0x600
 
 #################################################################################
 
-#IFsrmObject Definition
+#IDataCollectorSet Definition
 
 #################################################################################
 
-MSRPC_UUID_IFSRMOBJECT = uuidtup_to_bin(('22bcef93-4a3f-4183-89f9-2f8b8a628aee','0.0'))
+MSRPC_UUID_IDATACOLLECTORSET = uuidtup_to_bin(('03837520-098b-11d8-9414-505054503030','0.0'))
 
 
-class Id(NDRCALL):
+class DataCollectors(NDRCALL):
     opnum = 0
     structure = (
 
     )
 
-class IdResponse(NDRCALL):
+class DataCollectorsResponse(NDRCALL):
     structure = (
-		('ID', FSRM_OBJECT_ID),
+		('COLLECTORS', IDATACOLLECTORCOLLECTION),
+    )
+        
+
+class Duration(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class DurationResponse(NDRCALL):
+    structure = (
+		('SECONDS', UNSIGNED_LONG),
+    )
+        
+
+class Duration(NDRCALL):
+    opnum = 2
+    structure = (
+		('SECONDS', UNSIGNED_LONG),
+    )
+
+class DurationResponse(NDRCALL):
+    structure = (
+
     )
         
 
 class Description(NDRCALL):
-    opnum = 1
+    opnum = 3
     structure = (
 
     )
@@ -3715,7 +3507,7 @@ class DescriptionResponse(NDRCALL):
         
 
 class Description(NDRCALL):
-    opnum = 2
+    opnum = 4
     structure = (
 		('DESCRIPTION', BSTR),
     )
@@ -3726,1301 +3518,20 @@ class DescriptionResponse(NDRCALL):
     )
         
 
-class Delete(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class DeleteResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Commit(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class CommitResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (Id,IdResponse),
-1 : (Description,DescriptionResponse),
-2 : (Delete,DeleteResponse),
-3 : (Commit,CommitResponse),
-}
-
-#################################################################################
-
-#IFsrmCollection Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMCOLLECTION = uuidtup_to_bin(('f76fbf3b-8dd-442-b05a-cb1c3ff1fee8','0.0'))
-
-
-class _NewEnum(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class _NewEnumResponse(NDRCALL):
-    structure = (
-		('UNKNOWN', IUNKNOWN),
-    )
-        
-
-class Item(NDRCALL):
-    opnum = 1
-    structure = (
-		('INDEX', LONG),
-    )
-
-class ItemResponse(NDRCALL):
-    structure = (
-		('ITEM', VARIANT),
-    )
-        
-
-class Count(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class CountResponse(NDRCALL):
-    structure = (
-		('COUNT', LONG),
-    )
-        
-
-class State(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class StateResponse(NDRCALL):
-    structure = (
-		('STATE', FSRMCOLLECTIONSTATE),
-    )
-        
-
-class Cancel(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class CancelResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class WaitForCompletion(NDRCALL):
+class DescriptionUnresolved(NDRCALL):
     opnum = 5
     structure = (
-		('WAITSECONDS', LONG),
-    )
-
-class WaitForCompletionResponse(NDRCALL):
-    structure = (
-		('COMPLETED', VARIANT_BOOL),
-    )
-        
-
-class GetById(NDRCALL):
-    opnum = 6
-    structure = (
-		('ID', FSRM_OBJECT_ID),
-    )
-
-class GetByIdResponse(NDRCALL):
-    structure = (
-		('ENTRY', VARIANT),
-    )
-        
-OPNUMS = {
-0 : (_NewEnum,_NewEnumResponse),
-1 : (Item,ItemResponse),
-2 : (Count,CountResponse),
-3 : (State,StateResponse),
-4 : (Cancel,CancelResponse),
-5 : (WaitForCompletion,WaitForCompletionResponse),
-6 : (GetById,GetByIdResponse),
-}
-
-#################################################################################
-
-#IFsrmMutableCollection Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMMUTABLECOLLECTION = uuidtup_to_bin(('1bb617b8-3886-49dc-af82-a6c90fa35dda','0.0'))
-
-
-class Add(NDRCALL):
-    opnum = 0
-    structure = (
-		('ITEM', VARIANT),
-    )
-
-class AddResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Remove(NDRCALL):
-    opnum = 1
-    structure = (
-		('INDEX', LONG),
-    )
-
-class RemoveResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class RemoveById(NDRCALL):
-    opnum = 2
-    structure = (
-		('ID', FSRM_OBJECT_ID),
-    )
-
-class RemoveByIdResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Clone(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class CloneResponse(NDRCALL):
-    structure = (
-		('COLLECTION', IFSRMMUTABLECOLLECTION),
-    )
-        
-OPNUMS = {
-0 : (Add,AddResponse),
-1 : (Remove,RemoveResponse),
-2 : (RemoveById,RemoveByIdResponse),
-3 : (Clone,CloneResponse),
-}
-
-#################################################################################
-
-#IFsrmCommittableCollection Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMCOMMITTABLECOLLECTION = uuidtup_to_bin(('96deb3b5-8b91-4a2a-9d93-80a35d8aa847','0.0'))
-
-
-class Commit(NDRCALL):
-    opnum = 0
-    structure = (
-		('OPTIONS', FSRMCOMMITOPTIONS),
-    )
-
-class CommitResponse(NDRCALL):
-    structure = (
-		('RESULTS', IFSRMCOLLECTION),
-    )
-        
-OPNUMS = {
-0 : (Commit,CommitResponse),
-}
-
-#################################################################################
-
-#IFsrmAction Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMACTION = uuidtup_to_bin(('6cd6408a-ae60-463b-9ef1-e117534d69dc','0.0'))
-
-
-class Id(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class IdResponse(NDRCALL):
-    structure = (
-		('ID', FSRM_OBJECT_ID),
-    )
-        
-
-class ActionType(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class ActionTypeResponse(NDRCALL):
-    structure = (
-		('ACTIONTYPE', FSRMACTIONTYPE),
-    )
-        
-
-class RunLimitInterval(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class RunLimitIntervalResponse(NDRCALL):
-    structure = (
-		('MINUTES', LONG),
-    )
-        
-
-class RunLimitInterval(NDRCALL):
-    opnum = 3
-    structure = (
-		('MINUTES', LONG),
-    )
-
-class RunLimitIntervalResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Delete(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class DeleteResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (Id,IdResponse),
-1 : (ActionType,ActionTypeResponse),
-2 : (RunLimitInterval,RunLimitIntervalResponse),
-3 : (Delete,DeleteResponse),
-}
-
-#################################################################################
-
-#IFsrmActionEmail Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMACTIONEMAIL = uuidtup_to_bin(('d646567d-26e-4aa-984-40ad207fca','0.0'))
-
-
-class MailFrom(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class MailFromResponse(NDRCALL):
-    structure = (
-		('MAILFROM', BSTR),
-    )
-        
-
-class MailFrom(NDRCALL):
-    opnum = 1
-    structure = (
-		('MAILFROM', BSTR),
-    )
-
-class MailFromResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MailReplyTo(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class MailReplyToResponse(NDRCALL):
-    structure = (
-		('MAILREPLYTO', BSTR),
-    )
-        
-
-class MailReplyTo(NDRCALL):
-    opnum = 3
-    structure = (
-		('MAILREPLYTO', BSTR),
-    )
-
-class MailReplyToResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MailTo(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class MailToResponse(NDRCALL):
-    structure = (
-		('MAILTO', BSTR),
-    )
-        
-
-class MailTo(NDRCALL):
-    opnum = 5
-    structure = (
-		('MAILTO', BSTR),
-    )
-
-class MailToResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MailCc(NDRCALL):
-    opnum = 6
-    structure = (
-
-    )
-
-class MailCcResponse(NDRCALL):
-    structure = (
-		('MAILCC', BSTR),
-    )
-        
-
-class MailCc(NDRCALL):
-    opnum = 7
-    structure = (
-		('MAILCC', BSTR),
-    )
-
-class MailCcResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MailBcc(NDRCALL):
-    opnum = 8
-    structure = (
-
-    )
-
-class MailBccResponse(NDRCALL):
-    structure = (
-		('MAILBCC', BSTR),
-    )
-        
-
-class MailBcc(NDRCALL):
-    opnum = 9
-    structure = (
-		('MAILBCC', BSTR),
-    )
-
-class MailBccResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MailSubject(NDRCALL):
-    opnum = 10
-    structure = (
-
-    )
-
-class MailSubjectResponse(NDRCALL):
-    structure = (
-		('MAILSUBJECT', BSTR),
-    )
-        
-
-class MailSubject(NDRCALL):
-    opnum = 11
-    structure = (
-		('MAILSUBJECT', BSTR),
-    )
-
-class MailSubjectResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MessageText(NDRCALL):
-    opnum = 12
-    structure = (
-
-    )
-
-class MessageTextResponse(NDRCALL):
-    structure = (
-		('MESSAGETEXT', BSTR),
-    )
-        
-
-class MessageText(NDRCALL):
-    opnum = 13
-    structure = (
-		('MESSAGETEXT', BSTR),
-    )
-
-class MessageTextResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (MailFrom,MailFromResponse),
-1 : (MailReplyTo,MailReplyToResponse),
-2 : (MailTo,MailToResponse),
-3 : (MailCc,MailCcResponse),
-4 : (MailBcc,MailBccResponse),
-5 : (MailSubject,MailSubjectResponse),
-6 : (MessageText,MessageTextResponse),
-}
-
-#################################################################################
-
-#IFsrmActionEmail2 Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMACTIONEMAIL2 = uuidtup_to_bin(('8276702f-2532-4839-89bf-4872609a2ea4','0.0'))
-
-
-class AttachmentFileListSize(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class AttachmentFileListSizeResponse(NDRCALL):
-    structure = (
-		('ATTACHMENTFILELISTSIZE', LONG),
-    )
-        
-
-class AttachmentFileListSize(NDRCALL):
-    opnum = 1
-    structure = (
-		('ATTACHMENTFILELISTSIZE', LONG),
-    )
-
-class AttachmentFileListSizeResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (AttachmentFileListSize,AttachmentFileListSizeResponse),
-}
-
-#################################################################################
-
-#IFsrmActionReport Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMACTIONREPORT = uuidtup_to_bin(('2dbe63c4-b340-48a0-a5b0-158e07fc567e','0.0'))
-
-
-class ReportTypes(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class ReportTypesResponse(NDRCALL):
-    structure = (
-		('REPORTTYPES', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class ReportTypes(NDRCALL):
-    opnum = 1
-    structure = (
-		('REPORTTYPES', SAFEARRAY ( VARIANT )),
-    )
-
-class ReportTypesResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MailTo(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class MailToResponse(NDRCALL):
-    structure = (
-		('MAILTO', BSTR),
-    )
-        
-
-class MailTo(NDRCALL):
-    opnum = 3
-    structure = (
-		('MAILTO', BSTR),
-    )
-
-class MailToResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (ReportTypes,ReportTypesResponse),
-1 : (MailTo,MailToResponse),
-}
-
-#################################################################################
-
-#IFsrmActionEventLog Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMACTIONEVENTLOG = uuidtup_to_bin(('4c8f96c3-5d94-4f37-a4f4-f56ab463546f','0.0'))
-
-
-class EventType(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class EventTypeResponse(NDRCALL):
-    structure = (
-		('EVENTTYPE', FSRMEVENTTYPE),
-    )
-        
-
-class EventType(NDRCALL):
-    opnum = 1
-    structure = (
-		('EVENTTYPE', FSRMEVENTTYPE),
-    )
-
-class EventTypeResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MessageText(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class MessageTextResponse(NDRCALL):
-    structure = (
-		('MESSAGETEXT', BSTR),
-    )
-        
-
-class MessageText(NDRCALL):
-    opnum = 3
-    structure = (
-		('MESSAGETEXT', BSTR),
-    )
-
-class MessageTextResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (EventType,EventTypeResponse),
-1 : (MessageText,MessageTextResponse),
-}
-
-#################################################################################
-
-#IFsrmActionCommand Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMACTIONCOMMAND = uuidtup_to_bin(('12937789-e247-4917-9c20-f3ee9c7ee783','0.0'))
-
-
-class ExecutablePath(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class ExecutablePathResponse(NDRCALL):
-    structure = (
-		('EXECUTABLEPATH', BSTR),
-    )
-        
-
-class ExecutablePath(NDRCALL):
-    opnum = 1
-    structure = (
-		('EXECUTABLEPATH', BSTR),
-    )
-
-class ExecutablePathResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Arguments(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class ArgumentsResponse(NDRCALL):
-    structure = (
-		('ARGUMENTS', BSTR),
-    )
-        
-
-class Arguments(NDRCALL):
-    opnum = 3
-    structure = (
-		('ARGUMENTS', BSTR),
-    )
-
-class ArgumentsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Account(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class AccountResponse(NDRCALL):
-    structure = (
-		('ACCOUNT', FSRMACCOUNTTYPE),
-    )
-        
-
-class Account(NDRCALL):
-    opnum = 5
-    structure = (
-		('ACCOUNT', FSRMACCOUNTTYPE),
-    )
-
-class AccountResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class WorkingDirectory(NDRCALL):
-    opnum = 6
-    structure = (
-
-    )
-
-class WorkingDirectoryResponse(NDRCALL):
-    structure = (
-		('WORKINGDIRECTORY', BSTR),
-    )
-        
-
-class WorkingDirectory(NDRCALL):
-    opnum = 7
-    structure = (
-		('WORKINGDIRECTORY', BSTR),
-    )
-
-class WorkingDirectoryResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MonitorCommand(NDRCALL):
-    opnum = 8
-    structure = (
-
-    )
-
-class MonitorCommandResponse(NDRCALL):
-    structure = (
-		('MONITORCOMMAND', VARIANT_BOOL),
-    )
-        
-
-class MonitorCommand(NDRCALL):
-    opnum = 9
-    structure = (
-		('MONITORCOMMAND', VARIANT_BOOL),
-    )
-
-class MonitorCommandResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class KillTimeOut(NDRCALL):
-    opnum = 10
-    structure = (
-
-    )
-
-class KillTimeOutResponse(NDRCALL):
-    structure = (
-		('MINUTES', LONG),
-    )
-        
-
-class KillTimeOut(NDRCALL):
-    opnum = 11
-    structure = (
-		('MINUTES', LONG),
-    )
-
-class KillTimeOutResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class LogResult(NDRCALL):
-    opnum = 12
-    structure = (
-
-    )
-
-class LogResultResponse(NDRCALL):
-    structure = (
-		('LOGRESULTS', VARIANT_BOOL),
-    )
-        
-
-class LogResult(NDRCALL):
-    opnum = 13
-    structure = (
-		('LOGRESULTS', VARIANT_BOOL),
-    )
-
-class LogResultResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (ExecutablePath,ExecutablePathResponse),
-1 : (Arguments,ArgumentsResponse),
-2 : (Account,AccountResponse),
-3 : (WorkingDirectory,WorkingDirectoryResponse),
-4 : (MonitorCommand,MonitorCommandResponse),
-5 : (KillTimeOut,KillTimeOutResponse),
-6 : (LogResult,LogResultResponse),
-}
-
-#################################################################################
-
-#IFsrmSetting Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMSETTING = uuidtup_to_bin(('f411d4fd-14e-4260-840-03795608','0.0'))
-
-
-class SmtpServer(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class SmtpServerResponse(NDRCALL):
-    structure = (
-		('SMTPSERVER', BSTR),
-    )
-        
-
-class SmtpServer(NDRCALL):
-    opnum = 1
-    structure = (
-		('SMTPSERVER', BSTR),
-    )
-
-class SmtpServerResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MailFrom(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class MailFromResponse(NDRCALL):
-    structure = (
-		('MAILFROM', BSTR),
-    )
-        
-
-class MailFrom(NDRCALL):
-    opnum = 3
-    structure = (
-		('MAILFROM', BSTR),
-    )
-
-class MailFromResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class AdminEmail(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class AdminEmailResponse(NDRCALL):
-    structure = (
-		('ADMINEMAIL', BSTR),
-    )
-        
-
-class AdminEmail(NDRCALL):
-    opnum = 5
-    structure = (
-		('ADMINEMAIL', BSTR),
-    )
-
-class AdminEmailResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class DisableCommandLine(NDRCALL):
-    opnum = 6
-    structure = (
-
-    )
-
-class DisableCommandLineResponse(NDRCALL):
-    structure = (
-		('DISABLECOMMANDLINE', VARIANT_BOOL),
-    )
-        
-
-class DisableCommandLine(NDRCALL):
-    opnum = 7
-    structure = (
-		('DISABLECOMMANDLINE', VARIANT_BOOL),
-    )
-
-class DisableCommandLineResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class EnableScreeningAudit(NDRCALL):
-    opnum = 8
-    structure = (
-
-    )
-
-class EnableScreeningAuditResponse(NDRCALL):
-    structure = (
-		('ENABLESCREENINGAUDIT', VARIANT_BOOL),
-    )
-        
-
-class EnableScreeningAudit(NDRCALL):
-    opnum = 9
-    structure = (
-		('ENABLESCREENINGAUDIT', VARIANT_BOOL),
-    )
-
-class EnableScreeningAuditResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class EmailTest(NDRCALL):
-    opnum = 10
-    structure = (
-		('MAILTO', BSTR),
-    )
-
-class EmailTestResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class SetActionRunLimitInterval(NDRCALL):
-    opnum = 11
-    structure = (
-		('ACTIONTYPE', FSRMACTIONTYPE),
-		('DELAYTIMEMINUTES', LONG),
-    )
-
-class SetActionRunLimitIntervalResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class GetActionRunLimitInterval(NDRCALL):
-    opnum = 12
-    structure = (
-		('ACTIONTYPE', FSRMACTIONTYPE),
-    )
-
-class GetActionRunLimitIntervalResponse(NDRCALL):
-    structure = (
-		('DELAYTIMEMINUTES', LONG),
-    )
-        
-OPNUMS = {
-0 : (SmtpServer,SmtpServerResponse),
-1 : (MailFrom,MailFromResponse),
-2 : (AdminEmail,AdminEmailResponse),
-3 : (DisableCommandLine,DisableCommandLineResponse),
-4 : (EnableScreeningAudit,EnableScreeningAuditResponse),
-5 : (EmailTest,EmailTestResponse),
-6 : (SetActionRunLimitInterval,SetActionRunLimitIntervalResponse),
-7 : (GetActionRunLimitInterval,GetActionRunLimitIntervalResponse),
-}
-
-#################################################################################
-
-#IFsrmPathMapper Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMPATHMAPPER = uuidtup_to_bin(('6f4dbfff-6920-4821-a6c3-b7e94c1fd60c','0.0'))
-
-
-class GetSharePathsForLocalPath(NDRCALL):
-    opnum = 0
-    structure = (
-		('LOCALPATH', BSTR),
-    )
-
-class GetSharePathsForLocalPathResponse(NDRCALL):
-    structure = (
-		('SHAREPATHS', SAFEARRAY ( VARIANT )),
-    )
-        
-OPNUMS = {
-0 : (GetSharePathsForLocalPath,GetSharePathsForLocalPathResponse),
-}
-
-#################################################################################
-
-#IFsrmDerivedObjectsResult Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMDERIVEDOBJECTSRESULT = uuidtup_to_bin(('39322a2d-38ee-4d0d-8095-421a80849a82','0.0'))
-
-
-class DerivedObjects(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class DerivedObjectsResponse(NDRCALL):
-    structure = (
-		('DERIVEDOBJECTS', IFSRMCOLLECTION),
-    )
-        
-
-class Results(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class ResultsResponse(NDRCALL):
-    structure = (
-		('RESULTS', IFSRMCOLLECTION),
-    )
-        
-OPNUMS = {
-0 : (DerivedObjects,DerivedObjectsResponse),
-1 : (Results,ResultsResponse),
-}
-
-#################################################################################
-
-#IFsrmPropertyDefinition Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMPROPERTYDEFINITION = uuidtup_to_bin(('ede0150f-e9a3-419-877-01e5d24c5d3','0.0'))
-
-
-class Name(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-		('NAME', BSTR),
-    )
-        
-
-class Name(NDRCALL):
-    opnum = 1
-    structure = (
-		('NAME', BSTR),
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Type(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class TypeResponse(NDRCALL):
-    structure = (
-		('TYPE', FSRMPROPERTYDEFINITIONTYPE),
-    )
-        
-
-class Type(NDRCALL):
-    opnum = 3
-    structure = (
-		('TYPE', FSRMPROPERTYDEFINITIONTYPE),
-    )
-
-class TypeResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class PossibleValues(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class PossibleValuesResponse(NDRCALL):
-    structure = (
-		('POSSIBLEVALUES', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class PossibleValues(NDRCALL):
-    opnum = 5
-    structure = (
-		('POSSIBLEVALUES', SAFEARRAY ( VARIANT )),
-    )
-
-class PossibleValuesResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ValueDescriptions(NDRCALL):
-    opnum = 6
-    structure = (
-
-    )
-
-class ValueDescriptionsResponse(NDRCALL):
-    structure = (
-		('VALUEDESCRIPTIONS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class ValueDescriptions(NDRCALL):
-    opnum = 7
-    structure = (
-		('VALUEDESCRIPTIONS', SAFEARRAY ( VARIANT )),
-    )
-
-class ValueDescriptionsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Parameters(NDRCALL):
-    opnum = 8
-    structure = (
-
-    )
-
-class ParametersResponse(NDRCALL):
-    structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class Parameters(NDRCALL):
-    opnum = 9
-    structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
-    )
-
-class ParametersResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (Name,NameResponse),
-1 : (Type,TypeResponse),
-2 : (PossibleValues,PossibleValuesResponse),
-3 : (ValueDescriptions,ValueDescriptionsResponse),
-4 : (Parameters,ParametersResponse),
-}
-
-#################################################################################
-
-#IFsrmPropertyDefinition2 Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMPROPERTYDEFINITION2 = uuidtup_to_bin(('47782152-d16c-4229-b4e1-0ddfe308b9f6','0.0'))
-
-
-class PropertyDefinitionFlags(NDRCALL):
-    opnum = 0
-    structure = (
 
     )
 
-class PropertyDefinitionFlagsResponse(NDRCALL):
+class DescriptionUnresolvedResponse(NDRCALL):
     structure = (
-		('PROPERTYDEFINITIONFLAGS', LONG),
+		('DESCR', BSTR),
     )
         
 
 class DisplayName(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class DisplayNameResponse(NDRCALL):
-    structure = (
-		('NAME', BSTR),
-    )
-        
-
-class DisplayName(NDRCALL):
-    opnum = 2
-    structure = (
-		('NAME', BSTR),
-    )
-
-class DisplayNameResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class AppliesTo(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class AppliesToResponse(NDRCALL):
-    structure = (
-		('APPLIESTO', LONG),
-    )
-        
-
-class ValueDefinitions(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class ValueDefinitionsResponse(NDRCALL):
-    structure = (
-		('VALUEDEFINITIONS', IFSRMCOLLECTION),
-    )
-        
-OPNUMS = {
-0 : (PropertyDefinitionFlags,PropertyDefinitionFlagsResponse),
-1 : (DisplayName,DisplayNameResponse),
-2 : (AppliesTo,AppliesToResponse),
-3 : (ValueDefinitions,ValueDefinitionsResponse),
-}
-
-#################################################################################
-
-#IFsrmPropertyDefinitionValue Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMPROPERTYDEFINITIONVALUE = uuidtup_to_bin(('E946D148-BD67-4178-822-144925D710','0.0'))
-
-
-class Name(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-		('NAME', BSTR),
-    )
-        
-
-class DisplayName(NDRCALL):
-    opnum = 1
+    opnum = 6
     structure = (
 
     )
@@ -5031,3229 +3542,574 @@ class DisplayNameResponse(NDRCALL):
     )
         
 
-class Description(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class DescriptionResponse(NDRCALL):
-    structure = (
-		('DESCRIPTION', BSTR),
-    )
-        
-
-class UniqueID(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class UniqueIDResponse(NDRCALL):
-    structure = (
-		('UNIQUEID', BSTR),
-    )
-        
-OPNUMS = {
-0 : (Name,NameResponse),
-1 : (DisplayName,DisplayNameResponse),
-2 : (Description,DescriptionResponse),
-3 : (UniqueID,UniqueIDResponse),
-}
-
-#################################################################################
-
-#IFsrmProperty Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMPROPERTY = uuidtup_to_bin(('4a73fee4-4102-4fcc-9ffb-38614f9ee768','0.0'))
-
-
-class Name(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-		('NAME', BSTR),
-    )
-        
-
-class Value(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class ValueResponse(NDRCALL):
-    structure = (
-		('VALUE', BSTR),
-    )
-        
-
-class Sources(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class SourcesResponse(NDRCALL):
-    structure = (
-		('SOURCES', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class PropertyFlags(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class PropertyFlagsResponse(NDRCALL):
-    structure = (
-		('FLAGS', LONG),
-    )
-        
-OPNUMS = {
-0 : (Name,NameResponse),
-1 : (Value,ValueResponse),
-2 : (Sources,SourcesResponse),
-3 : (PropertyFlags,PropertyFlagsResponse),
-}
-
-#################################################################################
-
-#IFsrmRule Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMRULE = uuidtup_to_bin(('cb0df960-165-4495-9079-39360831f','0.0'))
-
-
-class Name(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-		('NAME', BSTR),
-    )
-        
-
-class Name(NDRCALL):
-    opnum = 1
-    structure = (
-		('NAME', BSTR),
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class RuleType(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class RuleTypeResponse(NDRCALL):
-    structure = (
-		('RULETYPE', FSRMRULETYPE),
-    )
-        
-
-class ModuleDefinitionName(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class ModuleDefinitionNameResponse(NDRCALL):
-    structure = (
-		('MODULEDEFINITIONNAME', BSTR),
-    )
-        
-
-class ModuleDefinitionName(NDRCALL):
-    opnum = 4
-    structure = (
-		('MODULEDEFINITIONNAME', BSTR),
-    )
-
-class ModuleDefinitionNameResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class NamespaceRoots(NDRCALL):
-    opnum = 5
-    structure = (
-
-    )
-
-class NamespaceRootsResponse(NDRCALL):
-    structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class NamespaceRoots(NDRCALL):
-    opnum = 6
-    structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
-    )
-
-class NamespaceRootsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class RuleFlags(NDRCALL):
+class DisplayName(NDRCALL):
     opnum = 7
     structure = (
-
+		('DISPLAYNAME', BSTR),
     )
 
-class RuleFlagsResponse(NDRCALL):
-    structure = (
-		('RULEFLAGS', LONG),
-    )
-        
-
-class RuleFlags(NDRCALL):
-    opnum = 8
-    structure = (
-		('RULEFLAGS', LONG),
-    )
-
-class RuleFlagsResponse(NDRCALL):
+class DisplayNameResponse(NDRCALL):
     structure = (
 
     )
         
 
-class Parameters(NDRCALL):
-    opnum = 9
-    structure = (
-
-    )
-
-class ParametersResponse(NDRCALL):
-    structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class Parameters(NDRCALL):
-    opnum = 10
-    structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
-    )
-
-class ParametersResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class LastModified(NDRCALL):
-    opnum = 11
-    structure = (
-
-    )
-
-class LastModifiedResponse(NDRCALL):
-    structure = (
-		('LASTMODIFIED', DATE),
-    )
-        
-OPNUMS = {
-0 : (Name,NameResponse),
-1 : (RuleType,RuleTypeResponse),
-2 : (ModuleDefinitionName,ModuleDefinitionNameResponse),
-3 : (NamespaceRoots,NamespaceRootsResponse),
-4 : (RuleFlags,RuleFlagsResponse),
-5 : (Parameters,ParametersResponse),
-6 : (LastModified,LastModifiedResponse),
-}
-
-#################################################################################
-
-#IFsrmClassificationRule Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMCLASSIFICATIONRULE = uuidtup_to_bin(('afc052c2-5315-45b-841-c6db0e120148','0.0'))
-
-
-class ExecutionOption(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class ExecutionOptionResponse(NDRCALL):
-    structure = (
-		('EXECUTIONOPTION', FSRMEXECUTIONOPTION),
-    )
-        
-
-class ExecutionOption(NDRCALL):
-    opnum = 1
-    structure = (
-		('EXECUTIONOPTION', FSRMEXECUTIONOPTION),
-    )
-
-class ExecutionOptionResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class PropertyAffected(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class PropertyAffectedResponse(NDRCALL):
-    structure = (
-		('PROPERTY', BSTR),
-    )
-        
-
-class PropertyAffected(NDRCALL):
-    opnum = 3
-    structure = (
-		('PROPERTY', BSTR),
-    )
-
-class PropertyAffectedResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Value(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class ValueResponse(NDRCALL):
-    structure = (
-		('VALUE', BSTR),
-    )
-        
-
-class Value(NDRCALL):
-    opnum = 5
-    structure = (
-		('VALUE', BSTR),
-    )
-
-class ValueResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (ExecutionOption,ExecutionOptionResponse),
-1 : (PropertyAffected,PropertyAffectedResponse),
-2 : (Value,ValueResponse),
-}
-
-#################################################################################
-
-#IFsrmPipelineModuleDefinition Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMPIPELINEMODULEDEFINITION = uuidtup_to_bin(('515c1277-2c81-440e-8fcf-367921ed4f59','0.0'))
-
-
-class ModuleClsid(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class ModuleClsidResponse(NDRCALL):
-    structure = (
-		('MODULECLSID', BSTR),
-    )
-        
-
-class ModuleClsid(NDRCALL):
-    opnum = 1
-    structure = (
-		('MODULECLSID', BSTR),
-    )
-
-class ModuleClsidResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Name(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-		('NAME', BSTR),
-    )
-        
-
-class Name(NDRCALL):
-    opnum = 3
-    structure = (
-		('NAME', BSTR),
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Company(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class CompanyResponse(NDRCALL):
-    structure = (
-		('COMPANY', BSTR),
-    )
-        
-
-class Company(NDRCALL):
-    opnum = 5
-    structure = (
-		('COMPANY', BSTR),
-    )
-
-class CompanyResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Version(NDRCALL):
-    opnum = 6
-    structure = (
-
-    )
-
-class VersionResponse(NDRCALL):
-    structure = (
-		('VERSION', BSTR),
-    )
-        
-
-class Version(NDRCALL):
-    opnum = 7
-    structure = (
-		('VERSION', BSTR),
-    )
-
-class VersionResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ModuleType(NDRCALL):
+class DisplayNameUnresolved(NDRCALL):
     opnum = 8
     structure = (
 
     )
 
-class ModuleTypeResponse(NDRCALL):
+class DisplayNameUnresolvedResponse(NDRCALL):
     structure = (
-		('MODULETYPE', FSRMPIPELINEMODULETYPE),
+		('NAME', BSTR),
     )
         
 
-class Enabled(NDRCALL):
+class Keywords(NDRCALL):
     opnum = 9
     structure = (
 
     )
 
-class EnabledResponse(NDRCALL):
+class KeywordsResponse(NDRCALL):
     structure = (
-		('ENABLED', VARIANT_BOOL),
+		('KEYWORDS', SAFEARRAY ( BSTR )),
     )
         
 
-class Enabled(NDRCALL):
+class Keywords(NDRCALL):
     opnum = 10
     structure = (
-		('ENABLED', VARIANT_BOOL),
+		('KEYWORDS', SAFEARRAY ( BSTR )),
     )
 
-class EnabledResponse(NDRCALL):
+class KeywordsResponse(NDRCALL):
     structure = (
 
     )
         
 
-class NeedsFileContent(NDRCALL):
+class LatestOutputLocation(NDRCALL):
     opnum = 11
     structure = (
 
     )
 
-class NeedsFileContentResponse(NDRCALL):
+class LatestOutputLocationResponse(NDRCALL):
     structure = (
-		('NEEDSFILECONTENT', VARIANT_BOOL),
+		('PATH', BSTR),
     )
         
 
-class NeedsFileContent(NDRCALL):
+class LatestOutputLocation(NDRCALL):
     opnum = 12
     structure = (
-		('NEEDSFILECONTENT', VARIANT_BOOL),
+		('PATH', BSTR),
     )
 
-class NeedsFileContentResponse(NDRCALL):
+class LatestOutputLocationResponse(NDRCALL):
     structure = (
 
     )
         
 
-class Account(NDRCALL):
+class Name(NDRCALL):
     opnum = 13
     structure = (
 
     )
 
-class AccountResponse(NDRCALL):
+class NameResponse(NDRCALL):
     structure = (
-		('RETRIEVALACCOUNT', FSRMACCOUNTTYPE),
+		('NAME', BSTR),
     )
         
 
-class Account(NDRCALL):
+class OutputLocation(NDRCALL):
     opnum = 14
     structure = (
-		('RETRIEVALACCOUNT', FSRMACCOUNTTYPE),
+
     )
 
-class AccountResponse(NDRCALL):
+class OutputLocationResponse(NDRCALL):
     structure = (
-
+		('PATH', BSTR),
     )
         
 
-class SupportedExtensions(NDRCALL):
+class RootPath(NDRCALL):
     opnum = 15
     structure = (
 
     )
 
-class SupportedExtensionsResponse(NDRCALL):
+class RootPathResponse(NDRCALL):
     structure = (
-		('SUPPORTEDEXTENSIONS', SAFEARRAY ( VARIANT )),
+		('FOLDER', BSTR),
     )
         
 
-class SupportedExtensions(NDRCALL):
+class RootPath(NDRCALL):
     opnum = 16
     structure = (
-		('SUPPORTEDEXTENSIONS', SAFEARRAY ( VARIANT )),
+		('FOLDER', BSTR),
     )
 
-class SupportedExtensionsResponse(NDRCALL):
+class RootPathResponse(NDRCALL):
     structure = (
 
     )
         
 
-class Parameters(NDRCALL):
+class Segment(NDRCALL):
     opnum = 17
     structure = (
 
     )
 
-class ParametersResponse(NDRCALL):
+class SegmentResponse(NDRCALL):
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('SEGMENT', VARIANT_BOOL),
     )
         
 
-class Parameters(NDRCALL):
+class Segment(NDRCALL):
     opnum = 18
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('SEGMENT', VARIANT_BOOL),
     )
 
-class ParametersResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (ModuleClsid,ModuleClsidResponse),
-1 : (Name,NameResponse),
-2 : (Company,CompanyResponse),
-3 : (Version,VersionResponse),
-4 : (ModuleType,ModuleTypeResponse),
-5 : (Enabled,EnabledResponse),
-6 : (NeedsFileContent,NeedsFileContentResponse),
-7 : (Account,AccountResponse),
-8 : (SupportedExtensions,SupportedExtensionsResponse),
-9 : (Parameters,ParametersResponse),
-}
-
-#################################################################################
-
-#IFsrmClassifierModuleDefinition Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMCLASSIFIERMODULEDEFINITION = uuidtup_to_bin(('bb36ea26-6318-48-8592-f72dd602e7a5','0.0'))
-
-
-class PropertiesAffected(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class PropertiesAffectedResponse(NDRCALL):
-    structure = (
-		('PROPERTIESAFFECTED', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class PropertiesAffected(NDRCALL):
-    opnum = 1
-    structure = (
-		('PROPERTIESAFFECTED', SAFEARRAY ( VARIANT )),
-    )
-
-class PropertiesAffectedResponse(NDRCALL):
+class SegmentResponse(NDRCALL):
     structure = (
 
     )
         
 
-class PropertiesUsed(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class PropertiesUsedResponse(NDRCALL):
-    structure = (
-		('PROPERTIESUSED', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class PropertiesUsed(NDRCALL):
-    opnum = 3
-    structure = (
-		('PROPERTIESUSED', SAFEARRAY ( VARIANT )),
-    )
-
-class PropertiesUsedResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class NeedsExplicitValue(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class NeedsExplicitValueResponse(NDRCALL):
-    structure = (
-		('NEEDSEXPLICITVALUE', VARIANT_BOOL),
-    )
-        
-
-class NeedsExplicitValue(NDRCALL):
-    opnum = 5
-    structure = (
-		('NEEDSEXPLICITVALUE', VARIANT_BOOL),
-    )
-
-class NeedsExplicitValueResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (PropertiesAffected,PropertiesAffectedResponse),
-1 : (PropertiesUsed,PropertiesUsedResponse),
-2 : (NeedsExplicitValue,NeedsExplicitValueResponse),
-}
-
-#################################################################################
-
-#IFsrmClassificationManager Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMCLASSIFICATIONMANAGER = uuidtup_to_bin(('d2dc89da-ee91-480-858-cc72a56f7d04','0.0'))
-
-
-class ClassificationReportFormats(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class ClassificationReportFormatsResponse(NDRCALL):
-    structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class ClassificationReportFormats(NDRCALL):
-    opnum = 1
-    structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
-    )
-
-class ClassificationReportFormatsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Logging(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class LoggingResponse(NDRCALL):
-    structure = (
-		('LOGGING', LONG),
-    )
-        
-
-class Logging(NDRCALL):
-    opnum = 3
-    structure = (
-		('LOGGING', LONG),
-    )
-
-class LoggingResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ClassificationReportMailTo(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class ClassificationReportMailToResponse(NDRCALL):
-    structure = (
-		('MAILTO', BSTR),
-    )
-        
-
-class ClassificationReportMailTo(NDRCALL):
-    opnum = 5
-    structure = (
-		('MAILTO', BSTR),
-    )
-
-class ClassificationReportMailToResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ClassificationReportEnabled(NDRCALL):
-    opnum = 6
-    structure = (
-
-    )
-
-class ClassificationReportEnabledResponse(NDRCALL):
-    structure = (
-		('REPORTENABLED', VARIANT_BOOL),
-    )
-        
-
-class ClassificationReportEnabled(NDRCALL):
-    opnum = 7
-    structure = (
-		('REPORTENABLED', VARIANT_BOOL),
-    )
-
-class ClassificationReportEnabledResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ClassificationLastReportPathWithoutExtension(NDRCALL):
-    opnum = 8
-    structure = (
-
-    )
-
-class ClassificationLastReportPathWithoutExtensionResponse(NDRCALL):
-    structure = (
-		('LASTREPORTPATH', BSTR),
-    )
-        
-
-class ClassificationLastError(NDRCALL):
-    opnum = 9
-    structure = (
-
-    )
-
-class ClassificationLastErrorResponse(NDRCALL):
-    structure = (
-		('LASTERROR', BSTR),
-    )
-        
-
-class ClassificationRunningStatus(NDRCALL):
-    opnum = 10
-    structure = (
-
-    )
-
-class ClassificationRunningStatusResponse(NDRCALL):
-    structure = (
-		('RUNNINGSTATUS', FSRMREPORTRUNNINGSTATUS),
-    )
-        
-
-class EnumPropertyDefinitions(NDRCALL):
-    opnum = 11
-    structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumPropertyDefinitionsResponse(NDRCALL):
-    structure = (
-		('PROPERTYDEFINITIONS', IFSRMCOLLECTION),
-    )
-        
-
-class CreatePropertyDefinition(NDRCALL):
-    opnum = 12
-    structure = (
-
-    )
-
-class CreatePropertyDefinitionResponse(NDRCALL):
-    structure = (
-		('PROPERTYDEFINITION', IFSRMPROPERTYDEFINITION),
-    )
-        
-
-class GetPropertyDefinition(NDRCALL):
-    opnum = 13
-    structure = (
-		('PROPERTYNAME', BSTR),
-    )
-
-class GetPropertyDefinitionResponse(NDRCALL):
-    structure = (
-		('PROPERTYDEFINITION', IFSRMPROPERTYDEFINITION),
-    )
-        
-
-class EnumRules(NDRCALL):
-    opnum = 14
-    structure = (
-		('RULETYPE', FSRMRULETYPE),
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumRulesResponse(NDRCALL):
-    structure = (
-		('RULES', IFSRMCOLLECTION),
-    )
-        
-
-class CreateRule(NDRCALL):
-    opnum = 15
-    structure = (
-		('RULETYPE', FSRMRULETYPE),
-    )
-
-class CreateRuleResponse(NDRCALL):
-    structure = (
-		('RULE', IFSRMRULE),
-    )
-        
-
-class GetRule(NDRCALL):
-    opnum = 16
-    structure = (
-		('RULENAME', BSTR),
-		('RULETYPE', FSRMRULETYPE),
-    )
-
-class GetRuleResponse(NDRCALL):
-    structure = (
-		('RULE', IFSRMRULE),
-    )
-        
-
-class EnumModuleDefinitions(NDRCALL):
-    opnum = 17
-    structure = (
-		('MODULETYPE', FSRMPIPELINEMODULETYPE),
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumModuleDefinitionsResponse(NDRCALL):
-    structure = (
-		('MODULEDEFINITIONS', IFSRMCOLLECTION),
-    )
-        
-
-class CreateModuleDefinition(NDRCALL):
-    opnum = 18
-    structure = (
-		('MODULETYPE', FSRMPIPELINEMODULETYPE),
-    )
-
-class CreateModuleDefinitionResponse(NDRCALL):
-    structure = (
-		('MODULEDEFINITION', IFSRMPIPELINEMODULEDEFINITION),
-    )
-        
-
-class GetModuleDefinition(NDRCALL):
+class SegmentMaxDuration(NDRCALL):
     opnum = 19
     structure = (
-		('MODULENAME', BSTR),
-		('MODULETYPE', FSRMPIPELINEMODULETYPE),
+
     )
 
-class GetModuleDefinitionResponse(NDRCALL):
+class SegmentMaxDurationResponse(NDRCALL):
     structure = (
-		('MODULEDEFINITION', IFSRMPIPELINEMODULEDEFINITION),
+		('SECONDS', UNSIGNED_LONG),
     )
         
 
-class RunClassification(NDRCALL):
+class SegmentMaxDuration(NDRCALL):
     opnum = 20
     structure = (
-		('CONTEXT', FSRMREPORTGENERATIONCONTEXT),
-		('RESERVED', BSTR),
+		('SECONDS', UNSIGNED_LONG),
     )
 
-class RunClassificationResponse(NDRCALL):
+class SegmentMaxDurationResponse(NDRCALL):
     structure = (
 
     )
         
 
-class WaitForClassificationCompletion(NDRCALL):
+class SegmentMaxSize(NDRCALL):
     opnum = 21
     structure = (
-		('WAITSECONDS', LONG),
+
     )
 
-class WaitForClassificationCompletionResponse(NDRCALL):
+class SegmentMaxSizeResponse(NDRCALL):
     structure = (
-		('COMPLETED', VARIANT_BOOL),
+		('SIZE', UNSIGNED_LONG),
     )
         
 
-class CancelClassification(NDRCALL):
+class SegmentMaxSize(NDRCALL):
     opnum = 22
     structure = (
-
+		('SIZE', UNSIGNED_LONG),
     )
 
-class CancelClassificationResponse(NDRCALL):
+class SegmentMaxSizeResponse(NDRCALL):
     structure = (
 
     )
         
 
-class EnumFileProperties(NDRCALL):
+class SerialNumber(NDRCALL):
     opnum = 23
     structure = (
-		('FILEPATH', BSTR),
-		('OPTIONS', FSRMGETFILEPROPERTYOPTIONS),
+
     )
 
-class EnumFilePropertiesResponse(NDRCALL):
+class SerialNumberResponse(NDRCALL):
     structure = (
-		('FILEPROPERTIES', IFSRMCOLLECTION),
+		('INDEX', UNSIGNED_LONG),
     )
         
 
-class GetFileProperty(NDRCALL):
+class SerialNumber(NDRCALL):
     opnum = 24
     structure = (
-		('FILEPATH', BSTR),
-		('PROPERTYNAME', BSTR),
-		('OPTIONS', FSRMGETFILEPROPERTYOPTIONS),
+		('INDEX', UNSIGNED_LONG),
     )
 
-class GetFilePropertyResponse(NDRCALL):
+class SerialNumberResponse(NDRCALL):
     structure = (
-		('PROPERTY', IFSRMPROPERTY),
+
     )
         
 
-class SetFileProperty(NDRCALL):
+class Server(NDRCALL):
     opnum = 25
     structure = (
-		('FILEPATH', BSTR),
-		('PROPERTYNAME', BSTR),
-		('PROPERTYVALUE', BSTR),
-    )
-
-class SetFilePropertyResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ClearFileProperty(NDRCALL):
-    opnum = 26
-    structure = (
-		('FILEPATH', BSTR),
-		('PROPERTY', BSTR),
-    )
-
-class ClearFilePropertyResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (ClassificationReportFormats,ClassificationReportFormatsResponse),
-1 : (Logging,LoggingResponse),
-2 : (ClassificationReportMailTo,ClassificationReportMailToResponse),
-3 : (ClassificationReportEnabled,ClassificationReportEnabledResponse),
-4 : (ClassificationLastReportPathWithoutExtension,ClassificationLastReportPathWithoutExtensionResponse),
-5 : (ClassificationLastError,ClassificationLastErrorResponse),
-6 : (ClassificationRunningStatus,ClassificationRunningStatusResponse),
-7 : (EnumPropertyDefinitions,EnumPropertyDefinitionsResponse),
-8 : (CreatePropertyDefinition,CreatePropertyDefinitionResponse),
-9 : (GetPropertyDefinition,GetPropertyDefinitionResponse),
-10 : (EnumRules,EnumRulesResponse),
-11 : (CreateRule,CreateRuleResponse),
-12 : (GetRule,GetRuleResponse),
-13 : (EnumModuleDefinitions,EnumModuleDefinitionsResponse),
-14 : (CreateModuleDefinition,CreateModuleDefinitionResponse),
-15 : (GetModuleDefinition,GetModuleDefinitionResponse),
-16 : (RunClassification,RunClassificationResponse),
-17 : (WaitForClassificationCompletion,WaitForClassificationCompletionResponse),
-18 : (CancelClassification,CancelClassificationResponse),
-19 : (EnumFileProperties,EnumFilePropertiesResponse),
-20 : (GetFileProperty,GetFilePropertyResponse),
-21 : (SetFileProperty,SetFilePropertyResponse),
-22 : (ClearFileProperty,ClearFilePropertyResponse),
-}
-
-#################################################################################
-
-#IFsrmStorageModuleDefinition Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMSTORAGEMODULEDEFINITION = uuidtup_to_bin(('15a81350-497d-4aba-80e9-d4dbcc5521fe','0.0'))
-
-
-class Capabilities(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class CapabilitiesResponse(NDRCALL):
-    structure = (
-		('CAPABILITIES', FSRMSTORAGEMODULECAPS),
-    )
-        
-
-class Capabilities(NDRCALL):
-    opnum = 1
-    structure = (
-		('CAPABILITIES', FSRMSTORAGEMODULECAPS),
-    )
-
-class CapabilitiesResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class StorageType(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class StorageTypeResponse(NDRCALL):
-    structure = (
-		('STORAGETYPE', FSRMSTORAGEMODULETYPE),
-    )
-        
-
-class StorageType(NDRCALL):
-    opnum = 3
-    structure = (
-		('STORAGETYPE', FSRMSTORAGEMODULETYPE),
-    )
-
-class StorageTypeResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class UpdatesFileContent(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class UpdatesFileContentResponse(NDRCALL):
-    structure = (
-		('UPDATESFILECONTENT', VARIANT_BOOL),
-    )
-        
-
-class UpdatesFileContent(NDRCALL):
-    opnum = 5
-    structure = (
-		('UPDATESFILECONTENT', VARIANT_BOOL),
-    )
-
-class UpdatesFileContentResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (Capabilities,CapabilitiesResponse),
-1 : (StorageType,StorageTypeResponse),
-2 : (UpdatesFileContent,UpdatesFileContentResponse),
-}
-
-#################################################################################
-
-#IFsrmQuotaBase Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMQUOTABASE = uuidtup_to_bin(('1568a795-3924-4118-b74b-68d8f0fa5daf','0.0'))
-
-
-class QuotaLimit(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class QuotaLimitResponse(NDRCALL):
-    structure = (
-		('QUOTALIMIT', VARIANT),
-    )
-        
-
-class QuotaLimit(NDRCALL):
-    opnum = 1
-    structure = (
-		('QUOTALIMIT', VARIANT),
-    )
-
-class QuotaLimitResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class QuotaFlags(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class QuotaFlagsResponse(NDRCALL):
-    structure = (
-		('QUOTAFLAGS', LONG),
-    )
-        
-
-class QuotaFlags(NDRCALL):
-    opnum = 3
-    structure = (
-		('QUOTAFLAGS', LONG),
-    )
-
-class QuotaFlagsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Thresholds(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class ThresholdsResponse(NDRCALL):
-    structure = (
-		('THRESHOLDS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class AddThreshold(NDRCALL):
-    opnum = 5
-    structure = (
-		('THRESHOLD', FSRM_QUOTA_THRESHOLD),
-    )
-
-class AddThresholdResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class DeleteThreshold(NDRCALL):
-    opnum = 6
-    structure = (
-		('THRESHOLD', FSRM_QUOTA_THRESHOLD),
-    )
-
-class DeleteThresholdResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ModifyThreshold(NDRCALL):
-    opnum = 7
-    structure = (
-		('THRESHOLD', FSRM_QUOTA_THRESHOLD),
-		('NEWTHRESHOLD', FSRM_QUOTA_THRESHOLD),
-    )
-
-class ModifyThresholdResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class CreateThresholdAction(NDRCALL):
-    opnum = 8
-    structure = (
-		('THRESHOLD', FSRM_QUOTA_THRESHOLD),
-		('ACTIONTYPE', FSRMACTIONTYPE),
-    )
-
-class CreateThresholdActionResponse(NDRCALL):
-    structure = (
-		('ACTION', IFSRMACTION),
-    )
-        
-
-class EnumThresholdActions(NDRCALL):
-    opnum = 9
-    structure = (
-		('THRESHOLD', FSRM_QUOTA_THRESHOLD),
-    )
-
-class EnumThresholdActionsResponse(NDRCALL):
-    structure = (
-		('ACTIONS', IFSRMCOLLECTION),
-    )
-        
-OPNUMS = {
-0 : (QuotaLimit,QuotaLimitResponse),
-1 : (QuotaFlags,QuotaFlagsResponse),
-2 : (Thresholds,ThresholdsResponse),
-3 : (AddThreshold,AddThresholdResponse),
-4 : (DeleteThreshold,DeleteThresholdResponse),
-5 : (ModifyThreshold,ModifyThresholdResponse),
-6 : (CreateThresholdAction,CreateThresholdActionResponse),
-7 : (EnumThresholdActions,EnumThresholdActionsResponse),
-}
-
-#################################################################################
-
-#IFsrmQuotaObject Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMQUOTAOBJECT = uuidtup_to_bin(('42dc3511-61d5-48ae-b6dc-59fc00c0a8d6','0.0'))
-
-
-class Path(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class PathResponse(NDRCALL):
-    structure = (
-		('PATH', BSTR),
-    )
-        
-
-class UserSid(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class UserSidResponse(NDRCALL):
-    structure = (
-		('USERSID', BSTR),
-    )
-        
-
-class UserAccount(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class UserAccountResponse(NDRCALL):
-    structure = (
-		('USERACCOUNT', BSTR),
-    )
-        
-
-class SourceTemplateName(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class SourceTemplateNameResponse(NDRCALL):
-    structure = (
-		('QUOTATEMPLATENAME', BSTR),
-    )
-        
-
-class MatchesSourceTemplate(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class MatchesSourceTemplateResponse(NDRCALL):
-    structure = (
-		('MATCHES', VARIANT_BOOL),
-    )
-        
-
-class ApplyTemplate(NDRCALL):
-    opnum = 5
-    structure = (
-		('QUOTATEMPLATENAME', BSTR),
-    )
-
-class ApplyTemplateResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (Path,PathResponse),
-1 : (UserSid,UserSidResponse),
-2 : (UserAccount,UserAccountResponse),
-3 : (SourceTemplateName,SourceTemplateNameResponse),
-4 : (MatchesSourceTemplate,MatchesSourceTemplateResponse),
-5 : (ApplyTemplate,ApplyTemplateResponse),
-}
-
-#################################################################################
-
-#IFsrmQuota Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMQUOTA = uuidtup_to_bin(('377f739d-9647-4b8e-97d2-5ffce6d759cd','0.0'))
-
-
-class QuotaUsed(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class QuotaUsedResponse(NDRCALL):
-    structure = (
-		('USED', VARIANT),
-    )
-        
-
-class QuotaPeakUsage(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class QuotaPeakUsageResponse(NDRCALL):
-    structure = (
-		('PEAKUSAGE', VARIANT),
-    )
-        
-
-class QuotaPeakUsageTime(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class QuotaPeakUsageTimeResponse(NDRCALL):
-    structure = (
-		('PEAKUSAGEDATETIME', DATE),
-    )
-        
-
-class ResetPeakUsage(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class ResetPeakUsageResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class RefreshUsageProperties(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class RefreshUsagePropertiesResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (QuotaUsed,QuotaUsedResponse),
-1 : (QuotaPeakUsage,QuotaPeakUsageResponse),
-2 : (QuotaPeakUsageTime,QuotaPeakUsageTimeResponse),
-3 : (ResetPeakUsage,ResetPeakUsageResponse),
-4 : (RefreshUsageProperties,RefreshUsagePropertiesResponse),
-}
-
-#################################################################################
-
-#IFsrmAutoApplyQuota Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMAUTOAPPLYQUOTA = uuidtup_to_bin(('f82e5729-6ba-4740-bfc7-c7f58f75fb7b','0.0'))
-
-
-class ExcludeFolders(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class ExcludeFoldersResponse(NDRCALL):
-    structure = (
-		('FOLDERS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class ExcludeFolders(NDRCALL):
-    opnum = 1
-    structure = (
-		('FOLDERS', SAFEARRAY ( VARIANT )),
-    )
-
-class ExcludeFoldersResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class CommitAndUpdateDerived(NDRCALL):
-    opnum = 2
-    structure = (
-		('COMMITOPTIONS', FSRMCOMMITOPTIONS),
-		('APPLYOPTIONS', FSRMTEMPLATEAPPLYOPTIONS),
-    )
-
-class CommitAndUpdateDerivedResponse(NDRCALL):
-    structure = (
-		('DERIVEDOBJECTSRESULT', IFSRMDERIVEDOBJECTSRESULT),
-    )
-        
-OPNUMS = {
-0 : (ExcludeFolders,ExcludeFoldersResponse),
-1 : (CommitAndUpdateDerived,CommitAndUpdateDerivedResponse),
-}
-
-#################################################################################
-
-#IFsrmQuotaManager Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMQUOTAMANAGER = uuidtup_to_bin(('8bb68c7d-19d8-4ffb-809e-be4fc1734014','0.0'))
-
-
-class ActionVariables(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class ActionVariablesResponse(NDRCALL):
-    structure = (
-		('VARIABLES', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class ActionVariableDescriptions(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class ActionVariableDescriptionsResponse(NDRCALL):
-    structure = (
-		('DESCRIPTIONS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class CreateQuota(NDRCALL):
-    opnum = 2
-    structure = (
-		('PATH', BSTR),
-    )
-
-class CreateQuotaResponse(NDRCALL):
-    structure = (
-		('QUOTA', IFSRMQUOTA),
-    )
-        
-
-class CreateAutoApplyQuota(NDRCALL):
-    opnum = 3
-    structure = (
-		('QUOTATEMPLATENAME', BSTR),
-		('PATH', BSTR),
-    )
-
-class CreateAutoApplyQuotaResponse(NDRCALL):
-    structure = (
-		('QUOTA', IFSRMAUTOAPPLYQUOTA),
-    )
-        
-
-class GetQuota(NDRCALL):
-    opnum = 4
-    structure = (
-		('PATH', BSTR),
-    )
-
-class GetQuotaResponse(NDRCALL):
-    structure = (
-		('QUOTA', IFSRMQUOTA),
-    )
-        
-
-class GetAutoApplyQuota(NDRCALL):
-    opnum = 5
-    structure = (
-		('PATH', BSTR),
-    )
-
-class GetAutoApplyQuotaResponse(NDRCALL):
-    structure = (
-		('QUOTA', IFSRMAUTOAPPLYQUOTA),
-    )
-        
-
-class GetRestrictiveQuota(NDRCALL):
-    opnum = 6
-    structure = (
-		('PATH', BSTR),
-    )
-
-class GetRestrictiveQuotaResponse(NDRCALL):
-    structure = (
-		('QUOTA', IFSRMQUOTA),
-    )
-        
-
-class EnumQuotas(NDRCALL):
-    opnum = 7
-    structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumQuotasResponse(NDRCALL):
-    structure = (
-		('QUOTAS', IFSRMCOMMITTABLECOLLECTION),
-    )
-        
-
-class EnumAutoApplyQuotas(NDRCALL):
-    opnum = 8
-    structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumAutoApplyQuotasResponse(NDRCALL):
-    structure = (
-		('QUOTAS', IFSRMCOMMITTABLECOLLECTION),
-    )
-        
-
-class EnumEffectiveQuotas(NDRCALL):
-    opnum = 9
-    structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumEffectiveQuotasResponse(NDRCALL):
-    structure = (
-		('QUOTAS', IFSRMCOMMITTABLECOLLECTION),
-    )
-        
-
-class Scan(NDRCALL):
-    opnum = 10
-    structure = (
-		('STRPATH', BSTR),
-    )
-
-class ScanResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class CreateQuotaCollection(NDRCALL):
-    opnum = 11
-    structure = (
-
-    )
-
-class CreateQuotaCollectionResponse(NDRCALL):
-    structure = (
-		('COLLECTION', IFSRMCOMMITTABLECOLLECTION),
-    )
-        
-OPNUMS = {
-0 : (ActionVariables,ActionVariablesResponse),
-1 : (ActionVariableDescriptions,ActionVariableDescriptionsResponse),
-2 : (CreateQuota,CreateQuotaResponse),
-3 : (CreateAutoApplyQuota,CreateAutoApplyQuotaResponse),
-4 : (GetQuota,GetQuotaResponse),
-5 : (GetAutoApplyQuota,GetAutoApplyQuotaResponse),
-6 : (GetRestrictiveQuota,GetRestrictiveQuotaResponse),
-7 : (EnumQuotas,EnumQuotasResponse),
-8 : (EnumAutoApplyQuotas,EnumAutoApplyQuotasResponse),
-9 : (EnumEffectiveQuotas,EnumEffectiveQuotasResponse),
-10 : (Scan,ScanResponse),
-11 : (CreateQuotaCollection,CreateQuotaCollectionResponse),
-}
-
-#################################################################################
-
-#IFsrmQuotaManagerEx Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMQUOTAMANAGEREX = uuidtup_to_bin(('4846cb01-d430-494f-abb4-b1054999fb09','0.0'))
-
-
-class IsAffectedByQuota(NDRCALL):
-    opnum = 0
-    structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class IsAffectedByQuotaResponse(NDRCALL):
-    structure = (
-		('AFFECTED', VARIANT_BOOL),
-    )
-        
-OPNUMS = {
-0 : (IsAffectedByQuota,IsAffectedByQuotaResponse),
-}
-
-#################################################################################
-
-#IFsrmQuotaTemplate Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMQUOTATEMPLATE = uuidtup_to_bin(('a2efab31-295-46b-b976-e86d58b52e8b','0.0'))
-
-
-class Name(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-		('NAME', BSTR),
-    )
-        
-
-class Name(NDRCALL):
-    opnum = 1
-    structure = (
-		('NAME', BSTR),
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class CopyTemplate(NDRCALL):
-    opnum = 2
-    structure = (
-		('QUOTATEMPLATENAME', BSTR),
-    )
-
-class CopyTemplateResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class CommitAndUpdateDerived(NDRCALL):
-    opnum = 3
-    structure = (
-		('COMMITOPTIONS', FSRMCOMMITOPTIONS),
-		('APPLYOPTIONS', FSRMTEMPLATEAPPLYOPTIONS),
-    )
-
-class CommitAndUpdateDerivedResponse(NDRCALL):
-    structure = (
-		('DERIVEDOBJECTSRESULT', IFSRMDERIVEDOBJECTSRESULT),
-    )
-        
-OPNUMS = {
-0 : (Name,NameResponse),
-1 : (CopyTemplate,CopyTemplateResponse),
-2 : (CommitAndUpdateDerived,CommitAndUpdateDerivedResponse),
-}
-
-#################################################################################
-
-#IFsrmQuotaTemplateImported Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMQUOTATEMPLATEIMPORTED = uuidtup_to_bin(('9a2bf113-a329-44cc-809a-5c00fce8da40','0.0'))
-
-
-class OverwriteOnCommit(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class OverwriteOnCommitResponse(NDRCALL):
-    structure = (
-		('OVERWRITE', VARIANT_BOOL),
-    )
-        
-
-class OverwriteOnCommit(NDRCALL):
-    opnum = 1
-    structure = (
-		('OVERWRITE', VARIANT_BOOL),
-    )
-
-class OverwriteOnCommitResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (OverwriteOnCommit,OverwriteOnCommitResponse),
-}
-
-#################################################################################
-
-#IFsrmQuotaTemplateManager Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMQUOTATEMPLATEMANAGER = uuidtup_to_bin(('4173ac41-172d-4d52-963c-fdc7e415f717','0.0'))
-
-
-class CreateTemplate(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class CreateTemplateResponse(NDRCALL):
-    structure = (
-		('QUOTATEMPLATE', IFSRMQUOTATEMPLATE),
-    )
-        
-
-class GetTemplate(NDRCALL):
-    opnum = 1
-    structure = (
-		('NAME', BSTR),
-    )
-
-class GetTemplateResponse(NDRCALL):
-    structure = (
-		('QUOTATEMPLATE', IFSRMQUOTATEMPLATE),
-    )
-        
-
-class EnumTemplates(NDRCALL):
-    opnum = 2
-    structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumTemplatesResponse(NDRCALL):
-    structure = (
-		('QUOTATEMPLATES', IFSRMCOMMITTABLECOLLECTION),
-    )
-        
-
-class ExportTemplates(NDRCALL):
-    opnum = 3
-    structure = (
-		('QUOTATEMPLATENAMESARRAY', VARIANT),
-    )
-
-class ExportTemplatesResponse(NDRCALL):
-    structure = (
-		('SERIALIZEDQUOTATEMPLATES', BSTR),
-    )
-        
-
-class ImportTemplates(NDRCALL):
-    opnum = 4
-    structure = (
-		('SERIALIZEDQUOTATEMPLATES', BSTR),
-		('QUOTATEMPLATENAMESARRAY', VARIANT),
-    )
-
-class ImportTemplatesResponse(NDRCALL):
-    structure = (
-		('QUOTATEMPLATES', IFSRMCOMMITTABLECOLLECTION),
-    )
-        
-OPNUMS = {
-0 : (CreateTemplate,CreateTemplateResponse),
-1 : (GetTemplate,GetTemplateResponse),
-2 : (EnumTemplates,EnumTemplatesResponse),
-3 : (ExportTemplates,ExportTemplatesResponse),
-4 : (ImportTemplates,ImportTemplatesResponse),
-}
-
-#################################################################################
-
-#IFsrmReportManager Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMREPORTMANAGER = uuidtup_to_bin(('27b899fe-6ffa-4481-a184-d3daade8a02b','0.0'))
-
-
-class EnumReportJobs(NDRCALL):
-    opnum = 0
-    structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumReportJobsResponse(NDRCALL):
-    structure = (
-		('REPORTJOBS', IFSRMCOLLECTION),
-    )
-        
-
-class CreateReportJob(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class CreateReportJobResponse(NDRCALL):
-    structure = (
-		('REPORTJOB', IFSRMREPORTJOB),
-    )
-        
-
-class GetReportJob(NDRCALL):
-    opnum = 2
-    structure = (
-		('TASKNAME', BSTR),
-    )
-
-class GetReportJobResponse(NDRCALL):
-    structure = (
-		('REPORTJOB', IFSRMREPORTJOB),
-    )
-        
-
-class GetOutputDirectory(NDRCALL):
-    opnum = 3
-    structure = (
-		('CONTEXT', FSRMREPORTGENERATIONCONTEXT),
-    )
-
-class GetOutputDirectoryResponse(NDRCALL):
-    structure = (
-		('PATH', BSTR),
-    )
-        
-
-class SetOutputDirectory(NDRCALL):
-    opnum = 4
-    structure = (
-		('CONTEXT', FSRMREPORTGENERATIONCONTEXT),
-		('PATH', BSTR),
-    )
-
-class SetOutputDirectoryResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class IsFilterValidForReportType(NDRCALL):
-    opnum = 5
-    structure = (
-		('REPORTTYPE', FSRMREPORTTYPE),
-		('FILTER', FSRMREPORTFILTER),
-    )
-
-class IsFilterValidForReportTypeResponse(NDRCALL):
-    structure = (
-		('VALID', VARIANT_BOOL),
-    )
-        
-
-class GetDefaultFilter(NDRCALL):
-    opnum = 6
-    structure = (
-		('REPORTTYPE', FSRMREPORTTYPE),
-		('FILTER', FSRMREPORTFILTER),
-    )
-
-class GetDefaultFilterResponse(NDRCALL):
-    structure = (
-		('FILTERVALUE', VARIANT),
-    )
-        
-
-class SetDefaultFilter(NDRCALL):
-    opnum = 7
-    structure = (
-		('REPORTTYPE', FSRMREPORTTYPE),
-		('FILTER', FSRMREPORTFILTER),
-		('FILTERVALUE', VARIANT),
-    )
-
-class SetDefaultFilterResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class GetReportSizeLimit(NDRCALL):
-    opnum = 8
-    structure = (
-		('LIMIT', FSRMREPORTLIMIT),
-    )
-
-class GetReportSizeLimitResponse(NDRCALL):
-    structure = (
-		('LIMITVALUE', VARIANT),
-    )
-        
-
-class SetReportSizeLimit(NDRCALL):
-    opnum = 9
-    structure = (
-		('LIMIT', FSRMREPORTLIMIT),
-		('LIMITVALUE', VARIANT),
-    )
-
-class SetReportSizeLimitResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (EnumReportJobs,EnumReportJobsResponse),
-1 : (CreateReportJob,CreateReportJobResponse),
-2 : (GetReportJob,GetReportJobResponse),
-3 : (GetOutputDirectory,GetOutputDirectoryResponse),
-4 : (SetOutputDirectory,SetOutputDirectoryResponse),
-5 : (IsFilterValidForReportType,IsFilterValidForReportTypeResponse),
-6 : (GetDefaultFilter,GetDefaultFilterResponse),
-7 : (SetDefaultFilter,SetDefaultFilterResponse),
-8 : (GetReportSizeLimit,GetReportSizeLimitResponse),
-9 : (SetReportSizeLimit,SetReportSizeLimitResponse),
-}
-
-#################################################################################
-
-#IFsrmReportJob Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMREPORTJOB = uuidtup_to_bin(('38e87280-715c-4c7d-a280-ea1651a19fef','0.0'))
-
-
-class Task(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class TaskResponse(NDRCALL):
-    structure = (
-		('TASKNAME', BSTR),
-    )
-        
-
-class Task(NDRCALL):
-    opnum = 1
-    structure = (
-		('TASKNAME', BSTR),
-    )
-
-class TaskResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class NamespaceRoots(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class NamespaceRootsResponse(NDRCALL):
-    structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class NamespaceRoots(NDRCALL):
-    opnum = 3
-    structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
-    )
-
-class NamespaceRootsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Formats(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class FormatsResponse(NDRCALL):
-    structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class Formats(NDRCALL):
-    opnum = 5
-    structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
-    )
-
-class FormatsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MailTo(NDRCALL):
-    opnum = 6
-    structure = (
-
-    )
-
-class MailToResponse(NDRCALL):
-    structure = (
-		('MAILTO', BSTR),
-    )
-        
-
-class MailTo(NDRCALL):
-    opnum = 7
-    structure = (
-		('MAILTO', BSTR),
-    )
-
-class MailToResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class RunningStatus(NDRCALL):
-    opnum = 8
-    structure = (
-
-    )
-
-class RunningStatusResponse(NDRCALL):
-    structure = (
-		('RUNNINGSTATUS', FSRMREPORTRUNNINGSTATUS),
-    )
-        
-
-class LastRun(NDRCALL):
-    opnum = 9
-    structure = (
-
-    )
-
-class LastRunResponse(NDRCALL):
-    structure = (
-		('LASTRUN', DATE),
-    )
-        
-
-class LastError(NDRCALL):
-    opnum = 10
-    structure = (
-
-    )
-
-class LastErrorResponse(NDRCALL):
-    structure = (
-		('LASTERROR', BSTR),
-    )
-        
-
-class LastGeneratedInDirectory(NDRCALL):
-    opnum = 11
-    structure = (
-
-    )
-
-class LastGeneratedInDirectoryResponse(NDRCALL):
-    structure = (
-		('PATH', BSTR),
-    )
-        
-
-class EnumReports(NDRCALL):
-    opnum = 12
-    structure = (
-
-    )
-
-class EnumReportsResponse(NDRCALL):
-    structure = (
-		('REPORTS', IFSRMCOLLECTION),
-    )
-        
-
-class CreateReport(NDRCALL):
-    opnum = 13
-    structure = (
-		('REPORTTYPE', FSRMREPORTTYPE),
-    )
-
-class CreateReportResponse(NDRCALL):
-    structure = (
-		('REPORT', IFSRMREPORT),
-    )
-        
-
-class Run(NDRCALL):
-    opnum = 14
-    structure = (
-		('CONTEXT', FSRMREPORTGENERATIONCONTEXT),
-    )
-
-class RunResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class WaitForCompletion(NDRCALL):
-    opnum = 15
-    structure = (
-		('WAITSECONDS', LONG),
-    )
-
-class WaitForCompletionResponse(NDRCALL):
-    structure = (
-		('COMPLETED', VARIANT_BOOL),
-    )
-        
-
-class Cancel(NDRCALL):
-    opnum = 16
-    structure = (
-
-    )
-
-class CancelResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (Task,TaskResponse),
-1 : (NamespaceRoots,NamespaceRootsResponse),
-2 : (Formats,FormatsResponse),
-3 : (MailTo,MailToResponse),
-4 : (RunningStatus,RunningStatusResponse),
-5 : (LastRun,LastRunResponse),
-6 : (LastError,LastErrorResponse),
-7 : (LastGeneratedInDirectory,LastGeneratedInDirectoryResponse),
-8 : (EnumReports,EnumReportsResponse),
-9 : (CreateReport,CreateReportResponse),
-10 : (Run,RunResponse),
-11 : (WaitForCompletion,WaitForCompletionResponse),
-12 : (Cancel,CancelResponse),
-}
-
-#################################################################################
-
-#IFsrmReport Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMREPORT = uuidtup_to_bin(('d8cc81d9-468-4a4-bfa5-4a9dec9b638','0.0'))
-
-
-class Type(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class TypeResponse(NDRCALL):
-    structure = (
-		('REPORTTYPE', FSRMREPORTTYPE),
-    )
-        
-
-class Name(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-		('NAME', BSTR),
-    )
-        
-
-class Name(NDRCALL):
-    opnum = 2
-    structure = (
-		('NAME', BSTR),
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Description(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class DescriptionResponse(NDRCALL):
-    structure = (
-		('DESCRIPTION', BSTR),
-    )
-        
-
-class Description(NDRCALL):
-    opnum = 4
-    structure = (
-		('DESCRIPTION', BSTR),
-    )
-
-class DescriptionResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class LastGeneratedFileNamePrefix(NDRCALL):
-    opnum = 5
-    structure = (
-
-    )
-
-class LastGeneratedFileNamePrefixResponse(NDRCALL):
-    structure = (
-		('PREFIX', BSTR),
-    )
-        
-
-class GetFilter(NDRCALL):
-    opnum = 6
-    structure = (
-		('FILTER', FSRMREPORTFILTER),
-    )
-
-class GetFilterResponse(NDRCALL):
-    structure = (
-		('FILTERVALUE', VARIANT),
-    )
-        
-
-class SetFilter(NDRCALL):
-    opnum = 7
-    structure = (
-		('FILTER', FSRMREPORTFILTER),
-		('FILTERVALUE', VARIANT),
-    )
-
-class SetFilterResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Delete(NDRCALL):
-    opnum = 8
-    structure = (
-
-    )
-
-class DeleteResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (Type,TypeResponse),
-1 : (Name,NameResponse),
-2 : (Description,DescriptionResponse),
-3 : (LastGeneratedFileNamePrefix,LastGeneratedFileNamePrefixResponse),
-4 : (GetFilter,GetFilterResponse),
-5 : (SetFilter,SetFilterResponse),
-6 : (Delete,DeleteResponse),
-}
-
-#################################################################################
-
-#IFsrmReportScheduler Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMREPORTSCHEDULER = uuidtup_to_bin(('6879caf9-6617-4484-8719-71c3d8645f94','0.0'))
-
-
-class VerifyNamespaces(NDRCALL):
-    opnum = 0
-    structure = (
-		('NAMESPACESSAFEARRAY', VARIANT),
-    )
-
-class VerifyNamespacesResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class CreateScheduleTask(NDRCALL):
-    opnum = 1
-    structure = (
-		('TASKNAME', BSTR),
-		('NAMESPACESSAFEARRAY', VARIANT),
-		('SERIALIZEDTASK', BSTR),
-    )
-
-class CreateScheduleTaskResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ModifyScheduleTask(NDRCALL):
-    opnum = 2
-    structure = (
-		('TASKNAME', BSTR),
-		('NAMESPACESSAFEARRAY', VARIANT),
-		('SERIALIZEDTASK', BSTR),
-    )
-
-class ModifyScheduleTaskResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class DeleteScheduleTask(NDRCALL):
-    opnum = 3
-    structure = (
-		('TASKNAME', BSTR),
-    )
-
-class DeleteScheduleTaskResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (VerifyNamespaces,VerifyNamespacesResponse),
-1 : (CreateScheduleTask,CreateScheduleTaskResponse),
-2 : (ModifyScheduleTask,ModifyScheduleTaskResponse),
-3 : (DeleteScheduleTask,DeleteScheduleTaskResponse),
-}
-
-#################################################################################
-
-#IFsrmFileManagementJobManager Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMFILEMANAGEMENTJOBMANAGER = uuidtup_to_bin(('ee321ecb-d95e-489-907-c7685a013235','0.0'))
-
-
-class ActionVariables(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class ActionVariablesResponse(NDRCALL):
-    structure = (
-		('VARIABLES', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class ActionVariableDescriptions(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class ActionVariableDescriptionsResponse(NDRCALL):
-    structure = (
-		('DESCRIPTIONS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class EnumFileManagementJobs(NDRCALL):
-    opnum = 2
-    structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumFileManagementJobsResponse(NDRCALL):
-    structure = (
-		('FILEMANAGEMENTJOBS', IFSRMCOLLECTION),
-    )
-        
-
-class CreateFileManagementJob(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class CreateFileManagementJobResponse(NDRCALL):
-    structure = (
-		('FILEMANAGEMENTJOB', IFSRMFILEMANAGEMENTJOB),
-    )
-        
-
-class GetFileManagementJob(NDRCALL):
-    opnum = 4
-    structure = (
-		('NAME', BSTR),
-    )
-
-class GetFileManagementJobResponse(NDRCALL):
-    structure = (
-		('FILEMANAGEMENTJOB', IFSRMFILEMANAGEMENTJOB),
-    )
-        
-OPNUMS = {
-0 : (ActionVariables,ActionVariablesResponse),
-1 : (ActionVariableDescriptions,ActionVariableDescriptionsResponse),
-2 : (EnumFileManagementJobs,EnumFileManagementJobsResponse),
-3 : (CreateFileManagementJob,CreateFileManagementJobResponse),
-4 : (GetFileManagementJob,GetFileManagementJobResponse),
-}
-
-#################################################################################
-
-#IFsrmFileManagementJob Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMFILEMANAGEMENTJOB = uuidtup_to_bin(('0770687e-9f36-4d6f-8778-599d188461c9','0.0'))
-
-FsrmDaysNotSpecified =  LONG
-FsrmDateNotSpecified =  DATE
-
-class Name(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-		('NAME', BSTR),
-    )
-        
-
-class Name(NDRCALL):
-    opnum = 1
-    structure = (
-		('NAME', BSTR),
-    )
-
-class NameResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class NamespaceRoots(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class NamespaceRootsResponse(NDRCALL):
-    structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class NamespaceRoots(NDRCALL):
-    opnum = 3
-    structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
-    )
-
-class NamespaceRootsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Enabled(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class EnabledResponse(NDRCALL):
-    structure = (
-		('ENABLED', VARIANT_BOOL),
-    )
-        
-
-class Enabled(NDRCALL):
-    opnum = 5
-    structure = (
-		('ENABLED', VARIANT_BOOL),
-    )
-
-class EnabledResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class OperationType(NDRCALL):
-    opnum = 6
-    structure = (
-
-    )
-
-class OperationTypeResponse(NDRCALL):
-    structure = (
-		('OPERATIONTYPE', FSRMFILEMANAGEMENTTYPE),
-    )
-        
-
-class OperationType(NDRCALL):
-    opnum = 7
-    structure = (
-		('OPERATIONTYPE', FSRMFILEMANAGEMENTTYPE),
-    )
-
-class OperationTypeResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ExpirationDirectory(NDRCALL):
-    opnum = 8
-    structure = (
-
-    )
-
-class ExpirationDirectoryResponse(NDRCALL):
-    structure = (
-		('EXPIRATIONDIRECTORY', BSTR),
-    )
-        
-
-class ExpirationDirectory(NDRCALL):
-    opnum = 9
-    structure = (
-		('EXPIRATIONDIRECTORY', BSTR),
-    )
-
-class ExpirationDirectoryResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class CustomAction(NDRCALL):
-    opnum = 10
-    structure = (
-
-    )
-
-class CustomActionResponse(NDRCALL):
-    structure = (
-		('ACTION', IFSRMACTIONCOMMAND),
-    )
-        
-
-class Notifications(NDRCALL):
-    opnum = 11
-    structure = (
-
-    )
-
-class NotificationsResponse(NDRCALL):
-    structure = (
-		('NOTIFICATIONS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class Logging(NDRCALL):
-    opnum = 12
-    structure = (
-
-    )
-
-class LoggingResponse(NDRCALL):
-    structure = (
-		('LOGGINGFLAGS', LONG),
-    )
-        
-
-class Logging(NDRCALL):
-    opnum = 13
-    structure = (
-		('LOGGINGFLAGS', LONG),
-    )
-
-class LoggingResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ReportEnabled(NDRCALL):
-    opnum = 14
-    structure = (
-
-    )
-
-class ReportEnabledResponse(NDRCALL):
-    structure = (
-		('REPORTENABLED', VARIANT_BOOL),
-    )
-        
-
-class ReportEnabled(NDRCALL):
-    opnum = 15
-    structure = (
-		('REPORTENABLED', VARIANT_BOOL),
-    )
-
-class ReportEnabledResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Formats(NDRCALL):
-    opnum = 16
-    structure = (
-
-    )
-
-class FormatsResponse(NDRCALL):
-    structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class Formats(NDRCALL):
-    opnum = 17
-    structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
-    )
-
-class FormatsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class MailTo(NDRCALL):
-    opnum = 18
-    structure = (
-
-    )
-
-class MailToResponse(NDRCALL):
-    structure = (
-		('MAILTO', BSTR),
-    )
-        
-
-class MailTo(NDRCALL):
-    opnum = 19
-    structure = (
-		('MAILTO', BSTR),
-    )
-
-class MailToResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class DaysSinceFileCreated(NDRCALL):
-    opnum = 20
-    structure = (
-
-    )
-
-class DaysSinceFileCreatedResponse(NDRCALL):
-    structure = (
-		('DAYSSINCECREATION', LONG),
-    )
-        
-
-class DaysSinceFileCreated(NDRCALL):
-    opnum = 21
-    structure = (
-		('DAYSSINCECREATION', LONG),
-    )
-
-class DaysSinceFileCreatedResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class DaysSinceFileLastAccessed(NDRCALL):
-    opnum = 22
-    structure = (
-
-    )
-
-class DaysSinceFileLastAccessedResponse(NDRCALL):
-    structure = (
-		('DAYSSINCEACCESS', LONG),
-    )
-        
-
-class DaysSinceFileLastAccessed(NDRCALL):
-    opnum = 23
-    structure = (
-		('DAYSSINCEACCESS', LONG),
-    )
-
-class DaysSinceFileLastAccessedResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class DaysSinceFileLastModified(NDRCALL):
-    opnum = 24
-    structure = (
-
-    )
-
-class DaysSinceFileLastModifiedResponse(NDRCALL):
-    structure = (
-		('DAYSSINCEMODIFY', LONG),
-    )
-        
 
-class DaysSinceFileLastModified(NDRCALL):
-    opnum = 25
-    structure = (
-		('DAYSSINCEMODIFY', LONG),
     )
 
-class DaysSinceFileLastModifiedResponse(NDRCALL):
+class ServerResponse(NDRCALL):
     structure = (
-
+		('SERVER', BSTR),
     )
         
 
-class PropertyConditions(NDRCALL):
+class Status(NDRCALL):
     opnum = 26
     structure = (
 
     )
 
-class PropertyConditionsResponse(NDRCALL):
+class StatusResponse(NDRCALL):
     structure = (
-		('PROPERTYCONDITIONS', IFSRMCOLLECTION),
+		('STATUS', DATACOLLECTORSETSTATUS),
     )
         
 
-class FromDate(NDRCALL):
+class Subdirectory(NDRCALL):
     opnum = 27
     structure = (
 
     )
 
-class FromDateResponse(NDRCALL):
+class SubdirectoryResponse(NDRCALL):
     structure = (
-		('FROMDATE', DATE),
+		('FOLDER', BSTR),
     )
         
 
-class FromDate(NDRCALL):
+class Subdirectory(NDRCALL):
     opnum = 28
     structure = (
-		('FROMDATE', DATE),
+		('FOLDER', BSTR),
     )
 
-class FromDateResponse(NDRCALL):
+class SubdirectoryResponse(NDRCALL):
     structure = (
 
     )
         
 
-class Task(NDRCALL):
+class SubdirectoryFormat(NDRCALL):
     opnum = 29
     structure = (
 
     )
 
-class TaskResponse(NDRCALL):
+class SubdirectoryFormatResponse(NDRCALL):
     structure = (
-		('TASKNAME', BSTR),
+		('FORMAT', AUTOPATHFORMAT),
     )
         
 
-class Task(NDRCALL):
+class SubdirectoryFormat(NDRCALL):
     opnum = 30
     structure = (
-		('TASKNAME', BSTR),
+		('FORMAT', AUTOPATHFORMAT),
     )
 
-class TaskResponse(NDRCALL):
+class SubdirectoryFormatResponse(NDRCALL):
     structure = (
 
     )
         
 
-class Parameters(NDRCALL):
+class SubdirectoryFormatPattern(NDRCALL):
     opnum = 31
     structure = (
 
     )
 
-class ParametersResponse(NDRCALL):
+class SubdirectoryFormatPatternResponse(NDRCALL):
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('PATTERN', BSTR),
     )
         
 
-class Parameters(NDRCALL):
+class SubdirectoryFormatPattern(NDRCALL):
     opnum = 32
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('PATTERN', BSTR),
     )
 
-class ParametersResponse(NDRCALL):
+class SubdirectoryFormatPatternResponse(NDRCALL):
     structure = (
 
     )
         
 
-class RunningStatus(NDRCALL):
+class Task(NDRCALL):
     opnum = 33
     structure = (
 
     )
 
-class RunningStatusResponse(NDRCALL):
+class TaskResponse(NDRCALL):
     structure = (
-		('RUNNINGSTATUS', FSRMREPORTRUNNINGSTATUS),
+		('TASK', BSTR),
     )
         
 
-class LastError(NDRCALL):
+class Task(NDRCALL):
     opnum = 34
     structure = (
-
+		('TASK', BSTR),
     )
 
-class LastErrorResponse(NDRCALL):
+class TaskResponse(NDRCALL):
     structure = (
-		('LASTERROR', BSTR),
+
     )
         
 
-class LastReportPathWithoutExtension(NDRCALL):
+class TaskRunAsSelf(NDRCALL):
     opnum = 35
     structure = (
 
     )
 
-class LastReportPathWithoutExtensionResponse(NDRCALL):
+class TaskRunAsSelfResponse(NDRCALL):
     structure = (
-		('PATH', BSTR),
+		('RUNASSELF', VARIANT_BOOL),
     )
         
 
-class LastRun(NDRCALL):
+class TaskRunAsSelf(NDRCALL):
     opnum = 36
     structure = (
-
+		('RUNASSELF', VARIANT_BOOL),
     )
 
-class LastRunResponse(NDRCALL):
+class TaskRunAsSelfResponse(NDRCALL):
     structure = (
-		('LASTRUN', DATE),
+
     )
         
 
-class FileNamePattern(NDRCALL):
+class TaskArguments(NDRCALL):
     opnum = 37
     structure = (
 
     )
 
-class FileNamePatternResponse(NDRCALL):
+class TaskArgumentsResponse(NDRCALL):
     structure = (
-		('FILENAMEPATTERN', BSTR),
+		('TASK', BSTR),
     )
         
 
-class FileNamePattern(NDRCALL):
+class TaskArguments(NDRCALL):
     opnum = 38
     structure = (
-		('FILENAMEPATTERN', BSTR),
+		('TASK', BSTR),
     )
 
-class FileNamePatternResponse(NDRCALL):
+class TaskArgumentsResponse(NDRCALL):
     structure = (
 
     )
         
 
-class Run(NDRCALL):
+class TaskUserTextArguments(NDRCALL):
     opnum = 39
     structure = (
-		('CONTEXT', FSRMREPORTGENERATIONCONTEXT),
+
     )
 
-class RunResponse(NDRCALL):
+class TaskUserTextArgumentsResponse(NDRCALL):
     structure = (
-
+		('USERTEXT', BSTR),
     )
         
 
-class WaitForCompletion(NDRCALL):
+class TaskUserTextArguments(NDRCALL):
     opnum = 40
     structure = (
-		('WAITSECONDS', LONG),
+		('USERTEXT', BSTR),
     )
 
-class WaitForCompletionResponse(NDRCALL):
+class TaskUserTextArgumentsResponse(NDRCALL):
     structure = (
-		('COMPLETED', VARIANT_BOOL),
+
     )
         
 
-class Cancel(NDRCALL):
+class Schedules(NDRCALL):
     opnum = 41
     structure = (
 
     )
 
-class CancelResponse(NDRCALL):
+class SchedulesResponse(NDRCALL):
     structure = (
-
+		('PPSCHEDULES', ISCHEDULECOLLECTION),
     )
         
 
-class AddNotification(NDRCALL):
+class SchedulesEnabled(NDRCALL):
     opnum = 42
     structure = (
-		('DAYS', LONG),
+
     )
 
-class AddNotificationResponse(NDRCALL):
+class SchedulesEnabledResponse(NDRCALL):
     structure = (
-
+		('ENABLED', VARIANT_BOOL),
     )
         
 
-class DeleteNotification(NDRCALL):
+class SchedulesEnabled(NDRCALL):
     opnum = 43
     structure = (
-		('DAYS', LONG),
+		('ENABLED', VARIANT_BOOL),
     )
 
-class DeleteNotificationResponse(NDRCALL):
+class SchedulesEnabledResponse(NDRCALL):
     structure = (
 
     )
         
 
-class ModifyNotification(NDRCALL):
+class UserAccount(NDRCALL):
     opnum = 44
     structure = (
-		('DAYS', LONG),
-		('NEWDAYS', LONG),
+
     )
 
-class ModifyNotificationResponse(NDRCALL):
+class UserAccountResponse(NDRCALL):
     structure = (
-
+		('USER', BSTR),
     )
         
 
-class CreateNotificationAction(NDRCALL):
+class Xml(NDRCALL):
     opnum = 45
     structure = (
-		('DAYS', LONG),
-		('ACTIONTYPE', FSRMACTIONTYPE),
+
     )
 
-class CreateNotificationActionResponse(NDRCALL):
+class XmlResponse(NDRCALL):
     structure = (
-		('ACTION', IFSRMACTION),
+		('XML', BSTR),
     )
         
 
-class EnumNotificationActions(NDRCALL):
+class Security(NDRCALL):
     opnum = 46
     structure = (
-		('DAYS', LONG),
+
     )
 
-class EnumNotificationActionsResponse(NDRCALL):
+class SecurityResponse(NDRCALL):
     structure = (
-		('ACTIONS', IFSRMCOLLECTION),
+		('PBSTRSECURITY', BSTR),
     )
         
 
-class CreatePropertyCondition(NDRCALL):
+class Security(NDRCALL):
     opnum = 47
     structure = (
-		('NAME', BSTR),
+		('BSTRSECURITY', BSTR),
     )
 
-class CreatePropertyConditionResponse(NDRCALL):
+class SecurityResponse(NDRCALL):
     structure = (
-		('PROPERTYCONDITION', IFSRMPROPERTYCONDITION),
+
     )
         
 
-class CreateCustomAction(NDRCALL):
+class StopOnCompletion(NDRCALL):
     opnum = 48
     structure = (
 
     )
 
-class CreateCustomActionResponse(NDRCALL):
+class StopOnCompletionResponse(NDRCALL):
     structure = (
-		('CUSTOMACTION', IFSRMACTIONCOMMAND),
+		('STOP', VARIANT_BOOL),
     )
         
-OPNUMS = {
-0 : (Name,NameResponse),
-1 : (NamespaceRoots,NamespaceRootsResponse),
-2 : (Enabled,EnabledResponse),
-3 : (OperationType,OperationTypeResponse),
-4 : (ExpirationDirectory,ExpirationDirectoryResponse),
-5 : (CustomAction,CustomActionResponse),
-6 : (Notifications,NotificationsResponse),
-7 : (Logging,LoggingResponse),
-8 : (ReportEnabled,ReportEnabledResponse),
-9 : (Formats,FormatsResponse),
-10 : (MailTo,MailToResponse),
-11 : (DaysSinceFileCreated,DaysSinceFileCreatedResponse),
-12 : (DaysSinceFileLastAccessed,DaysSinceFileLastAccessedResponse),
-13 : (DaysSinceFileLastModified,DaysSinceFileLastModifiedResponse),
-14 : (PropertyConditions,PropertyConditionsResponse),
-15 : (FromDate,FromDateResponse),
-16 : (Task,TaskResponse),
-17 : (Parameters,ParametersResponse),
-18 : (RunningStatus,RunningStatusResponse),
-19 : (LastError,LastErrorResponse),
-20 : (LastReportPathWithoutExtension,LastReportPathWithoutExtensionResponse),
-21 : (LastRun,LastRunResponse),
-22 : (FileNamePattern,FileNamePatternResponse),
-23 : (Run,RunResponse),
-24 : (WaitForCompletion,WaitForCompletionResponse),
-25 : (Cancel,CancelResponse),
-26 : (AddNotification,AddNotificationResponse),
-27 : (DeleteNotification,DeleteNotificationResponse),
-28 : (ModifyNotification,ModifyNotificationResponse),
-29 : (CreateNotificationAction,CreateNotificationActionResponse),
-30 : (EnumNotificationActions,EnumNotificationActionsResponse),
-31 : (CreatePropertyCondition,CreatePropertyConditionResponse),
-32 : (CreateCustomAction,CreateCustomActionResponse),
-}
 
-#################################################################################
+class StopOnCompletion(NDRCALL):
+    opnum = 49
+    structure = (
+		('STOP', VARIANT_BOOL),
+    )
 
-#IFsrmPropertyCondition Definition
+class StopOnCompletionResponse(NDRCALL):
+    structure = (
 
-#################################################################################
+    )
+        
 
-MSRPC_UUID_IFSRMPROPERTYCONDITION = uuidtup_to_bin(('326af66f-2ac0-4f68-bf8c-4759f054fa29','0.0'))
-
-
-class Name(NDRCALL):
-    opnum = 0
+class DataManager(NDRCALL):
+    opnum = 50
     structure = (
 
     )
 
-class NameResponse(NDRCALL):
+class DataManagerResponse(NDRCALL):
+    structure = (
+		('DATAMANAGER', IDATAMANAGER),
+    )
+        
+
+class SetCredentials(NDRCALL):
+    opnum = 51
+    structure = (
+
+    )
+
+class SetCredentialsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Query(NDRCALL):
+    opnum = 52
     structure = (
 		('NAME', BSTR),
+		('SERVER', BSTR),
+    )
+
+class QueryResponse(NDRCALL):
+    structure = (
+
     )
         
 
-class Name(NDRCALL):
-    opnum = 1
+class Commit(NDRCALL):
+    opnum = 53
     structure = (
 		('NAME', BSTR),
+		('SERVER', BSTR),
     )
 
-class NameResponse(NDRCALL):
+class CommitResponse(NDRCALL):
     structure = (
-
-    )
-        
-
-class Type(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class TypeResponse(NDRCALL):
-    structure = (
-		('TYPE', FSRMPROPERTYCONDITIONTYPE),
-    )
-        
-
-class Type(NDRCALL):
-    opnum = 3
-    structure = (
-		('TYPE', FSRMPROPERTYCONDITIONTYPE),
-    )
-
-class TypeResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Value(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class ValueResponse(NDRCALL):
-    structure = (
-		('VALUE', BSTR),
-    )
-        
-
-class Value(NDRCALL):
-    opnum = 5
-    structure = (
-		('VALUE', BSTR),
-    )
-
-class ValueResponse(NDRCALL):
-    structure = (
-
+		('VALIDATION', IVALUEMAP),
     )
         
 
 class Delete(NDRCALL):
-    opnum = 6
+    opnum = 54
     structure = (
 
     )
@@ -8263,740 +4119,3468 @@ class DeleteResponse(NDRCALL):
 
     )
         
+
+class Start(NDRCALL):
+    opnum = 55
+    structure = (
+		('SYNCHRONOUS', VARIANT_BOOL),
+    )
+
+class StartResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Stop(NDRCALL):
+    opnum = 56
+    structure = (
+		('SYNCHRONOUS', VARIANT_BOOL),
+    )
+
+class StopResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class SetXml(NDRCALL):
+    opnum = 57
+    structure = (
+		('XML', BSTR),
+    )
+
+class SetXmlResponse(NDRCALL):
+    structure = (
+		('VALIDATION', IVALUEMAP),
+    )
+        
+
+class SetValue(NDRCALL):
+    opnum = 58
+    structure = (
+
+    )
+
+class SetValueResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class GetValue(NDRCALL):
+    opnum = 59
+    structure = (
+
+    )
+
+class GetValueResponse(NDRCALL):
+    structure = (
+		('VALUE', BSTR),
+    )
+        
 OPNUMS = {
-0 : (Name,NameResponse),
-1 : (Type,TypeResponse),
-2 : (Value,ValueResponse),
-3 : (Delete,DeleteResponse),
+0 : (DataCollectors,DataCollectorsResponse),
+1 : (Duration,DurationResponse),
+2 : (Description,DescriptionResponse),
+3 : (DescriptionUnresolved,DescriptionUnresolvedResponse),
+4 : (DisplayName,DisplayNameResponse),
+5 : (DisplayNameUnresolved,DisplayNameUnresolvedResponse),
+6 : (Keywords,KeywordsResponse),
+7 : (LatestOutputLocation,LatestOutputLocationResponse),
+8 : (Name,NameResponse),
+9 : (OutputLocation,OutputLocationResponse),
+10 : (RootPath,RootPathResponse),
+11 : (Segment,SegmentResponse),
+12 : (SegmentMaxDuration,SegmentMaxDurationResponse),
+13 : (SegmentMaxSize,SegmentMaxSizeResponse),
+14 : (SerialNumber,SerialNumberResponse),
+15 : (Server,ServerResponse),
+16 : (Status,StatusResponse),
+17 : (Subdirectory,SubdirectoryResponse),
+18 : (SubdirectoryFormat,SubdirectoryFormatResponse),
+19 : (SubdirectoryFormatPattern,SubdirectoryFormatPatternResponse),
+20 : (Task,TaskResponse),
+21 : (TaskRunAsSelf,TaskRunAsSelfResponse),
+22 : (TaskArguments,TaskArgumentsResponse),
+23 : (TaskUserTextArguments,TaskUserTextArgumentsResponse),
+24 : (Schedules,SchedulesResponse),
+25 : (SchedulesEnabled,SchedulesEnabledResponse),
+26 : (UserAccount,UserAccountResponse),
+27 : (Xml,XmlResponse),
+28 : (Security,SecurityResponse),
+29 : (StopOnCompletion,StopOnCompletionResponse),
+30 : (DataManager,DataManagerResponse),
+31 : (SetCredentials,SetCredentialsResponse),
+32 : (Query,QueryResponse),
+33 : (Commit,CommitResponse),
+34 : (Delete,DeleteResponse),
+35 : (Start,StartResponse),
+36 : (Stop,StopResponse),
+37 : (SetXml,SetXmlResponse),
+38 : (SetValue,SetValueResponse),
+39 : (GetValue,GetValueResponse),
 }
 
 #################################################################################
 
-#IFsrmFileGroup Definition
+#IDataManager Definition
 
 #################################################################################
 
-MSRPC_UUID_IFSRMFILEGROUP = uuidtup_to_bin(('8dd04909-0e34-4d55-afaa-89e1f1a1bbb9','0.0'))
+MSRPC_UUID_IDATAMANAGER = uuidtup_to_bin(('03837541-098b-11d8-9414-505054503030','0.0'))
 
 
-class Name(NDRCALL):
+class Enabled(NDRCALL):
     opnum = 0
     structure = (
 
     )
 
-class NameResponse(NDRCALL):
+class EnabledResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('PFENABLED', VARIANT_BOOL),
     )
         
 
-class Name(NDRCALL):
+class Enabled(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('FENABLED', VARIANT_BOOL),
     )
 
-class NameResponse(NDRCALL):
+class EnabledResponse(NDRCALL):
     structure = (
 
     )
         
 
-class Members(NDRCALL):
+class CheckBeforeRunning(NDRCALL):
     opnum = 2
     structure = (
 
     )
 
-class MembersResponse(NDRCALL):
+class CheckBeforeRunningResponse(NDRCALL):
     structure = (
-		('MEMBERS', IFSRMMUTABLECOLLECTION),
+		('PFCHECK', VARIANT_BOOL),
     )
         
 
-class Members(NDRCALL):
+class CheckBeforeRunning(NDRCALL):
     opnum = 3
     structure = (
-		('MEMBERS', IFSRMMUTABLECOLLECTION),
+		('FCHECK', VARIANT_BOOL),
     )
 
-class MembersResponse(NDRCALL):
+class CheckBeforeRunningResponse(NDRCALL):
     structure = (
 
     )
         
 
-class NonMembers(NDRCALL):
+class MinFreeDisk(NDRCALL):
     opnum = 4
     structure = (
 
     )
 
-class NonMembersResponse(NDRCALL):
+class MinFreeDiskResponse(NDRCALL):
     structure = (
-		('NONMEMBERS', IFSRMMUTABLECOLLECTION),
+		('MINFREEDISK', ULONG),
     )
         
 
-class NonMembers(NDRCALL):
+class MinFreeDisk(NDRCALL):
     opnum = 5
     structure = (
-		('NONMEMBERS', IFSRMMUTABLECOLLECTION),
+		('MINFREEDISK', ULONG),
     )
 
-class NonMembersResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (Name,NameResponse),
-1 : (Members,MembersResponse),
-2 : (NonMembers,NonMembersResponse),
-}
-
-#################################################################################
-
-#IFsrmFileGroupImported Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMFILEGROUPIMPORTED = uuidtup_to_bin(('ad55f10b-511-4e7-94f-d9ee2e470ded','0.0'))
-
-
-class OverwriteOnCommit(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class OverwriteOnCommitResponse(NDRCALL):
-    structure = (
-		('OVERWRITE', VARIANT_BOOL),
-    )
-        
-
-class OverwriteOnCommit(NDRCALL):
-    opnum = 1
-    structure = (
-		('OVERWRITE', VARIANT_BOOL),
-    )
-
-class OverwriteOnCommitResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (OverwriteOnCommit,OverwriteOnCommitResponse),
-}
-
-#################################################################################
-
-#IFsrmFileGroupManager Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMFILEGROUPMANAGER = uuidtup_to_bin(('426677d5-018c-485c-8a51-20b86d00bdc4','0.0'))
-
-
-class CreateFileGroup(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class CreateFileGroupResponse(NDRCALL):
-    structure = (
-		('FILEGROUP', IFSRMFILEGROUP),
-    )
-        
-
-class GetFileGroup(NDRCALL):
-    opnum = 1
-    structure = (
-		('NAME', BSTR),
-    )
-
-class GetFileGroupResponse(NDRCALL):
-    structure = (
-		('FILEGROUP', IFSRMFILEGROUP),
-    )
-        
-
-class EnumFileGroups(NDRCALL):
-    opnum = 2
-    structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumFileGroupsResponse(NDRCALL):
-    structure = (
-		('FILEGROUPS', IFSRMCOMMITTABLECOLLECTION),
-    )
-        
-
-class ExportFileGroups(NDRCALL):
-    opnum = 3
-    structure = (
-		('FILEGROUPNAMESARRAY', VARIANT),
-    )
-
-class ExportFileGroupsResponse(NDRCALL):
-    structure = (
-		('SERIALIZEDFILEGROUPS', BSTR),
-    )
-        
-
-class ImportFileGroups(NDRCALL):
-    opnum = 4
-    structure = (
-		('SERIALIZEDFILEGROUPS', BSTR),
-		('FILEGROUPNAMESARRAY', VARIANT),
-    )
-
-class ImportFileGroupsResponse(NDRCALL):
-    structure = (
-		('FILEGROUPS', IFSRMCOMMITTABLECOLLECTION),
-    )
-        
-OPNUMS = {
-0 : (CreateFileGroup,CreateFileGroupResponse),
-1 : (GetFileGroup,GetFileGroupResponse),
-2 : (EnumFileGroups,EnumFileGroupsResponse),
-3 : (ExportFileGroups,ExportFileGroupsResponse),
-4 : (ImportFileGroups,ImportFileGroupsResponse),
-}
-
-#################################################################################
-
-#IFsrmFileScreenBase Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMFILESCREENBASE = uuidtup_to_bin(('f3637e80-522-42-a637-bbb642b41cfc','0.0'))
-
-
-class BlockedFileGroups(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class BlockedFileGroupsResponse(NDRCALL):
-    structure = (
-		('BLOCKLIST', IFSRMMUTABLECOLLECTION),
-    )
-        
-
-class BlockedFileGroups(NDRCALL):
-    opnum = 1
-    structure = (
-		('BLOCKLIST', IFSRMMUTABLECOLLECTION),
-    )
-
-class BlockedFileGroupsResponse(NDRCALL):
+class MinFreeDiskResponse(NDRCALL):
     structure = (
 
     )
         
 
-class FileScreenFlags(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class FileScreenFlagsResponse(NDRCALL):
-    structure = (
-		('FILESCREENFLAGS', LONG),
-    )
-        
-
-class FileScreenFlags(NDRCALL):
-    opnum = 3
-    structure = (
-		('FILESCREENFLAGS', LONG),
-    )
-
-class FileScreenFlagsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class CreateAction(NDRCALL):
-    opnum = 4
-    structure = (
-		('ACTIONTYPE', FSRMACTIONTYPE),
-    )
-
-class CreateActionResponse(NDRCALL):
-    structure = (
-		('ACTION', IFSRMACTION),
-    )
-        
-
-class EnumActions(NDRCALL):
-    opnum = 5
-    structure = (
-
-    )
-
-class EnumActionsResponse(NDRCALL):
-    structure = (
-		('ACTIONS', IFSRMCOLLECTION),
-    )
-        
-OPNUMS = {
-0 : (BlockedFileGroups,BlockedFileGroupsResponse),
-1 : (FileScreenFlags,FileScreenFlagsResponse),
-2 : (CreateAction,CreateActionResponse),
-3 : (EnumActions,EnumActionsResponse),
-}
-
-#################################################################################
-
-#IFsrmFileScreen Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMFILESCREEN = uuidtup_to_bin(('5f6325d3-ce88-4733-84c1-2d6aefc5ea07','0.0'))
-
-
-class Path(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class PathResponse(NDRCALL):
-    structure = (
-		('PATH', BSTR),
-    )
-        
-
-class SourceTemplateName(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class SourceTemplateNameResponse(NDRCALL):
-    structure = (
-		('FILESCREENTEMPLATENAME', BSTR),
-    )
-        
-
-class MatchesSourceTemplate(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class MatchesSourceTemplateResponse(NDRCALL):
-    structure = (
-		('MATCHES', VARIANT_BOOL),
-    )
-        
-
-class UserSid(NDRCALL):
-    opnum = 3
-    structure = (
-
-    )
-
-class UserSidResponse(NDRCALL):
-    structure = (
-		('USERSID', BSTR),
-    )
-        
-
-class UserAccount(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class UserAccountResponse(NDRCALL):
-    structure = (
-		('USERACCOUNT', BSTR),
-    )
-        
-
-class ApplyTemplate(NDRCALL):
-    opnum = 5
-    structure = (
-		('FILESCREENTEMPLATENAME', BSTR),
-    )
-
-class ApplyTemplateResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (Path,PathResponse),
-1 : (SourceTemplateName,SourceTemplateNameResponse),
-2 : (MatchesSourceTemplate,MatchesSourceTemplateResponse),
-3 : (UserSid,UserSidResponse),
-4 : (UserAccount,UserAccountResponse),
-5 : (ApplyTemplate,ApplyTemplateResponse),
-}
-
-#################################################################################
-
-#IFsrmFileScreenException Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMFILESCREENEXCEPTION = uuidtup_to_bin(('bee7ce02-df77-4515-9389-78015fc1a','0.0'))
-
-
-class Path(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class PathResponse(NDRCALL):
-    structure = (
-		('PATH', BSTR),
-    )
-        
-
-class AllowedFileGroups(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class AllowedFileGroupsResponse(NDRCALL):
-    structure = (
-		('ALLOWLIST', IFSRMMUTABLECOLLECTION),
-    )
-        
-
-class AllowedFileGroups(NDRCALL):
-    opnum = 2
-    structure = (
-		('ALLOWLIST', IFSRMMUTABLECOLLECTION),
-    )
-
-class AllowedFileGroupsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-OPNUMS = {
-0 : (Path,PathResponse),
-1 : (AllowedFileGroups,AllowedFileGroupsResponse),
-}
-
-#################################################################################
-
-#IFsrmFileScreenManager Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMFILESCREENMANAGER = uuidtup_to_bin(('ff4fa04e-594-4da-a3a0-d5b4d3c52eba','0.0'))
-
-
-class ActionVariables(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class ActionVariablesResponse(NDRCALL):
-    structure = (
-		('VARIABLES', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class ActionVariableDescriptions(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class ActionVariableDescriptionsResponse(NDRCALL):
-    structure = (
-		('DESCRIPTIONS', SAFEARRAY ( VARIANT )),
-    )
-        
-
-class CreateFileScreen(NDRCALL):
-    opnum = 2
-    structure = (
-		('PATH', BSTR),
-    )
-
-class CreateFileScreenResponse(NDRCALL):
-    structure = (
-		('FILESCREEN', IFSRMFILESCREEN),
-    )
-        
-
-class GetFileScreen(NDRCALL):
-    opnum = 3
-    structure = (
-		('PATH', BSTR),
-    )
-
-class GetFileScreenResponse(NDRCALL):
-    structure = (
-		('FILESCREEN', IFSRMFILESCREEN),
-    )
-        
-
-class EnumFileScreens(NDRCALL):
-    opnum = 4
-    structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumFileScreensResponse(NDRCALL):
-    structure = (
-		('FILESCREENS', IFSRMCOMMITTABLECOLLECTION),
-    )
-        
-
-class CreateFileScreenException(NDRCALL):
-    opnum = 5
-    structure = (
-		('PATH', BSTR),
-    )
-
-class CreateFileScreenExceptionResponse(NDRCALL):
-    structure = (
-		('FILESCREENEXCEPTION', IFSRMFILESCREENEXCEPTION),
-    )
-        
-
-class GetFileScreenException(NDRCALL):
+class MaxSize(NDRCALL):
     opnum = 6
     structure = (
-		('PATH', BSTR),
+
     )
 
-class GetFileScreenExceptionResponse(NDRCALL):
+class MaxSizeResponse(NDRCALL):
     structure = (
-		('FILESCREENEXCEPTION', IFSRMFILESCREENEXCEPTION),
+		('PULMAXSIZE', ULONG),
     )
         
 
-class EnumFileScreenExceptions(NDRCALL):
+class MaxSize(NDRCALL):
     opnum = 7
     structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
+		('ULMAXSIZE', ULONG),
     )
 
-class EnumFileScreenExceptionsResponse(NDRCALL):
+class MaxSizeResponse(NDRCALL):
     structure = (
-		('FILESCREENEXCEPTIONS', IFSRMCOMMITTABLECOLLECTION),
+
     )
         
 
-class CreateFileScreenCollection(NDRCALL):
+class MaxFolderCount(NDRCALL):
     opnum = 8
     structure = (
 
     )
 
-class CreateFileScreenCollectionResponse(NDRCALL):
+class MaxFolderCountResponse(NDRCALL):
     structure = (
-		('COLLECTION', IFSRMCOMMITTABLECOLLECTION),
+		('PULMAXFOLDERCOUNT', ULONG),
+    )
+        
+
+class MaxFolderCount(NDRCALL):
+    opnum = 9
+    structure = (
+		('ULMAXFOLDERCOUNT', ULONG),
+    )
+
+class MaxFolderCountResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ResourcePolicy(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class ResourcePolicyResponse(NDRCALL):
+    structure = (
+		('PPOLICY', RESOURCEPOLICY),
+    )
+        
+
+class ResourcePolicy(NDRCALL):
+    opnum = 11
+    structure = (
+		('POLICY', RESOURCEPOLICY),
+    )
+
+class ResourcePolicyResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class FolderActions(NDRCALL):
+    opnum = 12
+    structure = (
+
+    )
+
+class FolderActionsResponse(NDRCALL):
+    structure = (
+		('ACTIONS', IFOLDERACTIONCOLLECTION),
+    )
+        
+
+class ReportSchema(NDRCALL):
+    opnum = 13
+    structure = (
+
+    )
+
+class ReportSchemaResponse(NDRCALL):
+    structure = (
+		('REPORTSCHEMA', BSTR),
+    )
+        
+
+class ReportSchema(NDRCALL):
+    opnum = 14
+    structure = (
+		('REPORTSCHEMA', BSTR),
+    )
+
+class ReportSchemaResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ReportFileName(NDRCALL):
+    opnum = 15
+    structure = (
+
+    )
+
+class ReportFileNameResponse(NDRCALL):
+    structure = (
+		('PBSTRFILENAME', BSTR),
+    )
+        
+
+class ReportFileName(NDRCALL):
+    opnum = 16
+    structure = (
+		('PBSTRFILENAME', BSTR),
+    )
+
+class ReportFileNameResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RuleTargetFileName(NDRCALL):
+    opnum = 17
+    structure = (
+
+    )
+
+class RuleTargetFileNameResponse(NDRCALL):
+    structure = (
+		('FILENAME', BSTR),
+    )
+        
+
+class RuleTargetFileName(NDRCALL):
+    opnum = 18
+    structure = (
+		('FILENAME', BSTR),
+    )
+
+class RuleTargetFileNameResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EventsFileName(NDRCALL):
+    opnum = 19
+    structure = (
+
+    )
+
+class EventsFileNameResponse(NDRCALL):
+    structure = (
+		('PBSTRFILENAME', BSTR),
+    )
+        
+
+class EventsFileName(NDRCALL):
+    opnum = 20
+    structure = (
+		('PBSTRFILENAME', BSTR),
+    )
+
+class EventsFileNameResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Rules(NDRCALL):
+    opnum = 21
+    structure = (
+
+    )
+
+class RulesResponse(NDRCALL):
+    structure = (
+		('PBSTRXML', BSTR),
+    )
+        
+
+class Rules(NDRCALL):
+    opnum = 22
+    structure = (
+		('BSTRXML', BSTR),
+    )
+
+class RulesResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Run(NDRCALL):
+    opnum = 23
+    structure = (
+		('STEPS', DATAMANAGERSTEPS),
+		('BSTRFOLDER', BSTR),
+    )
+
+class RunResponse(NDRCALL):
+    structure = (
+		('ERRORS', IVALUEMAP),
+    )
+        
+
+class Extract(NDRCALL):
+    opnum = 24
+    structure = (
+		('CABFILENAME', BSTR),
+		('DESTINATIONPATH', BSTR),
+    )
+
+class ExtractResponse(NDRCALL):
+    structure = (
+
     )
         
 OPNUMS = {
-0 : (ActionVariables,ActionVariablesResponse),
-1 : (ActionVariableDescriptions,ActionVariableDescriptionsResponse),
-2 : (CreateFileScreen,CreateFileScreenResponse),
-3 : (GetFileScreen,GetFileScreenResponse),
-4 : (EnumFileScreens,EnumFileScreensResponse),
-5 : (CreateFileScreenException,CreateFileScreenExceptionResponse),
-6 : (GetFileScreenException,GetFileScreenExceptionResponse),
-7 : (EnumFileScreenExceptions,EnumFileScreenExceptionsResponse),
-8 : (CreateFileScreenCollection,CreateFileScreenCollectionResponse),
+0 : (Enabled,EnabledResponse),
+1 : (CheckBeforeRunning,CheckBeforeRunningResponse),
+2 : (MinFreeDisk,MinFreeDiskResponse),
+3 : (MaxSize,MaxSizeResponse),
+4 : (MaxFolderCount,MaxFolderCountResponse),
+5 : (ResourcePolicy,ResourcePolicyResponse),
+6 : (FolderActions,FolderActionsResponse),
+7 : (ReportSchema,ReportSchemaResponse),
+8 : (ReportFileName,ReportFileNameResponse),
+9 : (RuleTargetFileName,RuleTargetFileNameResponse),
+10 : (EventsFileName,EventsFileNameResponse),
+11 : (Rules,RulesResponse),
+12 : (Run,RunResponse),
+13 : (Extract,ExtractResponse),
 }
 
 #################################################################################
 
-#IFsrmFileScreenTemplate Definition
+#IFolderAction Definition
 
 #################################################################################
 
-MSRPC_UUID_IFSRMFILESCREENTEMPLATE = uuidtup_to_bin(('205bebf8-dd93-452a-95a6-32b566b35828','0.0'))
+MSRPC_UUID_IFOLDERACTION = uuidtup_to_bin(('03837543-098b-11d8-9414-505054503030','0.0'))
 
 
-class Name(NDRCALL):
+class Age(NDRCALL):
     opnum = 0
     structure = (
 
     )
 
-class NameResponse(NDRCALL):
+class AgeResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('PULAGE', ULONG),
     )
         
 
-class Name(NDRCALL):
+class Age(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('ULAGE', ULONG),
     )
 
-class NameResponse(NDRCALL):
+class AgeResponse(NDRCALL):
     structure = (
 
     )
         
 
-class CopyTemplate(NDRCALL):
+class Size(NDRCALL):
     opnum = 2
     structure = (
-		('FILESCREENTEMPLATENAME', BSTR),
+
     )
 
-class CopyTemplateResponse(NDRCALL):
+class SizeResponse(NDRCALL):
     structure = (
-
+		('PULAGE', ULONG),
     )
         
 
-class CommitAndUpdateDerived(NDRCALL):
+class Size(NDRCALL):
     opnum = 3
     structure = (
-		('COMMITOPTIONS', FSRMCOMMITOPTIONS),
-		('APPLYOPTIONS', FSRMTEMPLATEAPPLYOPTIONS),
+		('ULAGE', ULONG),
     )
 
-class CommitAndUpdateDerivedResponse(NDRCALL):
-    structure = (
-		('DERIVEDOBJECTSRESULT', IFSRMDERIVEDOBJECTSRESULT),
-    )
-        
-OPNUMS = {
-0 : (Name,NameResponse),
-1 : (CopyTemplate,CopyTemplateResponse),
-2 : (CommitAndUpdateDerived,CommitAndUpdateDerivedResponse),
-}
-
-#################################################################################
-
-#IFsrmFileScreenTemplateImported Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMFILESCREENTEMPLATEIMPORTED = uuidtup_to_bin(('e1010359-35-4cd-9e4-ef48622fdf30','0.0'))
-
-
-class OverwriteOnCommit(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class OverwriteOnCommitResponse(NDRCALL):
-    structure = (
-		('OVERWRITE', VARIANT_BOOL),
-    )
-        
-
-class OverwriteOnCommit(NDRCALL):
-    opnum = 1
-    structure = (
-		('OVERWRITE', VARIANT_BOOL),
-    )
-
-class OverwriteOnCommitResponse(NDRCALL):
+class SizeResponse(NDRCALL):
     structure = (
 
     )
         
-OPNUMS = {
-0 : (OverwriteOnCommit,OverwriteOnCommitResponse),
-}
 
-#################################################################################
-
-#IFsrmFileScreenTemplateManager Definition
-
-#################################################################################
-
-MSRPC_UUID_IFSRMFILESCREENTEMPLATEMANAGER = uuidtup_to_bin(('cfe36cba-1949-474-a14f-f1d580ceaf13','0.0'))
-
-
-class CreateTemplate(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class CreateTemplateResponse(NDRCALL):
-    structure = (
-		('FILESCREENTEMPLATE', IFSRMFILESCREENTEMPLATE),
-    )
-        
-
-class GetTemplate(NDRCALL):
-    opnum = 1
-    structure = (
-		('NAME', BSTR),
-    )
-
-class GetTemplateResponse(NDRCALL):
-    structure = (
-		('FILESCREENTEMPLATE', IFSRMFILESCREENTEMPLATE),
-    )
-        
-
-class EnumTemplates(NDRCALL):
-    opnum = 2
-    structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
-    )
-
-class EnumTemplatesResponse(NDRCALL):
-    structure = (
-		('FILESCREENTEMPLATES', IFSRMCOMMITTABLECOLLECTION),
-    )
-        
-
-class ExportTemplates(NDRCALL):
-    opnum = 3
-    structure = (
-		('FILESCREENTEMPLATENAMESARRAY', VARIANT),
-    )
-
-class ExportTemplatesResponse(NDRCALL):
-    structure = (
-		('SERIALIZEDFILESCREENTEMPLATES', BSTR),
-    )
-        
-
-class ImportTemplates(NDRCALL):
+class Actions(NDRCALL):
     opnum = 4
     structure = (
-		('SERIALIZEDFILESCREENTEMPLATES', BSTR),
-		('FILESCREENTEMPLATENAMESARRAY', VARIANT),
+
     )
 
-class ImportTemplatesResponse(NDRCALL):
+class ActionsResponse(NDRCALL):
     structure = (
-		('FILESCREENTEMPLATES', IFSRMCOMMITTABLECOLLECTION),
+		('STEPS', FOLDERACTIONSTEPS),
+    )
+        
+
+class Actions(NDRCALL):
+    opnum = 5
+    structure = (
+		('STEPS', FOLDERACTIONSTEPS),
+    )
+
+class ActionsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class SendCabTo(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class SendCabToResponse(NDRCALL):
+    structure = (
+		('PBSTRDESTINATION', BSTR),
+    )
+        
+
+class SendCabTo(NDRCALL):
+    opnum = 7
+    structure = (
+		('BSTRDESTINATION', BSTR),
+    )
+
+class SendCabToResponse(NDRCALL):
+    structure = (
+
     )
         
 OPNUMS = {
-0 : (CreateTemplate,CreateTemplateResponse),
-1 : (GetTemplate,GetTemplateResponse),
-2 : (EnumTemplates,EnumTemplatesResponse),
-3 : (ExportTemplates,ExportTemplatesResponse),
-4 : (ImportTemplates,ImportTemplatesResponse),
+0 : (Age,AgeResponse),
+1 : (Size,SizeResponse),
+2 : (Actions,ActionsResponse),
+3 : (SendCabTo,SendCabToResponse),
+}
+
+#################################################################################
+
+#IFolderActionCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IFOLDERACTIONCOLLECTION = uuidtup_to_bin(('03837544-098b-11d8-9414-505054503030','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('COUNT', ULONG),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('INDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('ACTION', IFOLDERACTION),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('ENUM', IUNKNOWN),
+    )
+        
+
+class Add(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class AddResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Remove(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class RemoveResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Clear(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class ClearResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class AddRange(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class AddRangeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CreateFolderAction(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class CreateFolderActionResponse(NDRCALL):
+    structure = (
+		('FOLDERACTION', IFOLDERACTION),
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+2 : (_NewEnum,_NewEnumResponse),
+3 : (Add,AddResponse),
+4 : (Remove,RemoveResponse),
+5 : (Clear,ClearResponse),
+6 : (AddRange,AddRangeResponse),
+7 : (CreateFolderAction,CreateFolderActionResponse),
+}
+
+#################################################################################
+
+#IDataCollector Definition
+
+#################################################################################
+
+MSRPC_UUID_IDATACOLLECTOR = uuidtup_to_bin(('038374ff-098b-11d8-9414-505054503030','0.0'))
+
+
+class DataCollectorSet(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class DataCollectorSetResponse(NDRCALL):
+    structure = (
+		('GROUP', IDATACOLLECTORSET),
+    )
+        
+
+class Opnum8NotUsedOnWire(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class Opnum8NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class DataCollectorType(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class DataCollectorTypeResponse(NDRCALL):
+    structure = (
+		('TYPE', DATACOLLECTORTYPE),
+    )
+        
+
+class FileName(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class FileNameResponse(NDRCALL):
+    structure = (
+		('NAME', BSTR),
+    )
+        
+
+class FileName(NDRCALL):
+    opnum = 4
+    structure = (
+		('NAME', BSTR),
+    )
+
+class FileNameResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class FileNameFormat(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class FileNameFormatResponse(NDRCALL):
+    structure = (
+		('FORMAT', AUTOPATHFORMAT),
+    )
+        
+
+class FileNameFormat(NDRCALL):
+    opnum = 6
+    structure = (
+		('FORMAT', AUTOPATHFORMAT),
+    )
+
+class FileNameFormatResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class FileNameFormatPattern(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class FileNameFormatPatternResponse(NDRCALL):
+    structure = (
+		('PATTERN', BSTR),
+    )
+        
+
+class FileNameFormatPattern(NDRCALL):
+    opnum = 8
+    structure = (
+		('PATTERN', BSTR),
+    )
+
+class FileNameFormatPatternResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class LatestOutputLocation(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class LatestOutputLocationResponse(NDRCALL):
+    structure = (
+		('PATH', BSTR),
+    )
+        
+
+class LatestOutputLocation(NDRCALL):
+    opnum = 10
+    structure = (
+		('PATH', BSTR),
+    )
+
+class LatestOutputLocationResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class LogAppend(NDRCALL):
+    opnum = 11
+    structure = (
+
+    )
+
+class LogAppendResponse(NDRCALL):
+    structure = (
+		('APPEND', VARIANT_BOOL),
+    )
+        
+
+class LogAppend(NDRCALL):
+    opnum = 12
+    structure = (
+		('APPEND', VARIANT_BOOL),
+    )
+
+class LogAppendResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class LogCircular(NDRCALL):
+    opnum = 13
+    structure = (
+
+    )
+
+class LogCircularResponse(NDRCALL):
+    structure = (
+		('CIRCULAR', VARIANT_BOOL),
+    )
+        
+
+class LogCircular(NDRCALL):
+    opnum = 14
+    structure = (
+		('CIRCULAR', VARIANT_BOOL),
+    )
+
+class LogCircularResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class LogOverwrite(NDRCALL):
+    opnum = 15
+    structure = (
+
+    )
+
+class LogOverwriteResponse(NDRCALL):
+    structure = (
+		('OVERWRITE', VARIANT_BOOL),
+    )
+        
+
+class LogOverwrite(NDRCALL):
+    opnum = 16
+    structure = (
+		('OVERWRITE', VARIANT_BOOL),
+    )
+
+class LogOverwriteResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Name(NDRCALL):
+    opnum = 17
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('NAME', BSTR),
+    )
+        
+
+class Name(NDRCALL):
+    opnum = 18
+    structure = (
+		('NAME', BSTR),
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class OutputLocation(NDRCALL):
+    opnum = 19
+    structure = (
+
+    )
+
+class OutputLocationResponse(NDRCALL):
+    structure = (
+		('PATH', BSTR),
+    )
+        
+
+class Index(NDRCALL):
+    opnum = 20
+    structure = (
+
+    )
+
+class IndexResponse(NDRCALL):
+    structure = (
+		('INDEX', LONG),
+    )
+        
+
+class Opnum28NotUsedOnWire(NDRCALL):
+    opnum = 21
+    structure = (
+
+    )
+
+class Opnum28NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Xml(NDRCALL):
+    opnum = 22
+    structure = (
+
+    )
+
+class XmlResponse(NDRCALL):
+    structure = (
+		('XML', BSTR),
+    )
+        
+
+class SetXml(NDRCALL):
+    opnum = 23
+    structure = (
+		('XML', BSTR),
+    )
+
+class SetXmlResponse(NDRCALL):
+    structure = (
+		('VALIDATION', IVALUEMAP),
+    )
+        
+
+class Opnum31NotUsedOnWire(NDRCALL):
+    opnum = 24
+    structure = (
+
+    )
+
+class Opnum31NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (DataCollectorSet,DataCollectorSetResponse),
+1 : (Opnum8NotUsedOnWire,Opnum8NotUsedOnWireResponse),
+2 : (DataCollectorType,DataCollectorTypeResponse),
+3 : (FileName,FileNameResponse),
+4 : (FileNameFormat,FileNameFormatResponse),
+5 : (FileNameFormatPattern,FileNameFormatPatternResponse),
+6 : (LatestOutputLocation,LatestOutputLocationResponse),
+7 : (LogAppend,LogAppendResponse),
+8 : (LogCircular,LogCircularResponse),
+9 : (LogOverwrite,LogOverwriteResponse),
+10 : (Name,NameResponse),
+11 : (OutputLocation,OutputLocationResponse),
+12 : (Index,IndexResponse),
+13 : (Opnum28NotUsedOnWire,Opnum28NotUsedOnWireResponse),
+14 : (Xml,XmlResponse),
+15 : (SetXml,SetXmlResponse),
+16 : (Opnum31NotUsedOnWire,Opnum31NotUsedOnWireResponse),
+}
+
+#################################################################################
+
+#IPerformanceCounterDataCollector Definition
+
+#################################################################################
+
+MSRPC_UUID_IPERFORMANCECOUNTERDATACOLLECTOR = uuidtup_to_bin(('03837506-098b-11d8-9414-505054503030','0.0'))
+
+
+class DataSourceName(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class DataSourceNameResponse(NDRCALL):
+    structure = (
+		('DSN', BSTR),
+    )
+        
+
+class DataSourceName(NDRCALL):
+    opnum = 1
+    structure = (
+		('DSN', BSTR),
+    )
+
+class DataSourceNameResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class PerformanceCounters(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class PerformanceCountersResponse(NDRCALL):
+    structure = (
+		('COUNTERS', SAFEARRAY ( BSTR )),
+    )
+        
+
+class PerformanceCounters(NDRCALL):
+    opnum = 3
+    structure = (
+		('COUNTERS', SAFEARRAY ( BSTR )),
+    )
+
+class PerformanceCountersResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class LogFileFormat(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class LogFileFormatResponse(NDRCALL):
+    structure = (
+		('FORMAT', FILEFORMAT),
+    )
+        
+
+class LogFileFormat(NDRCALL):
+    opnum = 5
+    structure = (
+		('FORMAT', FILEFORMAT),
+    )
+
+class LogFileFormatResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class SampleInterval(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class SampleIntervalResponse(NDRCALL):
+    structure = (
+		('INTERVAL', UNSIGNED_LONG),
+    )
+        
+
+class SampleInterval(NDRCALL):
+    opnum = 7
+    structure = (
+		('INTERVAL', UNSIGNED_LONG),
+    )
+
+class SampleIntervalResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class SegmentMaxRecords(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class SegmentMaxRecordsResponse(NDRCALL):
+    structure = (
+		('RECORDS', UNSIGNED_LONG),
+    )
+        
+
+class SegmentMaxRecords(NDRCALL):
+    opnum = 9
+    structure = (
+		('RECORDS', UNSIGNED_LONG),
+    )
+
+class SegmentMaxRecordsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (DataSourceName,DataSourceNameResponse),
+1 : (PerformanceCounters,PerformanceCountersResponse),
+2 : (LogFileFormat,LogFileFormatResponse),
+3 : (SampleInterval,SampleIntervalResponse),
+4 : (SegmentMaxRecords,SegmentMaxRecordsResponse),
+}
+
+#################################################################################
+
+#IConfigurationDataCollector Definition
+
+#################################################################################
+
+MSRPC_UUID_ICONFIGURATIONDATACOLLECTOR = uuidtup_to_bin(('03837514-098b-11d8-9414-505054503030','0.0'))
+
+
+class FileMaxCount(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class FileMaxCountResponse(NDRCALL):
+    structure = (
+		('COUNT', UNSIGNED_LONG),
+    )
+        
+
+class FileMaxCount(NDRCALL):
+    opnum = 1
+    structure = (
+		('COUNT', UNSIGNED_LONG),
+    )
+
+class FileMaxCountResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class FileMaxRecursiveDepth(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class FileMaxRecursiveDepthResponse(NDRCALL):
+    structure = (
+		('DEPTH', UNSIGNED_LONG),
+    )
+        
+
+class FileMaxRecursiveDepth(NDRCALL):
+    opnum = 3
+    structure = (
+		('DEPTH', UNSIGNED_LONG),
+    )
+
+class FileMaxRecursiveDepthResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class FileMaxTotalSize(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class FileMaxTotalSizeResponse(NDRCALL):
+    structure = (
+		('SIZE', UNSIGNED_LONG),
+    )
+        
+
+class FileMaxTotalSize(NDRCALL):
+    opnum = 5
+    structure = (
+		('SIZE', UNSIGNED_LONG),
+    )
+
+class FileMaxTotalSizeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Files(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class FilesResponse(NDRCALL):
+    structure = (
+		('FILES', SAFEARRAY ( BSTR )),
+    )
+        
+
+class Files(NDRCALL):
+    opnum = 7
+    structure = (
+		('FILES', SAFEARRAY ( BSTR )),
+    )
+
+class FilesResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ManagementQueries(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class ManagementQueriesResponse(NDRCALL):
+    structure = (
+		('QUERIES', SAFEARRAY ( BSTR )),
+    )
+        
+
+class ManagementQueries(NDRCALL):
+    opnum = 9
+    structure = (
+		('QUERIES', SAFEARRAY ( BSTR )),
+    )
+
+class ManagementQueriesResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class QueryNetworkAdapters(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class QueryNetworkAdaptersResponse(NDRCALL):
+    structure = (
+		('NETWORK', VARIANT_BOOL),
+    )
+        
+
+class QueryNetworkAdapters(NDRCALL):
+    opnum = 11
+    structure = (
+		('NETWORK', VARIANT_BOOL),
+    )
+
+class QueryNetworkAdaptersResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RegistryKeys(NDRCALL):
+    opnum = 12
+    structure = (
+
+    )
+
+class RegistryKeysResponse(NDRCALL):
+    structure = (
+		('QUERY', SAFEARRAY ( BSTR )),
+    )
+        
+
+class RegistryKeys(NDRCALL):
+    opnum = 13
+    structure = (
+		('QUERY', SAFEARRAY ( BSTR )),
+    )
+
+class RegistryKeysResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RegistryMaxRecursiveDepth(NDRCALL):
+    opnum = 14
+    structure = (
+
+    )
+
+class RegistryMaxRecursiveDepthResponse(NDRCALL):
+    structure = (
+		('DEPTH', UNSIGNED_LONG),
+    )
+        
+
+class RegistryMaxRecursiveDepth(NDRCALL):
+    opnum = 15
+    structure = (
+		('DEPTH', UNSIGNED_LONG),
+    )
+
+class RegistryMaxRecursiveDepthResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class SystemStateFile(NDRCALL):
+    opnum = 16
+    structure = (
+
+    )
+
+class SystemStateFileResponse(NDRCALL):
+    structure = (
+		('FILENAME', BSTR),
+    )
+        
+
+class SystemStateFile(NDRCALL):
+    opnum = 17
+    structure = (
+		('FILENAME', BSTR),
+    )
+
+class SystemStateFileResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (FileMaxCount,FileMaxCountResponse),
+1 : (FileMaxRecursiveDepth,FileMaxRecursiveDepthResponse),
+2 : (FileMaxTotalSize,FileMaxTotalSizeResponse),
+3 : (Files,FilesResponse),
+4 : (ManagementQueries,ManagementQueriesResponse),
+5 : (QueryNetworkAdapters,QueryNetworkAdaptersResponse),
+6 : (RegistryKeys,RegistryKeysResponse),
+7 : (RegistryMaxRecursiveDepth,RegistryMaxRecursiveDepthResponse),
+8 : (SystemStateFile,SystemStateFileResponse),
+}
+
+#################################################################################
+
+#IAlertDataCollector Definition
+
+#################################################################################
+
+MSRPC_UUID_IALERTDATACOLLECTOR = uuidtup_to_bin(('03837516-098b-11d8-9414-505054503030','0.0'))
+
+
+class AlertThresholds(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class AlertThresholdsResponse(NDRCALL):
+    structure = (
+		('ALERTS', SAFEARRAY ( BSTR )),
+    )
+        
+
+class AlertThresholds(NDRCALL):
+    opnum = 1
+    structure = (
+		('ALERTS', SAFEARRAY ( BSTR )),
+    )
+
+class AlertThresholdsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EventLog(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class EventLogResponse(NDRCALL):
+    structure = (
+		('LOG', VARIANT_BOOL),
+    )
+        
+
+class EventLog(NDRCALL):
+    opnum = 3
+    structure = (
+		('LOG', VARIANT_BOOL),
+    )
+
+class EventLogResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class SampleInterval(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class SampleIntervalResponse(NDRCALL):
+    structure = (
+		('INTERVAL', UNSIGNED_LONG),
+    )
+        
+
+class SampleInterval(NDRCALL):
+    opnum = 5
+    structure = (
+		('INTERVAL', UNSIGNED_LONG),
+    )
+
+class SampleIntervalResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Task(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class TaskResponse(NDRCALL):
+    structure = (
+		('TASK', BSTR),
+    )
+        
+
+class Task(NDRCALL):
+    opnum = 7
+    structure = (
+		('TASK', BSTR),
+    )
+
+class TaskResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class TaskRunAsSelf(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class TaskRunAsSelfResponse(NDRCALL):
+    structure = (
+		('RUNASSELF', VARIANT_BOOL),
+    )
+        
+
+class TaskRunAsSelf(NDRCALL):
+    opnum = 9
+    structure = (
+		('RUNASSELF', VARIANT_BOOL),
+    )
+
+class TaskRunAsSelfResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class TaskArguments(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class TaskArgumentsResponse(NDRCALL):
+    structure = (
+		('TASK', BSTR),
+    )
+        
+
+class TaskArguments(NDRCALL):
+    opnum = 11
+    structure = (
+		('TASK', BSTR),
+    )
+
+class TaskArgumentsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class TaskUserTextArguments(NDRCALL):
+    opnum = 12
+    structure = (
+
+    )
+
+class TaskUserTextArgumentsResponse(NDRCALL):
+    structure = (
+		('TASK', BSTR),
+    )
+        
+
+class TaskUserTextArguments(NDRCALL):
+    opnum = 13
+    structure = (
+		('TASK', BSTR),
+    )
+
+class TaskUserTextArgumentsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class TriggerDataCollectorSet(NDRCALL):
+    opnum = 14
+    structure = (
+
+    )
+
+class TriggerDataCollectorSetResponse(NDRCALL):
+    structure = (
+		('NAME', BSTR),
+    )
+        
+
+class TriggerDataCollectorSet(NDRCALL):
+    opnum = 15
+    structure = (
+		('NAME', BSTR),
+    )
+
+class TriggerDataCollectorSetResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (AlertThresholds,AlertThresholdsResponse),
+1 : (EventLog,EventLogResponse),
+2 : (SampleInterval,SampleIntervalResponse),
+3 : (Task,TaskResponse),
+4 : (TaskRunAsSelf,TaskRunAsSelfResponse),
+5 : (TaskArguments,TaskArgumentsResponse),
+6 : (TaskUserTextArguments,TaskUserTextArgumentsResponse),
+7 : (TriggerDataCollectorSet,TriggerDataCollectorSetResponse),
+}
+
+#################################################################################
+
+#ITraceDataCollector Definition
+
+#################################################################################
+
+MSRPC_UUID_ITRACEDATACOLLECTOR = uuidtup_to_bin(('0383750b-098b-11d8-9414-505054503030','0.0'))
+
+
+class BufferSize(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class BufferSizeResponse(NDRCALL):
+    structure = (
+		('SIZE', UNSIGNED_LONG),
+    )
+        
+
+class BufferSize(NDRCALL):
+    opnum = 1
+    structure = (
+		('SIZE', UNSIGNED_LONG),
+    )
+
+class BufferSizeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class BuffersLost(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class BuffersLostResponse(NDRCALL):
+    structure = (
+		('BUFFERS', UNSIGNED_LONG),
+    )
+        
+
+class Opnum35NotUsedOnWire(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class Opnum35NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class BuffersWritten(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class BuffersWrittenResponse(NDRCALL):
+    structure = (
+		('BUFFERS', UNSIGNED_LONG),
+    )
+        
+
+class Opnum37NotUsedOnWire(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class Opnum37NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ClockType(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class ClockTypeResponse(NDRCALL):
+    structure = (
+		('CLOCK', CLOCKTYPE),
+    )
+        
+
+class ClockType(NDRCALL):
+    opnum = 7
+    structure = (
+		('CLOCK', CLOCKTYPE),
+    )
+
+class ClockTypeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EventsLost(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class EventsLostResponse(NDRCALL):
+    structure = (
+		('EVENTS', UNSIGNED_LONG),
+    )
+        
+
+class Opnum41NotUsedOnWire(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class Opnum41NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ExtendedModes(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class ExtendedModesResponse(NDRCALL):
+    structure = (
+		('MODE', UNSIGNED_LONG),
+    )
+        
+
+class ExtendedModes(NDRCALL):
+    opnum = 11
+    structure = (
+		('MODE', UNSIGNED_LONG),
+    )
+
+class ExtendedModesResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class FlushTimer(NDRCALL):
+    opnum = 12
+    structure = (
+
+    )
+
+class FlushTimerResponse(NDRCALL):
+    structure = (
+		('SECONDS', UNSIGNED_LONG),
+    )
+        
+
+class FlushTimer(NDRCALL):
+    opnum = 13
+    structure = (
+		('SECONDS', UNSIGNED_LONG),
+    )
+
+class FlushTimerResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class FreeBuffers(NDRCALL):
+    opnum = 14
+    structure = (
+
+    )
+
+class FreeBuffersResponse(NDRCALL):
+    structure = (
+		('BUFFERS', UNSIGNED_LONG),
+    )
+        
+
+class Opnum47NotUsedOnWire(NDRCALL):
+    opnum = 15
+    structure = (
+
+    )
+
+class Opnum47NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Guid(NDRCALL):
+    opnum = 16
+    structure = (
+
+    )
+
+class GuidResponse(NDRCALL):
+    structure = (
+		('GUID', GUID),
+    )
+        
+
+class Guid(NDRCALL):
+    opnum = 17
+    structure = (
+		('GUID', GUID),
+    )
+
+class GuidResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class IsKernelTrace(NDRCALL):
+    opnum = 18
+    structure = (
+
+    )
+
+class IsKernelTraceResponse(NDRCALL):
+    structure = (
+		('KERNEL', VARIANT_BOOL),
+    )
+        
+
+class MaximumBuffers(NDRCALL):
+    opnum = 19
+    structure = (
+
+    )
+
+class MaximumBuffersResponse(NDRCALL):
+    structure = (
+		('BUFFERS', UNSIGNED_LONG),
+    )
+        
+
+class MaximumBuffers(NDRCALL):
+    opnum = 20
+    structure = (
+		('BUFFERS', UNSIGNED_LONG),
+    )
+
+class MaximumBuffersResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class MinimumBuffers(NDRCALL):
+    opnum = 21
+    structure = (
+
+    )
+
+class MinimumBuffersResponse(NDRCALL):
+    structure = (
+		('BUFFERS', UNSIGNED_LONG),
+    )
+        
+
+class MinimumBuffers(NDRCALL):
+    opnum = 22
+    structure = (
+		('BUFFERS', UNSIGNED_LONG),
+    )
+
+class MinimumBuffersResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class NumberOfBuffers(NDRCALL):
+    opnum = 23
+    structure = (
+
+    )
+
+class NumberOfBuffersResponse(NDRCALL):
+    structure = (
+		('BUFFERS', UNSIGNED_LONG),
+    )
+        
+
+class NumberOfBuffers(NDRCALL):
+    opnum = 24
+    structure = (
+		('BUFFERS', UNSIGNED_LONG),
+    )
+
+class NumberOfBuffersResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class PreallocateFile(NDRCALL):
+    opnum = 25
+    structure = (
+
+    )
+
+class PreallocateFileResponse(NDRCALL):
+    structure = (
+		('ALLOCATE', VARIANT_BOOL),
+    )
+        
+
+class PreallocateFile(NDRCALL):
+    opnum = 26
+    structure = (
+		('ALLOCATE', VARIANT_BOOL),
+    )
+
+class PreallocateFileResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ProcessMode(NDRCALL):
+    opnum = 27
+    structure = (
+
+    )
+
+class ProcessModeResponse(NDRCALL):
+    structure = (
+		('PROCESS', VARIANT_BOOL),
+    )
+        
+
+class ProcessMode(NDRCALL):
+    opnum = 28
+    structure = (
+		('PROCESS', VARIANT_BOOL),
+    )
+
+class ProcessModeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RealTimeBuffersLost(NDRCALL):
+    opnum = 29
+    structure = (
+
+    )
+
+class RealTimeBuffersLostResponse(NDRCALL):
+    structure = (
+		('BUFFERS', UNSIGNED_LONG),
+    )
+        
+
+class Opnum62NotUsedOnWire(NDRCALL):
+    opnum = 30
+    structure = (
+
+    )
+
+class Opnum62NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class SessionId(NDRCALL):
+    opnum = 31
+    structure = (
+
+    )
+
+class SessionIdResponse(NDRCALL):
+    structure = (
+		('ID', ULONG64),
+    )
+        
+
+class Opnum64NotUsedOnWire(NDRCALL):
+    opnum = 32
+    structure = (
+
+    )
+
+class Opnum64NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class SessionName(NDRCALL):
+    opnum = 33
+    structure = (
+
+    )
+
+class SessionNameResponse(NDRCALL):
+    structure = (
+		('NAME', BSTR),
+    )
+        
+
+class SessionName(NDRCALL):
+    opnum = 34
+    structure = (
+		('NAME', BSTR),
+    )
+
+class SessionNameResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class SessionThreadId(NDRCALL):
+    opnum = 35
+    structure = (
+
+    )
+
+class SessionThreadIdResponse(NDRCALL):
+    structure = (
+		('TID', UNSIGNED_LONG),
+    )
+        
+
+class Opnum68NotUsedOnWire(NDRCALL):
+    opnum = 36
+    structure = (
+
+    )
+
+class Opnum68NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class StreamMode(NDRCALL):
+    opnum = 37
+    structure = (
+
+    )
+
+class StreamModeResponse(NDRCALL):
+    structure = (
+		('MODE', STREAMMODE),
+    )
+        
+
+class StreamMode(NDRCALL):
+    opnum = 38
+    structure = (
+		('MODE', STREAMMODE),
+    )
+
+class StreamModeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class TraceDataProviders(NDRCALL):
+    opnum = 39
+    structure = (
+
+    )
+
+class TraceDataProvidersResponse(NDRCALL):
+    structure = (
+		('PROVIDERS', ITRACEDATAPROVIDERCOLLECTION),
+    )
+        
+OPNUMS = {
+0 : (BufferSize,BufferSizeResponse),
+1 : (BuffersLost,BuffersLostResponse),
+2 : (Opnum35NotUsedOnWire,Opnum35NotUsedOnWireResponse),
+3 : (BuffersWritten,BuffersWrittenResponse),
+4 : (Opnum37NotUsedOnWire,Opnum37NotUsedOnWireResponse),
+5 : (ClockType,ClockTypeResponse),
+6 : (EventsLost,EventsLostResponse),
+7 : (Opnum41NotUsedOnWire,Opnum41NotUsedOnWireResponse),
+8 : (ExtendedModes,ExtendedModesResponse),
+9 : (FlushTimer,FlushTimerResponse),
+10 : (FreeBuffers,FreeBuffersResponse),
+11 : (Opnum47NotUsedOnWire,Opnum47NotUsedOnWireResponse),
+12 : (Guid,GuidResponse),
+13 : (IsKernelTrace,IsKernelTraceResponse),
+14 : (MaximumBuffers,MaximumBuffersResponse),
+15 : (MinimumBuffers,MinimumBuffersResponse),
+16 : (NumberOfBuffers,NumberOfBuffersResponse),
+17 : (PreallocateFile,PreallocateFileResponse),
+18 : (ProcessMode,ProcessModeResponse),
+19 : (RealTimeBuffersLost,RealTimeBuffersLostResponse),
+20 : (Opnum62NotUsedOnWire,Opnum62NotUsedOnWireResponse),
+21 : (SessionId,SessionIdResponse),
+22 : (Opnum64NotUsedOnWire,Opnum64NotUsedOnWireResponse),
+23 : (SessionName,SessionNameResponse),
+24 : (SessionThreadId,SessionThreadIdResponse),
+25 : (Opnum68NotUsedOnWire,Opnum68NotUsedOnWireResponse),
+26 : (StreamMode,StreamModeResponse),
+27 : (TraceDataProviders,TraceDataProvidersResponse),
+}
+
+#################################################################################
+
+#IApiTracingDataCollector Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPITRACINGDATACOLLECTOR = uuidtup_to_bin(('0383751a-098b-11d8-9414-505054503030','0.0'))
+
+
+class LogApiNamesOnly(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class LogApiNamesOnlyResponse(NDRCALL):
+    structure = (
+		('LOGAPINAMES', VARIANT_BOOL),
+    )
+        
+
+class LogApiNamesOnly(NDRCALL):
+    opnum = 1
+    structure = (
+		('LOGAPINAMES', VARIANT_BOOL),
+    )
+
+class LogApiNamesOnlyResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class LogApisRecursively(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class LogApisRecursivelyResponse(NDRCALL):
+    structure = (
+		('LOGRECURSIVELY', VARIANT_BOOL),
+    )
+        
+
+class LogApisRecursively(NDRCALL):
+    opnum = 3
+    structure = (
+		('LOGRECURSIVELY', VARIANT_BOOL),
+    )
+
+class LogApisRecursivelyResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ExePath(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class ExePathResponse(NDRCALL):
+    structure = (
+		('EXEPATH', BSTR),
+    )
+        
+
+class ExePath(NDRCALL):
+    opnum = 5
+    structure = (
+		('EXEPATH', BSTR),
+    )
+
+class ExePathResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class LogFilePath(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class LogFilePathResponse(NDRCALL):
+    structure = (
+		('LOGFILEPATH', BSTR),
+    )
+        
+
+class LogFilePath(NDRCALL):
+    opnum = 7
+    structure = (
+		('LOGFILEPATH', BSTR),
+    )
+
+class LogFilePathResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class IncludeModules(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class IncludeModulesResponse(NDRCALL):
+    structure = (
+		('INCLUDEMODULES', SAFEARRAY ( BSTR )),
+    )
+        
+
+class IncludeModules(NDRCALL):
+    opnum = 9
+    structure = (
+		('INCLUDEMODULES', SAFEARRAY ( BSTR )),
+    )
+
+class IncludeModulesResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class IncludeApis(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class IncludeApisResponse(NDRCALL):
+    structure = (
+		('INCLUDEAPIS', SAFEARRAY ( BSTR )),
+    )
+        
+
+class IncludeApis(NDRCALL):
+    opnum = 11
+    structure = (
+		('INCLUDEAPIS', SAFEARRAY ( BSTR )),
+    )
+
+class IncludeApisResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ExcludeApis(NDRCALL):
+    opnum = 12
+    structure = (
+
+    )
+
+class ExcludeApisResponse(NDRCALL):
+    structure = (
+		('EXCLUDEAPIS', SAFEARRAY ( BSTR )),
+    )
+        
+
+class ExcludeApis(NDRCALL):
+    opnum = 13
+    structure = (
+		('EXCLUDEAPIS', SAFEARRAY ( BSTR )),
+    )
+
+class ExcludeApisResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (LogApiNamesOnly,LogApiNamesOnlyResponse),
+1 : (LogApisRecursively,LogApisRecursivelyResponse),
+2 : (ExePath,ExePathResponse),
+3 : (LogFilePath,LogFilePathResponse),
+4 : (IncludeModules,IncludeModulesResponse),
+5 : (IncludeApis,IncludeApisResponse),
+6 : (ExcludeApis,ExcludeApisResponse),
+}
+
+#################################################################################
+
+#ITraceDataProvider Definition
+
+#################################################################################
+
+MSRPC_UUID_ITRACEDATAPROVIDER = uuidtup_to_bin(('03837512-098b-11d8-9414-505054503030','0.0'))
+
+
+class DisplayName(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class DisplayNameResponse(NDRCALL):
+    structure = (
+		('NAME', BSTR),
+    )
+        
+
+class DisplayName(NDRCALL):
+    opnum = 1
+    structure = (
+		('NAME', BSTR),
+    )
+
+class DisplayNameResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Guid(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class GuidResponse(NDRCALL):
+    structure = (
+		('GUID', GUID),
+    )
+        
+
+class Guid(NDRCALL):
+    opnum = 3
+    structure = (
+		('GUID', GUID),
+    )
+
+class GuidResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Level(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class LevelResponse(NDRCALL):
+    structure = (
+		('PPLEVEL', IVALUEMAP),
+    )
+        
+
+class KeywordsAny(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class KeywordsAnyResponse(NDRCALL):
+    structure = (
+		('PPKEYWORDS', IVALUEMAP),
+    )
+        
+
+class KeywordsAll(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class KeywordsAllResponse(NDRCALL):
+    structure = (
+		('PPKEYWORDS', IVALUEMAP),
+    )
+        
+
+class Properties(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class PropertiesResponse(NDRCALL):
+    structure = (
+		('PPPROPERTIES', IVALUEMAP),
+    )
+        
+
+class FilterEnabled(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class FilterEnabledResponse(NDRCALL):
+    structure = (
+		('FILTERENABLED', VARIANT_BOOL),
+    )
+        
+
+class FilterEnabled(NDRCALL):
+    opnum = 9
+    structure = (
+		('FILTERENABLED', VARIANT_BOOL),
+    )
+
+class FilterEnabledResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class FilterType(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class FilterTypeResponse(NDRCALL):
+    structure = (
+		('PULTYPE', ULONG),
+    )
+        
+
+class FilterType(NDRCALL):
+    opnum = 11
+    structure = (
+		('ULTYPE', ULONG),
+    )
+
+class FilterTypeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class FilterData(NDRCALL):
+    opnum = 12
+    structure = (
+
+    )
+
+class FilterDataResponse(NDRCALL):
+    structure = (
+		('PPDATA', SAFEARRAY ( BYTE )),
+    )
+        
+
+class FilterData(NDRCALL):
+    opnum = 13
+    structure = (
+		('PDATA', SAFEARRAY ( BYTE )),
+    )
+
+class FilterDataResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Query(NDRCALL):
+    opnum = 14
+    structure = (
+		('BSTRNAME', BSTR),
+		('BSTRSERVER', BSTR),
+    )
+
+class QueryResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Resolve(NDRCALL):
+    opnum = 15
+    structure = (
+		('PFROM', IDISPATCH),
+    )
+
+class ResolveResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class SetSecurity(NDRCALL):
+    opnum = 16
+    structure = (
+		('SDDL', BSTR),
+    )
+
+class SetSecurityResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class GetSecurity(NDRCALL):
+    opnum = 17
+    structure = (
+		('SECURITYINFO', ULONG),
+    )
+
+class GetSecurityResponse(NDRCALL):
+    structure = (
+		('SDDL', BSTR),
+    )
+        
+
+class GetRegisteredProcesses(NDRCALL):
+    opnum = 18
+    structure = (
+
+    )
+
+class GetRegisteredProcessesResponse(NDRCALL):
+    structure = (
+		('PROCESSES', IVALUEMAP),
+    )
+        
+OPNUMS = {
+0 : (DisplayName,DisplayNameResponse),
+1 : (Guid,GuidResponse),
+2 : (Level,LevelResponse),
+3 : (KeywordsAny,KeywordsAnyResponse),
+4 : (KeywordsAll,KeywordsAllResponse),
+5 : (Properties,PropertiesResponse),
+6 : (FilterEnabled,FilterEnabledResponse),
+7 : (FilterType,FilterTypeResponse),
+8 : (FilterData,FilterDataResponse),
+9 : (Query,QueryResponse),
+10 : (Resolve,ResolveResponse),
+11 : (SetSecurity,SetSecurityResponse),
+12 : (GetSecurity,GetSecurityResponse),
+13 : (GetRegisteredProcesses,GetRegisteredProcessesResponse),
+}
+
+#################################################################################
+
+#ISchedule Definition
+
+#################################################################################
+
+MSRPC_UUID_ISCHEDULE = uuidtup_to_bin(('0383753a-098b-11d8-9414-505054503030','0.0'))
+
+
+class StartDate(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class StartDateResponse(NDRCALL):
+    structure = (
+		('START', VARIANT),
+    )
+        
+
+class StartDate(NDRCALL):
+    opnum = 1
+    structure = (
+		('START', VARIANT),
+    )
+
+class StartDateResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class EndDate(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class EndDateResponse(NDRCALL):
+    structure = (
+		('END', VARIANT),
+    )
+        
+
+class EndDate(NDRCALL):
+    opnum = 3
+    structure = (
+		('END', VARIANT),
+    )
+
+class EndDateResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class StartTime(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class StartTimeResponse(NDRCALL):
+    structure = (
+		('START', VARIANT),
+    )
+        
+
+class StartTime(NDRCALL):
+    opnum = 5
+    structure = (
+		('START', VARIANT),
+    )
+
+class StartTimeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Days(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class DaysResponse(NDRCALL):
+    structure = (
+		('DAYS', WEEKDAYS),
+    )
+        
+
+class Days(NDRCALL):
+    opnum = 7
+    structure = (
+		('DAYS', WEEKDAYS),
+    )
+
+class DaysResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (StartDate,StartDateResponse),
+1 : (EndDate,EndDateResponse),
+2 : (StartTime,StartTimeResponse),
+3 : (Days,DaysResponse),
+}
+
+#################################################################################
+
+#ITraceDataProviderCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_ITRACEDATAPROVIDERCOLLECTION = uuidtup_to_bin(('03837510-098b-11d8-9414-505054503030','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('RETVAL', LONG),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('INDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('PPPROVIDER', ITRACEDATAPROVIDER),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('RETVAL', IUNKNOWN),
+    )
+        
+
+class Add(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class AddResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Remove(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class RemoveResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Clear(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class ClearResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class AddRange(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class AddRangeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CreateTraceDataProvider(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class CreateTraceDataProviderResponse(NDRCALL):
+    structure = (
+		('PROVIDER', ITRACEDATAPROVIDER),
+    )
+        
+
+class GetTraceDataProviders(NDRCALL):
+    opnum = 8
+    structure = (
+		('SERVER', BSTR),
+    )
+
+class GetTraceDataProvidersResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class GetTraceDataProvidersByProcess(NDRCALL):
+    opnum = 9
+    structure = (
+		('SERVER', BSTR),
+		('PID', ULONG),
+    )
+
+class GetTraceDataProvidersByProcessResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+2 : (_NewEnum,_NewEnumResponse),
+3 : (Add,AddResponse),
+4 : (Remove,RemoveResponse),
+5 : (Clear,ClearResponse),
+6 : (AddRange,AddRangeResponse),
+7 : (CreateTraceDataProvider,CreateTraceDataProviderResponse),
+8 : (GetTraceDataProviders,GetTraceDataProvidersResponse),
+9 : (GetTraceDataProvidersByProcess,GetTraceDataProvidersByProcessResponse),
+}
+
+#################################################################################
+
+#IScheduleCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_ISCHEDULECOLLECTION = uuidtup_to_bin(('0383753d-098b-11d8-9414-505054503030','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('RETVAL', LONG),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('INDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('PPSCHEDULE', ISCHEDULE),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('RETVAL', IUNKNOWN),
+    )
+        
+
+class Add(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class AddResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Remove(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class RemoveResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Clear(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class ClearResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class AddRange(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class AddRangeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CreateSchedule(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class CreateScheduleResponse(NDRCALL):
+    structure = (
+		('SCHEDULE', ISCHEDULE),
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+2 : (_NewEnum,_NewEnumResponse),
+3 : (Add,AddResponse),
+4 : (Remove,RemoveResponse),
+5 : (Clear,ClearResponse),
+6 : (AddRange,AddRangeResponse),
+7 : (CreateSchedule,CreateScheduleResponse),
+}
+
+#################################################################################
+
+#IDataCollectorCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IDATACOLLECTORCOLLECTION = uuidtup_to_bin(('03837502-098b-11d8-9414-505054503030','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('RETVAL', LONG),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('INDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('COLLECTOR', IDATACOLLECTOR),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('RETVAL', IUNKNOWN),
+    )
+        
+
+class Add(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class AddResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Remove(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class RemoveResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Clear(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class ClearResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class AddRange(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class AddRangeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CreateDataCollectorFromXml(NDRCALL):
+    opnum = 7
+    structure = (
+		('BSTRXML', BSTR),
+    )
+
+class CreateDataCollectorFromXmlResponse(NDRCALL):
+    structure = (
+		('PVALIDATION', IVALUEMAP),
+		('PCOLLECTOR', IDATACOLLECTOR),
+    )
+        
+
+class CreateDataCollector(NDRCALL):
+    opnum = 8
+    structure = (
+		('TYPE', DATACOLLECTORTYPE),
+    )
+
+class CreateDataCollectorResponse(NDRCALL):
+    structure = (
+		('COLLECTOR', IDATACOLLECTOR),
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+2 : (_NewEnum,_NewEnumResponse),
+3 : (Add,AddResponse),
+4 : (Remove,RemoveResponse),
+5 : (Clear,ClearResponse),
+6 : (AddRange,AddRangeResponse),
+7 : (CreateDataCollectorFromXml,CreateDataCollectorFromXmlResponse),
+8 : (CreateDataCollector,CreateDataCollectorResponse),
+}
+
+#################################################################################
+
+#IDataCollectorSetCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IDATACOLLECTORSETCOLLECTION = uuidtup_to_bin(('03837524-098b-11d8-9414-505054503030','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('RETVAL', LONG),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('INDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('SET', IDATACOLLECTORSET),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('RETVAL', IUNKNOWN),
+    )
+        
+
+class Add(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class AddResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Remove(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class RemoveResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Clear(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class ClearResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class AddRange(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class AddRangeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class GetDataCollectorSets(NDRCALL):
+    opnum = 7
+    structure = (
+		('SERVER', BSTR),
+		('FILTER', BSTR),
+    )
+
+class GetDataCollectorSetsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+2 : (_NewEnum,_NewEnumResponse),
+3 : (Add,AddResponse),
+4 : (Remove,RemoveResponse),
+5 : (Clear,ClearResponse),
+6 : (AddRange,AddRangeResponse),
+7 : (GetDataCollectorSets,GetDataCollectorSetsResponse),
+}
+
+#################################################################################
+
+#IValueMapItem Definition
+
+#################################################################################
+
+MSRPC_UUID_IVALUEMAPITEM = uuidtup_to_bin(('03837533-098b-11d8-9414-505054503030','0.0'))
+
+
+class Description(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class DescriptionResponse(NDRCALL):
+    structure = (
+		('DESCRIPTION', BSTR),
+    )
+        
+
+class Description(NDRCALL):
+    opnum = 1
+    structure = (
+		('DESCRIPTION', BSTR),
+    )
+
+class DescriptionResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Enabled(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class EnabledResponse(NDRCALL):
+    structure = (
+		('ENABLED', VARIANT_BOOL),
+    )
+        
+
+class Enabled(NDRCALL):
+    opnum = 3
+    structure = (
+		('ENABLED', VARIANT_BOOL),
+    )
+
+class EnabledResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Key(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class KeyResponse(NDRCALL):
+    structure = (
+		('KEY', BSTR),
+    )
+        
+
+class Key(NDRCALL):
+    opnum = 5
+    structure = (
+		('KEY', BSTR),
+    )
+
+class KeyResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Value(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class ValueResponse(NDRCALL):
+    structure = (
+		('VALUE', VARIANT),
+    )
+        
+
+class Value(NDRCALL):
+    opnum = 7
+    structure = (
+		('VALUE', VARIANT),
+    )
+
+class ValueResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ValueMapType(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class ValueMapTypeResponse(NDRCALL):
+    structure = (
+		('TYPE', VALUEMAPTYPE),
+    )
+        
+
+class ValueMapType(NDRCALL):
+    opnum = 9
+    structure = (
+		('TYPE', VALUEMAPTYPE),
+    )
+
+class ValueMapTypeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Description,DescriptionResponse),
+1 : (Enabled,EnabledResponse),
+2 : (Key,KeyResponse),
+3 : (Value,ValueResponse),
+4 : (ValueMapType,ValueMapTypeResponse),
+}
+
+#################################################################################
+
+#IValueMap Definition
+
+#################################################################################
+
+MSRPC_UUID_IVALUEMAP = uuidtup_to_bin(('03837534-098b-11d8-9414-505054503030','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('RETVAL', LONG),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('INDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('VALUE', IVALUEMAPITEM),
+    )
+        
+
+class _NewEnum(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('RETVAL', IUNKNOWN),
+    )
+        
+
+class Description(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class DescriptionResponse(NDRCALL):
+    structure = (
+		('DESCRIPTION', BSTR),
+    )
+        
+
+class Description(NDRCALL):
+    opnum = 4
+    structure = (
+		('DESCRIPTION', BSTR),
+    )
+
+class DescriptionResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Value(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class ValueResponse(NDRCALL):
+    structure = (
+		('VALUE', VARIANT),
+    )
+        
+
+class Value(NDRCALL):
+    opnum = 6
+    structure = (
+		('VALUE', VARIANT),
+    )
+
+class ValueResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ValueMapType(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class ValueMapTypeResponse(NDRCALL):
+    structure = (
+		('TYPE', VALUEMAPTYPE),
+    )
+        
+
+class ValueMapType(NDRCALL):
+    opnum = 8
+    structure = (
+		('TYPE', VALUEMAPTYPE),
+    )
+
+class ValueMapTypeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Add(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class AddResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Remove(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class RemoveResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Clear(NDRCALL):
+    opnum = 11
+    structure = (
+
+    )
+
+class ClearResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class AddRange(NDRCALL):
+    opnum = 12
+    structure = (
+
+    )
+
+class AddRangeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CreateValueMapItem(NDRCALL):
+    opnum = 13
+    structure = (
+
+    )
+
+class CreateValueMapItemResponse(NDRCALL):
+    structure = (
+		('ITEM', IVALUEMAPITEM),
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+2 : (_NewEnum,_NewEnumResponse),
+3 : (Description,DescriptionResponse),
+4 : (Value,ValueResponse),
+5 : (ValueMapType,ValueMapTypeResponse),
+6 : (Add,AddResponse),
+7 : (Remove,RemoveResponse),
+8 : (Clear,ClearResponse),
+9 : (AddRange,AddRangeResponse),
+10 : (CreateValueMapItem,CreateValueMapItemResponse),
 }
 
