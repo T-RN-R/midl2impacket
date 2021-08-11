@@ -71,6 +71,7 @@ class IDLTypeToPythonType():
 
     def get_python_type_name(self, type_name:str):
         if type(type_name) is not str:
+            print(type_name)
             raise TypeError(f"Expecting str, got {type(type_name)} instead")
         type_name = type_name.replace("*","")
         if type_name not in self._type_lookup:

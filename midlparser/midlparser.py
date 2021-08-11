@@ -49,8 +49,8 @@ class MidlParser(MidlBaseParser):
             'library' : self._unimplemented
         }
     def _unimplemented(self, token):
-        raise Exception(f"Unimplemented keyword handle for {token.data}")
-        
+        raise Exception(f"Unimplemented keyword handler for {token.data}")
+
     def _import(self, _):
         self.state = MidlState.IMPORT
 

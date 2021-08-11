@@ -95,7 +95,11 @@ class %s(NDRUNION):
             elif type(vd.type) is str:
                 data_type = vd.type
             vars+=f"('{vd.name}', {self.mapper.canonicalize(data_type)}),"
-        base_name = self.mapper.canonicalize(struct.public_names[0])
+        
+        if len(struct.public_names) > 0:
+            base_name = self.mapper.canonicalize(struct.public_names[0])
+        else:
+            base_name = __class__.get_anonymous_name()
         class_def = f"""
 class {base_name}(NDRSTRUCT):
     structure = (
@@ -120,7 +124,7 @@ class {base_name}(NDRSTRUCT):
 
 
         self.write(class_def)
-        return {struct.public_names[0]}
+        return base_name
 
     def handle_ndr_array(self,struct):
         # First step: Find the count and the array variables
