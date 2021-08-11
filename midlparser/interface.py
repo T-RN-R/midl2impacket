@@ -95,6 +95,13 @@ class MidlInterfaceParser(MidlBaseParser):
             self.interface.add_procedure(proc)
         self.cur_member_attrs = {}
 
+    def semicolon(self, token):
+        if self.state == InterfaceState.INHERIT:
+            #TODO This is a forward decl, I don't think anything beyond this is needed by the converter. Verify this
+            self.state = InterfaceState.END
+        else:
+            self.invalid(token)
+
     def keyword(self,token):
         if token.data == "interface" and self.state == InterfaceState.BEGIN:
             self.state = InterfaceState.NAME
