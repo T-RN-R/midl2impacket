@@ -136,8 +136,8 @@ class MidlInterfaceParser(MidlBaseParser):
         if token.data.startswith("#define"):
             self.interface.defines.append(token.data)
 
-    def colon(self, token):
-        if self.state == InterfaceState.INHERIT:
+    def operator(self, token):
+        if self.state == InterfaceState.INHERIT and token.data == ':':
             self.state = InterfaceState.INHERIT_NAME
         else:
             self.invalid(token)
