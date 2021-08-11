@@ -474,14 +474,14 @@ MSRPC_UUID_WDSRPCINTERFACE = uuidtup_to_bin(('1A927394-352E-4553-AE3F-7CF4AAFCA6
 class WdsRpcMessage(NDRCALL):
     opnum = 0
     structure = (
-		('UREQUESTPACKETSIZE', UNSIGNED_LONG),
-		('BREQUESTPACKET', BYTE),
+		('uRequestPacketSize', UNSIGNED_LONG),
+		('bRequestPacket', BYTE),
     )
 
 class WdsRpcMessageResponse(NDRCALL):
     structure = (
-		('PUREPLYPACKETSIZE', UNSIGNED_LONG),
-		('PBREPLYPACKET', BYTE),
+		('puReplyPacketSize', UNSIGNED_LONG),
+		('pbReplyPacket', BYTE),
     )
         
 OPNUMS = {

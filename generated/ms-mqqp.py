@@ -1106,67 +1106,67 @@ class REMOTEREADDESC2(NDRSTRUCT):
 class RemoteQMStartReceive(NDRCALL):
     opnum = 0
     structure = (
-		('HBIND', HANDLE_T),
-		('LPREMOTEREADDESC', REMOTEREADDESC),
+		('hBind', HANDLE_T),
+		('lpRemoteReadDesc', REMOTEREADDESC),
     )
 
 class RemoteQMStartReceiveResponse(NDRCALL):
     structure = (
-		('PPHCONTEXT', PCTX_REMOTEREAD_HANDLE_TYPE),
-		('LPREMOTEREADDESC', REMOTEREADDESC),
+		('pphContext', PCTX_REMOTEREAD_HANDLE_TYPE),
+		('lpRemoteReadDesc', REMOTEREADDESC),
     )
         
 
 class RemoteQMEndReceive(NDRCALL):
     opnum = 1
     structure = (
-		('HBIND', HANDLE_T),
-		('PPHCONTEXT', PCTX_REMOTEREAD_HANDLE_TYPE),
-		('DWACK', DWORD),
+		('hBind', HANDLE_T),
+		('pphContext', PCTX_REMOTEREAD_HANDLE_TYPE),
+		('dwAck', DWORD),
     )
 
 class RemoteQMEndReceiveResponse(NDRCALL):
     structure = (
-		('PPHCONTEXT', PCTX_REMOTEREAD_HANDLE_TYPE),
+		('pphContext', PCTX_REMOTEREAD_HANDLE_TYPE),
     )
         
 
 class RemoteQMOpenQueue(NDRCALL):
     opnum = 2
     structure = (
-		('HBIND', HANDLE_T),
-		('PLICGUID', GUID),
-		('DWMQS', DWORD),
-		('HQUEUE', DWORD),
-		('PQUEUE', DWORD),
-		('DWPCONTEXT', DWORD),
+		('hBind', HANDLE_T),
+		('pLicGuid', GUID),
+		('dwMQS', DWORD),
+		('hQueue', DWORD),
+		('pQueue', DWORD),
+		('dwpContext', DWORD),
     )
 
 class RemoteQMOpenQueueResponse(NDRCALL):
     structure = (
-		('PHCONTEXT', PCTX_RRSESSION_HANDLE_TYPE),
+		('phContext', PCTX_RRSESSION_HANDLE_TYPE),
     )
         
 
 class RemoteQMCloseQueue(NDRCALL):
     opnum = 3
     structure = (
-		('HBIND', HANDLE_T),
-		('PPHCONTEXT', PCTX_RRSESSION_HANDLE_TYPE),
+		('hBind', HANDLE_T),
+		('pphContext', PCTX_RRSESSION_HANDLE_TYPE),
     )
 
 class RemoteQMCloseQueueResponse(NDRCALL):
     structure = (
-		('PPHCONTEXT', PCTX_RRSESSION_HANDLE_TYPE),
+		('pphContext', PCTX_RRSESSION_HANDLE_TYPE),
     )
         
 
 class RemoteQMCloseCursor(NDRCALL):
     opnum = 4
     structure = (
-		('HBIND', HANDLE_T),
-		('HQUEUE', DWORD),
-		('HCURSOR', DWORD),
+		('hBind', HANDLE_T),
+		('hQueue', DWORD),
+		('hCursor', DWORD),
     )
 
 class RemoteQMCloseCursorResponse(NDRCALL):
@@ -1178,10 +1178,10 @@ class RemoteQMCloseCursorResponse(NDRCALL):
 class RemoteQMCancelReceive(NDRCALL):
     opnum = 5
     structure = (
-		('HBIND', HANDLE_T),
-		('HQUEUE', DWORD),
-		('PQUEUE', DWORD),
-		('DWREQUESTID', DWORD),
+		('hBind', HANDLE_T),
+		('hQueue', DWORD),
+		('pQueue', DWORD),
+		('dwRequestID', DWORD),
     )
 
 class RemoteQMCancelReceiveResponse(NDRCALL):
@@ -1193,8 +1193,8 @@ class RemoteQMCancelReceiveResponse(NDRCALL):
 class RemoteQMPurgeQueue(NDRCALL):
     opnum = 6
     structure = (
-		('HBIND', HANDLE_T),
-		('HQUEUE', DWORD),
+		('hBind', HANDLE_T),
+		('hQueue', DWORD),
     )
 
 class RemoteQMPurgeQueueResponse(NDRCALL):
@@ -1206,8 +1206,8 @@ class RemoteQMPurgeQueueResponse(NDRCALL):
 class RemoteQMGetQMQMServerPort(NDRCALL):
     opnum = 7
     structure = (
-		('HBIND', HANDLE_T),
-		('DWPORTTYPE', DWORD),
+		('hBind', HANDLE_T),
+		('dwPortType', DWORD),
     )
 
 class RemoteQMGetQMQMServerPortResponse(NDRCALL):
@@ -1219,43 +1219,43 @@ class RemoteQMGetQMQMServerPortResponse(NDRCALL):
 class RemoteQmGetVersion(NDRCALL):
     opnum = 8
     structure = (
-		('HBIND', HANDLE_T),
+		('hBind', HANDLE_T),
     )
 
 class RemoteQmGetVersionResponse(NDRCALL):
     structure = (
-		('PMAJOR', UNSIGNED_CHAR),
-		('PMINOR', UNSIGNED_CHAR),
-		('PBUILDNUMBER', UNSIGNED_SHORT),
+		('pMajor', UNSIGNED_CHAR),
+		('pMinor', UNSIGNED_CHAR),
+		('pBuildNumber', UNSIGNED_SHORT),
     )
         
 
 class RemoteQMStartReceive2(NDRCALL):
     opnum = 9
     structure = (
-		('HBIND', HANDLE_T),
-		('LPREMOTEREADDESC2', REMOTEREADDESC2),
+		('hBind', HANDLE_T),
+		('lpRemoteReadDesc2', REMOTEREADDESC2),
     )
 
 class RemoteQMStartReceive2Response(NDRCALL):
     structure = (
-		('PPHCONTEXT', PCTX_REMOTEREAD_HANDLE_TYPE),
-		('LPREMOTEREADDESC2', REMOTEREADDESC2),
+		('pphContext', PCTX_REMOTEREAD_HANDLE_TYPE),
+		('lpRemoteReadDesc2', REMOTEREADDESC2),
     )
         
 
 class RemoteQMStartReceiveByLookupId(NDRCALL):
     opnum = 10
     structure = (
-		('HBIND', HANDLE_T),
-		('LOOKUPID', ULONGLONG),
-		('LPREMOTEREADDESC2', REMOTEREADDESC2),
+		('hBind', HANDLE_T),
+		('LookupId', ULONGLONG),
+		('lpRemoteReadDesc2', REMOTEREADDESC2),
     )
 
 class RemoteQMStartReceiveByLookupIdResponse(NDRCALL):
     structure = (
-		('PPHCONTEXT', PCTX_REMOTEREAD_HANDLE_TYPE),
-		('LPREMOTEREADDESC2', REMOTEREADDESC2),
+		('pphContext', PCTX_REMOTEREAD_HANDLE_TYPE),
+		('lpRemoteReadDesc2', REMOTEREADDESC2),
     )
         
 OPNUMS = {

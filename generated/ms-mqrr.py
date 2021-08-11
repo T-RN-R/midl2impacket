@@ -1103,7 +1103,7 @@ class SECTIONBUFFER(NDRSTRUCT):
 class R_GetServerPort(NDRCALL):
     opnum = 0
     structure = (
-		('HBIND', HANDLE_T),
+		('hBind', HANDLE_T),
     )
 
 class R_GetServerPortResponse(NDRCALL):
@@ -1127,56 +1127,56 @@ class Opnum1NotUsedOnWireResponse(NDRCALL):
 class R_OpenQueue(NDRCALL):
     opnum = 2
     structure = (
-		('HBIND', HANDLE_T),
-		('PQUEUEFORMAT', QUEUE_FORMAT),
-		('DWACCESS', DWORD),
-		('DWSHAREMODE', DWORD),
-		('PCLIENTID', GUID),
-		('FNONROUTINGSERVER', LONG),
-		('MAJOR', UNSIGNED_CHAR),
-		('MINOR', UNSIGNED_CHAR),
-		('BUILDNUMBER', USHORT),
-		('FWORKGROUP', LONG),
+		('hBind', HANDLE_T),
+		('pQueueFormat', QUEUE_FORMAT),
+		('dwAccess', DWORD),
+		('dwShareMode', DWORD),
+		('pClientId', GUID),
+		('fNonRoutingServer', LONG),
+		('Major', UNSIGNED_CHAR),
+		('Minor', UNSIGNED_CHAR),
+		('BuildNumber', USHORT),
+		('fWorkgroup', LONG),
     )
 
 class R_OpenQueueResponse(NDRCALL):
     structure = (
-		('PPHCONTEXT', QUEUE_CONTEXT_HANDLE_SERIALIZE),
+		('pphContext', QUEUE_CONTEXT_HANDLE_SERIALIZE),
     )
         
 
 class R_CloseQueue(NDRCALL):
     opnum = 3
     structure = (
-		('HBIND', HANDLE_T),
-		('PPHCONTEXT', QUEUE_CONTEXT_HANDLE_SERIALIZE),
+		('hBind', HANDLE_T),
+		('pphContext', QUEUE_CONTEXT_HANDLE_SERIALIZE),
     )
 
 class R_CloseQueueResponse(NDRCALL):
     structure = (
-		('PPHCONTEXT', QUEUE_CONTEXT_HANDLE_SERIALIZE),
+		('pphContext', QUEUE_CONTEXT_HANDLE_SERIALIZE),
     )
         
 
 class R_CreateCursor(NDRCALL):
     opnum = 4
     structure = (
-		('HBIND', HANDLE_T),
-		('PHCONTEXT', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
+		('hBind', HANDLE_T),
+		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
     )
 
 class R_CreateCursorResponse(NDRCALL):
     structure = (
-		('PHCURSOR', DWORD),
+		('phCursor', DWORD),
     )
         
 
 class R_CloseCursor(NDRCALL):
     opnum = 5
     structure = (
-		('HBIND', HANDLE_T),
-		('PHCONTEXT', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('HCURSOR', DWORD),
+		('hBind', HANDLE_T),
+		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
+		('hCursor', DWORD),
     )
 
 class R_CloseCursorResponse(NDRCALL):
@@ -1188,8 +1188,8 @@ class R_CloseCursorResponse(NDRCALL):
 class R_PurgeQueue(NDRCALL):
     opnum = 6
     structure = (
-		('HBIND', HANDLE_T),
-		('PHCONTEXT', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
+		('hBind', HANDLE_T),
+		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
     )
 
 class R_PurgeQueueResponse(NDRCALL):
@@ -1201,32 +1201,32 @@ class R_PurgeQueueResponse(NDRCALL):
 class R_StartReceive(NDRCALL):
     opnum = 7
     structure = (
-		('HBIND', HANDLE_T),
-		('PHCONTEXT', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('LOOKUPID', ULONGLONG),
-		('HCURSOR', DWORD),
-		('ULACTION', DWORD),
-		('ULTIMEOUT', DWORD),
-		('DWREQUESTID', DWORD),
-		('DWMAXBODYSIZE', DWORD),
-		('DWMAXCOMPOUNDMESSAGESIZE', DWORD),
+		('hBind', HANDLE_T),
+		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
+		('LookupId', ULONGLONG),
+		('hCursor', DWORD),
+		('ulAction', DWORD),
+		('ulTimeout', DWORD),
+		('dwRequestId', DWORD),
+		('dwMaxBodySize', DWORD),
+		('dwMaxCompoundMessageSize', DWORD),
     )
 
 class R_StartReceiveResponse(NDRCALL):
     structure = (
-		('PDWARRIVETIME', DWORD),
-		('PSEQUENCEID', ULONGLONG),
-		('PDWNUMBEROFSECTIONS', DWORD),
-		('PPPACKETSECTIONS', SECTIONBUFFER),
+		('pdwArriveTime', DWORD),
+		('pSequenceId', ULONGLONG),
+		('pdwNumberOfSections', DWORD),
+		('ppPacketSections', SECTIONBUFFER),
     )
         
 
 class R_CancelReceive(NDRCALL):
     opnum = 8
     structure = (
-		('HBIND', HANDLE_T),
-		('PHCONTEXT', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('DWREQUESTID', DWORD),
+		('hBind', HANDLE_T),
+		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
+		('dwRequestId', DWORD),
     )
 
 class R_CancelReceiveResponse(NDRCALL):
@@ -1238,10 +1238,10 @@ class R_CancelReceiveResponse(NDRCALL):
 class R_EndReceive(NDRCALL):
     opnum = 9
     structure = (
-		('HBIND', HANDLE_T),
-		('PHCONTEXT', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('DWACK', DWORD),
-		('DWREQUESTID', DWORD),
+		('hBind', HANDLE_T),
+		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
+		('dwAck', DWORD),
+		('dwRequestId', DWORD),
     )
 
 class R_EndReceiveResponse(NDRCALL):
@@ -1253,11 +1253,11 @@ class R_EndReceiveResponse(NDRCALL):
 class R_MoveMessage(NDRCALL):
     opnum = 10
     structure = (
-		('HBIND', HANDLE_T),
-		('PHCONTEXTFROM', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('ULLCONTEXTTO', ULONGLONG),
-		('LOOKUPID', ULONGLONG),
-		('PTRANSACTIONID', XACTUOW),
+		('hBind', HANDLE_T),
+		('phContextFrom', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
+		('ullContextTo', ULONGLONG),
+		('LookupId', ULONGLONG),
+		('pTransactionId', XACTUOW),
     )
 
 class R_MoveMessageResponse(NDRCALL):
@@ -1269,33 +1269,33 @@ class R_MoveMessageResponse(NDRCALL):
 class R_OpenQueueForMove(NDRCALL):
     opnum = 11
     structure = (
-		('HBIND', HANDLE_T),
-		('PQUEUEFORMAT', QUEUE_FORMAT),
-		('DWACCESS', DWORD),
-		('DWSHAREMODE', DWORD),
-		('PCLIENTID', GUID),
-		('FNONROUTINGSERVER', LONG),
-		('MAJOR', UNSIGNED_CHAR),
-		('MINOR', UNSIGNED_CHAR),
-		('BUILDNUMBER', USHORT),
-		('FWORKGROUP', LONG),
+		('hBind', HANDLE_T),
+		('pQueueFormat', QUEUE_FORMAT),
+		('dwAccess', DWORD),
+		('dwShareMode', DWORD),
+		('pClientId', GUID),
+		('fNonRoutingServer', LONG),
+		('Major', UNSIGNED_CHAR),
+		('Minor', UNSIGNED_CHAR),
+		('BuildNumber', USHORT),
+		('fWorkgroup', LONG),
     )
 
 class R_OpenQueueForMoveResponse(NDRCALL):
     structure = (
-		('PMOVECONTEXT', ULONGLONG),
-		('PPHCONTEXT', QUEUE_CONTEXT_HANDLE_SERIALIZE),
+		('pMoveContext', ULONGLONG),
+		('pphContext', QUEUE_CONTEXT_HANDLE_SERIALIZE),
     )
         
 
 class R_QMEnlistRemoteTransaction(NDRCALL):
     opnum = 12
     structure = (
-		('HBIND', HANDLE_T),
-		('PTRANSACTIONID', XACTUOW),
-		('CBPROPAGATIONTOKEN', DWORD),
-		('PBPROPAGATIONTOKEN', UNSIGNED_CHAR),
-		('PQUEUEFORMAT', QUEUE_FORMAT),
+		('hBind', HANDLE_T),
+		('pTransactionId', XACTUOW),
+		('cbPropagationToken', DWORD),
+		('pbPropagationToken', UNSIGNED_CHAR),
+		('pQueueFormat', QUEUE_FORMAT),
     )
 
 class R_QMEnlistRemoteTransactionResponse(NDRCALL):
@@ -1307,34 +1307,34 @@ class R_QMEnlistRemoteTransactionResponse(NDRCALL):
 class R_StartTransactionalReceive(NDRCALL):
     opnum = 13
     structure = (
-		('HBIND', HANDLE_T),
-		('PHCONTEXT', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('LOOKUPID', ULONGLONG),
-		('HCURSOR', DWORD),
-		('ULACTION', DWORD),
-		('ULTIMEOUT', DWORD),
-		('DWREQUESTID', DWORD),
-		('DWMAXBODYSIZE', DWORD),
-		('DWMAXCOMPOUNDMESSAGESIZE', DWORD),
-		('PTRANSACTIONID', XACTUOW),
+		('hBind', HANDLE_T),
+		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
+		('LookupId', ULONGLONG),
+		('hCursor', DWORD),
+		('ulAction', DWORD),
+		('ulTimeout', DWORD),
+		('dwRequestId', DWORD),
+		('dwMaxBodySize', DWORD),
+		('dwMaxCompoundMessageSize', DWORD),
+		('pTransactionId', XACTUOW),
     )
 
 class R_StartTransactionalReceiveResponse(NDRCALL):
     structure = (
-		('PDWARRIVETIME', DWORD),
-		('PSEQUENCEID', ULONGLONG),
-		('PDWNUMBEROFSECTIONS', DWORD),
-		('PPPACKETSECTIONS', SECTIONBUFFER),
+		('pdwArriveTime', DWORD),
+		('pSequenceId', ULONGLONG),
+		('pdwNumberOfSections', DWORD),
+		('ppPacketSections', SECTIONBUFFER),
     )
         
 
 class R_SetUserAcknowledgementClass(NDRCALL):
     opnum = 14
     structure = (
-		('HBIND', HANDLE_T),
-		('PHCONTEXT', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('LOOKUPID', ULONGLONG),
-		('USCLASS', USHORT),
+		('hBind', HANDLE_T),
+		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
+		('LookupId', ULONGLONG),
+		('usClass', USHORT),
     )
 
 class R_SetUserAcknowledgementClassResponse(NDRCALL):
@@ -1346,10 +1346,10 @@ class R_SetUserAcknowledgementClassResponse(NDRCALL):
 class R_EndTransactionalReceive(NDRCALL):
     opnum = 15
     structure = (
-		('HBIND', HANDLE_T),
-		('PHCONTEXT', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('DWACK', DWORD),
-		('DWREQUESTID', DWORD),
+		('hBind', HANDLE_T),
+		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
+		('dwAck', DWORD),
+		('dwRequestId', DWORD),
     )
 
 class R_EndTransactionalReceiveResponse(NDRCALL):

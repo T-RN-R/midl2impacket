@@ -512,104 +512,104 @@ class PRPC_SECURITY_ATTRIBUTES(NDRPOINTER):
 class OpenClassesRoot(NDRCALL):
     opnum = 0
     structure = (
-		('SERVERNAME', PREGISTRY_SERVER_NAME),
-		('SAMDESIRED', REGSAM),
+		('ServerName', PREGISTRY_SERVER_NAME),
+		('samDesired', REGSAM),
     )
 
 class OpenClassesRootResponse(NDRCALL):
     structure = (
-		('PHKEY', PRPC_HKEY),
+		('phKey', PRPC_HKEY),
     )
         
 
 class OpenCurrentUser(NDRCALL):
     opnum = 1
     structure = (
-		('SERVERNAME', PREGISTRY_SERVER_NAME),
-		('SAMDESIRED', REGSAM),
+		('ServerName', PREGISTRY_SERVER_NAME),
+		('samDesired', REGSAM),
     )
 
 class OpenCurrentUserResponse(NDRCALL):
     structure = (
-		('PHKEY', PRPC_HKEY),
+		('phKey', PRPC_HKEY),
     )
         
 
 class OpenLocalMachine(NDRCALL):
     opnum = 2
     structure = (
-		('SERVERNAME', PREGISTRY_SERVER_NAME),
-		('SAMDESIRED', REGSAM),
+		('ServerName', PREGISTRY_SERVER_NAME),
+		('samDesired', REGSAM),
     )
 
 class OpenLocalMachineResponse(NDRCALL):
     structure = (
-		('PHKEY', PRPC_HKEY),
+		('phKey', PRPC_HKEY),
     )
         
 
 class OpenPerformanceData(NDRCALL):
     opnum = 3
     structure = (
-		('SERVERNAME', PREGISTRY_SERVER_NAME),
-		('SAMDESIRED', REGSAM),
+		('ServerName', PREGISTRY_SERVER_NAME),
+		('samDesired', REGSAM),
     )
 
 class OpenPerformanceDataResponse(NDRCALL):
     structure = (
-		('PHKEY', PRPC_HKEY),
+		('phKey', PRPC_HKEY),
     )
         
 
 class OpenUsers(NDRCALL):
     opnum = 4
     structure = (
-		('SERVERNAME', PREGISTRY_SERVER_NAME),
-		('SAMDESIRED', REGSAM),
+		('ServerName', PREGISTRY_SERVER_NAME),
+		('samDesired', REGSAM),
     )
 
 class OpenUsersResponse(NDRCALL):
     structure = (
-		('PHKEY', PRPC_HKEY),
+		('phKey', PRPC_HKEY),
     )
         
 
 class BaseRegCloseKey(NDRCALL):
     opnum = 5
     structure = (
-		('HKEY', PRPC_HKEY),
+		('hKey', PRPC_HKEY),
     )
 
 class BaseRegCloseKeyResponse(NDRCALL):
     structure = (
-		('HKEY', PRPC_HKEY),
+		('hKey', PRPC_HKEY),
     )
         
 
 class BaseRegCreateKey(NDRCALL):
     opnum = 6
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPSUBKEY', PRRP_UNICODE_STRING),
-		('LPCLASS', PRRP_UNICODE_STRING),
-		('DWOPTIONS', DWORD),
-		('SAMDESIRED', REGSAM),
-		('LPSECURITYATTRIBUTES', PRPC_SECURITY_ATTRIBUTES),
-		('LPDWDISPOSITION', LPDWORD),
+		('hKey', RPC_HKEY),
+		('lpSubKey', PRRP_UNICODE_STRING),
+		('lpClass', PRRP_UNICODE_STRING),
+		('dwOptions', DWORD),
+		('samDesired', REGSAM),
+		('lpSecurityAttributes', PRPC_SECURITY_ATTRIBUTES),
+		('lpdwDisposition', LPDWORD),
     )
 
 class BaseRegCreateKeyResponse(NDRCALL):
     structure = (
-		('PHKRESULT', PRPC_HKEY),
-		('LPDWDISPOSITION', LPDWORD),
+		('phkResult', PRPC_HKEY),
+		('lpdwDisposition', LPDWORD),
     )
         
 
 class BaseRegDeleteKey(NDRCALL):
     opnum = 7
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPSUBKEY', PRRP_UNICODE_STRING),
+		('hKey', RPC_HKEY),
+		('lpSubKey', PRRP_UNICODE_STRING),
     )
 
 class BaseRegDeleteKeyResponse(NDRCALL):
@@ -621,8 +621,8 @@ class BaseRegDeleteKeyResponse(NDRCALL):
 class BaseRegDeleteValue(NDRCALL):
     opnum = 8
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPVALUENAME', PRRP_UNICODE_STRING),
+		('hKey', RPC_HKEY),
+		('lpValueName', PRRP_UNICODE_STRING),
     )
 
 class BaseRegDeleteValueResponse(NDRCALL):
@@ -634,47 +634,47 @@ class BaseRegDeleteValueResponse(NDRCALL):
 class BaseRegEnumKey(NDRCALL):
     opnum = 9
     structure = (
-		('HKEY', RPC_HKEY),
-		('DWINDEX', DWORD),
-		('LPNAMEIN', PRRP_UNICODE_STRING),
-		('LPCLASSIN', PRRP_UNICODE_STRING),
-		('LPFTLASTWRITETIME', PFILETIME),
+		('hKey', RPC_HKEY),
+		('dwIndex', DWORD),
+		('lpNameIn', PRRP_UNICODE_STRING),
+		('lpClassIn', PRRP_UNICODE_STRING),
+		('lpftLastWriteTime', PFILETIME),
     )
 
 class BaseRegEnumKeyResponse(NDRCALL):
     structure = (
-		('LPNAMEOUT', PRRP_UNICODE_STRING),
-		('LPLPCLASSOUT', PRPC_UNICODE_STRING),
-		('LPFTLASTWRITETIME', PFILETIME),
+		('lpNameOut', PRRP_UNICODE_STRING),
+		('lplpClassOut', PRPC_UNICODE_STRING),
+		('lpftLastWriteTime', PFILETIME),
     )
         
 
 class BaseRegEnumValue(NDRCALL):
     opnum = 10
     structure = (
-		('HKEY', RPC_HKEY),
-		('DWINDEX', DWORD),
-		('LPVALUENAMEIN', PRRP_UNICODE_STRING),
-		('LPTYPE', LPDWORD),
-		('LPDATA', LPBYTE),
-		('LPCBDATA', LPDWORD),
-		('LPCBLEN', LPDWORD),
+		('hKey', RPC_HKEY),
+		('dwIndex', DWORD),
+		('lpValueNameIn', PRRP_UNICODE_STRING),
+		('lpType', LPDWORD),
+		('lpData', LPBYTE),
+		('lpcbData', LPDWORD),
+		('lpcbLen', LPDWORD),
     )
 
 class BaseRegEnumValueResponse(NDRCALL):
     structure = (
-		('LPVALUENAMEOUT', PRPC_UNICODE_STRING),
-		('LPTYPE', LPDWORD),
-		('LPDATA', LPBYTE),
-		('LPCBDATA', LPDWORD),
-		('LPCBLEN', LPDWORD),
+		('lpValueNameOut', PRPC_UNICODE_STRING),
+		('lpType', LPDWORD),
+		('lpData', LPBYTE),
+		('lpcbData', LPDWORD),
+		('lpcbLen', LPDWORD),
     )
         
 
 class BaseRegFlushKey(NDRCALL):
     opnum = 11
     structure = (
-		('HKEY', RPC_HKEY),
+		('hKey', RPC_HKEY),
     )
 
 class BaseRegFlushKeyResponse(NDRCALL):
@@ -686,23 +686,23 @@ class BaseRegFlushKeyResponse(NDRCALL):
 class BaseRegGetKeySecurity(NDRCALL):
     opnum = 12
     structure = (
-		('HKEY', RPC_HKEY),
-		('SECURITYINFORMATION', SECURITY_INFORMATION),
-		('PRPCSECURITYDESCRIPTORIN', PRPC_SECURITY_DESCRIPTOR),
+		('hKey', RPC_HKEY),
+		('SecurityInformation', SECURITY_INFORMATION),
+		('pRpcSecurityDescriptorIn', PRPC_SECURITY_DESCRIPTOR),
     )
 
 class BaseRegGetKeySecurityResponse(NDRCALL):
     structure = (
-		('PRPCSECURITYDESCRIPTOROUT', PRPC_SECURITY_DESCRIPTOR),
+		('pRpcSecurityDescriptorOut', PRPC_SECURITY_DESCRIPTOR),
     )
         
 
 class BaseRegLoadKey(NDRCALL):
     opnum = 13
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPSUBKEY', PRRP_UNICODE_STRING),
-		('LPFILE', PRRP_UNICODE_STRING),
+		('hKey', RPC_HKEY),
+		('lpSubKey', PRRP_UNICODE_STRING),
+		('lpFile', PRRP_UNICODE_STRING),
     )
 
 class BaseRegLoadKeyResponse(NDRCALL):
@@ -726,66 +726,66 @@ class Opnum14NotImplementedResponse(NDRCALL):
 class BaseRegOpenKey(NDRCALL):
     opnum = 15
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPSUBKEY', PRRP_UNICODE_STRING),
-		('DWOPTIONS', DWORD),
-		('SAMDESIRED', REGSAM),
+		('hKey', RPC_HKEY),
+		('lpSubKey', PRRP_UNICODE_STRING),
+		('dwOptions', DWORD),
+		('samDesired', REGSAM),
     )
 
 class BaseRegOpenKeyResponse(NDRCALL):
     structure = (
-		('PHKRESULT', PRPC_HKEY),
+		('phkResult', PRPC_HKEY),
     )
         
 
 class BaseRegQueryInfoKey(NDRCALL):
     opnum = 16
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPCLASSIN', PRRP_UNICODE_STRING),
+		('hKey', RPC_HKEY),
+		('lpClassIn', PRRP_UNICODE_STRING),
     )
 
 class BaseRegQueryInfoKeyResponse(NDRCALL):
     structure = (
-		('LPCLASSOUT', PRPC_UNICODE_STRING),
-		('LPCSUBKEYS', LPDWORD),
-		('LPCBMAXSUBKEYLEN', LPDWORD),
-		('LPCBMAXCLASSLEN', LPDWORD),
-		('LPCVALUES', LPDWORD),
-		('LPCBMAXVALUENAMELEN', LPDWORD),
-		('LPCBMAXVALUELEN', LPDWORD),
-		('LPCBSECURITYDESCRIPTOR', LPDWORD),
-		('LPFTLASTWRITETIME', PFILETIME),
+		('lpClassOut', PRPC_UNICODE_STRING),
+		('lpcSubKeys', LPDWORD),
+		('lpcbMaxSubKeyLen', LPDWORD),
+		('lpcbMaxClassLen', LPDWORD),
+		('lpcValues', LPDWORD),
+		('lpcbMaxValueNameLen', LPDWORD),
+		('lpcbMaxValueLen', LPDWORD),
+		('lpcbSecurityDescriptor', LPDWORD),
+		('lpftLastWriteTime', PFILETIME),
     )
         
 
 class BaseRegQueryValue(NDRCALL):
     opnum = 17
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPVALUENAME', PRRP_UNICODE_STRING),
-		('LPTYPE', LPDWORD),
-		('LPDATA', LPBYTE),
-		('LPCBDATA', LPDWORD),
-		('LPCBLEN', LPDWORD),
+		('hKey', RPC_HKEY),
+		('lpValueName', PRRP_UNICODE_STRING),
+		('lpType', LPDWORD),
+		('lpData', LPBYTE),
+		('lpcbData', LPDWORD),
+		('lpcbLen', LPDWORD),
     )
 
 class BaseRegQueryValueResponse(NDRCALL):
     structure = (
-		('LPTYPE', LPDWORD),
-		('LPDATA', LPBYTE),
-		('LPCBDATA', LPDWORD),
-		('LPCBLEN', LPDWORD),
+		('lpType', LPDWORD),
+		('lpData', LPBYTE),
+		('lpcbData', LPDWORD),
+		('lpcbLen', LPDWORD),
     )
         
 
 class BaseRegReplaceKey(NDRCALL):
     opnum = 18
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPSUBKEY', PRRP_UNICODE_STRING),
-		('LPNEWFILE', PRRP_UNICODE_STRING),
-		('LPOLDFILE', PRRP_UNICODE_STRING),
+		('hKey', RPC_HKEY),
+		('lpSubKey', PRRP_UNICODE_STRING),
+		('lpNewFile', PRRP_UNICODE_STRING),
+		('lpOldFile', PRRP_UNICODE_STRING),
     )
 
 class BaseRegReplaceKeyResponse(NDRCALL):
@@ -797,9 +797,9 @@ class BaseRegReplaceKeyResponse(NDRCALL):
 class BaseRegRestoreKey(NDRCALL):
     opnum = 19
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPFILE', PRRP_UNICODE_STRING),
-		('FLAGS', DWORD),
+		('hKey', RPC_HKEY),
+		('lpFile', PRRP_UNICODE_STRING),
+		('Flags', DWORD),
     )
 
 class BaseRegRestoreKeyResponse(NDRCALL):
@@ -811,9 +811,9 @@ class BaseRegRestoreKeyResponse(NDRCALL):
 class BaseRegSaveKey(NDRCALL):
     opnum = 20
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPFILE', PRRP_UNICODE_STRING),
-		('PSECURITYATTRIBUTES', PRPC_SECURITY_ATTRIBUTES),
+		('hKey', RPC_HKEY),
+		('lpFile', PRRP_UNICODE_STRING),
+		('pSecurityAttributes', PRPC_SECURITY_ATTRIBUTES),
     )
 
 class BaseRegSaveKeyResponse(NDRCALL):
@@ -825,9 +825,9 @@ class BaseRegSaveKeyResponse(NDRCALL):
 class BaseRegSetKeySecurity(NDRCALL):
     opnum = 21
     structure = (
-		('HKEY', RPC_HKEY),
-		('SECURITYINFORMATION', SECURITY_INFORMATION),
-		('PRPCSECURITYDESCRIPTOR', PRPC_SECURITY_DESCRIPTOR),
+		('hKey', RPC_HKEY),
+		('SecurityInformation', SECURITY_INFORMATION),
+		('pRpcSecurityDescriptor', PRPC_SECURITY_DESCRIPTOR),
     )
 
 class BaseRegSetKeySecurityResponse(NDRCALL):
@@ -839,11 +839,11 @@ class BaseRegSetKeySecurityResponse(NDRCALL):
 class BaseRegSetValue(NDRCALL):
     opnum = 22
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPVALUENAME', PRRP_UNICODE_STRING),
-		('DWTYPE', DWORD),
-		('LPDATA', LPBYTE),
-		('CBDATA', DWORD),
+		('hKey', RPC_HKEY),
+		('lpValueName', PRRP_UNICODE_STRING),
+		('dwType', DWORD),
+		('lpData', LPBYTE),
+		('cbData', DWORD),
     )
 
 class BaseRegSetValueResponse(NDRCALL):
@@ -855,8 +855,8 @@ class BaseRegSetValueResponse(NDRCALL):
 class BaseRegUnLoadKey(NDRCALL):
     opnum = 23
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPSUBKEY', PRRP_UNICODE_STRING),
+		('hKey', RPC_HKEY),
+		('lpSubKey', PRRP_UNICODE_STRING),
     )
 
 class BaseRegUnLoadKeyResponse(NDRCALL):
@@ -892,25 +892,25 @@ class Opnum25NotImplementedResponse(NDRCALL):
 class BaseRegGetVersion(NDRCALL):
     opnum = 26
     structure = (
-		('HKEY', RPC_HKEY),
+		('hKey', RPC_HKEY),
     )
 
 class BaseRegGetVersionResponse(NDRCALL):
     structure = (
-		('LPDWVERSION', LPDWORD),
+		('lpdwVersion', LPDWORD),
     )
         
 
 class OpenCurrentConfig(NDRCALL):
     opnum = 27
     structure = (
-		('SERVERNAME', PREGISTRY_SERVER_NAME),
-		('SAMDESIRED', REGSAM),
+		('ServerName', PREGISTRY_SERVER_NAME),
+		('samDesired', REGSAM),
     )
 
 class OpenCurrentConfigResponse(NDRCALL):
     structure = (
-		('PHKEY', PRPC_HKEY),
+		('phKey', PRPC_HKEY),
     )
         
 
@@ -929,18 +929,18 @@ class Opnum28NotImplementedResponse(NDRCALL):
 class BaseRegQueryMultipleValues(NDRCALL):
     opnum = 29
     structure = (
-		('HKEY', RPC_HKEY),
-		('VAL_LISTIN', PRVALENT),
-		('NUM_VALS', DWORD),
-		('LPVALUEBUF', CHAR),
-		('LDWTOTSIZE', LPDWORD),
+		('hKey', RPC_HKEY),
+		('val_listIn', PRVALENT),
+		('num_vals', DWORD),
+		('lpvalueBuf', CHAR),
+		('ldwTotsize', LPDWORD),
     )
 
 class BaseRegQueryMultipleValuesResponse(NDRCALL):
     structure = (
-		('VAL_LISTOUT', PRVALENT),
-		('LPVALUEBUF', CHAR),
-		('LDWTOTSIZE', LPDWORD),
+		('val_listOut', PRVALENT),
+		('lpvalueBuf', CHAR),
+		('ldwTotsize', LPDWORD),
     )
         
 
@@ -959,10 +959,10 @@ class Opnum30NotImplementedResponse(NDRCALL):
 class BaseRegSaveKeyEx(NDRCALL):
     opnum = 31
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPFILE', PRRP_UNICODE_STRING),
-		('PSECURITYATTRIBUTES', PRPC_SECURITY_ATTRIBUTES),
-		('FLAGS', DWORD),
+		('hKey', RPC_HKEY),
+		('lpFile', PRRP_UNICODE_STRING),
+		('pSecurityAttributes', PRPC_SECURITY_ATTRIBUTES),
+		('Flags', DWORD),
     )
 
 class BaseRegSaveKeyExResponse(NDRCALL):
@@ -974,54 +974,54 @@ class BaseRegSaveKeyExResponse(NDRCALL):
 class OpenPerformanceText(NDRCALL):
     opnum = 32
     structure = (
-		('SERVERNAME', PREGISTRY_SERVER_NAME),
-		('SAMDESIRED', REGSAM),
+		('ServerName', PREGISTRY_SERVER_NAME),
+		('samDesired', REGSAM),
     )
 
 class OpenPerformanceTextResponse(NDRCALL):
     structure = (
-		('PHKEY', PRPC_HKEY),
+		('phKey', PRPC_HKEY),
     )
         
 
 class OpenPerformanceNlsText(NDRCALL):
     opnum = 33
     structure = (
-		('SERVERNAME', PREGISTRY_SERVER_NAME),
-		('SAMDESIRED', REGSAM),
+		('ServerName', PREGISTRY_SERVER_NAME),
+		('samDesired', REGSAM),
     )
 
 class OpenPerformanceNlsTextResponse(NDRCALL):
     structure = (
-		('PHKEY', PRPC_HKEY),
+		('phKey', PRPC_HKEY),
     )
         
 
 class BaseRegQueryMultipleValues2(NDRCALL):
     opnum = 34
     structure = (
-		('HKEY', RPC_HKEY),
-		('VAL_LISTIN', PRVALENT),
-		('NUM_VALS', DWORD),
-		('LPVALUEBUF', CHAR),
-		('LDWTOTSIZE', LPDWORD),
+		('hKey', RPC_HKEY),
+		('val_listIn', PRVALENT),
+		('num_vals', DWORD),
+		('lpvalueBuf', CHAR),
+		('ldwTotsize', LPDWORD),
     )
 
 class BaseRegQueryMultipleValues2Response(NDRCALL):
     structure = (
-		('VAL_LISTOUT', PRVALENT),
-		('LPVALUEBUF', CHAR),
-		('LDWREQUIREDSIZE', LPDWORD),
+		('val_listOut', PRVALENT),
+		('lpvalueBuf', CHAR),
+		('ldwRequiredSize', LPDWORD),
     )
         
 
 class BaseRegDeleteKeyEx(NDRCALL):
     opnum = 35
     structure = (
-		('HKEY', RPC_HKEY),
-		('LPSUBKEY', PRRP_UNICODE_STRING),
-		('ACCESSMASK', REGSAM),
-		('RESERVED', DWORD),
+		('hKey', RPC_HKEY),
+		('lpSubKey', PRRP_UNICODE_STRING),
+		('AccessMask', REGSAM),
+		('Reserved', DWORD),
     )
 
 class BaseRegDeleteKeyExResponse(NDRCALL):

@@ -643,17 +643,17 @@ class Opnum11NotUsedOnWireResponse(NDRCALL):
 class LnkSearchMachine(NDRCALL):
     opnum = 12
     structure = (
-		('RESTRICTIONS', UNSIGNED_LONG),
-		('PDROIDBIRTHLAST',  CDOMAINRELATIVEOBJID),
-		('PDROIDLAST',  CDOMAINRELATIVEOBJID),
+		('Restrictions', UNSIGNED_LONG),
+		('pdroidBirthLast',  CDOMAINRELATIVEOBJID),
+		('pdroidLast',  CDOMAINRELATIVEOBJID),
     )
 
 class LnkSearchMachineResponse(NDRCALL):
     structure = (
-		('PDROIDBIRTHNEXT', CDOMAINRELATIVEOBJID),
-		('PDROIDNEXT', CDOMAINRELATIVEOBJID),
-		('PMCIDNEXT', CMACHINEID),
-		('PTSZPATH', WCHAR_T),
+		('pdroidBirthNext', CDOMAINRELATIVEOBJID),
+		('pdroidNext', CDOMAINRELATIVEOBJID),
+		('pmcidNext', CMACHINEID),
+		('ptszPath', WCHAR_T),
     )
         
 OPNUMS = {

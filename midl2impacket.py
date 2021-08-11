@@ -10,7 +10,6 @@ def generate_impacket(midl_def: midl.MidlDefinition, import_dir:str):
     return ImpacketBuilder().midl_def(midl_def).import_dir(import_dir).build()
 
 def main():
-    #TODO Once the Impacket generator is fully implemented, the commandline should accept --out_file arguments
     parser = argparse.ArgumentParser(description='Process some integers.')
     parser.add_argument('--in-file', '-in', type=str, help='IDL file to convert to Impacket', required=True)
     parser.add_argument('--out-file', '-out', type=str, help='Impacket output file', default=None, required=False)
@@ -36,19 +35,6 @@ def generate(in_file, out_file, import_dir):
     generated_code = generate_impacket(midl_def, import_dir)
     out_file.write_text(generated_code)
 
-def generate_from_scraped():
-    f = []
-    for (dirpath, dirnames, filenames) in walk("./scraped"):
-        f.extend(filenames)
-        break
-    print(f)
-    failures = []
-    for _f in f:
-        try:
-            generate("./scraped/"+_f, "./generated/"+_f.split(".")[0]+".py", "./scraped/")
-        except:
-            failures.append(_f)
-    print(f"Failed to parse: {failures}")
 
 if __name__ == "__main__":
-    generate_from_scraped()
+    main()

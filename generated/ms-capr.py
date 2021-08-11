@@ -1082,12 +1082,12 @@ class PLSAPR_TRANSLATED_SIDS_EX2(NDRPOINTER):
 class LsarClose(NDRCALL):
     opnum = 0
     structure = (
-		('OBJECTHANDLE', LSAPR_HANDLE),
+		('ObjectHandle', LSAPR_HANDLE),
     )
 
 class LsarCloseResponse(NDRCALL):
     structure = (
-		('OBJECTHANDLE', LSAPR_HANDLE),
+		('ObjectHandle', LSAPR_HANDLE),
     )
         
 
@@ -1154,14 +1154,14 @@ class Opnum5NotUsedOnWireResponse(NDRCALL):
 class LsarOpenPolicy(NDRCALL):
     opnum = 6
     structure = (
-		('SYSTEMNAME', WCHAR_T),
-		('OBJECTATTRIBUTES', PLSAPR_OBJECT_ATTRIBUTES),
-		('DESIREDACCESS', ACCESS_MASK),
+		('SystemName', WCHAR_T),
+		('ObjectAttributes', PLSAPR_OBJECT_ATTRIBUTES),
+		('DesiredAccess', ACCESS_MASK),
     )
 
 class LsarOpenPolicyResponse(NDRCALL):
     structure = (
-		('POLICYHANDLE', LSAPR_HANDLE),
+		('PolicyHandle', LSAPR_HANDLE),
     )
         
 
@@ -1252,37 +1252,37 @@ class Lsar_LSA_DP_13Response(NDRCALL):
 class LsarLookupNames(NDRCALL):
     opnum = 14
     structure = (
-		('POLICYHANDLE', LSAPR_HANDLE),
-		('COUNT', UNSIGNED_LONG),
-		('NAMES', PRPC_UNICODE_STRING),
-		('TRANSLATEDSIDS', PLSAPR_TRANSLATED_SIDS),
-		('LOOKUPLEVEL', LSAP_LOOKUP_LEVEL),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
+		('PolicyHandle', LSAPR_HANDLE),
+		('Count', UNSIGNED_LONG),
+		('Names', PRPC_UNICODE_STRING),
+		('TranslatedSids', PLSAPR_TRANSLATED_SIDS),
+		('LookupLevel', LSAP_LOOKUP_LEVEL),
+		('MappedCount', UNSIGNED_LONG),
     )
 
 class LsarLookupNamesResponse(NDRCALL):
     structure = (
-		('REFERENCEDDOMAINS', PLSAPR_REFERENCED_DOMAIN_LIST),
-		('TRANSLATEDSIDS', PLSAPR_TRANSLATED_SIDS),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
+		('ReferencedDomains', PLSAPR_REFERENCED_DOMAIN_LIST),
+		('TranslatedSids', PLSAPR_TRANSLATED_SIDS),
+		('MappedCount', UNSIGNED_LONG),
     )
         
 
 class LsarLookupSids(NDRCALL):
     opnum = 15
     structure = (
-		('POLICYHANDLE', LSAPR_HANDLE),
-		('SIDENUMBUFFER', PLSAPR_SID_ENUM_BUFFER),
-		('TRANSLATEDNAMES', PLSAPR_TRANSLATED_NAMES),
-		('LOOKUPLEVEL', LSAP_LOOKUP_LEVEL),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
+		('PolicyHandle', LSAPR_HANDLE),
+		('SidEnumBuffer', PLSAPR_SID_ENUM_BUFFER),
+		('TranslatedNames', PLSAPR_TRANSLATED_NAMES),
+		('LookupLevel', LSAP_LOOKUP_LEVEL),
+		('MappedCount', UNSIGNED_LONG),
     )
 
 class LsarLookupSidsResponse(NDRCALL):
     structure = (
-		('REFERENCEDDOMAINS', PLSAPR_REFERENCED_DOMAIN_LIST),
-		('TRANSLATEDNAMES', PLSAPR_TRANSLATED_NAMES),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
+		('ReferencedDomains', PLSAPR_REFERENCED_DOMAIN_LIST),
+		('TranslatedNames', PLSAPR_TRANSLATED_NAMES),
+		('MappedCount', UNSIGNED_LONG),
     )
         
 
@@ -1625,29 +1625,29 @@ class Lsar_LSA_DP_43Response(NDRCALL):
 class LsarOpenPolicy2(NDRCALL):
     opnum = 44
     structure = (
-		('SYSTEMNAME', WCHAR_T),
-		('OBJECTATTRIBUTES', PLSAPR_OBJECT_ATTRIBUTES),
-		('DESIREDACCESS', ACCESS_MASK),
+		('SystemName', WCHAR_T),
+		('ObjectAttributes', PLSAPR_OBJECT_ATTRIBUTES),
+		('DesiredAccess', ACCESS_MASK),
     )
 
 class LsarOpenPolicy2Response(NDRCALL):
     structure = (
-		('POLICYHANDLE', LSAPR_HANDLE),
+		('PolicyHandle', LSAPR_HANDLE),
     )
         
 
 class LsarGetUserName(NDRCALL):
     opnum = 45
     structure = (
-		('SYSTEMNAME', WCHAR_T),
-		('USERNAME', PRPC_UNICODE_STRING),
-		('DOMAINNAME', PRPC_UNICODE_STRING),
+		('SystemName', WCHAR_T),
+		('UserName', PRPC_UNICODE_STRING),
+		('DomainName', PRPC_UNICODE_STRING),
     )
 
 class LsarGetUserNameResponse(NDRCALL):
     structure = (
-		('USERNAME', PRPC_UNICODE_STRING),
-		('DOMAINNAME', PRPC_UNICODE_STRING),
+		('UserName', PRPC_UNICODE_STRING),
+		('DomainName', PRPC_UNICODE_STRING),
     )
         
 
@@ -1786,41 +1786,41 @@ class Opnum56NotUsedOnWireResponse(NDRCALL):
 class LsarLookupSids2(NDRCALL):
     opnum = 57
     structure = (
-		('POLICYHANDLE', LSAPR_HANDLE),
-		('SIDENUMBUFFER', PLSAPR_SID_ENUM_BUFFER),
-		('TRANSLATEDNAMES', PLSAPR_TRANSLATED_NAMES_EX),
-		('LOOKUPLEVEL', LSAP_LOOKUP_LEVEL),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
-		('LOOKUPOPTIONS', UNSIGNED_LONG),
-		('CLIENTREVISION', UNSIGNED_LONG),
+		('PolicyHandle', LSAPR_HANDLE),
+		('SidEnumBuffer', PLSAPR_SID_ENUM_BUFFER),
+		('TranslatedNames', PLSAPR_TRANSLATED_NAMES_EX),
+		('LookupLevel', LSAP_LOOKUP_LEVEL),
+		('MappedCount', UNSIGNED_LONG),
+		('LookupOptions', UNSIGNED_LONG),
+		('ClientRevision', UNSIGNED_LONG),
     )
 
 class LsarLookupSids2Response(NDRCALL):
     structure = (
-		('REFERENCEDDOMAINS', PLSAPR_REFERENCED_DOMAIN_LIST),
-		('TRANSLATEDNAMES', PLSAPR_TRANSLATED_NAMES_EX),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
+		('ReferencedDomains', PLSAPR_REFERENCED_DOMAIN_LIST),
+		('TranslatedNames', PLSAPR_TRANSLATED_NAMES_EX),
+		('MappedCount', UNSIGNED_LONG),
     )
         
 
 class LsarLookupNames2(NDRCALL):
     opnum = 58
     structure = (
-		('POLICYHANDLE', LSAPR_HANDLE),
-		('COUNT', UNSIGNED_LONG),
-		('NAMES', PRPC_UNICODE_STRING),
-		('TRANSLATEDSIDS', PLSAPR_TRANSLATED_SIDS_EX),
-		('LOOKUPLEVEL', LSAP_LOOKUP_LEVEL),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
-		('LOOKUPOPTIONS', UNSIGNED_LONG),
-		('CLIENTREVISION', UNSIGNED_LONG),
+		('PolicyHandle', LSAPR_HANDLE),
+		('Count', UNSIGNED_LONG),
+		('Names', PRPC_UNICODE_STRING),
+		('TranslatedSids', PLSAPR_TRANSLATED_SIDS_EX),
+		('LookupLevel', LSAP_LOOKUP_LEVEL),
+		('MappedCount', UNSIGNED_LONG),
+		('LookupOptions', UNSIGNED_LONG),
+		('ClientRevision', UNSIGNED_LONG),
     )
 
 class LsarLookupNames2Response(NDRCALL):
     structure = (
-		('REFERENCEDDOMAINS', PLSAPR_REFERENCED_DOMAIN_LIST),
-		('TRANSLATEDSIDS', PLSAPR_TRANSLATED_SIDS_EX),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
+		('ReferencedDomains', PLSAPR_REFERENCED_DOMAIN_LIST),
+		('TranslatedSids', PLSAPR_TRANSLATED_SIDS_EX),
+		('MappedCount', UNSIGNED_LONG),
     )
         
 
@@ -1935,21 +1935,21 @@ class Opnum67NotUsedOnWireResponse(NDRCALL):
 class LsarLookupNames3(NDRCALL):
     opnum = 68
     structure = (
-		('POLICYHANDLE', LSAPR_HANDLE),
-		('COUNT', UNSIGNED_LONG),
-		('NAMES', PRPC_UNICODE_STRING),
-		('TRANSLATEDSIDS', PLSAPR_TRANSLATED_SIDS_EX2),
-		('LOOKUPLEVEL', LSAP_LOOKUP_LEVEL),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
-		('LOOKUPOPTIONS', UNSIGNED_LONG),
-		('CLIENTREVISION', UNSIGNED_LONG),
+		('PolicyHandle', LSAPR_HANDLE),
+		('Count', UNSIGNED_LONG),
+		('Names', PRPC_UNICODE_STRING),
+		('TranslatedSids', PLSAPR_TRANSLATED_SIDS_EX2),
+		('LookupLevel', LSAP_LOOKUP_LEVEL),
+		('MappedCount', UNSIGNED_LONG),
+		('LookupOptions', UNSIGNED_LONG),
+		('ClientRevision', UNSIGNED_LONG),
     )
 
 class LsarLookupNames3Response(NDRCALL):
     structure = (
-		('REFERENCEDDOMAINS', PLSAPR_REFERENCED_DOMAIN_LIST),
-		('TRANSLATEDSIDS', PLSAPR_TRANSLATED_SIDS_EX2),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
+		('ReferencedDomains', PLSAPR_REFERENCED_DOMAIN_LIST),
+		('TranslatedSids', PLSAPR_TRANSLATED_SIDS_EX2),
+		('MappedCount', UNSIGNED_LONG),
     )
         
 
@@ -2040,41 +2040,41 @@ class Opnum75NotUsedOnWireResponse(NDRCALL):
 class LsarLookupSids3(NDRCALL):
     opnum = 76
     structure = (
-		('RPCHANDLE', HANDLE_T),
-		('SIDENUMBUFFER', PLSAPR_SID_ENUM_BUFFER),
-		('TRANSLATEDNAMES', PLSAPR_TRANSLATED_NAMES_EX),
-		('LOOKUPLEVEL', LSAP_LOOKUP_LEVEL),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
-		('LOOKUPOPTIONS', UNSIGNED_LONG),
-		('CLIENTREVISION', UNSIGNED_LONG),
+		('RpcHandle', HANDLE_T),
+		('SidEnumBuffer', PLSAPR_SID_ENUM_BUFFER),
+		('TranslatedNames', PLSAPR_TRANSLATED_NAMES_EX),
+		('LookupLevel', LSAP_LOOKUP_LEVEL),
+		('MappedCount', UNSIGNED_LONG),
+		('LookupOptions', UNSIGNED_LONG),
+		('ClientRevision', UNSIGNED_LONG),
     )
 
 class LsarLookupSids3Response(NDRCALL):
     structure = (
-		('REFERENCEDDOMAINS', PLSAPR_REFERENCED_DOMAIN_LIST),
-		('TRANSLATEDNAMES', PLSAPR_TRANSLATED_NAMES_EX),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
+		('ReferencedDomains', PLSAPR_REFERENCED_DOMAIN_LIST),
+		('TranslatedNames', PLSAPR_TRANSLATED_NAMES_EX),
+		('MappedCount', UNSIGNED_LONG),
     )
         
 
 class LsarLookupNames4(NDRCALL):
     opnum = 77
     structure = (
-		('RPCHANDLE', HANDLE_T),
-		('COUNT', UNSIGNED_LONG),
-		('NAMES', PRPC_UNICODE_STRING),
-		('TRANSLATEDSIDS', PLSAPR_TRANSLATED_SIDS_EX2),
-		('LOOKUPLEVEL', LSAP_LOOKUP_LEVEL),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
-		('LOOKUPOPTIONS', UNSIGNED_LONG),
-		('CLIENTREVISION', UNSIGNED_LONG),
+		('RpcHandle', HANDLE_T),
+		('Count', UNSIGNED_LONG),
+		('Names', PRPC_UNICODE_STRING),
+		('TranslatedSids', PLSAPR_TRANSLATED_SIDS_EX2),
+		('LookupLevel', LSAP_LOOKUP_LEVEL),
+		('MappedCount', UNSIGNED_LONG),
+		('LookupOptions', UNSIGNED_LONG),
+		('ClientRevision', UNSIGNED_LONG),
     )
 
 class LsarLookupNames4Response(NDRCALL):
     structure = (
-		('REFERENCEDDOMAINS', PLSAPR_REFERENCED_DOMAIN_LIST),
-		('TRANSLATEDSIDS', PLSAPR_TRANSLATED_SIDS_EX2),
-		('MAPPEDCOUNT', UNSIGNED_LONG),
+		('ReferencedDomains', PLSAPR_REFERENCED_DOMAIN_LIST),
+		('TranslatedSids', PLSAPR_TRANSLATED_SIDS_EX2),
+		('MappedCount', UNSIGNED_LONG),
     )
         
 OPNUMS = {
@@ -2197,12 +2197,12 @@ MSRPC_UUID_LSACAP = uuidtup_to_bin(('afc07e2e-311-4435-808-c483ffeec7c9','0.0'))
 class LsarGetAvailableCAPIDs(NDRCALL):
     opnum = 0
     structure = (
-		('BINDINGHANDLE', HANDLE_T),
+		('BindingHandle', HANDLE_T),
     )
 
 class LsarGetAvailableCAPIDsResponse(NDRCALL):
     structure = (
-		('WRAPPEDCAPIDS', LSAPR_WRAPPED_CAPID_SET),
+		('WrappedCAPIDs', LSAPR_WRAPPED_CAPID_SET),
     )
         
 OPNUMS = {

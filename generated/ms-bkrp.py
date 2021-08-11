@@ -474,17 +474,17 @@ MSRPC_UUID_BACKUPKEY = uuidtup_to_bin(('3dde7c30-165d-11d1-ab8f-00805f14db40','0
 class BackuprKey(NDRCALL):
     opnum = 0
     structure = (
-		('H', HANDLE_T),
-		('PGUIDACTIONAGENT', GUID),
-		('PDATAIN', BYTE),
-		('CBDATAIN', DWORD),
-		('DWPARAM', DWORD),
+		('h', HANDLE_T),
+		('pguidActionAgent', GUID),
+		('pDataIn', BYTE),
+		('cbDataIn', DWORD),
+		('dwParam', DWORD),
     )
 
 class BackuprKeyResponse(NDRCALL):
     structure = (
-		('PPDATAOUT', BYTE),
-		('PCBDATAOUT', DWORD),
+		('ppDataOut', BYTE),
+		('pcbDataOut', DWORD),
     )
         
 OPNUMS = {

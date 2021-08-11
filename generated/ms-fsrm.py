@@ -1466,30 +1466,30 @@ MAX_REQUESTED_PROTSEQS = CONST_UNSIGNED_LONG
 class RemoteActivation(NDRCALL):
     opnum = 0
     structure = (
-		('HRPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('CLSID', GUID),
-		('PWSZOBJECTNAME', WCHAR_T),
-		('POBJECTSTORAGE', MINTERFACEPOINTER),
-		('CLIENTIMPLEVEL', DWORD),
-		('MODE', DWORD),
-		('INTERFACES', DWORD),
-		('PIIDS', IID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('AREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('ORPCthis', ORPCTHIS),
+		('Clsid', GUID),
+		('pwszObjectName', WCHAR_T),
+		('pObjectStorage', MINTERFACEPOINTER),
+		('ClientImpLevel', DWORD),
+		('Mode', DWORD),
+		('Interfaces', DWORD),
+		('pIIDs', IID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('aRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class RemoteActivationResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('POXID', OXID),
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
-		('PSERVERVERSION', COMVERSION),
-		('PHR', HRESULT),
-		('PPINTERFACEDATA', MINTERFACEPOINTER),
-		('PRESULTS', HRESULT),
+		('ORPCthat', ORPCTHAT),
+		('pOxid', OXID),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
+		('pServerVersion', COMVERSION),
+		('phr', HRESULT),
+		('ppInterfaceData', MINTERFACEPOINTER),
+		('pResults', HRESULT),
     )
         
 OPNUMS = {
@@ -1544,31 +1544,31 @@ class Opnum2NotUsedOnWireResponse(NDRCALL):
 class RemoteGetClassObject(NDRCALL):
     opnum = 3
     structure = (
-		('RPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('PACTPROPERTIES', MINTERFACEPOINTER),
+		('rpc', HANDLE_T),
+		('orpcthis', ORPCTHIS),
+		('pActProperties', MINTERFACEPOINTER),
     )
 
 class RemoteGetClassObjectResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('PPACTPROPERTIES', MINTERFACEPOINTER),
+		('orpcthat', ORPCTHAT),
+		('ppActProperties', MINTERFACEPOINTER),
     )
         
 
 class RemoteCreateInstance(NDRCALL):
     opnum = 4
     structure = (
-		('RPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('PUNKOUTER', MINTERFACEPOINTER),
-		('PACTPROPERTIES', MINTERFACEPOINTER),
+		('rpc', HANDLE_T),
+		('orpcthis', ORPCTHIS),
+		('pUnkOuter', MINTERFACEPOINTER),
+		('pActProperties', MINTERFACEPOINTER),
     )
 
 class RemoteCreateInstanceResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('PPACTPROPERTIES', MINTERFACEPOINTER),
+		('orpcthat', ORPCTHAT),
+		('ppActProperties', MINTERFACEPOINTER),
     )
         
 OPNUMS = {
@@ -1591,25 +1591,25 @@ MSRPC_UUID_IOBJECTEXPORTER = uuidtup_to_bin(('99fcfec4-5260-101b-bbcb-00aa002134
 class ResolveOxid(NDRCALL):
     opnum = 0
     structure = (
-		('HRPC', HANDLE_T),
-		('POXID', OXID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('ARREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('pOxid', OXID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('arRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class ResolveOxidResponse(NDRCALL):
     structure = (
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
     )
         
 
 class SimplePing(NDRCALL):
     opnum = 1
     structure = (
-		('HRPC', HANDLE_T),
-		('PSETID', SETID),
+		('hRpc', HANDLE_T),
+		('pSetId', SETID),
     )
 
 class SimplePingResponse(NDRCALL):
@@ -1621,26 +1621,26 @@ class SimplePingResponse(NDRCALL):
 class ComplexPing(NDRCALL):
     opnum = 2
     structure = (
-		('HRPC', HANDLE_T),
-		('PSETID', SETID),
-		('SEQUENCENUM', UNSIGNED_SHORT),
-		('CADDTOSET', UNSIGNED_SHORT),
-		('CDELFROMSET', UNSIGNED_SHORT),
-		('ADDTOSET', OID),
-		('DELFROMSET', OID),
+		('hRpc', HANDLE_T),
+		('pSetId', SETID),
+		('SequenceNum', UNSIGNED_SHORT),
+		('cAddToSet', UNSIGNED_SHORT),
+		('cDelFromSet', UNSIGNED_SHORT),
+		('AddToSet', OID),
+		('DelFromSet', OID),
     )
 
 class ComplexPingResponse(NDRCALL):
     structure = (
-		('PSETID', SETID),
-		('PPINGBACKOFFFACTOR', UNSIGNED_SHORT),
+		('pSetId', SETID),
+		('pPingBackoffFactor', UNSIGNED_SHORT),
     )
         
 
 class ServerAlive(NDRCALL):
     opnum = 3
     structure = (
-		('HRPC', HANDLE_T),
+		('hRpc', HANDLE_T),
     )
 
 class ServerAliveResponse(NDRCALL):
@@ -1652,32 +1652,32 @@ class ServerAliveResponse(NDRCALL):
 class ResolveOxid2(NDRCALL):
     opnum = 4
     structure = (
-		('HRPC', HANDLE_T),
-		('POXID', OXID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('ARREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('pOxid', OXID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('arRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class ResolveOxid2Response(NDRCALL):
     structure = (
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
-		('PCOMVERSION', COMVERSION),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
+		('pComVersion', COMVERSION),
     )
         
 
 class ServerAlive2(NDRCALL):
     opnum = 5
     structure = (
-		('HRPC', HANDLE_T),
+		('hRpc', HANDLE_T),
     )
 
 class ServerAlive2Response(NDRCALL):
     structure = (
-		('PCOMVERSION', COMVERSION),
-		('PPDSAORBINDINGS', DUALSTRINGARRAY),
-		('PRESERVED', DWORD),
+		('pComVersion', COMVERSION),
+		('ppdsaOrBindings', DUALSTRINGARRAY),
+		('pReserved', DWORD),
     )
         
 OPNUMS = {
@@ -1751,36 +1751,36 @@ MSRPC_UUID_IREMUNKNOWN = uuidtup_to_bin(('00000131-0000-0000-C000-000000000046',
 class RemQueryInterface(NDRCALL):
     opnum = 0
     structure = (
-		('RIPID', REFIPID),
-		('CREFS', UNSIGNED_LONG),
-		('CIIDS', UNSIGNED_SHORT),
-		('IIDS', IID),
+		('ripid', REFIPID),
+		('cRefs', UNSIGNED_LONG),
+		('cIids', UNSIGNED_SHORT),
+		('iids', IID),
     )
 
 class RemQueryInterfaceResponse(NDRCALL):
     structure = (
-		('PPQIRESULTS', PREMQIRESULT),
+		('ppQIResults', PREMQIRESULT),
     )
         
 
 class RemAddRef(NDRCALL):
     opnum = 1
     structure = (
-		('CINTERFACEREFS', UNSIGNED_SHORT),
-		('INTERFACEREFS', REMINTERFACEREF),
+		('cInterfaceRefs', UNSIGNED_SHORT),
+		('InterfaceRefs', REMINTERFACEREF),
     )
 
 class RemAddRefResponse(NDRCALL):
     structure = (
-		('PRESULTS', HRESULT),
+		('pResults', HRESULT),
     )
         
 
 class RemRelease(NDRCALL):
     opnum = 2
     structure = (
-		('CINTERFACEREFS', UNSIGNED_SHORT),
-		('INTERFACEREFS', REMINTERFACEREF),
+		('cInterfaceRefs', UNSIGNED_SHORT),
+		('InterfaceRefs', REMINTERFACEREF),
     )
 
 class RemReleaseResponse(NDRCALL):
@@ -1806,15 +1806,15 @@ MSRPC_UUID_IREMUNKNOWN2 = uuidtup_to_bin(('00000143-0000-0000-C000-000000000046'
 class RemQueryInterface2(NDRCALL):
     opnum = 0
     structure = (
-		('RIPID', REFIPID),
-		('CIIDS', UNSIGNED_SHORT),
-		('IIDS', IID),
+		('ripid', REFIPID),
+		('cIids', UNSIGNED_SHORT),
+		('iids', IID),
     )
 
 class RemQueryInterface2Response(NDRCALL):
     structure = (
-		('PHR', HRESULT),
-		('PPMIF', PMINTERFACEPOINTERINTERNAL),
+		('phr', HRESULT),
+		('ppMIF', PMINTERFACEPOINTERINTERNAL),
     )
         
 OPNUMS = {
@@ -2446,57 +2446,57 @@ class GetTypeInfoCount(NDRCALL):
 
 class GetTypeInfoCountResponse(NDRCALL):
     structure = (
-		('PCTINFO', UINT),
+		('pctinfo', UINT),
     )
         
 
 class GetTypeInfo(NDRCALL):
     opnum = 1
     structure = (
-		('ITINFO', UINT),
-		('LCID', LCID),
+		('iTInfo', UINT),
+		('lcid', LCID),
     )
 
 class GetTypeInfoResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
 class GetIDsOfNames(NDRCALL):
     opnum = 2
     structure = (
-		('RIID', REFIID),
-		('RGSZNAMES', LPOLESTR),
-		('CNAMES', UINT),
-		('LCID', LCID),
+		('riid', REFIID),
+		('rgszNames', LPOLESTR),
+		('cNames', UINT),
+		('lcid', LCID),
     )
 
 class GetIDsOfNamesResponse(NDRCALL):
     structure = (
-		('RGDISPID', DISPID),
+		('rgDispId', DISPID),
     )
         
 
 class Invoke(NDRCALL):
     opnum = 3
     structure = (
-		('DISPIDMEMBER', DISPID),
-		('RIID', REFIID),
-		('LCID', LCID),
-		('DWFLAGS', DWORD),
-		('PDISPPARAMS', DISPPARAMS),
-		('CVARREF', UINT),
-		('RGVARREFIDX', UINT),
-		('RGVARREF', VARIANT),
+		('dispIdMember', DISPID),
+		('riid', REFIID),
+		('lcid', LCID),
+		('dwFlags', DWORD),
+		('pDispParams', DISPPARAMS),
+		('cVarRef', UINT),
+		('rgVarRefIdx', UINT),
+		('rgVarRef', VARIANT),
     )
 
 class InvokeResponse(NDRCALL):
     structure = (
-		('PVARRESULT', VARIANT),
-		('PEXCEPINFO', EXCEPINFO),
-		('PARGERR', UINT),
-		('RGVARREF', VARIANT),
+		('pVarResult', VARIANT),
+		('pExcepInfo', EXCEPINFO),
+		('pArgErr', UINT),
+		('rgVarRef', VARIANT),
     )
         
 OPNUMS = {
@@ -2518,20 +2518,20 @@ MSRPC_UUID_IENUMVARIANT = uuidtup_to_bin(('00020404-0000-0000-C000-000000000046'
 class Next(NDRCALL):
     opnum = 0
     structure = (
-		('CELT', ULONG),
+		('celt', ULONG),
     )
 
 class NextResponse(NDRCALL):
     structure = (
-		('RGVAR', VARIANT),
-		('PCELTFETCHED', ULONG),
+		('rgVar', VARIANT),
+		('pCeltFetched', ULONG),
     )
         
 
 class Skip(NDRCALL):
     opnum = 1
     structure = (
-		('CELT', ULONG),
+		('celt', ULONG),
     )
 
 class SkipResponse(NDRCALL):
@@ -2560,7 +2560,7 @@ class Clone(NDRCALL):
 
 class CloneResponse(NDRCALL):
     structure = (
-		('PPENUM', IENUMVARIANT),
+		('ppEnum', IENUMVARIANT),
     )
         
 OPNUMS = {
@@ -2582,32 +2582,32 @@ MSRPC_UUID_ITYPECOMP = uuidtup_to_bin(('00020403-0000-0000-C000-000000000046','0
 class Bind(NDRCALL):
     opnum = 0
     structure = (
-		('SZNAME', LPOLESTR),
-		('LHASHVAL', ULONG),
-		('WFLAGS', WORD),
+		('szName', LPOLESTR),
+		('lHashVal', ULONG),
+		('wFlags', WORD),
     )
 
 class BindResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
-		('PDESCKIND', DESCKIND),
-		('PPFUNCDESC', LPFUNCDESC),
-		('PPVARDESC', LPVARDESC),
-		('PPTYPECOMP', ITYPECOMP),
-		('PRESERVED', DWORD),
+		('ppTInfo', ITYPEINFO),
+		('pDescKind', DESCKIND),
+		('ppFuncDesc', LPFUNCDESC),
+		('ppVarDesc', LPVARDESC),
+		('ppTypeComp', ITYPECOMP),
+		('pReserved', DWORD),
     )
         
 
 class BindType(NDRCALL):
     opnum = 1
     structure = (
-		('SZNAME', LPOLESTR),
-		('LHASHVAL', ULONG),
+		('szName', LPOLESTR),
+		('lHashVal', ULONG),
     )
 
 class BindTypeResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 OPNUMS = {
@@ -2632,8 +2632,8 @@ class GetTypeAttr(NDRCALL):
 
 class GetTypeAttrResponse(NDRCALL):
     structure = (
-		('PPTYPEATTR', LPTYPEATTR),
-		('PRESERVED', DWORD),
+		('ppTypeAttr', LPTYPEATTR),
+		('pReserved', DWORD),
     )
         
 
@@ -2645,71 +2645,71 @@ class GetTypeComp(NDRCALL):
 
 class GetTypeCompResponse(NDRCALL):
     structure = (
-		('PPTCOMP', ITYPECOMP),
+		('ppTComp', ITYPECOMP),
     )
         
 
 class GetFuncDesc(NDRCALL):
     opnum = 2
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetFuncDescResponse(NDRCALL):
     structure = (
-		('PPFUNCDESC', LPFUNCDESC),
-		('PRESERVED', DWORD),
+		('ppFuncDesc', LPFUNCDESC),
+		('pReserved', DWORD),
     )
         
 
 class GetVarDesc(NDRCALL):
     opnum = 3
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetVarDescResponse(NDRCALL):
     structure = (
-		('PPVARDESC', LPVARDESC),
-		('PRESERVED', DWORD),
+		('ppVarDesc', LPVARDESC),
+		('pReserved', DWORD),
     )
         
 
 class GetNames(NDRCALL):
     opnum = 4
     structure = (
-		('MEMID', MEMBERID),
-		('CMAXNAMES', UINT),
+		('memid', MEMBERID),
+		('cMaxNames', UINT),
     )
 
 class GetNamesResponse(NDRCALL):
     structure = (
-		('RGBSTRNAMES', BSTR),
-		('PCNAMES', UINT),
+		('rgBstrNames', BSTR),
+		('pcNames', UINT),
     )
         
 
 class GetRefTypeOfImplType(NDRCALL):
     opnum = 5
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetRefTypeOfImplTypeResponse(NDRCALL):
     structure = (
-		('PREFTYPE', HREFTYPE),
+		('pRefType', HREFTYPE),
     )
         
 
 class GetImplTypeFlags(NDRCALL):
     opnum = 6
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetImplTypeFlagsResponse(NDRCALL):
     structure = (
-		('PIMPLTYPEFLAGS', INT),
+		('pImplTypeFlags', INT),
     )
         
 
@@ -2740,44 +2740,44 @@ class Opnum11NotUsedOnWireResponse(NDRCALL):
 class GetDocumentation(NDRCALL):
     opnum = 9
     structure = (
-		('MEMID', MEMBERID),
-		('REFPTRFLAGS', DWORD),
+		('memid', MEMBERID),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentationResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
-		('PBSTRDOCSTRING', BSTR),
-		('PDWHELPCONTEXT', DWORD),
-		('PBSTRHELPFILE', BSTR),
+		('pBstrName', BSTR),
+		('pBstrDocString', BSTR),
+		('pdwHelpContext', DWORD),
+		('pBstrHelpFile', BSTR),
     )
         
 
 class GetDllEntry(NDRCALL):
     opnum = 10
     structure = (
-		('MEMID', MEMBERID),
-		('INVKIND', INVOKEKIND),
-		('REFPTRFLAGS', DWORD),
+		('memid', MEMBERID),
+		('invKind', INVOKEKIND),
+		('refPtrFlags', DWORD),
     )
 
 class GetDllEntryResponse(NDRCALL):
     structure = (
-		('PBSTRDLLNAME', BSTR),
-		('PBSTRNAME', BSTR),
-		('PWORDINAL', WORD),
+		('pBstrDllName', BSTR),
+		('pBstrName', BSTR),
+		('pwOrdinal', WORD),
     )
         
 
 class GetRefTypeInfo(NDRCALL):
     opnum = 11
     structure = (
-		('HREFTYPE', HREFTYPE),
+		('hRefType', HREFTYPE),
     )
 
 class GetRefTypeInfoResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
@@ -2796,24 +2796,24 @@ class Opnum15NotUsedOnWireResponse(NDRCALL):
 class CreateInstance(NDRCALL):
     opnum = 13
     structure = (
-		('RIID', REFIID),
+		('riid', REFIID),
     )
 
 class CreateInstanceResponse(NDRCALL):
     structure = (
-		('PPVOBJ', IUNKNOWN),
+		('ppvObj', IUNKNOWN),
     )
         
 
 class GetMops(NDRCALL):
     opnum = 14
     structure = (
-		('MEMID', MEMBERID),
+		('memid', MEMBERID),
     )
 
 class GetMopsResponse(NDRCALL):
     structure = (
-		('PBSTRMOPS', BSTR),
+		('pBstrMops', BSTR),
     )
         
 
@@ -2825,8 +2825,8 @@ class GetContainingTypeLib(NDRCALL):
 
 class GetContainingTypeLibResponse(NDRCALL):
     structure = (
-		('PPTLIB', ITYPELIB),
-		('PINDEX', UINT),
+		('ppTLib', ITYPELIB),
+		('pIndex', UINT),
     )
         
 
@@ -2904,7 +2904,7 @@ class GetTypeKind(NDRCALL):
 
 class GetTypeKindResponse(NDRCALL):
     structure = (
-		('PTYPEKIND', TYPEKIND),
+		('pTypeKind', TYPEKIND),
     )
         
 
@@ -2916,113 +2916,113 @@ class GetTypeFlags(NDRCALL):
 
 class GetTypeFlagsResponse(NDRCALL):
     structure = (
-		('PTYPEFLAGS', ULONG),
+		('pTypeFlags', ULONG),
     )
         
 
 class GetFuncIndexOfMemId(NDRCALL):
     opnum = 2
     structure = (
-		('MEMID', MEMBERID),
-		('INVKIND', INVOKEKIND),
+		('memid', MEMBERID),
+		('invKind', INVOKEKIND),
     )
 
 class GetFuncIndexOfMemIdResponse(NDRCALL):
     structure = (
-		('PFUNCINDEX', UINT),
+		('pFuncIndex', UINT),
     )
         
 
 class GetVarIndexOfMemId(NDRCALL):
     opnum = 3
     structure = (
-		('MEMID', MEMBERID),
+		('memid', MEMBERID),
     )
 
 class GetVarIndexOfMemIdResponse(NDRCALL):
     structure = (
-		('PVARINDEX', UINT),
+		('pVarIndex', UINT),
     )
         
 
 class GetCustData(NDRCALL):
     opnum = 4
     structure = (
-		('GUID', REFGUID),
+		('guid', REFGUID),
     )
 
 class GetCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetFuncCustData(NDRCALL):
     opnum = 5
     structure = (
-		('INDEX', UINT),
-		('GUID', REFGUID),
+		('index', UINT),
+		('guid', REFGUID),
     )
 
 class GetFuncCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetParamCustData(NDRCALL):
     opnum = 6
     structure = (
-		('INDEXFUNC', UINT),
-		('INDEXPARAM', UINT),
-		('GUID', REFGUID),
+		('indexFunc', UINT),
+		('indexParam', UINT),
+		('guid', REFGUID),
     )
 
 class GetParamCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetVarCustData(NDRCALL):
     opnum = 7
     structure = (
-		('INDEX', UINT),
-		('GUID', REFGUID),
+		('index', UINT),
+		('guid', REFGUID),
     )
 
 class GetVarCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetImplTypeCustData(NDRCALL):
     opnum = 8
     structure = (
-		('INDEX', UINT),
-		('GUID', REFGUID),
+		('index', UINT),
+		('guid', REFGUID),
     )
 
 class GetImplTypeCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetDocumentation2(NDRCALL):
     opnum = 9
     structure = (
-		('MEMID', MEMBERID),
-		('LCID', LCID),
-		('REFPTRFLAGS', DWORD),
+		('memid', MEMBERID),
+		('lcid', LCID),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentation2Response(NDRCALL):
     structure = (
-		('PBSTRHELPSTRING', BSTR),
-		('PDWHELPSTRINGCONTEXT', DWORD),
-		('PBSTRHELPSTRINGDLL', BSTR),
+		('pbstrHelpString', BSTR),
+		('pdwHelpStringContext', DWORD),
+		('pbstrHelpStringDll', BSTR),
     )
         
 
@@ -3034,56 +3034,56 @@ class GetAllCustData(NDRCALL):
 
 class GetAllCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllFuncCustData(NDRCALL):
     opnum = 11
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetAllFuncCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllParamCustData(NDRCALL):
     opnum = 12
     structure = (
-		('INDEXFUNC', UINT),
-		('INDEXPARAM', UINT),
+		('indexFunc', UINT),
+		('indexParam', UINT),
     )
 
 class GetAllParamCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllVarCustData(NDRCALL):
     opnum = 13
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetAllVarCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllImplTypeCustData(NDRCALL):
     opnum = 14
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetAllImplTypeCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 OPNUMS = {
@@ -3121,43 +3121,43 @@ class GetTypeInfoCount(NDRCALL):
 
 class GetTypeInfoCountResponse(NDRCALL):
     structure = (
-		('PCTINFO', UINT),
+		('pcTInfo', UINT),
     )
         
 
 class GetTypeInfo(NDRCALL):
     opnum = 1
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetTypeInfoResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
 class GetTypeInfoType(NDRCALL):
     opnum = 2
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetTypeInfoTypeResponse(NDRCALL):
     structure = (
-		('PTKIND', TYPEKIND),
+		('pTKind', TYPEKIND),
     )
         
 
 class GetTypeInfoOfGuid(NDRCALL):
     opnum = 3
     structure = (
-		('GUID', REFGUID),
+		('guid', REFGUID),
     )
 
 class GetTypeInfoOfGuidResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
@@ -3169,8 +3169,8 @@ class GetLibAttr(NDRCALL):
 
 class GetLibAttrResponse(NDRCALL):
     structure = (
-		('PPTLIBATTR', LPTLIBATTR),
-		('PRESERVED', DWORD),
+		('ppTLibAttr', LPTLIBATTR),
+		('pReserved', DWORD),
     )
         
 
@@ -3182,54 +3182,54 @@ class GetTypeComp(NDRCALL):
 
 class GetTypeCompResponse(NDRCALL):
     structure = (
-		('PPTCOMP', ITYPECOMP),
+		('ppTComp', ITYPECOMP),
     )
         
 
 class GetDocumentation(NDRCALL):
     opnum = 6
     structure = (
-		('INDEX', INT),
-		('REFPTRFLAGS', DWORD),
+		('index', INT),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentationResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
-		('PBSTRDOCSTRING', BSTR),
-		('PDWHELPCONTEXT', DWORD),
-		('PBSTRHELPFILE', BSTR),
+		('pBstrName', BSTR),
+		('pBstrDocString', BSTR),
+		('pdwHelpContext', DWORD),
+		('pBstrHelpFile', BSTR),
     )
         
 
 class IsName(NDRCALL):
     opnum = 7
     structure = (
-		('SZNAMEBUF', LPOLESTR),
-		('LHASHVAL', ULONG),
+		('szNameBuf', LPOLESTR),
+		('lHashVal', ULONG),
     )
 
 class IsNameResponse(NDRCALL):
     structure = (
-		('PFNAME', BOOL),
-		('PBSTRNAMEINLIBRARY', BSTR),
+		('pfName', BOOL),
+		('pBstrNameInLibrary', BSTR),
     )
         
 
 class FindName(NDRCALL):
     opnum = 8
     structure = (
-		('SZNAMEBUF', LPOLESTR),
-		('LHASHVAL', ULONG),
-		('PCFOUND', USHORT),
+		('szNameBuf', LPOLESTR),
+		('lHashVal', ULONG),
+		('pcFound', USHORT),
     )
 
 class FindNameResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
-		('RGMEMID', MEMBERID),
-		('PCFOUND', USHORT),
-		('PBSTRNAMEINLIBRARY', BSTR),
+		('ppTInfo', ITYPEINFO),
+		('rgMemId', MEMBERID),
+		('pcFound', USHORT),
+		('pBstrNameInLibrary', BSTR),
     )
         
 
@@ -3269,12 +3269,12 @@ MSRPC_UUID_ITYPELIB2 = uuidtup_to_bin(('00020411-0000-0000-C000-000000000046','0
 class GetCustData(NDRCALL):
     opnum = 0
     structure = (
-		('GUID', REFGUID),
+		('guid', REFGUID),
     )
 
 class GetCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
@@ -3286,24 +3286,24 @@ class GetLibStatistics(NDRCALL):
 
 class GetLibStatisticsResponse(NDRCALL):
     structure = (
-		('PCUNIQUENAMES', ULONG),
-		('PCCHUNIQUENAMES', ULONG),
+		('pcUniqueNames', ULONG),
+		('pcchUniqueNames', ULONG),
     )
         
 
 class GetDocumentation2(NDRCALL):
     opnum = 2
     structure = (
-		('INDEX', INT),
-		('LCID', LCID),
-		('REFPTRFLAGS', DWORD),
+		('index', INT),
+		('lcid', LCID),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentation2Response(NDRCALL):
     structure = (
-		('PBSTRHELPSTRING', BSTR),
-		('PDWHELPSTRINGCONTEXT', DWORD),
-		('PBSTRHELPSTRINGDLL', BSTR),
+		('pbstrHelpString', BSTR),
+		('pdwHelpStringContext', DWORD),
+		('pbstrHelpStringDll', BSTR),
     )
         
 
@@ -3315,7 +3315,7 @@ class GetAllCustData(NDRCALL):
 
 class GetAllCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 OPNUMS = {
@@ -3698,7 +3698,7 @@ class Id(NDRCALL):
 
 class IdResponse(NDRCALL):
     structure = (
-		('ID', FSRM_OBJECT_ID),
+		('id', FSRM_OBJECT_ID),
     )
         
 
@@ -3710,14 +3710,14 @@ class Description(NDRCALL):
 
 class DescriptionResponse(NDRCALL):
     structure = (
-		('DESCRIPTION', BSTR),
+		('description', BSTR),
     )
         
 
 class Description(NDRCALL):
     opnum = 2
     structure = (
-		('DESCRIPTION', BSTR),
+		('description', BSTR),
     )
 
 class DescriptionResponse(NDRCALL):
@@ -3773,19 +3773,19 @@ class _NewEnum(NDRCALL):
 
 class _NewEnumResponse(NDRCALL):
     structure = (
-		('UNKNOWN', IUNKNOWN),
+		('unknown', IUNKNOWN),
     )
         
 
 class Item(NDRCALL):
     opnum = 1
     structure = (
-		('INDEX', LONG),
+		('index', LONG),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('ITEM', VARIANT),
+		('item', VARIANT),
     )
         
 
@@ -3797,7 +3797,7 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('COUNT', LONG),
+		('count', LONG),
     )
         
 
@@ -3809,7 +3809,7 @@ class State(NDRCALL):
 
 class StateResponse(NDRCALL):
     structure = (
-		('STATE', FSRMCOLLECTIONSTATE),
+		('state', FSRMCOLLECTIONSTATE),
     )
         
 
@@ -3828,24 +3828,24 @@ class CancelResponse(NDRCALL):
 class WaitForCompletion(NDRCALL):
     opnum = 5
     structure = (
-		('WAITSECONDS', LONG),
+		('waitSeconds', LONG),
     )
 
 class WaitForCompletionResponse(NDRCALL):
     structure = (
-		('COMPLETED', VARIANT_BOOL),
+		('completed', VARIANT_BOOL),
     )
         
 
 class GetById(NDRCALL):
     opnum = 6
     structure = (
-		('ID', FSRM_OBJECT_ID),
+		('id', FSRM_OBJECT_ID),
     )
 
 class GetByIdResponse(NDRCALL):
     structure = (
-		('ENTRY', VARIANT),
+		('entry', VARIANT),
     )
         
 OPNUMS = {
@@ -3870,7 +3870,7 @@ MSRPC_UUID_IFSRMMUTABLECOLLECTION = uuidtup_to_bin(('1bb617b8-3886-49dc-af82-a6c
 class Add(NDRCALL):
     opnum = 0
     structure = (
-		('ITEM', VARIANT),
+		('item', VARIANT),
     )
 
 class AddResponse(NDRCALL):
@@ -3882,7 +3882,7 @@ class AddResponse(NDRCALL):
 class Remove(NDRCALL):
     opnum = 1
     structure = (
-		('INDEX', LONG),
+		('index', LONG),
     )
 
 class RemoveResponse(NDRCALL):
@@ -3894,7 +3894,7 @@ class RemoveResponse(NDRCALL):
 class RemoveById(NDRCALL):
     opnum = 2
     structure = (
-		('ID', FSRM_OBJECT_ID),
+		('id', FSRM_OBJECT_ID),
     )
 
 class RemoveByIdResponse(NDRCALL):
@@ -3911,7 +3911,7 @@ class Clone(NDRCALL):
 
 class CloneResponse(NDRCALL):
     structure = (
-		('COLLECTION', IFSRMMUTABLECOLLECTION),
+		('collection', IFSRMMUTABLECOLLECTION),
     )
         
 OPNUMS = {
@@ -3933,12 +3933,12 @@ MSRPC_UUID_IFSRMCOMMITTABLECOLLECTION = uuidtup_to_bin(('96deb3b5-8b91-4a2a-9d93
 class Commit(NDRCALL):
     opnum = 0
     structure = (
-		('OPTIONS', FSRMCOMMITOPTIONS),
+		('options', FSRMCOMMITOPTIONS),
     )
 
 class CommitResponse(NDRCALL):
     structure = (
-		('RESULTS', IFSRMCOLLECTION),
+		('results', IFSRMCOLLECTION),
     )
         
 OPNUMS = {
@@ -3962,7 +3962,7 @@ class Id(NDRCALL):
 
 class IdResponse(NDRCALL):
     structure = (
-		('ID', FSRM_OBJECT_ID),
+		('id', FSRM_OBJECT_ID),
     )
         
 
@@ -3974,7 +3974,7 @@ class ActionType(NDRCALL):
 
 class ActionTypeResponse(NDRCALL):
     structure = (
-		('ACTIONTYPE', FSRMACTIONTYPE),
+		('actionType', FSRMACTIONTYPE),
     )
         
 
@@ -3986,14 +3986,14 @@ class RunLimitInterval(NDRCALL):
 
 class RunLimitIntervalResponse(NDRCALL):
     structure = (
-		('MINUTES', LONG),
+		('minutes', LONG),
     )
         
 
 class RunLimitInterval(NDRCALL):
     opnum = 3
     structure = (
-		('MINUTES', LONG),
+		('minutes', LONG),
     )
 
 class RunLimitIntervalResponse(NDRCALL):
@@ -4037,14 +4037,14 @@ class MailFrom(NDRCALL):
 
 class MailFromResponse(NDRCALL):
     structure = (
-		('MAILFROM', BSTR),
+		('mailFrom', BSTR),
     )
         
 
 class MailFrom(NDRCALL):
     opnum = 1
     structure = (
-		('MAILFROM', BSTR),
+		('mailFrom', BSTR),
     )
 
 class MailFromResponse(NDRCALL):
@@ -4061,14 +4061,14 @@ class MailReplyTo(NDRCALL):
 
 class MailReplyToResponse(NDRCALL):
     structure = (
-		('MAILREPLYTO', BSTR),
+		('mailReplyTo', BSTR),
     )
         
 
 class MailReplyTo(NDRCALL):
     opnum = 3
     structure = (
-		('MAILREPLYTO', BSTR),
+		('mailReplyTo', BSTR),
     )
 
 class MailReplyToResponse(NDRCALL):
@@ -4085,14 +4085,14 @@ class MailTo(NDRCALL):
 
 class MailToResponse(NDRCALL):
     structure = (
-		('MAILTO', BSTR),
+		('mailTo', BSTR),
     )
         
 
 class MailTo(NDRCALL):
     opnum = 5
     structure = (
-		('MAILTO', BSTR),
+		('mailTo', BSTR),
     )
 
 class MailToResponse(NDRCALL):
@@ -4109,14 +4109,14 @@ class MailCc(NDRCALL):
 
 class MailCcResponse(NDRCALL):
     structure = (
-		('MAILCC', BSTR),
+		('mailCc', BSTR),
     )
         
 
 class MailCc(NDRCALL):
     opnum = 7
     structure = (
-		('MAILCC', BSTR),
+		('mailCc', BSTR),
     )
 
 class MailCcResponse(NDRCALL):
@@ -4133,14 +4133,14 @@ class MailBcc(NDRCALL):
 
 class MailBccResponse(NDRCALL):
     structure = (
-		('MAILBCC', BSTR),
+		('mailBcc', BSTR),
     )
         
 
 class MailBcc(NDRCALL):
     opnum = 9
     structure = (
-		('MAILBCC', BSTR),
+		('mailBcc', BSTR),
     )
 
 class MailBccResponse(NDRCALL):
@@ -4157,14 +4157,14 @@ class MailSubject(NDRCALL):
 
 class MailSubjectResponse(NDRCALL):
     structure = (
-		('MAILSUBJECT', BSTR),
+		('mailSubject', BSTR),
     )
         
 
 class MailSubject(NDRCALL):
     opnum = 11
     structure = (
-		('MAILSUBJECT', BSTR),
+		('mailSubject', BSTR),
     )
 
 class MailSubjectResponse(NDRCALL):
@@ -4181,14 +4181,14 @@ class MessageText(NDRCALL):
 
 class MessageTextResponse(NDRCALL):
     structure = (
-		('MESSAGETEXT', BSTR),
+		('messageText', BSTR),
     )
         
 
 class MessageText(NDRCALL):
     opnum = 13
     structure = (
-		('MESSAGETEXT', BSTR),
+		('messageText', BSTR),
     )
 
 class MessageTextResponse(NDRCALL):
@@ -4223,14 +4223,14 @@ class AttachmentFileListSize(NDRCALL):
 
 class AttachmentFileListSizeResponse(NDRCALL):
     structure = (
-		('ATTACHMENTFILELISTSIZE', LONG),
+		('attachmentFileListSize', LONG),
     )
         
 
 class AttachmentFileListSize(NDRCALL):
     opnum = 1
     structure = (
-		('ATTACHMENTFILELISTSIZE', LONG),
+		('attachmentFileListSize', LONG),
     )
 
 class AttachmentFileListSizeResponse(NDRCALL):
@@ -4259,14 +4259,14 @@ class ReportTypes(NDRCALL):
 
 class ReportTypesResponse(NDRCALL):
     structure = (
-		('REPORTTYPES', SAFEARRAY ( VARIANT )),
+		('reportTypes', SAFEARRAY ( VARIANT )),
     )
         
 
 class ReportTypes(NDRCALL):
     opnum = 1
     structure = (
-		('REPORTTYPES', SAFEARRAY ( VARIANT )),
+		('reportTypes', SAFEARRAY ( VARIANT )),
     )
 
 class ReportTypesResponse(NDRCALL):
@@ -4283,14 +4283,14 @@ class MailTo(NDRCALL):
 
 class MailToResponse(NDRCALL):
     structure = (
-		('MAILTO', BSTR),
+		('mailTo', BSTR),
     )
         
 
 class MailTo(NDRCALL):
     opnum = 3
     structure = (
-		('MAILTO', BSTR),
+		('mailTo', BSTR),
     )
 
 class MailToResponse(NDRCALL):
@@ -4320,14 +4320,14 @@ class EventType(NDRCALL):
 
 class EventTypeResponse(NDRCALL):
     structure = (
-		('EVENTTYPE', FSRMEVENTTYPE),
+		('eventType', FSRMEVENTTYPE),
     )
         
 
 class EventType(NDRCALL):
     opnum = 1
     structure = (
-		('EVENTTYPE', FSRMEVENTTYPE),
+		('eventType', FSRMEVENTTYPE),
     )
 
 class EventTypeResponse(NDRCALL):
@@ -4344,14 +4344,14 @@ class MessageText(NDRCALL):
 
 class MessageTextResponse(NDRCALL):
     structure = (
-		('MESSAGETEXT', BSTR),
+		('messageText', BSTR),
     )
         
 
 class MessageText(NDRCALL):
     opnum = 3
     structure = (
-		('MESSAGETEXT', BSTR),
+		('messageText', BSTR),
     )
 
 class MessageTextResponse(NDRCALL):
@@ -4381,14 +4381,14 @@ class ExecutablePath(NDRCALL):
 
 class ExecutablePathResponse(NDRCALL):
     structure = (
-		('EXECUTABLEPATH', BSTR),
+		('executablePath', BSTR),
     )
         
 
 class ExecutablePath(NDRCALL):
     opnum = 1
     structure = (
-		('EXECUTABLEPATH', BSTR),
+		('executablePath', BSTR),
     )
 
 class ExecutablePathResponse(NDRCALL):
@@ -4405,14 +4405,14 @@ class Arguments(NDRCALL):
 
 class ArgumentsResponse(NDRCALL):
     structure = (
-		('ARGUMENTS', BSTR),
+		('arguments', BSTR),
     )
         
 
 class Arguments(NDRCALL):
     opnum = 3
     structure = (
-		('ARGUMENTS', BSTR),
+		('arguments', BSTR),
     )
 
 class ArgumentsResponse(NDRCALL):
@@ -4429,14 +4429,14 @@ class Account(NDRCALL):
 
 class AccountResponse(NDRCALL):
     structure = (
-		('ACCOUNT', FSRMACCOUNTTYPE),
+		('account', FSRMACCOUNTTYPE),
     )
         
 
 class Account(NDRCALL):
     opnum = 5
     structure = (
-		('ACCOUNT', FSRMACCOUNTTYPE),
+		('account', FSRMACCOUNTTYPE),
     )
 
 class AccountResponse(NDRCALL):
@@ -4453,14 +4453,14 @@ class WorkingDirectory(NDRCALL):
 
 class WorkingDirectoryResponse(NDRCALL):
     structure = (
-		('WORKINGDIRECTORY', BSTR),
+		('workingDirectory', BSTR),
     )
         
 
 class WorkingDirectory(NDRCALL):
     opnum = 7
     structure = (
-		('WORKINGDIRECTORY', BSTR),
+		('workingDirectory', BSTR),
     )
 
 class WorkingDirectoryResponse(NDRCALL):
@@ -4477,14 +4477,14 @@ class MonitorCommand(NDRCALL):
 
 class MonitorCommandResponse(NDRCALL):
     structure = (
-		('MONITORCOMMAND', VARIANT_BOOL),
+		('monitorCommand', VARIANT_BOOL),
     )
         
 
 class MonitorCommand(NDRCALL):
     opnum = 9
     structure = (
-		('MONITORCOMMAND', VARIANT_BOOL),
+		('monitorCommand', VARIANT_BOOL),
     )
 
 class MonitorCommandResponse(NDRCALL):
@@ -4501,14 +4501,14 @@ class KillTimeOut(NDRCALL):
 
 class KillTimeOutResponse(NDRCALL):
     structure = (
-		('MINUTES', LONG),
+		('minutes', LONG),
     )
         
 
 class KillTimeOut(NDRCALL):
     opnum = 11
     structure = (
-		('MINUTES', LONG),
+		('minutes', LONG),
     )
 
 class KillTimeOutResponse(NDRCALL):
@@ -4525,14 +4525,14 @@ class LogResult(NDRCALL):
 
 class LogResultResponse(NDRCALL):
     structure = (
-		('LOGRESULTS', VARIANT_BOOL),
+		('logResults', VARIANT_BOOL),
     )
         
 
 class LogResult(NDRCALL):
     opnum = 13
     structure = (
-		('LOGRESULTS', VARIANT_BOOL),
+		('logResults', VARIANT_BOOL),
     )
 
 class LogResultResponse(NDRCALL):
@@ -4567,14 +4567,14 @@ class SmtpServer(NDRCALL):
 
 class SmtpServerResponse(NDRCALL):
     structure = (
-		('SMTPSERVER', BSTR),
+		('smtpServer', BSTR),
     )
         
 
 class SmtpServer(NDRCALL):
     opnum = 1
     structure = (
-		('SMTPSERVER', BSTR),
+		('smtpServer', BSTR),
     )
 
 class SmtpServerResponse(NDRCALL):
@@ -4591,14 +4591,14 @@ class MailFrom(NDRCALL):
 
 class MailFromResponse(NDRCALL):
     structure = (
-		('MAILFROM', BSTR),
+		('mailFrom', BSTR),
     )
         
 
 class MailFrom(NDRCALL):
     opnum = 3
     structure = (
-		('MAILFROM', BSTR),
+		('mailFrom', BSTR),
     )
 
 class MailFromResponse(NDRCALL):
@@ -4615,14 +4615,14 @@ class AdminEmail(NDRCALL):
 
 class AdminEmailResponse(NDRCALL):
     structure = (
-		('ADMINEMAIL', BSTR),
+		('adminEmail', BSTR),
     )
         
 
 class AdminEmail(NDRCALL):
     opnum = 5
     structure = (
-		('ADMINEMAIL', BSTR),
+		('adminEmail', BSTR),
     )
 
 class AdminEmailResponse(NDRCALL):
@@ -4639,14 +4639,14 @@ class DisableCommandLine(NDRCALL):
 
 class DisableCommandLineResponse(NDRCALL):
     structure = (
-		('DISABLECOMMANDLINE', VARIANT_BOOL),
+		('disableCommandLine', VARIANT_BOOL),
     )
         
 
 class DisableCommandLine(NDRCALL):
     opnum = 7
     structure = (
-		('DISABLECOMMANDLINE', VARIANT_BOOL),
+		('disableCommandLine', VARIANT_BOOL),
     )
 
 class DisableCommandLineResponse(NDRCALL):
@@ -4663,14 +4663,14 @@ class EnableScreeningAudit(NDRCALL):
 
 class EnableScreeningAuditResponse(NDRCALL):
     structure = (
-		('ENABLESCREENINGAUDIT', VARIANT_BOOL),
+		('enableScreeningAudit', VARIANT_BOOL),
     )
         
 
 class EnableScreeningAudit(NDRCALL):
     opnum = 9
     structure = (
-		('ENABLESCREENINGAUDIT', VARIANT_BOOL),
+		('enableScreeningAudit', VARIANT_BOOL),
     )
 
 class EnableScreeningAuditResponse(NDRCALL):
@@ -4682,7 +4682,7 @@ class EnableScreeningAuditResponse(NDRCALL):
 class EmailTest(NDRCALL):
     opnum = 10
     structure = (
-		('MAILTO', BSTR),
+		('mailTo', BSTR),
     )
 
 class EmailTestResponse(NDRCALL):
@@ -4694,8 +4694,8 @@ class EmailTestResponse(NDRCALL):
 class SetActionRunLimitInterval(NDRCALL):
     opnum = 11
     structure = (
-		('ACTIONTYPE', FSRMACTIONTYPE),
-		('DELAYTIMEMINUTES', LONG),
+		('actionType', FSRMACTIONTYPE),
+		('delayTimeMinutes', LONG),
     )
 
 class SetActionRunLimitIntervalResponse(NDRCALL):
@@ -4707,12 +4707,12 @@ class SetActionRunLimitIntervalResponse(NDRCALL):
 class GetActionRunLimitInterval(NDRCALL):
     opnum = 12
     structure = (
-		('ACTIONTYPE', FSRMACTIONTYPE),
+		('actionType', FSRMACTIONTYPE),
     )
 
 class GetActionRunLimitIntervalResponse(NDRCALL):
     structure = (
-		('DELAYTIMEMINUTES', LONG),
+		('delayTimeMinutes', LONG),
     )
         
 OPNUMS = {
@@ -4738,12 +4738,12 @@ MSRPC_UUID_IFSRMPATHMAPPER = uuidtup_to_bin(('6f4dbfff-6920-4821-a6c3-b7e94c1fd6
 class GetSharePathsForLocalPath(NDRCALL):
     opnum = 0
     structure = (
-		('LOCALPATH', BSTR),
+		('localPath', BSTR),
     )
 
 class GetSharePathsForLocalPathResponse(NDRCALL):
     structure = (
-		('SHAREPATHS', SAFEARRAY ( VARIANT )),
+		('sharePaths', SAFEARRAY ( VARIANT )),
     )
         
 OPNUMS = {
@@ -4767,7 +4767,7 @@ class DerivedObjects(NDRCALL):
 
 class DerivedObjectsResponse(NDRCALL):
     structure = (
-		('DERIVEDOBJECTS', IFSRMCOLLECTION),
+		('derivedObjects', IFSRMCOLLECTION),
     )
         
 
@@ -4779,7 +4779,7 @@ class Results(NDRCALL):
 
 class ResultsResponse(NDRCALL):
     structure = (
-		('RESULTS', IFSRMCOLLECTION),
+		('results', IFSRMCOLLECTION),
     )
         
 OPNUMS = {
@@ -4804,14 +4804,14 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
 class Name(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class NameResponse(NDRCALL):
@@ -4828,14 +4828,14 @@ class Type(NDRCALL):
 
 class TypeResponse(NDRCALL):
     structure = (
-		('TYPE', FSRMPROPERTYDEFINITIONTYPE),
+		('type', FSRMPROPERTYDEFINITIONTYPE),
     )
         
 
 class Type(NDRCALL):
     opnum = 3
     structure = (
-		('TYPE', FSRMPROPERTYDEFINITIONTYPE),
+		('type', FSRMPROPERTYDEFINITIONTYPE),
     )
 
 class TypeResponse(NDRCALL):
@@ -4852,14 +4852,14 @@ class PossibleValues(NDRCALL):
 
 class PossibleValuesResponse(NDRCALL):
     structure = (
-		('POSSIBLEVALUES', SAFEARRAY ( VARIANT )),
+		('possibleValues', SAFEARRAY ( VARIANT )),
     )
         
 
 class PossibleValues(NDRCALL):
     opnum = 5
     structure = (
-		('POSSIBLEVALUES', SAFEARRAY ( VARIANT )),
+		('possibleValues', SAFEARRAY ( VARIANT )),
     )
 
 class PossibleValuesResponse(NDRCALL):
@@ -4876,14 +4876,14 @@ class ValueDescriptions(NDRCALL):
 
 class ValueDescriptionsResponse(NDRCALL):
     structure = (
-		('VALUEDESCRIPTIONS', SAFEARRAY ( VARIANT )),
+		('valueDescriptions', SAFEARRAY ( VARIANT )),
     )
         
 
 class ValueDescriptions(NDRCALL):
     opnum = 7
     structure = (
-		('VALUEDESCRIPTIONS', SAFEARRAY ( VARIANT )),
+		('valueDescriptions', SAFEARRAY ( VARIANT )),
     )
 
 class ValueDescriptionsResponse(NDRCALL):
@@ -4900,14 +4900,14 @@ class Parameters(NDRCALL):
 
 class ParametersResponse(NDRCALL):
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('parameters', SAFEARRAY ( VARIANT )),
     )
         
 
 class Parameters(NDRCALL):
     opnum = 9
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('parameters', SAFEARRAY ( VARIANT )),
     )
 
 class ParametersResponse(NDRCALL):
@@ -4940,7 +4940,7 @@ class PropertyDefinitionFlags(NDRCALL):
 
 class PropertyDefinitionFlagsResponse(NDRCALL):
     structure = (
-		('PROPERTYDEFINITIONFLAGS', LONG),
+		('propertyDefinitionFlags', LONG),
     )
         
 
@@ -4952,14 +4952,14 @@ class DisplayName(NDRCALL):
 
 class DisplayNameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
 class DisplayName(NDRCALL):
     opnum = 2
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class DisplayNameResponse(NDRCALL):
@@ -4976,7 +4976,7 @@ class AppliesTo(NDRCALL):
 
 class AppliesToResponse(NDRCALL):
     structure = (
-		('APPLIESTO', LONG),
+		('appliesTo', LONG),
     )
         
 
@@ -4988,7 +4988,7 @@ class ValueDefinitions(NDRCALL):
 
 class ValueDefinitionsResponse(NDRCALL):
     structure = (
-		('VALUEDEFINITIONS', IFSRMCOLLECTION),
+		('valueDefinitions', IFSRMCOLLECTION),
     )
         
 OPNUMS = {
@@ -5015,7 +5015,7 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
@@ -5027,7 +5027,7 @@ class DisplayName(NDRCALL):
 
 class DisplayNameResponse(NDRCALL):
     structure = (
-		('DISPLAYNAME', BSTR),
+		('displayName', BSTR),
     )
         
 
@@ -5039,7 +5039,7 @@ class Description(NDRCALL):
 
 class DescriptionResponse(NDRCALL):
     structure = (
-		('DESCRIPTION', BSTR),
+		('description', BSTR),
     )
         
 
@@ -5051,7 +5051,7 @@ class UniqueID(NDRCALL):
 
 class UniqueIDResponse(NDRCALL):
     structure = (
-		('UNIQUEID', BSTR),
+		('uniqueID', BSTR),
     )
         
 OPNUMS = {
@@ -5078,7 +5078,7 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
@@ -5090,7 +5090,7 @@ class Value(NDRCALL):
 
 class ValueResponse(NDRCALL):
     structure = (
-		('VALUE', BSTR),
+		('value', BSTR),
     )
         
 
@@ -5102,7 +5102,7 @@ class Sources(NDRCALL):
 
 class SourcesResponse(NDRCALL):
     structure = (
-		('SOURCES', SAFEARRAY ( VARIANT )),
+		('sources', SAFEARRAY ( VARIANT )),
     )
         
 
@@ -5114,7 +5114,7 @@ class PropertyFlags(NDRCALL):
 
 class PropertyFlagsResponse(NDRCALL):
     structure = (
-		('FLAGS', LONG),
+		('flags', LONG),
     )
         
 OPNUMS = {
@@ -5141,14 +5141,14 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
 class Name(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class NameResponse(NDRCALL):
@@ -5165,7 +5165,7 @@ class RuleType(NDRCALL):
 
 class RuleTypeResponse(NDRCALL):
     structure = (
-		('RULETYPE', FSRMRULETYPE),
+		('ruleType', FSRMRULETYPE),
     )
         
 
@@ -5177,14 +5177,14 @@ class ModuleDefinitionName(NDRCALL):
 
 class ModuleDefinitionNameResponse(NDRCALL):
     structure = (
-		('MODULEDEFINITIONNAME', BSTR),
+		('moduleDefinitionName', BSTR),
     )
         
 
 class ModuleDefinitionName(NDRCALL):
     opnum = 4
     structure = (
-		('MODULEDEFINITIONNAME', BSTR),
+		('moduleDefinitionName', BSTR),
     )
 
 class ModuleDefinitionNameResponse(NDRCALL):
@@ -5201,14 +5201,14 @@ class NamespaceRoots(NDRCALL):
 
 class NamespaceRootsResponse(NDRCALL):
     structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
+		('namespaceRoots', SAFEARRAY ( VARIANT )),
     )
         
 
 class NamespaceRoots(NDRCALL):
     opnum = 6
     structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
+		('namespaceRoots', SAFEARRAY ( VARIANT )),
     )
 
 class NamespaceRootsResponse(NDRCALL):
@@ -5225,14 +5225,14 @@ class RuleFlags(NDRCALL):
 
 class RuleFlagsResponse(NDRCALL):
     structure = (
-		('RULEFLAGS', LONG),
+		('ruleFlags', LONG),
     )
         
 
 class RuleFlags(NDRCALL):
     opnum = 8
     structure = (
-		('RULEFLAGS', LONG),
+		('ruleFlags', LONG),
     )
 
 class RuleFlagsResponse(NDRCALL):
@@ -5249,14 +5249,14 @@ class Parameters(NDRCALL):
 
 class ParametersResponse(NDRCALL):
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('parameters', SAFEARRAY ( VARIANT )),
     )
         
 
 class Parameters(NDRCALL):
     opnum = 10
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('parameters', SAFEARRAY ( VARIANT )),
     )
 
 class ParametersResponse(NDRCALL):
@@ -5273,7 +5273,7 @@ class LastModified(NDRCALL):
 
 class LastModifiedResponse(NDRCALL):
     structure = (
-		('LASTMODIFIED', DATE),
+		('lastModified', DATE),
     )
         
 OPNUMS = {
@@ -5303,14 +5303,14 @@ class ExecutionOption(NDRCALL):
 
 class ExecutionOptionResponse(NDRCALL):
     structure = (
-		('EXECUTIONOPTION', FSRMEXECUTIONOPTION),
+		('executionOption', FSRMEXECUTIONOPTION),
     )
         
 
 class ExecutionOption(NDRCALL):
     opnum = 1
     structure = (
-		('EXECUTIONOPTION', FSRMEXECUTIONOPTION),
+		('executionOption', FSRMEXECUTIONOPTION),
     )
 
 class ExecutionOptionResponse(NDRCALL):
@@ -5327,14 +5327,14 @@ class PropertyAffected(NDRCALL):
 
 class PropertyAffectedResponse(NDRCALL):
     structure = (
-		('PROPERTY', BSTR),
+		('property', BSTR),
     )
         
 
 class PropertyAffected(NDRCALL):
     opnum = 3
     structure = (
-		('PROPERTY', BSTR),
+		('property', BSTR),
     )
 
 class PropertyAffectedResponse(NDRCALL):
@@ -5351,14 +5351,14 @@ class Value(NDRCALL):
 
 class ValueResponse(NDRCALL):
     structure = (
-		('VALUE', BSTR),
+		('value', BSTR),
     )
         
 
 class Value(NDRCALL):
     opnum = 5
     structure = (
-		('VALUE', BSTR),
+		('value', BSTR),
     )
 
 class ValueResponse(NDRCALL):
@@ -5389,14 +5389,14 @@ class ModuleClsid(NDRCALL):
 
 class ModuleClsidResponse(NDRCALL):
     structure = (
-		('MODULECLSID', BSTR),
+		('moduleClsid', BSTR),
     )
         
 
 class ModuleClsid(NDRCALL):
     opnum = 1
     structure = (
-		('MODULECLSID', BSTR),
+		('moduleClsid', BSTR),
     )
 
 class ModuleClsidResponse(NDRCALL):
@@ -5413,14 +5413,14 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
 class Name(NDRCALL):
     opnum = 3
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class NameResponse(NDRCALL):
@@ -5437,14 +5437,14 @@ class Company(NDRCALL):
 
 class CompanyResponse(NDRCALL):
     structure = (
-		('COMPANY', BSTR),
+		('company', BSTR),
     )
         
 
 class Company(NDRCALL):
     opnum = 5
     structure = (
-		('COMPANY', BSTR),
+		('company', BSTR),
     )
 
 class CompanyResponse(NDRCALL):
@@ -5461,14 +5461,14 @@ class Version(NDRCALL):
 
 class VersionResponse(NDRCALL):
     structure = (
-		('VERSION', BSTR),
+		('version', BSTR),
     )
         
 
 class Version(NDRCALL):
     opnum = 7
     structure = (
-		('VERSION', BSTR),
+		('version', BSTR),
     )
 
 class VersionResponse(NDRCALL):
@@ -5485,7 +5485,7 @@ class ModuleType(NDRCALL):
 
 class ModuleTypeResponse(NDRCALL):
     structure = (
-		('MODULETYPE', FSRMPIPELINEMODULETYPE),
+		('moduleType', FSRMPIPELINEMODULETYPE),
     )
         
 
@@ -5497,14 +5497,14 @@ class Enabled(NDRCALL):
 
 class EnabledResponse(NDRCALL):
     structure = (
-		('ENABLED', VARIANT_BOOL),
+		('enabled', VARIANT_BOOL),
     )
         
 
 class Enabled(NDRCALL):
     opnum = 10
     structure = (
-		('ENABLED', VARIANT_BOOL),
+		('enabled', VARIANT_BOOL),
     )
 
 class EnabledResponse(NDRCALL):
@@ -5521,14 +5521,14 @@ class NeedsFileContent(NDRCALL):
 
 class NeedsFileContentResponse(NDRCALL):
     structure = (
-		('NEEDSFILECONTENT', VARIANT_BOOL),
+		('needsFileContent', VARIANT_BOOL),
     )
         
 
 class NeedsFileContent(NDRCALL):
     opnum = 12
     structure = (
-		('NEEDSFILECONTENT', VARIANT_BOOL),
+		('needsFileContent', VARIANT_BOOL),
     )
 
 class NeedsFileContentResponse(NDRCALL):
@@ -5545,14 +5545,14 @@ class Account(NDRCALL):
 
 class AccountResponse(NDRCALL):
     structure = (
-		('RETRIEVALACCOUNT', FSRMACCOUNTTYPE),
+		('retrievalAccount', FSRMACCOUNTTYPE),
     )
         
 
 class Account(NDRCALL):
     opnum = 14
     structure = (
-		('RETRIEVALACCOUNT', FSRMACCOUNTTYPE),
+		('retrievalAccount', FSRMACCOUNTTYPE),
     )
 
 class AccountResponse(NDRCALL):
@@ -5569,14 +5569,14 @@ class SupportedExtensions(NDRCALL):
 
 class SupportedExtensionsResponse(NDRCALL):
     structure = (
-		('SUPPORTEDEXTENSIONS', SAFEARRAY ( VARIANT )),
+		('supportedExtensions', SAFEARRAY ( VARIANT )),
     )
         
 
 class SupportedExtensions(NDRCALL):
     opnum = 16
     structure = (
-		('SUPPORTEDEXTENSIONS', SAFEARRAY ( VARIANT )),
+		('supportedExtensions', SAFEARRAY ( VARIANT )),
     )
 
 class SupportedExtensionsResponse(NDRCALL):
@@ -5593,14 +5593,14 @@ class Parameters(NDRCALL):
 
 class ParametersResponse(NDRCALL):
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('parameters', SAFEARRAY ( VARIANT )),
     )
         
 
 class Parameters(NDRCALL):
     opnum = 18
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('parameters', SAFEARRAY ( VARIANT )),
     )
 
 class ParametersResponse(NDRCALL):
@@ -5638,14 +5638,14 @@ class PropertiesAffected(NDRCALL):
 
 class PropertiesAffectedResponse(NDRCALL):
     structure = (
-		('PROPERTIESAFFECTED', SAFEARRAY ( VARIANT )),
+		('propertiesAffected', SAFEARRAY ( VARIANT )),
     )
         
 
 class PropertiesAffected(NDRCALL):
     opnum = 1
     structure = (
-		('PROPERTIESAFFECTED', SAFEARRAY ( VARIANT )),
+		('propertiesAffected', SAFEARRAY ( VARIANT )),
     )
 
 class PropertiesAffectedResponse(NDRCALL):
@@ -5662,14 +5662,14 @@ class PropertiesUsed(NDRCALL):
 
 class PropertiesUsedResponse(NDRCALL):
     structure = (
-		('PROPERTIESUSED', SAFEARRAY ( VARIANT )),
+		('propertiesUsed', SAFEARRAY ( VARIANT )),
     )
         
 
 class PropertiesUsed(NDRCALL):
     opnum = 3
     structure = (
-		('PROPERTIESUSED', SAFEARRAY ( VARIANT )),
+		('propertiesUsed', SAFEARRAY ( VARIANT )),
     )
 
 class PropertiesUsedResponse(NDRCALL):
@@ -5686,14 +5686,14 @@ class NeedsExplicitValue(NDRCALL):
 
 class NeedsExplicitValueResponse(NDRCALL):
     structure = (
-		('NEEDSEXPLICITVALUE', VARIANT_BOOL),
+		('needsExplicitValue', VARIANT_BOOL),
     )
         
 
 class NeedsExplicitValue(NDRCALL):
     opnum = 5
     structure = (
-		('NEEDSEXPLICITVALUE', VARIANT_BOOL),
+		('needsExplicitValue', VARIANT_BOOL),
     )
 
 class NeedsExplicitValueResponse(NDRCALL):
@@ -5724,14 +5724,14 @@ class ClassificationReportFormats(NDRCALL):
 
 class ClassificationReportFormatsResponse(NDRCALL):
     structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
+		('formats', SAFEARRAY ( VARIANT )),
     )
         
 
 class ClassificationReportFormats(NDRCALL):
     opnum = 1
     structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
+		('formats', SAFEARRAY ( VARIANT )),
     )
 
 class ClassificationReportFormatsResponse(NDRCALL):
@@ -5748,14 +5748,14 @@ class Logging(NDRCALL):
 
 class LoggingResponse(NDRCALL):
     structure = (
-		('LOGGING', LONG),
+		('logging', LONG),
     )
         
 
 class Logging(NDRCALL):
     opnum = 3
     structure = (
-		('LOGGING', LONG),
+		('logging', LONG),
     )
 
 class LoggingResponse(NDRCALL):
@@ -5772,14 +5772,14 @@ class ClassificationReportMailTo(NDRCALL):
 
 class ClassificationReportMailToResponse(NDRCALL):
     structure = (
-		('MAILTO', BSTR),
+		('mailTo', BSTR),
     )
         
 
 class ClassificationReportMailTo(NDRCALL):
     opnum = 5
     structure = (
-		('MAILTO', BSTR),
+		('mailTo', BSTR),
     )
 
 class ClassificationReportMailToResponse(NDRCALL):
@@ -5796,14 +5796,14 @@ class ClassificationReportEnabled(NDRCALL):
 
 class ClassificationReportEnabledResponse(NDRCALL):
     structure = (
-		('REPORTENABLED', VARIANT_BOOL),
+		('reportEnabled', VARIANT_BOOL),
     )
         
 
 class ClassificationReportEnabled(NDRCALL):
     opnum = 7
     structure = (
-		('REPORTENABLED', VARIANT_BOOL),
+		('reportEnabled', VARIANT_BOOL),
     )
 
 class ClassificationReportEnabledResponse(NDRCALL):
@@ -5820,7 +5820,7 @@ class ClassificationLastReportPathWithoutExtension(NDRCALL):
 
 class ClassificationLastReportPathWithoutExtensionResponse(NDRCALL):
     structure = (
-		('LASTREPORTPATH', BSTR),
+		('lastReportPath', BSTR),
     )
         
 
@@ -5832,7 +5832,7 @@ class ClassificationLastError(NDRCALL):
 
 class ClassificationLastErrorResponse(NDRCALL):
     structure = (
-		('LASTERROR', BSTR),
+		('lastError', BSTR),
     )
         
 
@@ -5844,19 +5844,19 @@ class ClassificationRunningStatus(NDRCALL):
 
 class ClassificationRunningStatusResponse(NDRCALL):
     structure = (
-		('RUNNINGSTATUS', FSRMREPORTRUNNINGSTATUS),
+		('runningStatus', FSRMREPORTRUNNINGSTATUS),
     )
         
 
 class EnumPropertyDefinitions(NDRCALL):
     opnum = 11
     structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumPropertyDefinitionsResponse(NDRCALL):
     structure = (
-		('PROPERTYDEFINITIONS', IFSRMCOLLECTION),
+		('propertyDefinitions', IFSRMCOLLECTION),
     )
         
 
@@ -5868,103 +5868,103 @@ class CreatePropertyDefinition(NDRCALL):
 
 class CreatePropertyDefinitionResponse(NDRCALL):
     structure = (
-		('PROPERTYDEFINITION', IFSRMPROPERTYDEFINITION),
+		('propertyDefinition', IFSRMPROPERTYDEFINITION),
     )
         
 
 class GetPropertyDefinition(NDRCALL):
     opnum = 13
     structure = (
-		('PROPERTYNAME', BSTR),
+		('propertyName', BSTR),
     )
 
 class GetPropertyDefinitionResponse(NDRCALL):
     structure = (
-		('PROPERTYDEFINITION', IFSRMPROPERTYDEFINITION),
+		('propertyDefinition', IFSRMPROPERTYDEFINITION),
     )
         
 
 class EnumRules(NDRCALL):
     opnum = 14
     structure = (
-		('RULETYPE', FSRMRULETYPE),
-		('OPTIONS', FSRMENUMOPTIONS),
+		('ruleType', FSRMRULETYPE),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumRulesResponse(NDRCALL):
     structure = (
-		('RULES', IFSRMCOLLECTION),
+		('Rules', IFSRMCOLLECTION),
     )
         
 
 class CreateRule(NDRCALL):
     opnum = 15
     structure = (
-		('RULETYPE', FSRMRULETYPE),
+		('ruleType', FSRMRULETYPE),
     )
 
 class CreateRuleResponse(NDRCALL):
     structure = (
-		('RULE', IFSRMRULE),
+		('Rule', IFSRMRULE),
     )
         
 
 class GetRule(NDRCALL):
     opnum = 16
     structure = (
-		('RULENAME', BSTR),
-		('RULETYPE', FSRMRULETYPE),
+		('ruleName', BSTR),
+		('ruleType', FSRMRULETYPE),
     )
 
 class GetRuleResponse(NDRCALL):
     structure = (
-		('RULE', IFSRMRULE),
+		('Rule', IFSRMRULE),
     )
         
 
 class EnumModuleDefinitions(NDRCALL):
     opnum = 17
     structure = (
-		('MODULETYPE', FSRMPIPELINEMODULETYPE),
-		('OPTIONS', FSRMENUMOPTIONS),
+		('moduleType', FSRMPIPELINEMODULETYPE),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumModuleDefinitionsResponse(NDRCALL):
     structure = (
-		('MODULEDEFINITIONS', IFSRMCOLLECTION),
+		('moduleDefinitions', IFSRMCOLLECTION),
     )
         
 
 class CreateModuleDefinition(NDRCALL):
     opnum = 18
     structure = (
-		('MODULETYPE', FSRMPIPELINEMODULETYPE),
+		('moduleType', FSRMPIPELINEMODULETYPE),
     )
 
 class CreateModuleDefinitionResponse(NDRCALL):
     structure = (
-		('MODULEDEFINITION', IFSRMPIPELINEMODULEDEFINITION),
+		('moduleDefinition', IFSRMPIPELINEMODULEDEFINITION),
     )
         
 
 class GetModuleDefinition(NDRCALL):
     opnum = 19
     structure = (
-		('MODULENAME', BSTR),
-		('MODULETYPE', FSRMPIPELINEMODULETYPE),
+		('moduleName', BSTR),
+		('moduleType', FSRMPIPELINEMODULETYPE),
     )
 
 class GetModuleDefinitionResponse(NDRCALL):
     structure = (
-		('MODULEDEFINITION', IFSRMPIPELINEMODULEDEFINITION),
+		('moduleDefinition', IFSRMPIPELINEMODULEDEFINITION),
     )
         
 
 class RunClassification(NDRCALL):
     opnum = 20
     structure = (
-		('CONTEXT', FSRMREPORTGENERATIONCONTEXT),
-		('RESERVED', BSTR),
+		('context', FSRMREPORTGENERATIONCONTEXT),
+		('reserved', BSTR),
     )
 
 class RunClassificationResponse(NDRCALL):
@@ -5976,12 +5976,12 @@ class RunClassificationResponse(NDRCALL):
 class WaitForClassificationCompletion(NDRCALL):
     opnum = 21
     structure = (
-		('WAITSECONDS', LONG),
+		('waitSeconds', LONG),
     )
 
 class WaitForClassificationCompletionResponse(NDRCALL):
     structure = (
-		('COMPLETED', VARIANT_BOOL),
+		('completed', VARIANT_BOOL),
     )
         
 
@@ -6000,36 +6000,36 @@ class CancelClassificationResponse(NDRCALL):
 class EnumFileProperties(NDRCALL):
     opnum = 23
     structure = (
-		('FILEPATH', BSTR),
-		('OPTIONS', FSRMGETFILEPROPERTYOPTIONS),
+		('filePath', BSTR),
+		('options', FSRMGETFILEPROPERTYOPTIONS),
     )
 
 class EnumFilePropertiesResponse(NDRCALL):
     structure = (
-		('FILEPROPERTIES', IFSRMCOLLECTION),
+		('fileProperties', IFSRMCOLLECTION),
     )
         
 
 class GetFileProperty(NDRCALL):
     opnum = 24
     structure = (
-		('FILEPATH', BSTR),
-		('PROPERTYNAME', BSTR),
-		('OPTIONS', FSRMGETFILEPROPERTYOPTIONS),
+		('filePath', BSTR),
+		('propertyName', BSTR),
+		('options', FSRMGETFILEPROPERTYOPTIONS),
     )
 
 class GetFilePropertyResponse(NDRCALL):
     structure = (
-		('PROPERTY', IFSRMPROPERTY),
+		('property', IFSRMPROPERTY),
     )
         
 
 class SetFileProperty(NDRCALL):
     opnum = 25
     structure = (
-		('FILEPATH', BSTR),
-		('PROPERTYNAME', BSTR),
-		('PROPERTYVALUE', BSTR),
+		('filePath', BSTR),
+		('propertyName', BSTR),
+		('propertyValue', BSTR),
     )
 
 class SetFilePropertyResponse(NDRCALL):
@@ -6041,8 +6041,8 @@ class SetFilePropertyResponse(NDRCALL):
 class ClearFileProperty(NDRCALL):
     opnum = 26
     structure = (
-		('FILEPATH', BSTR),
-		('PROPERTY', BSTR),
+		('filePath', BSTR),
+		('property', BSTR),
     )
 
 class ClearFilePropertyResponse(NDRCALL):
@@ -6093,14 +6093,14 @@ class Capabilities(NDRCALL):
 
 class CapabilitiesResponse(NDRCALL):
     structure = (
-		('CAPABILITIES', FSRMSTORAGEMODULECAPS),
+		('capabilities', FSRMSTORAGEMODULECAPS),
     )
         
 
 class Capabilities(NDRCALL):
     opnum = 1
     structure = (
-		('CAPABILITIES', FSRMSTORAGEMODULECAPS),
+		('capabilities', FSRMSTORAGEMODULECAPS),
     )
 
 class CapabilitiesResponse(NDRCALL):
@@ -6117,14 +6117,14 @@ class StorageType(NDRCALL):
 
 class StorageTypeResponse(NDRCALL):
     structure = (
-		('STORAGETYPE', FSRMSTORAGEMODULETYPE),
+		('storageType', FSRMSTORAGEMODULETYPE),
     )
         
 
 class StorageType(NDRCALL):
     opnum = 3
     structure = (
-		('STORAGETYPE', FSRMSTORAGEMODULETYPE),
+		('storageType', FSRMSTORAGEMODULETYPE),
     )
 
 class StorageTypeResponse(NDRCALL):
@@ -6141,14 +6141,14 @@ class UpdatesFileContent(NDRCALL):
 
 class UpdatesFileContentResponse(NDRCALL):
     structure = (
-		('UPDATESFILECONTENT', VARIANT_BOOL),
+		('updatesFileContent', VARIANT_BOOL),
     )
         
 
 class UpdatesFileContent(NDRCALL):
     opnum = 5
     structure = (
-		('UPDATESFILECONTENT', VARIANT_BOOL),
+		('updatesFileContent', VARIANT_BOOL),
     )
 
 class UpdatesFileContentResponse(NDRCALL):
@@ -6179,14 +6179,14 @@ class QuotaLimit(NDRCALL):
 
 class QuotaLimitResponse(NDRCALL):
     structure = (
-		('QUOTALIMIT', VARIANT),
+		('quotaLimit', VARIANT),
     )
         
 
 class QuotaLimit(NDRCALL):
     opnum = 1
     structure = (
-		('QUOTALIMIT', VARIANT),
+		('quotaLimit', VARIANT),
     )
 
 class QuotaLimitResponse(NDRCALL):
@@ -6203,14 +6203,14 @@ class QuotaFlags(NDRCALL):
 
 class QuotaFlagsResponse(NDRCALL):
     structure = (
-		('QUOTAFLAGS', LONG),
+		('quotaFlags', LONG),
     )
         
 
 class QuotaFlags(NDRCALL):
     opnum = 3
     structure = (
-		('QUOTAFLAGS', LONG),
+		('quotaFlags', LONG),
     )
 
 class QuotaFlagsResponse(NDRCALL):
@@ -6227,14 +6227,14 @@ class Thresholds(NDRCALL):
 
 class ThresholdsResponse(NDRCALL):
     structure = (
-		('THRESHOLDS', SAFEARRAY ( VARIANT )),
+		('thresholds', SAFEARRAY ( VARIANT )),
     )
         
 
 class AddThreshold(NDRCALL):
     opnum = 5
     structure = (
-		('THRESHOLD', FSRM_QUOTA_THRESHOLD),
+		('threshold', FSRM_QUOTA_THRESHOLD),
     )
 
 class AddThresholdResponse(NDRCALL):
@@ -6246,7 +6246,7 @@ class AddThresholdResponse(NDRCALL):
 class DeleteThreshold(NDRCALL):
     opnum = 6
     structure = (
-		('THRESHOLD', FSRM_QUOTA_THRESHOLD),
+		('threshold', FSRM_QUOTA_THRESHOLD),
     )
 
 class DeleteThresholdResponse(NDRCALL):
@@ -6258,8 +6258,8 @@ class DeleteThresholdResponse(NDRCALL):
 class ModifyThreshold(NDRCALL):
     opnum = 7
     structure = (
-		('THRESHOLD', FSRM_QUOTA_THRESHOLD),
-		('NEWTHRESHOLD', FSRM_QUOTA_THRESHOLD),
+		('threshold', FSRM_QUOTA_THRESHOLD),
+		('newThreshold', FSRM_QUOTA_THRESHOLD),
     )
 
 class ModifyThresholdResponse(NDRCALL):
@@ -6271,25 +6271,25 @@ class ModifyThresholdResponse(NDRCALL):
 class CreateThresholdAction(NDRCALL):
     opnum = 8
     structure = (
-		('THRESHOLD', FSRM_QUOTA_THRESHOLD),
-		('ACTIONTYPE', FSRMACTIONTYPE),
+		('threshold', FSRM_QUOTA_THRESHOLD),
+		('actionType', FSRMACTIONTYPE),
     )
 
 class CreateThresholdActionResponse(NDRCALL):
     structure = (
-		('ACTION', IFSRMACTION),
+		('action', IFSRMACTION),
     )
         
 
 class EnumThresholdActions(NDRCALL):
     opnum = 9
     structure = (
-		('THRESHOLD', FSRM_QUOTA_THRESHOLD),
+		('threshold', FSRM_QUOTA_THRESHOLD),
     )
 
 class EnumThresholdActionsResponse(NDRCALL):
     structure = (
-		('ACTIONS', IFSRMCOLLECTION),
+		('actions', IFSRMCOLLECTION),
     )
         
 OPNUMS = {
@@ -6320,7 +6320,7 @@ class Path(NDRCALL):
 
 class PathResponse(NDRCALL):
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
         
 
@@ -6332,7 +6332,7 @@ class UserSid(NDRCALL):
 
 class UserSidResponse(NDRCALL):
     structure = (
-		('USERSID', BSTR),
+		('userSid', BSTR),
     )
         
 
@@ -6344,7 +6344,7 @@ class UserAccount(NDRCALL):
 
 class UserAccountResponse(NDRCALL):
     structure = (
-		('USERACCOUNT', BSTR),
+		('userAccount', BSTR),
     )
         
 
@@ -6356,7 +6356,7 @@ class SourceTemplateName(NDRCALL):
 
 class SourceTemplateNameResponse(NDRCALL):
     structure = (
-		('QUOTATEMPLATENAME', BSTR),
+		('quotaTemplateName', BSTR),
     )
         
 
@@ -6368,14 +6368,14 @@ class MatchesSourceTemplate(NDRCALL):
 
 class MatchesSourceTemplateResponse(NDRCALL):
     structure = (
-		('MATCHES', VARIANT_BOOL),
+		('matches', VARIANT_BOOL),
     )
         
 
 class ApplyTemplate(NDRCALL):
     opnum = 5
     structure = (
-		('QUOTATEMPLATENAME', BSTR),
+		('quotaTemplateName', BSTR),
     )
 
 class ApplyTemplateResponse(NDRCALL):
@@ -6409,7 +6409,7 @@ class QuotaUsed(NDRCALL):
 
 class QuotaUsedResponse(NDRCALL):
     structure = (
-		('USED', VARIANT),
+		('used', VARIANT),
     )
         
 
@@ -6421,7 +6421,7 @@ class QuotaPeakUsage(NDRCALL):
 
 class QuotaPeakUsageResponse(NDRCALL):
     structure = (
-		('PEAKUSAGE', VARIANT),
+		('peakUsage', VARIANT),
     )
         
 
@@ -6433,7 +6433,7 @@ class QuotaPeakUsageTime(NDRCALL):
 
 class QuotaPeakUsageTimeResponse(NDRCALL):
     structure = (
-		('PEAKUSAGEDATETIME', DATE),
+		('peakUsageDateTime', DATE),
     )
         
 
@@ -6485,14 +6485,14 @@ class ExcludeFolders(NDRCALL):
 
 class ExcludeFoldersResponse(NDRCALL):
     structure = (
-		('FOLDERS', SAFEARRAY ( VARIANT )),
+		('folders', SAFEARRAY ( VARIANT )),
     )
         
 
 class ExcludeFolders(NDRCALL):
     opnum = 1
     structure = (
-		('FOLDERS', SAFEARRAY ( VARIANT )),
+		('folders', SAFEARRAY ( VARIANT )),
     )
 
 class ExcludeFoldersResponse(NDRCALL):
@@ -6504,13 +6504,13 @@ class ExcludeFoldersResponse(NDRCALL):
 class CommitAndUpdateDerived(NDRCALL):
     opnum = 2
     structure = (
-		('COMMITOPTIONS', FSRMCOMMITOPTIONS),
-		('APPLYOPTIONS', FSRMTEMPLATEAPPLYOPTIONS),
+		('commitOptions', FSRMCOMMITOPTIONS),
+		('applyOptions', FSRMTEMPLATEAPPLYOPTIONS),
     )
 
 class CommitAndUpdateDerivedResponse(NDRCALL):
     structure = (
-		('DERIVEDOBJECTSRESULT', IFSRMDERIVEDOBJECTSRESULT),
+		('derivedObjectsResult', IFSRMDERIVEDOBJECTSRESULT),
     )
         
 OPNUMS = {
@@ -6535,7 +6535,7 @@ class ActionVariables(NDRCALL):
 
 class ActionVariablesResponse(NDRCALL):
     structure = (
-		('VARIABLES', SAFEARRAY ( VARIANT )),
+		('variables', SAFEARRAY ( VARIANT )),
     )
         
 
@@ -6547,114 +6547,114 @@ class ActionVariableDescriptions(NDRCALL):
 
 class ActionVariableDescriptionsResponse(NDRCALL):
     structure = (
-		('DESCRIPTIONS', SAFEARRAY ( VARIANT )),
+		('descriptions', SAFEARRAY ( VARIANT )),
     )
         
 
 class CreateQuota(NDRCALL):
     opnum = 2
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
 
 class CreateQuotaResponse(NDRCALL):
     structure = (
-		('QUOTA', IFSRMQUOTA),
+		('quota', IFSRMQUOTA),
     )
         
 
 class CreateAutoApplyQuota(NDRCALL):
     opnum = 3
     structure = (
-		('QUOTATEMPLATENAME', BSTR),
-		('PATH', BSTR),
+		('quotaTemplateName', BSTR),
+		('path', BSTR),
     )
 
 class CreateAutoApplyQuotaResponse(NDRCALL):
     structure = (
-		('QUOTA', IFSRMAUTOAPPLYQUOTA),
+		('quota', IFSRMAUTOAPPLYQUOTA),
     )
         
 
 class GetQuota(NDRCALL):
     opnum = 4
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
 
 class GetQuotaResponse(NDRCALL):
     structure = (
-		('QUOTA', IFSRMQUOTA),
+		('quota', IFSRMQUOTA),
     )
         
 
 class GetAutoApplyQuota(NDRCALL):
     opnum = 5
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
 
 class GetAutoApplyQuotaResponse(NDRCALL):
     structure = (
-		('QUOTA', IFSRMAUTOAPPLYQUOTA),
+		('quota', IFSRMAUTOAPPLYQUOTA),
     )
         
 
 class GetRestrictiveQuota(NDRCALL):
     opnum = 6
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
 
 class GetRestrictiveQuotaResponse(NDRCALL):
     structure = (
-		('QUOTA', IFSRMQUOTA),
+		('quota', IFSRMQUOTA),
     )
         
 
 class EnumQuotas(NDRCALL):
     opnum = 7
     structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
+		('path', BSTR),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumQuotasResponse(NDRCALL):
     structure = (
-		('QUOTAS', IFSRMCOMMITTABLECOLLECTION),
+		('quotas', IFSRMCOMMITTABLECOLLECTION),
     )
         
 
 class EnumAutoApplyQuotas(NDRCALL):
     opnum = 8
     structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
+		('path', BSTR),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumAutoApplyQuotasResponse(NDRCALL):
     structure = (
-		('QUOTAS', IFSRMCOMMITTABLECOLLECTION),
+		('quotas', IFSRMCOMMITTABLECOLLECTION),
     )
         
 
 class EnumEffectiveQuotas(NDRCALL):
     opnum = 9
     structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
+		('path', BSTR),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumEffectiveQuotasResponse(NDRCALL):
     structure = (
-		('QUOTAS', IFSRMCOMMITTABLECOLLECTION),
+		('quotas', IFSRMCOMMITTABLECOLLECTION),
     )
         
 
 class Scan(NDRCALL):
     opnum = 10
     structure = (
-		('STRPATH', BSTR),
+		('strPath', BSTR),
     )
 
 class ScanResponse(NDRCALL):
@@ -6671,7 +6671,7 @@ class CreateQuotaCollection(NDRCALL):
 
 class CreateQuotaCollectionResponse(NDRCALL):
     structure = (
-		('COLLECTION', IFSRMCOMMITTABLECOLLECTION),
+		('collection', IFSRMCOMMITTABLECOLLECTION),
     )
         
 OPNUMS = {
@@ -6701,13 +6701,13 @@ MSRPC_UUID_IFSRMQUOTAMANAGEREX = uuidtup_to_bin(('4846cb01-d430-494f-abb4-b10549
 class IsAffectedByQuota(NDRCALL):
     opnum = 0
     structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
+		('path', BSTR),
+		('options', FSRMENUMOPTIONS),
     )
 
 class IsAffectedByQuotaResponse(NDRCALL):
     structure = (
-		('AFFECTED', VARIANT_BOOL),
+		('affected', VARIANT_BOOL),
     )
         
 OPNUMS = {
@@ -6731,14 +6731,14 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
 class Name(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class NameResponse(NDRCALL):
@@ -6750,7 +6750,7 @@ class NameResponse(NDRCALL):
 class CopyTemplate(NDRCALL):
     opnum = 2
     structure = (
-		('QUOTATEMPLATENAME', BSTR),
+		('quotaTemplateName', BSTR),
     )
 
 class CopyTemplateResponse(NDRCALL):
@@ -6762,13 +6762,13 @@ class CopyTemplateResponse(NDRCALL):
 class CommitAndUpdateDerived(NDRCALL):
     opnum = 3
     structure = (
-		('COMMITOPTIONS', FSRMCOMMITOPTIONS),
-		('APPLYOPTIONS', FSRMTEMPLATEAPPLYOPTIONS),
+		('commitOptions', FSRMCOMMITOPTIONS),
+		('applyOptions', FSRMTEMPLATEAPPLYOPTIONS),
     )
 
 class CommitAndUpdateDerivedResponse(NDRCALL):
     structure = (
-		('DERIVEDOBJECTSRESULT', IFSRMDERIVEDOBJECTSRESULT),
+		('derivedObjectsResult', IFSRMDERIVEDOBJECTSRESULT),
     )
         
 OPNUMS = {
@@ -6794,14 +6794,14 @@ class OverwriteOnCommit(NDRCALL):
 
 class OverwriteOnCommitResponse(NDRCALL):
     structure = (
-		('OVERWRITE', VARIANT_BOOL),
+		('overwrite', VARIANT_BOOL),
     )
         
 
 class OverwriteOnCommit(NDRCALL):
     opnum = 1
     structure = (
-		('OVERWRITE', VARIANT_BOOL),
+		('overwrite', VARIANT_BOOL),
     )
 
 class OverwriteOnCommitResponse(NDRCALL):
@@ -6830,56 +6830,56 @@ class CreateTemplate(NDRCALL):
 
 class CreateTemplateResponse(NDRCALL):
     structure = (
-		('QUOTATEMPLATE', IFSRMQUOTATEMPLATE),
+		('quotaTemplate', IFSRMQUOTATEMPLATE),
     )
         
 
 class GetTemplate(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class GetTemplateResponse(NDRCALL):
     structure = (
-		('QUOTATEMPLATE', IFSRMQUOTATEMPLATE),
+		('quotaTemplate', IFSRMQUOTATEMPLATE),
     )
         
 
 class EnumTemplates(NDRCALL):
     opnum = 2
     structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumTemplatesResponse(NDRCALL):
     structure = (
-		('QUOTATEMPLATES', IFSRMCOMMITTABLECOLLECTION),
+		('quotaTemplates', IFSRMCOMMITTABLECOLLECTION),
     )
         
 
 class ExportTemplates(NDRCALL):
     opnum = 3
     structure = (
-		('QUOTATEMPLATENAMESARRAY', VARIANT),
+		('quotaTemplateNamesArray', VARIANT),
     )
 
 class ExportTemplatesResponse(NDRCALL):
     structure = (
-		('SERIALIZEDQUOTATEMPLATES', BSTR),
+		('serializedQuotaTemplates', BSTR),
     )
         
 
 class ImportTemplates(NDRCALL):
     opnum = 4
     structure = (
-		('SERIALIZEDQUOTATEMPLATES', BSTR),
-		('QUOTATEMPLATENAMESARRAY', VARIANT),
+		('serializedQuotaTemplates', BSTR),
+		('quotaTemplateNamesArray', VARIANT),
     )
 
 class ImportTemplatesResponse(NDRCALL):
     structure = (
-		('QUOTATEMPLATES', IFSRMCOMMITTABLECOLLECTION),
+		('quotaTemplates', IFSRMCOMMITTABLECOLLECTION),
     )
         
 OPNUMS = {
@@ -6902,12 +6902,12 @@ MSRPC_UUID_IFSRMREPORTMANAGER = uuidtup_to_bin(('27b899fe-6ffa-4481-a184-d3daade
 class EnumReportJobs(NDRCALL):
     opnum = 0
     structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumReportJobsResponse(NDRCALL):
     structure = (
-		('REPORTJOBS', IFSRMCOLLECTION),
+		('reportJobs', IFSRMCOLLECTION),
     )
         
 
@@ -6919,39 +6919,39 @@ class CreateReportJob(NDRCALL):
 
 class CreateReportJobResponse(NDRCALL):
     structure = (
-		('REPORTJOB', IFSRMREPORTJOB),
+		('reportJob', IFSRMREPORTJOB),
     )
         
 
 class GetReportJob(NDRCALL):
     opnum = 2
     structure = (
-		('TASKNAME', BSTR),
+		('taskName', BSTR),
     )
 
 class GetReportJobResponse(NDRCALL):
     structure = (
-		('REPORTJOB', IFSRMREPORTJOB),
+		('reportJob', IFSRMREPORTJOB),
     )
         
 
 class GetOutputDirectory(NDRCALL):
     opnum = 3
     structure = (
-		('CONTEXT', FSRMREPORTGENERATIONCONTEXT),
+		('context', FSRMREPORTGENERATIONCONTEXT),
     )
 
 class GetOutputDirectoryResponse(NDRCALL):
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
         
 
 class SetOutputDirectory(NDRCALL):
     opnum = 4
     structure = (
-		('CONTEXT', FSRMREPORTGENERATIONCONTEXT),
-		('PATH', BSTR),
+		('context', FSRMREPORTGENERATIONCONTEXT),
+		('path', BSTR),
     )
 
 class SetOutputDirectoryResponse(NDRCALL):
@@ -6963,35 +6963,35 @@ class SetOutputDirectoryResponse(NDRCALL):
 class IsFilterValidForReportType(NDRCALL):
     opnum = 5
     structure = (
-		('REPORTTYPE', FSRMREPORTTYPE),
-		('FILTER', FSRMREPORTFILTER),
+		('reportType', FSRMREPORTTYPE),
+		('filter', FSRMREPORTFILTER),
     )
 
 class IsFilterValidForReportTypeResponse(NDRCALL):
     structure = (
-		('VALID', VARIANT_BOOL),
+		('valid', VARIANT_BOOL),
     )
         
 
 class GetDefaultFilter(NDRCALL):
     opnum = 6
     structure = (
-		('REPORTTYPE', FSRMREPORTTYPE),
-		('FILTER', FSRMREPORTFILTER),
+		('reportType', FSRMREPORTTYPE),
+		('filter', FSRMREPORTFILTER),
     )
 
 class GetDefaultFilterResponse(NDRCALL):
     structure = (
-		('FILTERVALUE', VARIANT),
+		('filterValue', VARIANT),
     )
         
 
 class SetDefaultFilter(NDRCALL):
     opnum = 7
     structure = (
-		('REPORTTYPE', FSRMREPORTTYPE),
-		('FILTER', FSRMREPORTFILTER),
-		('FILTERVALUE', VARIANT),
+		('reportType', FSRMREPORTTYPE),
+		('filter', FSRMREPORTFILTER),
+		('filterValue', VARIANT),
     )
 
 class SetDefaultFilterResponse(NDRCALL):
@@ -7003,20 +7003,20 @@ class SetDefaultFilterResponse(NDRCALL):
 class GetReportSizeLimit(NDRCALL):
     opnum = 8
     structure = (
-		('LIMIT', FSRMREPORTLIMIT),
+		('limit', FSRMREPORTLIMIT),
     )
 
 class GetReportSizeLimitResponse(NDRCALL):
     structure = (
-		('LIMITVALUE', VARIANT),
+		('limitValue', VARIANT),
     )
         
 
 class SetReportSizeLimit(NDRCALL):
     opnum = 9
     structure = (
-		('LIMIT', FSRMREPORTLIMIT),
-		('LIMITVALUE', VARIANT),
+		('limit', FSRMREPORTLIMIT),
+		('limitValue', VARIANT),
     )
 
 class SetReportSizeLimitResponse(NDRCALL):
@@ -7054,14 +7054,14 @@ class Task(NDRCALL):
 
 class TaskResponse(NDRCALL):
     structure = (
-		('TASKNAME', BSTR),
+		('taskName', BSTR),
     )
         
 
 class Task(NDRCALL):
     opnum = 1
     structure = (
-		('TASKNAME', BSTR),
+		('taskName', BSTR),
     )
 
 class TaskResponse(NDRCALL):
@@ -7078,14 +7078,14 @@ class NamespaceRoots(NDRCALL):
 
 class NamespaceRootsResponse(NDRCALL):
     structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
+		('namespaceRoots', SAFEARRAY ( VARIANT )),
     )
         
 
 class NamespaceRoots(NDRCALL):
     opnum = 3
     structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
+		('namespaceRoots', SAFEARRAY ( VARIANT )),
     )
 
 class NamespaceRootsResponse(NDRCALL):
@@ -7102,14 +7102,14 @@ class Formats(NDRCALL):
 
 class FormatsResponse(NDRCALL):
     structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
+		('formats', SAFEARRAY ( VARIANT )),
     )
         
 
 class Formats(NDRCALL):
     opnum = 5
     structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
+		('formats', SAFEARRAY ( VARIANT )),
     )
 
 class FormatsResponse(NDRCALL):
@@ -7126,14 +7126,14 @@ class MailTo(NDRCALL):
 
 class MailToResponse(NDRCALL):
     structure = (
-		('MAILTO', BSTR),
+		('mailTo', BSTR),
     )
         
 
 class MailTo(NDRCALL):
     opnum = 7
     structure = (
-		('MAILTO', BSTR),
+		('mailTo', BSTR),
     )
 
 class MailToResponse(NDRCALL):
@@ -7150,7 +7150,7 @@ class RunningStatus(NDRCALL):
 
 class RunningStatusResponse(NDRCALL):
     structure = (
-		('RUNNINGSTATUS', FSRMREPORTRUNNINGSTATUS),
+		('runningStatus', FSRMREPORTRUNNINGSTATUS),
     )
         
 
@@ -7162,7 +7162,7 @@ class LastRun(NDRCALL):
 
 class LastRunResponse(NDRCALL):
     structure = (
-		('LASTRUN', DATE),
+		('lastRun', DATE),
     )
         
 
@@ -7174,7 +7174,7 @@ class LastError(NDRCALL):
 
 class LastErrorResponse(NDRCALL):
     structure = (
-		('LASTERROR', BSTR),
+		('lastError', BSTR),
     )
         
 
@@ -7186,7 +7186,7 @@ class LastGeneratedInDirectory(NDRCALL):
 
 class LastGeneratedInDirectoryResponse(NDRCALL):
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
         
 
@@ -7198,26 +7198,26 @@ class EnumReports(NDRCALL):
 
 class EnumReportsResponse(NDRCALL):
     structure = (
-		('REPORTS', IFSRMCOLLECTION),
+		('reports', IFSRMCOLLECTION),
     )
         
 
 class CreateReport(NDRCALL):
     opnum = 13
     structure = (
-		('REPORTTYPE', FSRMREPORTTYPE),
+		('reportType', FSRMREPORTTYPE),
     )
 
 class CreateReportResponse(NDRCALL):
     structure = (
-		('REPORT', IFSRMREPORT),
+		('report', IFSRMREPORT),
     )
         
 
 class Run(NDRCALL):
     opnum = 14
     structure = (
-		('CONTEXT', FSRMREPORTGENERATIONCONTEXT),
+		('context', FSRMREPORTGENERATIONCONTEXT),
     )
 
 class RunResponse(NDRCALL):
@@ -7229,12 +7229,12 @@ class RunResponse(NDRCALL):
 class WaitForCompletion(NDRCALL):
     opnum = 15
     structure = (
-		('WAITSECONDS', LONG),
+		('waitSeconds', LONG),
     )
 
 class WaitForCompletionResponse(NDRCALL):
     structure = (
-		('COMPLETED', VARIANT_BOOL),
+		('completed', VARIANT_BOOL),
     )
         
 
@@ -7282,7 +7282,7 @@ class Type(NDRCALL):
 
 class TypeResponse(NDRCALL):
     structure = (
-		('REPORTTYPE', FSRMREPORTTYPE),
+		('reportType', FSRMREPORTTYPE),
     )
         
 
@@ -7294,14 +7294,14 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
 class Name(NDRCALL):
     opnum = 2
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class NameResponse(NDRCALL):
@@ -7318,14 +7318,14 @@ class Description(NDRCALL):
 
 class DescriptionResponse(NDRCALL):
     structure = (
-		('DESCRIPTION', BSTR),
+		('description', BSTR),
     )
         
 
 class Description(NDRCALL):
     opnum = 4
     structure = (
-		('DESCRIPTION', BSTR),
+		('description', BSTR),
     )
 
 class DescriptionResponse(NDRCALL):
@@ -7342,27 +7342,27 @@ class LastGeneratedFileNamePrefix(NDRCALL):
 
 class LastGeneratedFileNamePrefixResponse(NDRCALL):
     structure = (
-		('PREFIX', BSTR),
+		('prefix', BSTR),
     )
         
 
 class GetFilter(NDRCALL):
     opnum = 6
     structure = (
-		('FILTER', FSRMREPORTFILTER),
+		('filter', FSRMREPORTFILTER),
     )
 
 class GetFilterResponse(NDRCALL):
     structure = (
-		('FILTERVALUE', VARIANT),
+		('filterValue', VARIANT),
     )
         
 
 class SetFilter(NDRCALL):
     opnum = 7
     structure = (
-		('FILTER', FSRMREPORTFILTER),
-		('FILTERVALUE', VARIANT),
+		('filter', FSRMREPORTFILTER),
+		('filterValue', VARIANT),
     )
 
 class SetFilterResponse(NDRCALL):
@@ -7404,7 +7404,7 @@ MSRPC_UUID_IFSRMREPORTSCHEDULER = uuidtup_to_bin(('6879caf9-6617-4484-8719-71c3d
 class VerifyNamespaces(NDRCALL):
     opnum = 0
     structure = (
-		('NAMESPACESSAFEARRAY', VARIANT),
+		('namespacesSafeArray', VARIANT),
     )
 
 class VerifyNamespacesResponse(NDRCALL):
@@ -7416,9 +7416,9 @@ class VerifyNamespacesResponse(NDRCALL):
 class CreateScheduleTask(NDRCALL):
     opnum = 1
     structure = (
-		('TASKNAME', BSTR),
-		('NAMESPACESSAFEARRAY', VARIANT),
-		('SERIALIZEDTASK', BSTR),
+		('taskName', BSTR),
+		('namespacesSafeArray', VARIANT),
+		('serializedTask', BSTR),
     )
 
 class CreateScheduleTaskResponse(NDRCALL):
@@ -7430,9 +7430,9 @@ class CreateScheduleTaskResponse(NDRCALL):
 class ModifyScheduleTask(NDRCALL):
     opnum = 2
     structure = (
-		('TASKNAME', BSTR),
-		('NAMESPACESSAFEARRAY', VARIANT),
-		('SERIALIZEDTASK', BSTR),
+		('taskName', BSTR),
+		('namespacesSafeArray', VARIANT),
+		('serializedTask', BSTR),
     )
 
 class ModifyScheduleTaskResponse(NDRCALL):
@@ -7444,7 +7444,7 @@ class ModifyScheduleTaskResponse(NDRCALL):
 class DeleteScheduleTask(NDRCALL):
     opnum = 3
     structure = (
-		('TASKNAME', BSTR),
+		('taskName', BSTR),
     )
 
 class DeleteScheduleTaskResponse(NDRCALL):
@@ -7476,7 +7476,7 @@ class ActionVariables(NDRCALL):
 
 class ActionVariablesResponse(NDRCALL):
     structure = (
-		('VARIABLES', SAFEARRAY ( VARIANT )),
+		('variables', SAFEARRAY ( VARIANT )),
     )
         
 
@@ -7488,19 +7488,19 @@ class ActionVariableDescriptions(NDRCALL):
 
 class ActionVariableDescriptionsResponse(NDRCALL):
     structure = (
-		('DESCRIPTIONS', SAFEARRAY ( VARIANT )),
+		('descriptions', SAFEARRAY ( VARIANT )),
     )
         
 
 class EnumFileManagementJobs(NDRCALL):
     opnum = 2
     structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumFileManagementJobsResponse(NDRCALL):
     structure = (
-		('FILEMANAGEMENTJOBS', IFSRMCOLLECTION),
+		('fileManagementJobs', IFSRMCOLLECTION),
     )
         
 
@@ -7512,19 +7512,19 @@ class CreateFileManagementJob(NDRCALL):
 
 class CreateFileManagementJobResponse(NDRCALL):
     structure = (
-		('FILEMANAGEMENTJOB', IFSRMFILEMANAGEMENTJOB),
+		('fileManagementJob', IFSRMFILEMANAGEMENTJOB),
     )
         
 
 class GetFileManagementJob(NDRCALL):
     opnum = 4
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class GetFileManagementJobResponse(NDRCALL):
     structure = (
-		('FILEMANAGEMENTJOB', IFSRMFILEMANAGEMENTJOB),
+		('fileManagementJob', IFSRMFILEMANAGEMENTJOB),
     )
         
 OPNUMS = {
@@ -7554,14 +7554,14 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
 class Name(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class NameResponse(NDRCALL):
@@ -7578,14 +7578,14 @@ class NamespaceRoots(NDRCALL):
 
 class NamespaceRootsResponse(NDRCALL):
     structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
+		('namespaceRoots', SAFEARRAY ( VARIANT )),
     )
         
 
 class NamespaceRoots(NDRCALL):
     opnum = 3
     structure = (
-		('NAMESPACEROOTS', SAFEARRAY ( VARIANT )),
+		('namespaceRoots', SAFEARRAY ( VARIANT )),
     )
 
 class NamespaceRootsResponse(NDRCALL):
@@ -7602,14 +7602,14 @@ class Enabled(NDRCALL):
 
 class EnabledResponse(NDRCALL):
     structure = (
-		('ENABLED', VARIANT_BOOL),
+		('enabled', VARIANT_BOOL),
     )
         
 
 class Enabled(NDRCALL):
     opnum = 5
     structure = (
-		('ENABLED', VARIANT_BOOL),
+		('enabled', VARIANT_BOOL),
     )
 
 class EnabledResponse(NDRCALL):
@@ -7626,14 +7626,14 @@ class OperationType(NDRCALL):
 
 class OperationTypeResponse(NDRCALL):
     structure = (
-		('OPERATIONTYPE', FSRMFILEMANAGEMENTTYPE),
+		('operationType', FSRMFILEMANAGEMENTTYPE),
     )
         
 
 class OperationType(NDRCALL):
     opnum = 7
     structure = (
-		('OPERATIONTYPE', FSRMFILEMANAGEMENTTYPE),
+		('operationType', FSRMFILEMANAGEMENTTYPE),
     )
 
 class OperationTypeResponse(NDRCALL):
@@ -7650,14 +7650,14 @@ class ExpirationDirectory(NDRCALL):
 
 class ExpirationDirectoryResponse(NDRCALL):
     structure = (
-		('EXPIRATIONDIRECTORY', BSTR),
+		('expirationDirectory', BSTR),
     )
         
 
 class ExpirationDirectory(NDRCALL):
     opnum = 9
     structure = (
-		('EXPIRATIONDIRECTORY', BSTR),
+		('expirationDirectory', BSTR),
     )
 
 class ExpirationDirectoryResponse(NDRCALL):
@@ -7674,7 +7674,7 @@ class CustomAction(NDRCALL):
 
 class CustomActionResponse(NDRCALL):
     structure = (
-		('ACTION', IFSRMACTIONCOMMAND),
+		('action', IFSRMACTIONCOMMAND),
     )
         
 
@@ -7686,7 +7686,7 @@ class Notifications(NDRCALL):
 
 class NotificationsResponse(NDRCALL):
     structure = (
-		('NOTIFICATIONS', SAFEARRAY ( VARIANT )),
+		('notifications', SAFEARRAY ( VARIANT )),
     )
         
 
@@ -7698,14 +7698,14 @@ class Logging(NDRCALL):
 
 class LoggingResponse(NDRCALL):
     structure = (
-		('LOGGINGFLAGS', LONG),
+		('loggingFlags', LONG),
     )
         
 
 class Logging(NDRCALL):
     opnum = 13
     structure = (
-		('LOGGINGFLAGS', LONG),
+		('loggingFlags', LONG),
     )
 
 class LoggingResponse(NDRCALL):
@@ -7722,14 +7722,14 @@ class ReportEnabled(NDRCALL):
 
 class ReportEnabledResponse(NDRCALL):
     structure = (
-		('REPORTENABLED', VARIANT_BOOL),
+		('reportEnabled', VARIANT_BOOL),
     )
         
 
 class ReportEnabled(NDRCALL):
     opnum = 15
     structure = (
-		('REPORTENABLED', VARIANT_BOOL),
+		('reportEnabled', VARIANT_BOOL),
     )
 
 class ReportEnabledResponse(NDRCALL):
@@ -7746,14 +7746,14 @@ class Formats(NDRCALL):
 
 class FormatsResponse(NDRCALL):
     structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
+		('formats', SAFEARRAY ( VARIANT )),
     )
         
 
 class Formats(NDRCALL):
     opnum = 17
     structure = (
-		('FORMATS', SAFEARRAY ( VARIANT )),
+		('formats', SAFEARRAY ( VARIANT )),
     )
 
 class FormatsResponse(NDRCALL):
@@ -7770,14 +7770,14 @@ class MailTo(NDRCALL):
 
 class MailToResponse(NDRCALL):
     structure = (
-		('MAILTO', BSTR),
+		('mailTo', BSTR),
     )
         
 
 class MailTo(NDRCALL):
     opnum = 19
     structure = (
-		('MAILTO', BSTR),
+		('mailTo', BSTR),
     )
 
 class MailToResponse(NDRCALL):
@@ -7794,14 +7794,14 @@ class DaysSinceFileCreated(NDRCALL):
 
 class DaysSinceFileCreatedResponse(NDRCALL):
     structure = (
-		('DAYSSINCECREATION', LONG),
+		('daysSinceCreation', LONG),
     )
         
 
 class DaysSinceFileCreated(NDRCALL):
     opnum = 21
     structure = (
-		('DAYSSINCECREATION', LONG),
+		('daysSinceCreation', LONG),
     )
 
 class DaysSinceFileCreatedResponse(NDRCALL):
@@ -7818,14 +7818,14 @@ class DaysSinceFileLastAccessed(NDRCALL):
 
 class DaysSinceFileLastAccessedResponse(NDRCALL):
     structure = (
-		('DAYSSINCEACCESS', LONG),
+		('daysSinceAccess', LONG),
     )
         
 
 class DaysSinceFileLastAccessed(NDRCALL):
     opnum = 23
     structure = (
-		('DAYSSINCEACCESS', LONG),
+		('daysSinceAccess', LONG),
     )
 
 class DaysSinceFileLastAccessedResponse(NDRCALL):
@@ -7842,14 +7842,14 @@ class DaysSinceFileLastModified(NDRCALL):
 
 class DaysSinceFileLastModifiedResponse(NDRCALL):
     structure = (
-		('DAYSSINCEMODIFY', LONG),
+		('daysSinceModify', LONG),
     )
         
 
 class DaysSinceFileLastModified(NDRCALL):
     opnum = 25
     structure = (
-		('DAYSSINCEMODIFY', LONG),
+		('daysSinceModify', LONG),
     )
 
 class DaysSinceFileLastModifiedResponse(NDRCALL):
@@ -7866,7 +7866,7 @@ class PropertyConditions(NDRCALL):
 
 class PropertyConditionsResponse(NDRCALL):
     structure = (
-		('PROPERTYCONDITIONS', IFSRMCOLLECTION),
+		('propertyConditions', IFSRMCOLLECTION),
     )
         
 
@@ -7878,14 +7878,14 @@ class FromDate(NDRCALL):
 
 class FromDateResponse(NDRCALL):
     structure = (
-		('FROMDATE', DATE),
+		('fromDate', DATE),
     )
         
 
 class FromDate(NDRCALL):
     opnum = 28
     structure = (
-		('FROMDATE', DATE),
+		('fromDate', DATE),
     )
 
 class FromDateResponse(NDRCALL):
@@ -7902,14 +7902,14 @@ class Task(NDRCALL):
 
 class TaskResponse(NDRCALL):
     structure = (
-		('TASKNAME', BSTR),
+		('taskName', BSTR),
     )
         
 
 class Task(NDRCALL):
     opnum = 30
     structure = (
-		('TASKNAME', BSTR),
+		('taskName', BSTR),
     )
 
 class TaskResponse(NDRCALL):
@@ -7926,14 +7926,14 @@ class Parameters(NDRCALL):
 
 class ParametersResponse(NDRCALL):
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('parameters', SAFEARRAY ( VARIANT )),
     )
         
 
 class Parameters(NDRCALL):
     opnum = 32
     structure = (
-		('PARAMETERS', SAFEARRAY ( VARIANT )),
+		('parameters', SAFEARRAY ( VARIANT )),
     )
 
 class ParametersResponse(NDRCALL):
@@ -7950,7 +7950,7 @@ class RunningStatus(NDRCALL):
 
 class RunningStatusResponse(NDRCALL):
     structure = (
-		('RUNNINGSTATUS', FSRMREPORTRUNNINGSTATUS),
+		('runningStatus', FSRMREPORTRUNNINGSTATUS),
     )
         
 
@@ -7962,7 +7962,7 @@ class LastError(NDRCALL):
 
 class LastErrorResponse(NDRCALL):
     structure = (
-		('LASTERROR', BSTR),
+		('lastError', BSTR),
     )
         
 
@@ -7974,7 +7974,7 @@ class LastReportPathWithoutExtension(NDRCALL):
 
 class LastReportPathWithoutExtensionResponse(NDRCALL):
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
         
 
@@ -7986,7 +7986,7 @@ class LastRun(NDRCALL):
 
 class LastRunResponse(NDRCALL):
     structure = (
-		('LASTRUN', DATE),
+		('lastRun', DATE),
     )
         
 
@@ -7998,14 +7998,14 @@ class FileNamePattern(NDRCALL):
 
 class FileNamePatternResponse(NDRCALL):
     structure = (
-		('FILENAMEPATTERN', BSTR),
+		('fileNamePattern', BSTR),
     )
         
 
 class FileNamePattern(NDRCALL):
     opnum = 38
     structure = (
-		('FILENAMEPATTERN', BSTR),
+		('fileNamePattern', BSTR),
     )
 
 class FileNamePatternResponse(NDRCALL):
@@ -8017,7 +8017,7 @@ class FileNamePatternResponse(NDRCALL):
 class Run(NDRCALL):
     opnum = 39
     structure = (
-		('CONTEXT', FSRMREPORTGENERATIONCONTEXT),
+		('context', FSRMREPORTGENERATIONCONTEXT),
     )
 
 class RunResponse(NDRCALL):
@@ -8029,12 +8029,12 @@ class RunResponse(NDRCALL):
 class WaitForCompletion(NDRCALL):
     opnum = 40
     structure = (
-		('WAITSECONDS', LONG),
+		('waitSeconds', LONG),
     )
 
 class WaitForCompletionResponse(NDRCALL):
     structure = (
-		('COMPLETED', VARIANT_BOOL),
+		('completed', VARIANT_BOOL),
     )
         
 
@@ -8053,7 +8053,7 @@ class CancelResponse(NDRCALL):
 class AddNotification(NDRCALL):
     opnum = 42
     structure = (
-		('DAYS', LONG),
+		('days', LONG),
     )
 
 class AddNotificationResponse(NDRCALL):
@@ -8065,7 +8065,7 @@ class AddNotificationResponse(NDRCALL):
 class DeleteNotification(NDRCALL):
     opnum = 43
     structure = (
-		('DAYS', LONG),
+		('days', LONG),
     )
 
 class DeleteNotificationResponse(NDRCALL):
@@ -8077,8 +8077,8 @@ class DeleteNotificationResponse(NDRCALL):
 class ModifyNotification(NDRCALL):
     opnum = 44
     structure = (
-		('DAYS', LONG),
-		('NEWDAYS', LONG),
+		('days', LONG),
+		('newDays', LONG),
     )
 
 class ModifyNotificationResponse(NDRCALL):
@@ -8090,37 +8090,37 @@ class ModifyNotificationResponse(NDRCALL):
 class CreateNotificationAction(NDRCALL):
     opnum = 45
     structure = (
-		('DAYS', LONG),
-		('ACTIONTYPE', FSRMACTIONTYPE),
+		('days', LONG),
+		('actionType', FSRMACTIONTYPE),
     )
 
 class CreateNotificationActionResponse(NDRCALL):
     structure = (
-		('ACTION', IFSRMACTION),
+		('action', IFSRMACTION),
     )
         
 
 class EnumNotificationActions(NDRCALL):
     opnum = 46
     structure = (
-		('DAYS', LONG),
+		('days', LONG),
     )
 
 class EnumNotificationActionsResponse(NDRCALL):
     structure = (
-		('ACTIONS', IFSRMCOLLECTION),
+		('actions', IFSRMCOLLECTION),
     )
         
 
 class CreatePropertyCondition(NDRCALL):
     opnum = 47
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class CreatePropertyConditionResponse(NDRCALL):
     structure = (
-		('PROPERTYCONDITION', IFSRMPROPERTYCONDITION),
+		('propertyCondition', IFSRMPROPERTYCONDITION),
     )
         
 
@@ -8132,7 +8132,7 @@ class CreateCustomAction(NDRCALL):
 
 class CreateCustomActionResponse(NDRCALL):
     structure = (
-		('CUSTOMACTION', IFSRMACTIONCOMMAND),
+		('customAction', IFSRMACTIONCOMMAND),
     )
         
 OPNUMS = {
@@ -8188,14 +8188,14 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
 class Name(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class NameResponse(NDRCALL):
@@ -8212,14 +8212,14 @@ class Type(NDRCALL):
 
 class TypeResponse(NDRCALL):
     structure = (
-		('TYPE', FSRMPROPERTYCONDITIONTYPE),
+		('type', FSRMPROPERTYCONDITIONTYPE),
     )
         
 
 class Type(NDRCALL):
     opnum = 3
     structure = (
-		('TYPE', FSRMPROPERTYCONDITIONTYPE),
+		('type', FSRMPROPERTYCONDITIONTYPE),
     )
 
 class TypeResponse(NDRCALL):
@@ -8236,14 +8236,14 @@ class Value(NDRCALL):
 
 class ValueResponse(NDRCALL):
     structure = (
-		('VALUE', BSTR),
+		('value', BSTR),
     )
         
 
 class Value(NDRCALL):
     opnum = 5
     structure = (
-		('VALUE', BSTR),
+		('value', BSTR),
     )
 
 class ValueResponse(NDRCALL):
@@ -8287,14 +8287,14 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
 class Name(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class NameResponse(NDRCALL):
@@ -8311,14 +8311,14 @@ class Members(NDRCALL):
 
 class MembersResponse(NDRCALL):
     structure = (
-		('MEMBERS', IFSRMMUTABLECOLLECTION),
+		('members', IFSRMMUTABLECOLLECTION),
     )
         
 
 class Members(NDRCALL):
     opnum = 3
     structure = (
-		('MEMBERS', IFSRMMUTABLECOLLECTION),
+		('members', IFSRMMUTABLECOLLECTION),
     )
 
 class MembersResponse(NDRCALL):
@@ -8335,14 +8335,14 @@ class NonMembers(NDRCALL):
 
 class NonMembersResponse(NDRCALL):
     structure = (
-		('NONMEMBERS', IFSRMMUTABLECOLLECTION),
+		('nonMembers', IFSRMMUTABLECOLLECTION),
     )
         
 
 class NonMembers(NDRCALL):
     opnum = 5
     structure = (
-		('NONMEMBERS', IFSRMMUTABLECOLLECTION),
+		('nonMembers', IFSRMMUTABLECOLLECTION),
     )
 
 class NonMembersResponse(NDRCALL):
@@ -8373,14 +8373,14 @@ class OverwriteOnCommit(NDRCALL):
 
 class OverwriteOnCommitResponse(NDRCALL):
     structure = (
-		('OVERWRITE', VARIANT_BOOL),
+		('overwrite', VARIANT_BOOL),
     )
         
 
 class OverwriteOnCommit(NDRCALL):
     opnum = 1
     structure = (
-		('OVERWRITE', VARIANT_BOOL),
+		('overwrite', VARIANT_BOOL),
     )
 
 class OverwriteOnCommitResponse(NDRCALL):
@@ -8409,56 +8409,56 @@ class CreateFileGroup(NDRCALL):
 
 class CreateFileGroupResponse(NDRCALL):
     structure = (
-		('FILEGROUP', IFSRMFILEGROUP),
+		('fileGroup', IFSRMFILEGROUP),
     )
         
 
 class GetFileGroup(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class GetFileGroupResponse(NDRCALL):
     structure = (
-		('FILEGROUP', IFSRMFILEGROUP),
+		('fileGroup', IFSRMFILEGROUP),
     )
         
 
 class EnumFileGroups(NDRCALL):
     opnum = 2
     structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumFileGroupsResponse(NDRCALL):
     structure = (
-		('FILEGROUPS', IFSRMCOMMITTABLECOLLECTION),
+		('fileGroups', IFSRMCOMMITTABLECOLLECTION),
     )
         
 
 class ExportFileGroups(NDRCALL):
     opnum = 3
     structure = (
-		('FILEGROUPNAMESARRAY', VARIANT),
+		('fileGroupNamesArray', VARIANT),
     )
 
 class ExportFileGroupsResponse(NDRCALL):
     structure = (
-		('SERIALIZEDFILEGROUPS', BSTR),
+		('serializedFileGroups', BSTR),
     )
         
 
 class ImportFileGroups(NDRCALL):
     opnum = 4
     structure = (
-		('SERIALIZEDFILEGROUPS', BSTR),
-		('FILEGROUPNAMESARRAY', VARIANT),
+		('serializedFileGroups', BSTR),
+		('fileGroupNamesArray', VARIANT),
     )
 
 class ImportFileGroupsResponse(NDRCALL):
     structure = (
-		('FILEGROUPS', IFSRMCOMMITTABLECOLLECTION),
+		('fileGroups', IFSRMCOMMITTABLECOLLECTION),
     )
         
 OPNUMS = {
@@ -8486,14 +8486,14 @@ class BlockedFileGroups(NDRCALL):
 
 class BlockedFileGroupsResponse(NDRCALL):
     structure = (
-		('BLOCKLIST', IFSRMMUTABLECOLLECTION),
+		('blockList', IFSRMMUTABLECOLLECTION),
     )
         
 
 class BlockedFileGroups(NDRCALL):
     opnum = 1
     structure = (
-		('BLOCKLIST', IFSRMMUTABLECOLLECTION),
+		('blockList', IFSRMMUTABLECOLLECTION),
     )
 
 class BlockedFileGroupsResponse(NDRCALL):
@@ -8510,14 +8510,14 @@ class FileScreenFlags(NDRCALL):
 
 class FileScreenFlagsResponse(NDRCALL):
     structure = (
-		('FILESCREENFLAGS', LONG),
+		('fileScreenFlags', LONG),
     )
         
 
 class FileScreenFlags(NDRCALL):
     opnum = 3
     structure = (
-		('FILESCREENFLAGS', LONG),
+		('fileScreenFlags', LONG),
     )
 
 class FileScreenFlagsResponse(NDRCALL):
@@ -8529,12 +8529,12 @@ class FileScreenFlagsResponse(NDRCALL):
 class CreateAction(NDRCALL):
     opnum = 4
     structure = (
-		('ACTIONTYPE', FSRMACTIONTYPE),
+		('actionType', FSRMACTIONTYPE),
     )
 
 class CreateActionResponse(NDRCALL):
     structure = (
-		('ACTION', IFSRMACTION),
+		('action', IFSRMACTION),
     )
         
 
@@ -8546,7 +8546,7 @@ class EnumActions(NDRCALL):
 
 class EnumActionsResponse(NDRCALL):
     structure = (
-		('ACTIONS', IFSRMCOLLECTION),
+		('actions', IFSRMCOLLECTION),
     )
         
 OPNUMS = {
@@ -8573,7 +8573,7 @@ class Path(NDRCALL):
 
 class PathResponse(NDRCALL):
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
         
 
@@ -8585,7 +8585,7 @@ class SourceTemplateName(NDRCALL):
 
 class SourceTemplateNameResponse(NDRCALL):
     structure = (
-		('FILESCREENTEMPLATENAME', BSTR),
+		('fileScreenTemplateName', BSTR),
     )
         
 
@@ -8597,7 +8597,7 @@ class MatchesSourceTemplate(NDRCALL):
 
 class MatchesSourceTemplateResponse(NDRCALL):
     structure = (
-		('MATCHES', VARIANT_BOOL),
+		('matches', VARIANT_BOOL),
     )
         
 
@@ -8609,7 +8609,7 @@ class UserSid(NDRCALL):
 
 class UserSidResponse(NDRCALL):
     structure = (
-		('USERSID', BSTR),
+		('userSid', BSTR),
     )
         
 
@@ -8621,14 +8621,14 @@ class UserAccount(NDRCALL):
 
 class UserAccountResponse(NDRCALL):
     structure = (
-		('USERACCOUNT', BSTR),
+		('userAccount', BSTR),
     )
         
 
 class ApplyTemplate(NDRCALL):
     opnum = 5
     structure = (
-		('FILESCREENTEMPLATENAME', BSTR),
+		('fileScreenTemplateName', BSTR),
     )
 
 class ApplyTemplateResponse(NDRCALL):
@@ -8662,7 +8662,7 @@ class Path(NDRCALL):
 
 class PathResponse(NDRCALL):
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
         
 
@@ -8674,14 +8674,14 @@ class AllowedFileGroups(NDRCALL):
 
 class AllowedFileGroupsResponse(NDRCALL):
     structure = (
-		('ALLOWLIST', IFSRMMUTABLECOLLECTION),
+		('allowList', IFSRMMUTABLECOLLECTION),
     )
         
 
 class AllowedFileGroups(NDRCALL):
     opnum = 2
     structure = (
-		('ALLOWLIST', IFSRMMUTABLECOLLECTION),
+		('allowList', IFSRMMUTABLECOLLECTION),
     )
 
 class AllowedFileGroupsResponse(NDRCALL):
@@ -8711,7 +8711,7 @@ class ActionVariables(NDRCALL):
 
 class ActionVariablesResponse(NDRCALL):
     structure = (
-		('VARIABLES', SAFEARRAY ( VARIANT )),
+		('variables', SAFEARRAY ( VARIANT )),
     )
         
 
@@ -8723,81 +8723,81 @@ class ActionVariableDescriptions(NDRCALL):
 
 class ActionVariableDescriptionsResponse(NDRCALL):
     structure = (
-		('DESCRIPTIONS', SAFEARRAY ( VARIANT )),
+		('descriptions', SAFEARRAY ( VARIANT )),
     )
         
 
 class CreateFileScreen(NDRCALL):
     opnum = 2
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
 
 class CreateFileScreenResponse(NDRCALL):
     structure = (
-		('FILESCREEN', IFSRMFILESCREEN),
+		('fileScreen', IFSRMFILESCREEN),
     )
         
 
 class GetFileScreen(NDRCALL):
     opnum = 3
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
 
 class GetFileScreenResponse(NDRCALL):
     structure = (
-		('FILESCREEN', IFSRMFILESCREEN),
+		('fileScreen', IFSRMFILESCREEN),
     )
         
 
 class EnumFileScreens(NDRCALL):
     opnum = 4
     structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
+		('path', BSTR),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumFileScreensResponse(NDRCALL):
     structure = (
-		('FILESCREENS', IFSRMCOMMITTABLECOLLECTION),
+		('fileScreens', IFSRMCOMMITTABLECOLLECTION),
     )
         
 
 class CreateFileScreenException(NDRCALL):
     opnum = 5
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
 
 class CreateFileScreenExceptionResponse(NDRCALL):
     structure = (
-		('FILESCREENEXCEPTION', IFSRMFILESCREENEXCEPTION),
+		('fileScreenException', IFSRMFILESCREENEXCEPTION),
     )
         
 
 class GetFileScreenException(NDRCALL):
     opnum = 6
     structure = (
-		('PATH', BSTR),
+		('path', BSTR),
     )
 
 class GetFileScreenExceptionResponse(NDRCALL):
     structure = (
-		('FILESCREENEXCEPTION', IFSRMFILESCREENEXCEPTION),
+		('fileScreenException', IFSRMFILESCREENEXCEPTION),
     )
         
 
 class EnumFileScreenExceptions(NDRCALL):
     opnum = 7
     structure = (
-		('PATH', BSTR),
-		('OPTIONS', FSRMENUMOPTIONS),
+		('path', BSTR),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumFileScreenExceptionsResponse(NDRCALL):
     structure = (
-		('FILESCREENEXCEPTIONS', IFSRMCOMMITTABLECOLLECTION),
+		('fileScreenExceptions', IFSRMCOMMITTABLECOLLECTION),
     )
         
 
@@ -8809,7 +8809,7 @@ class CreateFileScreenCollection(NDRCALL):
 
 class CreateFileScreenCollectionResponse(NDRCALL):
     structure = (
-		('COLLECTION', IFSRMCOMMITTABLECOLLECTION),
+		('collection', IFSRMCOMMITTABLECOLLECTION),
     )
         
 OPNUMS = {
@@ -8841,14 +8841,14 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
         
 
 class Name(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class NameResponse(NDRCALL):
@@ -8860,7 +8860,7 @@ class NameResponse(NDRCALL):
 class CopyTemplate(NDRCALL):
     opnum = 2
     structure = (
-		('FILESCREENTEMPLATENAME', BSTR),
+		('fileScreenTemplateName', BSTR),
     )
 
 class CopyTemplateResponse(NDRCALL):
@@ -8872,13 +8872,13 @@ class CopyTemplateResponse(NDRCALL):
 class CommitAndUpdateDerived(NDRCALL):
     opnum = 3
     structure = (
-		('COMMITOPTIONS', FSRMCOMMITOPTIONS),
-		('APPLYOPTIONS', FSRMTEMPLATEAPPLYOPTIONS),
+		('commitOptions', FSRMCOMMITOPTIONS),
+		('applyOptions', FSRMTEMPLATEAPPLYOPTIONS),
     )
 
 class CommitAndUpdateDerivedResponse(NDRCALL):
     structure = (
-		('DERIVEDOBJECTSRESULT', IFSRMDERIVEDOBJECTSRESULT),
+		('derivedObjectsResult', IFSRMDERIVEDOBJECTSRESULT),
     )
         
 OPNUMS = {
@@ -8904,14 +8904,14 @@ class OverwriteOnCommit(NDRCALL):
 
 class OverwriteOnCommitResponse(NDRCALL):
     structure = (
-		('OVERWRITE', VARIANT_BOOL),
+		('overwrite', VARIANT_BOOL),
     )
         
 
 class OverwriteOnCommit(NDRCALL):
     opnum = 1
     structure = (
-		('OVERWRITE', VARIANT_BOOL),
+		('overwrite', VARIANT_BOOL),
     )
 
 class OverwriteOnCommitResponse(NDRCALL):
@@ -8940,56 +8940,56 @@ class CreateTemplate(NDRCALL):
 
 class CreateTemplateResponse(NDRCALL):
     structure = (
-		('FILESCREENTEMPLATE', IFSRMFILESCREENTEMPLATE),
+		('fileScreenTemplate', IFSRMFILESCREENTEMPLATE),
     )
         
 
 class GetTemplate(NDRCALL):
     opnum = 1
     structure = (
-		('NAME', BSTR),
+		('name', BSTR),
     )
 
 class GetTemplateResponse(NDRCALL):
     structure = (
-		('FILESCREENTEMPLATE', IFSRMFILESCREENTEMPLATE),
+		('fileScreenTemplate', IFSRMFILESCREENTEMPLATE),
     )
         
 
 class EnumTemplates(NDRCALL):
     opnum = 2
     structure = (
-		('OPTIONS', FSRMENUMOPTIONS),
+		('options', FSRMENUMOPTIONS),
     )
 
 class EnumTemplatesResponse(NDRCALL):
     structure = (
-		('FILESCREENTEMPLATES', IFSRMCOMMITTABLECOLLECTION),
+		('fileScreenTemplates', IFSRMCOMMITTABLECOLLECTION),
     )
         
 
 class ExportTemplates(NDRCALL):
     opnum = 3
     structure = (
-		('FILESCREENTEMPLATENAMESARRAY', VARIANT),
+		('fileScreenTemplateNamesArray', VARIANT),
     )
 
 class ExportTemplatesResponse(NDRCALL):
     structure = (
-		('SERIALIZEDFILESCREENTEMPLATES', BSTR),
+		('serializedFileScreenTemplates', BSTR),
     )
         
 
 class ImportTemplates(NDRCALL):
     opnum = 4
     structure = (
-		('SERIALIZEDFILESCREENTEMPLATES', BSTR),
-		('FILESCREENTEMPLATENAMESARRAY', VARIANT),
+		('serializedFileScreenTemplates', BSTR),
+		('fileScreenTemplateNamesArray', VARIANT),
     )
 
 class ImportTemplatesResponse(NDRCALL):
     structure = (
-		('FILESCREENTEMPLATES', IFSRMCOMMITTABLECOLLECTION),
+		('fileScreenTemplates', IFSRMCOMMITTABLECOLLECTION),
     )
         
 OPNUMS = {

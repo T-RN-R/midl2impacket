@@ -475,15 +475,15 @@ KEY_LENGTH = DWORD
 class ExchangePublicKeys(NDRCALL):
     opnum = 0
     structure = (
-		('BINDING', HANDLE_T),
-		('CLIENTKEYLENGTH', KEY_LENGTH),
-		('CLIENTKEY', BYTE),
+		('Binding', HANDLE_T),
+		('ClientKeyLength', KEY_LENGTH),
+		('ClientKey', BYTE),
     )
 
 class ExchangePublicKeysResponse(NDRCALL):
     structure = (
-		('PSERVERKEYLENGTH', KEY_LENGTH),
-		('PSERVERKEY', BYTE),
+		('pServerKeyLength', KEY_LENGTH),
+		('pServerKey', BYTE),
     )
         
 OPNUMS = {

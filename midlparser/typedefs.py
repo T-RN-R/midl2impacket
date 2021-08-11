@@ -35,7 +35,6 @@ class MidlTypedefParser(MidlBaseParser):
 
     def keyword(self, token):
         """Handles the various kinds of typedefs
-            TODO: handle unions
         """
         if self.state == TypedefState.BEGIN and token.data == 'typedef':
             self.state = TypedefState.TYPE_OR_ATTRS

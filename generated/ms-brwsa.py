@@ -157,14 +157,14 @@ class Opnum1NotUsedOnWireResponse(NDRCALL):
 class I_BrowserrQueryOtherDomains(NDRCALL):
     opnum = 2
     structure = (
-		('SERVERNAME', BROWSER_IDENTIFY_HANDLE),
-		('INFOSTRUCT', LPSERVER_ENUM_STRUCT),
+		('ServerName', BROWSER_IDENTIFY_HANDLE),
+		('InfoStruct', LPSERVER_ENUM_STRUCT),
     )
 
 class I_BrowserrQueryOtherDomainsResponse(NDRCALL):
     structure = (
-		('INFOSTRUCT', LPSERVER_ENUM_STRUCT),
-		('TOTALENTRIES', LPDWORD),
+		('InfoStruct', LPSERVER_ENUM_STRUCT),
+		('TotalEntries', LPDWORD),
     )
         
 

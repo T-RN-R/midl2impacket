@@ -615,8 +615,8 @@ PFRS_SERVER_CONTEXT = VOID
 class CheckConnectivity(NDRCALL):
     opnum = 0
     structure = (
-		('REPLICASETID', FRS_REPLICA_SET_ID),
-		('CONNECTIONID', FRS_CONNECTION_ID),
+		('replicaSetId', FRS_REPLICA_SET_ID),
+		('connectionId', FRS_CONNECTION_ID),
     )
 
 class CheckConnectivityResponse(NDRCALL):
@@ -628,24 +628,24 @@ class CheckConnectivityResponse(NDRCALL):
 class EstablishConnection(NDRCALL):
     opnum = 1
     structure = (
-		('REPLICASETID', FRS_REPLICA_SET_ID),
-		('CONNECTIONID', FRS_CONNECTION_ID),
-		('DOWNSTREAMPROTOCOLVERSION', DWORD),
-		('DOWNSTREAMFLAGS', DWORD),
+		('replicaSetId', FRS_REPLICA_SET_ID),
+		('connectionId', FRS_CONNECTION_ID),
+		('downstreamProtocolVersion', DWORD),
+		('downstreamFlags', DWORD),
     )
 
 class EstablishConnectionResponse(NDRCALL):
     structure = (
-		('UPSTREAMPROTOCOLVERSION', DWORD),
-		('UPSTREAMFLAGS', DWORD),
+		('upstreamProtocolVersion', DWORD),
+		('upstreamFlags', DWORD),
     )
         
 
 class EstablishSession(NDRCALL):
     opnum = 2
     structure = (
-		('CONNECTIONID', FRS_CONNECTION_ID),
-		('CONTENTSETID', FRS_CONTENT_SET_ID),
+		('connectionId', FRS_CONNECTION_ID),
+		('contentSetId', FRS_CONTENT_SET_ID),
     )
 
 class EstablishSessionResponse(NDRCALL):
@@ -657,34 +657,34 @@ class EstablishSessionResponse(NDRCALL):
 class RequestUpdates(NDRCALL):
     opnum = 3
     structure = (
-		('CONNECTIONID', FRS_CONNECTION_ID),
-		('CONTENTSETID', FRS_CONTENT_SET_ID),
-		('CREDITSAVAILABLE', DWORD),
-		('HASHREQUESTED', LONG),
-		('UPDATEREQUESTTYPE', UPDATE_REQUEST_TYPE),
-		('VERSIONVECTORDIFFCOUNT', UNSIGNED_LONG),
-		('VERSIONVECTORDIFF', FRS_VERSION_VECTOR),
+		('connectionId', FRS_CONNECTION_ID),
+		('contentSetId', FRS_CONTENT_SET_ID),
+		('creditsAvailable', DWORD),
+		('hashRequested', LONG),
+		('updateRequestType', UPDATE_REQUEST_TYPE),
+		('versionVectorDiffCount', UNSIGNED_LONG),
+		('versionVectorDiff', FRS_VERSION_VECTOR),
     )
 
 class RequestUpdatesResponse(NDRCALL):
     structure = (
-		('FRSUPDATE', FRS_UPDATE),
-		('UPDATECOUNT', DWORD),
-		('UPDATESTATUS', UPDATE_STATUS),
-		('GVSNDBGUID', GUID),
-		('GVSNVERSION', DWORDLONG),
+		('frsUpdate', FRS_UPDATE),
+		('updateCount', DWORD),
+		('updateStatus', UPDATE_STATUS),
+		('gvsnDbGuid', GUID),
+		('gvsnVersion', DWORDLONG),
     )
         
 
 class RequestVersionVector(NDRCALL):
     opnum = 4
     structure = (
-		('SEQUENCENUMBER', DWORD),
-		('CONNECTIONID', FRS_CONNECTION_ID),
-		('CONTENTSETID', FRS_CONTENT_SET_ID),
-		('REQUESTTYPE', VERSION_REQUEST_TYPE),
-		('CHANGETYPE', VERSION_CHANGE_TYPE),
-		('VVGENERATION', ULONGLONG),
+		('sequenceNumber', DWORD),
+		('connectionId', FRS_CONNECTION_ID),
+		('contentSetId', FRS_CONTENT_SET_ID),
+		('requestType', VERSION_REQUEST_TYPE),
+		('changeType', VERSION_CHANGE_TYPE),
+		('vvGeneration', ULONGLONG),
     )
 
 class RequestVersionVectorResponse(NDRCALL):
@@ -696,40 +696,40 @@ class RequestVersionVectorResponse(NDRCALL):
 class AsyncPoll(NDRCALL):
     opnum = 5
     structure = (
-		('CONNECTIONID', FRS_CONNECTION_ID),
+		('connectionId', FRS_CONNECTION_ID),
     )
 
 class AsyncPollResponse(NDRCALL):
     structure = (
-		('RESPONSE', FRS_ASYNC_RESPONSE_CONTEXT),
+		('response', FRS_ASYNC_RESPONSE_CONTEXT),
     )
         
 
 class RequestRecords(NDRCALL):
     opnum = 6
     structure = (
-		('CONNECTIONID', FRS_CONNECTION_ID),
-		('CONTENTSETID', FRS_CONTENT_SET_ID),
-		('UIDDBGUID', FRS_DATABASE_ID),
-		('UIDVERSION', DWORDLONG),
-		('MAXRECORDS', DWORD),
+		('connectionId', FRS_CONNECTION_ID),
+		('contentSetId', FRS_CONTENT_SET_ID),
+		('uidDbGuid', FRS_DATABASE_ID),
+		('uidVersion', DWORDLONG),
+		('maxRecords', DWORD),
     )
 
 class RequestRecordsResponse(NDRCALL):
     structure = (
-		('MAXRECORDS', DWORD),
-		('NUMRECORDS', DWORD),
-		('NUMBYTES', DWORD),
-		('COMPRESSEDRECORDS', BYTE),
-		('RECORDSSTATUS', RECORDS_STATUS),
+		('maxRecords', DWORD),
+		('numRecords', DWORD),
+		('numBytes', DWORD),
+		('compressedRecords', BYTE),
+		('recordsStatus', RECORDS_STATUS),
     )
         
 
 class UpdateCancel(NDRCALL):
     opnum = 7
     structure = (
-		('CONNECTIONID', FRS_CONNECTION_ID),
-		('CANCELDATA', FRS_UPDATE_CANCEL_DATA),
+		('connectionId', FRS_CONNECTION_ID),
+		('cancelData', FRS_UPDATE_CANCEL_DATA),
     )
 
 class UpdateCancelResponse(NDRCALL):
@@ -741,41 +741,41 @@ class UpdateCancelResponse(NDRCALL):
 class RawGetFileData(NDRCALL):
     opnum = 8
     structure = (
-		('SERVERCONTEXT', PFRS_SERVER_CONTEXT),
-		('BUFFERSIZE', DWORD),
+		('serverContext', PFRS_SERVER_CONTEXT),
+		('bufferSize', DWORD),
     )
 
 class RawGetFileDataResponse(NDRCALL):
     structure = (
-		('SERVERCONTEXT', PFRS_SERVER_CONTEXT),
-		('DATABUFFER', BYTE),
-		('SIZEREAD', DWORD),
-		('ISENDOFFILE', LONG),
+		('serverContext', PFRS_SERVER_CONTEXT),
+		('dataBuffer', BYTE),
+		('sizeRead', DWORD),
+		('isEndOfFile', LONG),
     )
         
 
 class RdcGetSignatures(NDRCALL):
     opnum = 9
     structure = (
-		('SERVERCONTEXT', PFRS_SERVER_CONTEXT),
-		('LEVEL', BYTE),
-		('OFFSET', DWORDLONG),
-		('LENGTH', DWORD),
+		('serverContext', PFRS_SERVER_CONTEXT),
+		('level', BYTE),
+		('offset', DWORDLONG),
+		('length', DWORD),
     )
 
 class RdcGetSignaturesResponse(NDRCALL):
     structure = (
-		('BUFFER', BYTE),
-		('SIZEREAD', DWORD),
+		('buffer', BYTE),
+		('sizeRead', DWORD),
     )
         
 
 class RdcPushSourceNeeds(NDRCALL):
     opnum = 10
     structure = (
-		('SERVERCONTEXT', PFRS_SERVER_CONTEXT),
-		('SOURCENEEDS', FRS_RDC_SOURCE_NEED),
-		('NEEDCOUNT', DWORD),
+		('serverContext', PFRS_SERVER_CONTEXT),
+		('sourceNeeds', FRS_RDC_SOURCE_NEED),
+		('needCount', DWORD),
     )
 
 class RdcPushSourceNeedsResponse(NDRCALL):
@@ -787,48 +787,48 @@ class RdcPushSourceNeedsResponse(NDRCALL):
 class RdcGetFileData(NDRCALL):
     opnum = 11
     structure = (
-		('SERVERCONTEXT', PFRS_SERVER_CONTEXT),
-		('BUFFERSIZE', DWORD),
+		('serverContext', PFRS_SERVER_CONTEXT),
+		('bufferSize', DWORD),
     )
 
 class RdcGetFileDataResponse(NDRCALL):
     structure = (
-		('DATABUFFER', BYTE),
-		('SIZERETURNED', DWORD),
+		('dataBuffer', BYTE),
+		('sizeReturned', DWORD),
     )
         
 
 class RdcClose(NDRCALL):
     opnum = 12
     structure = (
-		('SERVERCONTEXT', PFRS_SERVER_CONTEXT),
+		('serverContext', PFRS_SERVER_CONTEXT),
     )
 
 class RdcCloseResponse(NDRCALL):
     structure = (
-		('SERVERCONTEXT', PFRS_SERVER_CONTEXT),
+		('serverContext', PFRS_SERVER_CONTEXT),
     )
         
 
 class InitializeFileTransferAsync(NDRCALL):
     opnum = 13
     structure = (
-		('CONNECTIONID', FRS_CONNECTION_ID),
-		('FRSUPDATE', FRS_UPDATE),
-		('RDCDESIRED', LONG),
-		('STAGINGPOLICY', FRS_REQUESTED_STAGING_POLICY),
-		('BUFFERSIZE', DWORD),
+		('connectionId', FRS_CONNECTION_ID),
+		('frsUpdate', FRS_UPDATE),
+		('rdcDesired', LONG),
+		('stagingPolicy', FRS_REQUESTED_STAGING_POLICY),
+		('bufferSize', DWORD),
     )
 
 class InitializeFileTransferAsyncResponse(NDRCALL):
     structure = (
-		('FRSUPDATE', FRS_UPDATE),
-		('STAGINGPOLICY', FRS_REQUESTED_STAGING_POLICY),
-		('SERVERCONTEXT', PFRS_SERVER_CONTEXT),
-		('RDCFILEINFO', FRS_RDC_FILEINFO),
-		('DATABUFFER', BYTE),
-		('SIZEREAD', DWORD),
-		('ISENDOFFILE', LONG),
+		('frsUpdate', FRS_UPDATE),
+		('stagingPolicy', FRS_REQUESTED_STAGING_POLICY),
+		('serverContext', PFRS_SERVER_CONTEXT),
+		('rdcFileInfo', FRS_RDC_FILEINFO),
+		('dataBuffer', BYTE),
+		('sizeRead', DWORD),
+		('isEndOfFile', LONG),
     )
         
 
@@ -847,31 +847,31 @@ class Opnum14NotUsedOnWireResponse(NDRCALL):
 class RawGetFileDataAsync(NDRCALL):
     opnum = 15
     structure = (
-		('SERVERCONTEXT', PFRS_SERVER_CONTEXT),
+		('serverContext', PFRS_SERVER_CONTEXT),
     )
 
 class RawGetFileDataAsyncResponse(NDRCALL):
     structure = (
-		('BYTEPIPE', BYTE_PIPE),
+		('bytePipe', BYTE_PIPE),
     )
         
 
 class RdcGetFileDataAsync(NDRCALL):
     opnum = 16
     structure = (
-		('SERVERCONTEXT', PFRS_SERVER_CONTEXT),
+		('serverContext', PFRS_SERVER_CONTEXT),
     )
 
 class RdcGetFileDataAsyncResponse(NDRCALL):
     structure = (
-		('BYTEPIPE', BYTE_PIPE),
+		('bytePipe', BYTE_PIPE),
     )
         
 
 class RdcFileDataTransferKeepAlive(NDRCALL):
     opnum = 17
     structure = (
-		('SERVERCONTEXT', PFRS_SERVER_CONTEXT),
+		('serverContext', PFRS_SERVER_CONTEXT),
     )
 
 class RdcFileDataTransferKeepAliveResponse(NDRCALL):

@@ -1083,30 +1083,30 @@ MAX_REQUESTED_PROTSEQS = CONST_UNSIGNED_LONG
 class RemoteActivation(NDRCALL):
     opnum = 0
     structure = (
-		('HRPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('CLSID', GUID),
-		('PWSZOBJECTNAME', WCHAR_T),
-		('POBJECTSTORAGE', MINTERFACEPOINTER),
-		('CLIENTIMPLEVEL', DWORD),
-		('MODE', DWORD),
-		('INTERFACES', DWORD),
-		('PIIDS', IID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('AREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('ORPCthis', ORPCTHIS),
+		('Clsid', GUID),
+		('pwszObjectName', WCHAR_T),
+		('pObjectStorage', MINTERFACEPOINTER),
+		('ClientImpLevel', DWORD),
+		('Mode', DWORD),
+		('Interfaces', DWORD),
+		('pIIDs', IID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('aRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class RemoteActivationResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('POXID', OXID),
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
-		('PSERVERVERSION', COMVERSION),
-		('PHR', HRESULT),
-		('PPINTERFACEDATA', MINTERFACEPOINTER),
-		('PRESULTS', HRESULT),
+		('ORPCthat', ORPCTHAT),
+		('pOxid', OXID),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
+		('pServerVersion', COMVERSION),
+		('phr', HRESULT),
+		('ppInterfaceData', MINTERFACEPOINTER),
+		('pResults', HRESULT),
     )
         
 OPNUMS = {
@@ -1161,31 +1161,31 @@ class Opnum2NotUsedOnWireResponse(NDRCALL):
 class RemoteGetClassObject(NDRCALL):
     opnum = 3
     structure = (
-		('RPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('PACTPROPERTIES', MINTERFACEPOINTER),
+		('rpc', HANDLE_T),
+		('orpcthis', ORPCTHIS),
+		('pActProperties', MINTERFACEPOINTER),
     )
 
 class RemoteGetClassObjectResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('PPACTPROPERTIES', MINTERFACEPOINTER),
+		('orpcthat', ORPCTHAT),
+		('ppActProperties', MINTERFACEPOINTER),
     )
         
 
 class RemoteCreateInstance(NDRCALL):
     opnum = 4
     structure = (
-		('RPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('PUNKOUTER', MINTERFACEPOINTER),
-		('PACTPROPERTIES', MINTERFACEPOINTER),
+		('rpc', HANDLE_T),
+		('orpcthis', ORPCTHIS),
+		('pUnkOuter', MINTERFACEPOINTER),
+		('pActProperties', MINTERFACEPOINTER),
     )
 
 class RemoteCreateInstanceResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('PPACTPROPERTIES', MINTERFACEPOINTER),
+		('orpcthat', ORPCTHAT),
+		('ppActProperties', MINTERFACEPOINTER),
     )
         
 OPNUMS = {
@@ -1208,25 +1208,25 @@ MSRPC_UUID_IOBJECTEXPORTER = uuidtup_to_bin(('99fcfec4-5260-101b-bbcb-00aa002134
 class ResolveOxid(NDRCALL):
     opnum = 0
     structure = (
-		('HRPC', HANDLE_T),
-		('POXID', OXID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('ARREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('pOxid', OXID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('arRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class ResolveOxidResponse(NDRCALL):
     structure = (
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
     )
         
 
 class SimplePing(NDRCALL):
     opnum = 1
     structure = (
-		('HRPC', HANDLE_T),
-		('PSETID', SETID),
+		('hRpc', HANDLE_T),
+		('pSetId', SETID),
     )
 
 class SimplePingResponse(NDRCALL):
@@ -1238,26 +1238,26 @@ class SimplePingResponse(NDRCALL):
 class ComplexPing(NDRCALL):
     opnum = 2
     structure = (
-		('HRPC', HANDLE_T),
-		('PSETID', SETID),
-		('SEQUENCENUM', UNSIGNED_SHORT),
-		('CADDTOSET', UNSIGNED_SHORT),
-		('CDELFROMSET', UNSIGNED_SHORT),
-		('ADDTOSET', OID),
-		('DELFROMSET', OID),
+		('hRpc', HANDLE_T),
+		('pSetId', SETID),
+		('SequenceNum', UNSIGNED_SHORT),
+		('cAddToSet', UNSIGNED_SHORT),
+		('cDelFromSet', UNSIGNED_SHORT),
+		('AddToSet', OID),
+		('DelFromSet', OID),
     )
 
 class ComplexPingResponse(NDRCALL):
     structure = (
-		('PSETID', SETID),
-		('PPINGBACKOFFFACTOR', UNSIGNED_SHORT),
+		('pSetId', SETID),
+		('pPingBackoffFactor', UNSIGNED_SHORT),
     )
         
 
 class ServerAlive(NDRCALL):
     opnum = 3
     structure = (
-		('HRPC', HANDLE_T),
+		('hRpc', HANDLE_T),
     )
 
 class ServerAliveResponse(NDRCALL):
@@ -1269,32 +1269,32 @@ class ServerAliveResponse(NDRCALL):
 class ResolveOxid2(NDRCALL):
     opnum = 4
     structure = (
-		('HRPC', HANDLE_T),
-		('POXID', OXID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('ARREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('pOxid', OXID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('arRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class ResolveOxid2Response(NDRCALL):
     structure = (
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
-		('PCOMVERSION', COMVERSION),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
+		('pComVersion', COMVERSION),
     )
         
 
 class ServerAlive2(NDRCALL):
     opnum = 5
     structure = (
-		('HRPC', HANDLE_T),
+		('hRpc', HANDLE_T),
     )
 
 class ServerAlive2Response(NDRCALL):
     structure = (
-		('PCOMVERSION', COMVERSION),
-		('PPDSAORBINDINGS', DUALSTRINGARRAY),
-		('PRESERVED', DWORD),
+		('pComVersion', COMVERSION),
+		('ppdsaOrBindings', DUALSTRINGARRAY),
+		('pReserved', DWORD),
     )
         
 OPNUMS = {
@@ -1368,36 +1368,36 @@ MSRPC_UUID_IREMUNKNOWN = uuidtup_to_bin(('00000131-0000-0000-C000-000000000046',
 class RemQueryInterface(NDRCALL):
     opnum = 0
     structure = (
-		('RIPID', REFIPID),
-		('CREFS', UNSIGNED_LONG),
-		('CIIDS', UNSIGNED_SHORT),
-		('IIDS', IID),
+		('ripid', REFIPID),
+		('cRefs', UNSIGNED_LONG),
+		('cIids', UNSIGNED_SHORT),
+		('iids', IID),
     )
 
 class RemQueryInterfaceResponse(NDRCALL):
     structure = (
-		('PPQIRESULTS', PREMQIRESULT),
+		('ppQIResults', PREMQIRESULT),
     )
         
 
 class RemAddRef(NDRCALL):
     opnum = 1
     structure = (
-		('CINTERFACEREFS', UNSIGNED_SHORT),
-		('INTERFACEREFS', REMINTERFACEREF),
+		('cInterfaceRefs', UNSIGNED_SHORT),
+		('InterfaceRefs', REMINTERFACEREF),
     )
 
 class RemAddRefResponse(NDRCALL):
     structure = (
-		('PRESULTS', HRESULT),
+		('pResults', HRESULT),
     )
         
 
 class RemRelease(NDRCALL):
     opnum = 2
     structure = (
-		('CINTERFACEREFS', UNSIGNED_SHORT),
-		('INTERFACEREFS', REMINTERFACEREF),
+		('cInterfaceRefs', UNSIGNED_SHORT),
+		('InterfaceRefs', REMINTERFACEREF),
     )
 
 class RemReleaseResponse(NDRCALL):
@@ -1423,15 +1423,15 @@ MSRPC_UUID_IREMUNKNOWN2 = uuidtup_to_bin(('00000143-0000-0000-C000-000000000046'
 class RemQueryInterface2(NDRCALL):
     opnum = 0
     structure = (
-		('RIPID', REFIPID),
-		('CIIDS', UNSIGNED_SHORT),
-		('IIDS', IID),
+		('ripid', REFIPID),
+		('cIids', UNSIGNED_SHORT),
+		('iids', IID),
     )
 
 class RemQueryInterface2Response(NDRCALL):
     structure = (
-		('PHR', HRESULT),
-		('PPMIF', PMINTERFACEPOINTERINTERNAL),
+		('phr', HRESULT),
+		('ppMIF', PMINTERFACEPOINTERINTERNAL),
     )
         
 OPNUMS = {
@@ -2454,30 +2454,30 @@ MAX_REQUESTED_PROTSEQS = CONST_UNSIGNED_LONG
 class RemoteActivation(NDRCALL):
     opnum = 0
     structure = (
-		('HRPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('CLSID', GUID),
-		('PWSZOBJECTNAME', WCHAR_T),
-		('POBJECTSTORAGE', MINTERFACEPOINTER),
-		('CLIENTIMPLEVEL', DWORD),
-		('MODE', DWORD),
-		('INTERFACES', DWORD),
-		('PIIDS', IID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('AREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('ORPCthis', ORPCTHIS),
+		('Clsid', GUID),
+		('pwszObjectName', WCHAR_T),
+		('pObjectStorage', MINTERFACEPOINTER),
+		('ClientImpLevel', DWORD),
+		('Mode', DWORD),
+		('Interfaces', DWORD),
+		('pIIDs', IID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('aRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class RemoteActivationResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('POXID', OXID),
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
-		('PSERVERVERSION', COMVERSION),
-		('PHR', HRESULT),
-		('PPINTERFACEDATA', MINTERFACEPOINTER),
-		('PRESULTS', HRESULT),
+		('ORPCthat', ORPCTHAT),
+		('pOxid', OXID),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
+		('pServerVersion', COMVERSION),
+		('phr', HRESULT),
+		('ppInterfaceData', MINTERFACEPOINTER),
+		('pResults', HRESULT),
     )
         
 OPNUMS = {
@@ -2532,31 +2532,31 @@ class Opnum2NotUsedOnWireResponse(NDRCALL):
 class RemoteGetClassObject(NDRCALL):
     opnum = 3
     structure = (
-		('RPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('PACTPROPERTIES', MINTERFACEPOINTER),
+		('rpc', HANDLE_T),
+		('orpcthis', ORPCTHIS),
+		('pActProperties', MINTERFACEPOINTER),
     )
 
 class RemoteGetClassObjectResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('PPACTPROPERTIES', MINTERFACEPOINTER),
+		('orpcthat', ORPCTHAT),
+		('ppActProperties', MINTERFACEPOINTER),
     )
         
 
 class RemoteCreateInstance(NDRCALL):
     opnum = 4
     structure = (
-		('RPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('PUNKOUTER', MINTERFACEPOINTER),
-		('PACTPROPERTIES', MINTERFACEPOINTER),
+		('rpc', HANDLE_T),
+		('orpcthis', ORPCTHIS),
+		('pUnkOuter', MINTERFACEPOINTER),
+		('pActProperties', MINTERFACEPOINTER),
     )
 
 class RemoteCreateInstanceResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('PPACTPROPERTIES', MINTERFACEPOINTER),
+		('orpcthat', ORPCTHAT),
+		('ppActProperties', MINTERFACEPOINTER),
     )
         
 OPNUMS = {
@@ -2579,25 +2579,25 @@ MSRPC_UUID_IOBJECTEXPORTER = uuidtup_to_bin(('99fcfec4-5260-101b-bbcb-00aa002134
 class ResolveOxid(NDRCALL):
     opnum = 0
     structure = (
-		('HRPC', HANDLE_T),
-		('POXID', OXID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('ARREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('pOxid', OXID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('arRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class ResolveOxidResponse(NDRCALL):
     structure = (
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
     )
         
 
 class SimplePing(NDRCALL):
     opnum = 1
     structure = (
-		('HRPC', HANDLE_T),
-		('PSETID', SETID),
+		('hRpc', HANDLE_T),
+		('pSetId', SETID),
     )
 
 class SimplePingResponse(NDRCALL):
@@ -2609,26 +2609,26 @@ class SimplePingResponse(NDRCALL):
 class ComplexPing(NDRCALL):
     opnum = 2
     structure = (
-		('HRPC', HANDLE_T),
-		('PSETID', SETID),
-		('SEQUENCENUM', UNSIGNED_SHORT),
-		('CADDTOSET', UNSIGNED_SHORT),
-		('CDELFROMSET', UNSIGNED_SHORT),
-		('ADDTOSET', OID),
-		('DELFROMSET', OID),
+		('hRpc', HANDLE_T),
+		('pSetId', SETID),
+		('SequenceNum', UNSIGNED_SHORT),
+		('cAddToSet', UNSIGNED_SHORT),
+		('cDelFromSet', UNSIGNED_SHORT),
+		('AddToSet', OID),
+		('DelFromSet', OID),
     )
 
 class ComplexPingResponse(NDRCALL):
     structure = (
-		('PSETID', SETID),
-		('PPINGBACKOFFFACTOR', UNSIGNED_SHORT),
+		('pSetId', SETID),
+		('pPingBackoffFactor', UNSIGNED_SHORT),
     )
         
 
 class ServerAlive(NDRCALL):
     opnum = 3
     structure = (
-		('HRPC', HANDLE_T),
+		('hRpc', HANDLE_T),
     )
 
 class ServerAliveResponse(NDRCALL):
@@ -2640,32 +2640,32 @@ class ServerAliveResponse(NDRCALL):
 class ResolveOxid2(NDRCALL):
     opnum = 4
     structure = (
-		('HRPC', HANDLE_T),
-		('POXID', OXID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('ARREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('pOxid', OXID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('arRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class ResolveOxid2Response(NDRCALL):
     structure = (
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
-		('PCOMVERSION', COMVERSION),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
+		('pComVersion', COMVERSION),
     )
         
 
 class ServerAlive2(NDRCALL):
     opnum = 5
     structure = (
-		('HRPC', HANDLE_T),
+		('hRpc', HANDLE_T),
     )
 
 class ServerAlive2Response(NDRCALL):
     structure = (
-		('PCOMVERSION', COMVERSION),
-		('PPDSAORBINDINGS', DUALSTRINGARRAY),
-		('PRESERVED', DWORD),
+		('pComVersion', COMVERSION),
+		('ppdsaOrBindings', DUALSTRINGARRAY),
+		('pReserved', DWORD),
     )
         
 OPNUMS = {
@@ -2739,36 +2739,36 @@ MSRPC_UUID_IREMUNKNOWN = uuidtup_to_bin(('00000131-0000-0000-C000-000000000046',
 class RemQueryInterface(NDRCALL):
     opnum = 0
     structure = (
-		('RIPID', REFIPID),
-		('CREFS', UNSIGNED_LONG),
-		('CIIDS', UNSIGNED_SHORT),
-		('IIDS', IID),
+		('ripid', REFIPID),
+		('cRefs', UNSIGNED_LONG),
+		('cIids', UNSIGNED_SHORT),
+		('iids', IID),
     )
 
 class RemQueryInterfaceResponse(NDRCALL):
     structure = (
-		('PPQIRESULTS', PREMQIRESULT),
+		('ppQIResults', PREMQIRESULT),
     )
         
 
 class RemAddRef(NDRCALL):
     opnum = 1
     structure = (
-		('CINTERFACEREFS', UNSIGNED_SHORT),
-		('INTERFACEREFS', REMINTERFACEREF),
+		('cInterfaceRefs', UNSIGNED_SHORT),
+		('InterfaceRefs', REMINTERFACEREF),
     )
 
 class RemAddRefResponse(NDRCALL):
     structure = (
-		('PRESULTS', HRESULT),
+		('pResults', HRESULT),
     )
         
 
 class RemRelease(NDRCALL):
     opnum = 2
     structure = (
-		('CINTERFACEREFS', UNSIGNED_SHORT),
-		('INTERFACEREFS', REMINTERFACEREF),
+		('cInterfaceRefs', UNSIGNED_SHORT),
+		('InterfaceRefs', REMINTERFACEREF),
     )
 
 class RemReleaseResponse(NDRCALL):
@@ -2794,15 +2794,15 @@ MSRPC_UUID_IREMUNKNOWN2 = uuidtup_to_bin(('00000143-0000-0000-C000-000000000046'
 class RemQueryInterface2(NDRCALL):
     opnum = 0
     structure = (
-		('RIPID', REFIPID),
-		('CIIDS', UNSIGNED_SHORT),
-		('IIDS', IID),
+		('ripid', REFIPID),
+		('cIids', UNSIGNED_SHORT),
+		('iids', IID),
     )
 
 class RemQueryInterface2Response(NDRCALL):
     structure = (
-		('PHR', HRESULT),
-		('PPMIF', PMINTERFACEPOINTERINTERNAL),
+		('phr', HRESULT),
+		('ppMIF', PMINTERFACEPOINTERINTERNAL),
     )
         
 OPNUMS = {
@@ -3434,57 +3434,57 @@ class GetTypeInfoCount(NDRCALL):
 
 class GetTypeInfoCountResponse(NDRCALL):
     structure = (
-		('PCTINFO', UINT),
+		('pctinfo', UINT),
     )
         
 
 class GetTypeInfo(NDRCALL):
     opnum = 1
     structure = (
-		('ITINFO', UINT),
-		('LCID', LCID),
+		('iTInfo', UINT),
+		('lcid', LCID),
     )
 
 class GetTypeInfoResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
 class GetIDsOfNames(NDRCALL):
     opnum = 2
     structure = (
-		('RIID', REFIID),
-		('RGSZNAMES', LPOLESTR),
-		('CNAMES', UINT),
-		('LCID', LCID),
+		('riid', REFIID),
+		('rgszNames', LPOLESTR),
+		('cNames', UINT),
+		('lcid', LCID),
     )
 
 class GetIDsOfNamesResponse(NDRCALL):
     structure = (
-		('RGDISPID', DISPID),
+		('rgDispId', DISPID),
     )
         
 
 class Invoke(NDRCALL):
     opnum = 3
     structure = (
-		('DISPIDMEMBER', DISPID),
-		('RIID', REFIID),
-		('LCID', LCID),
-		('DWFLAGS', DWORD),
-		('PDISPPARAMS', DISPPARAMS),
-		('CVARREF', UINT),
-		('RGVARREFIDX', UINT),
-		('RGVARREF', VARIANT),
+		('dispIdMember', DISPID),
+		('riid', REFIID),
+		('lcid', LCID),
+		('dwFlags', DWORD),
+		('pDispParams', DISPPARAMS),
+		('cVarRef', UINT),
+		('rgVarRefIdx', UINT),
+		('rgVarRef', VARIANT),
     )
 
 class InvokeResponse(NDRCALL):
     structure = (
-		('PVARRESULT', VARIANT),
-		('PEXCEPINFO', EXCEPINFO),
-		('PARGERR', UINT),
-		('RGVARREF', VARIANT),
+		('pVarResult', VARIANT),
+		('pExcepInfo', EXCEPINFO),
+		('pArgErr', UINT),
+		('rgVarRef', VARIANT),
     )
         
 OPNUMS = {
@@ -3506,20 +3506,20 @@ MSRPC_UUID_IENUMVARIANT = uuidtup_to_bin(('00020404-0000-0000-C000-000000000046'
 class Next(NDRCALL):
     opnum = 0
     structure = (
-		('CELT', ULONG),
+		('celt', ULONG),
     )
 
 class NextResponse(NDRCALL):
     structure = (
-		('RGVAR', VARIANT),
-		('PCELTFETCHED', ULONG),
+		('rgVar', VARIANT),
+		('pCeltFetched', ULONG),
     )
         
 
 class Skip(NDRCALL):
     opnum = 1
     structure = (
-		('CELT', ULONG),
+		('celt', ULONG),
     )
 
 class SkipResponse(NDRCALL):
@@ -3548,7 +3548,7 @@ class Clone(NDRCALL):
 
 class CloneResponse(NDRCALL):
     structure = (
-		('PPENUM', IENUMVARIANT),
+		('ppEnum', IENUMVARIANT),
     )
         
 OPNUMS = {
@@ -3570,32 +3570,32 @@ MSRPC_UUID_ITYPECOMP = uuidtup_to_bin(('00020403-0000-0000-C000-000000000046','0
 class Bind(NDRCALL):
     opnum = 0
     structure = (
-		('SZNAME', LPOLESTR),
-		('LHASHVAL', ULONG),
-		('WFLAGS', WORD),
+		('szName', LPOLESTR),
+		('lHashVal', ULONG),
+		('wFlags', WORD),
     )
 
 class BindResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
-		('PDESCKIND', DESCKIND),
-		('PPFUNCDESC', LPFUNCDESC),
-		('PPVARDESC', LPVARDESC),
-		('PPTYPECOMP', ITYPECOMP),
-		('PRESERVED', DWORD),
+		('ppTInfo', ITYPEINFO),
+		('pDescKind', DESCKIND),
+		('ppFuncDesc', LPFUNCDESC),
+		('ppVarDesc', LPVARDESC),
+		('ppTypeComp', ITYPECOMP),
+		('pReserved', DWORD),
     )
         
 
 class BindType(NDRCALL):
     opnum = 1
     structure = (
-		('SZNAME', LPOLESTR),
-		('LHASHVAL', ULONG),
+		('szName', LPOLESTR),
+		('lHashVal', ULONG),
     )
 
 class BindTypeResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 OPNUMS = {
@@ -3620,8 +3620,8 @@ class GetTypeAttr(NDRCALL):
 
 class GetTypeAttrResponse(NDRCALL):
     structure = (
-		('PPTYPEATTR', LPTYPEATTR),
-		('PRESERVED', DWORD),
+		('ppTypeAttr', LPTYPEATTR),
+		('pReserved', DWORD),
     )
         
 
@@ -3633,71 +3633,71 @@ class GetTypeComp(NDRCALL):
 
 class GetTypeCompResponse(NDRCALL):
     structure = (
-		('PPTCOMP', ITYPECOMP),
+		('ppTComp', ITYPECOMP),
     )
         
 
 class GetFuncDesc(NDRCALL):
     opnum = 2
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetFuncDescResponse(NDRCALL):
     structure = (
-		('PPFUNCDESC', LPFUNCDESC),
-		('PRESERVED', DWORD),
+		('ppFuncDesc', LPFUNCDESC),
+		('pReserved', DWORD),
     )
         
 
 class GetVarDesc(NDRCALL):
     opnum = 3
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetVarDescResponse(NDRCALL):
     structure = (
-		('PPVARDESC', LPVARDESC),
-		('PRESERVED', DWORD),
+		('ppVarDesc', LPVARDESC),
+		('pReserved', DWORD),
     )
         
 
 class GetNames(NDRCALL):
     opnum = 4
     structure = (
-		('MEMID', MEMBERID),
-		('CMAXNAMES', UINT),
+		('memid', MEMBERID),
+		('cMaxNames', UINT),
     )
 
 class GetNamesResponse(NDRCALL):
     structure = (
-		('RGBSTRNAMES', BSTR),
-		('PCNAMES', UINT),
+		('rgBstrNames', BSTR),
+		('pcNames', UINT),
     )
         
 
 class GetRefTypeOfImplType(NDRCALL):
     opnum = 5
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetRefTypeOfImplTypeResponse(NDRCALL):
     structure = (
-		('PREFTYPE', HREFTYPE),
+		('pRefType', HREFTYPE),
     )
         
 
 class GetImplTypeFlags(NDRCALL):
     opnum = 6
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetImplTypeFlagsResponse(NDRCALL):
     structure = (
-		('PIMPLTYPEFLAGS', INT),
+		('pImplTypeFlags', INT),
     )
         
 
@@ -3728,44 +3728,44 @@ class Opnum11NotUsedOnWireResponse(NDRCALL):
 class GetDocumentation(NDRCALL):
     opnum = 9
     structure = (
-		('MEMID', MEMBERID),
-		('REFPTRFLAGS', DWORD),
+		('memid', MEMBERID),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentationResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
-		('PBSTRDOCSTRING', BSTR),
-		('PDWHELPCONTEXT', DWORD),
-		('PBSTRHELPFILE', BSTR),
+		('pBstrName', BSTR),
+		('pBstrDocString', BSTR),
+		('pdwHelpContext', DWORD),
+		('pBstrHelpFile', BSTR),
     )
         
 
 class GetDllEntry(NDRCALL):
     opnum = 10
     structure = (
-		('MEMID', MEMBERID),
-		('INVKIND', INVOKEKIND),
-		('REFPTRFLAGS', DWORD),
+		('memid', MEMBERID),
+		('invKind', INVOKEKIND),
+		('refPtrFlags', DWORD),
     )
 
 class GetDllEntryResponse(NDRCALL):
     structure = (
-		('PBSTRDLLNAME', BSTR),
-		('PBSTRNAME', BSTR),
-		('PWORDINAL', WORD),
+		('pBstrDllName', BSTR),
+		('pBstrName', BSTR),
+		('pwOrdinal', WORD),
     )
         
 
 class GetRefTypeInfo(NDRCALL):
     opnum = 11
     structure = (
-		('HREFTYPE', HREFTYPE),
+		('hRefType', HREFTYPE),
     )
 
 class GetRefTypeInfoResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
@@ -3784,24 +3784,24 @@ class Opnum15NotUsedOnWireResponse(NDRCALL):
 class CreateInstance(NDRCALL):
     opnum = 13
     structure = (
-		('RIID', REFIID),
+		('riid', REFIID),
     )
 
 class CreateInstanceResponse(NDRCALL):
     structure = (
-		('PPVOBJ', IUNKNOWN),
+		('ppvObj', IUNKNOWN),
     )
         
 
 class GetMops(NDRCALL):
     opnum = 14
     structure = (
-		('MEMID', MEMBERID),
+		('memid', MEMBERID),
     )
 
 class GetMopsResponse(NDRCALL):
     structure = (
-		('PBSTRMOPS', BSTR),
+		('pBstrMops', BSTR),
     )
         
 
@@ -3813,8 +3813,8 @@ class GetContainingTypeLib(NDRCALL):
 
 class GetContainingTypeLibResponse(NDRCALL):
     structure = (
-		('PPTLIB', ITYPELIB),
-		('PINDEX', UINT),
+		('ppTLib', ITYPELIB),
+		('pIndex', UINT),
     )
         
 
@@ -3892,7 +3892,7 @@ class GetTypeKind(NDRCALL):
 
 class GetTypeKindResponse(NDRCALL):
     structure = (
-		('PTYPEKIND', TYPEKIND),
+		('pTypeKind', TYPEKIND),
     )
         
 
@@ -3904,113 +3904,113 @@ class GetTypeFlags(NDRCALL):
 
 class GetTypeFlagsResponse(NDRCALL):
     structure = (
-		('PTYPEFLAGS', ULONG),
+		('pTypeFlags', ULONG),
     )
         
 
 class GetFuncIndexOfMemId(NDRCALL):
     opnum = 2
     structure = (
-		('MEMID', MEMBERID),
-		('INVKIND', INVOKEKIND),
+		('memid', MEMBERID),
+		('invKind', INVOKEKIND),
     )
 
 class GetFuncIndexOfMemIdResponse(NDRCALL):
     structure = (
-		('PFUNCINDEX', UINT),
+		('pFuncIndex', UINT),
     )
         
 
 class GetVarIndexOfMemId(NDRCALL):
     opnum = 3
     structure = (
-		('MEMID', MEMBERID),
+		('memid', MEMBERID),
     )
 
 class GetVarIndexOfMemIdResponse(NDRCALL):
     structure = (
-		('PVARINDEX', UINT),
+		('pVarIndex', UINT),
     )
         
 
 class GetCustData(NDRCALL):
     opnum = 4
     structure = (
-		('GUID', REFGUID),
+		('guid', REFGUID),
     )
 
 class GetCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetFuncCustData(NDRCALL):
     opnum = 5
     structure = (
-		('INDEX', UINT),
-		('GUID', REFGUID),
+		('index', UINT),
+		('guid', REFGUID),
     )
 
 class GetFuncCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetParamCustData(NDRCALL):
     opnum = 6
     structure = (
-		('INDEXFUNC', UINT),
-		('INDEXPARAM', UINT),
-		('GUID', REFGUID),
+		('indexFunc', UINT),
+		('indexParam', UINT),
+		('guid', REFGUID),
     )
 
 class GetParamCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetVarCustData(NDRCALL):
     opnum = 7
     structure = (
-		('INDEX', UINT),
-		('GUID', REFGUID),
+		('index', UINT),
+		('guid', REFGUID),
     )
 
 class GetVarCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetImplTypeCustData(NDRCALL):
     opnum = 8
     structure = (
-		('INDEX', UINT),
-		('GUID', REFGUID),
+		('index', UINT),
+		('guid', REFGUID),
     )
 
 class GetImplTypeCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetDocumentation2(NDRCALL):
     opnum = 9
     structure = (
-		('MEMID', MEMBERID),
-		('LCID', LCID),
-		('REFPTRFLAGS', DWORD),
+		('memid', MEMBERID),
+		('lcid', LCID),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentation2Response(NDRCALL):
     structure = (
-		('PBSTRHELPSTRING', BSTR),
-		('PDWHELPSTRINGCONTEXT', DWORD),
-		('PBSTRHELPSTRINGDLL', BSTR),
+		('pbstrHelpString', BSTR),
+		('pdwHelpStringContext', DWORD),
+		('pbstrHelpStringDll', BSTR),
     )
         
 
@@ -4022,56 +4022,56 @@ class GetAllCustData(NDRCALL):
 
 class GetAllCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllFuncCustData(NDRCALL):
     opnum = 11
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetAllFuncCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllParamCustData(NDRCALL):
     opnum = 12
     structure = (
-		('INDEXFUNC', UINT),
-		('INDEXPARAM', UINT),
+		('indexFunc', UINT),
+		('indexParam', UINT),
     )
 
 class GetAllParamCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllVarCustData(NDRCALL):
     opnum = 13
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetAllVarCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllImplTypeCustData(NDRCALL):
     opnum = 14
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetAllImplTypeCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 OPNUMS = {
@@ -4109,43 +4109,43 @@ class GetTypeInfoCount(NDRCALL):
 
 class GetTypeInfoCountResponse(NDRCALL):
     structure = (
-		('PCTINFO', UINT),
+		('pcTInfo', UINT),
     )
         
 
 class GetTypeInfo(NDRCALL):
     opnum = 1
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetTypeInfoResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
 class GetTypeInfoType(NDRCALL):
     opnum = 2
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetTypeInfoTypeResponse(NDRCALL):
     structure = (
-		('PTKIND', TYPEKIND),
+		('pTKind', TYPEKIND),
     )
         
 
 class GetTypeInfoOfGuid(NDRCALL):
     opnum = 3
     structure = (
-		('GUID', REFGUID),
+		('guid', REFGUID),
     )
 
 class GetTypeInfoOfGuidResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
@@ -4157,8 +4157,8 @@ class GetLibAttr(NDRCALL):
 
 class GetLibAttrResponse(NDRCALL):
     structure = (
-		('PPTLIBATTR', LPTLIBATTR),
-		('PRESERVED', DWORD),
+		('ppTLibAttr', LPTLIBATTR),
+		('pReserved', DWORD),
     )
         
 
@@ -4170,54 +4170,54 @@ class GetTypeComp(NDRCALL):
 
 class GetTypeCompResponse(NDRCALL):
     structure = (
-		('PPTCOMP', ITYPECOMP),
+		('ppTComp', ITYPECOMP),
     )
         
 
 class GetDocumentation(NDRCALL):
     opnum = 6
     structure = (
-		('INDEX', INT),
-		('REFPTRFLAGS', DWORD),
+		('index', INT),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentationResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
-		('PBSTRDOCSTRING', BSTR),
-		('PDWHELPCONTEXT', DWORD),
-		('PBSTRHELPFILE', BSTR),
+		('pBstrName', BSTR),
+		('pBstrDocString', BSTR),
+		('pdwHelpContext', DWORD),
+		('pBstrHelpFile', BSTR),
     )
         
 
 class IsName(NDRCALL):
     opnum = 7
     structure = (
-		('SZNAMEBUF', LPOLESTR),
-		('LHASHVAL', ULONG),
+		('szNameBuf', LPOLESTR),
+		('lHashVal', ULONG),
     )
 
 class IsNameResponse(NDRCALL):
     structure = (
-		('PFNAME', BOOL),
-		('PBSTRNAMEINLIBRARY', BSTR),
+		('pfName', BOOL),
+		('pBstrNameInLibrary', BSTR),
     )
         
 
 class FindName(NDRCALL):
     opnum = 8
     structure = (
-		('SZNAMEBUF', LPOLESTR),
-		('LHASHVAL', ULONG),
-		('PCFOUND', USHORT),
+		('szNameBuf', LPOLESTR),
+		('lHashVal', ULONG),
+		('pcFound', USHORT),
     )
 
 class FindNameResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
-		('RGMEMID', MEMBERID),
-		('PCFOUND', USHORT),
-		('PBSTRNAMEINLIBRARY', BSTR),
+		('ppTInfo', ITYPEINFO),
+		('rgMemId', MEMBERID),
+		('pcFound', USHORT),
+		('pBstrNameInLibrary', BSTR),
     )
         
 
@@ -4257,12 +4257,12 @@ MSRPC_UUID_ITYPELIB2 = uuidtup_to_bin(('00020411-0000-0000-C000-000000000046','0
 class GetCustData(NDRCALL):
     opnum = 0
     structure = (
-		('GUID', REFGUID),
+		('guid', REFGUID),
     )
 
 class GetCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
@@ -4274,24 +4274,24 @@ class GetLibStatistics(NDRCALL):
 
 class GetLibStatisticsResponse(NDRCALL):
     structure = (
-		('PCUNIQUENAMES', ULONG),
-		('PCCHUNIQUENAMES', ULONG),
+		('pcUniqueNames', ULONG),
+		('pcchUniqueNames', ULONG),
     )
         
 
 class GetDocumentation2(NDRCALL):
     opnum = 2
     structure = (
-		('INDEX', INT),
-		('LCID', LCID),
-		('REFPTRFLAGS', DWORD),
+		('index', INT),
+		('lcid', LCID),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentation2Response(NDRCALL):
     structure = (
-		('PBSTRHELPSTRING', BSTR),
-		('PDWHELPSTRINGCONTEXT', DWORD),
-		('PBSTRHELPSTRINGDLL', BSTR),
+		('pbstrHelpString', BSTR),
+		('pdwHelpStringContext', DWORD),
+		('pbstrHelpStringDll', BSTR),
     )
         
 
@@ -4303,7 +4303,7 @@ class GetAllCustData(NDRCALL):
 
 class GetAllCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 OPNUMS = {
@@ -4352,51 +4352,51 @@ MSRPC_UUID_IAPPHOSTMAPPINGEXTENSION = uuidtup_to_bin(('31a83ea0-c0e4-4a2c-8a01-3
 class GetSiteNameFromSiteId(NDRCALL):
     opnum = 0
     structure = (
-		('DWSITEID', DWORD),
+		('dwSiteId', DWORD),
     )
 
 class GetSiteNameFromSiteIdResponse(NDRCALL):
     structure = (
-		('PBSTRSITENAME', BSTR),
+		('pbstrSiteName', BSTR),
     )
         
 
 class GetSiteIdFromSiteName(NDRCALL):
     opnum = 1
     structure = (
-		('BSTRSITENAME', BSTR),
+		('bstrSiteName', BSTR),
     )
 
 class GetSiteIdFromSiteNameResponse(NDRCALL):
     structure = (
-		('PDWSITEID', DWORD),
+		('pdwSiteId', DWORD),
     )
         
 
 class GetSiteElementFromSiteId(NDRCALL):
     opnum = 2
     structure = (
-		('DWSITEID', DWORD),
+		('dwSiteId', DWORD),
     )
 
 class GetSiteElementFromSiteIdResponse(NDRCALL):
     structure = (
-		('PPSITEELEMENT', IAPPHOSTELEMENT),
+		('ppSiteElement', IAPPHOSTELEMENT),
     )
         
 
 class MapPath(NDRCALL):
     opnum = 3
     structure = (
-		('BSTRSITENAME', BSTR),
-		('BSTRVIRTUALPATH', BSTR),
+		('bstrSiteName', BSTR),
+		('bstrVirtualPath', BSTR),
     )
 
 class MapPathResponse(NDRCALL):
     structure = (
-		('PBSTRPHYSICALPATH', BSTR),
-		('PPVIRTUALDIRECTORYELEMENT', IAPPHOSTELEMENT),
-		('PPAPPLICATIONELEMENT', IAPPHOSTELEMENT),
+		('pbstrPhysicalPath', BSTR),
+		('ppVirtualDirectoryElement', IAPPHOSTELEMENT),
+		('ppApplicationElement', IAPPHOSTELEMENT),
     )
         
 OPNUMS = {
@@ -4423,19 +4423,19 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCCOUNT', DWORD),
+		('pcCount', DWORD),
     )
         
 
 class Item(NDRCALL):
     opnum = 1
     structure = (
-		('CINDEX', VARIANT),
+		('cIndex', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PPELEMENT', IAPPHOSTELEMENT),
+		('ppElement', IAPPHOSTELEMENT),
     )
         
 OPNUMS = {
@@ -4460,19 +4460,19 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCCOUNT', DWORD),
+		('pcCount', DWORD),
     )
         
 
 class Item(NDRCALL):
     opnum = 1
     structure = (
-		('CINDEX', VARIANT),
+		('cIndex', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PPPROPERTY', IAPPHOSTPROPERTY),
+		('ppProperty', IAPPHOSTPROPERTY),
     )
         
 OPNUMS = {
@@ -4497,38 +4497,38 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCCOUNT', DWORD),
+		('pcCount', DWORD),
     )
         
 
 class Item(NDRCALL):
     opnum = 1
     structure = (
-		('VARINDEX', VARIANT),
+		('varIndex', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PPLOCATION', IAPPHOSTCONFIGLOCATION),
+		('ppLocation', IAPPHOSTCONFIGLOCATION),
     )
         
 
 class AddLocation(NDRCALL):
     opnum = 2
     structure = (
-		('BSTRLOCATIONPATH', BSTR),
+		('bstrLocationPath', BSTR),
     )
 
 class AddLocationResponse(NDRCALL):
     structure = (
-		('PPNEWLOCATION', IAPPHOSTCONFIGLOCATION),
+		('ppNewLocation', IAPPHOSTCONFIGLOCATION),
     )
         
 
 class DeleteLocation(NDRCALL):
     opnum = 3
     structure = (
-		('CINDEX', VARIANT),
+		('cIndex', VARIANT),
     )
 
 class DeleteLocationResponse(NDRCALL):
@@ -4560,19 +4560,19 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCCOUNT', DWORD),
+		('pcCount', DWORD),
     )
         
 
 class Item(NDRCALL):
     opnum = 1
     structure = (
-		('CINDEX', VARIANT),
+		('cIndex', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PPMETHOD', IAPPHOSTMETHOD),
+		('ppMethod', IAPPHOSTMETHOD),
     )
         
 OPNUMS = {
@@ -4597,19 +4597,19 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCCOUNT', DWORD),
+		('pcCount', DWORD),
     )
         
 
 class Item(NDRCALL):
     opnum = 1
     structure = (
-		('CINDEX', VARIANT),
+		('cIndex', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PPELEMENTSCHEMA', IAPPHOSTELEMENTSCHEMA),
+		('ppElementSchema', IAPPHOSTELEMENTSCHEMA),
     )
         
 OPNUMS = {
@@ -4634,19 +4634,19 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCCOUNT', DWORD),
+		('pcCount', DWORD),
     )
         
 
 class Item(NDRCALL):
     opnum = 1
     structure = (
-		('CINDEX', VARIANT),
+		('cIndex', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PPPROPERTYSCHEMA', IAPPHOSTPROPERTYSCHEMA),
+		('ppPropertySchema', IAPPHOSTPROPERTYSCHEMA),
     )
         
 OPNUMS = {
@@ -4671,19 +4671,19 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCCOUNT', DWORD),
+		('pcCount', DWORD),
     )
         
 
 class Item(NDRCALL):
     opnum = 1
     structure = (
-		('CINDEX', VARIANT),
+		('cIndex', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PPCONSTANTVALUE', IAPPHOSTCONSTANTVALUE),
+		('ppConstantValue', IAPPHOSTCONSTANTVALUE),
     )
         
 OPNUMS = {
@@ -4708,7 +4708,7 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
+		('pbstrName', BSTR),
     )
         
 
@@ -4720,7 +4720,7 @@ class Value(NDRCALL):
 
 class ValueResponse(NDRCALL):
     structure = (
-		('PDWVALUE', DWORD),
+		('pdwValue', DWORD),
     )
         
 OPNUMS = {
@@ -4745,7 +4745,7 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
+		('pbstrName', BSTR),
     )
         
 
@@ -4757,7 +4757,7 @@ class Type(NDRCALL):
 
 class TypeResponse(NDRCALL):
     structure = (
-		('PBSTRTYPE', BSTR),
+		('pbstrType', BSTR),
     )
         
 
@@ -4769,7 +4769,7 @@ class DefaultValue(NDRCALL):
 
 class DefaultValueResponse(NDRCALL):
     structure = (
-		('PDEFAULTVALUE', VARIANT),
+		('pDefaultValue', VARIANT),
     )
         
 
@@ -4781,7 +4781,7 @@ class IsRequired(NDRCALL):
 
 class IsRequiredResponse(NDRCALL):
     structure = (
-		('PFISREQUIRED', VARIANT_BOOL),
+		('pfIsRequired', VARIANT_BOOL),
     )
         
 
@@ -4793,7 +4793,7 @@ class IsUniqueKey(NDRCALL):
 
 class IsUniqueKeyResponse(NDRCALL):
     structure = (
-		('PFISUNIQUEKEY', VARIANT_BOOL),
+		('pfIsUniqueKey', VARIANT_BOOL),
     )
         
 
@@ -4805,7 +4805,7 @@ class IsCombinedKey(NDRCALL):
 
 class IsCombinedKeyResponse(NDRCALL):
     structure = (
-		('PFISCOMBINEDKEY', VARIANT_BOOL),
+		('pfIsCombinedKey', VARIANT_BOOL),
     )
         
 
@@ -4817,7 +4817,7 @@ class IsExpanded(NDRCALL):
 
 class IsExpandedResponse(NDRCALL):
     structure = (
-		('PFISEXPANDED', VARIANT_BOOL),
+		('pfIsExpanded', VARIANT_BOOL),
     )
         
 
@@ -4829,7 +4829,7 @@ class ValidationType(NDRCALL):
 
 class ValidationTypeResponse(NDRCALL):
     structure = (
-		('PBSTRVALIDATIONTYPE', BSTR),
+		('pbstrValidationType', BSTR),
     )
         
 
@@ -4841,19 +4841,19 @@ class ValidationParameter(NDRCALL):
 
 class ValidationParameterResponse(NDRCALL):
     structure = (
-		('PBSTRVALIDATIONPARAMETER', BSTR),
+		('pbstrValidationParameter', BSTR),
     )
         
 
 class GetMetadata(NDRCALL):
     opnum = 9
     structure = (
-		('BSTRMETADATATYPE', BSTR),
+		('bstrMetadataType', BSTR),
     )
 
 class GetMetadataResponse(NDRCALL):
     structure = (
-		('PVALUE', VARIANT),
+		('pValue', VARIANT),
     )
         
 
@@ -4865,7 +4865,7 @@ class IsCaseSensitive(NDRCALL):
 
 class IsCaseSensitiveResponse(NDRCALL):
     structure = (
-		('PFISCASESENSITIVE', VARIANT_BOOL),
+		('pfIsCaseSensitive', VARIANT_BOOL),
     )
         
 
@@ -4877,7 +4877,7 @@ class PossibleValues(NDRCALL):
 
 class PossibleValuesResponse(NDRCALL):
     structure = (
-		('PPVALUES', IAPPHOSTCONSTANTVALUECOLLECTION),
+		('ppValues', IAPPHOSTCONSTANTVALUECOLLECTION),
     )
         
 
@@ -4889,7 +4889,7 @@ class DoesAllowInfinite(NDRCALL):
 
 class DoesAllowInfiniteResponse(NDRCALL):
     structure = (
-		('PFALLOWINFINITE', VARIANT_BOOL),
+		('pfAllowInfinite', VARIANT_BOOL),
     )
         
 
@@ -4901,7 +4901,7 @@ class IsEncrypted(NDRCALL):
 
 class IsEncryptedResponse(NDRCALL):
     structure = (
-		('PFISENCRYPTED', VARIANT_BOOL),
+		('pfIsEncrypted', VARIANT_BOOL),
     )
         
 
@@ -4913,7 +4913,7 @@ class TimeSpanFormat(NDRCALL):
 
 class TimeSpanFormatResponse(NDRCALL):
     structure = (
-		('PBSTRTIMESPANFORMAT', BSTR),
+		('pbstrTimeSpanFormat', BSTR),
     )
         
 OPNUMS = {
@@ -4951,19 +4951,19 @@ class AddElementNames(NDRCALL):
 
 class AddElementNamesResponse(NDRCALL):
     structure = (
-		('PBSTRELEMENTNAME', BSTR),
+		('pbstrElementName', BSTR),
     )
         
 
 class GetAddElementSchema(NDRCALL):
     opnum = 1
     structure = (
-		('BSTRELEMENTNAME', BSTR),
+		('bstrElementName', BSTR),
     )
 
 class GetAddElementSchemaResponse(NDRCALL):
     structure = (
-		('PPSCHEMA', IAPPHOSTELEMENTSCHEMA),
+		('ppSchema', IAPPHOSTELEMENTSCHEMA),
     )
         
 
@@ -4975,7 +4975,7 @@ class RemoveElementSchema(NDRCALL):
 
 class RemoveElementSchemaResponse(NDRCALL):
     structure = (
-		('PPSCHEMA', IAPPHOSTELEMENTSCHEMA),
+		('ppSchema', IAPPHOSTELEMENTSCHEMA),
     )
         
 
@@ -4987,7 +4987,7 @@ class ClearElementSchema(NDRCALL):
 
 class ClearElementSchemaResponse(NDRCALL):
     structure = (
-		('PPSCHEMA', IAPPHOSTELEMENTSCHEMA),
+		('ppSchema', IAPPHOSTELEMENTSCHEMA),
     )
         
 
@@ -4999,19 +4999,19 @@ class IsMergeAppend(NDRCALL):
 
 class IsMergeAppendResponse(NDRCALL):
     structure = (
-		('PFISMERGEAPPEND', VARIANT_BOOL),
+		('pfIsMergeAppend', VARIANT_BOOL),
     )
         
 
 class GetMetadata(NDRCALL):
     opnum = 5
     structure = (
-		('BSTRMETADATATYPE', BSTR),
+		('bstrMetadataType', BSTR),
     )
 
 class GetMetadataResponse(NDRCALL):
     structure = (
-		('PVALUE', VARIANT),
+		('pValue', VARIANT),
     )
         
 
@@ -5023,7 +5023,7 @@ class DoesAllowDuplicates(NDRCALL):
 
 class DoesAllowDuplicatesResponse(NDRCALL):
     structure = (
-		('PFALLOWDUPLICATES', VARIANT_BOOL),
+		('pfAllowDuplicates', VARIANT_BOOL),
     )
         
 OPNUMS = {
@@ -5053,7 +5053,7 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
+		('pbstrName', BSTR),
     )
         
 
@@ -5065,19 +5065,19 @@ class DoesAllowUnschematizedProperties(NDRCALL):
 
 class DoesAllowUnschematizedPropertiesResponse(NDRCALL):
     structure = (
-		('PFALLOWUNSCHEMATIZED', VARIANT_BOOL),
+		('pfAllowUnschematized', VARIANT_BOOL),
     )
         
 
 class GetMetadata(NDRCALL):
     opnum = 2
     structure = (
-		('BSTRMETADATATYPE', BSTR),
+		('bstrMetadataType', BSTR),
     )
 
 class GetMetadataResponse(NDRCALL):
     structure = (
-		('PVALUE', VARIANT),
+		('pValue', VARIANT),
     )
         
 
@@ -5089,7 +5089,7 @@ class CollectionSchema(NDRCALL):
 
 class CollectionSchemaResponse(NDRCALL):
     structure = (
-		('PPCOLLECTIONSCHEMA', IAPPHOSTCOLLECTIONSCHEMA),
+		('ppCollectionSchema', IAPPHOSTCOLLECTIONSCHEMA),
     )
         
 
@@ -5101,7 +5101,7 @@ class ChildElementSchemas(NDRCALL):
 
 class ChildElementSchemasResponse(NDRCALL):
     structure = (
-		('PPCHILDSCHEMAS', IAPPHOSTELEMENTSCHEMACOLLECTION),
+		('ppChildSchemas', IAPPHOSTELEMENTSCHEMACOLLECTION),
     )
         
 
@@ -5113,7 +5113,7 @@ class PropertySchemas(NDRCALL):
 
 class PropertySchemasResponse(NDRCALL):
     structure = (
-		('PPPROPERTYSCHEMAS', IAPPHOSTPROPERTYSCHEMACOLLECTION),
+		('ppPropertySchemas', IAPPHOSTPROPERTYSCHEMACOLLECTION),
     )
         
 
@@ -5125,7 +5125,7 @@ class IsCollectionDefault(NDRCALL):
 
 class IsCollectionDefaultResponse(NDRCALL):
     structure = (
-		('PFISCOLLECTIONDEFAULT', VARIANT_BOOL),
+		('pfIsCollectionDefault', VARIANT_BOOL),
     )
         
 OPNUMS = {
@@ -5155,7 +5155,7 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
+		('pbstrName', BSTR),
     )
         
 
@@ -5167,7 +5167,7 @@ class InputSchema(NDRCALL):
 
 class InputSchemaResponse(NDRCALL):
     structure = (
-		('PPINPUTSCHEMA', IAPPHOSTELEMENTSCHEMA),
+		('ppInputSchema', IAPPHOSTELEMENTSCHEMA),
     )
         
 
@@ -5179,19 +5179,19 @@ class OutputSchema(NDRCALL):
 
 class OutputSchemaResponse(NDRCALL):
     structure = (
-		('PPOUTPUTSCHEMA', IAPPHOSTELEMENTSCHEMA),
+		('ppOutputSchema', IAPPHOSTELEMENTSCHEMA),
     )
         
 
 class GetMetadata(NDRCALL):
     opnum = 3
     structure = (
-		('BSTRMETADATATYPE', BSTR),
+		('bstrMetadataType', BSTR),
     )
 
 class GetMetadataResponse(NDRCALL):
     structure = (
-		('PVALUE', VARIANT),
+		('pValue', VARIANT),
     )
         
 OPNUMS = {
@@ -5218,7 +5218,7 @@ class Input(NDRCALL):
 
 class InputResponse(NDRCALL):
     structure = (
-		('PPINPUTELEMENT', IAPPHOSTELEMENT),
+		('ppInputElement', IAPPHOSTELEMENT),
     )
         
 
@@ -5230,7 +5230,7 @@ class Output(NDRCALL):
 
 class OutputResponse(NDRCALL):
     structure = (
-		('PPOUTPUTELEMENT', IAPPHOSTELEMENT),
+		('ppOutputElement', IAPPHOSTELEMENT),
     )
         
 
@@ -5249,20 +5249,20 @@ class ExecuteResponse(NDRCALL):
 class GetMetadata(NDRCALL):
     opnum = 3
     structure = (
-		('BSTRMETADATATYPE', BSTR),
+		('bstrMetadataType', BSTR),
     )
 
 class GetMetadataResponse(NDRCALL):
     structure = (
-		('PVALUE', VARIANT),
+		('pValue', VARIANT),
     )
         
 
 class SetMetadata(NDRCALL):
     opnum = 4
     structure = (
-		('BSTRMETADATATYPE', BSTR),
-		('VALUE', VARIANT),
+		('bstrMetadataType', BSTR),
+		('value', VARIANT),
     )
 
 class SetMetadataResponse(NDRCALL):
@@ -5295,7 +5295,7 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
+		('pbstrName', BSTR),
     )
         
 
@@ -5307,7 +5307,7 @@ class Schema(NDRCALL):
 
 class SchemaResponse(NDRCALL):
     structure = (
-		('PPMETHODSCHEMA', IAPPHOSTMETHODSCHEMA),
+		('ppMethodSchema', IAPPHOSTMETHODSCHEMA),
     )
         
 
@@ -5319,7 +5319,7 @@ class CreateInstance(NDRCALL):
 
 class CreateInstanceResponse(NDRCALL):
     structure = (
-		('PPMETHODINSTANCE', IAPPHOSTMETHODINSTANCE),
+		('ppMethodInstance', IAPPHOSTMETHODINSTANCE),
     )
         
 OPNUMS = {
@@ -5345,7 +5345,7 @@ class LineNumber(NDRCALL):
 
 class LineNumberResponse(NDRCALL):
     structure = (
-		('PCLINENUMBER', UNSIGNED_LONG),
+		('pcLineNumber', UNSIGNED_LONG),
     )
         
 
@@ -5357,7 +5357,7 @@ class FileName(NDRCALL):
 
 class FileNameResponse(NDRCALL):
     structure = (
-		('PBSTRFILENAME', BSTR),
+		('pbstrFileName', BSTR),
     )
         
 
@@ -5369,7 +5369,7 @@ class ConfigPath(NDRCALL):
 
 class ConfigPathResponse(NDRCALL):
     structure = (
-		('PBSTRCONFIGPATH', BSTR),
+		('pbstrConfigPath', BSTR),
     )
         
 
@@ -5381,7 +5381,7 @@ class ErrorLine(NDRCALL):
 
 class ErrorLineResponse(NDRCALL):
     structure = (
-		('PBSTRERRORLINE', BSTR),
+		('pbstrErrorLine', BSTR),
     )
         
 
@@ -5393,7 +5393,7 @@ class PreErrorLine(NDRCALL):
 
 class PreErrorLineResponse(NDRCALL):
     structure = (
-		('PBSTRPREERRORLINE', BSTR),
+		('pbstrPreErrorLine', BSTR),
     )
         
 
@@ -5405,7 +5405,7 @@ class PostErrorLine(NDRCALL):
 
 class PostErrorLineResponse(NDRCALL):
     structure = (
-		('PBSTRPOSTERRORLINE', BSTR),
+		('pbstrPostErrorLine', BSTR),
     )
         
 
@@ -5417,7 +5417,7 @@ class ErrorString(NDRCALL):
 
 class ErrorStringResponse(NDRCALL):
     structure = (
-		('PBSTRERRORSTRING', BSTR),
+		('pbstrErrorString', BSTR),
     )
         
 OPNUMS = {
@@ -5447,7 +5447,7 @@ class InvalidValue(NDRCALL):
 
 class InvalidValueResponse(NDRCALL):
     structure = (
-		('PBSTRVALUE', BSTR),
+		('pbstrValue', BSTR),
     )
         
 
@@ -5459,7 +5459,7 @@ class ValidationFailureReason(NDRCALL):
 
 class ValidationFailureReasonResponse(NDRCALL):
     structure = (
-		('PBSTRVALIDATIONREASON', BSTR),
+		('pbstrValidationReason', BSTR),
     )
         
 
@@ -5471,7 +5471,7 @@ class ValidationFailureParameters(NDRCALL):
 
 class ValidationFailureParametersResponse(NDRCALL):
     structure = (
-		('PPARAMETERARRAY', SAFEARRAY ( VARIANT )),
+		('pParameterArray', SAFEARRAY ( VARIANT )),
     )
         
 OPNUMS = {
@@ -5497,27 +5497,27 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCELEMENTCOUNT', DWORD),
+		('pcElementCount', DWORD),
     )
         
 
 class Item(NDRCALL):
     opnum = 1
     structure = (
-		('CINDEX', VARIANT),
+		('cIndex', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PPELEMENT', IAPPHOSTELEMENT),
+		('ppElement', IAPPHOSTELEMENT),
     )
         
 
 class AddElement(NDRCALL):
     opnum = 2
     structure = (
-		('PELEMENT', IAPPHOSTELEMENT),
-		('CPOSITION', INT),
+		('pElement', IAPPHOSTELEMENT),
+		('cPosition', INT),
     )
 
 class AddElementResponse(NDRCALL):
@@ -5529,7 +5529,7 @@ class AddElementResponse(NDRCALL):
 class DeleteElement(NDRCALL):
     opnum = 3
     structure = (
-		('CINDEX', VARIANT),
+		('cIndex', VARIANT),
     )
 
 class DeleteElementResponse(NDRCALL):
@@ -5553,12 +5553,12 @@ class ClearResponse(NDRCALL):
 class CreateNewElement(NDRCALL):
     opnum = 5
     structure = (
-		('BSTRELEMENTNAME', BSTR),
+		('bstrElementName', BSTR),
     )
 
 class CreateNewElementResponse(NDRCALL):
     structure = (
-		('PPELEMENT', IAPPHOSTELEMENT),
+		('ppElement', IAPPHOSTELEMENT),
     )
         
 
@@ -5570,7 +5570,7 @@ class Schema(NDRCALL):
 
 class SchemaResponse(NDRCALL):
     structure = (
-		('PPSCHEMA', IAPPHOSTCOLLECTIONSCHEMA),
+		('ppSchema', IAPPHOSTCOLLECTIONSCHEMA),
     )
         
 OPNUMS = {
@@ -5600,7 +5600,7 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
+		('pbstrName', BSTR),
     )
         
 
@@ -5612,7 +5612,7 @@ class Collection(NDRCALL):
 
 class CollectionResponse(NDRCALL):
     structure = (
-		('PPCOLLECTION', IAPPHOSTELEMENTCOLLECTION),
+		('ppCollection', IAPPHOSTELEMENTCOLLECTION),
     )
         
 
@@ -5624,7 +5624,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPPROPERTIES', IAPPHOSTPROPERTYCOLLECTION),
+		('ppProperties', IAPPHOSTPROPERTYCOLLECTION),
     )
         
 
@@ -5636,27 +5636,27 @@ class ChildElements(NDRCALL):
 
 class ChildElementsResponse(NDRCALL):
     structure = (
-		('PPELEMENTS', IAPPHOSTCHILDELEMENTCOLLECTION),
+		('ppElements', IAPPHOSTCHILDELEMENTCOLLECTION),
     )
         
 
 class GetMetadata(NDRCALL):
     opnum = 4
     structure = (
-		('BSTRMETADATATYPE', BSTR),
+		('bstrMetadataType', BSTR),
     )
 
 class GetMetadataResponse(NDRCALL):
     structure = (
-		('PVALUE', VARIANT),
+		('pValue', VARIANT),
     )
         
 
 class SetMetadata(NDRCALL):
     opnum = 5
     structure = (
-		('BSTRMETADATATYPE', BSTR),
-		('VALUE', VARIANT),
+		('bstrMetadataType', BSTR),
+		('value', VARIANT),
     )
 
 class SetMetadataResponse(NDRCALL):
@@ -5673,31 +5673,31 @@ class Schema(NDRCALL):
 
 class SchemaResponse(NDRCALL):
     structure = (
-		('PPSCHEMA', IAPPHOSTELEMENTSCHEMA),
+		('ppSchema', IAPPHOSTELEMENTSCHEMA),
     )
         
 
 class GetElementByName(NDRCALL):
     opnum = 7
     structure = (
-		('BSTRSUBNAME', BSTR),
+		('bstrSubName', BSTR),
     )
 
 class GetElementByNameResponse(NDRCALL):
     structure = (
-		('PPELEMENT', IAPPHOSTELEMENT),
+		('ppElement', IAPPHOSTELEMENT),
     )
         
 
 class GetPropertyByName(NDRCALL):
     opnum = 8
     structure = (
-		('BSTRSUBNAME', BSTR),
+		('bstrSubName', BSTR),
     )
 
 class GetPropertyByNameResponse(NDRCALL):
     structure = (
-		('PPPROPERTY', IAPPHOSTPROPERTY),
+		('ppProperty', IAPPHOSTPROPERTY),
     )
         
 
@@ -5721,7 +5721,7 @@ class Methods(NDRCALL):
 
 class MethodsResponse(NDRCALL):
     structure = (
-		('PPMETHODS', IAPPHOSTMETHODCOLLECTION),
+		('ppMethods', IAPPHOSTMETHODCOLLECTION),
     )
         
 OPNUMS = {
@@ -5755,7 +5755,7 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
+		('pbstrName', BSTR),
     )
         
 
@@ -5767,14 +5767,14 @@ class Value(NDRCALL):
 
 class ValueResponse(NDRCALL):
     structure = (
-		('PVARIANT', VARIANT),
+		('pVariant', VARIANT),
     )
         
 
 class Value(NDRCALL):
     opnum = 2
     structure = (
-		('VALUE', VARIANT),
+		('value', VARIANT),
     )
 
 class ValueResponse(NDRCALL):
@@ -5803,7 +5803,7 @@ class StringValue(NDRCALL):
 
 class StringValueResponse(NDRCALL):
     structure = (
-		('PBSTRVALUE', BSTR),
+		('pbstrValue', BSTR),
     )
         
 
@@ -5815,27 +5815,27 @@ class Exception(NDRCALL):
 
 class ExceptionResponse(NDRCALL):
     structure = (
-		('PPEXCEPTION', IAPPHOSTPROPERTYEXCEPTION),
+		('ppException', IAPPHOSTPROPERTYEXCEPTION),
     )
         
 
 class GetMetadata(NDRCALL):
     opnum = 6
     structure = (
-		('BSTRMETADATATYPE', BSTR),
+		('bstrMetadataType', BSTR),
     )
 
 class GetMetadataResponse(NDRCALL):
     structure = (
-		('PVALUE', VARIANT),
+		('pValue', VARIANT),
     )
         
 
 class SetMetadata(NDRCALL):
     opnum = 7
     structure = (
-		('BSTRMETADATATYPE', BSTR),
-		('VALUE', VARIANT),
+		('bstrMetadataType', BSTR),
+		('value', VARIANT),
     )
 
 class SetMetadataResponse(NDRCALL):
@@ -5852,7 +5852,7 @@ class Schema(NDRCALL):
 
 class SchemaResponse(NDRCALL):
     structure = (
-		('PPSCHEMA', IAPPHOSTPROPERTYSCHEMA),
+		('ppSchema', IAPPHOSTPROPERTYSCHEMA),
     )
         
 OPNUMS = {
@@ -5883,7 +5883,7 @@ class Path(NDRCALL):
 
 class PathResponse(NDRCALL):
     structure = (
-		('PBSTRLOCATIONPATH', BSTR),
+		('pbstrLocationPath', BSTR),
     )
         
 
@@ -5895,38 +5895,38 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCCOUNT', DWORD),
+		('pcCount', DWORD),
     )
         
 
 class Item(NDRCALL):
     opnum = 2
     structure = (
-		('CINDEX', VARIANT),
+		('cIndex', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PPSECTION', IAPPHOSTELEMENT),
+		('ppSection', IAPPHOSTELEMENT),
     )
         
 
 class AddConfigSection(NDRCALL):
     opnum = 3
     structure = (
-		('BSTRSECTIONNAME', BSTR),
+		('bstrSectionName', BSTR),
     )
 
 class AddConfigSectionResponse(NDRCALL):
     structure = (
-		('PPADMINELEMENT', IAPPHOSTELEMENT),
+		('ppAdminElement', IAPPHOSTELEMENT),
     )
         
 
 class DeleteConfigSection(NDRCALL):
     opnum = 4
     structure = (
-		('CINDEX', VARIANT),
+		('cIndex', VARIANT),
     )
 
 class DeleteConfigSectionResponse(NDRCALL):
@@ -5959,7 +5959,7 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
+		('pbstrName', BSTR),
     )
         
 
@@ -5971,14 +5971,14 @@ class Type(NDRCALL):
 
 class TypeResponse(NDRCALL):
     structure = (
-		('PBSTRTYPE', BSTR),
+		('pbstrType', BSTR),
     )
         
 
 class Type(NDRCALL):
     opnum = 2
     structure = (
-		('BSTRTYPE', BSTR),
+		('bstrType', BSTR),
     )
 
 class TypeResponse(NDRCALL):
@@ -5995,14 +5995,14 @@ class OverrideModeDefault(NDRCALL):
 
 class OverrideModeDefaultResponse(NDRCALL):
     structure = (
-		('PBSTROVERRIDEMODEDEFAULT', BSTR),
+		('pbstrOverrideModeDefault', BSTR),
     )
         
 
 class OverrideModeDefault(NDRCALL):
     opnum = 4
     structure = (
-		('BSTROVERRIDEMODEDEFAULT', BSTR),
+		('bstrOverrideModeDefault', BSTR),
     )
 
 class OverrideModeDefaultResponse(NDRCALL):
@@ -6019,14 +6019,14 @@ class AllowDefinition(NDRCALL):
 
 class AllowDefinitionResponse(NDRCALL):
     structure = (
-		('PBSTRALLOWDEFINITION', BSTR),
+		('pbstrAllowDefinition', BSTR),
     )
         
 
 class AllowDefinition(NDRCALL):
     opnum = 6
     structure = (
-		('BSTRALLOWDEFINITION', BSTR),
+		('bstrAllowDefinition', BSTR),
     )
 
 class AllowDefinitionResponse(NDRCALL):
@@ -6043,14 +6043,14 @@ class AllowLocation(NDRCALL):
 
 class AllowLocationResponse(NDRCALL):
     structure = (
-		('PBSTRALLOWLOCATION', BSTR),
+		('pbstrAllowLocation', BSTR),
     )
         
 
 class AllowLocation(NDRCALL):
     opnum = 8
     structure = (
-		('BSTRALLOWLOCATION', BSTR),
+		('bstrAllowLocation', BSTR),
     )
 
 class AllowLocationResponse(NDRCALL):
@@ -6083,38 +6083,38 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCCOUNT', UNSIGNED_LONG),
+		('pcCount', UNSIGNED_LONG),
     )
         
 
 class Item(NDRCALL):
     opnum = 1
     structure = (
-		('VARINDEX', VARIANT),
+		('varIndex', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PPCONFIGSECTION', IAPPHOSTSECTIONDEFINITION),
+		('ppConfigSection', IAPPHOSTSECTIONDEFINITION),
     )
         
 
 class AddSection(NDRCALL):
     opnum = 2
     structure = (
-		('BSTRSECTIONNAME', BSTR),
+		('bstrSectionName', BSTR),
     )
 
 class AddSectionResponse(NDRCALL):
     structure = (
-		('PPCONFIGSECTION', IAPPHOSTSECTIONDEFINITION),
+		('ppConfigSection', IAPPHOSTSECTIONDEFINITION),
     )
         
 
 class DeleteSection(NDRCALL):
     opnum = 3
     structure = (
-		('VARINDEX', VARIANT),
+		('varIndex', VARIANT),
     )
 
 class DeleteSectionResponse(NDRCALL):
@@ -6146,19 +6146,19 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCSECTIONGROUP', UNSIGNED_LONG),
+		('pcSectionGroup', UNSIGNED_LONG),
     )
         
 
 class Item(NDRCALL):
     opnum = 1
     structure = (
-		('VARINDEX', VARIANT),
+		('varIndex', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PPSECTIONGROUP', IAPPHOSTSECTIONGROUP),
+		('ppSectionGroup', IAPPHOSTSECTIONGROUP),
     )
         
 
@@ -6170,26 +6170,26 @@ class Sections(NDRCALL):
 
 class SectionsResponse(NDRCALL):
     structure = (
-		('PPSECTIONS', IAPPHOSTSECTIONDEFINITIONCOLLECTION),
+		('ppSections', IAPPHOSTSECTIONDEFINITIONCOLLECTION),
     )
         
 
 class AddSectionGroup(NDRCALL):
     opnum = 3
     structure = (
-		('BSTRSECTIONGROUPNAME', BSTR),
+		('bstrSectionGroupName', BSTR),
     )
 
 class AddSectionGroupResponse(NDRCALL):
     structure = (
-		('PPSECTIONGROUP', IAPPHOSTSECTIONGROUP),
+		('ppSectionGroup', IAPPHOSTSECTIONGROUP),
     )
         
 
 class DeleteSectionGroup(NDRCALL):
     opnum = 4
     structure = (
-		('VARINDEX', VARIANT),
+		('varIndex', VARIANT),
     )
 
 class DeleteSectionGroupResponse(NDRCALL):
@@ -6206,7 +6206,7 @@ class Name(NDRCALL):
 
 class NameResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
+		('pbstrName', BSTR),
     )
         
 
@@ -6218,14 +6218,14 @@ class Type(NDRCALL):
 
 class TypeResponse(NDRCALL):
     structure = (
-		('PBSTRTYPE', BSTR),
+		('pbstrType', BSTR),
     )
         
 
 class Type(NDRCALL):
     opnum = 7
     structure = (
-		('BSTRTYPE', BSTR),
+		('bstrType', BSTR),
     )
 
 class TypeResponse(NDRCALL):
@@ -6260,7 +6260,7 @@ class ConfigPath(NDRCALL):
 
 class ConfigPathResponse(NDRCALL):
     structure = (
-		('PBSTRCONFIGPATH', BSTR),
+		('pbstrConfigPath', BSTR),
     )
         
 
@@ -6272,7 +6272,7 @@ class FilePath(NDRCALL):
 
 class FilePathResponse(NDRCALL):
     structure = (
-		('PBSTRFILEPATH', BSTR),
+		('pbstrFilePath', BSTR),
     )
         
 
@@ -6284,40 +6284,40 @@ class Locations(NDRCALL):
 
 class LocationsResponse(NDRCALL):
     structure = (
-		('PPLOCATIONS', IAPPHOSTCONFIGLOCATIONCOLLECTION),
+		('ppLocations', IAPPHOSTCONFIGLOCATIONCOLLECTION),
     )
         
 
 class GetAdminSection(NDRCALL):
     opnum = 3
     structure = (
-		('BSTRSECTIONNAME', BSTR),
-		('BSTRPATH', BSTR),
+		('bstrSectionName', BSTR),
+		('bstrPath', BSTR),
     )
 
 class GetAdminSectionResponse(NDRCALL):
     structure = (
-		('PPADMINSECTION', IAPPHOSTELEMENT),
+		('ppAdminSection', IAPPHOSTELEMENT),
     )
         
 
 class GetMetadata(NDRCALL):
     opnum = 4
     structure = (
-		('BSTRMETADATATYPE', BSTR),
+		('bstrMetadataType', BSTR),
     )
 
 class GetMetadataResponse(NDRCALL):
     structure = (
-		('PVALUE', VARIANT),
+		('pValue', VARIANT),
     )
         
 
 class SetMetadata(NDRCALL):
     opnum = 5
     structure = (
-		('BSTRMETADATATYPE', BSTR),
-		('VALUE', VARIANT),
+		('bstrMetadataType', BSTR),
+		('value', VARIANT),
     )
 
 class SetMetadataResponse(NDRCALL):
@@ -6346,7 +6346,7 @@ class RootSectionGroup(NDRCALL):
 
 class RootSectionGroupResponse(NDRCALL):
     structure = (
-		('PPSECTIONGROUPS', IAPPHOSTSECTIONGROUP),
+		('ppSectionGroups', IAPPHOSTSECTIONGROUP),
     )
         
 OPNUMS = {
@@ -6372,13 +6372,13 @@ MSRPC_UUID_IAPPHOSTPATHMAPPER = uuidtup_to_bin(('e7927575-5c3-403-822-3286904ee'
 class MapPath(NDRCALL):
     opnum = 0
     structure = (
-		('BSTRCONFIGPATH', BSTR),
-		('BSTRMAPPEDPHYSICALPATH', BSTR),
+		('bstrConfigPath', BSTR),
+		('bstrMappedPhysicalPath', BSTR),
     )
 
 class MapPathResponse(NDRCALL):
     structure = (
-		('PBSTRNEWPHYSICALPATH', BSTR),
+		('pbstrNewPhysicalPath', BSTR),
     )
         
 OPNUMS = {
@@ -6397,8 +6397,8 @@ MSRPC_UUID_IAPPHOSTCHANGEHANDLER = uuidtup_to_bin(('09829352-87c2-418d-8d79-4133
 class OnSectionChanges(NDRCALL):
     opnum = 0
     structure = (
-		('BSTRSECTIONNAME', BSTR),
-		('BSTRCONFIGPATH', BSTR),
+		('bstrSectionName', BSTR),
+		('bstrConfigPath', BSTR),
     )
 
 class OnSectionChangesResponse(NDRCALL):
@@ -6422,33 +6422,33 @@ MSRPC_UUID_IAPPHOSTADMINMANAGER = uuidtup_to_bin(('9be77978-73ed-4a9a-87fd-13f09
 class GetAdminSection(NDRCALL):
     opnum = 0
     structure = (
-		('BSTRSECTIONNAME', BSTR),
-		('BSTRPATH', BSTR),
+		('bstrSectionName', BSTR),
+		('bstrPath', BSTR),
     )
 
 class GetAdminSectionResponse(NDRCALL):
     structure = (
-		('PPADMINSECTION', IAPPHOSTELEMENT),
+		('ppAdminSection', IAPPHOSTELEMENT),
     )
         
 
 class GetMetadata(NDRCALL):
     opnum = 1
     structure = (
-		('BSTRMETADATATYPE', BSTR),
+		('bstrMetadataType', BSTR),
     )
 
 class GetMetadataResponse(NDRCALL):
     structure = (
-		('PVALUE', VARIANT),
+		('pValue', VARIANT),
     )
         
 
 class SetMetadata(NDRCALL):
     opnum = 2
     structure = (
-		('BSTRMETADATATYPE', BSTR),
-		('VALUE', VARIANT),
+		('bstrMetadataType', BSTR),
+		('value', VARIANT),
     )
 
 class SetMetadataResponse(NDRCALL):
@@ -6465,7 +6465,7 @@ class ConfigManager(NDRCALL):
 
 class ConfigManagerResponse(NDRCALL):
     structure = (
-		('PPCONFIGMANAGER', IAPPHOSTCONFIGMANAGER),
+		('ppConfigManager', IAPPHOSTCONFIGMANAGER),
     )
         
 OPNUMS = {
@@ -6504,14 +6504,14 @@ class CommitPath(NDRCALL):
 
 class CommitPathResponse(NDRCALL):
     structure = (
-		('PBSTRCOMMITPATH', BSTR),
+		('pbstrCommitPath', BSTR),
     )
         
 
 class CommitPath(NDRCALL):
     opnum = 2
     structure = (
-		('BSTRCOMMITPATH', BSTR),
+		('bstrCommitPath', BSTR),
     )
 
 class CommitPathResponse(NDRCALL):
@@ -6536,24 +6536,24 @@ MSRPC_UUID_IAPPHOSTCONFIGMANAGER = uuidtup_to_bin(('8f6d760f-f0cb-4d69-b5f6-848b
 class GetConfigFile(NDRCALL):
     opnum = 0
     structure = (
-		('BSTRCONFIGPATH', BSTR),
+		('bstrConfigPath', BSTR),
     )
 
 class GetConfigFileResponse(NDRCALL):
     structure = (
-		('PPCONFIGFILE', IAPPHOSTCONFIGFILE),
+		('ppConfigFile', IAPPHOSTCONFIGFILE),
     )
         
 
 class GetUniqueConfigPath(NDRCALL):
     opnum = 1
     structure = (
-		('BSTRCONFIGPATH', BSTR),
+		('bstrConfigPath', BSTR),
     )
 
 class GetUniqueConfigPathResponse(NDRCALL):
     structure = (
-		('PBSTRUNIQUEPATH', BSTR),
+		('pbstrUniquePath', BSTR),
     )
         
 OPNUMS = {

@@ -1466,30 +1466,30 @@ MAX_REQUESTED_PROTSEQS = CONST_UNSIGNED_LONG
 class RemoteActivation(NDRCALL):
     opnum = 0
     structure = (
-		('HRPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('CLSID', GUID),
-		('PWSZOBJECTNAME', WCHAR_T),
-		('POBJECTSTORAGE', MINTERFACEPOINTER),
-		('CLIENTIMPLEVEL', DWORD),
-		('MODE', DWORD),
-		('INTERFACES', DWORD),
-		('PIIDS', IID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('AREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('ORPCthis', ORPCTHIS),
+		('Clsid', GUID),
+		('pwszObjectName', WCHAR_T),
+		('pObjectStorage', MINTERFACEPOINTER),
+		('ClientImpLevel', DWORD),
+		('Mode', DWORD),
+		('Interfaces', DWORD),
+		('pIIDs', IID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('aRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class RemoteActivationResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('POXID', OXID),
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
-		('PSERVERVERSION', COMVERSION),
-		('PHR', HRESULT),
-		('PPINTERFACEDATA', MINTERFACEPOINTER),
-		('PRESULTS', HRESULT),
+		('ORPCthat', ORPCTHAT),
+		('pOxid', OXID),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
+		('pServerVersion', COMVERSION),
+		('phr', HRESULT),
+		('ppInterfaceData', MINTERFACEPOINTER),
+		('pResults', HRESULT),
     )
         
 OPNUMS = {
@@ -1544,31 +1544,31 @@ class Opnum2NotUsedOnWireResponse(NDRCALL):
 class RemoteGetClassObject(NDRCALL):
     opnum = 3
     structure = (
-		('RPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('PACTPROPERTIES', MINTERFACEPOINTER),
+		('rpc', HANDLE_T),
+		('orpcthis', ORPCTHIS),
+		('pActProperties', MINTERFACEPOINTER),
     )
 
 class RemoteGetClassObjectResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('PPACTPROPERTIES', MINTERFACEPOINTER),
+		('orpcthat', ORPCTHAT),
+		('ppActProperties', MINTERFACEPOINTER),
     )
         
 
 class RemoteCreateInstance(NDRCALL):
     opnum = 4
     structure = (
-		('RPC', HANDLE_T),
-		('ORPCTHIS', ORPCTHIS),
-		('PUNKOUTER', MINTERFACEPOINTER),
-		('PACTPROPERTIES', MINTERFACEPOINTER),
+		('rpc', HANDLE_T),
+		('orpcthis', ORPCTHIS),
+		('pUnkOuter', MINTERFACEPOINTER),
+		('pActProperties', MINTERFACEPOINTER),
     )
 
 class RemoteCreateInstanceResponse(NDRCALL):
     structure = (
-		('ORPCTHAT', ORPCTHAT),
-		('PPACTPROPERTIES', MINTERFACEPOINTER),
+		('orpcthat', ORPCTHAT),
+		('ppActProperties', MINTERFACEPOINTER),
     )
         
 OPNUMS = {
@@ -1591,25 +1591,25 @@ MSRPC_UUID_IOBJECTEXPORTER = uuidtup_to_bin(('99fcfec4-5260-101b-bbcb-00aa002134
 class ResolveOxid(NDRCALL):
     opnum = 0
     structure = (
-		('HRPC', HANDLE_T),
-		('POXID', OXID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('ARREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('pOxid', OXID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('arRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class ResolveOxidResponse(NDRCALL):
     structure = (
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
     )
         
 
 class SimplePing(NDRCALL):
     opnum = 1
     structure = (
-		('HRPC', HANDLE_T),
-		('PSETID', SETID),
+		('hRpc', HANDLE_T),
+		('pSetId', SETID),
     )
 
 class SimplePingResponse(NDRCALL):
@@ -1621,26 +1621,26 @@ class SimplePingResponse(NDRCALL):
 class ComplexPing(NDRCALL):
     opnum = 2
     structure = (
-		('HRPC', HANDLE_T),
-		('PSETID', SETID),
-		('SEQUENCENUM', UNSIGNED_SHORT),
-		('CADDTOSET', UNSIGNED_SHORT),
-		('CDELFROMSET', UNSIGNED_SHORT),
-		('ADDTOSET', OID),
-		('DELFROMSET', OID),
+		('hRpc', HANDLE_T),
+		('pSetId', SETID),
+		('SequenceNum', UNSIGNED_SHORT),
+		('cAddToSet', UNSIGNED_SHORT),
+		('cDelFromSet', UNSIGNED_SHORT),
+		('AddToSet', OID),
+		('DelFromSet', OID),
     )
 
 class ComplexPingResponse(NDRCALL):
     structure = (
-		('PSETID', SETID),
-		('PPINGBACKOFFFACTOR', UNSIGNED_SHORT),
+		('pSetId', SETID),
+		('pPingBackoffFactor', UNSIGNED_SHORT),
     )
         
 
 class ServerAlive(NDRCALL):
     opnum = 3
     structure = (
-		('HRPC', HANDLE_T),
+		('hRpc', HANDLE_T),
     )
 
 class ServerAliveResponse(NDRCALL):
@@ -1652,32 +1652,32 @@ class ServerAliveResponse(NDRCALL):
 class ResolveOxid2(NDRCALL):
     opnum = 4
     structure = (
-		('HRPC', HANDLE_T),
-		('POXID', OXID),
-		('CREQUESTEDPROTSEQS', UNSIGNED_SHORT),
-		('ARREQUESTEDPROTSEQS', UNSIGNED_SHORT),
+		('hRpc', HANDLE_T),
+		('pOxid', OXID),
+		('cRequestedProtseqs', UNSIGNED_SHORT),
+		('arRequestedProtseqs', UNSIGNED_SHORT),
     )
 
 class ResolveOxid2Response(NDRCALL):
     structure = (
-		('PPDSAOXIDBINDINGS', DUALSTRINGARRAY),
-		('PIPIDREMUNKNOWN', IPID),
-		('PAUTHNHINT', DWORD),
-		('PCOMVERSION', COMVERSION),
+		('ppdsaOxidBindings', DUALSTRINGARRAY),
+		('pipidRemUnknown', IPID),
+		('pAuthnHint', DWORD),
+		('pComVersion', COMVERSION),
     )
         
 
 class ServerAlive2(NDRCALL):
     opnum = 5
     structure = (
-		('HRPC', HANDLE_T),
+		('hRpc', HANDLE_T),
     )
 
 class ServerAlive2Response(NDRCALL):
     structure = (
-		('PCOMVERSION', COMVERSION),
-		('PPDSAORBINDINGS', DUALSTRINGARRAY),
-		('PRESERVED', DWORD),
+		('pComVersion', COMVERSION),
+		('ppdsaOrBindings', DUALSTRINGARRAY),
+		('pReserved', DWORD),
     )
         
 OPNUMS = {
@@ -1751,36 +1751,36 @@ MSRPC_UUID_IREMUNKNOWN = uuidtup_to_bin(('00000131-0000-0000-C000-000000000046',
 class RemQueryInterface(NDRCALL):
     opnum = 0
     structure = (
-		('RIPID', REFIPID),
-		('CREFS', UNSIGNED_LONG),
-		('CIIDS', UNSIGNED_SHORT),
-		('IIDS', IID),
+		('ripid', REFIPID),
+		('cRefs', UNSIGNED_LONG),
+		('cIids', UNSIGNED_SHORT),
+		('iids', IID),
     )
 
 class RemQueryInterfaceResponse(NDRCALL):
     structure = (
-		('PPQIRESULTS', PREMQIRESULT),
+		('ppQIResults', PREMQIRESULT),
     )
         
 
 class RemAddRef(NDRCALL):
     opnum = 1
     structure = (
-		('CINTERFACEREFS', UNSIGNED_SHORT),
-		('INTERFACEREFS', REMINTERFACEREF),
+		('cInterfaceRefs', UNSIGNED_SHORT),
+		('InterfaceRefs', REMINTERFACEREF),
     )
 
 class RemAddRefResponse(NDRCALL):
     structure = (
-		('PRESULTS', HRESULT),
+		('pResults', HRESULT),
     )
         
 
 class RemRelease(NDRCALL):
     opnum = 2
     structure = (
-		('CINTERFACEREFS', UNSIGNED_SHORT),
-		('INTERFACEREFS', REMINTERFACEREF),
+		('cInterfaceRefs', UNSIGNED_SHORT),
+		('InterfaceRefs', REMINTERFACEREF),
     )
 
 class RemReleaseResponse(NDRCALL):
@@ -1806,15 +1806,15 @@ MSRPC_UUID_IREMUNKNOWN2 = uuidtup_to_bin(('00000143-0000-0000-C000-000000000046'
 class RemQueryInterface2(NDRCALL):
     opnum = 0
     structure = (
-		('RIPID', REFIPID),
-		('CIIDS', UNSIGNED_SHORT),
-		('IIDS', IID),
+		('ripid', REFIPID),
+		('cIids', UNSIGNED_SHORT),
+		('iids', IID),
     )
 
 class RemQueryInterface2Response(NDRCALL):
     structure = (
-		('PHR', HRESULT),
-		('PPMIF', PMINTERFACEPOINTERINTERNAL),
+		('phr', HRESULT),
+		('ppMIF', PMINTERFACEPOINTERINTERNAL),
     )
         
 OPNUMS = {
@@ -2446,57 +2446,57 @@ class GetTypeInfoCount(NDRCALL):
 
 class GetTypeInfoCountResponse(NDRCALL):
     structure = (
-		('PCTINFO', UINT),
+		('pctinfo', UINT),
     )
         
 
 class GetTypeInfo(NDRCALL):
     opnum = 1
     structure = (
-		('ITINFO', UINT),
-		('LCID', LCID),
+		('iTInfo', UINT),
+		('lcid', LCID),
     )
 
 class GetTypeInfoResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
 class GetIDsOfNames(NDRCALL):
     opnum = 2
     structure = (
-		('RIID', REFIID),
-		('RGSZNAMES', LPOLESTR),
-		('CNAMES', UINT),
-		('LCID', LCID),
+		('riid', REFIID),
+		('rgszNames', LPOLESTR),
+		('cNames', UINT),
+		('lcid', LCID),
     )
 
 class GetIDsOfNamesResponse(NDRCALL):
     structure = (
-		('RGDISPID', DISPID),
+		('rgDispId', DISPID),
     )
         
 
 class Invoke(NDRCALL):
     opnum = 3
     structure = (
-		('DISPIDMEMBER', DISPID),
-		('RIID', REFIID),
-		('LCID', LCID),
-		('DWFLAGS', DWORD),
-		('PDISPPARAMS', DISPPARAMS),
-		('CVARREF', UINT),
-		('RGVARREFIDX', UINT),
-		('RGVARREF', VARIANT),
+		('dispIdMember', DISPID),
+		('riid', REFIID),
+		('lcid', LCID),
+		('dwFlags', DWORD),
+		('pDispParams', DISPPARAMS),
+		('cVarRef', UINT),
+		('rgVarRefIdx', UINT),
+		('rgVarRef', VARIANT),
     )
 
 class InvokeResponse(NDRCALL):
     structure = (
-		('PVARRESULT', VARIANT),
-		('PEXCEPINFO', EXCEPINFO),
-		('PARGERR', UINT),
-		('RGVARREF', VARIANT),
+		('pVarResult', VARIANT),
+		('pExcepInfo', EXCEPINFO),
+		('pArgErr', UINT),
+		('rgVarRef', VARIANT),
     )
         
 OPNUMS = {
@@ -2518,20 +2518,20 @@ MSRPC_UUID_IENUMVARIANT = uuidtup_to_bin(('00020404-0000-0000-C000-000000000046'
 class Next(NDRCALL):
     opnum = 0
     structure = (
-		('CELT', ULONG),
+		('celt', ULONG),
     )
 
 class NextResponse(NDRCALL):
     structure = (
-		('RGVAR', VARIANT),
-		('PCELTFETCHED', ULONG),
+		('rgVar', VARIANT),
+		('pCeltFetched', ULONG),
     )
         
 
 class Skip(NDRCALL):
     opnum = 1
     structure = (
-		('CELT', ULONG),
+		('celt', ULONG),
     )
 
 class SkipResponse(NDRCALL):
@@ -2560,7 +2560,7 @@ class Clone(NDRCALL):
 
 class CloneResponse(NDRCALL):
     structure = (
-		('PPENUM', IENUMVARIANT),
+		('ppEnum', IENUMVARIANT),
     )
         
 OPNUMS = {
@@ -2582,32 +2582,32 @@ MSRPC_UUID_ITYPECOMP = uuidtup_to_bin(('00020403-0000-0000-C000-000000000046','0
 class Bind(NDRCALL):
     opnum = 0
     structure = (
-		('SZNAME', LPOLESTR),
-		('LHASHVAL', ULONG),
-		('WFLAGS', WORD),
+		('szName', LPOLESTR),
+		('lHashVal', ULONG),
+		('wFlags', WORD),
     )
 
 class BindResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
-		('PDESCKIND', DESCKIND),
-		('PPFUNCDESC', LPFUNCDESC),
-		('PPVARDESC', LPVARDESC),
-		('PPTYPECOMP', ITYPECOMP),
-		('PRESERVED', DWORD),
+		('ppTInfo', ITYPEINFO),
+		('pDescKind', DESCKIND),
+		('ppFuncDesc', LPFUNCDESC),
+		('ppVarDesc', LPVARDESC),
+		('ppTypeComp', ITYPECOMP),
+		('pReserved', DWORD),
     )
         
 
 class BindType(NDRCALL):
     opnum = 1
     structure = (
-		('SZNAME', LPOLESTR),
-		('LHASHVAL', ULONG),
+		('szName', LPOLESTR),
+		('lHashVal', ULONG),
     )
 
 class BindTypeResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 OPNUMS = {
@@ -2632,8 +2632,8 @@ class GetTypeAttr(NDRCALL):
 
 class GetTypeAttrResponse(NDRCALL):
     structure = (
-		('PPTYPEATTR', LPTYPEATTR),
-		('PRESERVED', DWORD),
+		('ppTypeAttr', LPTYPEATTR),
+		('pReserved', DWORD),
     )
         
 
@@ -2645,71 +2645,71 @@ class GetTypeComp(NDRCALL):
 
 class GetTypeCompResponse(NDRCALL):
     structure = (
-		('PPTCOMP', ITYPECOMP),
+		('ppTComp', ITYPECOMP),
     )
         
 
 class GetFuncDesc(NDRCALL):
     opnum = 2
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetFuncDescResponse(NDRCALL):
     structure = (
-		('PPFUNCDESC', LPFUNCDESC),
-		('PRESERVED', DWORD),
+		('ppFuncDesc', LPFUNCDESC),
+		('pReserved', DWORD),
     )
         
 
 class GetVarDesc(NDRCALL):
     opnum = 3
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetVarDescResponse(NDRCALL):
     structure = (
-		('PPVARDESC', LPVARDESC),
-		('PRESERVED', DWORD),
+		('ppVarDesc', LPVARDESC),
+		('pReserved', DWORD),
     )
         
 
 class GetNames(NDRCALL):
     opnum = 4
     structure = (
-		('MEMID', MEMBERID),
-		('CMAXNAMES', UINT),
+		('memid', MEMBERID),
+		('cMaxNames', UINT),
     )
 
 class GetNamesResponse(NDRCALL):
     structure = (
-		('RGBSTRNAMES', BSTR),
-		('PCNAMES', UINT),
+		('rgBstrNames', BSTR),
+		('pcNames', UINT),
     )
         
 
 class GetRefTypeOfImplType(NDRCALL):
     opnum = 5
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetRefTypeOfImplTypeResponse(NDRCALL):
     structure = (
-		('PREFTYPE', HREFTYPE),
+		('pRefType', HREFTYPE),
     )
         
 
 class GetImplTypeFlags(NDRCALL):
     opnum = 6
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetImplTypeFlagsResponse(NDRCALL):
     structure = (
-		('PIMPLTYPEFLAGS', INT),
+		('pImplTypeFlags', INT),
     )
         
 
@@ -2740,44 +2740,44 @@ class Opnum11NotUsedOnWireResponse(NDRCALL):
 class GetDocumentation(NDRCALL):
     opnum = 9
     structure = (
-		('MEMID', MEMBERID),
-		('REFPTRFLAGS', DWORD),
+		('memid', MEMBERID),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentationResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
-		('PBSTRDOCSTRING', BSTR),
-		('PDWHELPCONTEXT', DWORD),
-		('PBSTRHELPFILE', BSTR),
+		('pBstrName', BSTR),
+		('pBstrDocString', BSTR),
+		('pdwHelpContext', DWORD),
+		('pBstrHelpFile', BSTR),
     )
         
 
 class GetDllEntry(NDRCALL):
     opnum = 10
     structure = (
-		('MEMID', MEMBERID),
-		('INVKIND', INVOKEKIND),
-		('REFPTRFLAGS', DWORD),
+		('memid', MEMBERID),
+		('invKind', INVOKEKIND),
+		('refPtrFlags', DWORD),
     )
 
 class GetDllEntryResponse(NDRCALL):
     structure = (
-		('PBSTRDLLNAME', BSTR),
-		('PBSTRNAME', BSTR),
-		('PWORDINAL', WORD),
+		('pBstrDllName', BSTR),
+		('pBstrName', BSTR),
+		('pwOrdinal', WORD),
     )
         
 
 class GetRefTypeInfo(NDRCALL):
     opnum = 11
     structure = (
-		('HREFTYPE', HREFTYPE),
+		('hRefType', HREFTYPE),
     )
 
 class GetRefTypeInfoResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
@@ -2796,24 +2796,24 @@ class Opnum15NotUsedOnWireResponse(NDRCALL):
 class CreateInstance(NDRCALL):
     opnum = 13
     structure = (
-		('RIID', REFIID),
+		('riid', REFIID),
     )
 
 class CreateInstanceResponse(NDRCALL):
     structure = (
-		('PPVOBJ', IUNKNOWN),
+		('ppvObj', IUNKNOWN),
     )
         
 
 class GetMops(NDRCALL):
     opnum = 14
     structure = (
-		('MEMID', MEMBERID),
+		('memid', MEMBERID),
     )
 
 class GetMopsResponse(NDRCALL):
     structure = (
-		('PBSTRMOPS', BSTR),
+		('pBstrMops', BSTR),
     )
         
 
@@ -2825,8 +2825,8 @@ class GetContainingTypeLib(NDRCALL):
 
 class GetContainingTypeLibResponse(NDRCALL):
     structure = (
-		('PPTLIB', ITYPELIB),
-		('PINDEX', UINT),
+		('ppTLib', ITYPELIB),
+		('pIndex', UINT),
     )
         
 
@@ -2904,7 +2904,7 @@ class GetTypeKind(NDRCALL):
 
 class GetTypeKindResponse(NDRCALL):
     structure = (
-		('PTYPEKIND', TYPEKIND),
+		('pTypeKind', TYPEKIND),
     )
         
 
@@ -2916,113 +2916,113 @@ class GetTypeFlags(NDRCALL):
 
 class GetTypeFlagsResponse(NDRCALL):
     structure = (
-		('PTYPEFLAGS', ULONG),
+		('pTypeFlags', ULONG),
     )
         
 
 class GetFuncIndexOfMemId(NDRCALL):
     opnum = 2
     structure = (
-		('MEMID', MEMBERID),
-		('INVKIND', INVOKEKIND),
+		('memid', MEMBERID),
+		('invKind', INVOKEKIND),
     )
 
 class GetFuncIndexOfMemIdResponse(NDRCALL):
     structure = (
-		('PFUNCINDEX', UINT),
+		('pFuncIndex', UINT),
     )
         
 
 class GetVarIndexOfMemId(NDRCALL):
     opnum = 3
     structure = (
-		('MEMID', MEMBERID),
+		('memid', MEMBERID),
     )
 
 class GetVarIndexOfMemIdResponse(NDRCALL):
     structure = (
-		('PVARINDEX', UINT),
+		('pVarIndex', UINT),
     )
         
 
 class GetCustData(NDRCALL):
     opnum = 4
     structure = (
-		('GUID', REFGUID),
+		('guid', REFGUID),
     )
 
 class GetCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetFuncCustData(NDRCALL):
     opnum = 5
     structure = (
-		('INDEX', UINT),
-		('GUID', REFGUID),
+		('index', UINT),
+		('guid', REFGUID),
     )
 
 class GetFuncCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetParamCustData(NDRCALL):
     opnum = 6
     structure = (
-		('INDEXFUNC', UINT),
-		('INDEXPARAM', UINT),
-		('GUID', REFGUID),
+		('indexFunc', UINT),
+		('indexParam', UINT),
+		('guid', REFGUID),
     )
 
 class GetParamCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetVarCustData(NDRCALL):
     opnum = 7
     structure = (
-		('INDEX', UINT),
-		('GUID', REFGUID),
+		('index', UINT),
+		('guid', REFGUID),
     )
 
 class GetVarCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetImplTypeCustData(NDRCALL):
     opnum = 8
     structure = (
-		('INDEX', UINT),
-		('GUID', REFGUID),
+		('index', UINT),
+		('guid', REFGUID),
     )
 
 class GetImplTypeCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
 class GetDocumentation2(NDRCALL):
     opnum = 9
     structure = (
-		('MEMID', MEMBERID),
-		('LCID', LCID),
-		('REFPTRFLAGS', DWORD),
+		('memid', MEMBERID),
+		('lcid', LCID),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentation2Response(NDRCALL):
     structure = (
-		('PBSTRHELPSTRING', BSTR),
-		('PDWHELPSTRINGCONTEXT', DWORD),
-		('PBSTRHELPSTRINGDLL', BSTR),
+		('pbstrHelpString', BSTR),
+		('pdwHelpStringContext', DWORD),
+		('pbstrHelpStringDll', BSTR),
     )
         
 
@@ -3034,56 +3034,56 @@ class GetAllCustData(NDRCALL):
 
 class GetAllCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllFuncCustData(NDRCALL):
     opnum = 11
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetAllFuncCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllParamCustData(NDRCALL):
     opnum = 12
     structure = (
-		('INDEXFUNC', UINT),
-		('INDEXPARAM', UINT),
+		('indexFunc', UINT),
+		('indexParam', UINT),
     )
 
 class GetAllParamCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllVarCustData(NDRCALL):
     opnum = 13
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetAllVarCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 
 class GetAllImplTypeCustData(NDRCALL):
     opnum = 14
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetAllImplTypeCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 OPNUMS = {
@@ -3121,43 +3121,43 @@ class GetTypeInfoCount(NDRCALL):
 
 class GetTypeInfoCountResponse(NDRCALL):
     structure = (
-		('PCTINFO', UINT),
+		('pcTInfo', UINT),
     )
         
 
 class GetTypeInfo(NDRCALL):
     opnum = 1
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetTypeInfoResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
 class GetTypeInfoType(NDRCALL):
     opnum = 2
     structure = (
-		('INDEX', UINT),
+		('index', UINT),
     )
 
 class GetTypeInfoTypeResponse(NDRCALL):
     structure = (
-		('PTKIND', TYPEKIND),
+		('pTKind', TYPEKIND),
     )
         
 
 class GetTypeInfoOfGuid(NDRCALL):
     opnum = 3
     structure = (
-		('GUID', REFGUID),
+		('guid', REFGUID),
     )
 
 class GetTypeInfoOfGuidResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
+		('ppTInfo', ITYPEINFO),
     )
         
 
@@ -3169,8 +3169,8 @@ class GetLibAttr(NDRCALL):
 
 class GetLibAttrResponse(NDRCALL):
     structure = (
-		('PPTLIBATTR', LPTLIBATTR),
-		('PRESERVED', DWORD),
+		('ppTLibAttr', LPTLIBATTR),
+		('pReserved', DWORD),
     )
         
 
@@ -3182,54 +3182,54 @@ class GetTypeComp(NDRCALL):
 
 class GetTypeCompResponse(NDRCALL):
     structure = (
-		('PPTCOMP', ITYPECOMP),
+		('ppTComp', ITYPECOMP),
     )
         
 
 class GetDocumentation(NDRCALL):
     opnum = 6
     structure = (
-		('INDEX', INT),
-		('REFPTRFLAGS', DWORD),
+		('index', INT),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentationResponse(NDRCALL):
     structure = (
-		('PBSTRNAME', BSTR),
-		('PBSTRDOCSTRING', BSTR),
-		('PDWHELPCONTEXT', DWORD),
-		('PBSTRHELPFILE', BSTR),
+		('pBstrName', BSTR),
+		('pBstrDocString', BSTR),
+		('pdwHelpContext', DWORD),
+		('pBstrHelpFile', BSTR),
     )
         
 
 class IsName(NDRCALL):
     opnum = 7
     structure = (
-		('SZNAMEBUF', LPOLESTR),
-		('LHASHVAL', ULONG),
+		('szNameBuf', LPOLESTR),
+		('lHashVal', ULONG),
     )
 
 class IsNameResponse(NDRCALL):
     structure = (
-		('PFNAME', BOOL),
-		('PBSTRNAMEINLIBRARY', BSTR),
+		('pfName', BOOL),
+		('pBstrNameInLibrary', BSTR),
     )
         
 
 class FindName(NDRCALL):
     opnum = 8
     structure = (
-		('SZNAMEBUF', LPOLESTR),
-		('LHASHVAL', ULONG),
-		('PCFOUND', USHORT),
+		('szNameBuf', LPOLESTR),
+		('lHashVal', ULONG),
+		('pcFound', USHORT),
     )
 
 class FindNameResponse(NDRCALL):
     structure = (
-		('PPTINFO', ITYPEINFO),
-		('RGMEMID', MEMBERID),
-		('PCFOUND', USHORT),
-		('PBSTRNAMEINLIBRARY', BSTR),
+		('ppTInfo', ITYPEINFO),
+		('rgMemId', MEMBERID),
+		('pcFound', USHORT),
+		('pBstrNameInLibrary', BSTR),
     )
         
 
@@ -3269,12 +3269,12 @@ MSRPC_UUID_ITYPELIB2 = uuidtup_to_bin(('00020411-0000-0000-C000-000000000046','0
 class GetCustData(NDRCALL):
     opnum = 0
     structure = (
-		('GUID', REFGUID),
+		('guid', REFGUID),
     )
 
 class GetCustDataResponse(NDRCALL):
     structure = (
-		('PVARVAL', VARIANT),
+		('pVarVal', VARIANT),
     )
         
 
@@ -3286,24 +3286,24 @@ class GetLibStatistics(NDRCALL):
 
 class GetLibStatisticsResponse(NDRCALL):
     structure = (
-		('PCUNIQUENAMES', ULONG),
-		('PCCHUNIQUENAMES', ULONG),
+		('pcUniqueNames', ULONG),
+		('pcchUniqueNames', ULONG),
     )
         
 
 class GetDocumentation2(NDRCALL):
     opnum = 2
     structure = (
-		('INDEX', INT),
-		('LCID', LCID),
-		('REFPTRFLAGS', DWORD),
+		('index', INT),
+		('lcid', LCID),
+		('refPtrFlags', DWORD),
     )
 
 class GetDocumentation2Response(NDRCALL):
     structure = (
-		('PBSTRHELPSTRING', BSTR),
-		('PDWHELPSTRINGCONTEXT', DWORD),
-		('PBSTRHELPSTRINGDLL', BSTR),
+		('pbstrHelpString', BSTR),
+		('pdwHelpStringContext', DWORD),
+		('pbstrHelpStringDll', BSTR),
     )
         
 
@@ -3315,7 +3315,7 @@ class GetAllCustData(NDRCALL):
 
 class GetAllCustDataResponse(NDRCALL):
     structure = (
-		('PCUSTDATA', CUSTDATA),
+		('pCustData', CUSTDATA),
     )
         
 OPNUMS = {
@@ -3739,9 +3739,9 @@ MSRPC_UUID_ITRANSACTION = uuidtup_to_bin(('0fb15084-af41-11ce-bd2b-204c4f4f5020'
 class Commit(NDRCALL):
     opnum = 0
     structure = (
-		('FRETAINING', SHORT),
-		('GRFTC', DWORD),
-		('GRFRM', DWORD),
+		('fRetaining', SHORT),
+		('grfTC', DWORD),
+		('grfRM', DWORD),
     )
 
 class CommitResponse(NDRCALL):
@@ -3753,9 +3753,9 @@ class CommitResponse(NDRCALL):
 class Abort(NDRCALL):
     opnum = 1
     structure = (
-		('PBOIDREASON', BOID),
-		('FRETAINING', SHORT),
-		('FASYNC', SHORT),
+		('pboidReason', BOID),
+		('fRetaining', SHORT),
+		('fAsync', SHORT),
     )
 
 class AbortResponse(NDRCALL):
@@ -3772,7 +3772,7 @@ class GetTransactionInfo(NDRCALL):
 
 class GetTransactionInfoResponse(NDRCALL):
     structure = (
-		('PINFO', XACTTRANSINFO),
+		('pinfo', XACTTRANSINFO),
     )
         
 OPNUMS = {
@@ -3813,20 +3813,20 @@ class LPCONNECTDATA(NDRSTRUCT):
 class Next(NDRCALL):
     opnum = 0
     structure = (
-		('CCONNECTIONS', ULONG),
+		('cConnections', ULONG),
     )
 
 class NextResponse(NDRCALL):
     structure = (
-		('RGCD', LPCONNECTDATA),
-		('PCFETCHED', ULONG),
+		('rgcd', LPCONNECTDATA),
+		('pcFetched', ULONG),
     )
         
 
 class Skip(NDRCALL):
     opnum = 1
     structure = (
-		('CCONNECTIONS', ULONG),
+		('cConnections', ULONG),
     )
 
 class SkipResponse(NDRCALL):
@@ -3855,7 +3855,7 @@ class Clone(NDRCALL):
 
 class CloneResponse(NDRCALL):
     structure = (
-		('PPENUM', IENUMCONNECTIONS),
+		('ppEnum', IENUMCONNECTIONS),
     )
         
 OPNUMS = {
@@ -3884,7 +3884,7 @@ class GetConnectionInterface(NDRCALL):
 
 class GetConnectionInterfaceResponse(NDRCALL):
     structure = (
-		('PIID', IID),
+		('pIID', IID),
     )
         
 
@@ -3896,26 +3896,26 @@ class GetConnectionPointContainer(NDRCALL):
 
 class GetConnectionPointContainerResponse(NDRCALL):
     structure = (
-		('PPCPC', ICONNECTIONPOINTCONTAINER),
+		('ppCPC', ICONNECTIONPOINTCONTAINER),
     )
         
 
 class Advise(NDRCALL):
     opnum = 2
     structure = (
-		('PUNKSINK', IUNKNOWN),
+		('pUnkSink', IUNKNOWN),
     )
 
 class AdviseResponse(NDRCALL):
     structure = (
-		('PDWCOOKIE', DWORD),
+		('pdwCookie', DWORD),
     )
         
 
 class Unadvise(NDRCALL):
     opnum = 3
     structure = (
-		('DWCOOKIE', DWORD),
+		('dwCookie', DWORD),
     )
 
 class UnadviseResponse(NDRCALL):
@@ -3932,7 +3932,7 @@ class EnumConnections(NDRCALL):
 
 class EnumConnectionsResponse(NDRCALL):
     structure = (
-		('PPENUM', IENUMCONNECTIONS),
+		('ppEnum', IENUMCONNECTIONS),
     )
         
 OPNUMS = {
@@ -3957,20 +3957,20 @@ LPENUMCONNECTIONPOINTS = IENUMCONNECTIONPOINTS
 class Next(NDRCALL):
     opnum = 0
     structure = (
-		('CCONNECTIONS', ULONG),
+		('cConnections', ULONG),
     )
 
 class NextResponse(NDRCALL):
     structure = (
-		('PPCP', LPCONNECTIONPOINT),
-		('PCFETCHED', ULONG),
+		('ppCP', LPCONNECTIONPOINT),
+		('pcFetched', ULONG),
     )
         
 
 class Skip(NDRCALL):
     opnum = 1
     structure = (
-		('CCONNECTIONS', ULONG),
+		('cConnections', ULONG),
     )
 
 class SkipResponse(NDRCALL):
@@ -3999,7 +3999,7 @@ class Clone(NDRCALL):
 
 class CloneResponse(NDRCALL):
     structure = (
-		('PPENUM', IENUMCONNECTIONPOINTS),
+		('ppEnum', IENUMCONNECTIONPOINTS),
     )
         
 OPNUMS = {
@@ -4028,19 +4028,19 @@ class EnumConnectionPoints(NDRCALL):
 
 class EnumConnectionPointsResponse(NDRCALL):
     structure = (
-		('PPENUM', IENUMCONNECTIONPOINTS),
+		('ppEnum', IENUMCONNECTIONPOINTS),
     )
         
 
 class FindConnectionPoint(NDRCALL):
     opnum = 1
     structure = (
-		('RIID', REFIID),
+		('riid', REFIID),
     )
 
 class FindConnectionPointResponse(NDRCALL):
     structure = (
-		('PPCP', ICONNECTIONPOINT),
+		('ppCP', ICONNECTIONPOINT),
     )
         
 OPNUMS = {
@@ -4060,20 +4060,20 @@ MSRPC_UUID_IMSMQQUERY = uuidtup_to_bin(('D7D6E072-DCCD-110-AA4B-0060970EBAE','0.
 class LookupQueue(NDRCALL):
     opnum = 0
     structure = (
-		('QUEUEGUID', VARIANT),
-		('SERVICETYPEGUID', VARIANT),
-		('LABEL', VARIANT),
-		('CREATETIME', VARIANT),
-		('MODIFYTIME', VARIANT),
-		('RELSERVICETYPE', VARIANT),
-		('RELLABEL', VARIANT),
-		('RELCREATETIME', VARIANT),
-		('RELMODIFYTIME', VARIANT),
+		('QueueGuid', VARIANT),
+		('ServiceTypeGuid', VARIANT),
+		('Label', VARIANT),
+		('CreateTime', VARIANT),
+		('ModifyTime', VARIANT),
+		('RelServiceType', VARIANT),
+		('RelLabel', VARIANT),
+		('RelCreateTime', VARIANT),
+		('RelModifyTime', VARIANT),
     )
 
 class LookupQueueResponse(NDRCALL):
     structure = (
-		('PPQINFOS', IMSMQQUEUEINFOS),
+		('ppqinfos', IMSMQQUEUEINFOS),
     )
         
 OPNUMS = {
@@ -4092,20 +4092,20 @@ MSRPC_UUID_IMSMQQUERY2 = uuidtup_to_bin(('eba96b0e-2168-113-898-00020746','0.0')
 class LookupQueue(NDRCALL):
     opnum = 0
     structure = (
-		('QUEUEGUID', VARIANT),
-		('SERVICETYPEGUID', VARIANT),
-		('LABEL', VARIANT),
-		('CREATETIME', VARIANT),
-		('MODIFYTIME', VARIANT),
-		('RELSERVICETYPE', VARIANT),
-		('RELLABEL', VARIANT),
-		('RELCREATETIME', VARIANT),
-		('RELMODIFYTIME', VARIANT),
+		('QueueGuid', VARIANT),
+		('ServiceTypeGuid', VARIANT),
+		('Label', VARIANT),
+		('CreateTime', VARIANT),
+		('ModifyTime', VARIANT),
+		('RelServiceType', VARIANT),
+		('RelLabel', VARIANT),
+		('RelCreateTime', VARIANT),
+		('RelModifyTime', VARIANT),
     )
 
 class LookupQueueResponse(NDRCALL):
     structure = (
-		('PPQINFOS', IMSMQQUEUEINFOS2),
+		('ppqinfos', IMSMQQUEUEINFOS2),
     )
         
 
@@ -4117,7 +4117,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -4137,20 +4137,20 @@ MSRPC_UUID_IMSMQQUERY3 = uuidtup_to_bin(('eba96b19-2168-113-898-00020746','0.0')
 class LookupQueue_v2(NDRCALL):
     opnum = 0
     structure = (
-		('QUEUEGUID', VARIANT),
-		('SERVICETYPEGUID', VARIANT),
-		('LABEL', VARIANT),
-		('CREATETIME', VARIANT),
-		('MODIFYTIME', VARIANT),
-		('RELSERVICETYPE', VARIANT),
-		('RELLABEL', VARIANT),
-		('RELCREATETIME', VARIANT),
-		('RELMODIFYTIME', VARIANT),
+		('QueueGuid', VARIANT),
+		('ServiceTypeGuid', VARIANT),
+		('Label', VARIANT),
+		('CreateTime', VARIANT),
+		('ModifyTime', VARIANT),
+		('RelServiceType', VARIANT),
+		('RelLabel', VARIANT),
+		('RelCreateTime', VARIANT),
+		('RelModifyTime', VARIANT),
     )
 
 class LookupQueue_v2Response(NDRCALL):
     structure = (
-		('PPQINFOS', IMSMQQUEUEINFOS3),
+		('ppqinfos', IMSMQQUEUEINFOS3),
     )
         
 
@@ -4162,29 +4162,29 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 
 class LookupQueue(NDRCALL):
     opnum = 2
     structure = (
-		('QUEUEGUID', VARIANT),
-		('SERVICETYPEGUID', VARIANT),
-		('LABEL', VARIANT),
-		('CREATETIME', VARIANT),
-		('MODIFYTIME', VARIANT),
-		('RELSERVICETYPE', VARIANT),
-		('RELLABEL', VARIANT),
-		('RELCREATETIME', VARIANT),
-		('RELMODIFYTIME', VARIANT),
-		('MULTICASTADDRESS', VARIANT),
-		('RELMULTICASTADDRESS', VARIANT),
+		('QueueGuid', VARIANT),
+		('ServiceTypeGuid', VARIANT),
+		('Label', VARIANT),
+		('CreateTime', VARIANT),
+		('ModifyTime', VARIANT),
+		('RelServiceType', VARIANT),
+		('RelLabel', VARIANT),
+		('RelCreateTime', VARIANT),
+		('RelModifyTime', VARIANT),
+		('MulticastAddress', VARIANT),
+		('RelMulticastAddress', VARIANT),
     )
 
 class LookupQueueResponse(NDRCALL):
     structure = (
-		('PPQINFOS', IMSMQQUEUEINFOS3),
+		('ppqinfos', IMSMQQUEUEINFOS3),
     )
         
 OPNUMS = {
@@ -4205,20 +4205,20 @@ MSRPC_UUID_IMSMQQUERY4 = uuidtup_to_bin(('eba96b24-2168-113-898-00020746','0.0')
 class LookupQueue_v2(NDRCALL):
     opnum = 0
     structure = (
-		('QUEUEGUID', VARIANT),
-		('SERVICETYPEGUID', VARIANT),
-		('LABEL', VARIANT),
-		('CREATETIME', VARIANT),
-		('MODIFYTIME', VARIANT),
-		('RELSERVICETYPE', VARIANT),
-		('RELLABEL', VARIANT),
-		('RELCREATETIME', VARIANT),
-		('RELMODIFYTIME', VARIANT),
+		('QueueGuid', VARIANT),
+		('ServiceTypeGuid', VARIANT),
+		('Label', VARIANT),
+		('CreateTime', VARIANT),
+		('ModifyTime', VARIANT),
+		('RelServiceType', VARIANT),
+		('RelLabel', VARIANT),
+		('RelCreateTime', VARIANT),
+		('RelModifyTime', VARIANT),
     )
 
 class LookupQueue_v2Response(NDRCALL):
     structure = (
-		('PPQINFOS', IMSMQQUEUEINFOS4),
+		('ppqinfos', IMSMQQUEUEINFOS4),
     )
         
 
@@ -4230,29 +4230,29 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 
 class LookupQueue(NDRCALL):
     opnum = 2
     structure = (
-		('QUEUEGUID', VARIANT),
-		('SERVICETYPEGUID', VARIANT),
-		('LABEL', VARIANT),
-		('CREATETIME', VARIANT),
-		('MODIFYTIME', VARIANT),
-		('RELSERVICETYPE', VARIANT),
-		('RELLABEL', VARIANT),
-		('RELCREATETIME', VARIANT),
-		('RELMODIFYTIME', VARIANT),
-		('MULTICASTADDRESS', VARIANT),
-		('RELMULTICASTADDRESS', VARIANT),
+		('QueueGuid', VARIANT),
+		('ServiceTypeGuid', VARIANT),
+		('Label', VARIANT),
+		('CreateTime', VARIANT),
+		('ModifyTime', VARIANT),
+		('RelServiceType', VARIANT),
+		('RelLabel', VARIANT),
+		('RelCreateTime', VARIANT),
+		('RelModifyTime', VARIANT),
+		('MulticastAddress', VARIANT),
+		('RelMulticastAddress', VARIANT),
     )
 
 class LookupQueueResponse(NDRCALL):
     structure = (
-		('PPQINFOS', IMSMQQUEUEINFOS4),
+		('ppqinfos', IMSMQQUEUEINFOS4),
     )
         
 OPNUMS = {
@@ -4278,7 +4278,7 @@ class Class(NDRCALL):
 
 class ClassResponse(NDRCALL):
     structure = (
-		('PLCLASS', LONG),
+		('plClass', LONG),
     )
         
 
@@ -4290,14 +4290,14 @@ class PrivLevel(NDRCALL):
 
 class PrivLevelResponse(NDRCALL):
     structure = (
-		('PLPRIVLEVEL', LONG),
+		('plPrivLevel', LONG),
     )
         
 
 class PrivLevel(NDRCALL):
     opnum = 2
     structure = (
-		('LPRIVLEVEL', LONG),
+		('lPrivLevel', LONG),
     )
 
 class PrivLevelResponse(NDRCALL):
@@ -4314,14 +4314,14 @@ class AuthLevel(NDRCALL):
 
 class AuthLevelResponse(NDRCALL):
     structure = (
-		('PLAUTHLEVEL', LONG),
+		('plAuthLevel', LONG),
     )
         
 
 class AuthLevel(NDRCALL):
     opnum = 4
     structure = (
-		('LAUTHLEVEL', LONG),
+		('lAuthLevel', LONG),
     )
 
 class AuthLevelResponse(NDRCALL):
@@ -4338,7 +4338,7 @@ class IsAuthenticated(NDRCALL):
 
 class IsAuthenticatedResponse(NDRCALL):
     structure = (
-		('PISAUTHENTICATED', SHORT),
+		('pisAuthenticated', SHORT),
     )
         
 
@@ -4350,14 +4350,14 @@ class Delivery(NDRCALL):
 
 class DeliveryResponse(NDRCALL):
     structure = (
-		('PLDELIVERY', LONG),
+		('plDelivery', LONG),
     )
         
 
 class Delivery(NDRCALL):
     opnum = 7
     structure = (
-		('LDELIVERY', LONG),
+		('lDelivery', LONG),
     )
 
 class DeliveryResponse(NDRCALL):
@@ -4374,14 +4374,14 @@ class Trace(NDRCALL):
 
 class TraceResponse(NDRCALL):
     structure = (
-		('PLTRACE', LONG),
+		('plTrace', LONG),
     )
         
 
 class Trace(NDRCALL):
     opnum = 9
     structure = (
-		('LTRACE', LONG),
+		('lTrace', LONG),
     )
 
 class TraceResponse(NDRCALL):
@@ -4398,14 +4398,14 @@ class Priority(NDRCALL):
 
 class PriorityResponse(NDRCALL):
     structure = (
-		('PLPRIORITY', LONG),
+		('plPriority', LONG),
     )
         
 
 class Priority(NDRCALL):
     opnum = 11
     structure = (
-		('LPRIORITY', LONG),
+		('lPriority', LONG),
     )
 
 class PriorityResponse(NDRCALL):
@@ -4422,14 +4422,14 @@ class Journal(NDRCALL):
 
 class JournalResponse(NDRCALL):
     structure = (
-		('PLJOURNAL', LONG),
+		('plJournal', LONG),
     )
         
 
 class Journal(NDRCALL):
     opnum = 13
     structure = (
-		('LJOURNAL', LONG),
+		('lJournal', LONG),
     )
 
 class JournalResponse(NDRCALL):
@@ -4446,14 +4446,14 @@ class ResponseQueueInfo(NDRCALL):
 
 class ResponseQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFORESPONSE', IMSMQQUEUEINFO),
+		('ppqinfoResponse', IMSMQQUEUEINFO),
     )
         
 
 class ResponseQueueInfo(NDRCALL):
     opnum = 15
     structure = (
-		('PQINFORESPONSE', IMSMQQUEUEINFO),
+		('pqinfoResponse', IMSMQQUEUEINFO),
     )
 
 class ResponseQueueInfoResponse(NDRCALL):
@@ -4470,14 +4470,14 @@ class AppSpecific(NDRCALL):
 
 class AppSpecificResponse(NDRCALL):
     structure = (
-		('PLAPPSPECIFIC', LONG),
+		('plAppSpecific', LONG),
     )
         
 
 class AppSpecific(NDRCALL):
     opnum = 17
     structure = (
-		('LAPPSPECIFIC', LONG),
+		('lAppSpecific', LONG),
     )
 
 class AppSpecificResponse(NDRCALL):
@@ -4494,7 +4494,7 @@ class SourceMachineGuid(NDRCALL):
 
 class SourceMachineGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDSRCMACHINE', BSTR),
+		('pbstrGuidSrcMachine', BSTR),
     )
         
 
@@ -4506,7 +4506,7 @@ class BodyLength(NDRCALL):
 
 class BodyLengthResponse(NDRCALL):
     structure = (
-		('PCBBODY', LONG),
+		('pcbBody', LONG),
     )
         
 
@@ -4518,14 +4518,14 @@ class Body(NDRCALL):
 
 class BodyResponse(NDRCALL):
     structure = (
-		('PVARBODY', VARIANT),
+		('pvarBody', VARIANT),
     )
         
 
 class Body(NDRCALL):
     opnum = 21
     structure = (
-		('VARBODY', VARIANT),
+		('varBody', VARIANT),
     )
 
 class BodyResponse(NDRCALL):
@@ -4542,14 +4542,14 @@ class AdminQueueInfo(NDRCALL):
 
 class AdminQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFOADMIN', IMSMQQUEUEINFO),
+		('ppqinfoAdmin', IMSMQQUEUEINFO),
     )
         
 
 class AdminQueueInfo(NDRCALL):
     opnum = 23
     structure = (
-		('PQINFOADMIN', IMSMQQUEUEINFO),
+		('pqinfoAdmin', IMSMQQUEUEINFO),
     )
 
 class AdminQueueInfoResponse(NDRCALL):
@@ -4566,7 +4566,7 @@ class Id(NDRCALL):
 
 class IdResponse(NDRCALL):
     structure = (
-		('PVARMSGID', VARIANT),
+		('pvarMsgId', VARIANT),
     )
         
 
@@ -4578,14 +4578,14 @@ class CorrelationId(NDRCALL):
 
 class CorrelationIdResponse(NDRCALL):
     structure = (
-		('PVARMSGID', VARIANT),
+		('pvarMsgId', VARIANT),
     )
         
 
 class CorrelationId(NDRCALL):
     opnum = 26
     structure = (
-		('VARMSGID', VARIANT),
+		('varMsgId', VARIANT),
     )
 
 class CorrelationIdResponse(NDRCALL):
@@ -4602,14 +4602,14 @@ class Ack(NDRCALL):
 
 class AckResponse(NDRCALL):
     structure = (
-		('PLACK', LONG),
+		('plAck', LONG),
     )
         
 
 class Ack(NDRCALL):
     opnum = 28
     structure = (
-		('LACK', LONG),
+		('lAck', LONG),
     )
 
 class AckResponse(NDRCALL):
@@ -4626,14 +4626,14 @@ class Label(NDRCALL):
 
 class LabelResponse(NDRCALL):
     structure = (
-		('PBSTRLABEL', BSTR),
+		('pbstrLabel', BSTR),
     )
         
 
 class Label(NDRCALL):
     opnum = 30
     structure = (
-		('BSTRLABEL', BSTR),
+		('bstrLabel', BSTR),
     )
 
 class LabelResponse(NDRCALL):
@@ -4650,14 +4650,14 @@ class MaxTimeToReachQueue(NDRCALL):
 
 class MaxTimeToReachQueueResponse(NDRCALL):
     structure = (
-		('PLMAXTIMETOREACHQUEUE', LONG),
+		('plMaxTimeToReachQueue', LONG),
     )
         
 
 class MaxTimeToReachQueue(NDRCALL):
     opnum = 32
     structure = (
-		('LMAXTIMETOREACHQUEUE', LONG),
+		('lMaxTimeToReachQueue', LONG),
     )
 
 class MaxTimeToReachQueueResponse(NDRCALL):
@@ -4674,14 +4674,14 @@ class MaxTimeToReceive(NDRCALL):
 
 class MaxTimeToReceiveResponse(NDRCALL):
     structure = (
-		('PLMAXTIMETORECEIVE', LONG),
+		('plMaxTimeToReceive', LONG),
     )
         
 
 class MaxTimeToReceive(NDRCALL):
     opnum = 34
     structure = (
-		('LMAXTIMETORECEIVE', LONG),
+		('lMaxTimeToReceive', LONG),
     )
 
 class MaxTimeToReceiveResponse(NDRCALL):
@@ -4698,14 +4698,14 @@ class HashAlgorithm(NDRCALL):
 
 class HashAlgorithmResponse(NDRCALL):
     structure = (
-		('PLHASHALG', LONG),
+		('plHashAlg', LONG),
     )
         
 
 class HashAlgorithm(NDRCALL):
     opnum = 36
     structure = (
-		('LHASHALG', LONG),
+		('lHashAlg', LONG),
     )
 
 class HashAlgorithmResponse(NDRCALL):
@@ -4722,14 +4722,14 @@ class EncryptAlgorithm(NDRCALL):
 
 class EncryptAlgorithmResponse(NDRCALL):
     structure = (
-		('PLENCRYPTALG', LONG),
+		('plEncryptAlg', LONG),
     )
         
 
 class EncryptAlgorithm(NDRCALL):
     opnum = 38
     structure = (
-		('LENCRYPTALG', LONG),
+		('lEncryptAlg', LONG),
     )
 
 class EncryptAlgorithmResponse(NDRCALL):
@@ -4746,7 +4746,7 @@ class SentTime(NDRCALL):
 
 class SentTimeResponse(NDRCALL):
     structure = (
-		('PVARSENTTIME', VARIANT),
+		('pvarSentTime', VARIANT),
     )
         
 
@@ -4758,7 +4758,7 @@ class ArrivedTime(NDRCALL):
 
 class ArrivedTimeResponse(NDRCALL):
     structure = (
-		('PLARRIVEDTIME', VARIANT),
+		('plArrivedTime', VARIANT),
     )
         
 
@@ -4770,7 +4770,7 @@ class DestinationQueueInfo(NDRCALL):
 
 class DestinationQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFODEST', IMSMQQUEUEINFO),
+		('ppqinfoDest', IMSMQQUEUEINFO),
     )
         
 
@@ -4782,14 +4782,14 @@ class SenderCertificate(NDRCALL):
 
 class SenderCertificateResponse(NDRCALL):
     structure = (
-		('PVARSENDERCERT', VARIANT),
+		('pvarSenderCert', VARIANT),
     )
         
 
 class SenderCertificate(NDRCALL):
     opnum = 43
     structure = (
-		('VARSENDERCERT', VARIANT),
+		('varSenderCert', VARIANT),
     )
 
 class SenderCertificateResponse(NDRCALL):
@@ -4806,7 +4806,7 @@ class SenderId(NDRCALL):
 
 class SenderIdResponse(NDRCALL):
     structure = (
-		('PVARSENDERID', VARIANT),
+		('pvarSenderId', VARIANT),
     )
         
 
@@ -4818,14 +4818,14 @@ class SenderIdType(NDRCALL):
 
 class SenderIdTypeResponse(NDRCALL):
     structure = (
-		('PLSENDERIDTYPE', LONG),
+		('plSenderIdType', LONG),
     )
         
 
 class SenderIdType(NDRCALL):
     opnum = 46
     structure = (
-		('LSENDERIDTYPE', LONG),
+		('lSenderIdType', LONG),
     )
 
 class SenderIdTypeResponse(NDRCALL):
@@ -4837,8 +4837,8 @@ class SenderIdTypeResponse(NDRCALL):
 class Send(NDRCALL):
     opnum = 47
     structure = (
-		('DESTINATIONQUEUE', IMSMQQUEUE),
-		('TRANSACTION', VARIANT),
+		('DestinationQueue', IMSMQQUEUE),
+		('Transaction', VARIANT),
     )
 
 class SendResponse(NDRCALL):
@@ -4908,7 +4908,7 @@ class Class(NDRCALL):
 
 class ClassResponse(NDRCALL):
     structure = (
-		('PLCLASS', LONG),
+		('plClass', LONG),
     )
         
 
@@ -4920,14 +4920,14 @@ class PrivLevel(NDRCALL):
 
 class PrivLevelResponse(NDRCALL):
     structure = (
-		('PLPRIVLEVEL', LONG),
+		('plPrivLevel', LONG),
     )
         
 
 class PrivLevel(NDRCALL):
     opnum = 2
     structure = (
-		('LPRIVLEVEL', LONG),
+		('lPrivLevel', LONG),
     )
 
 class PrivLevelResponse(NDRCALL):
@@ -4944,14 +4944,14 @@ class AuthLevel(NDRCALL):
 
 class AuthLevelResponse(NDRCALL):
     structure = (
-		('PLAUTHLEVEL', LONG),
+		('plAuthLevel', LONG),
     )
         
 
 class AuthLevel(NDRCALL):
     opnum = 4
     structure = (
-		('LAUTHLEVEL', LONG),
+		('lAuthLevel', LONG),
     )
 
 class AuthLevelResponse(NDRCALL):
@@ -4968,7 +4968,7 @@ class IsAuthenticated(NDRCALL):
 
 class IsAuthenticatedResponse(NDRCALL):
     structure = (
-		('PISAUTHENTICATED', SHORT),
+		('pisAuthenticated', SHORT),
     )
         
 
@@ -4980,14 +4980,14 @@ class Delivery(NDRCALL):
 
 class DeliveryResponse(NDRCALL):
     structure = (
-		('PLDELIVERY', LONG),
+		('plDelivery', LONG),
     )
         
 
 class Delivery(NDRCALL):
     opnum = 7
     structure = (
-		('LDELIVERY', LONG),
+		('lDelivery', LONG),
     )
 
 class DeliveryResponse(NDRCALL):
@@ -5004,14 +5004,14 @@ class Trace(NDRCALL):
 
 class TraceResponse(NDRCALL):
     structure = (
-		('PLTRACE', LONG),
+		('plTrace', LONG),
     )
         
 
 class Trace(NDRCALL):
     opnum = 9
     structure = (
-		('LTRACE', LONG),
+		('lTrace', LONG),
     )
 
 class TraceResponse(NDRCALL):
@@ -5028,14 +5028,14 @@ class Priority(NDRCALL):
 
 class PriorityResponse(NDRCALL):
     structure = (
-		('PLPRIORITY', LONG),
+		('plPriority', LONG),
     )
         
 
 class Priority(NDRCALL):
     opnum = 11
     structure = (
-		('LPRIORITY', LONG),
+		('lPriority', LONG),
     )
 
 class PriorityResponse(NDRCALL):
@@ -5052,14 +5052,14 @@ class Journal(NDRCALL):
 
 class JournalResponse(NDRCALL):
     structure = (
-		('PLJOURNAL', LONG),
+		('plJournal', LONG),
     )
         
 
 class Journal(NDRCALL):
     opnum = 13
     structure = (
-		('LJOURNAL', LONG),
+		('lJournal', LONG),
     )
 
 class JournalResponse(NDRCALL):
@@ -5076,14 +5076,14 @@ class ResponseQueueInfo_v1(NDRCALL):
 
 class ResponseQueueInfo_v1Response(NDRCALL):
     structure = (
-		('PPQINFORESPONSE', IMSMQQUEUEINFO),
+		('ppqinfoResponse', IMSMQQUEUEINFO),
     )
         
 
 class ResponseQueueInfo_v1(NDRCALL):
     opnum = 15
     structure = (
-		('PQINFORESPONSE', IMSMQQUEUEINFO),
+		('pqinfoResponse', IMSMQQUEUEINFO),
     )
 
 class ResponseQueueInfo_v1Response(NDRCALL):
@@ -5100,14 +5100,14 @@ class AppSpecific(NDRCALL):
 
 class AppSpecificResponse(NDRCALL):
     structure = (
-		('PLAPPSPECIFIC', LONG),
+		('plAppSpecific', LONG),
     )
         
 
 class AppSpecific(NDRCALL):
     opnum = 17
     structure = (
-		('LAPPSPECIFIC', LONG),
+		('lAppSpecific', LONG),
     )
 
 class AppSpecificResponse(NDRCALL):
@@ -5124,7 +5124,7 @@ class SourceMachineGuid(NDRCALL):
 
 class SourceMachineGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDSRCMACHINE', BSTR),
+		('pbstrGuidSrcMachine', BSTR),
     )
         
 
@@ -5136,7 +5136,7 @@ class BodyLength(NDRCALL):
 
 class BodyLengthResponse(NDRCALL):
     structure = (
-		('PCBBODY', LONG),
+		('pcbBody', LONG),
     )
         
 
@@ -5148,14 +5148,14 @@ class Body(NDRCALL):
 
 class BodyResponse(NDRCALL):
     structure = (
-		('PVARBODY', VARIANT),
+		('pvarBody', VARIANT),
     )
         
 
 class Body(NDRCALL):
     opnum = 21
     structure = (
-		('VARBODY', VARIANT),
+		('varBody', VARIANT),
     )
 
 class BodyResponse(NDRCALL):
@@ -5172,14 +5172,14 @@ class AdminQueueInfo_v1(NDRCALL):
 
 class AdminQueueInfo_v1Response(NDRCALL):
     structure = (
-		('PPQINFOADMIN', IMSMQQUEUEINFO),
+		('ppqinfoAdmin', IMSMQQUEUEINFO),
     )
         
 
 class AdminQueueInfo_v1(NDRCALL):
     opnum = 23
     structure = (
-		('PQINFOADMIN', IMSMQQUEUEINFO),
+		('pqinfoAdmin', IMSMQQUEUEINFO),
     )
 
 class AdminQueueInfo_v1Response(NDRCALL):
@@ -5196,7 +5196,7 @@ class Id(NDRCALL):
 
 class IdResponse(NDRCALL):
     structure = (
-		('PVARMSGID', VARIANT),
+		('pvarMsgId', VARIANT),
     )
         
 
@@ -5208,14 +5208,14 @@ class CorrelationId(NDRCALL):
 
 class CorrelationIdResponse(NDRCALL):
     structure = (
-		('PVARMSGID', VARIANT),
+		('pvarMsgId', VARIANT),
     )
         
 
 class CorrelationId(NDRCALL):
     opnum = 26
     structure = (
-		('VARMSGID', VARIANT),
+		('varMsgId', VARIANT),
     )
 
 class CorrelationIdResponse(NDRCALL):
@@ -5232,14 +5232,14 @@ class Ack(NDRCALL):
 
 class AckResponse(NDRCALL):
     structure = (
-		('PLACK', LONG),
+		('plAck', LONG),
     )
         
 
 class Ack(NDRCALL):
     opnum = 28
     structure = (
-		('LACK', LONG),
+		('lAck', LONG),
     )
 
 class AckResponse(NDRCALL):
@@ -5256,14 +5256,14 @@ class Label(NDRCALL):
 
 class LabelResponse(NDRCALL):
     structure = (
-		('PBSTRLABEL', BSTR),
+		('pbstrLabel', BSTR),
     )
         
 
 class Label(NDRCALL):
     opnum = 30
     structure = (
-		('BSTRLABEL', BSTR),
+		('bstrLabel', BSTR),
     )
 
 class LabelResponse(NDRCALL):
@@ -5280,14 +5280,14 @@ class MaxTimeToReachQueue(NDRCALL):
 
 class MaxTimeToReachQueueResponse(NDRCALL):
     structure = (
-		('PLMAXTIMETOREACHQUEUE', LONG),
+		('plMaxTimeToReachQueue', LONG),
     )
         
 
 class MaxTimeToReachQueue(NDRCALL):
     opnum = 32
     structure = (
-		('LMAXTIMETOREACHQUEUE', LONG),
+		('lMaxTimeToReachQueue', LONG),
     )
 
 class MaxTimeToReachQueueResponse(NDRCALL):
@@ -5304,14 +5304,14 @@ class MaxTimeToReceive(NDRCALL):
 
 class MaxTimeToReceiveResponse(NDRCALL):
     structure = (
-		('PLMAXTIMETORECEIVE', LONG),
+		('plMaxTimeToReceive', LONG),
     )
         
 
 class MaxTimeToReceive(NDRCALL):
     opnum = 34
     structure = (
-		('LMAXTIMETORECEIVE', LONG),
+		('lMaxTimeToReceive', LONG),
     )
 
 class MaxTimeToReceiveResponse(NDRCALL):
@@ -5328,14 +5328,14 @@ class HashAlgorithm(NDRCALL):
 
 class HashAlgorithmResponse(NDRCALL):
     structure = (
-		('PLHASHALG', LONG),
+		('plHashAlg', LONG),
     )
         
 
 class HashAlgorithm(NDRCALL):
     opnum = 36
     structure = (
-		('LHASHALG', LONG),
+		('lHashAlg', LONG),
     )
 
 class HashAlgorithmResponse(NDRCALL):
@@ -5352,14 +5352,14 @@ class EncryptAlgorithm(NDRCALL):
 
 class EncryptAlgorithmResponse(NDRCALL):
     structure = (
-		('PLENCRYPTALG', LONG),
+		('plEncryptAlg', LONG),
     )
         
 
 class EncryptAlgorithm(NDRCALL):
     opnum = 38
     structure = (
-		('LENCRYPTALG', LONG),
+		('lEncryptAlg', LONG),
     )
 
 class EncryptAlgorithmResponse(NDRCALL):
@@ -5376,7 +5376,7 @@ class SentTime(NDRCALL):
 
 class SentTimeResponse(NDRCALL):
     structure = (
-		('PVARSENTTIME', VARIANT),
+		('pvarSentTime', VARIANT),
     )
         
 
@@ -5388,7 +5388,7 @@ class ArrivedTime(NDRCALL):
 
 class ArrivedTimeResponse(NDRCALL):
     structure = (
-		('PLARRIVEDTIME', VARIANT),
+		('plArrivedTime', VARIANT),
     )
         
 
@@ -5400,7 +5400,7 @@ class DestinationQueueInfo(NDRCALL):
 
 class DestinationQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFODEST', IMSMQQUEUEINFO2),
+		('ppqinfoDest', IMSMQQUEUEINFO2),
     )
         
 
@@ -5412,14 +5412,14 @@ class SenderCertificate(NDRCALL):
 
 class SenderCertificateResponse(NDRCALL):
     structure = (
-		('PVARSENDERCERT', VARIANT),
+		('pvarSenderCert', VARIANT),
     )
         
 
 class SenderCertificate(NDRCALL):
     opnum = 43
     structure = (
-		('VARSENDERCERT', VARIANT),
+		('varSenderCert', VARIANT),
     )
 
 class SenderCertificateResponse(NDRCALL):
@@ -5436,7 +5436,7 @@ class SenderId(NDRCALL):
 
 class SenderIdResponse(NDRCALL):
     structure = (
-		('PVARSENDERID', VARIANT),
+		('pvarSenderId', VARIANT),
     )
         
 
@@ -5448,14 +5448,14 @@ class SenderIdType(NDRCALL):
 
 class SenderIdTypeResponse(NDRCALL):
     structure = (
-		('PLSENDERIDTYPE', LONG),
+		('plSenderIdType', LONG),
     )
         
 
 class SenderIdType(NDRCALL):
     opnum = 46
     structure = (
-		('LSENDERIDTYPE', LONG),
+		('lSenderIdType', LONG),
     )
 
 class SenderIdTypeResponse(NDRCALL):
@@ -5467,8 +5467,8 @@ class SenderIdTypeResponse(NDRCALL):
 class Send(NDRCALL):
     opnum = 47
     structure = (
-		('DESTINATIONQUEUE', IMSMQQUEUE2),
-		('TRANSACTION', VARIANT),
+		('DestinationQueue', IMSMQQUEUE2),
+		('Transaction', VARIANT),
     )
 
 class SendResponse(NDRCALL):
@@ -5497,7 +5497,7 @@ class SenderVersion(NDRCALL):
 
 class SenderVersionResponse(NDRCALL):
     structure = (
-		('PLSENDERVERSION', LONG),
+		('plSenderVersion', LONG),
     )
         
 
@@ -5509,14 +5509,14 @@ class Extension(NDRCALL):
 
 class ExtensionResponse(NDRCALL):
     structure = (
-		('PVAREXTENSION', VARIANT),
+		('pvarExtension', VARIANT),
     )
         
 
 class Extension(NDRCALL):
     opnum = 51
     structure = (
-		('VAREXTENSION', VARIANT),
+		('varExtension', VARIANT),
     )
 
 class ExtensionResponse(NDRCALL):
@@ -5533,14 +5533,14 @@ class ConnectorTypeGuid(NDRCALL):
 
 class ConnectorTypeGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDCONNECTORTYPE', BSTR),
+		('pbstrGuidConnectorType', BSTR),
     )
         
 
 class ConnectorTypeGuid(NDRCALL):
     opnum = 53
     structure = (
-		('BSTRGUIDCONNECTORTYPE', BSTR),
+		('bstrGuidConnectorType', BSTR),
     )
 
 class ConnectorTypeGuidResponse(NDRCALL):
@@ -5557,7 +5557,7 @@ class TransactionStatusQueueInfo(NDRCALL):
 
 class TransactionStatusQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFOXACTSTATUS', IMSMQQUEUEINFO2),
+		('ppqinfoXactStatus', IMSMQQUEUEINFO2),
     )
         
 
@@ -5569,14 +5569,14 @@ class DestinationSymmetricKey(NDRCALL):
 
 class DestinationSymmetricKeyResponse(NDRCALL):
     structure = (
-		('PVARDESTSYMMKEY', VARIANT),
+		('pvarDestSymmKey', VARIANT),
     )
         
 
 class DestinationSymmetricKey(NDRCALL):
     opnum = 56
     structure = (
-		('VARDESTSYMMKEY', VARIANT),
+		('varDestSymmKey', VARIANT),
     )
 
 class DestinationSymmetricKeyResponse(NDRCALL):
@@ -5593,14 +5593,14 @@ class Signature(NDRCALL):
 
 class SignatureResponse(NDRCALL):
     structure = (
-		('PVARSIGNATURE', VARIANT),
+		('pvarSignature', VARIANT),
     )
         
 
 class Signature(NDRCALL):
     opnum = 58
     structure = (
-		('VARSIGNATURE', VARIANT),
+		('varSignature', VARIANT),
     )
 
 class SignatureResponse(NDRCALL):
@@ -5617,14 +5617,14 @@ class AuthenticationProviderType(NDRCALL):
 
 class AuthenticationProviderTypeResponse(NDRCALL):
     structure = (
-		('PLAUTHPROVTYPE', LONG),
+		('plAuthProvType', LONG),
     )
         
 
 class AuthenticationProviderType(NDRCALL):
     opnum = 60
     structure = (
-		('LAUTHPROVTYPE', LONG),
+		('lAuthProvType', LONG),
     )
 
 class AuthenticationProviderTypeResponse(NDRCALL):
@@ -5641,14 +5641,14 @@ class AuthenticationProviderName(NDRCALL):
 
 class AuthenticationProviderNameResponse(NDRCALL):
     structure = (
-		('PBSTRAUTHPROVNAME', BSTR),
+		('pbstrAuthProvName', BSTR),
     )
         
 
 class AuthenticationProviderName(NDRCALL):
     opnum = 62
     structure = (
-		('BSTRAUTHPROVNAME', BSTR),
+		('bstrAuthProvName', BSTR),
     )
 
 class AuthenticationProviderNameResponse(NDRCALL):
@@ -5660,7 +5660,7 @@ class AuthenticationProviderNameResponse(NDRCALL):
 class SenderId(NDRCALL):
     opnum = 63
     structure = (
-		('VARSENDERID', VARIANT),
+		('varSenderId', VARIANT),
     )
 
 class SenderIdResponse(NDRCALL):
@@ -5677,14 +5677,14 @@ class MsgClass(NDRCALL):
 
 class MsgClassResponse(NDRCALL):
     structure = (
-		('PLMSGCLASS', LONG),
+		('plMsgClass', LONG),
     )
         
 
 class MsgClass(NDRCALL):
     opnum = 65
     structure = (
-		('LMSGCLASS', LONG),
+		('lMsgClass', LONG),
     )
 
 class MsgClassResponse(NDRCALL):
@@ -5701,7 +5701,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 
@@ -5713,7 +5713,7 @@ class TransactionId(NDRCALL):
 
 class TransactionIdResponse(NDRCALL):
     structure = (
-		('PVARXACTID', VARIANT),
+		('pvarXactId', VARIANT),
     )
         
 
@@ -5725,7 +5725,7 @@ class IsFirstInTransaction(NDRCALL):
 
 class IsFirstInTransactionResponse(NDRCALL):
     structure = (
-		('PISFIRSTINXACT', SHORT),
+		('pisFirstInXact', SHORT),
     )
         
 
@@ -5737,7 +5737,7 @@ class IsLastInTransaction(NDRCALL):
 
 class IsLastInTransactionResponse(NDRCALL):
     structure = (
-		('PISLASTINXACT', SHORT),
+		('pisLastInXact', SHORT),
     )
         
 
@@ -5749,14 +5749,14 @@ class ResponseQueueInfo(NDRCALL):
 
 class ResponseQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFORESPONSE', IMSMQQUEUEINFO2),
+		('ppqinfoResponse', IMSMQQUEUEINFO2),
     )
         
 
 class ResponseQueueInfo(NDRCALL):
     opnum = 71
     structure = (
-		('PQINFORESPONSE', IMSMQQUEUEINFO2),
+		('pqinfoResponse', IMSMQQUEUEINFO2),
     )
 
 class ResponseQueueInfoResponse(NDRCALL):
@@ -5773,14 +5773,14 @@ class AdminQueueInfo(NDRCALL):
 
 class AdminQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFOADMIN', IMSMQQUEUEINFO2),
+		('ppqinfoAdmin', IMSMQQUEUEINFO2),
     )
         
 
 class AdminQueueInfo(NDRCALL):
     opnum = 73
     structure = (
-		('PQINFOADMIN', IMSMQQUEUEINFO2),
+		('pqinfoAdmin', IMSMQQUEUEINFO2),
     )
 
 class AdminQueueInfoResponse(NDRCALL):
@@ -5797,7 +5797,7 @@ class ReceivedAuthenticationLevel(NDRCALL):
 
 class ReceivedAuthenticationLevelResponse(NDRCALL):
     structure = (
-		('PSRECEIVEDAUTHENTICATIONLEVEL', SHORT),
+		('psReceivedAuthenticationLevel', SHORT),
     )
         
 OPNUMS = {
@@ -5866,7 +5866,7 @@ class Class(NDRCALL):
 
 class ClassResponse(NDRCALL):
     structure = (
-		('PLCLASS', LONG),
+		('plClass', LONG),
     )
         
 
@@ -5878,14 +5878,14 @@ class PrivLevel(NDRCALL):
 
 class PrivLevelResponse(NDRCALL):
     structure = (
-		('PLPRIVLEVEL', LONG),
+		('plPrivLevel', LONG),
     )
         
 
 class PrivLevel(NDRCALL):
     opnum = 2
     structure = (
-		('LPRIVLEVEL', LONG),
+		('lPrivLevel', LONG),
     )
 
 class PrivLevelResponse(NDRCALL):
@@ -5902,14 +5902,14 @@ class AuthLevel(NDRCALL):
 
 class AuthLevelResponse(NDRCALL):
     structure = (
-		('PLAUTHLEVEL', LONG),
+		('plAuthLevel', LONG),
     )
         
 
 class AuthLevel(NDRCALL):
     opnum = 4
     structure = (
-		('LAUTHLEVEL', LONG),
+		('lAuthLevel', LONG),
     )
 
 class AuthLevelResponse(NDRCALL):
@@ -5926,7 +5926,7 @@ class IsAuthenticated(NDRCALL):
 
 class IsAuthenticatedResponse(NDRCALL):
     structure = (
-		('PISAUTHENTICATED', SHORT),
+		('pisAuthenticated', SHORT),
     )
         
 
@@ -5938,14 +5938,14 @@ class Delivery(NDRCALL):
 
 class DeliveryResponse(NDRCALL):
     structure = (
-		('PLDELIVERY', LONG),
+		('plDelivery', LONG),
     )
         
 
 class Delivery(NDRCALL):
     opnum = 7
     structure = (
-		('LDELIVERY', LONG),
+		('lDelivery', LONG),
     )
 
 class DeliveryResponse(NDRCALL):
@@ -5962,14 +5962,14 @@ class Trace(NDRCALL):
 
 class TraceResponse(NDRCALL):
     structure = (
-		('PLTRACE', LONG),
+		('plTrace', LONG),
     )
         
 
 class Trace(NDRCALL):
     opnum = 9
     structure = (
-		('LTRACE', LONG),
+		('lTrace', LONG),
     )
 
 class TraceResponse(NDRCALL):
@@ -5986,14 +5986,14 @@ class Priority(NDRCALL):
 
 class PriorityResponse(NDRCALL):
     structure = (
-		('PLPRIORITY', LONG),
+		('plPriority', LONG),
     )
         
 
 class Priority(NDRCALL):
     opnum = 11
     structure = (
-		('LPRIORITY', LONG),
+		('lPriority', LONG),
     )
 
 class PriorityResponse(NDRCALL):
@@ -6010,14 +6010,14 @@ class Journal(NDRCALL):
 
 class JournalResponse(NDRCALL):
     structure = (
-		('PLJOURNAL', LONG),
+		('plJournal', LONG),
     )
         
 
 class Journal(NDRCALL):
     opnum = 13
     structure = (
-		('LJOURNAL', LONG),
+		('lJournal', LONG),
     )
 
 class JournalResponse(NDRCALL):
@@ -6034,14 +6034,14 @@ class ResponseQueueInfo_v1(NDRCALL):
 
 class ResponseQueueInfo_v1Response(NDRCALL):
     structure = (
-		('PPQINFORESPONSE', IMSMQQUEUEINFO),
+		('ppqinfoResponse', IMSMQQUEUEINFO),
     )
         
 
 class ResponseQueueInfo_v1(NDRCALL):
     opnum = 15
     structure = (
-		('PQINFORESPONSE', IMSMQQUEUEINFO),
+		('pqinfoResponse', IMSMQQUEUEINFO),
     )
 
 class ResponseQueueInfo_v1Response(NDRCALL):
@@ -6058,14 +6058,14 @@ class AppSpecific(NDRCALL):
 
 class AppSpecificResponse(NDRCALL):
     structure = (
-		('PLAPPSPECIFIC', LONG),
+		('plAppSpecific', LONG),
     )
         
 
 class AppSpecific(NDRCALL):
     opnum = 17
     structure = (
-		('LAPPSPECIFIC', LONG),
+		('lAppSpecific', LONG),
     )
 
 class AppSpecificResponse(NDRCALL):
@@ -6082,7 +6082,7 @@ class SourceMachineGuid(NDRCALL):
 
 class SourceMachineGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDSRCMACHINE', BSTR),
+		('pbstrGuidSrcMachine', BSTR),
     )
         
 
@@ -6094,7 +6094,7 @@ class BodyLength(NDRCALL):
 
 class BodyLengthResponse(NDRCALL):
     structure = (
-		('PCBBODY', LONG),
+		('pcbBody', LONG),
     )
         
 
@@ -6106,14 +6106,14 @@ class Body(NDRCALL):
 
 class BodyResponse(NDRCALL):
     structure = (
-		('PVARBODY', VARIANT),
+		('pvarBody', VARIANT),
     )
         
 
 class Body(NDRCALL):
     opnum = 21
     structure = (
-		('VARBODY', VARIANT),
+		('varBody', VARIANT),
     )
 
 class BodyResponse(NDRCALL):
@@ -6130,14 +6130,14 @@ class AdminQueueInfo_v1(NDRCALL):
 
 class AdminQueueInfo_v1Response(NDRCALL):
     structure = (
-		('PPQINFOADMIN', IMSMQQUEUEINFO),
+		('ppqinfoAdmin', IMSMQQUEUEINFO),
     )
         
 
 class AdminQueueInfo_v1(NDRCALL):
     opnum = 23
     structure = (
-		('PQINFOADMIN', IMSMQQUEUEINFO),
+		('pqinfoAdmin', IMSMQQUEUEINFO),
     )
 
 class AdminQueueInfo_v1Response(NDRCALL):
@@ -6154,7 +6154,7 @@ class Id(NDRCALL):
 
 class IdResponse(NDRCALL):
     structure = (
-		('PVARMSGID', VARIANT),
+		('pvarMsgId', VARIANT),
     )
         
 
@@ -6166,14 +6166,14 @@ class CorrelationId(NDRCALL):
 
 class CorrelationIdResponse(NDRCALL):
     structure = (
-		('PVARMSGID', VARIANT),
+		('pvarMsgId', VARIANT),
     )
         
 
 class CorrelationId(NDRCALL):
     opnum = 26
     structure = (
-		('VARMSGID', VARIANT),
+		('varMsgId', VARIANT),
     )
 
 class CorrelationIdResponse(NDRCALL):
@@ -6190,14 +6190,14 @@ class Ack(NDRCALL):
 
 class AckResponse(NDRCALL):
     structure = (
-		('PLACK', LONG),
+		('plAck', LONG),
     )
         
 
 class Ack(NDRCALL):
     opnum = 28
     structure = (
-		('LACK', LONG),
+		('lAck', LONG),
     )
 
 class AckResponse(NDRCALL):
@@ -6214,14 +6214,14 @@ class Label(NDRCALL):
 
 class LabelResponse(NDRCALL):
     structure = (
-		('PBSTRLABEL', BSTR),
+		('pbstrLabel', BSTR),
     )
         
 
 class Label(NDRCALL):
     opnum = 30
     structure = (
-		('BSTRLABEL', BSTR),
+		('bstrLabel', BSTR),
     )
 
 class LabelResponse(NDRCALL):
@@ -6238,14 +6238,14 @@ class MaxTimeToReachQueue(NDRCALL):
 
 class MaxTimeToReachQueueResponse(NDRCALL):
     structure = (
-		('PLMAXTIMETOREACHQUEUE', LONG),
+		('plMaxTimeToReachQueue', LONG),
     )
         
 
 class MaxTimeToReachQueue(NDRCALL):
     opnum = 32
     structure = (
-		('LMAXTIMETOREACHQUEUE', LONG),
+		('lMaxTimeToReachQueue', LONG),
     )
 
 class MaxTimeToReachQueueResponse(NDRCALL):
@@ -6262,14 +6262,14 @@ class MaxTimeToReceive(NDRCALL):
 
 class MaxTimeToReceiveResponse(NDRCALL):
     structure = (
-		('PLMAXTIMETORECEIVE', LONG),
+		('plMaxTimeToReceive', LONG),
     )
         
 
 class MaxTimeToReceive(NDRCALL):
     opnum = 34
     structure = (
-		('LMAXTIMETORECEIVE', LONG),
+		('lMaxTimeToReceive', LONG),
     )
 
 class MaxTimeToReceiveResponse(NDRCALL):
@@ -6286,14 +6286,14 @@ class HashAlgorithm(NDRCALL):
 
 class HashAlgorithmResponse(NDRCALL):
     structure = (
-		('PLHASHALG', LONG),
+		('plHashAlg', LONG),
     )
         
 
 class HashAlgorithm(NDRCALL):
     opnum = 36
     structure = (
-		('LHASHALG', LONG),
+		('lHashAlg', LONG),
     )
 
 class HashAlgorithmResponse(NDRCALL):
@@ -6310,14 +6310,14 @@ class EncryptAlgorithm(NDRCALL):
 
 class EncryptAlgorithmResponse(NDRCALL):
     structure = (
-		('PLENCRYPTALG', LONG),
+		('plEncryptAlg', LONG),
     )
         
 
 class EncryptAlgorithm(NDRCALL):
     opnum = 38
     structure = (
-		('LENCRYPTALG', LONG),
+		('lEncryptAlg', LONG),
     )
 
 class EncryptAlgorithmResponse(NDRCALL):
@@ -6334,7 +6334,7 @@ class SentTime(NDRCALL):
 
 class SentTimeResponse(NDRCALL):
     structure = (
-		('PVARSENTTIME', VARIANT),
+		('pvarSentTime', VARIANT),
     )
         
 
@@ -6346,7 +6346,7 @@ class ArrivedTime(NDRCALL):
 
 class ArrivedTimeResponse(NDRCALL):
     structure = (
-		('PLARRIVEDTIME', VARIANT),
+		('plArrivedTime', VARIANT),
     )
         
 
@@ -6358,7 +6358,7 @@ class DestinationQueueInfo(NDRCALL):
 
 class DestinationQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFODEST', IMSMQQUEUEINFO3),
+		('ppqinfoDest', IMSMQQUEUEINFO3),
     )
         
 
@@ -6370,14 +6370,14 @@ class SenderCertificate(NDRCALL):
 
 class SenderCertificateResponse(NDRCALL):
     structure = (
-		('PVARSENDERCERT', VARIANT),
+		('pvarSenderCert', VARIANT),
     )
         
 
 class SenderCertificate(NDRCALL):
     opnum = 43
     structure = (
-		('VARSENDERCERT', VARIANT),
+		('varSenderCert', VARIANT),
     )
 
 class SenderCertificateResponse(NDRCALL):
@@ -6394,7 +6394,7 @@ class SenderId(NDRCALL):
 
 class SenderIdResponse(NDRCALL):
     structure = (
-		('PVARSENDERID', VARIANT),
+		('pvarSenderId', VARIANT),
     )
         
 
@@ -6406,14 +6406,14 @@ class SenderIdType(NDRCALL):
 
 class SenderIdTypeResponse(NDRCALL):
     structure = (
-		('PLSENDERIDTYPE', LONG),
+		('plSenderIdType', LONG),
     )
         
 
 class SenderIdType(NDRCALL):
     opnum = 46
     structure = (
-		('LSENDERIDTYPE', LONG),
+		('lSenderIdType', LONG),
     )
 
 class SenderIdTypeResponse(NDRCALL):
@@ -6425,8 +6425,8 @@ class SenderIdTypeResponse(NDRCALL):
 class Send(NDRCALL):
     opnum = 47
     structure = (
-		('DESTINATIONQUEUE', IDISPATCH),
-		('TRANSACTION', VARIANT),
+		('DestinationQueue', IDISPATCH),
+		('Transaction', VARIANT),
     )
 
 class SendResponse(NDRCALL):
@@ -6455,7 +6455,7 @@ class SenderVersion(NDRCALL):
 
 class SenderVersionResponse(NDRCALL):
     structure = (
-		('PLSENDERVERSION', LONG),
+		('plSenderVersion', LONG),
     )
         
 
@@ -6467,14 +6467,14 @@ class Extension(NDRCALL):
 
 class ExtensionResponse(NDRCALL):
     structure = (
-		('PVAREXTENSION', VARIANT),
+		('pvarExtension', VARIANT),
     )
         
 
 class Extension(NDRCALL):
     opnum = 51
     structure = (
-		('VAREXTENSION', VARIANT),
+		('varExtension', VARIANT),
     )
 
 class ExtensionResponse(NDRCALL):
@@ -6491,14 +6491,14 @@ class ConnectorTypeGuid(NDRCALL):
 
 class ConnectorTypeGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDCONNECTORTYPE', BSTR),
+		('pbstrGuidConnectorType', BSTR),
     )
         
 
 class ConnectorTypeGuid(NDRCALL):
     opnum = 53
     structure = (
-		('BSTRGUIDCONNECTORTYPE', BSTR),
+		('bstrGuidConnectorType', BSTR),
     )
 
 class ConnectorTypeGuidResponse(NDRCALL):
@@ -6515,7 +6515,7 @@ class TransactionStatusQueueInfo(NDRCALL):
 
 class TransactionStatusQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFOXACTSTATUS', IMSMQQUEUEINFO3),
+		('ppqinfoXactStatus', IMSMQQUEUEINFO3),
     )
         
 
@@ -6527,14 +6527,14 @@ class DestinationSymmetricKey(NDRCALL):
 
 class DestinationSymmetricKeyResponse(NDRCALL):
     structure = (
-		('PVARDESTSYMMKEY', VARIANT),
+		('pvarDestSymmKey', VARIANT),
     )
         
 
 class DestinationSymmetricKey(NDRCALL):
     opnum = 56
     structure = (
-		('VARDESTSYMMKEY', VARIANT),
+		('varDestSymmKey', VARIANT),
     )
 
 class DestinationSymmetricKeyResponse(NDRCALL):
@@ -6551,14 +6551,14 @@ class Signature(NDRCALL):
 
 class SignatureResponse(NDRCALL):
     structure = (
-		('PVARSIGNATURE', VARIANT),
+		('pvarSignature', VARIANT),
     )
         
 
 class Signature(NDRCALL):
     opnum = 58
     structure = (
-		('VARSIGNATURE', VARIANT),
+		('varSignature', VARIANT),
     )
 
 class SignatureResponse(NDRCALL):
@@ -6575,14 +6575,14 @@ class AuthenticationProviderType(NDRCALL):
 
 class AuthenticationProviderTypeResponse(NDRCALL):
     structure = (
-		('PLAUTHPROVTYPE', LONG),
+		('plAuthProvType', LONG),
     )
         
 
 class AuthenticationProviderType(NDRCALL):
     opnum = 60
     structure = (
-		('LAUTHPROVTYPE', LONG),
+		('lAuthProvType', LONG),
     )
 
 class AuthenticationProviderTypeResponse(NDRCALL):
@@ -6599,14 +6599,14 @@ class AuthenticationProviderName(NDRCALL):
 
 class AuthenticationProviderNameResponse(NDRCALL):
     structure = (
-		('PBSTRAUTHPROVNAME', BSTR),
+		('pbstrAuthProvName', BSTR),
     )
         
 
 class AuthenticationProviderName(NDRCALL):
     opnum = 62
     structure = (
-		('BSTRAUTHPROVNAME', BSTR),
+		('bstrAuthProvName', BSTR),
     )
 
 class AuthenticationProviderNameResponse(NDRCALL):
@@ -6618,7 +6618,7 @@ class AuthenticationProviderNameResponse(NDRCALL):
 class SenderId(NDRCALL):
     opnum = 63
     structure = (
-		('VARSENDERID', VARIANT),
+		('varSenderId', VARIANT),
     )
 
 class SenderIdResponse(NDRCALL):
@@ -6635,14 +6635,14 @@ class MsgClass(NDRCALL):
 
 class MsgClassResponse(NDRCALL):
     structure = (
-		('PLMSGCLASS', LONG),
+		('plMsgClass', LONG),
     )
         
 
 class MsgClass(NDRCALL):
     opnum = 65
     structure = (
-		('LMSGCLASS', LONG),
+		('lMsgClass', LONG),
     )
 
 class MsgClassResponse(NDRCALL):
@@ -6659,7 +6659,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 
@@ -6671,7 +6671,7 @@ class TransactionId(NDRCALL):
 
 class TransactionIdResponse(NDRCALL):
     structure = (
-		('PVARXACTID', VARIANT),
+		('pvarXactId', VARIANT),
     )
         
 
@@ -6683,7 +6683,7 @@ class IsFirstInTransaction(NDRCALL):
 
 class IsFirstInTransactionResponse(NDRCALL):
     structure = (
-		('PISFIRSTINXACT', SHORT),
+		('pisFirstInXact', SHORT),
     )
         
 
@@ -6695,7 +6695,7 @@ class IsLastInTransaction(NDRCALL):
 
 class IsLastInTransactionResponse(NDRCALL):
     structure = (
-		('PISLASTINXACT', SHORT),
+		('pisLastInXact', SHORT),
     )
         
 
@@ -6707,14 +6707,14 @@ class ResponseQueueInfo_v2(NDRCALL):
 
 class ResponseQueueInfo_v2Response(NDRCALL):
     structure = (
-		('PPQINFORESPONSE', IMSMQQUEUEINFO2),
+		('ppqinfoResponse', IMSMQQUEUEINFO2),
     )
         
 
 class ResponseQueueInfo_v2(NDRCALL):
     opnum = 71
     structure = (
-		('PQINFORESPONSE', IMSMQQUEUEINFO2),
+		('pqinfoResponse', IMSMQQUEUEINFO2),
     )
 
 class ResponseQueueInfo_v2Response(NDRCALL):
@@ -6731,14 +6731,14 @@ class AdminQueueInfo_v2(NDRCALL):
 
 class AdminQueueInfo_v2Response(NDRCALL):
     structure = (
-		('PPQINFOADMIN', IMSMQQUEUEINFO2),
+		('ppqinfoAdmin', IMSMQQUEUEINFO2),
     )
         
 
 class AdminQueueInfo_v2(NDRCALL):
     opnum = 73
     structure = (
-		('PQINFOADMIN', IMSMQQUEUEINFO2),
+		('pqinfoAdmin', IMSMQQUEUEINFO2),
     )
 
 class AdminQueueInfo_v2Response(NDRCALL):
@@ -6755,7 +6755,7 @@ class ReceivedAuthenticationLevel(NDRCALL):
 
 class ReceivedAuthenticationLevelResponse(NDRCALL):
     structure = (
-		('PSRECEIVEDAUTHENTICATIONLEVEL', SHORT),
+		('psReceivedAuthenticationLevel', SHORT),
     )
         
 
@@ -6767,14 +6767,14 @@ class ResponseQueueInfo(NDRCALL):
 
 class ResponseQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFORESPONSE', IMSMQQUEUEINFO3),
+		('ppqinfoResponse', IMSMQQUEUEINFO3),
     )
         
 
 class ResponseQueueInfo(NDRCALL):
     opnum = 76
     structure = (
-		('PQINFORESPONSE', IMSMQQUEUEINFO3),
+		('pqinfoResponse', IMSMQQUEUEINFO3),
     )
 
 class ResponseQueueInfoResponse(NDRCALL):
@@ -6791,14 +6791,14 @@ class AdminQueueInfo(NDRCALL):
 
 class AdminQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFOADMIN', IMSMQQUEUEINFO3),
+		('ppqinfoAdmin', IMSMQQUEUEINFO3),
     )
         
 
 class AdminQueueInfo(NDRCALL):
     opnum = 78
     structure = (
-		('PQINFOADMIN', IMSMQQUEUEINFO3),
+		('pqinfoAdmin', IMSMQQUEUEINFO3),
     )
 
 class AdminQueueInfoResponse(NDRCALL):
@@ -6815,14 +6815,14 @@ class ResponseDestination(NDRCALL):
 
 class ResponseDestinationResponse(NDRCALL):
     structure = (
-		('PPDESTRESPONS', IDISPATCH),
+		('ppdestRespons', IDISPATCH),
     )
         
 
 class ResponseDestination(NDRCALL):
     opnum = 80
     structure = (
-		('PDESTRESPONSE', IDISPATCH),
+		('pdestResponse', IDISPATCH),
     )
 
 class ResponseDestinationResponse(NDRCALL):
@@ -6839,7 +6839,7 @@ class Destination(NDRCALL):
 
 class DestinationResponse(NDRCALL):
     structure = (
-		('PPDESTDESTINATION', IDISPATCH),
+		('ppdestDestination', IDISPATCH),
     )
         
 
@@ -6851,7 +6851,7 @@ class LookupId(NDRCALL):
 
 class LookupIdResponse(NDRCALL):
     structure = (
-		('PVARLOOKUPID', VARIANT),
+		('pvarLookupId', VARIANT),
     )
         
 
@@ -6863,7 +6863,7 @@ class IsAuthenticated2(NDRCALL):
 
 class IsAuthenticated2Response(NDRCALL):
     structure = (
-		('PISAUTHENTICATED', VARIANT_BOOL),
+		('pisAuthenticated', VARIANT_BOOL),
     )
         
 
@@ -6875,7 +6875,7 @@ class IsFirstInTransaction2(NDRCALL):
 
 class IsFirstInTransaction2Response(NDRCALL):
     structure = (
-		('PISFIRSTINXACT', VARIANT_BOOL),
+		('pisFirstInXact', VARIANT_BOOL),
     )
         
 
@@ -6887,7 +6887,7 @@ class IsLastInTransaction2(NDRCALL):
 
 class IsLastInTransaction2Response(NDRCALL):
     structure = (
-		('PISLASTINXACT', VARIANT_BOOL),
+		('pisLastInXact', VARIANT_BOOL),
     )
         
 
@@ -6911,7 +6911,7 @@ class SoapEnvelope(NDRCALL):
 
 class SoapEnvelopeResponse(NDRCALL):
     structure = (
-		('PBSTRSOAPENVELOPE', BSTR),
+		('pbstrSoapEnvelope', BSTR),
     )
         
 
@@ -6923,14 +6923,14 @@ class CompoundMessage(NDRCALL):
 
 class CompoundMessageResponse(NDRCALL):
     structure = (
-		('PVARCOMPOUNDMESSAGE', VARIANT),
+		('pvarCompoundMessage', VARIANT),
     )
         
 
 class SoapHeader(NDRCALL):
     opnum = 89
     structure = (
-		('BSTRSOAPHEADER', BSTR),
+		('bstrSoapHeader', BSTR),
     )
 
 class SoapHeaderResponse(NDRCALL):
@@ -6942,7 +6942,7 @@ class SoapHeaderResponse(NDRCALL):
 class SoapBody(NDRCALL):
     opnum = 90
     structure = (
-		('BSTRSOAPBODY', BSTR),
+		('bstrSoapBody', BSTR),
     )
 
 class SoapBodyResponse(NDRCALL):
@@ -7029,7 +7029,7 @@ class Class(NDRCALL):
 
 class ClassResponse(NDRCALL):
     structure = (
-		('PLCLASS', LONG),
+		('plClass', LONG),
     )
         
 
@@ -7041,14 +7041,14 @@ class PrivLevel(NDRCALL):
 
 class PrivLevelResponse(NDRCALL):
     structure = (
-		('PLPRIVLEVEL', LONG),
+		('plPrivLevel', LONG),
     )
         
 
 class PrivLevel(NDRCALL):
     opnum = 2
     structure = (
-		('LPRIVLEVEL', LONG),
+		('lPrivLevel', LONG),
     )
 
 class PrivLevelResponse(NDRCALL):
@@ -7065,14 +7065,14 @@ class AuthLevel(NDRCALL):
 
 class AuthLevelResponse(NDRCALL):
     structure = (
-		('PLAUTHLEVEL', LONG),
+		('plAuthLevel', LONG),
     )
         
 
 class AuthLevel(NDRCALL):
     opnum = 4
     structure = (
-		('LAUTHLEVEL', LONG),
+		('lAuthLevel', LONG),
     )
 
 class AuthLevelResponse(NDRCALL):
@@ -7089,7 +7089,7 @@ class IsAuthenticated(NDRCALL):
 
 class IsAuthenticatedResponse(NDRCALL):
     structure = (
-		('PISAUTHENTICATED', SHORT),
+		('pisAuthenticated', SHORT),
     )
         
 
@@ -7101,14 +7101,14 @@ class Delivery(NDRCALL):
 
 class DeliveryResponse(NDRCALL):
     structure = (
-		('PLDELIVERY', LONG),
+		('plDelivery', LONG),
     )
         
 
 class Delivery(NDRCALL):
     opnum = 7
     structure = (
-		('LDELIVERY', LONG),
+		('lDelivery', LONG),
     )
 
 class DeliveryResponse(NDRCALL):
@@ -7125,14 +7125,14 @@ class Trace(NDRCALL):
 
 class TraceResponse(NDRCALL):
     structure = (
-		('PLTRACE', LONG),
+		('plTrace', LONG),
     )
         
 
 class Trace(NDRCALL):
     opnum = 9
     structure = (
-		('LTRACE', LONG),
+		('lTrace', LONG),
     )
 
 class TraceResponse(NDRCALL):
@@ -7149,14 +7149,14 @@ class Priority(NDRCALL):
 
 class PriorityResponse(NDRCALL):
     structure = (
-		('PLPRIORITY', LONG),
+		('plPriority', LONG),
     )
         
 
 class Priority(NDRCALL):
     opnum = 11
     structure = (
-		('LPRIORITY', LONG),
+		('lPriority', LONG),
     )
 
 class PriorityResponse(NDRCALL):
@@ -7173,14 +7173,14 @@ class Journal(NDRCALL):
 
 class JournalResponse(NDRCALL):
     structure = (
-		('PLJOURNAL', LONG),
+		('plJournal', LONG),
     )
         
 
 class Journal(NDRCALL):
     opnum = 13
     structure = (
-		('LJOURNAL', LONG),
+		('lJournal', LONG),
     )
 
 class JournalResponse(NDRCALL):
@@ -7197,14 +7197,14 @@ class ResponseQueueInfo_v1(NDRCALL):
 
 class ResponseQueueInfo_v1Response(NDRCALL):
     structure = (
-		('PPQINFORESPONSE', IMSMQQUEUEINFO),
+		('ppqinfoResponse', IMSMQQUEUEINFO),
     )
         
 
 class ResponseQueueInfo_v1(NDRCALL):
     opnum = 15
     structure = (
-		('PQINFORESPONSE', IMSMQQUEUEINFO),
+		('pqinfoResponse', IMSMQQUEUEINFO),
     )
 
 class ResponseQueueInfo_v1Response(NDRCALL):
@@ -7221,14 +7221,14 @@ class AppSpecific(NDRCALL):
 
 class AppSpecificResponse(NDRCALL):
     structure = (
-		('PLAPPSPECIFIC', LONG),
+		('plAppSpecific', LONG),
     )
         
 
 class AppSpecific(NDRCALL):
     opnum = 17
     structure = (
-		('LAPPSPECIFIC', LONG),
+		('lAppSpecific', LONG),
     )
 
 class AppSpecificResponse(NDRCALL):
@@ -7245,7 +7245,7 @@ class SourceMachineGuid(NDRCALL):
 
 class SourceMachineGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDSRCMACHINE', BSTR),
+		('pbstrGuidSrcMachine', BSTR),
     )
         
 
@@ -7257,7 +7257,7 @@ class BodyLength(NDRCALL):
 
 class BodyLengthResponse(NDRCALL):
     structure = (
-		('PCBBODY', LONG),
+		('pcbBody', LONG),
     )
         
 
@@ -7269,14 +7269,14 @@ class Body(NDRCALL):
 
 class BodyResponse(NDRCALL):
     structure = (
-		('PVARBODY', VARIANT),
+		('pvarBody', VARIANT),
     )
         
 
 class Body(NDRCALL):
     opnum = 21
     structure = (
-		('VARBODY', VARIANT),
+		('varBody', VARIANT),
     )
 
 class BodyResponse(NDRCALL):
@@ -7293,14 +7293,14 @@ class AdminQueueInfo_v1(NDRCALL):
 
 class AdminQueueInfo_v1Response(NDRCALL):
     structure = (
-		('PPQINFOADMIN', IMSMQQUEUEINFO),
+		('ppqinfoAdmin', IMSMQQUEUEINFO),
     )
         
 
 class AdminQueueInfo_v1(NDRCALL):
     opnum = 23
     structure = (
-		('PQINFOADMIN', IMSMQQUEUEINFO),
+		('pqinfoAdmin', IMSMQQUEUEINFO),
     )
 
 class AdminQueueInfo_v1Response(NDRCALL):
@@ -7317,7 +7317,7 @@ class Id(NDRCALL):
 
 class IdResponse(NDRCALL):
     structure = (
-		('PVARMSGID', VARIANT),
+		('pvarMsgId', VARIANT),
     )
         
 
@@ -7329,14 +7329,14 @@ class CorrelationId(NDRCALL):
 
 class CorrelationIdResponse(NDRCALL):
     structure = (
-		('PVARMSGID', VARIANT),
+		('pvarMsgId', VARIANT),
     )
         
 
 class CorrelationId(NDRCALL):
     opnum = 26
     structure = (
-		('VARMSGID', VARIANT),
+		('varMsgId', VARIANT),
     )
 
 class CorrelationIdResponse(NDRCALL):
@@ -7353,14 +7353,14 @@ class Ack(NDRCALL):
 
 class AckResponse(NDRCALL):
     structure = (
-		('PLACK', LONG),
+		('plAck', LONG),
     )
         
 
 class Ack(NDRCALL):
     opnum = 28
     structure = (
-		('LACK', LONG),
+		('lAck', LONG),
     )
 
 class AckResponse(NDRCALL):
@@ -7377,14 +7377,14 @@ class Label(NDRCALL):
 
 class LabelResponse(NDRCALL):
     structure = (
-		('PBSTRLABEL', BSTR),
+		('pbstrLabel', BSTR),
     )
         
 
 class Label(NDRCALL):
     opnum = 30
     structure = (
-		('BSTRLABEL', BSTR),
+		('bstrLabel', BSTR),
     )
 
 class LabelResponse(NDRCALL):
@@ -7401,14 +7401,14 @@ class MaxTimeToReachQueue(NDRCALL):
 
 class MaxTimeToReachQueueResponse(NDRCALL):
     structure = (
-		('PLMAXTIMETOREACHQUEUE', LONG),
+		('plMaxTimeToReachQueue', LONG),
     )
         
 
 class MaxTimeToReachQueue(NDRCALL):
     opnum = 32
     structure = (
-		('LMAXTIMETOREACHQUEUE', LONG),
+		('lMaxTimeToReachQueue', LONG),
     )
 
 class MaxTimeToReachQueueResponse(NDRCALL):
@@ -7425,14 +7425,14 @@ class MaxTimeToReceive(NDRCALL):
 
 class MaxTimeToReceiveResponse(NDRCALL):
     structure = (
-		('PLMAXTIMETORECEIVE', LONG),
+		('plMaxTimeToReceive', LONG),
     )
         
 
 class MaxTimeToReceive(NDRCALL):
     opnum = 34
     structure = (
-		('LMAXTIMETORECEIVE', LONG),
+		('lMaxTimeToReceive', LONG),
     )
 
 class MaxTimeToReceiveResponse(NDRCALL):
@@ -7449,14 +7449,14 @@ class HashAlgorithm(NDRCALL):
 
 class HashAlgorithmResponse(NDRCALL):
     structure = (
-		('PLHASHALG', LONG),
+		('plHashAlg', LONG),
     )
         
 
 class HashAlgorithm(NDRCALL):
     opnum = 36
     structure = (
-		('LHASHALG', LONG),
+		('lHashAlg', LONG),
     )
 
 class HashAlgorithmResponse(NDRCALL):
@@ -7473,14 +7473,14 @@ class EncryptAlgorithm(NDRCALL):
 
 class EncryptAlgorithmResponse(NDRCALL):
     structure = (
-		('PLENCRYPTALG', LONG),
+		('plEncryptAlg', LONG),
     )
         
 
 class EncryptAlgorithm(NDRCALL):
     opnum = 38
     structure = (
-		('LENCRYPTALG', LONG),
+		('lEncryptAlg', LONG),
     )
 
 class EncryptAlgorithmResponse(NDRCALL):
@@ -7497,7 +7497,7 @@ class SentTime(NDRCALL):
 
 class SentTimeResponse(NDRCALL):
     structure = (
-		('PVARSENTTIME', VARIANT),
+		('pvarSentTime', VARIANT),
     )
         
 
@@ -7509,7 +7509,7 @@ class ArrivedTime(NDRCALL):
 
 class ArrivedTimeResponse(NDRCALL):
     structure = (
-		('PLARRIVEDTIME', VARIANT),
+		('plArrivedTime', VARIANT),
     )
         
 
@@ -7521,7 +7521,7 @@ class DestinationQueueInfo(NDRCALL):
 
 class DestinationQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFODEST', IMSMQQUEUEINFO4),
+		('ppqinfoDest', IMSMQQUEUEINFO4),
     )
         
 
@@ -7533,14 +7533,14 @@ class SenderCertificate(NDRCALL):
 
 class SenderCertificateResponse(NDRCALL):
     structure = (
-		('PVARSENDERCERT', VARIANT),
+		('pvarSenderCert', VARIANT),
     )
         
 
 class SenderCertificate(NDRCALL):
     opnum = 43
     structure = (
-		('VARSENDERCERT', VARIANT),
+		('varSenderCert', VARIANT),
     )
 
 class SenderCertificateResponse(NDRCALL):
@@ -7557,7 +7557,7 @@ class SenderId(NDRCALL):
 
 class SenderIdResponse(NDRCALL):
     structure = (
-		('PVARSENDERID', VARIANT),
+		('pvarSenderId', VARIANT),
     )
         
 
@@ -7569,14 +7569,14 @@ class SenderIdType(NDRCALL):
 
 class SenderIdTypeResponse(NDRCALL):
     structure = (
-		('PLSENDERIDTYPE', LONG),
+		('plSenderIdType', LONG),
     )
         
 
 class SenderIdType(NDRCALL):
     opnum = 46
     structure = (
-		('LSENDERIDTYPE', LONG),
+		('lSenderIdType', LONG),
     )
 
 class SenderIdTypeResponse(NDRCALL):
@@ -7588,8 +7588,8 @@ class SenderIdTypeResponse(NDRCALL):
 class Send(NDRCALL):
     opnum = 47
     structure = (
-		('DESTINATIONQUEUE', IDISPATCH),
-		('TRANSACTION', VARIANT),
+		('DestinationQueue', IDISPATCH),
+		('Transaction', VARIANT),
     )
 
 class SendResponse(NDRCALL):
@@ -7618,7 +7618,7 @@ class SenderVersion(NDRCALL):
 
 class SenderVersionResponse(NDRCALL):
     structure = (
-		('PLSENDERVERSION', LONG),
+		('plSenderVersion', LONG),
     )
         
 
@@ -7630,14 +7630,14 @@ class Extension(NDRCALL):
 
 class ExtensionResponse(NDRCALL):
     structure = (
-		('PVAREXTENSION', VARIANT),
+		('pvarExtension', VARIANT),
     )
         
 
 class Extension(NDRCALL):
     opnum = 51
     structure = (
-		('VAREXTENSION', VARIANT),
+		('varExtension', VARIANT),
     )
 
 class ExtensionResponse(NDRCALL):
@@ -7654,14 +7654,14 @@ class ConnectorTypeGuid(NDRCALL):
 
 class ConnectorTypeGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDCONNECTORTYPE', BSTR),
+		('pbstrGuidConnectorType', BSTR),
     )
         
 
 class ConnectorTypeGuid(NDRCALL):
     opnum = 53
     structure = (
-		('BSTRGUIDCONNECTORTYPE', BSTR),
+		('bstrGuidConnectorType', BSTR),
     )
 
 class ConnectorTypeGuidResponse(NDRCALL):
@@ -7678,7 +7678,7 @@ class TransactionStatusQueueInfo(NDRCALL):
 
 class TransactionStatusQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFOXACTSTATUS', IMSMQQUEUEINFO4),
+		('ppqinfoXactStatus', IMSMQQUEUEINFO4),
     )
         
 
@@ -7690,14 +7690,14 @@ class DestinationSymmetricKey(NDRCALL):
 
 class DestinationSymmetricKeyResponse(NDRCALL):
     structure = (
-		('PVARDESTSYMMKEY', VARIANT),
+		('pvarDestSymmKey', VARIANT),
     )
         
 
 class DestinationSymmetricKey(NDRCALL):
     opnum = 56
     structure = (
-		('VARDESTSYMMKEY', VARIANT),
+		('varDestSymmKey', VARIANT),
     )
 
 class DestinationSymmetricKeyResponse(NDRCALL):
@@ -7714,14 +7714,14 @@ class Signature(NDRCALL):
 
 class SignatureResponse(NDRCALL):
     structure = (
-		('PVARSIGNATURE', VARIANT),
+		('pvarSignature', VARIANT),
     )
         
 
 class Signature(NDRCALL):
     opnum = 58
     structure = (
-		('VARSIGNATURE', VARIANT),
+		('varSignature', VARIANT),
     )
 
 class SignatureResponse(NDRCALL):
@@ -7738,14 +7738,14 @@ class AuthenticationProviderType(NDRCALL):
 
 class AuthenticationProviderTypeResponse(NDRCALL):
     structure = (
-		('PLAUTHPROVTYPE', LONG),
+		('plAuthProvType', LONG),
     )
         
 
 class AuthenticationProviderType(NDRCALL):
     opnum = 60
     structure = (
-		('LAUTHPROVTYPE', LONG),
+		('lAuthProvType', LONG),
     )
 
 class AuthenticationProviderTypeResponse(NDRCALL):
@@ -7762,14 +7762,14 @@ class AuthenticationProviderName(NDRCALL):
 
 class AuthenticationProviderNameResponse(NDRCALL):
     structure = (
-		('PBSTRAUTHPROVNAME', BSTR),
+		('pbstrAuthProvName', BSTR),
     )
         
 
 class AuthenticationProviderName(NDRCALL):
     opnum = 62
     structure = (
-		('BSTRAUTHPROVNAME', BSTR),
+		('bstrAuthProvName', BSTR),
     )
 
 class AuthenticationProviderNameResponse(NDRCALL):
@@ -7781,7 +7781,7 @@ class AuthenticationProviderNameResponse(NDRCALL):
 class SenderId(NDRCALL):
     opnum = 63
     structure = (
-		('VARSENDERID', VARIANT),
+		('varSenderId', VARIANT),
     )
 
 class SenderIdResponse(NDRCALL):
@@ -7798,14 +7798,14 @@ class MsgClass(NDRCALL):
 
 class MsgClassResponse(NDRCALL):
     structure = (
-		('PLMSGCLASS', LONG),
+		('plMsgClass', LONG),
     )
         
 
 class MsgClass(NDRCALL):
     opnum = 65
     structure = (
-		('LMSGCLASS', LONG),
+		('lMsgClass', LONG),
     )
 
 class MsgClassResponse(NDRCALL):
@@ -7822,7 +7822,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 
@@ -7834,7 +7834,7 @@ class TransactionId(NDRCALL):
 
 class TransactionIdResponse(NDRCALL):
     structure = (
-		('PVARXACTID', VARIANT),
+		('pvarXactId', VARIANT),
     )
         
 
@@ -7846,7 +7846,7 @@ class IsFirstInTransaction(NDRCALL):
 
 class IsFirstInTransactionResponse(NDRCALL):
     structure = (
-		('PISFIRSTINXACT', SHORT),
+		('pisFirstInXact', SHORT),
     )
         
 
@@ -7858,7 +7858,7 @@ class IsLastInTransaction(NDRCALL):
 
 class IsLastInTransactionResponse(NDRCALL):
     structure = (
-		('PISLASTINXACT', SHORT),
+		('pisLastInXact', SHORT),
     )
         
 
@@ -7870,14 +7870,14 @@ class ResponseQueueInfo_v2(NDRCALL):
 
 class ResponseQueueInfo_v2Response(NDRCALL):
     structure = (
-		('PPQINFORESPONSE', IMSMQQUEUEINFO2),
+		('ppqinfoResponse', IMSMQQUEUEINFO2),
     )
         
 
 class ResponseQueueInfo_v2(NDRCALL):
     opnum = 71
     structure = (
-		('PQINFORESPONSE', IMSMQQUEUEINFO2),
+		('pqinfoResponse', IMSMQQUEUEINFO2),
     )
 
 class ResponseQueueInfo_v2Response(NDRCALL):
@@ -7894,14 +7894,14 @@ class AdminQueueInfo_v2(NDRCALL):
 
 class AdminQueueInfo_v2Response(NDRCALL):
     structure = (
-		('PPQINFOADMIN', IMSMQQUEUEINFO2),
+		('ppqinfoAdmin', IMSMQQUEUEINFO2),
     )
         
 
 class AdminQueueInfo_v2(NDRCALL):
     opnum = 73
     structure = (
-		('PQINFOADMIN', IMSMQQUEUEINFO2),
+		('pqinfoAdmin', IMSMQQUEUEINFO2),
     )
 
 class AdminQueueInfo_v2Response(NDRCALL):
@@ -7918,7 +7918,7 @@ class ReceivedAuthenticationLevel(NDRCALL):
 
 class ReceivedAuthenticationLevelResponse(NDRCALL):
     structure = (
-		('PSRECEIVEDAUTHENTICATIONLEVEL', SHORT),
+		('psReceivedAuthenticationLevel', SHORT),
     )
         
 
@@ -7930,14 +7930,14 @@ class ResponseQueueInfo(NDRCALL):
 
 class ResponseQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFORESPONSE', IMSMQQUEUEINFO4),
+		('ppqinfoResponse', IMSMQQUEUEINFO4),
     )
         
 
 class ResponseQueueInfo(NDRCALL):
     opnum = 76
     structure = (
-		('PQINFORESPONSE', IMSMQQUEUEINFO4),
+		('pqinfoResponse', IMSMQQUEUEINFO4),
     )
 
 class ResponseQueueInfoResponse(NDRCALL):
@@ -7954,14 +7954,14 @@ class AdminQueueInfo(NDRCALL):
 
 class AdminQueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFOADMIN', IMSMQQUEUEINFO4),
+		('ppqinfoAdmin', IMSMQQUEUEINFO4),
     )
         
 
 class AdminQueueInfo(NDRCALL):
     opnum = 78
     structure = (
-		('PQINFOADMIN', IMSMQQUEUEINFO4),
+		('pqinfoAdmin', IMSMQQUEUEINFO4),
     )
 
 class AdminQueueInfoResponse(NDRCALL):
@@ -7978,14 +7978,14 @@ class ResponseDestination(NDRCALL):
 
 class ResponseDestinationResponse(NDRCALL):
     structure = (
-		('PPDESTRESPONSE', IDISPATCH),
+		('ppdestResponse', IDISPATCH),
     )
         
 
 class ResponseDestination(NDRCALL):
     opnum = 80
     structure = (
-		('PDESTRESPONSE', IDISPATCH),
+		('pdestResponse', IDISPATCH),
     )
 
 class ResponseDestinationResponse(NDRCALL):
@@ -8002,7 +8002,7 @@ class Destination(NDRCALL):
 
 class DestinationResponse(NDRCALL):
     structure = (
-		('PPDESTDESTINATION', IDISPATCH),
+		('ppdestDestination', IDISPATCH),
     )
         
 
@@ -8014,7 +8014,7 @@ class LookupId(NDRCALL):
 
 class LookupIdResponse(NDRCALL):
     structure = (
-		('PVARLOOKUPID', VARIANT),
+		('pvarLookupId', VARIANT),
     )
         
 
@@ -8026,7 +8026,7 @@ class IsAuthenticated2(NDRCALL):
 
 class IsAuthenticated2Response(NDRCALL):
     structure = (
-		('PISAUTHENTICATED', VARIANT_BOOL),
+		('pisAuthenticated', VARIANT_BOOL),
     )
         
 
@@ -8038,7 +8038,7 @@ class IsFirstInTransaction2(NDRCALL):
 
 class IsFirstInTransaction2Response(NDRCALL):
     structure = (
-		('PISFIRSTINXACT', VARIANT_BOOL),
+		('pisFirstInXact', VARIANT_BOOL),
     )
         
 
@@ -8050,7 +8050,7 @@ class IsLastInTransaction2(NDRCALL):
 
 class IsLastInTransaction2Response(NDRCALL):
     structure = (
-		('PISLASTINXACT', VARIANT_BOOL),
+		('pisLastInXact', VARIANT_BOOL),
     )
         
 
@@ -8074,7 +8074,7 @@ class SoapEnvelope(NDRCALL):
 
 class SoapEnvelopeResponse(NDRCALL):
     structure = (
-		('PBSTRSOAPENVELOPE', BSTR),
+		('pbstrSoapEnvelope', BSTR),
     )
         
 
@@ -8086,14 +8086,14 @@ class CompoundMessage(NDRCALL):
 
 class CompoundMessageResponse(NDRCALL):
     structure = (
-		('PVARCOMPOUNDMESSAGE', VARIANT),
+		('pvarCompoundMessage', VARIANT),
     )
         
 
 class SoapHeader(NDRCALL):
     opnum = 89
     structure = (
-		('BSTRSOAPHEADER', BSTR),
+		('bstrSoapHeader', BSTR),
     )
 
 class SoapHeaderResponse(NDRCALL):
@@ -8105,7 +8105,7 @@ class SoapHeaderResponse(NDRCALL):
 class SoapBody(NDRCALL):
     opnum = 90
     structure = (
-		('BSTRSOAPBODY', BSTR),
+		('bstrSoapBody', BSTR),
     )
 
 class SoapBodyResponse(NDRCALL):
@@ -8192,7 +8192,7 @@ class Access(NDRCALL):
 
 class AccessResponse(NDRCALL):
     structure = (
-		('PLACCESS', LONG),
+		('plAccess', LONG),
     )
         
 
@@ -8204,7 +8204,7 @@ class ShareMode(NDRCALL):
 
 class ShareModeResponse(NDRCALL):
     structure = (
-		('PLSHAREMODE', LONG),
+		('plShareMode', LONG),
     )
         
 
@@ -8216,7 +8216,7 @@ class QueueInfo(NDRCALL):
 
 class QueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFO', IMSMQQUEUEINFO),
+		('ppqinfo', IMSMQQUEUEINFO),
     )
         
 
@@ -8228,7 +8228,7 @@ class Handle(NDRCALL):
 
 class HandleResponse(NDRCALL):
     structure = (
-		('PLHANDLE', LONG),
+		('plHandle', LONG),
     )
         
 
@@ -8240,7 +8240,7 @@ class IsOpen(NDRCALL):
 
 class IsOpenResponse(NDRCALL):
     structure = (
-		('PISOPEN', SHORT),
+		('pisOpen', SHORT),
     )
         
 
@@ -8259,38 +8259,38 @@ class CloseResponse(NDRCALL):
 class Receive(NDRCALL):
     opnum = 6
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class ReceiveResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class Peek(NDRCALL):
     opnum = 7
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class PeekResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class EnableNotification(NDRCALL):
     opnum = 8
     structure = (
-		('EVENT', IMSMQEVENT),
-		('CURSOR', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Event', IMSMQEVENT),
+		('Cursor', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class EnableNotificationResponse(NDRCALL):
@@ -8314,43 +8314,43 @@ class ResetResponse(NDRCALL):
 class ReceiveCurrent(NDRCALL):
     opnum = 10
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class ReceiveCurrentResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class PeekNext(NDRCALL):
     opnum = 11
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class PeekNextResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class PeekCurrent(NDRCALL):
     opnum = 12
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class PeekCurrentResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 OPNUMS = {
@@ -8386,7 +8386,7 @@ class Access(NDRCALL):
 
 class AccessResponse(NDRCALL):
     structure = (
-		('PLACCESS', LONG),
+		('plAccess', LONG),
     )
         
 
@@ -8398,7 +8398,7 @@ class ShareMode(NDRCALL):
 
 class ShareModeResponse(NDRCALL):
     structure = (
-		('PLSHAREMODE', LONG),
+		('plShareMode', LONG),
     )
         
 
@@ -8410,7 +8410,7 @@ class QueueInfo(NDRCALL):
 
 class QueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFO', IMSMQQUEUEINFO2),
+		('ppqinfo', IMSMQQUEUEINFO2),
     )
         
 
@@ -8422,7 +8422,7 @@ class Handle(NDRCALL):
 
 class HandleResponse(NDRCALL):
     structure = (
-		('PLHANDLE', LONG),
+		('plHandle', LONG),
     )
         
 
@@ -8434,7 +8434,7 @@ class IsOpen(NDRCALL):
 
 class IsOpenResponse(NDRCALL):
     structure = (
-		('PISOPEN', SHORT),
+		('pisOpen', SHORT),
     )
         
 
@@ -8453,38 +8453,38 @@ class CloseResponse(NDRCALL):
 class Receive_v1(NDRCALL):
     opnum = 6
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class Receive_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class Peek_v1(NDRCALL):
     opnum = 7
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class Peek_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class EnableNotification(NDRCALL):
     opnum = 8
     structure = (
-		('EVENT', IMSMQEVENT2),
-		('CURSOR', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Event', IMSMQEVENT2),
+		('Cursor', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class EnableNotificationResponse(NDRCALL):
@@ -8508,120 +8508,120 @@ class ResetResponse(NDRCALL):
 class ReceiveCurrent_v1(NDRCALL):
     opnum = 10
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class ReceiveCurrent_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class PeekNext_v1(NDRCALL):
     opnum = 11
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class PeekNext_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class PeekCurrent_v1(NDRCALL):
     opnum = 12
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class PeekCurrent_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class Receive(NDRCALL):
     opnum = 13
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE2),
+		('ppmsg', IMSMQMESSAGE2),
     )
         
 
 class Peek(NDRCALL):
     opnum = 14
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE2),
+		('ppmsg', IMSMQMESSAGE2),
     )
         
 
 class ReceiveCurrent(NDRCALL):
     opnum = 15
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveCurrentResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE2),
+		('ppmsg', IMSMQMESSAGE2),
     )
         
 
 class PeekNext(NDRCALL):
     opnum = 16
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekNextResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE2),
+		('ppmsg', IMSMQMESSAGE2),
     )
         
 
 class PeekCurrent(NDRCALL):
     opnum = 17
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekCurrentResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE2),
+		('ppmsg', IMSMQMESSAGE2),
     )
         
 
@@ -8633,7 +8633,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -8675,7 +8675,7 @@ class Access(NDRCALL):
 
 class AccessResponse(NDRCALL):
     structure = (
-		('PLACCESS', LONG),
+		('plAccess', LONG),
     )
         
 
@@ -8687,7 +8687,7 @@ class ShareMode(NDRCALL):
 
 class ShareModeResponse(NDRCALL):
     structure = (
-		('PLSHAREMODE', LONG),
+		('plShareMode', LONG),
     )
         
 
@@ -8699,7 +8699,7 @@ class QueueInfo(NDRCALL):
 
 class QueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFO', IMSMQQUEUEINFO3),
+		('ppqinfo', IMSMQQUEUEINFO3),
     )
         
 
@@ -8711,7 +8711,7 @@ class Handle(NDRCALL):
 
 class HandleResponse(NDRCALL):
     structure = (
-		('PLHANDLE', LONG),
+		('plHandle', LONG),
     )
         
 
@@ -8723,7 +8723,7 @@ class IsOpen(NDRCALL):
 
 class IsOpenResponse(NDRCALL):
     structure = (
-		('PISOPEN', SHORT),
+		('pisOpen', SHORT),
     )
         
 
@@ -8742,38 +8742,38 @@ class CloseResponse(NDRCALL):
 class Receive_v1(NDRCALL):
     opnum = 6
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class Receive_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class Peek_v1(NDRCALL):
     opnum = 7
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class Peek_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class EnableNotification(NDRCALL):
     opnum = 8
     structure = (
-		('EVENT', IMSMQEVENT3),
-		('CURSOR', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Event', IMSMQEVENT3),
+		('Cursor', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class EnableNotificationResponse(NDRCALL):
@@ -8797,120 +8797,120 @@ class ResetResponse(NDRCALL):
 class ReceiveCurrent_v1(NDRCALL):
     opnum = 10
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class ReceiveCurrent_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class PeekNext_v1(NDRCALL):
     opnum = 11
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class PeekNext_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class PeekCurrent_v1(NDRCALL):
     opnum = 12
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class PeekCurrent_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class Receive(NDRCALL):
     opnum = 13
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class Peek(NDRCALL):
     opnum = 14
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class ReceiveCurrent(NDRCALL):
     opnum = 15
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveCurrentResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class PeekNext(NDRCALL):
     opnum = 16
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekNextResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class PeekCurrent(NDRCALL):
     opnum = 17
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekCurrentResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
@@ -8922,7 +8922,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 
@@ -8934,158 +8934,158 @@ class Handle2(NDRCALL):
 
 class Handle2Response(NDRCALL):
     structure = (
-		('PVARHANDLE', VARIANT),
+		('pvarHandle', VARIANT),
     )
         
 
 class ReceiveByLookupId(NDRCALL):
     opnum = 20
     structure = (
-		('LOOKUPID', VARIANT),
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class ReceiveNextByLookupId(NDRCALL):
     opnum = 21
     structure = (
-		('LOOKUPID', VARIANT),
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveNextByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class ReceivePreviousByLookupId(NDRCALL):
     opnum = 22
     structure = (
-		('LOOKUPID', VARIANT),
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceivePreviousByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class ReceiveFirstByLookupId(NDRCALL):
     opnum = 23
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveFirstByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class ReceiveLastByLookupId(NDRCALL):
     opnum = 24
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveLastByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class PeekByLookupId(NDRCALL):
     opnum = 25
     structure = (
-		('LOOKUPID', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class PeekNextByLookupId(NDRCALL):
     opnum = 26
     structure = (
-		('LOOKUPID', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekNextByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class PeekPreviousByLookupId(NDRCALL):
     opnum = 27
     structure = (
-		('LOOKUPID', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekPreviousByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class PeekFirstByLookupId(NDRCALL):
     opnum = 28
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekFirstByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
 class PeekLastByLookupId(NDRCALL):
     opnum = 29
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekLastByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE3),
+		('ppmsg', IMSMQMESSAGE3),
     )
         
 
@@ -9109,7 +9109,7 @@ class IsOpen2(NDRCALL):
 
 class IsOpen2Response(NDRCALL):
     structure = (
-		('PISOPEN', VARIANT_BOOL),
+		('pisOpen', VARIANT_BOOL),
     )
         
 OPNUMS = {
@@ -9164,7 +9164,7 @@ class Access(NDRCALL):
 
 class AccessResponse(NDRCALL):
     structure = (
-		('PLACCESS', LONG),
+		('plAccess', LONG),
     )
         
 
@@ -9176,7 +9176,7 @@ class ShareMode(NDRCALL):
 
 class ShareModeResponse(NDRCALL):
     structure = (
-		('PLSHAREMODE', LONG),
+		('plShareMode', LONG),
     )
         
 
@@ -9188,7 +9188,7 @@ class QueueInfo(NDRCALL):
 
 class QueueInfoResponse(NDRCALL):
     structure = (
-		('PPQINFO', IMSMQQUEUEINFO4),
+		('ppqinfo', IMSMQQUEUEINFO4),
     )
         
 
@@ -9200,7 +9200,7 @@ class Handle(NDRCALL):
 
 class HandleResponse(NDRCALL):
     structure = (
-		('PLHANDLE', LONG),
+		('plHandle', LONG),
     )
         
 
@@ -9212,7 +9212,7 @@ class IsOpen(NDRCALL):
 
 class IsOpenResponse(NDRCALL):
     structure = (
-		('PISOPEN', SHORT),
+		('pisOpen', SHORT),
     )
         
 
@@ -9231,38 +9231,38 @@ class CloseResponse(NDRCALL):
 class Receive_v1(NDRCALL):
     opnum = 6
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class Receive_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class Peek_v1(NDRCALL):
     opnum = 7
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class Peek_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class EnableNotification(NDRCALL):
     opnum = 8
     structure = (
-		('EVENT', IMSMQEVENT3),
-		('CURSOR', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Event', IMSMQEVENT3),
+		('Cursor', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class EnableNotificationResponse(NDRCALL):
@@ -9286,120 +9286,120 @@ class ResetResponse(NDRCALL):
 class ReceiveCurrent_v1(NDRCALL):
     opnum = 10
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class ReceiveCurrent_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class PeekNext_v1(NDRCALL):
     opnum = 11
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class PeekNext_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class PeekCurrent_v1(NDRCALL):
     opnum = 12
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
     )
 
 class PeekCurrent_v1Response(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE),
+		('ppmsg', IMSMQMESSAGE),
     )
         
 
 class Receive(NDRCALL):
     opnum = 13
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class Peek(NDRCALL):
     opnum = 14
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class ReceiveCurrent(NDRCALL):
     opnum = 15
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveCurrentResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class PeekNext(NDRCALL):
     opnum = 16
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekNextResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class PeekCurrent(NDRCALL):
     opnum = 17
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('RECEIVETIMEOUT', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('ReceiveTimeout', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekCurrentResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
@@ -9411,7 +9411,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 
@@ -9423,158 +9423,158 @@ class Handle2(NDRCALL):
 
 class Handle2Response(NDRCALL):
     structure = (
-		('PVARHANDLE', VARIANT),
+		('pvarHandle', VARIANT),
     )
         
 
 class ReceiveByLookupId(NDRCALL):
     opnum = 20
     structure = (
-		('LOOKUPID', VARIANT),
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class ReceiveNextByLookupId(NDRCALL):
     opnum = 21
     structure = (
-		('LOOKUPID', VARIANT),
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveNextByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class ReceivePreviousByLookupId(NDRCALL):
     opnum = 22
     structure = (
-		('LOOKUPID', VARIANT),
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceivePreviousByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class ReceiveFirstByLookupId(NDRCALL):
     opnum = 23
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveFirstByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class ReceiveLastByLookupId(NDRCALL):
     opnum = 24
     structure = (
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveLastByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class PeekByLookupId(NDRCALL):
     opnum = 25
     structure = (
-		('LOOKUPID', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class PeekNextByLookupId(NDRCALL):
     opnum = 26
     structure = (
-		('LOOKUPID', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekNextByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class PeekPreviousByLookupId(NDRCALL):
     opnum = 27
     structure = (
-		('LOOKUPID', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekPreviousByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class PeekFirstByLookupId(NDRCALL):
     opnum = 28
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekFirstByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
 class PeekLastByLookupId(NDRCALL):
     opnum = 29
     structure = (
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class PeekLastByLookupIdResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 
@@ -9598,23 +9598,23 @@ class IsOpen2(NDRCALL):
 
 class IsOpen2Response(NDRCALL):
     structure = (
-		('PISOPEN', VARIANT_BOOL),
+		('pisOpen', VARIANT_BOOL),
     )
         
 
 class ReceiveByLookupIdAllowPeek(NDRCALL):
     opnum = 32
     structure = (
-		('LOOKUPID', VARIANT),
-		('TRANSACTION', VARIANT),
-		('WANTDESTINATIONQUEUE', VARIANT),
-		('WANTBODY', VARIANT),
-		('WANTCONNECTORTYPE', VARIANT),
+		('LookupId', VARIANT),
+		('Transaction', VARIANT),
+		('WantDestinationQueue', VARIANT),
+		('WantBody', VARIANT),
+		('WantConnectorType', VARIANT),
     )
 
 class ReceiveByLookupIdAllowPeekResponse(NDRCALL):
     structure = (
-		('PPMSG', IMSMQMESSAGE4),
+		('ppmsg', IMSMQMESSAGE4),
     )
         
 OPNUMS = {
@@ -9670,15 +9670,15 @@ class Hwnd(NDRCALL):
 
 class HwndResponse(NDRCALL):
     structure = (
-		('PHWND', LONG),
+		('phwnd', LONG),
     )
         
 
 class FireArrivedEvent(NDRCALL):
     opnum = 1
     structure = (
-		('PQ', IMSMQQUEUE),
-		('MSGCURSOR', LONG),
+		('pq', IMSMQQUEUE),
+		('msgcursor', LONG),
     )
 
 class FireArrivedEventResponse(NDRCALL):
@@ -9690,9 +9690,9 @@ class FireArrivedEventResponse(NDRCALL):
 class FireArrivedErrorEvent(NDRCALL):
     opnum = 2
     structure = (
-		('PQ', IMSMQQUEUE),
-		('HRSTATUS', HRESULT),
-		('MSGCURSOR', LONG),
+		('pq', IMSMQQUEUE),
+		('hrStatus', HRESULT),
+		('msgcursor', LONG),
     )
 
 class FireArrivedErrorEventResponse(NDRCALL):
@@ -9734,7 +9734,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -9769,7 +9769,7 @@ class QueueGuid(NDRCALL):
 
 class QueueGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDQUEUE', BSTR),
+		('pbstrGuidQueue', BSTR),
     )
         
 
@@ -9781,14 +9781,14 @@ class ServiceTypeGuid(NDRCALL):
 
 class ServiceTypeGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDSERVICETYPE', BSTR),
+		('pbstrGuidServiceType', BSTR),
     )
         
 
 class ServiceTypeGuid(NDRCALL):
     opnum = 2
     structure = (
-		('BSTRGUIDSERVICETYPE', BSTR),
+		('bstrGuidServiceType', BSTR),
     )
 
 class ServiceTypeGuidResponse(NDRCALL):
@@ -9805,14 +9805,14 @@ class Label(NDRCALL):
 
 class LabelResponse(NDRCALL):
     structure = (
-		('PBSTRLABEL', BSTR),
+		('pbstrLabel', BSTR),
     )
         
 
 class Label(NDRCALL):
     opnum = 4
     structure = (
-		('BSTRLABEL', BSTR),
+		('bstrLabel', BSTR),
     )
 
 class LabelResponse(NDRCALL):
@@ -9829,14 +9829,14 @@ class PathName(NDRCALL):
 
 class PathNameResponse(NDRCALL):
     structure = (
-		('PBSTRPATHNAME', BSTR),
+		('pbstrPathName', BSTR),
     )
         
 
 class PathName(NDRCALL):
     opnum = 6
     structure = (
-		('BSTRPATHNAME', BSTR),
+		('bstrPathName', BSTR),
     )
 
 class PathNameResponse(NDRCALL):
@@ -9853,14 +9853,14 @@ class FormatName(NDRCALL):
 
 class FormatNameResponse(NDRCALL):
     structure = (
-		('PBSTRFORMATNAME', BSTR),
+		('pbstrFormatName', BSTR),
     )
         
 
 class FormatName(NDRCALL):
     opnum = 8
     structure = (
-		('BSTRFORMATNAME', BSTR),
+		('bstrFormatName', BSTR),
     )
 
 class FormatNameResponse(NDRCALL):
@@ -9877,7 +9877,7 @@ class IsTransactional(NDRCALL):
 
 class IsTransactionalResponse(NDRCALL):
     structure = (
-		('PISTRANSACTIONAL', SHORT),
+		('pisTransactional', SHORT),
     )
         
 
@@ -9889,14 +9889,14 @@ class PrivLevel(NDRCALL):
 
 class PrivLevelResponse(NDRCALL):
     structure = (
-		('PLPRIVLEVEL', LONG),
+		('plPrivLevel', LONG),
     )
         
 
 class PrivLevel(NDRCALL):
     opnum = 11
     structure = (
-		('LPRIVLEVEL', LONG),
+		('lPrivLevel', LONG),
     )
 
 class PrivLevelResponse(NDRCALL):
@@ -9913,14 +9913,14 @@ class Journal(NDRCALL):
 
 class JournalResponse(NDRCALL):
     structure = (
-		('PLJOURNAL', LONG),
+		('plJournal', LONG),
     )
         
 
 class Journal(NDRCALL):
     opnum = 13
     structure = (
-		('LJOURNAL', LONG),
+		('lJournal', LONG),
     )
 
 class JournalResponse(NDRCALL):
@@ -9937,14 +9937,14 @@ class Quota(NDRCALL):
 
 class QuotaResponse(NDRCALL):
     structure = (
-		('PLQUOTA', LONG),
+		('plQuota', LONG),
     )
         
 
 class Quota(NDRCALL):
     opnum = 15
     structure = (
-		('LQUOTA', LONG),
+		('lQuota', LONG),
     )
 
 class QuotaResponse(NDRCALL):
@@ -9961,14 +9961,14 @@ class BasePriority(NDRCALL):
 
 class BasePriorityResponse(NDRCALL):
     structure = (
-		('PLBASEPRIORITY', LONG),
+		('plBasePriority', LONG),
     )
         
 
 class BasePriority(NDRCALL):
     opnum = 17
     structure = (
-		('LBASEPRIORITY', LONG),
+		('lBasePriority', LONG),
     )
 
 class BasePriorityResponse(NDRCALL):
@@ -9985,7 +9985,7 @@ class CreateTime(NDRCALL):
 
 class CreateTimeResponse(NDRCALL):
     structure = (
-		('PVARCREATETIME', VARIANT),
+		('pvarCreateTime', VARIANT),
     )
         
 
@@ -9997,7 +9997,7 @@ class ModifyTime(NDRCALL):
 
 class ModifyTimeResponse(NDRCALL):
     structure = (
-		('PVARMODIFYTIME', VARIANT),
+		('pvarModifyTime', VARIANT),
     )
         
 
@@ -10009,14 +10009,14 @@ class Authenticate(NDRCALL):
 
 class AuthenticateResponse(NDRCALL):
     structure = (
-		('PLAUTHENTICATE', LONG),
+		('plAuthenticate', LONG),
     )
         
 
 class Authenticate(NDRCALL):
     opnum = 21
     structure = (
-		('LAUTHENTICATE', LONG),
+		('lAuthenticate', LONG),
     )
 
 class AuthenticateResponse(NDRCALL):
@@ -10033,14 +10033,14 @@ class JournalQuota(NDRCALL):
 
 class JournalQuotaResponse(NDRCALL):
     structure = (
-		('PLJOURNALQUOTA', LONG),
+		('plJournalQuota', LONG),
     )
         
 
 class JournalQuota(NDRCALL):
     opnum = 23
     structure = (
-		('LJOURNALQUOTA', LONG),
+		('lJournalQuota', LONG),
     )
 
 class JournalQuotaResponse(NDRCALL):
@@ -10057,15 +10057,15 @@ class IsWorldReadable(NDRCALL):
 
 class IsWorldReadableResponse(NDRCALL):
     structure = (
-		('PISWORLDREADABLE', SHORT),
+		('pisWorldReadable', SHORT),
     )
         
 
 class Create(NDRCALL):
     opnum = 25
     structure = (
-		('ISTRANSACTIONAL', VARIANT),
-		('ISWORLDREADABLE', VARIANT),
+		('IsTransactional', VARIANT),
+		('IsWorldReadable', VARIANT),
     )
 
 class CreateResponse(NDRCALL):
@@ -10089,13 +10089,13 @@ class DeleteResponse(NDRCALL):
 class Open(NDRCALL):
     opnum = 27
     structure = (
-		('ACCESS', LONG),
-		('SHAREMODE', LONG),
+		('Access', LONG),
+		('ShareMode', LONG),
     )
 
 class OpenResponse(NDRCALL):
     structure = (
-		('PPQ', IMSMQQUEUE),
+		('ppq', IMSMQQUEUE),
     )
         
 
@@ -10162,7 +10162,7 @@ class QueueGuid(NDRCALL):
 
 class QueueGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDQUEUE', BSTR),
+		('pbstrGuidQueue', BSTR),
     )
         
 
@@ -10174,14 +10174,14 @@ class ServiceTypeGuid(NDRCALL):
 
 class ServiceTypeGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDSERVICETYPE', BSTR),
+		('pbstrGuidServiceType', BSTR),
     )
         
 
 class ServiceTypeGuid(NDRCALL):
     opnum = 2
     structure = (
-		('BSTRGUIDSERVICETYPE', BSTR),
+		('bstrGuidServiceType', BSTR),
     )
 
 class ServiceTypeGuidResponse(NDRCALL):
@@ -10198,14 +10198,14 @@ class Label(NDRCALL):
 
 class LabelResponse(NDRCALL):
     structure = (
-		('PBSTRLABEL', BSTR),
+		('pbstrLabel', BSTR),
     )
         
 
 class Label(NDRCALL):
     opnum = 4
     structure = (
-		('BSTRLABEL', BSTR),
+		('bstrLabel', BSTR),
     )
 
 class LabelResponse(NDRCALL):
@@ -10222,14 +10222,14 @@ class PathName(NDRCALL):
 
 class PathNameResponse(NDRCALL):
     structure = (
-		('PBSTRPATHNAME', BSTR),
+		('pbstrPathName', BSTR),
     )
         
 
 class PathName(NDRCALL):
     opnum = 6
     structure = (
-		('BSTRPATHNAME', BSTR),
+		('bstrPathName', BSTR),
     )
 
 class PathNameResponse(NDRCALL):
@@ -10246,14 +10246,14 @@ class FormatName(NDRCALL):
 
 class FormatNameResponse(NDRCALL):
     structure = (
-		('PBSTRFORMATNAME', BSTR),
+		('pbstrFormatName', BSTR),
     )
         
 
 class FormatName(NDRCALL):
     opnum = 8
     structure = (
-		('BSTRFORMATNAME', BSTR),
+		('bstrFormatName', BSTR),
     )
 
 class FormatNameResponse(NDRCALL):
@@ -10270,7 +10270,7 @@ class IsTransactional(NDRCALL):
 
 class IsTransactionalResponse(NDRCALL):
     structure = (
-		('PISTRANSACTIONAL', SHORT),
+		('pisTransactional', SHORT),
     )
         
 
@@ -10282,14 +10282,14 @@ class PrivLevel(NDRCALL):
 
 class PrivLevelResponse(NDRCALL):
     structure = (
-		('PLPRIVLEVEL', LONG),
+		('plPrivLevel', LONG),
     )
         
 
 class PrivLevel(NDRCALL):
     opnum = 11
     structure = (
-		('LPRIVLEVEL', LONG),
+		('lPrivLevel', LONG),
     )
 
 class PrivLevelResponse(NDRCALL):
@@ -10306,14 +10306,14 @@ class Journal(NDRCALL):
 
 class JournalResponse(NDRCALL):
     structure = (
-		('PLJOURNAL', LONG),
+		('plJournal', LONG),
     )
         
 
 class Journal(NDRCALL):
     opnum = 13
     structure = (
-		('LJOURNAL', LONG),
+		('lJournal', LONG),
     )
 
 class JournalResponse(NDRCALL):
@@ -10330,14 +10330,14 @@ class Quota(NDRCALL):
 
 class QuotaResponse(NDRCALL):
     structure = (
-		('PLQUOTA', LONG),
+		('plQuota', LONG),
     )
         
 
 class Quota(NDRCALL):
     opnum = 15
     structure = (
-		('LQUOTA', LONG),
+		('lQuota', LONG),
     )
 
 class QuotaResponse(NDRCALL):
@@ -10354,14 +10354,14 @@ class BasePriority(NDRCALL):
 
 class BasePriorityResponse(NDRCALL):
     structure = (
-		('PLBASEPRIORITY', LONG),
+		('plBasePriority', LONG),
     )
         
 
 class BasePriority(NDRCALL):
     opnum = 17
     structure = (
-		('LBASEPRIORITY', LONG),
+		('lBasePriority', LONG),
     )
 
 class BasePriorityResponse(NDRCALL):
@@ -10378,7 +10378,7 @@ class CreateTime(NDRCALL):
 
 class CreateTimeResponse(NDRCALL):
     structure = (
-		('PVARCREATETIME', VARIANT),
+		('pvarCreateTime', VARIANT),
     )
         
 
@@ -10390,7 +10390,7 @@ class ModifyTime(NDRCALL):
 
 class ModifyTimeResponse(NDRCALL):
     structure = (
-		('PVARMODIFYTIME', VARIANT),
+		('pvarModifyTime', VARIANT),
     )
         
 
@@ -10402,14 +10402,14 @@ class Authenticate(NDRCALL):
 
 class AuthenticateResponse(NDRCALL):
     structure = (
-		('PLAUTHENTICATE', LONG),
+		('plAuthenticate', LONG),
     )
         
 
 class Authenticate(NDRCALL):
     opnum = 21
     structure = (
-		('LAUTHENTICATE', LONG),
+		('lAuthenticate', LONG),
     )
 
 class AuthenticateResponse(NDRCALL):
@@ -10426,14 +10426,14 @@ class JournalQuota(NDRCALL):
 
 class JournalQuotaResponse(NDRCALL):
     structure = (
-		('PLJOURNALQUOTA', LONG),
+		('plJournalQuota', LONG),
     )
         
 
 class JournalQuota(NDRCALL):
     opnum = 23
     structure = (
-		('LJOURNALQUOTA', LONG),
+		('lJournalQuota', LONG),
     )
 
 class JournalQuotaResponse(NDRCALL):
@@ -10450,15 +10450,15 @@ class IsWorldReadable(NDRCALL):
 
 class IsWorldReadableResponse(NDRCALL):
     structure = (
-		('PISWORLDREADABLE', SHORT),
+		('pisWorldReadable', SHORT),
     )
         
 
 class Create(NDRCALL):
     opnum = 25
     structure = (
-		('ISTRANSACTIONAL', VARIANT),
-		('ISWORLDREADABLE', VARIANT),
+		('IsTransactional', VARIANT),
+		('IsWorldReadable', VARIANT),
     )
 
 class CreateResponse(NDRCALL):
@@ -10482,13 +10482,13 @@ class DeleteResponse(NDRCALL):
 class Open(NDRCALL):
     opnum = 27
     structure = (
-		('ACCESS', LONG),
-		('SHAREMODE', LONG),
+		('Access', LONG),
+		('ShareMode', LONG),
     )
 
 class OpenResponse(NDRCALL):
     structure = (
-		('PPQ', IMSMQQUEUE2),
+		('ppq', IMSMQQUEUE2),
     )
         
 
@@ -10524,7 +10524,7 @@ class PathNameDNS(NDRCALL):
 
 class PathNameDNSResponse(NDRCALL):
     structure = (
-		('PBSTRPATHNAMEDNS', BSTR),
+		('pbstrPathNameDNS', BSTR),
     )
         
 
@@ -10536,7 +10536,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 
@@ -10548,14 +10548,14 @@ class Security(NDRCALL):
 
 class SecurityResponse(NDRCALL):
     structure = (
-		('PVARSECURITY', VARIANT),
+		('pvarSecurity', VARIANT),
     )
         
 
 class Security(NDRCALL):
     opnum = 33
     structure = (
-		('VARSECURITY', VARIANT),
+		('varSecurity', VARIANT),
     )
 
 class SecurityResponse(NDRCALL):
@@ -10606,7 +10606,7 @@ class QueueGuid(NDRCALL):
 
 class QueueGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDQUEUE', BSTR),
+		('pbstrGuidQueue', BSTR),
     )
         
 
@@ -10618,14 +10618,14 @@ class ServiceTypeGuid(NDRCALL):
 
 class ServiceTypeGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDSERVICETYPE', BSTR),
+		('pbstrGuidServiceType', BSTR),
     )
         
 
 class ServiceTypeGuid(NDRCALL):
     opnum = 2
     structure = (
-		('BSTRGUIDSERVICETYPE', BSTR),
+		('bstrGuidServiceType', BSTR),
     )
 
 class ServiceTypeGuidResponse(NDRCALL):
@@ -10642,14 +10642,14 @@ class Label(NDRCALL):
 
 class LabelResponse(NDRCALL):
     structure = (
-		('PBSTRLABEL', BSTR),
+		('pbstrLabel', BSTR),
     )
         
 
 class Label(NDRCALL):
     opnum = 4
     structure = (
-		('BSTRLABEL', BSTR),
+		('bstrLabel', BSTR),
     )
 
 class LabelResponse(NDRCALL):
@@ -10666,14 +10666,14 @@ class PathName(NDRCALL):
 
 class PathNameResponse(NDRCALL):
     structure = (
-		('PBSTRPATHNAME', BSTR),
+		('pbstrPathName', BSTR),
     )
         
 
 class PathName(NDRCALL):
     opnum = 6
     structure = (
-		('BSTRPATHNAME', BSTR),
+		('bstrPathName', BSTR),
     )
 
 class PathNameResponse(NDRCALL):
@@ -10690,14 +10690,14 @@ class FormatName(NDRCALL):
 
 class FormatNameResponse(NDRCALL):
     structure = (
-		('PBSTRFORMATNAME', BSTR),
+		('pbstrFormatName', BSTR),
     )
         
 
 class FormatName(NDRCALL):
     opnum = 8
     structure = (
-		('BSTRFORMATNAME', BSTR),
+		('bstrFormatName', BSTR),
     )
 
 class FormatNameResponse(NDRCALL):
@@ -10714,7 +10714,7 @@ class IsTransactional(NDRCALL):
 
 class IsTransactionalResponse(NDRCALL):
     structure = (
-		('PISTRANSACTIONAL', SHORT),
+		('pisTransactional', SHORT),
     )
         
 
@@ -10726,14 +10726,14 @@ class PrivLevel(NDRCALL):
 
 class PrivLevelResponse(NDRCALL):
     structure = (
-		('PLPRIVLEVEL', LONG),
+		('plPrivLevel', LONG),
     )
         
 
 class PrivLevel(NDRCALL):
     opnum = 11
     structure = (
-		('LPRIVLEVEL', LONG),
+		('lPrivLevel', LONG),
     )
 
 class PrivLevelResponse(NDRCALL):
@@ -10750,14 +10750,14 @@ class Journal(NDRCALL):
 
 class JournalResponse(NDRCALL):
     structure = (
-		('PLJOURNAL', LONG),
+		('plJournal', LONG),
     )
         
 
 class Journal(NDRCALL):
     opnum = 13
     structure = (
-		('LJOURNAL', LONG),
+		('lJournal', LONG),
     )
 
 class JournalResponse(NDRCALL):
@@ -10774,14 +10774,14 @@ class Quota(NDRCALL):
 
 class QuotaResponse(NDRCALL):
     structure = (
-		('PLQUOTA', LONG),
+		('plQuota', LONG),
     )
         
 
 class Quota(NDRCALL):
     opnum = 15
     structure = (
-		('LQUOTA', LONG),
+		('lQuota', LONG),
     )
 
 class QuotaResponse(NDRCALL):
@@ -10798,14 +10798,14 @@ class BasePriority(NDRCALL):
 
 class BasePriorityResponse(NDRCALL):
     structure = (
-		('PLBASEPRIORITY', LONG),
+		('plBasePriority', LONG),
     )
         
 
 class BasePriority(NDRCALL):
     opnum = 17
     structure = (
-		('LBASEPRIORITY', LONG),
+		('lBasePriority', LONG),
     )
 
 class BasePriorityResponse(NDRCALL):
@@ -10822,7 +10822,7 @@ class CreateTime(NDRCALL):
 
 class CreateTimeResponse(NDRCALL):
     structure = (
-		('PVARCREATETIME', VARIANT),
+		('pvarCreateTime', VARIANT),
     )
         
 
@@ -10834,7 +10834,7 @@ class ModifyTime(NDRCALL):
 
 class ModifyTimeResponse(NDRCALL):
     structure = (
-		('PVARMODIFYTIME', VARIANT),
+		('pvarModifyTime', VARIANT),
     )
         
 
@@ -10846,14 +10846,14 @@ class Authenticate(NDRCALL):
 
 class AuthenticateResponse(NDRCALL):
     structure = (
-		('PLAUTHENTICATE', LONG),
+		('plAuthenticate', LONG),
     )
         
 
 class Authenticate(NDRCALL):
     opnum = 21
     structure = (
-		('LAUTHENTICATE', LONG),
+		('lAuthenticate', LONG),
     )
 
 class AuthenticateResponse(NDRCALL):
@@ -10870,14 +10870,14 @@ class JournalQuota(NDRCALL):
 
 class JournalQuotaResponse(NDRCALL):
     structure = (
-		('PLJOURNALQUOTA', LONG),
+		('plJournalQuota', LONG),
     )
         
 
 class JournalQuota(NDRCALL):
     opnum = 23
     structure = (
-		('LJOURNALQUOTA', LONG),
+		('lJournalQuota', LONG),
     )
 
 class JournalQuotaResponse(NDRCALL):
@@ -10894,15 +10894,15 @@ class IsWorldReadable(NDRCALL):
 
 class IsWorldReadableResponse(NDRCALL):
     structure = (
-		('PISWORLDREADABLE', SHORT),
+		('pisWorldReadable', SHORT),
     )
         
 
 class Create(NDRCALL):
     opnum = 25
     structure = (
-		('ISTRANSACTIONAL', VARIANT),
-		('ISWORLDREADABLE', VARIANT),
+		('IsTransactional', VARIANT),
+		('IsWorldReadable', VARIANT),
     )
 
 class CreateResponse(NDRCALL):
@@ -10926,13 +10926,13 @@ class DeleteResponse(NDRCALL):
 class Open(NDRCALL):
     opnum = 27
     structure = (
-		('ACCESS', LONG),
-		('SHAREMODE', LONG),
+		('Access', LONG),
+		('ShareMode', LONG),
     )
 
 class OpenResponse(NDRCALL):
     structure = (
-		('PPQ', IMSMQQUEUE3),
+		('ppq', IMSMQQUEUE3),
     )
         
 
@@ -10968,7 +10968,7 @@ class PathNameDNS(NDRCALL):
 
 class PathNameDNSResponse(NDRCALL):
     structure = (
-		('PBSTRPATHNAMEDNS', BSTR),
+		('pbstrPathNameDNS', BSTR),
     )
         
 
@@ -10980,7 +10980,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 
@@ -10992,14 +10992,14 @@ class Security(NDRCALL):
 
 class SecurityResponse(NDRCALL):
     structure = (
-		('PVARSECURITY', VARIANT),
+		('pvarSecurity', VARIANT),
     )
         
 
 class Security(NDRCALL):
     opnum = 33
     structure = (
-		('VARSECURITY', VARIANT),
+		('varSecurity', VARIANT),
     )
 
 class SecurityResponse(NDRCALL):
@@ -11016,7 +11016,7 @@ class IsTransactional2(NDRCALL):
 
 class IsTransactional2Response(NDRCALL):
     structure = (
-		('PISTRANSACTIONAL', VARIANT_BOOL),
+		('pisTransactional', VARIANT_BOOL),
     )
         
 
@@ -11028,7 +11028,7 @@ class IsWorldReadable2(NDRCALL):
 
 class IsWorldReadable2Response(NDRCALL):
     structure = (
-		('PISWORLDREADABLE', VARIANT_BOOL),
+		('pisWorldReadable', VARIANT_BOOL),
     )
         
 
@@ -11040,14 +11040,14 @@ class MulticastAddress(NDRCALL):
 
 class MulticastAddressResponse(NDRCALL):
     structure = (
-		('PBSTRMULTICASTADDRESS', BSTR),
+		('pbstrMulticastAddress', BSTR),
     )
         
 
 class MulticastAddress(NDRCALL):
     opnum = 37
     structure = (
-		('BSTRMULTICASTADDRESS', BSTR),
+		('bstrMulticastAddress', BSTR),
     )
 
 class MulticastAddressResponse(NDRCALL):
@@ -11064,7 +11064,7 @@ class ADsPath(NDRCALL):
 
 class ADsPathResponse(NDRCALL):
     structure = (
-		('PBSTRADSPATH', BSTR),
+		('pbstrADsPath', BSTR),
     )
         
 OPNUMS = {
@@ -11114,7 +11114,7 @@ class QueueGuid(NDRCALL):
 
 class QueueGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDQUEUE', BSTR),
+		('pbstrGuidQueue', BSTR),
     )
         
 
@@ -11126,14 +11126,14 @@ class ServiceTypeGuid(NDRCALL):
 
 class ServiceTypeGuidResponse(NDRCALL):
     structure = (
-		('PBSTRGUIDSERVICETYPE', BSTR),
+		('pbstrGuidServiceType', BSTR),
     )
         
 
 class ServiceTypeGuid(NDRCALL):
     opnum = 2
     structure = (
-		('BSTRGUIDSERVICETYPE', BSTR),
+		('bstrGuidServiceType', BSTR),
     )
 
 class ServiceTypeGuidResponse(NDRCALL):
@@ -11150,14 +11150,14 @@ class Label(NDRCALL):
 
 class LabelResponse(NDRCALL):
     structure = (
-		('PBSTRLABEL', BSTR),
+		('pbstrLabel', BSTR),
     )
         
 
 class Label(NDRCALL):
     opnum = 4
     structure = (
-		('BSTRLABEL', BSTR),
+		('bstrLabel', BSTR),
     )
 
 class LabelResponse(NDRCALL):
@@ -11174,14 +11174,14 @@ class PathName(NDRCALL):
 
 class PathNameResponse(NDRCALL):
     structure = (
-		('PBSTRPATHNAME', BSTR),
+		('pbstrPathName', BSTR),
     )
         
 
 class PathName(NDRCALL):
     opnum = 6
     structure = (
-		('BSTRPATHNAME', BSTR),
+		('bstrPathName', BSTR),
     )
 
 class PathNameResponse(NDRCALL):
@@ -11198,14 +11198,14 @@ class FormatName(NDRCALL):
 
 class FormatNameResponse(NDRCALL):
     structure = (
-		('PBSTRFORMATNAME', BSTR),
+		('pbstrFormatName', BSTR),
     )
         
 
 class FormatName(NDRCALL):
     opnum = 8
     structure = (
-		('BSTRFORMATNAME', BSTR),
+		('bstrFormatName', BSTR),
     )
 
 class FormatNameResponse(NDRCALL):
@@ -11222,7 +11222,7 @@ class IsTransactional(NDRCALL):
 
 class IsTransactionalResponse(NDRCALL):
     structure = (
-		('PISTRANSACTIONAL', SHORT),
+		('pisTransactional', SHORT),
     )
         
 
@@ -11234,14 +11234,14 @@ class PrivLevel(NDRCALL):
 
 class PrivLevelResponse(NDRCALL):
     structure = (
-		('PLPRIVLEVEL', LONG),
+		('plPrivLevel', LONG),
     )
         
 
 class PrivLevel(NDRCALL):
     opnum = 11
     structure = (
-		('LPRIVLEVEL', LONG),
+		('lPrivLevel', LONG),
     )
 
 class PrivLevelResponse(NDRCALL):
@@ -11258,14 +11258,14 @@ class Journal(NDRCALL):
 
 class JournalResponse(NDRCALL):
     structure = (
-		('PLJOURNAL', LONG),
+		('plJournal', LONG),
     )
         
 
 class Journal(NDRCALL):
     opnum = 13
     structure = (
-		('LJOURNAL', LONG),
+		('lJournal', LONG),
     )
 
 class JournalResponse(NDRCALL):
@@ -11282,14 +11282,14 @@ class Quota(NDRCALL):
 
 class QuotaResponse(NDRCALL):
     structure = (
-		('PLQUOTA', LONG),
+		('plQuota', LONG),
     )
         
 
 class Quota(NDRCALL):
     opnum = 15
     structure = (
-		('LQUOTA', LONG),
+		('lQuota', LONG),
     )
 
 class QuotaResponse(NDRCALL):
@@ -11306,14 +11306,14 @@ class BasePriority(NDRCALL):
 
 class BasePriorityResponse(NDRCALL):
     structure = (
-		('PLBASEPRIORITY', LONG),
+		('plBasePriority', LONG),
     )
         
 
 class BasePriority(NDRCALL):
     opnum = 17
     structure = (
-		('LBASEPRIORITY', LONG),
+		('lBasePriority', LONG),
     )
 
 class BasePriorityResponse(NDRCALL):
@@ -11330,7 +11330,7 @@ class CreateTime(NDRCALL):
 
 class CreateTimeResponse(NDRCALL):
     structure = (
-		('PVARCREATETIME', VARIANT),
+		('pvarCreateTime', VARIANT),
     )
         
 
@@ -11342,7 +11342,7 @@ class ModifyTime(NDRCALL):
 
 class ModifyTimeResponse(NDRCALL):
     structure = (
-		('PVARMODIFYTIME', VARIANT),
+		('pvarModifyTime', VARIANT),
     )
         
 
@@ -11354,14 +11354,14 @@ class Authenticate(NDRCALL):
 
 class AuthenticateResponse(NDRCALL):
     structure = (
-		('PLAUTHENTICATE', LONG),
+		('plAuthenticate', LONG),
     )
         
 
 class Authenticate(NDRCALL):
     opnum = 21
     structure = (
-		('LAUTHENTICATE', LONG),
+		('lAuthenticate', LONG),
     )
 
 class AuthenticateResponse(NDRCALL):
@@ -11378,14 +11378,14 @@ class JournalQuota(NDRCALL):
 
 class JournalQuotaResponse(NDRCALL):
     structure = (
-		('PLJOURNALQUOTA', LONG),
+		('plJournalQuota', LONG),
     )
         
 
 class JournalQuota(NDRCALL):
     opnum = 23
     structure = (
-		('LJOURNALQUOTA', LONG),
+		('lJournalQuota', LONG),
     )
 
 class JournalQuotaResponse(NDRCALL):
@@ -11402,15 +11402,15 @@ class IsWorldReadable(NDRCALL):
 
 class IsWorldReadableResponse(NDRCALL):
     structure = (
-		('PISWORLDREADABLE', SHORT),
+		('pisWorldReadable', SHORT),
     )
         
 
 class Create(NDRCALL):
     opnum = 25
     structure = (
-		('ISTRANSACTIONAL', VARIANT),
-		('ISWORLDREADABLE', VARIANT),
+		('IsTransactional', VARIANT),
+		('IsWorldReadable', VARIANT),
     )
 
 class CreateResponse(NDRCALL):
@@ -11434,13 +11434,13 @@ class DeleteResponse(NDRCALL):
 class Open(NDRCALL):
     opnum = 27
     structure = (
-		('ACCESS', LONG),
-		('SHAREMODE', LONG),
+		('Access', LONG),
+		('ShareMode', LONG),
     )
 
 class OpenResponse(NDRCALL):
     structure = (
-		('PPQ', IMSMQQUEUE4),
+		('ppq', IMSMQQUEUE4),
     )
         
 
@@ -11476,7 +11476,7 @@ class PathNameDNS(NDRCALL):
 
 class PathNameDNSResponse(NDRCALL):
     structure = (
-		('PBSTRPATHNAMEDNS', BSTR),
+		('pbstrPathNameDNS', BSTR),
     )
         
 
@@ -11488,7 +11488,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 
@@ -11500,14 +11500,14 @@ class Security(NDRCALL):
 
 class SecurityResponse(NDRCALL):
     structure = (
-		('PVARSECURITY', VARIANT),
+		('pvarSecurity', VARIANT),
     )
         
 
 class Security(NDRCALL):
     opnum = 33
     structure = (
-		('VARSECURITY', VARIANT),
+		('varSecurity', VARIANT),
     )
 
 class SecurityResponse(NDRCALL):
@@ -11524,7 +11524,7 @@ class IsTransactional2(NDRCALL):
 
 class IsTransactional2Response(NDRCALL):
     structure = (
-		('PISTRANSACTIONAL', VARIANT_BOOL),
+		('pisTransactional', VARIANT_BOOL),
     )
         
 
@@ -11536,7 +11536,7 @@ class IsWorldReadable2(NDRCALL):
 
 class IsWorldReadable2Response(NDRCALL):
     structure = (
-		('PISWORLDREADABLE', VARIANT_BOOL),
+		('pisWorldReadable', VARIANT_BOOL),
     )
         
 
@@ -11548,14 +11548,14 @@ class MulticastAddress(NDRCALL):
 
 class MulticastAddressResponse(NDRCALL):
     structure = (
-		('PBSTRMULTICASTADDRESS', BSTR),
+		('pbstrMulticastAddress', BSTR),
     )
         
 
 class MulticastAddress(NDRCALL):
     opnum = 37
     structure = (
-		('BSTRMULTICASTADDRESS', BSTR),
+		('bstrMulticastAddress', BSTR),
     )
 
 class MulticastAddressResponse(NDRCALL):
@@ -11572,7 +11572,7 @@ class ADsPath(NDRCALL):
 
 class ADsPathResponse(NDRCALL):
     structure = (
-		('PBSTRADSPATH', BSTR),
+		('pbstrADsPath', BSTR),
     )
         
 OPNUMS = {
@@ -11634,7 +11634,7 @@ class Next(NDRCALL):
 
 class NextResponse(NDRCALL):
     structure = (
-		('PPQINFONEXT', IMSMQQUEUEINFO),
+		('ppqinfoNext', IMSMQQUEUEINFO),
     )
         
 OPNUMS = {
@@ -11671,7 +11671,7 @@ class Next(NDRCALL):
 
 class NextResponse(NDRCALL):
     structure = (
-		('PPQINFONEXT', IMSMQQUEUEINFO2),
+		('ppqinfoNext', IMSMQQUEUEINFO2),
     )
         
 
@@ -11683,7 +11683,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -11721,7 +11721,7 @@ class Next(NDRCALL):
 
 class NextResponse(NDRCALL):
     structure = (
-		('PPQINFONEXT', IMSMQQUEUEINFO3),
+		('ppqinfoNext', IMSMQQUEUEINFO3),
     )
         
 
@@ -11733,7 +11733,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -11771,7 +11771,7 @@ class Next(NDRCALL):
 
 class NextResponse(NDRCALL):
     structure = (
-		('PPQINFONEXT', IMSMQQUEUEINFO4),
+		('ppqinfoNext', IMSMQQUEUEINFO4),
     )
         
 
@@ -11783,7 +11783,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -11809,16 +11809,16 @@ class Transaction(NDRCALL):
 
 class TransactionResponse(NDRCALL):
     structure = (
-		('PLTRANSACTION', LONG),
+		('plTransaction', LONG),
     )
         
 
 class Commit(NDRCALL):
     opnum = 1
     structure = (
-		('FRETAINING', VARIANT),
-		('GRFTC', VARIANT),
-		('GRFRM', VARIANT),
+		('fRetaining', VARIANT),
+		('grfTC', VARIANT),
+		('grfRM', VARIANT),
     )
 
 class CommitResponse(NDRCALL):
@@ -11830,8 +11830,8 @@ class CommitResponse(NDRCALL):
 class Abort(NDRCALL):
     opnum = 2
     structure = (
-		('FRETAINING', VARIANT),
-		('FASYNC', VARIANT),
+		('fRetaining', VARIANT),
+		('fAsync', VARIANT),
     )
 
 class AbortResponse(NDRCALL):
@@ -11857,7 +11857,7 @@ MSRPC_UUID_IMSMQTRANSACTION2 = uuidtup_to_bin(('2CE0C5B0-6E67-11D2-B0E6-00E02C07
 class InitNew(NDRCALL):
     opnum = 0
     structure = (
-		('VARTRANSACTION', VARIANT),
+		('varTransaction', VARIANT),
     )
 
 class InitNewResponse(NDRCALL):
@@ -11874,7 +11874,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -11899,7 +11899,7 @@ class ITransaction(NDRCALL):
 
 class ITransactionResponse(NDRCALL):
     structure = (
-		('PVARITRANSACTION', VARIANT),
+		('pvarITransaction', VARIANT),
     )
         
 OPNUMS = {
@@ -11923,7 +11923,7 @@ class BeginTransaction(NDRCALL):
 
 class BeginTransactionResponse(NDRCALL):
     structure = (
-		('PTRANSACTION', IMSMQTRANSACTION),
+		('ptransaction', IMSMQTRANSACTION),
     )
         
 OPNUMS = {
@@ -11947,7 +11947,7 @@ class BeginTransaction(NDRCALL):
 
 class BeginTransactionResponse(NDRCALL):
     structure = (
-		('PTRANSACTION', IMSMQTRANSACTION2),
+		('ptransaction', IMSMQTRANSACTION2),
     )
         
 
@@ -11959,7 +11959,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -11984,7 +11984,7 @@ class BeginTransaction(NDRCALL):
 
 class BeginTransactionResponse(NDRCALL):
     structure = (
-		('PTRANSACTION', IMSMQTRANSACTION3),
+		('ptransaction', IMSMQTRANSACTION3),
     )
         
 
@@ -11996,7 +11996,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -12021,7 +12021,7 @@ class BeginTransaction(NDRCALL):
 
 class BeginTransactionResponse(NDRCALL):
     structure = (
-		('PTRANSACTION', IMSMQTRANSACTION),
+		('ptransaction', IMSMQTRANSACTION),
     )
         
 OPNUMS = {
@@ -12045,7 +12045,7 @@ class BeginTransaction(NDRCALL):
 
 class BeginTransactionResponse(NDRCALL):
     structure = (
-		('PTRANSACTION', IMSMQTRANSACTION2),
+		('ptransaction', IMSMQTRANSACTION2),
     )
         
 
@@ -12057,7 +12057,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -12082,7 +12082,7 @@ class BeginTransaction(NDRCALL):
 
 class BeginTransactionResponse(NDRCALL):
     structure = (
-		('PTRANSACTION', IMSMQTRANSACTION3),
+		('ptransaction', IMSMQTRANSACTION3),
     )
         
 
@@ -12094,7 +12094,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -12114,12 +12114,12 @@ MSRPC_UUID_IMSMQAPPLICATION = uuidtup_to_bin(('D7D6E085-DCCD-110-AA4B-0060970EBA
 class MachineIdOfMachineName(NDRCALL):
     opnum = 0
     structure = (
-		('MACHINENAME', BSTR),
+		('MachineName', BSTR),
     )
 
 class MachineIdOfMachineNameResponse(NDRCALL):
     structure = (
-		('PBSTRGUID', BSTR),
+		('pbstrGuid', BSTR),
     )
         
 OPNUMS = {
@@ -12138,8 +12138,8 @@ MSRPC_UUID_IMSMQAPPLICATION2 = uuidtup_to_bin(('12A30900-7300-11D2-B0E6-00E02C07
 class RegisterCertificate(NDRCALL):
     opnum = 0
     structure = (
-		('FLAGS', VARIANT),
-		('EXTERNALCERTIFICATE', VARIANT),
+		('Flags', VARIANT),
+		('ExternalCertificate', VARIANT),
     )
 
 class RegisterCertificateResponse(NDRCALL):
@@ -12151,12 +12151,12 @@ class RegisterCertificateResponse(NDRCALL):
 class MachineNameOfMachineId(NDRCALL):
     opnum = 1
     structure = (
-		('BSTRGUID', BSTR),
+		('bstrGuid', BSTR),
     )
 
 class MachineNameOfMachineIdResponse(NDRCALL):
     structure = (
-		('PBSTRMACHINENAME', BSTR),
+		('pbstrMachineName', BSTR),
     )
         
 
@@ -12168,7 +12168,7 @@ class MSMQVersionMajor(NDRCALL):
 
 class MSMQVersionMajorResponse(NDRCALL):
     structure = (
-		('PSMSMQVERSIONMAJOR', SHORT),
+		('psMSMQVersionMajor', SHORT),
     )
         
 
@@ -12180,7 +12180,7 @@ class MSMQVersionMinor(NDRCALL):
 
 class MSMQVersionMinorResponse(NDRCALL):
     structure = (
-		('PSMSMQVERSIONMINOR', SHORT),
+		('psMSMQVersionMinor', SHORT),
     )
         
 
@@ -12192,7 +12192,7 @@ class MSMQVersionBuild(NDRCALL):
 
 class MSMQVersionBuildResponse(NDRCALL):
     structure = (
-		('PSMSMQVERSIONBUILD', SHORT),
+		('psMSMQVersionBuild', SHORT),
     )
         
 
@@ -12204,7 +12204,7 @@ class IsDsEnabled(NDRCALL):
 
 class IsDsEnabledResponse(NDRCALL):
     structure = (
-		('PFISDSENABLED', VARIANT_BOOL),
+		('pfIsDsEnabled', VARIANT_BOOL),
     )
         
 
@@ -12216,7 +12216,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -12246,7 +12246,7 @@ class ActiveQueues(NDRCALL):
 
 class ActiveQueuesResponse(NDRCALL):
     structure = (
-		('PVACTIVEQUEUES', VARIANT),
+		('pvActiveQueues', VARIANT),
     )
         
 
@@ -12258,7 +12258,7 @@ class PrivateQueues(NDRCALL):
 
 class PrivateQueuesResponse(NDRCALL):
     structure = (
-		('PVPRIVATEQUEUES', VARIANT),
+		('pvPrivateQueues', VARIANT),
     )
         
 
@@ -12270,7 +12270,7 @@ class DirectoryServiceServer(NDRCALL):
 
 class DirectoryServiceServerResponse(NDRCALL):
     structure = (
-		('PBSTRDIRECTORYSERVICESERVER', BSTR),
+		('pbstrDirectoryServiceServer', BSTR),
     )
         
 
@@ -12282,7 +12282,7 @@ class IsConnected(NDRCALL):
 
 class IsConnectedResponse(NDRCALL):
     structure = (
-		('PFISCONNECTED', VARIANT_BOOL),
+		('pfIsConnected', VARIANT_BOOL),
     )
         
 
@@ -12294,14 +12294,14 @@ class BytesInAllQueues(NDRCALL):
 
 class BytesInAllQueuesResponse(NDRCALL):
     structure = (
-		('PVBYTESINALLQUEUES', VARIANT),
+		('pvBytesInAllQueues', VARIANT),
     )
         
 
 class Machine(NDRCALL):
     opnum = 5
     structure = (
-		('BSTRMACHINE', BSTR),
+		('bstrMachine', BSTR),
     )
 
 class MachineResponse(NDRCALL):
@@ -12318,7 +12318,7 @@ class Machine(NDRCALL):
 
 class MachineResponse(NDRCALL):
     structure = (
-		('PBSTRMACHINE', BSTR),
+		('pbstrMachine', BSTR),
     )
         
 
@@ -12410,7 +12410,7 @@ class IsOpen(NDRCALL):
 
 class IsOpenResponse(NDRCALL):
     structure = (
-		('PFISOPEN', VARIANT_BOOL),
+		('pfIsOpen', VARIANT_BOOL),
     )
         
 
@@ -12422,14 +12422,14 @@ class IADs(NDRCALL):
 
 class IADsResponse(NDRCALL):
     structure = (
-		('PPIADS', IDISPATCH),
+		('ppIADs', IDISPATCH),
     )
         
 
 class IADs(NDRCALL):
     opnum = 4
     structure = (
-		('PIADS', IDISPATCH),
+		('pIADs', IDISPATCH),
     )
 
 class IADsResponse(NDRCALL):
@@ -12446,14 +12446,14 @@ class ADsPath(NDRCALL):
 
 class ADsPathResponse(NDRCALL):
     structure = (
-		('PBSTRADSPATH', BSTR),
+		('pbstrADsPath', BSTR),
     )
         
 
 class ADsPath(NDRCALL):
     opnum = 6
     structure = (
-		('BSTRADSPATH', BSTR),
+		('bstrADsPath', BSTR),
     )
 
 class ADsPathResponse(NDRCALL):
@@ -12470,14 +12470,14 @@ class PathName(NDRCALL):
 
 class PathNameResponse(NDRCALL):
     structure = (
-		('PBSTRPATHNAME', BSTR),
+		('pbstrPathName', BSTR),
     )
         
 
 class PathName(NDRCALL):
     opnum = 8
     structure = (
-		('BSTRPATHNAME', BSTR),
+		('bstrPathName', BSTR),
     )
 
 class PathNameResponse(NDRCALL):
@@ -12494,14 +12494,14 @@ class FormatName(NDRCALL):
 
 class FormatNameResponse(NDRCALL):
     structure = (
-		('PBSTRFORMATNAME', BSTR),
+		('pbstrFormatName', BSTR),
     )
         
 
 class FormatName(NDRCALL):
     opnum = 10
     structure = (
-		('BSTRFORMATNAME', BSTR),
+		('bstrFormatName', BSTR),
     )
 
 class FormatNameResponse(NDRCALL):
@@ -12518,14 +12518,14 @@ class Destinations(NDRCALL):
 
 class DestinationsResponse(NDRCALL):
     structure = (
-		('PPDESTINATIONS', IDISPATCH),
+		('ppDestinations', IDISPATCH),
     )
         
 
 class Destinations(NDRCALL):
     opnum = 12
     structure = (
-		('PDESTINATIONS', IDISPATCH),
+		('pDestinations', IDISPATCH),
     )
 
 class DestinationsResponse(NDRCALL):
@@ -12542,7 +12542,7 @@ class Properties(NDRCALL):
 
 class PropertiesResponse(NDRCALL):
     structure = (
-		('PPCOLPROPERTIES', IDISPATCH),
+		('ppcolProperties', IDISPATCH),
     )
         
 OPNUMS = {
@@ -12574,14 +12574,14 @@ class Handle(NDRCALL):
 
 class HandleResponse(NDRCALL):
     structure = (
-		('PVARHANDLE', VARIANT),
+		('pvarHandle', VARIANT),
     )
         
 
 class Handle(NDRCALL):
     opnum = 1
     structure = (
-		('VARHANDLE', VARIANT),
+		('varHandle', VARIANT),
     )
 
 class HandleResponse(NDRCALL):
@@ -12605,12 +12605,12 @@ MSRPC_UUID_IMSMQCOLLECTION = uuidtup_to_bin(('0188AC2F-ECB3-4173-9779-635CA2039C
 class Item(NDRCALL):
     opnum = 0
     structure = (
-		('INDEX', VARIANT),
+		('Index', VARIANT),
     )
 
 class ItemResponse(NDRCALL):
     structure = (
-		('PVARRET', VARIANT),
+		('pvarRet', VARIANT),
     )
         
 
@@ -12622,7 +12622,7 @@ class Count(NDRCALL):
 
 class CountResponse(NDRCALL):
     structure = (
-		('PCOUNT', LONG),
+		('pCount', LONG),
     )
         
 
@@ -12634,7 +12634,7 @@ class _NewEnum(NDRCALL):
 
 class _NewEnumResponse(NDRCALL):
     structure = (
-		('PPUNK', IUNKNOWN),
+		('ppunk', IUNKNOWN),
     )
         
 OPNUMS = {
@@ -12655,9 +12655,9 @@ MSRPC_UUID_IMSMQMANAGEMENT = uuidtup_to_bin(('BE5F0241-E489-4957-8C4-A452FCF3E23
 class Init(NDRCALL):
     opnum = 0
     structure = (
-		('MACHINE', VARIANT),
-		('PATHNAME', VARIANT),
-		('FORMATNAME', VARIANT),
+		('Machine', VARIANT),
+		('Pathname', VARIANT),
+		('FormatName', VARIANT),
     )
 
 class InitResponse(NDRCALL):
@@ -12674,7 +12674,7 @@ class FormatName(NDRCALL):
 
 class FormatNameResponse(NDRCALL):
     structure = (
-		('PBSTRFORMATNAME', BSTR),
+		('pbstrFormatName', BSTR),
     )
         
 
@@ -12686,7 +12686,7 @@ class Machine(NDRCALL):
 
 class MachineResponse(NDRCALL):
     structure = (
-		('PBSTRMACHINE', BSTR),
+		('pbstrMachine', BSTR),
     )
         
 
@@ -12698,7 +12698,7 @@ class MessageCount(NDRCALL):
 
 class MessageCountResponse(NDRCALL):
     structure = (
-		('PLMESSAGECOUNT', LONG),
+		('plMessageCount', LONG),
     )
         
 
@@ -12710,7 +12710,7 @@ class ForeignStatus(NDRCALL):
 
 class ForeignStatusResponse(NDRCALL):
     structure = (
-		('PLFOREIGNSTATUS', LONG),
+		('plForeignStatus', LONG),
     )
         
 
@@ -12722,7 +12722,7 @@ class QueueType(NDRCALL):
 
 class QueueTypeResponse(NDRCALL):
     structure = (
-		('PLQUEUETYPE', LONG),
+		('plQueueType', LONG),
     )
         
 
@@ -12734,7 +12734,7 @@ class IsLocal(NDRCALL):
 
 class IsLocalResponse(NDRCALL):
     structure = (
-		('PFISLOCAL', VARIANT_BOOL),
+		('pfIsLocal', VARIANT_BOOL),
     )
         
 
@@ -12746,7 +12746,7 @@ class TransactionalStatus(NDRCALL):
 
 class TransactionalStatusResponse(NDRCALL):
     structure = (
-		('PLTRANSACTIONALSTATUS', LONG),
+		('plTransactionalStatus', LONG),
     )
         
 
@@ -12758,7 +12758,7 @@ class BytesInQueue(NDRCALL):
 
 class BytesInQueueResponse(NDRCALL):
     structure = (
-		('PVBYTESINQUEUE', VARIANT),
+		('pvBytesInQueue', VARIANT),
     )
         
 OPNUMS = {
@@ -12790,7 +12790,7 @@ class State(NDRCALL):
 
 class StateResponse(NDRCALL):
     structure = (
-		('PLSTATE', LONG),
+		('plState', LONG),
     )
         
 
@@ -12802,7 +12802,7 @@ class NextHops(NDRCALL):
 
 class NextHopsResponse(NDRCALL):
     structure = (
-		('PVNEXTHOPS', VARIANT),
+		('pvNextHops', VARIANT),
     )
         
 
@@ -12814,7 +12814,7 @@ class EodGetSendInfo(NDRCALL):
 
 class EodGetSendInfoResponse(NDRCALL):
     structure = (
-		('PPCOLLECTION', IMSMQCOLLECTION),
+		('ppCollection', IMSMQCOLLECTION),
     )
         
 
@@ -12879,7 +12879,7 @@ class JournalMessageCount(NDRCALL):
 
 class JournalMessageCountResponse(NDRCALL):
     structure = (
-		('PLJOURNALMESSAGECOUNT', LONG),
+		('plJournalMessageCount', LONG),
     )
         
 
@@ -12891,7 +12891,7 @@ class BytesInJournal(NDRCALL):
 
 class BytesInJournalResponse(NDRCALL):
     structure = (
-		('PVBYTESINJOURNAL', VARIANT),
+		('pvBytesInJournal', VARIANT),
     )
         
 
@@ -12903,7 +12903,7 @@ class EodGetReceiveInfo(NDRCALL):
 
 class EodGetReceiveInfoResponse(NDRCALL):
     structure = (
-		('PVCOLLECTION', VARIANT),
+		('pvCollection', VARIANT),
     )
         
 OPNUMS = {
