@@ -24,7 +24,7 @@ class MidlPreprocessor(Preprocessor):
         # TODO handle the case of multiline macros
         str_spl = define.split(" ")
         assert(len(str_spl) >=3), "Invalid macro"
-        return (str_spl[1]," ".join(str_spl[2:]))
+        return (str_spl[1].strip()," ".join(str_spl[2:]).strip())
 
 
 
