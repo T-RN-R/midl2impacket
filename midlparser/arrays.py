@@ -41,6 +41,9 @@ class MidlArrayParser(MidlBaseParser):
     def symbol(self, token: Token):
         self.add_data_to_dimension(token)
 
+    def keyword(self, token: Token):
+        self.add_data_to_dimension(token)
+
     def operator(self, token: Token):
         self.add_data_to_dimension(token)
 
