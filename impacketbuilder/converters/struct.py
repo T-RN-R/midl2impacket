@@ -30,9 +30,14 @@ class MidlStructConverter(Converter):
         else:
             name = struct.public_names[0]
         
+
         mem_str = ""
         count = 1
         for m in struct.members:
+            if m.attributes:
+                if m.attributes["case"]:
+                    # TODO handle the case attributes and set the appropriate NDRUNION key
+                    pass
             type_name = None
             if type(m.type) is str:
                 type_name = m.type
@@ -119,10 +124,10 @@ class {base_name}(NDRSTRUCT):
         count_var = None
         name = struct.public_names[0]
         for vd in struct.members:
-            for attr_name in vd.attrs:
+            for attr_name in vd.attributes:
                 if attr_name == "size_is":
                     arr_var = vd
-                    count_name = vd.attrs[attr_name].params[0]
+                    count_name = vd.attributes[attr_name].params[0]
         for vd in struct.members:
             if vd.name == count_name:
                 count_var = vd
@@ -162,7 +167,7 @@ class {name}(NDRSTRUCT):
         for vd in struct.members:
             t = vd.type
             if type(t) is str: # We can have MidlUnionDefs here!!!
-                if "*" in t  and 'size_is' in vd.attrs: # if there is a pointer, assume its an array
+                if "*" in t  and 'size_is' in vd.attributes: # if there is a pointer, assume its an array
                     #TODO This may not actually be that case, find a better way to detect this!
                     return MidlStructConverter.NDR_ARRAY
         return MidlStructConverter.NDR_STRUCT

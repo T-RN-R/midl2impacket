@@ -10,7 +10,6 @@ class MidlPreprocessor(Preprocessor):
         while len(self.obj.defines) > 0:
             d = self.map(self.obj.defines[0])
             self.obj.defines.pop(0)
-            print(d)
             self.macro = d
             self.obj.accept(self)
 
