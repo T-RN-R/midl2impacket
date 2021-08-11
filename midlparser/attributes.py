@@ -93,8 +93,8 @@ class MidlAttributesParser(MidlBaseParser):
         pass
 
     def string(self, token):
-        if self.state == AttributeState.PARAMETERS and not self.cur_attr_param:
-            self.cur_attr_param = token.data
+        if self.state == AttributeState.PARAMETERS:
+            self.cur_attr_param += token.data
         else:
             self.invalid(token)
 
