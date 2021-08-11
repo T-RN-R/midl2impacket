@@ -282,6 +282,8 @@ class MidlTokenizer:
             # Look for the next line ending
             comment_end = self.midl[self.ptr :].find("\n") + self.ptr
             comment_offset = 1
+            self.line_count += 1
+
         comment = self.midl[self.ptr : comment_end].strip()
         self.ptr = comment_end + comment_offset
         return comment
