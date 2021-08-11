@@ -464,501 +464,228 @@ class PSECURITY_DESCRIPTOR(NDRPOINTER):
 
 #################################################################################
 
-#eventlog Definition
+#dssetup Definition
 
 #################################################################################
 
-MSRPC_UUID_EVENTLOG = uuidtup_to_bin(('82273FDC-E32A-18C3-3F78-827929DC23EA','0.0'))
+MSRPC_UUID_DSSETUP = uuidtup_to_bin(('3919286a-b10c-11d0-9ba8-00c04fd92ef5','0.0'))
 
 
-class DATA_RPC_STRING(NDRUniConformantArray):
-    item = CHAR
-
-class PTR_RPC_STRING(NDRPOINTER):
-    referent = (
-        ('Data', DATA_RPC_STRING),
-    )
-
-class RPC_STRING(NDRSTRUCT):
-    structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_RPC_STRING),
-
-    )
+DsRole_RoleStandaloneWorkstation = ,
+DsRole_RoleMemberWorkstation = ,
+DsRole_RoleStandaloneServer = ,
+DsRole_RoleMemberServer = ,
+DsRole_RoleBackupDomainController = 
         
 
-class RPC_CLIENT_ID(NDRSTRUCT):
+DsRoleServerUnknown = 0,
+DsRoleServerPrimary = 0
+        
+
+DsRolePrimaryDomainInfoBasic = 1,
+DsRoleUpgradeStatus = 1
+        
+
+class DSROLE_UPGRADE_STATUS_INFO(NDRSTRUCT):
     structure = (
-        ('UniqueProcess', UNSIGNED_LONG),('UniqueThread', UNSIGNED_LONG),
+        ('OperationState', UNSIGNED __INT32),('PreviousServerState', DSROLE_SERVER_STATE),
     )
-class PRPC_CLIENT_ID(NDRPOINTER):
+class PDSROLE_UPGRADE_STATUS_INFO(NDRPOINTER):
     referent = (
-        ('Data', RPC_CLIENT_ID),
+        ('Data', DSROLE_UPGRADE_STATUS_INFO),
     )    
 
-EVENTLOG_HANDLE_W = WCHAR_T
-EVENTLOG_HANDLE_A = CHAR
-IELF_HANDLE = VOID
-PIELF_HANDLE = VOID
-RULONG = UNSIGNED_LONG
 
-class ElfrClearELFW(NDRCALL):
+DsRoleOperationIdle = 0,
+DsRoleOperationActive = 0
+        
+
+class DSROLE_OPERATION_STATE_INFO(NDRSTRUCT):
+    structure = (
+        ('OperationState', DSROLE_OPERATION_STATE),
+    )
+class PDSROLE_OPERATION_STATE_INFO(NDRPOINTER):
+    referent = (
+        ('Data', DSROLE_OPERATION_STATE_INFO),
+    )    
+
+
+class DSROLER_PRIMARY_DOMAIN_INFO_BASIC(NDRSTRUCT):
+    structure = (
+        ('MachineRole', DSROLE_MACHINE_ROLE),('Flags', UNSIGNED __INT32),('DomainNameFlat', WCHAR_T),('DomainNameDns', WCHAR_T),('DomainForestName', WCHAR_T),('DomainGuid', GUID),
+    )
+class PDSROLER_PRIMARY_DOMAIN_INFO_BASIC(NDRPOINTER):
+    referent = (
+        ('Data', DSROLER_PRIMARY_DOMAIN_INFO_BASIC),
+    )    
+
+
+class DSROLER_PRIMARY_DOMAIN_INFORMATION(NDRUNION):
+    union = {
+        DsRolePrimaryDomainInfoBasic: ('DomainInfoBasic',DSROLER_PRIMARY_DOMAIN_INFO_BASIC),DsRoleUpgradeStatus: ('UpgradStatusInfo',DSROLE_UPGRADE_STATUS_INFO),DsRoleOperationState: ('OperationStateInfo',DSROLE_OPERATION_STATE_INFO),
+    }
+        class PDSROLER_PRIMARY_DOMAIN_INFORMATION(NDRPOINTER):
+    referent = (
+        ('Data', DSROLER_PRIMARY_DOMAIN_INFORMATION),
+    )    
+
+
+class DsRolerGetPrimaryDomainInformation(NDRCALL):
     opnum = 0
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_UNICODE_STRING),
+		('hBinding', HANDLE_T),
+		('InfoLevel', DSROLE_PRIMARY_DOMAIN_INFO_LEVEL),
     )
 
-class ElfrClearELFWResponse(NDRCALL):
+class DsRolerGetPrimaryDomainInformationResponse(NDRCALL):
     structure = (
-
+		('DomainInfo', PDSROLER_PRIMARY_DOMAIN_INFORMATION),
     )
         
 
-class ElfrBackupELFW(NDRCALL):
+class Opnum1NotUsedOnWire(NDRCALL):
     opnum = 1
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_UNICODE_STRING),
+
     )
 
-class ElfrBackupELFWResponse(NDRCALL):
+class Opnum1NotUsedOnWireResponse(NDRCALL):
     structure = (
 
     )
         
 
-class ElfrCloseEL(NDRCALL):
+class Opnum2NotUsedOnWire(NDRCALL):
     opnum = 2
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
 
-class ElfrCloseELResponse(NDRCALL):
+class Opnum2NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
         
 
-class ElfrDeregisterEventSource(NDRCALL):
+class Opnum3NotUsedOnWire(NDRCALL):
     opnum = 3
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
 
-class ElfrDeregisterEventSourceResponse(NDRCALL):
+class Opnum3NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
         
 
-class ElfrNumberOfRecords(NDRCALL):
+class Opnum4NotUsedOnWire(NDRCALL):
     opnum = 4
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
 
-class ElfrNumberOfRecordsResponse(NDRCALL):
+class Opnum4NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('NumberOfRecords', UNSIGNED_LONG),
+
     )
         
 
-class ElfrOldestRecord(NDRCALL):
+class Opnum5NotUsedOnWire(NDRCALL):
     opnum = 5
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
 
-class ElfrOldestRecordResponse(NDRCALL):
+class Opnum5NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('OldestRecordNumber', UNSIGNED_LONG),
+
     )
         
 
-class ElfrChangeNotify(NDRCALL):
+class Opnum6NotUsedOnWire(NDRCALL):
     opnum = 6
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('ClientId', RPC_CLIENT_ID),
-		('Event', ULONG),
+
     )
 
-class ElfrChangeNotifyResponse(NDRCALL):
+class Opnum6NotUsedOnWireResponse(NDRCALL):
     structure = (
 
     )
         
 
-class ElfrOpenELW(NDRCALL):
+class Opnum7NotUsedOnWire(NDRCALL):
     opnum = 7
     structure = (
-		('UNCServerName', EVENTLOG_HANDLE_W),
-		('ModuleName', PRPC_UNICODE_STRING),
-		('RegModuleName', PRPC_UNICODE_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
+
     )
 
-class ElfrOpenELWResponse(NDRCALL):
+class Opnum7NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
         
 
-class ElfrRegisterEventSourceW(NDRCALL):
+class Opnum8NotUsedOnWire(NDRCALL):
     opnum = 8
     structure = (
-		('UNCServerName', EVENTLOG_HANDLE_W),
-		('ModuleName', PRPC_UNICODE_STRING),
-		('RegModuleName', PRPC_UNICODE_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
+
     )
 
-class ElfrRegisterEventSourceWResponse(NDRCALL):
+class Opnum8NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
         
 
-class ElfrOpenBELW(NDRCALL):
+class Opnum9NotUsedOnWire(NDRCALL):
     opnum = 9
     structure = (
-		('UNCServerName', EVENTLOG_HANDLE_W),
-		('BackupFileName', PRPC_UNICODE_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
+
     )
 
-class ElfrOpenBELWResponse(NDRCALL):
+class Opnum9NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('LogHandle', IELF_HANDLE),
+
     )
         
 
-class ElfrReadELW(NDRCALL):
+class Opnum10NotUsedOnWire(NDRCALL):
     opnum = 10
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('ReadFlags', UNSIGNED_LONG),
-		('RecordOffset', UNSIGNED_LONG),
-		('NumberOfBytesToRead', RULONG),
+
     )
 
-class ElfrReadELWResponse(NDRCALL):
+class Opnum10NotUsedOnWireResponse(NDRCALL):
     structure = (
-		('Buffer', UNSIGNED_CHAR),
-		('NumberOfBytesRead', UNSIGNED_LONG),
-		('MinNumberOfBytesNeeded', UNSIGNED_LONG),
+
     )
         
 
-class ElfrReportEventW(NDRCALL):
+class Opnum11NotUsedOnWire(NDRCALL):
     opnum = 11
     structure = (
-		('LogHandle', IELF_HANDLE),
-		('Time', UNSIGNED_LONG),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_UNICODE_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_UNICODE_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventWResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-        
-
-class ElfrClearELFA(NDRCALL):
-    opnum = 12
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_STRING),
-    )
-
-class ElfrClearELFAResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ElfrBackupELFA(NDRCALL):
-    opnum = 13
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('BackupFileName', PRPC_STRING),
-    )
-
-class ElfrBackupELFAResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ElfrOpenELA(NDRCALL):
-    opnum = 14
-    structure = (
-		('UNCServerName', EVENTLOG_HANDLE_A),
-		('ModuleName', PRPC_STRING),
-		('RegModuleName', PRPC_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
-    )
-
-class ElfrOpenELAResponse(NDRCALL):
-    structure = (
-		('LogHandle', IELF_HANDLE),
-    )
-        
-
-class ElfrRegisterEventSourceA(NDRCALL):
-    opnum = 15
-    structure = (
-		('UNCServerName', EVENTLOG_HANDLE_A),
-		('ModuleName', PRPC_STRING),
-		('RegModuleName', PRPC_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
-    )
-
-class ElfrRegisterEventSourceAResponse(NDRCALL):
-    structure = (
-		('LogHandle', IELF_HANDLE),
-    )
-        
-
-class ElfrOpenBELA(NDRCALL):
-    opnum = 16
-    structure = (
-		('UNCServerName', EVENTLOG_HANDLE_A),
-		('BackupFileName', PRPC_STRING),
-		('MajorVersion', UNSIGNED_LONG),
-		('MinorVersion', UNSIGNED_LONG),
-    )
-
-class ElfrOpenBELAResponse(NDRCALL):
-    structure = (
-		('LogHandle', IELF_HANDLE),
-    )
-        
-
-class ElfrReadELA(NDRCALL):
-    opnum = 17
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('ReadFlags', UNSIGNED_LONG),
-		('RecordOffset', UNSIGNED_LONG),
-		('NumberOfBytesToRead', RULONG),
-    )
-
-class ElfrReadELAResponse(NDRCALL):
-    structure = (
-		('Buffer', UNSIGNED_CHAR),
-		('NumberOfBytesRead', UNSIGNED_LONG),
-		('MinNumberOfBytesNeeded', UNSIGNED_LONG),
-    )
-        
-
-class ElfrReportEventA(NDRCALL):
-    opnum = 18
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('Time', UNSIGNED_LONG),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventAResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-        
-
-class Opnum19NotUsedOnWire(NDRCALL):
-    opnum = 19
-    structure = (
 
     )
 
-class Opnum19NotUsedOnWireResponse(NDRCALL):
+class Opnum11NotUsedOnWireResponse(NDRCALL):
     structure = (
 
-    )
-        
-
-class Opnum20NotUsedOnWire(NDRCALL):
-    opnum = 20
-    structure = (
-
-    )
-
-class Opnum20NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Opnum21NotUsedOnWire(NDRCALL):
-    opnum = 21
-    structure = (
-
-    )
-
-class Opnum21NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ElfrGetLogInformation(NDRCALL):
-    opnum = 22
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('InfoLevel', UNSIGNED_LONG),
-		('cbBufSize', UNSIGNED_LONG),
-    )
-
-class ElfrGetLogInformationResponse(NDRCALL):
-    structure = (
-		('lpBuffer', UNSIGNED_CHAR),
-		('pcbBytesNeeded', UNSIGNED_LONG),
-    )
-        
-
-class Opnum23NotUsedOnWire(NDRCALL):
-    opnum = 23
-    structure = (
-
-    )
-
-class Opnum23NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ElfrReportEventAndSourceW(NDRCALL):
-    opnum = 24
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('Time', UNSIGNED_LONG),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('SourceName', PRPC_UNICODE_STRING),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_UNICODE_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_UNICODE_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventAndSourceWResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
-		('TimeWritten', UNSIGNED_LONG),
-    )
-        
-
-class ElfrReportEventExW(NDRCALL):
-    opnum = 25
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('TimeGenerated', PFILETIME),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_UNICODE_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_UNICODE_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventExWResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
-    )
-        
-
-class ElfrReportEventExA(NDRCALL):
-    opnum = 26
-    structure = (
-		('LogHandle', IELF_HANDLE),
-		('TimeGenerated', PFILETIME),
-		('EventType', UNSIGNED_SHORT),
-		('EventCategory', UNSIGNED_SHORT),
-		('EventID', UNSIGNED_LONG),
-		('NumStrings', UNSIGNED_SHORT),
-		('DataSize', UNSIGNED_LONG),
-		('ComputerName', PRPC_STRING),
-		('UserSID', PRPC_SID),
-		('Strings', PRPC_STRING),
-		('Data', UNSIGNED_CHAR),
-		('Flags', UNSIGNED_SHORT),
-		('RecordNumber', UNSIGNED_LONG),
-    )
-
-class ElfrReportEventExAResponse(NDRCALL):
-    structure = (
-		('RecordNumber', UNSIGNED_LONG),
     )
         
 OPNUMS = {
-0 : (ElfrClearELFW,ElfrClearELFWResponse),
-1 : (ElfrBackupELFW,ElfrBackupELFWResponse),
-2 : (ElfrCloseEL,ElfrCloseELResponse),
-3 : (ElfrDeregisterEventSource,ElfrDeregisterEventSourceResponse),
-4 : (ElfrNumberOfRecords,ElfrNumberOfRecordsResponse),
-5 : (ElfrOldestRecord,ElfrOldestRecordResponse),
-6 : (ElfrChangeNotify,ElfrChangeNotifyResponse),
-7 : (ElfrOpenELW,ElfrOpenELWResponse),
-8 : (ElfrRegisterEventSourceW,ElfrRegisterEventSourceWResponse),
-9 : (ElfrOpenBELW,ElfrOpenBELWResponse),
-10 : (ElfrReadELW,ElfrReadELWResponse),
-11 : (ElfrReportEventW,ElfrReportEventWResponse),
-12 : (ElfrClearELFA,ElfrClearELFAResponse),
-13 : (ElfrBackupELFA,ElfrBackupELFAResponse),
-14 : (ElfrOpenELA,ElfrOpenELAResponse),
-15 : (ElfrRegisterEventSourceA,ElfrRegisterEventSourceAResponse),
-16 : (ElfrOpenBELA,ElfrOpenBELAResponse),
-17 : (ElfrReadELA,ElfrReadELAResponse),
-18 : (ElfrReportEventA,ElfrReportEventAResponse),
-19 : (Opnum19NotUsedOnWire,Opnum19NotUsedOnWireResponse),
-20 : (Opnum20NotUsedOnWire,Opnum20NotUsedOnWireResponse),
-21 : (Opnum21NotUsedOnWire,Opnum21NotUsedOnWireResponse),
-22 : (ElfrGetLogInformation,ElfrGetLogInformationResponse),
-23 : (Opnum23NotUsedOnWire,Opnum23NotUsedOnWireResponse),
-24 : (ElfrReportEventAndSourceW,ElfrReportEventAndSourceWResponse),
-25 : (ElfrReportEventExW,ElfrReportEventExWResponse),
-26 : (ElfrReportEventExA,ElfrReportEventExAResponse),
+0 : (DsRolerGetPrimaryDomainInformation,DsRolerGetPrimaryDomainInformationResponse),
+1 : (Opnum1NotUsedOnWire,Opnum1NotUsedOnWireResponse),
+2 : (Opnum2NotUsedOnWire,Opnum2NotUsedOnWireResponse),
+3 : (Opnum3NotUsedOnWire,Opnum3NotUsedOnWireResponse),
+4 : (Opnum4NotUsedOnWire,Opnum4NotUsedOnWireResponse),
+5 : (Opnum5NotUsedOnWire,Opnum5NotUsedOnWireResponse),
+6 : (Opnum6NotUsedOnWire,Opnum6NotUsedOnWireResponse),
+7 : (Opnum7NotUsedOnWire,Opnum7NotUsedOnWireResponse),
+8 : (Opnum8NotUsedOnWire,Opnum8NotUsedOnWireResponse),
+9 : (Opnum9NotUsedOnWire,Opnum9NotUsedOnWireResponse),
+10 : (Opnum10NotUsedOnWire,Opnum10NotUsedOnWireResponse),
+11 : (Opnum11NotUsedOnWire,Opnum11NotUsedOnWireResponse),
 }
 

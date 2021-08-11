@@ -51,7 +51,6 @@ class MidlTokenizer:
         self.max_size = len(self.midl)
         self.ptr = 0
         self.filename = filename
-        self.line_count = 1
 
     def get_token(self):
         """[summary]
@@ -252,7 +251,6 @@ class MidlTokenizer:
         while True:
             directive_end = self.midl[directive_pos:].find("\n") + directive_pos
             # Make sure it wasn't escaped (multi-line macros)
-            self.line_count+=1
             if self.midl[directive_end-1] != '\\':
                 break
             directive_pos = directive_end+1
@@ -282,7 +280,6 @@ class MidlTokenizer:
             # Look for the next line ending
             comment_end = self.midl[self.ptr :].find("\n") + self.ptr
             comment_offset = 1
-            self.line_count += 1
 
         comment = self.midl[self.ptr : comment_end].strip()
         self.ptr = comment_end + comment_offset
@@ -316,12 +313,17 @@ class MidlTokenizer:
             bool: Returns result of the whitespace check
         """
         wspace = [" ", "\n", "\r\n", "\r", "\t"]
-        if char in ["\n", "\r\n", "\r"]:
-            self.line_count += 1
         if char in wspace:
             return True
         return False
 
-
+    def get_curr_lc(self):
+        lc = 0
+        for i in range(0, len(self.midl)):
+            if i == self.ptr:
+                return lc
+            if self.midl[i] in ["\n", "\r\n", "\r",]:
+                lc += 1
     def get_error(self):
-        return 'In file: ' + self.filename +":"+str(self.line_count) + '\n\tAt: ' + self.midl[self.ptr-1:].split("\n")[0]
+        lc = self.get_curr_lc()
+        return 'In file: ' + self.filename +":"+str(lc) + '\n\tAt: ' + self.midl[self.ptr-1:].split("\n")[0]

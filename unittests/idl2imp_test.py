@@ -2,7 +2,7 @@ import pathlib
 from midlparser import parse_idl
 from impacketbuilder import ImpacketBuilder
 from os import walk
-
+import traceback
 def generate_impacket(midl_def, import_dir:str):
     return ImpacketBuilder().midl_def(midl_def).import_dir(import_dir).build()
 
@@ -32,6 +32,7 @@ def test_full_pipeline():
         try:
             generate("./scraped/"+_f, "./generated/"+_f.split(".")[0]+".py", "./scraped/")
         except:
+            traceback.print_exc()
             failures.append(_f)
     print(f"Failed to parse: {failures}")
 

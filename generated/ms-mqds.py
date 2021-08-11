@@ -1146,6 +1146,707 @@ QUERY_SORTDESCEND = 1
 
 MSRPC_UUID_DSCOMM = uuidtup_to_bin(('77df7a80-f298-11d0-8358-00a024c480a8','0.0'))
 
+BOUNDED_SIGNATURE_SIZE = UNSIGNED_LONG
+LPBOUNDED_SIGNATURE_SIZE = BOUNDED_SIGNATURE_SIZE
+BOUNDED_PROPERTIES = DWORD
+LPBOUNDED_PROPERTIES = BOUNDED_PROPERTIES
+PCONTEXT_HANDLE_TYPE = VOID
+PPCONTEXT_HANDLE_TYPE = PCONTEXT_HANDLE_TYPE
+PCONTEXT_HANDLE_SERVER_AUTH_TYPE = VOID
+PPCONTEXT_HANDLE_SERVER_AUTH_TYPE = PCONTEXT_HANDLE_SERVER_AUTH_TYPE
+PCONTEXT_HANDLE_DELETE_TYPE = VOID
+PPCONTEXT_HANDLE_DELETE_TYPE = PCONTEXT_HANDLE_DELETE_TYPE
+
+class S_DSCreateObject(NDRCALL):
+    opnum = 0
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pwcsPathName', CONST_WCHAR_T),
+		('dwSDLength', UNSIGNED_LONG),
+		('SecurityDescriptor', UNSIGNED_CHAR),
+		('cp', UNSIGNED_LONG),
+		('aProp', UNSIGNED_LONG),
+		('apVar', PROPVARIANT),
+		('pObjGuid', GUID),
+    )
+
+class S_DSCreateObjectResponse(NDRCALL):
+    structure = (
+		('pObjGuid', GUID),
+    )
+        
+
+class S_DSDeleteObject(NDRCALL):
+    opnum = 1
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pwcsPathName', CONST_WCHAR_T),
+    )
+
+class S_DSDeleteObjectResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class S_DSGetProps(NDRCALL):
+    opnum = 2
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pwcsPathName', CONST_WCHAR_T),
+		('cp', UNSIGNED_LONG),
+		('aProp', UNSIGNED_LONG),
+		('apVar', PROPVARIANT),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+
+class S_DSGetPropsResponse(NDRCALL):
+    structure = (
+		('apVar', PROPVARIANT),
+		('pbServerSignature', UNSIGNED_CHAR),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+        
+
+class S_DSSetProps(NDRCALL):
+    opnum = 3
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pwcsPathName', CONST_WCHAR_T),
+		('cp', UNSIGNED_LONG),
+		('aProp', UNSIGNED_LONG),
+		('apVar', PROPVARIANT),
+    )
+
+class S_DSSetPropsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class S_DSGetObjectSecurity(NDRCALL):
+    opnum = 4
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pwcsPathName', CONST_WCHAR_T),
+		('SecurityInformation', UNSIGNED_LONG),
+		('nLength', UNSIGNED_LONG),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+
+class S_DSGetObjectSecurityResponse(NDRCALL):
+    structure = (
+		('pSecurityDescriptor', UNSIGNED_CHAR),
+		('lpnLengthNeeded', UNSIGNED_LONG),
+		('pbServerSignature', UNSIGNED_CHAR),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+        
+
+class S_DSSetObjectSecurity(NDRCALL):
+    opnum = 5
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pwcsPathName', CONST_WCHAR_T),
+		('SecurityInformation', UNSIGNED_LONG),
+		('pSecurityDescriptor', UNSIGNED_CHAR),
+		('nLength', UNSIGNED_LONG),
+    )
+
+class S_DSSetObjectSecurityResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class S_DSLookupBegin(NDRCALL):
+    opnum = 6
+    structure = (
+		('hBind', HANDLE_T),
+		('pwcsContext', WCHAR_T),
+		('pRestriction', MQRESTRICTION),
+		('pColumns', MQCOLUMNSET),
+		('pSort', MQSORTSET),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    )
+
+class S_DSLookupBeginResponse(NDRCALL):
+    structure = (
+		('pHandle', PPCONTEXT_HANDLE_TYPE),
+    )
+        
+
+class S_DSLookupNext(NDRCALL):
+    opnum = 7
+    structure = (
+		('hBind', HANDLE_T),
+		('Handle', PCONTEXT_HANDLE_TYPE),
+		('dwSize', LPBOUNDED_PROPERTIES),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+
+class S_DSLookupNextResponse(NDRCALL):
+    structure = (
+		('dwOutSize', UNSIGNED_LONG),
+		('pbBuffer', PROPVARIANT),
+		('pbServerSignature', UNSIGNED_CHAR),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+        
+
+class S_DSLookupEnd(NDRCALL):
+    opnum = 8
+    structure = (
+		('hBind', HANDLE_T),
+		('phContext', PPCONTEXT_HANDLE_TYPE),
+    )
+
+class S_DSLookupEndResponse(NDRCALL):
+    structure = (
+		('phContext', PPCONTEXT_HANDLE_TYPE),
+    )
+        
+
+class Opnum9NotUsedOnWire(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class Opnum9NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class S_DSDeleteObjectGuid(NDRCALL):
+    opnum = 10
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pGuid',  GUID),
+    )
+
+class S_DSDeleteObjectGuidResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class S_DSGetPropsGuid(NDRCALL):
+    opnum = 11
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pGuid',  GUID),
+		('cp', UNSIGNED_LONG),
+		('aProp', UNSIGNED_LONG),
+		('apVar', PROPVARIANT),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+
+class S_DSGetPropsGuidResponse(NDRCALL):
+    structure = (
+		('apVar', PROPVARIANT),
+		('pbServerSignature', UNSIGNED_CHAR),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+        
+
+class S_DSSetPropsGuid(NDRCALL):
+    opnum = 12
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pGuid',  GUID),
+		('cp', UNSIGNED_LONG),
+		('aProp', UNSIGNED_LONG),
+		('apVar', PROPVARIANT),
+    )
+
+class S_DSSetPropsGuidResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class S_DSGetObjectSecurityGuid(NDRCALL):
+    opnum = 13
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pGuid',  GUID),
+		('SecurityInformation', UNSIGNED_LONG),
+		('nLength', UNSIGNED_LONG),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+
+class S_DSGetObjectSecurityGuidResponse(NDRCALL):
+    structure = (
+		('pSecurityDescriptor', UNSIGNED_CHAR),
+		('lpnLengthNeeded', UNSIGNED_LONG),
+		('pbServerSignature', UNSIGNED_CHAR),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+        
+
+class S_DSSetObjectSecurityGuid(NDRCALL):
+    opnum = 14
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pGuid',  GUID),
+		('SecurityInformation', UNSIGNED_LONG),
+		('pSecurityDescriptor', UNSIGNED_CHAR),
+		('nLength', UNSIGNED_LONG),
+    )
+
+class S_DSSetObjectSecurityGuidResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum15NotUsedOnWire(NDRCALL):
+    opnum = 15
+    structure = (
+
+    )
+
+class Opnum15NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum16NotUsedOnWire(NDRCALL):
+    opnum = 16
+    structure = (
+
+    )
+
+class Opnum16NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum17NotUsedOnWire(NDRCALL):
+    opnum = 17
+    structure = (
+
+    )
+
+class Opnum17NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum18NotUsedOnWire(NDRCALL):
+    opnum = 18
+    structure = (
+
+    )
+
+class Opnum18NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class S_DSQMSetMachineProperties(NDRCALL):
+    opnum = 19
+    structure = (
+		('hBind', HANDLE_T),
+		('pwcsPathName', CONST_WCHAR_T),
+		('cp', UNSIGNED_LONG),
+		('aProp', UNSIGNED_LONG),
+		('apVar', PROPVARIANT),
+		('dwContext', UNSIGNED_LONG),
+    )
+
+class S_DSQMSetMachinePropertiesResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class S_DSCreateServersCache(NDRCALL):
+    opnum = 20
+    structure = (
+		('hBind', HANDLE_T),
+		('pdwIndex', UNSIGNED_LONG),
+		('lplpSiteServers', WCHAR_T),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+
+class S_DSCreateServersCacheResponse(NDRCALL):
+    structure = (
+		('pdwIndex', UNSIGNED_LONG),
+		('lplpSiteServers', WCHAR_T),
+		('pbServerSignature', UNSIGNED_CHAR),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+        
+
+class S_DSQMSetMachinePropertiesSignProc(NDRCALL):
+    opnum = 21
+    structure = (
+		('abChallenge', BYTE),
+		('dwCallengeSize', UNSIGNED_LONG),
+		('dwContext', UNSIGNED_LONG),
+		('abSignature', BYTE),
+		('pdwSignatureSize', UNSIGNED_LONG),
+		('dwSignatureMaxSize', UNSIGNED_LONG),
+    )
+
+class S_DSQMSetMachinePropertiesSignProcResponse(NDRCALL):
+    structure = (
+		('abSignature', BYTE),
+		('pdwSignatureSize', UNSIGNED_LONG),
+    )
+        
+
+class S_DSQMGetObjectSecurity(NDRCALL):
+    opnum = 22
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', UNSIGNED_LONG),
+		('pGuid',  GUID),
+		('SecurityInformation', UNSIGNED_LONG),
+		('nLength', UNSIGNED_LONG),
+		('dwContext', UNSIGNED_LONG),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+
+class S_DSQMGetObjectSecurityResponse(NDRCALL):
+    structure = (
+		('pSecurityDescriptor', UNSIGNED_CHAR),
+		('lpnLengthNeeded', UNSIGNED_LONG),
+		('pbServerSignature', UNSIGNED_CHAR),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+        
+
+class S_DSQMGetObjectSecurityChallengeResponceProc(NDRCALL):
+    opnum = 23
+    structure = (
+		('abChallenge', BYTE),
+		('dwCallengeSize', UNSIGNED_LONG),
+		('dwContext', UNSIGNED_LONG),
+		('abCallengeResponce', BYTE),
+		('pdwCallengeResponceSize', UNSIGNED_LONG),
+		('dwCallengeResponceMaxSize', UNSIGNED_LONG),
+    )
+
+class S_DSQMGetObjectSecurityChallengeResponceProcResponse(NDRCALL):
+    structure = (
+		('abCallengeResponce', BYTE),
+		('pdwCallengeResponceSize', UNSIGNED_LONG),
+    )
+        
+
+class S_InitSecCtx(NDRCALL):
+    opnum = 24
+    structure = (
+		('dwContext', UNSIGNED_LONG),
+		('pServerbuff', UNSIGNED_CHAR),
+		('dwServerBuffSize', UNSIGNED_LONG),
+		('dwClientBuffMaxSize', UNSIGNED_LONG),
+    )
+
+class S_InitSecCtxResponse(NDRCALL):
+    structure = (
+		('pClientBuff', UNSIGNED_CHAR),
+		('pdwClientBuffSize', UNSIGNED_LONG),
+    )
+        
+
+class S_DSValidateServer(NDRCALL):
+    opnum = 25
+    structure = (
+		('hBind', HANDLE_T),
+		('pguidEnterpriseId',  GUID),
+		('fSetupMode', BOOL),
+		('dwContext', UNSIGNED_LONG),
+		('dwClientBuffMaxSize', UNSIGNED_LONG),
+		('pClientBuff', UNSIGNED_CHAR),
+		('dwClientBuffSize', UNSIGNED_LONG),
+    )
+
+class S_DSValidateServerResponse(NDRCALL):
+    structure = (
+		('pphServerAuth', PPCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    )
+        
+
+class S_DSCloseServerHandle(NDRCALL):
+    opnum = 26
+    structure = (
+		('pphServerAuth', PPCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    )
+
+class S_DSCloseServerHandleResponse(NDRCALL):
+    structure = (
+		('pphServerAuth', PPCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    )
+        
+
+class Opnum24NotUsedOnWire(NDRCALL):
+    opnum = 27
+    structure = (
+
+    )
+
+class Opnum24NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum25NotUsedOnWire(NDRCALL):
+    opnum = 28
+    structure = (
+
+    )
+
+class Opnum25NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum26NotUsedOnWire(NDRCALL):
+    opnum = 29
+    structure = (
+
+    )
+
+class Opnum26NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class S_DSGetServerPort(NDRCALL):
+    opnum = 30
+    structure = (
+		('hBind', HANDLE_T),
+		('fIP', UNSIGNED_LONG),
+    )
+
+class S_DSGetServerPortResponse(NDRCALL):
+    structure = (
+
+    )
+        
 OPNUMS = {
+0 : (S_DSCreateObject,S_DSCreateObjectResponse),
+1 : (S_DSDeleteObject,S_DSDeleteObjectResponse),
+2 : (S_DSGetProps,S_DSGetPropsResponse),
+3 : (S_DSSetProps,S_DSSetPropsResponse),
+4 : (S_DSGetObjectSecurity,S_DSGetObjectSecurityResponse),
+5 : (S_DSSetObjectSecurity,S_DSSetObjectSecurityResponse),
+6 : (S_DSLookupBegin,S_DSLookupBeginResponse),
+7 : (S_DSLookupNext,S_DSLookupNextResponse),
+8 : (S_DSLookupEnd,S_DSLookupEndResponse),
+9 : (Opnum9NotUsedOnWire,Opnum9NotUsedOnWireResponse),
+10 : (S_DSDeleteObjectGuid,S_DSDeleteObjectGuidResponse),
+11 : (S_DSGetPropsGuid,S_DSGetPropsGuidResponse),
+12 : (S_DSSetPropsGuid,S_DSSetPropsGuidResponse),
+13 : (S_DSGetObjectSecurityGuid,S_DSGetObjectSecurityGuidResponse),
+14 : (S_DSSetObjectSecurityGuid,S_DSSetObjectSecurityGuidResponse),
+15 : (Opnum15NotUsedOnWire,Opnum15NotUsedOnWireResponse),
+16 : (Opnum16NotUsedOnWire,Opnum16NotUsedOnWireResponse),
+17 : (Opnum17NotUsedOnWire,Opnum17NotUsedOnWireResponse),
+18 : (Opnum18NotUsedOnWire,Opnum18NotUsedOnWireResponse),
+19 : (S_DSQMSetMachineProperties,S_DSQMSetMachinePropertiesResponse),
+20 : (S_DSCreateServersCache,S_DSCreateServersCacheResponse),
+21 : (S_DSQMSetMachinePropertiesSignProc,S_DSQMSetMachinePropertiesSignProcResponse),
+22 : (S_DSQMGetObjectSecurity,S_DSQMGetObjectSecurityResponse),
+23 : (S_DSQMGetObjectSecurityChallengeResponceProc,S_DSQMGetObjectSecurityChallengeResponceProcResponse),
+24 : (S_InitSecCtx,S_InitSecCtxResponse),
+25 : (S_DSValidateServer,S_DSValidateServerResponse),
+26 : (S_DSCloseServerHandle,S_DSCloseServerHandleResponse),
+27 : (Opnum24NotUsedOnWire,Opnum24NotUsedOnWireResponse),
+28 : (Opnum25NotUsedOnWire,Opnum25NotUsedOnWireResponse),
+29 : (Opnum26NotUsedOnWire,Opnum26NotUsedOnWireResponse),
+30 : (S_DSGetServerPort,S_DSGetServerPortResponse),
+}
+
+#################################################################################
+
+#dscomm2 Definition
+
+#################################################################################
+
+MSRPC_UUID_DSCOMM2 = uuidtup_to_bin(('708cca10-9569-11d1-b2a5-0060977d8118','0.0'))
+
+
+class S_DSGetComputerSites(NDRCALL):
+    opnum = 0
+    structure = (
+		('hBind', HANDLE_T),
+		('pwcsPathName', CONST_WCHAR_T),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+
+class S_DSGetComputerSitesResponse(NDRCALL):
+    structure = (
+		('pdwNumberOfSites', DWORD),
+		('ppguidSites', GUID),
+		('pbServerSignature', UNSIGNED_CHAR),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+        
+
+class S_DSGetPropsEx(NDRCALL):
+    opnum = 1
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', DWORD),
+		('pwcsPathName', CONST_WCHAR_T),
+		('cp', DWORD),
+		('aProp', PROPID),
+		('apVar', PROPVARIANT),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+
+class S_DSGetPropsExResponse(NDRCALL):
+    structure = (
+		('apVar', PROPVARIANT),
+		('pbServerSignature', UNSIGNED_CHAR),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+        
+
+class S_DSGetPropsGuidEx(NDRCALL):
+    opnum = 2
+    structure = (
+		('hBind', HANDLE_T),
+		('dwObjectType', DWORD),
+		('pGuid',  GUID),
+		('cp', DWORD),
+		('aProp', PROPID),
+		('apVar', PROPVARIANT),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+
+class S_DSGetPropsGuidExResponse(NDRCALL):
+    structure = (
+		('apVar', PROPVARIANT),
+		('pbServerSignature', UNSIGNED_CHAR),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+        
+
+class S_DSBeginDeleteNotification(NDRCALL):
+    opnum = 3
+    structure = (
+		('hBind', HANDLE_T),
+		('pwcsPathName', CONST_WCHAR_T),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    )
+
+class S_DSBeginDeleteNotificationResponse(NDRCALL):
+    structure = (
+		('pHandle', PPCONTEXT_HANDLE_DELETE_TYPE),
+    )
+        
+
+class S_DSNotifyDelete(NDRCALL):
+    opnum = 4
+    structure = (
+		('hBind', HANDLE_T),
+		('Handle', PCONTEXT_HANDLE_DELETE_TYPE),
+    )
+
+class S_DSNotifyDeleteResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class S_DSEndDeleteNotification(NDRCALL):
+    opnum = 5
+    structure = (
+		('hBind', HANDLE_T),
+		('pHandle', PPCONTEXT_HANDLE_DELETE_TYPE),
+    )
+
+class S_DSEndDeleteNotificationResponse(NDRCALL):
+    structure = (
+		('pHandle', PPCONTEXT_HANDLE_DELETE_TYPE),
+    )
+        
+
+class S_DSIsServerGC(NDRCALL):
+    opnum = 6
+    structure = (
+		('hBind', HANDLE_T),
+    )
+
+class S_DSIsServerGCResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum7NotUsedOnWire(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class Opnum7NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class S_DSGetGCListInDomain(NDRCALL):
+    opnum = 8
+    structure = (
+		('hBind', HANDLE_T),
+		('lpwszComputerName', CONST_WCHAR_T),
+		('lpwszDomainName', CONST_WCHAR_T),
+		('phServerAuth', PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+
+class S_DSGetGCListInDomainResponse(NDRCALL):
+    structure = (
+		('lplpwszGCList', WCHAR_T),
+		('pbServerSignature', UNSIGNED_CHAR),
+		('pdwServerSignatureSize', LPBOUNDED_SIGNATURE_SIZE),
+    )
+        
+OPNUMS = {
+0 : (S_DSGetComputerSites,S_DSGetComputerSitesResponse),
+1 : (S_DSGetPropsEx,S_DSGetPropsExResponse),
+2 : (S_DSGetPropsGuidEx,S_DSGetPropsGuidExResponse),
+3 : (S_DSBeginDeleteNotification,S_DSBeginDeleteNotificationResponse),
+4 : (S_DSNotifyDelete,S_DSNotifyDeleteResponse),
+5 : (S_DSEndDeleteNotification,S_DSEndDeleteNotificationResponse),
+6 : (S_DSIsServerGC,S_DSIsServerGCResponse),
+7 : (Opnum7NotUsedOnWire,Opnum7NotUsedOnWireResponse),
+8 : (S_DSGetGCListInDomain,S_DSGetGCListInDomainResponse),
 }
 

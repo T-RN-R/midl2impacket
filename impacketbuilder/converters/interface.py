@@ -38,7 +38,7 @@ class MidlInterfaceConverter(Converter):
     def handle_typedef(self, td):
         if type(td) is MidlTypeDef:
             self.handle_midl_td(td)
-        elif type(td) is MidlStructDef:
+        elif type(td) in [MidlStructDef,MidlUnionDef] :
             self.handle_midl_struct(td)
         elif type(td) is MidlEnumDef:
             self.handle_midl_enum(td)
