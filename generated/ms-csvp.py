@@ -75,6 +75,12 @@ HYPER = NDRHYPER
 
 #################################################################################
 
+#"ms-oaut.idl"
+
+#################################################################################
+
+#################################################################################
+
 #"ms-dtyp.idl"
 
 #################################################################################
@@ -1852,7 +1858,7 @@ class HYPER_SIZEDARR(NDRSTRUCT):
     )
         
 
-class ANONYMOUS15(NDRUNION):
+class ANONYMOUS9(NDRUNION):
     union = {
         SF_BSTR: ('BstrStr',SAFEARR_BSTR),SF_UNKNOWN: ('UnknownStr',SAFEARR_UNKNOWN),SF_DISPATCH: ('DispatchStr',SAFEARR_DISPATCH),SF_VARIANT: ('VariantStr',SAFEARR_VARIANT),SF_RECORD: ('RecordStr',SAFEARR_BRECORD),SF_HAVEIID: ('HaveIidStr',SAFEARR_HAVEIID),SF_I1: ('ByteStr',BYTE_SIZEDARR),SF_I2: ('WordStr',WORD_SIZEDARR),SF_I4: ('LongStr',DWORD_SIZEDARR),SF_I8: ('HyperStr',HYPER_SIZEDARR),
     }
@@ -1860,7 +1866,7 @@ class ANONYMOUS15(NDRUNION):
 
 class SAFEARRAYUNION(NDRSTRUCT):
     structure = (
-        ('sfType', UNSIGNED_LONG),('Anonymous15', ANONYMOUS15),
+        ('sfType', UNSIGNED_LONG),('Anonymous9', ANONYMOUS9),
     )
 
 
@@ -2940,5 +2946,1410 @@ OPNUMS = {
 1 : (GetLibStatistics,GetLibStatisticsResponse),
 2 : (GetDocumentation2,GetDocumentation2Response),
 3 : (GetAllCustData,GetAllCustDataResponse),
+}
+
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+
+CprepIdSignature = 0,
+CprepIdGuid = 1,
+CprepIdNumber = 4000,
+CprepIdUnknown = 5000
+        
+
+class U0(NDRUNION):
+    union = {
+        CprepIdSignature: ('DiskSignature',UNSIGNED_LONG),CprepIdGuid: ('DiskGuid',GUID),CprepIdNumber: ('DeviceNumber',UNSIGNED_LONG),CprepIdUnknown: ('Junk',UNSIGNED_LONG),
+    }
+        
+
+class CPREP_DISKID(NDRSTRUCT):
+    structure = (
+        ('DiskIdType', CPREP_DISKID_ENUM),('u0', U0),
+    )
+class PCPREP_DISKID(NDRPOINTER):
+    referent = (
+        ('Data', CPREP_DISKID),
+    )    
+
+
+DiskStackScsiPort = 0,
+DiskStackStorPort = 1,
+DiskStackFullPort = 2
+        
+
+class CPREP_SCSI_ADDRESS(NDRSTRUCT):
+    structure = (
+        ('Length', UNSIGNED_LONG),('PortNumber', UNSIGNED_CHAR),('PathId', UNSIGNED_CHAR),('TargetId', UNSIGNED_CHAR),('Lun', UNSIGNED_CHAR),
+    )
+class PCPREP_SCSI_ADDRESS(NDRPOINTER):
+    referent = (
+        ('Data', CPREP_SCSI_ADDRESS),
+    )    
+
+
+class DISK_PROPS(NDRSTRUCT):
+    structure = (
+        ('DiskNumber', UNSIGNED_LONG),('DiskId', CPREP_DISKID),('DiskBusType', UNSIGNED_LONG),('StackType', DISKSTACKTYPE),('ScsiAddress', CPREP_SCSI_ADDRESS),('DiskIsClusterable', LONG),('AdapterDesc', WCHAR_T),('NumPaths', UNSIGNED_LONG),('Flags', UNSIGNED_LONG),
+    )
+class PDISK_PROPS(NDRPOINTER):
+    referent = (
+        ('Data', DISK_PROPS),
+    )    
+
+
+class DISK_PROPS_EX(NDRSTRUCT):
+    structure = (
+        ('DiskNumber', ULONG),('DiskId', CPREP_DISKID),('DiskBusType', ULONG),('StackType', DISKSTACKTYPE),('ScsiAddress', CPREP_SCSI_ADDRESS),('DiskIsClusterable', BOOL),('AdapterDesc', WCHAR_T),('pwszFriendlyName', LPWSTR),('NumPaths', UNSIGNED_LONG),('Flags', UNSIGNED_LONG),('ExtendedFlags', UNSIGNED_LONG),('pwszPoolName', LPWSTR),('pwszPage83Id', LPWSTR),('pwszSerialNumber', LPWSTR),('guidPoolId', GUID),
+    )
+class PDISK_PROPS_EX(NDRPOINTER):
+    referent = (
+        ('Data', DISK_PROPS_EX),
+    )    
+
+
+ClusterNetworkProfilePublic = 0,
+ClusterNetworkProfilePrivate = 1,
+ClusterNetworkProfileDomainAuthenticated = 2
+        
+
+class NODE_ROUTE_INFO(NDRSTRUCT):
+    structure = (
+        ('remoteVirtualIP', BSTR),('localUnicastIPs', SAFEARRAYBSTR),('remoteUnicastIPs', SAFEARRAYBSTR),('indices', SAFEARRAYULONG),
+    )
+
+
+class ADD_ROUTES_REQUEST(NDRSTRUCT):
+    structure = (
+        ('localVirtualIP', BSTR),('nodeRouteInfos', SAFEARRAYNODE_ROUTE_INFO),
+    )
+
+
+DOWN = ,
+UP = 
+        
+
+class ROUTE_LOSS_AND_STATE(NDRSTRUCT):
+    structure = (
+        ('packetLoss', ULONG),('status', ROUTE_STATUS),
+    )
+
+
+class ADD_ROUTES_REPLY(NDRSTRUCT):
+    structure = (
+        ('indices', SAFEARRAYULONG),('replies', SAFEARRAYROUTE_LOSS_AND_STATE),('routeUnavailable', BOOLEAN),
+    )
+
+
+DiskMediaTypeUnknown = 0,
+DiskMediaTypeHDD = 1,
+DiskMediaTypeSSD = 2,
+DiskMediaTypeSCM = 3
+        
+
+ClusterLogFlagNone = 0,
+ClusterLogFlagLocalTime = 1,
+ClusterLogFlagSkipClusterState = 2
+        
+
+Cluster_SChannel = 0,
+ClusterSet_SChannel = 1,
+Cluster_PKU2U = 2,
+ClusterSet_PKU2U = 3
+        
+
+class CLUSTER_CERT(NDRSTRUCT):
+    structure = (
+        ('CbCertData', ULONG),('CbKeyData', ULONG),('CertData', BYTE),('KeyData', BYTE),('ClusterSecret', WCHAR),
+    )
+
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#IClusterStorage2 Definition
+
+#################################################################################
+
+MSRPC_UUID_ICLUSTERSTORAGE2 = uuidtup_to_bin(('12108A88-6858-4467-B92F-E6CF4568DFB6','0.0'))
+
+
+class CprepDiskRawRead(NDRCALL):
+    opnum = 0
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('ULSECTOR', UNSIGNED_LONG),
+		('CBDATA', UNSIGNED_LONG),
+    )
+
+class CprepDiskRawReadResponse(NDRCALL):
+    structure = (
+		('PBDATA', BYTE),
+		('PCBDATAREAD', UNSIGNED_LONG),
+		('ULLATENCY', UNSIGNED_LONG),
+    )
+        
+
+class CprepDiskRawWrite(NDRCALL):
+    opnum = 1
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('ULSECTOR', UNSIGNED_LONG),
+		('CBDATA', UNSIGNED_LONG),
+		('PBDATA', BYTE),
+    )
+
+class CprepDiskRawWriteResponse(NDRCALL):
+    structure = (
+		('PCBDATAWRITTEN', UNSIGNED_LONG),
+		('ULLATENCY', UNSIGNED_LONG),
+    )
+        
+
+class CprepPrepareNode(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class CprepPrepareNodeResponse(NDRCALL):
+    structure = (
+		('PULMAJORVERSION', UNSIGNED_LONG),
+		('PULMINORVERSION', UNSIGNED_LONG),
+		('PDWCPREPVERSION', UNSIGNED_LONG),
+    )
+        
+
+class CprepPrepareNodePhase2(NDRCALL):
+    opnum = 3
+    structure = (
+		('FLAGS', UNSIGNED_LONG),
+    )
+
+class CprepPrepareNodePhase2Response(NDRCALL):
+    structure = (
+		('PULNUMDISKS', UNSIGNED_LONG),
+    )
+        
+
+class CprepDiskGetProps(NDRCALL):
+    opnum = 4
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskGetPropsResponse(NDRCALL):
+    structure = (
+		('DISKPROPS', DISK_PROPS),
+    )
+        
+
+class Opnum8NotUsedOnWire(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class Opnum8NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum9NotUsedOnWire(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class Opnum9NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum10NotUsedOnWire(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class Opnum10NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum11NotUsedOnWire(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class Opnum11NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskStopDefense(NDRCALL):
+    opnum = 9
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskStopDefenseResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskOnline(NDRCALL):
+    opnum = 10
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskOnlineResponse(NDRCALL):
+    structure = (
+		('MAXPARTITIONNUMBER', UNSIGNED_LONG),
+    )
+        
+
+class CprepDiskVerifyUnique(NDRCALL):
+    opnum = 11
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskVerifyUniqueResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum15NotUsedOnWire(NDRCALL):
+    opnum = 12
+    structure = (
+
+    )
+
+class Opnum15NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum16NotUsedOnWire(NDRCALL):
+    opnum = 13
+    structure = (
+
+    )
+
+class Opnum16NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskWriteFileData(NDRCALL):
+    opnum = 14
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('ULPARTITION', UNSIGNED_LONG),
+		('FILENAME', WCHAR_T),
+		('CBDATAIN', UNSIGNED_LONG),
+		('DATAIN', BYTE),
+    )
+
+class CprepDiskWriteFileDataResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskVerifyFileData(NDRCALL):
+    opnum = 15
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('ULPARTITION', UNSIGNED_LONG),
+		('FILENAME', WCHAR_T),
+		('CBDATAIN', UNSIGNED_LONG),
+		('DATAIN', BYTE),
+    )
+
+class CprepDiskVerifyFileDataResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskDeleteFile(NDRCALL):
+    opnum = 16
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('ULPARTITION', UNSIGNED_LONG),
+		('FILENAME', WCHAR_T),
+    )
+
+class CprepDiskDeleteFileResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskOffline(NDRCALL):
+    opnum = 17
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskOfflineResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum21NotUsedOnWire(NDRCALL):
+    opnum = 18
+    structure = (
+
+    )
+
+class Opnum21NotUsedOnWireResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskGetUniqueIds(NDRCALL):
+    opnum = 19
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('CBDATA', UNSIGNED_LONG),
+    )
+
+class CprepDiskGetUniqueIdsResponse(NDRCALL):
+    structure = (
+		('PBDATA', BYTE),
+		('PCBDATAOUT', UNSIGNED_LONG),
+		('PCBNEEDED', UNSIGNED_LONG),
+    )
+        
+
+class CprepDiskAttach(NDRCALL):
+    opnum = 20
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskAttachResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskPRArbitrate(NDRCALL):
+    opnum = 21
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskPRArbitrateResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskPRRegister(NDRCALL):
+    opnum = 22
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskPRRegisterResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskPRUnRegister(NDRCALL):
+    opnum = 23
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskPRUnRegisterResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskPRReserve(NDRCALL):
+    opnum = 24
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskPRReserveResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskPRRelease(NDRCALL):
+    opnum = 25
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskPRReleaseResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskDiskPartitionIsNtfs(NDRCALL):
+    opnum = 26
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('ULPARTITION', UNSIGNED_LONG),
+    )
+
+class CprepDiskDiskPartitionIsNtfsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskGetArbSectors(NDRCALL):
+    opnum = 27
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskGetArbSectorsResponse(NDRCALL):
+    structure = (
+		('SECTORX', UNSIGNED_LONG),
+		('SECTORY', UNSIGNED_LONG),
+    )
+        
+
+class CprepDiskIsPRPresent(NDRCALL):
+    opnum = 28
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskIsPRPresentResponse(NDRCALL):
+    structure = (
+		('PRESENT', UNSIGNED_LONG),
+    )
+        
+
+class CprepDiskPRPreempt(NDRCALL):
+    opnum = 29
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskPRPreemptResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskPRClear(NDRCALL):
+    opnum = 30
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskPRClearResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskIsOnline(NDRCALL):
+    opnum = 31
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskIsOnlineResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskSetOnline(NDRCALL):
+    opnum = 32
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskSetOnlineResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskGetFSName(NDRCALL):
+    opnum = 33
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('PARTITION', UNSIGNED_LONG),
+    )
+
+class CprepDiskGetFSNameResponse(NDRCALL):
+    structure = (
+		('FSNAME', WCHAR_T),
+    )
+        
+
+class CprepDiskIsReadable(NDRCALL):
+    opnum = 34
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskIsReadableResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskGetDsms(NDRCALL):
+    opnum = 35
+    structure = (
+		('SIZE', UNSIGNED_LONG),
+    )
+
+class CprepDiskGetDsmsResponse(NDRCALL):
+    structure = (
+		('PRESERVED', UNSIGNED_LONG),
+		('REGISTEREDDSMS', BYTE),
+    )
+        
+OPNUMS = {
+0 : (CprepDiskRawRead,CprepDiskRawReadResponse),
+1 : (CprepDiskRawWrite,CprepDiskRawWriteResponse),
+2 : (CprepPrepareNode,CprepPrepareNodeResponse),
+3 : (CprepPrepareNodePhase2,CprepPrepareNodePhase2Response),
+4 : (CprepDiskGetProps,CprepDiskGetPropsResponse),
+5 : (Opnum8NotUsedOnWire,Opnum8NotUsedOnWireResponse),
+6 : (Opnum9NotUsedOnWire,Opnum9NotUsedOnWireResponse),
+7 : (Opnum10NotUsedOnWire,Opnum10NotUsedOnWireResponse),
+8 : (Opnum11NotUsedOnWire,Opnum11NotUsedOnWireResponse),
+9 : (CprepDiskStopDefense,CprepDiskStopDefenseResponse),
+10 : (CprepDiskOnline,CprepDiskOnlineResponse),
+11 : (CprepDiskVerifyUnique,CprepDiskVerifyUniqueResponse),
+12 : (Opnum15NotUsedOnWire,Opnum15NotUsedOnWireResponse),
+13 : (Opnum16NotUsedOnWire,Opnum16NotUsedOnWireResponse),
+14 : (CprepDiskWriteFileData,CprepDiskWriteFileDataResponse),
+15 : (CprepDiskVerifyFileData,CprepDiskVerifyFileDataResponse),
+16 : (CprepDiskDeleteFile,CprepDiskDeleteFileResponse),
+17 : (CprepDiskOffline,CprepDiskOfflineResponse),
+18 : (Opnum21NotUsedOnWire,Opnum21NotUsedOnWireResponse),
+19 : (CprepDiskGetUniqueIds,CprepDiskGetUniqueIdsResponse),
+20 : (CprepDiskAttach,CprepDiskAttachResponse),
+21 : (CprepDiskPRArbitrate,CprepDiskPRArbitrateResponse),
+22 : (CprepDiskPRRegister,CprepDiskPRRegisterResponse),
+23 : (CprepDiskPRUnRegister,CprepDiskPRUnRegisterResponse),
+24 : (CprepDiskPRReserve,CprepDiskPRReserveResponse),
+25 : (CprepDiskPRRelease,CprepDiskPRReleaseResponse),
+26 : (CprepDiskDiskPartitionIsNtfs,CprepDiskDiskPartitionIsNtfsResponse),
+27 : (CprepDiskGetArbSectors,CprepDiskGetArbSectorsResponse),
+28 : (CprepDiskIsPRPresent,CprepDiskIsPRPresentResponse),
+29 : (CprepDiskPRPreempt,CprepDiskPRPreemptResponse),
+30 : (CprepDiskPRClear,CprepDiskPRClearResponse),
+31 : (CprepDiskIsOnline,CprepDiskIsOnlineResponse),
+32 : (CprepDiskSetOnline,CprepDiskSetOnlineResponse),
+33 : (CprepDiskGetFSName,CprepDiskGetFSNameResponse),
+34 : (CprepDiskIsReadable,CprepDiskIsReadableResponse),
+35 : (CprepDiskGetDsms,CprepDiskGetDsmsResponse),
+}
+
+#################################################################################
+
+#IClusterStorage3 Definition
+
+#################################################################################
+
+MSRPC_UUID_ICLUSTERSTORAGE3 = uuidtup_to_bin(('11942D87-A1DE-4E7F-83FB-A840D9C5928D','0.0'))
+
+
+class CprepDiskGetUniqueIds3(NDRCALL):
+    opnum = 0
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskGetUniqueIds3Response(NDRCALL):
+    structure = (
+		('PPBDEVICEIDHEADER', BYTE),
+		('PCBDIHSIZE', ULONG),
+		('PPDEVICEDESCRIPTOR', BYTE),
+		('PCBDDSIZE', ULONG),
+    )
+        
+
+class CprepCheckNetFtBindings3(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class CprepCheckNetFtBindings3Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepCsvTestSetup3(NDRCALL):
+    opnum = 2
+    structure = (
+		('TESTSHAREGUID', GUID),
+		('RESERVED', LPWSTR),
+    )
+
+class CprepCsvTestSetup3Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepIsNodeClustered3(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class CprepIsNodeClustered3Response(NDRCALL):
+    structure = (
+		('PBISCLUSTERNODE', BOOLEAN),
+    )
+        
+
+class CprepCreateNewSmbShares3(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class CprepCreateNewSmbShares3Response(NDRCALL):
+    structure = (
+		('PPWSZSHAREPATHS', LPWSTR),
+		('PDWNUMBEROFPATHS', DWORD),
+    )
+        
+
+class CprepConnectToNewSmbShares3(NDRCALL):
+    opnum = 5
+    structure = (
+		('PPWSZSHAREPATHS', LPWSTR),
+		('DWNUMBEROFPATHS', DWORD),
+    )
+
+class CprepConnectToNewSmbShares3Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskGetProps3(NDRCALL):
+    opnum = 6
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskGetProps3Response(NDRCALL):
+    structure = (
+		('PDISKPROPS', DISK_PROPS_EX),
+    )
+        
+
+class CprepDiskIsReadOnly3(NDRCALL):
+    opnum = 7
+    structure = (
+		('DISKID', CPREP_DISKID),
+    )
+
+class CprepDiskIsReadOnly3Response(NDRCALL):
+    structure = (
+		('PBREADONLY', BOOLEAN),
+    )
+        
+
+class CprepDiskPRRegister3(NDRCALL):
+    opnum = 8
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('OLDPRKEY', ULONGLONG),
+		('NEWPRKEY', ULONGLONG),
+    )
+
+class CprepDiskPRRegister3Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskFindKey3(NDRCALL):
+    opnum = 9
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('KEY', ULONGLONG),
+    )
+
+class CprepDiskFindKey3Response(NDRCALL):
+    structure = (
+		('PBFOUND', BOOLEAN),
+    )
+        
+
+class CprepDiskPRPreempt3(NDRCALL):
+    opnum = 10
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('OWNERKEY', ULONGLONG),
+		('NEWKEY', ULONGLONG),
+    )
+
+class CprepDiskPRPreempt3Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskPRReserve3(NDRCALL):
+    opnum = 11
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('KEY', ULONGLONG),
+    )
+
+class CprepDiskPRReserve3Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskIsPRPresent3(NDRCALL):
+    opnum = 12
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('KEY', ULONGLONG),
+    )
+
+class CprepDiskIsPRPresent3Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskPRRelease3(NDRCALL):
+    opnum = 13
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('KEY', ULONGLONG),
+    )
+
+class CprepDiskPRRelease3Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CprepDiskPRClear3(NDRCALL):
+    opnum = 14
+    structure = (
+		('DISKID', CPREP_DISKID),
+		('KEY', ULONGLONG),
+    )
+
+class CprepDiskPRClear3Response(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (CprepDiskGetUniqueIds3,CprepDiskGetUniqueIds3Response),
+1 : (CprepCheckNetFtBindings3,CprepCheckNetFtBindings3Response),
+2 : (CprepCsvTestSetup3,CprepCsvTestSetup3Response),
+3 : (CprepIsNodeClustered3,CprepIsNodeClustered3Response),
+4 : (CprepCreateNewSmbShares3,CprepCreateNewSmbShares3Response),
+5 : (CprepConnectToNewSmbShares3,CprepConnectToNewSmbShares3Response),
+6 : (CprepDiskGetProps3,CprepDiskGetProps3Response),
+7 : (CprepDiskIsReadOnly3,CprepDiskIsReadOnly3Response),
+8 : (CprepDiskPRRegister3,CprepDiskPRRegister3Response),
+9 : (CprepDiskFindKey3,CprepDiskFindKey3Response),
+10 : (CprepDiskPRPreempt3,CprepDiskPRPreempt3Response),
+11 : (CprepDiskPRReserve3,CprepDiskPRReserve3Response),
+12 : (CprepDiskIsPRPresent3,CprepDiskIsPRPresent3Response),
+13 : (CprepDiskPRRelease3,CprepDiskPRRelease3Response),
+14 : (CprepDiskPRClear3,CprepDiskPRClear3Response),
+}
+
+#################################################################################
+
+#IClusterNetwork2 Definition
+
+#################################################################################
+
+MSRPC_UUID_ICLUSTERNETWORK2 = uuidtup_to_bin(('2931C32C-F731-4c56-9FEB-3D5F1C5E72BF','0.0'))
+
+
+class SendRTMessage(NDRCALL):
+    opnum = 0
+    structure = (
+		('SOURCEIPADDRESS', BSTR),
+		('DESTIPADDRESS', BSTR),
+		('DESTPORT', UNSIGNED_SHORT),
+		('ADDRESSFAMILY', UNSIGNED_SHORT),
+		('MESSAGESIZE', UNSIGNED_LONG),
+		('TIMEOUT', UNSIGNED_LONG),
+    )
+
+class SendRTMessageResponse(NDRCALL):
+    structure = (
+		('RTELAPSEDTIME', UNSIGNED_LONG),
+    )
+        
+
+class InitializeNode(NDRCALL):
+    opnum = 1
+    structure = (
+		('REQUESTUDPPORT', UNSIGNED_SHORT),
+    )
+
+class InitializeNodeResponse(NDRCALL):
+    structure = (
+		('BOUNDUDPPORT', UNSIGNED_SHORT),
+		('NODEMAJORVERSION', UNSIGNED_LONG),
+		('NODEMINORVERSION', UNSIGNED_LONG),
+		('CLUSPREPVERSION', UNSIGNED_LONG),
+    )
+        
+
+class GetIpConfigSerialized(NDRCALL):
+    opnum = 2
+    structure = (
+		('APPLYCLUSTERFILTER', BOOLEAN),
+    )
+
+class GetIpConfigSerializedResponse(NDRCALL):
+    structure = (
+		('DATA', SAFEARRAY ( BYTE )),
+		('PCBOUT', INT),
+    )
+        
+
+class CleanupNode(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class CleanupNodeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class QueryFirewallConfiguration(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class QueryFirewallConfigurationResponse(NDRCALL):
+    structure = (
+		('SERVERRULESENABLED', BOOLEAN),
+		('MGMTRULESENABLED', BOOLEAN),
+    )
+        
+
+class ProcessAddRoutes(NDRCALL):
+    opnum = 5
+    structure = (
+		('REQUEST',  ADD_ROUTES_REQUEST),
+    )
+
+class ProcessAddRoutesResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class GetAddRoutesStatus(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class GetAddRoutesStatusResponse(NDRCALL):
+    structure = (
+		('REPLY', ADD_ROUTES_REPLY),
+    )
+        
+
+class Opnum10Reserved(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class Opnum10ReservedResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CancelAddRoutesRequest(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class CancelAddRoutesRequestResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (SendRTMessage,SendRTMessageResponse),
+1 : (InitializeNode,InitializeNodeResponse),
+2 : (GetIpConfigSerialized,GetIpConfigSerializedResponse),
+3 : (CleanupNode,CleanupNodeResponse),
+4 : (QueryFirewallConfiguration,QueryFirewallConfigurationResponse),
+5 : (ProcessAddRoutes,ProcessAddRoutesResponse),
+6 : (GetAddRoutesStatus,GetAddRoutesStatusResponse),
+7 : (Opnum10Reserved,Opnum10ReservedResponse),
+8 : (CancelAddRoutesRequest,CancelAddRoutesRequestResponse),
+}
+
+#################################################################################
+
+#IClusterCleanup Definition
+
+#################################################################################
+
+MSRPC_UUID_ICLUSTERCLEANUP = uuidtup_to_bin(('D6105110-8917-415-AA32-80A2933DC9','0.0'))
+
+
+class CleanUpEvictedNode(NDRCALL):
+    opnum = 0
+    structure = (
+		('DELAYBEFORECLEANUP', UNSIGNED_LONG),
+		('TIMEOUT', UNSIGNED_LONG),
+		('FLAGS', UNSIGNED_LONG),
+    )
+
+class CleanUpEvictedNodeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ClearPR(NDRCALL):
+    opnum = 1
+    structure = (
+		('DEVICENUMBER', UNSIGNED_LONG),
+    )
+
+class ClearPRResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (CleanUpEvictedNode,CleanUpEvictedNodeResponse),
+1 : (ClearPR,ClearPRResponse),
+}
+
+#################################################################################
+
+#IClusterSetup Definition
+
+#################################################################################
+
+MSRPC_UUID_ICLUSTERSETUP = uuidtup_to_bin(('491260B5-05C9-40D9-B7F2-1F7BDAE0927F','0.0'))
+
+
+class ConfigSvcSecret(NDRCALL):
+    opnum = 0
+    structure = (
+		('SECRETBLOB', BSTR),
+    )
+
+class ConfigSvcSecretResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RetrieveSvcSecret(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class RetrieveSvcSecretResponse(NDRCALL):
+    structure = (
+		('SECRETBLOB', BSTR),
+    )
+        
+
+class RetrieveHostLabel(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class RetrieveHostLabelResponse(NDRCALL):
+    structure = (
+		('HOSTLABEL', BSTR),
+    )
+        
+
+class GetFunctionalLevel(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class GetFunctionalLevelResponse(NDRCALL):
+    structure = (
+		('FUNCTIONALLEVEL', WORD),
+    )
+        
+
+class Opnum7Reserved(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class Opnum7ReservedResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum8Reserved(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class Opnum8ReservedResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ConfigClusterCert(NDRCALL):
+    opnum = 6
+    structure = (
+		('CLUSTERCERT', CLUSTER_CERT),
+    )
+
+class ConfigClusterCertResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RetrieveClusterCert(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class RetrieveClusterCertResponse(NDRCALL):
+    structure = (
+		('CLUSTERCERT', CLUSTER_CERT),
+    )
+        
+
+class GenerateClusterCert(NDRCALL):
+    opnum = 8
+    structure = (
+		('CLUSTERCERT', CLUSTER_CERT),
+    )
+
+class GenerateClusterCertResponse(NDRCALL):
+    structure = (
+		('CLUSTERCERT', CLUSTER_CERT),
+    )
+        
+
+class GetUpgradeVersion(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class GetUpgradeVersionResponse(NDRCALL):
+    structure = (
+		('UPGRADEVERSION', WORD),
+    )
+        
+
+class Opnum13Reserved(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class Opnum13ReservedResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ConfigClusterCerV2(NDRCALL):
+    opnum = 11
+    structure = (
+		('CLUSTERCERT', CLUSTER_CERT),
+		('CERTTYPE', CLUSTER_CERTTYPE),
+    )
+
+class ConfigClusterCerV2Response(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RetrieveClusterCertV2(NDRCALL):
+    opnum = 12
+    structure = (
+		('CLUSTERCERT', CLUSTER_CERT),
+    )
+
+class RetrieveClusterCertV2Response(NDRCALL):
+    structure = (
+		('CERTTYPE', CLUSTER_CERTTYPE),
+    )
+        
+
+class GenerateClusterCertV2(NDRCALL):
+    opnum = 13
+    structure = (
+		('CLUSTERCERT', CLUSTER_CERT),
+		('CERTTYPE', CLUSTER_CERTTYPE),
+    )
+
+class GenerateClusterCertV2Response(NDRCALL):
+    structure = (
+		('CLUSTERCERT', CLUSTER_CERT),
+    )
+        
+OPNUMS = {
+0 : (ConfigSvcSecret,ConfigSvcSecretResponse),
+1 : (RetrieveSvcSecret,RetrieveSvcSecretResponse),
+2 : (RetrieveHostLabel,RetrieveHostLabelResponse),
+3 : (GetFunctionalLevel,GetFunctionalLevelResponse),
+4 : (Opnum7Reserved,Opnum7ReservedResponse),
+5 : (Opnum8Reserved,Opnum8ReservedResponse),
+6 : (ConfigClusterCert,ConfigClusterCertResponse),
+7 : (RetrieveClusterCert,RetrieveClusterCertResponse),
+8 : (GenerateClusterCert,GenerateClusterCertResponse),
+9 : (GetUpgradeVersion,GetUpgradeVersionResponse),
+10 : (Opnum13Reserved,Opnum13ReservedResponse),
+11 : (ConfigClusterCerV2,ConfigClusterCerV2Response),
+12 : (RetrieveClusterCertV2,RetrieveClusterCertV2Response),
+13 : (GenerateClusterCertV2,GenerateClusterCertV2Response),
+}
+
+#################################################################################
+
+#IClusterLog Definition
+
+#################################################################################
+
+MSRPC_UUID_ICLUSTERLOG = uuidtup_to_bin(('85923CA7-1B6B-4E83-A2E4-F5BA3BFBB8A3','0.0'))
+
+
+class GenerateClusterLog(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class GenerateClusterLogResponse(NDRCALL):
+    structure = (
+		('LOGFILEPATH', BSTR),
+    )
+        
+
+class GenerateTimeSpanLog(NDRCALL):
+    opnum = 1
+    structure = (
+		('SPANMINUTES', UNSIGNED_LONG),
+    )
+
+class GenerateTimeSpanLogResponse(NDRCALL):
+    structure = (
+		('LOGFILEPATH', BSTR),
+    )
+        
+
+class GenerateClusterLogInLocalTime(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class GenerateClusterLogInLocalTimeResponse(NDRCALL):
+    structure = (
+		('LOGFILEPATH', BSTR),
+    )
+        
+
+class GenerateTimeSpanLogInLocalTime(NDRCALL):
+    opnum = 3
+    structure = (
+		('SPANMINUTES', ULONG),
+    )
+
+class GenerateTimeSpanLogInLocalTimeResponse(NDRCALL):
+    structure = (
+		('LOGFILEPATH', BSTR),
+    )
+        
+OPNUMS = {
+0 : (GenerateClusterLog,GenerateClusterLogResponse),
+1 : (GenerateTimeSpanLog,GenerateTimeSpanLogResponse),
+2 : (GenerateClusterLogInLocalTime,GenerateClusterLogInLocalTimeResponse),
+3 : (GenerateTimeSpanLogInLocalTime,GenerateTimeSpanLogInLocalTimeResponse),
+}
+
+#################################################################################
+
+#IClusterLogEx Definition
+
+#################################################################################
+
+MSRPC_UUID_ICLUSTERLOGEX = uuidtup_to_bin(('BD7C23C2-C805-457-886-D17FE6B9D19F','0.0'))
+
+
+class GenerateClusterLog(NDRCALL):
+    opnum = 0
+    structure = (
+		('SPANMINUTES', ULONG),
+		('FLAGS', CLUSTERLOGEXFLAG),
+    )
+
+class GenerateClusterLogResponse(NDRCALL):
+    structure = (
+		('LOGFILEPATH', BSTR),
+    )
+        
+
+class GenerateClusterHealthLog(NDRCALL):
+    opnum = 1
+    structure = (
+		('SPANMINUTES', ULONG),
+		('FLAGS', CLUSTERLOGEXFLAG),
+    )
+
+class GenerateClusterHealthLogResponse(NDRCALL):
+    structure = (
+		('LOGFILEPATH', BSTR),
+    )
+        
+OPNUMS = {
+0 : (GenerateClusterLog,GenerateClusterLogResponse),
+1 : (GenerateClusterHealthLog,GenerateClusterHealthLogResponse),
+}
+
+#################################################################################
+
+#IClusterFirewall Definition
+
+#################################################################################
+
+MSRPC_UUID_ICLUSTERFIREWALL = uuidtup_to_bin(('F1D6C29C-8BE-4691-8724-F6D8DEAEAFC8','0.0'))
+
+
+class InitializeAdapterConfiguration(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class InitializeAdapterConfigurationResponse(NDRCALL):
+    structure = (
+		('CRETADAPTERS', UNSIGNED_LONG),
+    )
+        
+
+class GetNextAdapterFirewallConfiguration(NDRCALL):
+    opnum = 1
+    structure = (
+		('IDX', UNSIGNED_LONG),
+    )
+
+class GetNextAdapterFirewallConfigurationResponse(NDRCALL):
+    structure = (
+		('ADAPTERID', GUID),
+		('ADAPTERPROFILE', CLUSTER_NETWORK_PROFILE),
+		('SERVERRULESENABLED', BOOLEAN),
+		('MANAGEMENTRULESENABLED', BOOLEAN),
+		('COMMONRULESENABLED', BOOLEAN),
+    )
+        
+OPNUMS = {
+0 : (InitializeAdapterConfiguration,InitializeAdapterConfigurationResponse),
+1 : (GetNextAdapterFirewallConfiguration,GetNextAdapterFirewallConfigurationResponse),
+}
+
+#################################################################################
+
+#IClusterUpdate Definition
+
+#################################################################################
+
+MSRPC_UUID_ICLUSTERUPDATE = uuidtup_to_bin(('E3C9B851-C442-432-8C6-A7FAAFC09D3B','0.0'))
+
+
+class GetUpdates(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class GetUpdatesResponse(NDRCALL):
+    structure = (
+		('UPDATECOUNT', ULONG),
+		('UPDATES', BSTR),
+    )
+        
+
+class Count(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('COUNT', LONG),
+    )
+        
+OPNUMS = {
+0 : (GetUpdates,GetUpdatesResponse),
+1 : (Count,CountResponse),
 }
 

@@ -1,38 +1,6 @@
 from base import Visitable, Visitor
 import string
 
-class Macroable(Visitable):
-    def apply_macro(self, visitor:Visitor, macro):
-        raise Exception(f"Class {self.__class__} must implement `apply_macro()`")
-
-
-    def _do_macro(self, s:str, macro):
-        idx = s.find(macro[0])
-        if idx == -1:
-            return s
-        invalid_prev = string.ascii_letters + string.digits + "_"
-
-        substr = s[:idx+len(macro[0])]
-        valid_replacement = True
-        if idx > 0:
-            if s[idx-1] in invalid_prev:
-                valid_replacement = False
-        if idx != len(s)-1:
-            if s[idx+1] in invalid_prev:
-                valid_replacement = False
-        if valid_replacement:
-            substr = substr.replace(macro[0], macro[1])
-        cont = s[idx+len(macro[0])+1:]
-        if len(cont) > 1:
-            s = substr + self._do_macro(s[idx+len(macro[0])+1:], macro)
-        else:
-            s = substr
-        return s
-
-    def _do_macro_iterable(self, iterable, macro):
-        iterable[:] = [self._do_macro(i, macro) for i in iterable]
-        return iterable
-
 class MidlImport:
     """Represents a MIDL import statement
 
@@ -53,7 +21,7 @@ class MidlArrayDimensions:
         self.max = array_max
 
 
-class MidlVariableInstantiation(Macroable):
+class MidlVariableInstantiation(Visitable):
     """Represents a MIDL variable instantiation
 
     Example:
@@ -73,12 +41,7 @@ class MidlVariableInstantiation(Macroable):
         out += f"{self.type} {self.name} = {self.rhs};"
         return out
 
-    def apply_macro(self, visitor:Visitor, macro:tuple):
-        self.type = self._do_macro(self.type, macro)
-        self.name = self._do_macro(self.name, macro)
-        self.rhs = self._do_macro(self.rhs, macro)
-
-class MidlDefinition(Macroable):
+class MidlDefinition(Visitable):
     """Represents a MIDL Definition. Maps directly to a MIDL file"""
 
     def __init__(self):
@@ -104,15 +67,6 @@ class MidlDefinition(Macroable):
     def add_comment(self, comment):
         self.comments.append(comment)
 
-    def apply_macro(self, visitor:Visitor, macro:tuple):
-        # replace the entries in the defines list
-        self.defines = self._do_macro_iterable(self.defines, macro)
-        self.instantiation[:] = [x.accept(visitor) for x in self.instantiation]
-        self.interfaces[:] = [x.accept(visitor) for x in self.interfaces]
-        self.dispinterfaces[:] = [x.accept(visitor) for x in self.dispinterfaces]
-        self.coclasses[:] = [x.accept(visitor) for x in self.coclasses]
-        self.typedefs[:] = [x.accept(visitor) for x in self.typedefs]
-
     def __str__(self):
         out = ""
         for i in self.imports:
@@ -128,7 +82,7 @@ class MidlDefinition(Macroable):
         return out
 
 
-class MidlInterface(Macroable):
+class MidlInterface(Visitable):
     """Represents a MIDL interface
 
     Truncated example:
@@ -197,15 +151,6 @@ class MidlInterface(Macroable):
     def add_comment(self, c):
         self.comments.append(c)
 
-    def apply_macro(self, visitor:Visitor, macro:tuple):
-        self.name = self._do_macro(self.name, macro)
-        # replace the entries in the defines list
-        self.defines = self._do_macro_iterable(self.defines, macro)
-        self.procedures[:] = [x.accept(visitor) for x in self.procedures]
-        self.parents = self._do_macro_iterable(self.parents, macro)
-        self.vardefs[:] = [x.accept(visitor) for x in self.vardefs]
-        self.typedefs[:] = [x.accept(visitor) for x in self.typedefs]
-
     def __str__(self):
         if "version" in self.attributes:
             version = self.attributes["version"].params[0]
@@ -227,7 +172,7 @@ class MidlInterface(Macroable):
             out += str(p)
         return out
 
-class MidlDispInterface(Macroable):
+class MidlDispInterface(Visitable):
     def __init__(self, name=None, interface=None, properties=None, methods=None):
         self.name = name
         self.interface = interface
@@ -245,7 +190,7 @@ class MidlDispInterface(Macroable):
         return out
 
 
-class MidlCoclass(Macroable):
+class MidlCoclass(Visitable):
     def __init__(self, name, interfaces):
         self.name = name
         self.interfaces = interfaces
@@ -257,7 +202,7 @@ class MidlCoclass(Macroable):
         out += '\n    '.join([str(iface) for iface in self.interfaces])
         return out
 
-class MidlAttribute(Macroable):
+class MidlAttribute(Visitable):
     """MIDL Attribute definition
     e.g. size_is(5)
     """
@@ -278,7 +223,7 @@ class MidlAttribute(Macroable):
             out+=")"
         return out
 
-class MidlVarDef(Macroable):
+class MidlVarDef(Visitable):
     """Struct member or function parameter
     Example:
         `[size_is(count)] EvtRpcVariant* props;`
@@ -296,20 +241,12 @@ class MidlVarDef(Macroable):
         self.attributes = attributes or {}
         self.array_info = array_info or []
 
-    def apply_macro(self, visitor:Visitor, macro:tuple):
-        if self.name != None:
-            self.name = self._do_macro(self.name, macro)
-        if type(self.type) != str and self.type != None:
-            self.type = self.type.accept(visitor)
-        elif self.type != None:
-            self.type = self._do_macro(self.type, macro)
-
     def __str__(self):
         out = f"{self.type} {self.name}"
         return out
 
 
-class MidlTypeDef(Macroable):
+class MidlTypeDef(Visitable):
     """Represents a typedef, can either be a simple mapping, or a complex struct definition."""
 
     def __init__(self, td, attributes):
@@ -323,18 +260,12 @@ class MidlTypeDef(Macroable):
         return out
 
 
-class MidlStructDef(Macroable):
+class MidlStructDef(Visitable):
     def __init__(self, public_names, private_name, members: list[MidlVarDef]):
         self.public_names = public_names
         self.private_name = private_name
         self.members = members
         self.attributes = {}
-
-    def apply_macro(self, visitor:Visitor, macro:tuple):
-        self.public_names = self._do_macro_iterable(self.public_names, macro)
-        if self.private_name != None:
-            self.private_name = self._do_macro(self.private_name, macro)
-        self.members[:] = [x.accept(visitor) for x in self.members]
 
     def __str__(self):
         out = "typedef struct "
@@ -353,18 +284,12 @@ class MidlStructDef(Macroable):
         out+=";\n"
         return out
 
-class MidlUnionDef(Macroable):
+class MidlUnionDef(Visitable):
     def __init__(self, public_names, private_name, members: list[MidlVarDef]):
         self.public_names = public_names
         self.private_name = private_name or ''
         self.members = members
         self.attributes = {}
-
-    def apply_macro(self, visitor:Visitor, macro:tuple):
-        self.public_names = self._do_macro_iterable(self.public_names, macro)
-        if self.private_name != None:
-            self.private_name = self._do_macro(self.private_name, macro)
-        self.members[:] = [x.accept(visitor) for x in self.members]
 
     def __str__(self):
         out = "typedef union "
@@ -380,22 +305,18 @@ class MidlUnionDef(Macroable):
         out+=";\n"
         return out
 
-class MidlSimpleTypedef(Macroable):
+class MidlSimpleTypedef(Visitable):
     def __init__(self, name, simple_type):
         self.name = name
         self.type = simple_type
         self.attributes = {}
-
-    def apply_macro(self, visitor:Visitor, macro:tuple):
-        self.name = self._do_macro(self.name, macro)
-        self.type = self._do_macro(self.type, macro)
 
     def __str__(self):
         out = ""
         out = "typedef " + self.name + " " + self.type +";"
         return out
 
-class MidlEnumDef(Macroable):
+class MidlEnumDef(Visitable):
     """Definition of a MIDL enum.
 
     Example:
@@ -424,13 +345,6 @@ class MidlEnumDef(Macroable):
         self.map = map
         self.attributes = {}
 
-    def apply_macro(self, visitor:Visitor, macro:tuple):
-        self.public_names = self._do_macro_iterable(self.public_names, macro)
-        if self.private_name != None:
-            self.private_name = self._do_macro(self.private_name, macro)
-        for k in self.map:
-            self.map[k] = self._do_macro(self.map[k], macro)
-
     def __str__(self):
 
         out = "enum " + self.private_name + f"[{self.public_names}]" + "\n{\n"
@@ -447,7 +361,7 @@ class MidlEnumDef(Macroable):
         return out
 
 
-class MidlProcedure(Macroable):
+class MidlProcedure(Visitable):
     """MIDL Procedure definition
 
     Example:
@@ -461,10 +375,6 @@ class MidlProcedure(Macroable):
         self.name = name
         self.attributes = attributes or {}
         self.params = params
-
-    def apply_macro(self, visitor:Visitor, macro:tuple):
-        self.name = self._do_macro(self.name, macro)
-        self.params[:] = [x.accept(visitor) for x in self.params]
 
     def __str__(self):
         out = ""
@@ -484,7 +394,7 @@ class MidlProcedure(Macroable):
 
 
 
-class MidlParameter(Macroable):
+class MidlParameter(Visitable):
     def __init__(
         self, name=None, data_type=None, attributes: list[MidlAttribute] = None
     ):

@@ -75,6 +75,12 @@ HYPER = NDRHYPER
 
 #################################################################################
 
+#"ms-oaut.idl"
+
+#################################################################################
+
+#################################################################################
+
 #"ms-dtyp.idl"
 
 #################################################################################
@@ -1852,7 +1858,7 @@ class HYPER_SIZEDARR(NDRSTRUCT):
     )
         
 
-class ANONYMOUS15(NDRUNION):
+class ANONYMOUS18(NDRUNION):
     union = {
         SF_BSTR: ('BstrStr',SAFEARR_BSTR),SF_UNKNOWN: ('UnknownStr',SAFEARR_UNKNOWN),SF_DISPATCH: ('DispatchStr',SAFEARR_DISPATCH),SF_VARIANT: ('VariantStr',SAFEARR_VARIANT),SF_RECORD: ('RecordStr',SAFEARR_BRECORD),SF_HAVEIID: ('HaveIidStr',SAFEARR_HAVEIID),SF_I1: ('ByteStr',BYTE_SIZEDARR),SF_I2: ('WordStr',WORD_SIZEDARR),SF_I4: ('LongStr',DWORD_SIZEDARR),SF_I8: ('HyperStr',HYPER_SIZEDARR),
     }
@@ -1860,7 +1866,7 @@ class ANONYMOUS15(NDRUNION):
 
 class SAFEARRAYUNION(NDRSTRUCT):
     structure = (
-        ('sfType', UNSIGNED_LONG),('Anonymous15', ANONYMOUS15),
+        ('sfType', UNSIGNED_LONG),('Anonymous18', ANONYMOUS18),
     )
 
 
@@ -2940,5 +2946,439 @@ OPNUMS = {
 1 : (GetLibStatistics,GetLibStatisticsResponse),
 2 : (GetDocumentation2,GetDocumentation2Response),
 3 : (GetAllCustData,GetAllCustDataResponse),
+}
+
+#################################################################################
+
+#TYPEDEFS
+
+#################################################################################
+
+
+pchActive = 0,
+pchConnected = 1,
+pchConnectQuery = 2,
+pchShadow = 3,
+pchDisconnected = 4,
+pchIdle = 5,
+pchListen = 6,
+pchReset = 7,
+pchDown = 8,
+pchInit = 9,
+pchStateInvalid = 10
+        
+#################################################################################
+
+#INTERFACE DEFINITION
+
+#################################################################################
+
+#################################################################################
+
+#IPCHCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IPCHCOLLECTION = uuidtup_to_bin(('833E4100-AFF7-4AC3-AAC2-9F24C1457BCE','0.0'))
+
+
+class _NewEnum(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class _NewEnumResponse(NDRCALL):
+    structure = (
+		('PVAL', IUNKNOWN),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('VINDEX', LONG),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('PPENTRY', VARIANT),
+    )
+        
+
+class Count(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('PVAL', LONG),
+    )
+        
+OPNUMS = {
+0 : (_NewEnum,_NewEnumResponse),
+1 : (Item,ItemResponse),
+2 : (Count,CountResponse),
+}
+
+#################################################################################
+
+#IPCHService Definition
+
+#################################################################################
+
+MSRPC_UUID_IPCHSERVICE = uuidtup_to_bin(('833E4200-AFF7-4AC3-AAC2-9F24C1457BCE','0.0'))
+
+
+class Opnum7NotUsedByProtocol(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class Opnum7NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum8NotUsedByProtocol(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class Opnum8NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum9NotUsedByProtocol(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class Opnum9NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum10NotUsedByProtocol(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class Opnum10NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum11NotUsedByProtocol(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class Opnum11NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum12NotUsedByProtocol(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class Opnum12NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum13NotUsedByProtocol(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class Opnum13NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum14NotUsedByProtocol(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class Opnum14NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum15NotUsedByProtocol(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class Opnum15NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum16NotUsedByProtocol(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class Opnum16NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum17NotUsedByProtocol(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class Opnum17NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Opnum18NotUsedByProtocol(NDRCALL):
+    opnum = 11
+    structure = (
+
+    )
+
+class Opnum18NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RemoteConnectionParms(NDRCALL):
+    opnum = 12
+    structure = (
+		('BSTRUSERNAME', BSTR),
+		('BSTRDOMAINNAME', BSTR),
+		('LSESSIONID', LONG),
+		('BSTRUSERHELPBLOB', BSTR),
+    )
+
+class RemoteConnectionParmsResponse(NDRCALL):
+    structure = (
+		('PBSTRCONNECTIONSTRING', BSTR),
+    )
+        
+
+class RemoteUserSessionInfo(NDRCALL):
+    opnum = 13
+    structure = (
+
+    )
+
+class RemoteUserSessionInfoResponse(NDRCALL):
+    structure = (
+		('PVAL', IPCHCOLLECTION),
+    )
+        
+
+class Opnum21NotUsedByProtocol(NDRCALL):
+    opnum = 14
+    structure = (
+
+    )
+
+class Opnum21NotUsedByProtocolResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Opnum7NotUsedByProtocol,Opnum7NotUsedByProtocolResponse),
+1 : (Opnum8NotUsedByProtocol,Opnum8NotUsedByProtocolResponse),
+2 : (Opnum9NotUsedByProtocol,Opnum9NotUsedByProtocolResponse),
+3 : (Opnum10NotUsedByProtocol,Opnum10NotUsedByProtocolResponse),
+4 : (Opnum11NotUsedByProtocol,Opnum11NotUsedByProtocolResponse),
+5 : (Opnum12NotUsedByProtocol,Opnum12NotUsedByProtocolResponse),
+6 : (Opnum13NotUsedByProtocol,Opnum13NotUsedByProtocolResponse),
+7 : (Opnum14NotUsedByProtocol,Opnum14NotUsedByProtocolResponse),
+8 : (Opnum15NotUsedByProtocol,Opnum15NotUsedByProtocolResponse),
+9 : (Opnum16NotUsedByProtocol,Opnum16NotUsedByProtocolResponse),
+10 : (Opnum17NotUsedByProtocol,Opnum17NotUsedByProtocolResponse),
+11 : (Opnum18NotUsedByProtocol,Opnum18NotUsedByProtocolResponse),
+12 : (RemoteConnectionParms,RemoteConnectionParmsResponse),
+13 : (RemoteUserSessionInfo,RemoteUserSessionInfoResponse),
+14 : (Opnum21NotUsedByProtocol,Opnum21NotUsedByProtocolResponse),
+}
+
+#################################################################################
+
+#ISAFSession Definition
+
+#################################################################################
+
+MSRPC_UUID_ISAFSESSION = uuidtup_to_bin(('833E41AA-AFF7-4AC3-AAC2-9F24C1457BCE','0.0'))
+
+
+class SessionID(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class SessionIDResponse(NDRCALL):
+    structure = (
+		('PVAL', DWORD),
+    )
+        
+
+class SessionID(NDRCALL):
+    opnum = 1
+    structure = (
+		('PVAL', DWORD),
+    )
+
+class SessionIDResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class SessionState(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class SessionStateResponse(NDRCALL):
+    structure = (
+		('PVAL', SESSIONSTATEENUM),
+    )
+        
+
+class SessionState(NDRCALL):
+    opnum = 3
+    structure = (
+		('PVAL', SESSIONSTATEENUM),
+    )
+
+class SessionStateResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class DomainName(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class DomainNameResponse(NDRCALL):
+    structure = (
+		('PVAL', BSTR),
+    )
+        
+
+class DomainName(NDRCALL):
+    opnum = 5
+    structure = (
+		('PVAL', BSTR),
+    )
+
+class DomainNameResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class UserName(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class UserNameResponse(NDRCALL):
+    structure = (
+		('PVAL', BSTR),
+    )
+        
+
+class UserName(NDRCALL):
+    opnum = 7
+    structure = (
+		('PVAL', BSTR),
+    )
+
+class UserNameResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (SessionID,SessionIDResponse),
+1 : (SessionState,SessionStateResponse),
+2 : (DomainName,DomainNameResponse),
+3 : (UserName,UserNameResponse),
+}
+
+#################################################################################
+
+#IRASrv Definition
+
+#################################################################################
+
+MSRPC_UUID_IRASRV = uuidtup_to_bin(('F120A684-B926-447-9F4-C966CB785648','0.0'))
+
+
+class GetNoviceUserInfo(NDRCALL):
+    opnum = 0
+    structure = (
+		('SZNAME', LPWSTR),
+    )
+
+class GetNoviceUserInfoResponse(NDRCALL):
+    structure = (
+		('SZNAME', LPWSTR),
+    )
+        
+
+class GetSessionInfo(NDRCALL):
+    opnum = 1
+    structure = (
+		('USERNAMES', SAFEARRAY ( BSTR )),
+		('COUNT', INT),
+    )
+
+class GetSessionInfoResponse(NDRCALL):
+    structure = (
+		('USERNAMES', SAFEARRAY ( BSTR )),
+		('COUNT', INT),
+    )
+        
+OPNUMS = {
+0 : (GetNoviceUserInfo,GetNoviceUserInfoResponse),
+1 : (GetSessionInfo,GetSessionInfoResponse),
 }
 

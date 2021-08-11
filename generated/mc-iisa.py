@@ -3223,7 +3223,7 @@ class HYPER_SIZEDARR(NDRSTRUCT):
     )
         
 
-class ANONYMOUS13(NDRUNION):
+class ANONYMOUS2(NDRUNION):
     union = {
         SF_BSTR: ('BstrStr',SAFEARR_BSTR),SF_UNKNOWN: ('UnknownStr',SAFEARR_UNKNOWN),SF_DISPATCH: ('DispatchStr',SAFEARR_DISPATCH),SF_VARIANT: ('VariantStr',SAFEARR_VARIANT),SF_RECORD: ('RecordStr',SAFEARR_BRECORD),SF_HAVEIID: ('HaveIidStr',SAFEARR_HAVEIID),SF_I1: ('ByteStr',BYTE_SIZEDARR),SF_I2: ('WordStr',WORD_SIZEDARR),SF_I4: ('LongStr',DWORD_SIZEDARR),SF_I8: ('HyperStr',HYPER_SIZEDARR),
     }
@@ -3231,7 +3231,7 @@ class ANONYMOUS13(NDRUNION):
 
 class SAFEARRAYUNION(NDRSTRUCT):
     structure = (
-        ('sfType', UNSIGNED_LONG),('Anonymous13', ANONYMOUS13),
+        ('sfType', UNSIGNED_LONG),('Anonymous2', ANONYMOUS2),
     )
 
 
@@ -4319,45 +4319,21 @@ OPNUMS = {
 
 #################################################################################
 
-METADATA_HANDLE = UNSIGNED_LONG
-PMETADATA_HANDLE = UNSIGNED_LONG
+#################################################################################
 
-class IIS_CRYPTO_BLOB(NDRSTRUCT):
-    structure = (
-        ('BlobSignature', DWORD),('BlobDataLength', DWORD),('BlobData', UNSIGNED_CHAR),
-    )
+#CONSTANTS
 
+#################################################################################
 
-class DATA_METADATA_RECORD(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
-
-class PTR_METADATA_RECORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_METADATA_RECORD),
-    )
-
-class METADATA_RECORD(NDRSTRUCT):
-    structure = (
-	('dwMDIdentifier', DWORD),	('dwMDAttributes', DWORD),	('dwMDUserType', DWORD),	('dwMDDataType', DWORD),	('dwMDDataLen', DWORD),	('pbMDData', PTR_METADATA_RECORD),
-	('dwMDDataTag', DWORD),
-    )
-        
-
-class METADATA_GETALL_RECORD(NDRSTRUCT):
-    structure = (
-        ('dwMDIdentifier', DWORD),('dwMDAttributes', DWORD),('dwMDUserType', DWORD),('dwMDDataType', DWORD),('dwMDDataLen', DWORD),('dwMDDataOffset', DWORD),('dwMDDataTag', DWORD),
-    )
-class PMETADATA_GETALL_RECORD(NDRPOINTER):
-    referent = (
-        ('Data', METADATA_GETALL_RECORD),
-    )    
-
-
-class METADATA_HANDLE_INFO(NDRSTRUCT):
-    structure = (
-        ('dwMDPermissions', DWORD),('dwMDSystemChangeNumber', DWORD),
-    )
-
+IAPPHOSTMETHOD = 
+IAPPHOSTMETHODINSTANCE = 
+IAPPHOSTELEMENT = 
+IAPPHOSTPROPERTY = 
+IAPPHOSTCONFIGLOCATION = 
+IAPPHOSTELEMENTSCHEMA = 
+IAPPHOSTPROPERTYSCHEMA = 
+IAPPHOSTCONSTANTVALUE = 
+IAPPHOSTCONFIGMANAGER = 
 #################################################################################
 
 #INTERFACE DEFINITION
@@ -4366,1127 +4342,2222 @@ class METADATA_HANDLE_INFO(NDRSTRUCT):
 
 #################################################################################
 
-#IMSAdminBaseW Definition
+#IAppHostMappingExtension Definition
 
 #################################################################################
 
-MSRPC_UUID_IMSADMINBASEW = uuidtup_to_bin(('70B51430-B6CA-11d0-B9B9-00A0C922E750','0.0'))
+MSRPC_UUID_IAPPHOSTMAPPINGEXTENSION = uuidtup_to_bin(('31a83ea0-c0e4-4a2c-8a01-353cc2a4c60a','0.0'))
 
 
-class AddKey(NDRCALL):
+class GetSiteNameFromSiteId(NDRCALL):
     opnum = 0
     structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
+		('DWSITEID', DWORD),
     )
 
-class AddKeyResponse(NDRCALL):
+class GetSiteNameFromSiteIdResponse(NDRCALL):
     structure = (
-
+		('PBSTRSITENAME', BSTR),
     )
         
 
-class DeleteKey(NDRCALL):
+class GetSiteIdFromSiteName(NDRCALL):
     opnum = 1
     structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
+		('BSTRSITENAME', BSTR),
     )
 
-class DeleteKeyResponse(NDRCALL):
+class GetSiteIdFromSiteNameResponse(NDRCALL):
     structure = (
-
+		('PDWSITEID', DWORD),
     )
         
 
-class DeleteChildKeys(NDRCALL):
+class GetSiteElementFromSiteId(NDRCALL):
     opnum = 2
     structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
+		('DWSITEID', DWORD),
     )
 
-class DeleteChildKeysResponse(NDRCALL):
+class GetSiteElementFromSiteIdResponse(NDRCALL):
     structure = (
-
+		('PPSITEELEMENT', IAPPHOSTELEMENT),
     )
         
 
-class EnumKeys(NDRCALL):
+class MapPath(NDRCALL):
     opnum = 3
     structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('DWMDENUMOBJECTINDEX', DWORD),
+		('BSTRSITENAME', BSTR),
+		('BSTRVIRTUALPATH', BSTR),
     )
 
-class EnumKeysResponse(NDRCALL):
+class MapPathResponse(NDRCALL):
     structure = (
-		('PSZMDNAME', LPWSTR),
-    )
-        
-
-class CopyKey(NDRCALL):
-    opnum = 4
-    structure = (
-		('HMDSOURCEHANDLE', METADATA_HANDLE),
-		('PSZMDSOURCEPATH', LPCWSTR),
-		('HMDDESTHANDLE', METADATA_HANDLE),
-		('PSZMDDESTPATH', LPCWSTR),
-		('BMDOVERWRITEFLAG', BOOL),
-		('BMDCOPYFLAG', BOOL),
-    )
-
-class CopyKeyResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class RenameKey(NDRCALL):
-    opnum = 5
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('PSZMDNEWNAME', LPCWSTR),
-    )
-
-class RenameKeyResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class R_SetData(NDRCALL):
-    opnum = 6
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('PMDRMDDATA', METADATA_RECORD),
-    )
-
-class R_SetDataResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class R_GetData(NDRCALL):
-    opnum = 7
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('PMDRMDDATA', METADATA_RECORD),
-    )
-
-class R_GetDataResponse(NDRCALL):
-    structure = (
-		('PMDRMDDATA', METADATA_RECORD),
-		('PDWMDREQUIREDDATALEN', DWORD),
-		('PPDATABLOB', IIS_CRYPTO_BLOB),
-    )
-        
-
-class DeleteData(NDRCALL):
-    opnum = 8
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('DWMDIDENTIFIER', DWORD),
-		('DWMDDATATYPE', DWORD),
-    )
-
-class DeleteDataResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class R_EnumData(NDRCALL):
-    opnum = 9
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('PMDRMDDATA', METADATA_RECORD),
-		('DWMDENUMDATAINDEX', DWORD),
-    )
-
-class R_EnumDataResponse(NDRCALL):
-    structure = (
-		('PMDRMDDATA', METADATA_RECORD),
-		('PDWMDREQUIREDDATALEN', DWORD),
-		('PPDATABLOB', IIS_CRYPTO_BLOB),
-    )
-        
-
-class R_GetAllData(NDRCALL):
-    opnum = 10
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('DWMDATTRIBUTES', DWORD),
-		('DWMDUSERTYPE', DWORD),
-		('DWMDDATATYPE', DWORD),
-		('DWMDBUFFERSIZE', DWORD),
-    )
-
-class R_GetAllDataResponse(NDRCALL):
-    structure = (
-		('PDWMDNUMDATAENTRIES', DWORD),
-		('PDWMDDATASETNUMBER', DWORD),
-		('PDWMDREQUIREDBUFFERSIZE', DWORD),
-		('PPDATABLOB', IIS_CRYPTO_BLOB),
-    )
-        
-
-class DeleteAllData(NDRCALL):
-    opnum = 11
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('DWMDUSERTYPE', DWORD),
-		('DWMDDATATYPE', DWORD),
-    )
-
-class DeleteAllDataResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class CopyData(NDRCALL):
-    opnum = 12
-    structure = (
-		('HMDSOURCEHANDLE', METADATA_HANDLE),
-		('PSZMDSOURCEPATH', LPCWSTR),
-		('HMDDESTHANDLE', METADATA_HANDLE),
-		('PSZMDDESTPATH', LPCWSTR),
-		('DWMDATTRIBUTES', DWORD),
-		('DWMDUSERTYPE', DWORD),
-		('DWMDDATATYPE', DWORD),
-		('BMDCOPYFLAG', BOOL),
-    )
-
-class CopyDataResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class GetDataPaths(NDRCALL):
-    opnum = 13
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('DWMDIDENTIFIER', DWORD),
-		('DWMDDATATYPE', DWORD),
-		('DWMDBUFFERSIZE', DWORD),
-    )
-
-class GetDataPathsResponse(NDRCALL):
-    structure = (
-		('PSZBUFFER', WCHAR),
-		('PDWMDREQUIREDBUFFERSIZE', DWORD),
-    )
-        
-
-class OpenKey(NDRCALL):
-    opnum = 14
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('DWMDACCESSREQUESTED', DWORD),
-		('DWMDTIMEOUT', DWORD),
-    )
-
-class OpenKeyResponse(NDRCALL):
-    structure = (
-		('PHMDNEWHANDLE', METADATA_HANDLE),
-    )
-        
-
-class CloseKey(NDRCALL):
-    opnum = 15
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-    )
-
-class CloseKeyResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ChangePermissions(NDRCALL):
-    opnum = 16
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('DWMDTIMEOUT', DWORD),
-		('DWMDACCESSREQUESTED', DWORD),
-    )
-
-class ChangePermissionsResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class SaveData(NDRCALL):
-    opnum = 17
-    structure = (
-
-    )
-
-class SaveDataResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class GetHandleInfo(NDRCALL):
-    opnum = 18
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-    )
-
-class GetHandleInfoResponse(NDRCALL):
-    structure = (
-		('PMDHIINFO', METADATA_HANDLE_INFO),
-    )
-        
-
-class GetSystemChangeNumber(NDRCALL):
-    opnum = 19
-    structure = (
-
-    )
-
-class GetSystemChangeNumberResponse(NDRCALL):
-    structure = (
-		('PDWSYSTEMCHANGENUMBER', DWORD),
-    )
-        
-
-class GetDataSetNumber(NDRCALL):
-    opnum = 20
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-    )
-
-class GetDataSetNumberResponse(NDRCALL):
-    structure = (
-		('PDWMDDATASETNUMBER', DWORD),
-    )
-        
-
-class SetLastChangeTime(NDRCALL):
-    opnum = 21
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('PFTMDLASTCHANGETIME', PFILETIME),
-		('BLOCALTIME', BOOL),
-    )
-
-class SetLastChangeTimeResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class GetLastChangeTime(NDRCALL):
-    opnum = 22
-    structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('BLOCALTIME', BOOL),
-    )
-
-class GetLastChangeTimeResponse(NDRCALL):
-    structure = (
-		('PFTMDLASTCHANGETIME', PFILETIME),
-    )
-        
-
-class R_KeyExchangePhase1(NDRCALL):
-    opnum = 23
-    structure = (
-		('PCLIENTKEYEXCHANGEKEYBLOB', IIS_CRYPTO_BLOB),
-		('PCLIENTSIGNATUREKEYBLOB', IIS_CRYPTO_BLOB),
-    )
-
-class R_KeyExchangePhase1Response(NDRCALL):
-    structure = (
-		('PPSERVERKEYEXCHANGEKEYBLOB', IIS_CRYPTO_BLOB),
-		('PPSERVERSIGNATUREKEYBLOB', IIS_CRYPTO_BLOB),
-		('PPSERVERSESSIONKEYBLOB', IIS_CRYPTO_BLOB),
-    )
-        
-
-class R_KeyExchangePhase2(NDRCALL):
-    opnum = 24
-    structure = (
-		('PCLIENTSESSIONKEYBLOB', IIS_CRYPTO_BLOB),
-		('PCLIENTHASHBLOB', IIS_CRYPTO_BLOB),
-    )
-
-class R_KeyExchangePhase2Response(NDRCALL):
-    structure = (
-		('PPSERVERHASHBLOB', IIS_CRYPTO_BLOB),
-    )
-        
-
-class Backup(NDRCALL):
-    opnum = 25
-    structure = (
-		('PSZMDBACKUPNAME', LPCWSTR),
-		('DWMDVERSION', DWORD),
-		('DWMDFLAGS', DWORD),
-    )
-
-class BackupResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Restore(NDRCALL):
-    opnum = 26
-    structure = (
-		('PSZMDBACKUPNAME', LPCWSTR),
-		('DWMDVERSION', DWORD),
-		('DWMDFLAGS', DWORD),
-    )
-
-class RestoreResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class EnumBackups(NDRCALL):
-    opnum = 27
-    structure = (
-		('PSZMDBACKUPNAME', LPWSTR),
-		('DWMDENUMINDEX', DWORD),
-    )
-
-class EnumBackupsResponse(NDRCALL):
-    structure = (
-		('PSZMDBACKUPNAME', LPWSTR),
-		('PDWMDVERSION', DWORD),
-		('PFTMDBACKUPTIME', PFILETIME),
-    )
-        
-
-class DeleteBackup(NDRCALL):
-    opnum = 28
-    structure = (
-		('PSZMDBACKUPNAME', LPCWSTR),
-		('DWMDVERSION', DWORD),
-    )
-
-class DeleteBackupResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class UnmarshalInterface(NDRCALL):
-    opnum = 29
-    structure = (
-
-    )
-
-class UnmarshalInterfaceResponse(NDRCALL):
-    structure = (
-		('PIADMBWINTERFACE', IMSADMINBASEW),
-    )
-        
-
-class R_GetServerGuid(NDRCALL):
-    opnum = 30
-    structure = (
-
-    )
-
-class R_GetServerGuidResponse(NDRCALL):
-    structure = (
-		('PSERVERGUID', GUID),
+		('PBSTRPHYSICALPATH', BSTR),
+		('PPVIRTUALDIRECTORYELEMENT', IAPPHOSTELEMENT),
+		('PPAPPLICATIONELEMENT', IAPPHOSTELEMENT),
     )
         
 OPNUMS = {
-0 : (AddKey,AddKeyResponse),
-1 : (DeleteKey,DeleteKeyResponse),
-2 : (DeleteChildKeys,DeleteChildKeysResponse),
-3 : (EnumKeys,EnumKeysResponse),
-4 : (CopyKey,CopyKeyResponse),
-5 : (RenameKey,RenameKeyResponse),
-6 : (R_SetData,R_SetDataResponse),
-7 : (R_GetData,R_GetDataResponse),
-8 : (DeleteData,DeleteDataResponse),
-9 : (R_EnumData,R_EnumDataResponse),
-10 : (R_GetAllData,R_GetAllDataResponse),
-11 : (DeleteAllData,DeleteAllDataResponse),
-12 : (CopyData,CopyDataResponse),
-13 : (GetDataPaths,GetDataPathsResponse),
-14 : (OpenKey,OpenKeyResponse),
-15 : (CloseKey,CloseKeyResponse),
-16 : (ChangePermissions,ChangePermissionsResponse),
-17 : (SaveData,SaveDataResponse),
-18 : (GetHandleInfo,GetHandleInfoResponse),
-19 : (GetSystemChangeNumber,GetSystemChangeNumberResponse),
-20 : (GetDataSetNumber,GetDataSetNumberResponse),
-21 : (SetLastChangeTime,SetLastChangeTimeResponse),
-22 : (GetLastChangeTime,GetLastChangeTimeResponse),
-23 : (R_KeyExchangePhase1,R_KeyExchangePhase1Response),
-24 : (R_KeyExchangePhase2,R_KeyExchangePhase2Response),
-25 : (Backup,BackupResponse),
-26 : (Restore,RestoreResponse),
-27 : (EnumBackups,EnumBackupsResponse),
-28 : (DeleteBackup,DeleteBackupResponse),
-29 : (UnmarshalInterface,UnmarshalInterfaceResponse),
-30 : (R_GetServerGuid,R_GetServerGuidResponse),
+0 : (GetSiteNameFromSiteId,GetSiteNameFromSiteIdResponse),
+1 : (GetSiteIdFromSiteName,GetSiteIdFromSiteNameResponse),
+2 : (GetSiteElementFromSiteId,GetSiteElementFromSiteIdResponse),
+3 : (MapPath,MapPathResponse),
 }
 
 #################################################################################
 
-#IMSAdminBase2W Definition
+#IAppHostChildElementCollection Definition
 
 #################################################################################
 
-MSRPC_UUID_IMSADMINBASE2W = uuidtup_to_bin(('8298d101-f992-43b7-8eca-5052d885b995','0.0'))
+MSRPC_UUID_IAPPHOSTCHILDELEMENTCOLLECTION = uuidtup_to_bin(('08a90f5f-0702-48d6-b45f-02a9885a9768','0.0'))
 
 
-class BackupWithPasswd(NDRCALL):
+class Count(NDRCALL):
     opnum = 0
     structure = (
-		('PSZMDBACKUPNAME', LPCWSTR),
-		('DWMDVERSION', DWORD),
-		('DWMDFLAGS', DWORD),
-		('PSZPASSWD', LPCWSTR),
+
     )
 
-class BackupWithPasswdResponse(NDRCALL):
+class CountResponse(NDRCALL):
     structure = (
-
+		('PCCOUNT', DWORD),
     )
         
 
-class RestoreWithPasswd(NDRCALL):
+class Item(NDRCALL):
     opnum = 1
     structure = (
-		('PSZMDBACKUPNAME', LPCWSTR),
-		('DWMDVERSION', DWORD),
-		('DWMDFLAGS', DWORD),
-		('PSZPASSWD', LPCWSTR),
+		('CINDEX', VARIANT),
     )
 
-class RestoreWithPasswdResponse(NDRCALL):
+class ItemResponse(NDRCALL):
     structure = (
-
-    )
-        
-
-class Export(NDRCALL):
-    opnum = 2
-    structure = (
-		('PSZPASSWD', LPCWSTR),
-		('PSZFILENAME', LPCWSTR),
-		('PSZSOURCEPATH', LPCWSTR),
-		('DWMDFLAGS', DWORD),
-    )
-
-class ExportResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Import(NDRCALL):
-    opnum = 3
-    structure = (
-		('PSZPASSWD', LPCWSTR),
-		('PSZFILENAME', LPCWSTR),
-		('PSZSOURCEPATH', LPCWSTR),
-		('PSZDESTPATH', LPCWSTR),
-		('DWMDFLAGS', DWORD),
-    )
-
-class ImportResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class RestoreHistory(NDRCALL):
-    opnum = 4
-    structure = (
-		('PSZMDHISTORYLOCATION', LPCWSTR),
-		('DWMDMAJORVERSION', DWORD),
-		('DWMDMINORVERSION', DWORD),
-		('DWMDFLAGS', DWORD),
-    )
-
-class RestoreHistoryResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class EnumHistory(NDRCALL):
-    opnum = 5
-    structure = (
-		('PSZMDHISTORYLOCATION', LPWSTR),
-		('DWMDENUMINDEX', DWORD),
-    )
-
-class EnumHistoryResponse(NDRCALL):
-    structure = (
-		('PSZMDHISTORYLOCATION', LPWSTR),
-		('PDWMDMAJORVERSION', DWORD),
-		('PDWMDMINORVERSION', DWORD),
-		('PFTMDHISTORYTIME', PFILETIME),
+		('PPELEMENT', IAPPHOSTELEMENT),
     )
         
 OPNUMS = {
-0 : (BackupWithPasswd,BackupWithPasswdResponse),
-1 : (RestoreWithPasswd,RestoreWithPasswdResponse),
-2 : (Export,ExportResponse),
-3 : (Import,ImportResponse),
-4 : (RestoreHistory,RestoreHistoryResponse),
-5 : (EnumHistory,EnumHistoryResponse),
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
 }
 
 #################################################################################
 
-#IMSAdminBase3W Definition
+#IAppHostPropertyCollection Definition
 
 #################################################################################
 
-MSRPC_UUID_IMSADMINBASE3W = uuidtup_to_bin(('f612954d-30-456-9563-2277e624b4','0.0'))
+MSRPC_UUID_IAPPHOSTPROPERTYCOLLECTION = uuidtup_to_bin(('0191775e-bcff-445a-b4f4-3bdda54e2816','0.0'))
 
 
-class GetChildPaths(NDRCALL):
+class Count(NDRCALL):
     opnum = 0
     structure = (
-		('HMDHANDLE', METADATA_HANDLE),
-		('PSZMDPATH', LPCWSTR),
-		('CCHMDBUFFERSIZE', DWORD),
-		('PSZBUFFER', WCHAR),
-		('PCCHMDREQUIREDBUFFERSIZE', DWORD),
+
     )
 
-class GetChildPathsResponse(NDRCALL):
+class CountResponse(NDRCALL):
     structure = (
-		('PSZBUFFER', WCHAR),
-		('PCCHMDREQUIREDBUFFERSIZE', DWORD),
-    )
-        
-OPNUMS = {
-0 : (GetChildPaths,GetChildPathsResponse),
-}
-
-#################################################################################
-
-#IWamAdmin Definition
-
-#################################################################################
-
-MSRPC_UUID_IWAMADMIN = uuidtup_to_bin(('29822AB7-F302-11D0-9953-00C04FD919C1','0.0'))
-
-
-class AppCreate(NDRCALL):
-    opnum = 0
-    structure = (
-		('SZMDPATH', LPCWSTR),
-		('FINPROC', BOOL),
-    )
-
-class AppCreateResponse(NDRCALL):
-    structure = (
-
+		('PCCOUNT', DWORD),
     )
         
 
-class AppDelete(NDRCALL):
+class Item(NDRCALL):
     opnum = 1
     structure = (
-		('SZMDPATH', LPCWSTR),
-		('FRECURSIVE', BOOL),
+		('CINDEX', VARIANT),
     )
 
-class AppDeleteResponse(NDRCALL):
+class ItemResponse(NDRCALL):
     structure = (
-
-    )
-        
-
-class AppUnLoad(NDRCALL):
-    opnum = 2
-    structure = (
-		('SZMDPATH', LPCWSTR),
-		('FRECURSIVE', BOOL),
-    )
-
-class AppUnLoadResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class AppGetStatus(NDRCALL):
-    opnum = 3
-    structure = (
-		('SZMDPATH', LPCWSTR),
-    )
-
-class AppGetStatusResponse(NDRCALL):
-    structure = (
-		('PDWAPPSTATUS', DWORD),
-    )
-        
-
-class AppDeleteRecoverable(NDRCALL):
-    opnum = 4
-    structure = (
-		('SZMDPATH', LPCWSTR),
-		('FRECURSIVE', BOOL),
-    )
-
-class AppDeleteRecoverableResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class AppRecover(NDRCALL):
-    opnum = 5
-    structure = (
-		('SZMDPATH', LPCWSTR),
-		('FRECURSIVE', BOOL),
-    )
-
-class AppRecoverResponse(NDRCALL):
-    structure = (
-
+		('PPPROPERTY', IAPPHOSTPROPERTY),
     )
         
 OPNUMS = {
-0 : (AppCreate,AppCreateResponse),
-1 : (AppDelete,AppDeleteResponse),
-2 : (AppUnLoad,AppUnLoadResponse),
-3 : (AppGetStatus,AppGetStatusResponse),
-4 : (AppDeleteRecoverable,AppDeleteRecoverableResponse),
-5 : (AppRecover,AppRecoverResponse),
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
 }
 
 #################################################################################
 
-#IWamAdmin2 Definition
+#IAppHostConfigLocationCollection Definition
 
 #################################################################################
 
-MSRPC_UUID_IWAMADMIN2 = uuidtup_to_bin(('29822AB8-F302-11D0-9953-00C04FD919C1','0.0'))
+MSRPC_UUID_IAPPHOSTCONFIGLOCATIONCOLLECTION = uuidtup_to_bin(('832a32f7-b3ea-4b8c-b260-9a2923001184','0.0'))
 
 
-class AppCreate2(NDRCALL):
+class Count(NDRCALL):
     opnum = 0
     structure = (
-		('SZMDPATH', LPCWSTR),
-		('DWAPPMODE', DWORD),
-    )
-
-class AppCreate2Response(NDRCALL):
-    structure = (
 
     )
-        
-OPNUMS = {
-0 : (AppCreate2,AppCreate2Response),
-}
 
-#################################################################################
-
-#IIISApplicationAdmin Definition
-
-#################################################################################
-
-MSRPC_UUID_IIISAPPLICATIONADMIN = uuidtup_to_bin(('7C4E1804-E342-483D-A43E-A850CFCC8D18','0.0'))
-
-
-class CreateApplication(NDRCALL):
-    opnum = 0
+class CountResponse(NDRCALL):
     structure = (
-		('SZMDPATH', LPCWSTR),
-		('DWAPPMODE', DWORD),
-		('SZAPPPOOLID', LPCWSTR),
-		('FCREATEPOOL', BOOL),
-    )
-
-class CreateApplicationResponse(NDRCALL):
-    structure = (
-
+		('PCCOUNT', DWORD),
     )
         
 
-class DeleteApplication(NDRCALL):
+class Item(NDRCALL):
     opnum = 1
     structure = (
-		('SZMDPATH', LPCWSTR),
-		('FRECURSIVE', BOOL),
+		('VARINDEX', VARIANT),
     )
 
-class DeleteApplicationResponse(NDRCALL):
+class ItemResponse(NDRCALL):
     structure = (
-
+		('PPLOCATION', IAPPHOSTCONFIGLOCATION),
     )
         
 
-class CreateApplicationPool(NDRCALL):
+class AddLocation(NDRCALL):
     opnum = 2
     structure = (
-		('SZPOOL', LPCWSTR),
+		('BSTRLOCATIONPATH', BSTR),
     )
 
-class CreateApplicationPoolResponse(NDRCALL):
+class AddLocationResponse(NDRCALL):
     structure = (
-
+		('PPNEWLOCATION', IAPPHOSTCONFIGLOCATION),
     )
         
 
-class DeleteApplicationPool(NDRCALL):
+class DeleteLocation(NDRCALL):
     opnum = 3
     structure = (
-		('SZPOOL', LPCWSTR),
+		('CINDEX', VARIANT),
     )
 
-class DeleteApplicationPoolResponse(NDRCALL):
+class DeleteLocationResponse(NDRCALL):
     structure = (
 
     )
         
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+2 : (AddLocation,AddLocationResponse),
+3 : (DeleteLocation,DeleteLocationResponse),
+}
 
-class EnumerateApplicationsInPool(NDRCALL):
+#################################################################################
+
+#IAppHostMethodCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTMETHODCOLLECTION = uuidtup_to_bin(('d6c7cd8f-bb8d-496-b591-d3a5f1320269','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('PCCOUNT', DWORD),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('CINDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('PPMETHOD', IAPPHOSTMETHOD),
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+}
+
+#################################################################################
+
+#IAppHostElementSchemaCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTELEMENTSCHEMACOLLECTION = uuidtup_to_bin(('0344cdda-151e-4cbf-82da-66ae61e97754','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('PCCOUNT', DWORD),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('CINDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('PPELEMENTSCHEMA', IAPPHOSTELEMENTSCHEMA),
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+}
+
+#################################################################################
+
+#IAppHostPropertySchemaCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTPROPERTYSCHEMACOLLECTION = uuidtup_to_bin(('8bed2c68-a5fb-4b28-8581-a0dc5267419f','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('PCCOUNT', DWORD),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('CINDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('PPPROPERTYSCHEMA', IAPPHOSTPROPERTYSCHEMA),
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+}
+
+#################################################################################
+
+#IAppHostConstantValueCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTCONSTANTVALUECOLLECTION = uuidtup_to_bin(('5b5a68e6-8b9f-45e1-8199-a95ffccdffff','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('PCCOUNT', DWORD),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('CINDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('PPCONSTANTVALUE', IAPPHOSTCONSTANTVALUE),
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+}
+
+#################################################################################
+
+#IAppHostConstantValue Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTCONSTANTVALUE = uuidtup_to_bin(('0716caf8-7d05-4a46-8099-77594be91394','0.0'))
+
+
+class Name(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('PBSTRNAME', BSTR),
+    )
+        
+
+class Value(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class ValueResponse(NDRCALL):
+    structure = (
+		('PDWVALUE', DWORD),
+    )
+        
+OPNUMS = {
+0 : (Name,NameResponse),
+1 : (Value,ValueResponse),
+}
+
+#################################################################################
+
+#IAppHostPropertySchema Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTPROPERTYSCHEMA = uuidtup_to_bin(('450386db-7409-4667-935e-384dbbee2a9e','0.0'))
+
+
+class Name(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('PBSTRNAME', BSTR),
+    )
+        
+
+class Type(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class TypeResponse(NDRCALL):
+    structure = (
+		('PBSTRTYPE', BSTR),
+    )
+        
+
+class DefaultValue(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class DefaultValueResponse(NDRCALL):
+    structure = (
+		('PDEFAULTVALUE', VARIANT),
+    )
+        
+
+class IsRequired(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class IsRequiredResponse(NDRCALL):
+    structure = (
+		('PFISREQUIRED', VARIANT_BOOL),
+    )
+        
+
+class IsUniqueKey(NDRCALL):
     opnum = 4
     structure = (
-		('SZPOOL', LPCWSTR),
+
     )
 
-class EnumerateApplicationsInPoolResponse(NDRCALL):
+class IsUniqueKeyResponse(NDRCALL):
     structure = (
-		('BSTRBUFFER', BSTR),
+		('PFISUNIQUEKEY', VARIANT_BOOL),
     )
         
 
-class RecycleApplicationPool(NDRCALL):
+class IsCombinedKey(NDRCALL):
     opnum = 5
     structure = (
-		('SZPOOL', LPCWSTR),
+
     )
 
-class RecycleApplicationPoolResponse(NDRCALL):
+class IsCombinedKeyResponse(NDRCALL):
     structure = (
-
+		('PFISCOMBINEDKEY', VARIANT_BOOL),
     )
         
 
-class GetProcessMode(NDRCALL):
+class IsExpanded(NDRCALL):
     opnum = 6
     structure = (
 
     )
 
-class GetProcessModeResponse(NDRCALL):
+class IsExpandedResponse(NDRCALL):
     structure = (
-		('PDWMODE', DWORD),
-    )
-        
-OPNUMS = {
-0 : (CreateApplication,CreateApplicationResponse),
-1 : (DeleteApplication,DeleteApplicationResponse),
-2 : (CreateApplicationPool,CreateApplicationPoolResponse),
-3 : (DeleteApplicationPool,DeleteApplicationPoolResponse),
-4 : (EnumerateApplicationsInPool,EnumerateApplicationsInPoolResponse),
-5 : (RecycleApplicationPool,RecycleApplicationPoolResponse),
-6 : (GetProcessMode,GetProcessModeResponse),
-}
-
-#################################################################################
-
-#IIISCertObj Definition
-
-#################################################################################
-
-MSRPC_UUID_IIISCERTOBJ = uuidtup_to_bin(('BD0C73BC-805-4043-930-92864D7D2','0.0'))
-
-
-class Opnum7NotUsedOnWire(NDRCALL):
-    opnum = 0
-    structure = (
-
-    )
-
-class Opnum7NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
+		('PFISEXPANDED', VARIANT_BOOL),
     )
         
 
-class Opnum8NotUsedOnWire(NDRCALL):
-    opnum = 1
-    structure = (
-
-    )
-
-class Opnum8NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Opnum9NotUsedOnWire(NDRCALL):
-    opnum = 2
-    structure = (
-
-    )
-
-class Opnum9NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class InstanceName(NDRCALL):
-    opnum = 3
-    structure = (
-		('NEWVAL', BSTR),
-    )
-
-class InstanceNameResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class Opnum11NotUsedOnWire(NDRCALL):
-    opnum = 4
-    structure = (
-
-    )
-
-class Opnum11NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class IsInstalledRemote(NDRCALL):
-    opnum = 5
-    structure = (
-
-    )
-
-class IsInstalledRemoteResponse(NDRCALL):
-    structure = (
-		('RETVAL', VARIANT_BOOL),
-    )
-        
-
-class Opnum13NotUsedOnWire(NDRCALL):
-    opnum = 6
-    structure = (
-
-    )
-
-class Opnum13NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class IsExportableRemote(NDRCALL):
+class ValidationType(NDRCALL):
     opnum = 7
     structure = (
 
     )
 
-class IsExportableRemoteResponse(NDRCALL):
+class ValidationTypeResponse(NDRCALL):
     structure = (
-		('RETVAL', VARIANT_BOOL),
+		('PBSTRVALIDATIONTYPE', BSTR),
     )
         
 
-class Opnum15NotUsedOnWire(NDRCALL):
+class ValidationParameter(NDRCALL):
     opnum = 8
     structure = (
 
     )
 
-class Opnum15NotUsedOnWireResponse(NDRCALL):
+class ValidationParameterResponse(NDRCALL):
     structure = (
-
+		('PBSTRVALIDATIONPARAMETER', BSTR),
     )
         
 
-class GetCertInfoRemote(NDRCALL):
+class GetMetadata(NDRCALL):
     opnum = 9
     structure = (
-
+		('BSTRMETADATATYPE', BSTR),
     )
 
-class GetCertInfoRemoteResponse(NDRCALL):
+class GetMetadataResponse(NDRCALL):
     structure = (
-		('BINARYVARIANT', VARIANT),
+		('PVALUE', VARIANT),
     )
         
 
-class Opnum17NotUsedOnWire(NDRCALL):
+class IsCaseSensitive(NDRCALL):
     opnum = 10
     structure = (
 
     )
 
-class Opnum17NotUsedOnWireResponse(NDRCALL):
+class IsCaseSensitiveResponse(NDRCALL):
     structure = (
-
+		('PFISCASESENSITIVE', VARIANT_BOOL),
     )
         
 
-class Opnum18NotUsedOnWire(NDRCALL):
+class PossibleValues(NDRCALL):
     opnum = 11
     structure = (
 
     )
 
-class Opnum18NotUsedOnWireResponse(NDRCALL):
+class PossibleValuesResponse(NDRCALL):
     structure = (
-
+		('PPVALUES', IAPPHOSTCONSTANTVALUECOLLECTION),
     )
         
 
-class Opnum19NotUsedOnWire(NDRCALL):
+class DoesAllowInfinite(NDRCALL):
     opnum = 12
     structure = (
 
     )
 
-class Opnum19NotUsedOnWireResponse(NDRCALL):
+class DoesAllowInfiniteResponse(NDRCALL):
     structure = (
-
+		('PFALLOWINFINITE', VARIANT_BOOL),
     )
         
 
-class Opnum20NotUsedOnWire(NDRCALL):
+class IsEncrypted(NDRCALL):
     opnum = 13
     structure = (
 
     )
 
-class Opnum20NotUsedOnWireResponse(NDRCALL):
+class IsEncryptedResponse(NDRCALL):
     structure = (
-
+		('PFISENCRYPTED', VARIANT_BOOL),
     )
         
 
-class Opnum21NotUsedOnWire(NDRCALL):
+class TimeSpanFormat(NDRCALL):
     opnum = 14
     structure = (
 
     )
 
-class Opnum21NotUsedOnWireResponse(NDRCALL):
+class TimeSpanFormatResponse(NDRCALL):
     structure = (
-
-    )
-        
-
-class ImportFromBlob(NDRCALL):
-    opnum = 15
-    structure = (
-		('INSTANCENAME', BSTR),
-		('PASSWORD', BSTR),
-		('BINSTALLTOMETABASE', VARIANT_BOOL),
-		('BALLOWEXPORT', VARIANT_BOOL),
-		('BOVERWRITEEXISTING', VARIANT_BOOL),
-		('CBSIZE', DWORD),
-		('PBLOBBINARY', CHAR),
-    )
-
-class ImportFromBlobResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ImportFromBlobGetHash(NDRCALL):
-    opnum = 16
-    structure = (
-		('INSTANCENAME', BSTR),
-		('PASSWORD', BSTR),
-		('BINSTALLTOMETABASE', VARIANT_BOOL),
-		('BALLOWEXPORT', VARIANT_BOOL),
-		('BOVERWRITEEXISTING', VARIANT_BOOL),
-		('CBSIZE', DWORD),
-		('PBLOBBINARY', CHAR),
-    )
-
-class ImportFromBlobGetHashResponse(NDRCALL):
-    structure = (
-		('PCBCERTHASHSIZE', DWORD),
-		('PCERTHASH', CHAR),
-    )
-        
-
-class Opnum24NotUsedOnWire(NDRCALL):
-    opnum = 17
-    structure = (
-
-    )
-
-class Opnum24NotUsedOnWireResponse(NDRCALL):
-    structure = (
-
-    )
-        
-
-class ExportToBlob(NDRCALL):
-    opnum = 18
-    structure = (
-		('INSTANCENAME', BSTR),
-		('PASSWORD', BSTR),
-		('BPRIVATEKEY', VARIANT_BOOL),
-		('BCERTCHAIN', VARIANT_BOOL),
-		('PCBSIZE', DWORD),
-		('PBLOBBINARY', CHAR),
-    )
-
-class ExportToBlobResponse(NDRCALL):
-    structure = (
-		('PCBSIZE', DWORD),
-		('PBLOBBINARY', CHAR),
+		('PBSTRTIMESPANFORMAT', BSTR),
     )
         
 OPNUMS = {
-0 : (Opnum7NotUsedOnWire,Opnum7NotUsedOnWireResponse),
-1 : (Opnum8NotUsedOnWire,Opnum8NotUsedOnWireResponse),
-2 : (Opnum9NotUsedOnWire,Opnum9NotUsedOnWireResponse),
-3 : (InstanceName,InstanceNameResponse),
-4 : (Opnum11NotUsedOnWire,Opnum11NotUsedOnWireResponse),
-5 : (IsInstalledRemote,IsInstalledRemoteResponse),
-6 : (Opnum13NotUsedOnWire,Opnum13NotUsedOnWireResponse),
-7 : (IsExportableRemote,IsExportableRemoteResponse),
-8 : (Opnum15NotUsedOnWire,Opnum15NotUsedOnWireResponse),
-9 : (GetCertInfoRemote,GetCertInfoRemoteResponse),
-10 : (Opnum17NotUsedOnWire,Opnum17NotUsedOnWireResponse),
-11 : (Opnum18NotUsedOnWire,Opnum18NotUsedOnWireResponse),
-12 : (Opnum19NotUsedOnWire,Opnum19NotUsedOnWireResponse),
-13 : (Opnum20NotUsedOnWire,Opnum20NotUsedOnWireResponse),
-14 : (Opnum21NotUsedOnWire,Opnum21NotUsedOnWireResponse),
-15 : (ImportFromBlob,ImportFromBlobResponse),
-16 : (ImportFromBlobGetHash,ImportFromBlobGetHashResponse),
-17 : (Opnum24NotUsedOnWire,Opnum24NotUsedOnWireResponse),
-18 : (ExportToBlob,ExportToBlobResponse),
+0 : (Name,NameResponse),
+1 : (Type,TypeResponse),
+2 : (DefaultValue,DefaultValueResponse),
+3 : (IsRequired,IsRequiredResponse),
+4 : (IsUniqueKey,IsUniqueKeyResponse),
+5 : (IsCombinedKey,IsCombinedKeyResponse),
+6 : (IsExpanded,IsExpandedResponse),
+7 : (ValidationType,ValidationTypeResponse),
+8 : (ValidationParameter,ValidationParameterResponse),
+9 : (GetMetadata,GetMetadataResponse),
+10 : (IsCaseSensitive,IsCaseSensitiveResponse),
+11 : (PossibleValues,PossibleValuesResponse),
+12 : (DoesAllowInfinite,DoesAllowInfiniteResponse),
+13 : (IsEncrypted,IsEncryptedResponse),
+14 : (TimeSpanFormat,TimeSpanFormatResponse),
+}
+
+#################################################################################
+
+#IAppHostCollectionSchema Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTCOLLECTIONSCHEMA = uuidtup_to_bin(('de095db1-5368-411-816-efef619b7bcf','0.0'))
+
+
+class AddElementNames(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class AddElementNamesResponse(NDRCALL):
+    structure = (
+		('PBSTRELEMENTNAME', BSTR),
+    )
+        
+
+class GetAddElementSchema(NDRCALL):
+    opnum = 1
+    structure = (
+		('BSTRELEMENTNAME', BSTR),
+    )
+
+class GetAddElementSchemaResponse(NDRCALL):
+    structure = (
+		('PPSCHEMA', IAPPHOSTELEMENTSCHEMA),
+    )
+        
+
+class RemoveElementSchema(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class RemoveElementSchemaResponse(NDRCALL):
+    structure = (
+		('PPSCHEMA', IAPPHOSTELEMENTSCHEMA),
+    )
+        
+
+class ClearElementSchema(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class ClearElementSchemaResponse(NDRCALL):
+    structure = (
+		('PPSCHEMA', IAPPHOSTELEMENTSCHEMA),
+    )
+        
+
+class IsMergeAppend(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class IsMergeAppendResponse(NDRCALL):
+    structure = (
+		('PFISMERGEAPPEND', VARIANT_BOOL),
+    )
+        
+
+class GetMetadata(NDRCALL):
+    opnum = 5
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+    )
+
+class GetMetadataResponse(NDRCALL):
+    structure = (
+		('PVALUE', VARIANT),
+    )
+        
+
+class DoesAllowDuplicates(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class DoesAllowDuplicatesResponse(NDRCALL):
+    structure = (
+		('PFALLOWDUPLICATES', VARIANT_BOOL),
+    )
+        
+OPNUMS = {
+0 : (AddElementNames,AddElementNamesResponse),
+1 : (GetAddElementSchema,GetAddElementSchemaResponse),
+2 : (RemoveElementSchema,RemoveElementSchemaResponse),
+3 : (ClearElementSchema,ClearElementSchemaResponse),
+4 : (IsMergeAppend,IsMergeAppendResponse),
+5 : (GetMetadata,GetMetadataResponse),
+6 : (DoesAllowDuplicates,DoesAllowDuplicatesResponse),
+}
+
+#################################################################################
+
+#IAppHostElementSchema Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTELEMENTSCHEMA = uuidtup_to_bin(('ef13d885-642-4709-99c-b89561c6bc69','0.0'))
+
+
+class Name(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('PBSTRNAME', BSTR),
+    )
+        
+
+class DoesAllowUnschematizedProperties(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class DoesAllowUnschematizedPropertiesResponse(NDRCALL):
+    structure = (
+		('PFALLOWUNSCHEMATIZED', VARIANT_BOOL),
+    )
+        
+
+class GetMetadata(NDRCALL):
+    opnum = 2
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+    )
+
+class GetMetadataResponse(NDRCALL):
+    structure = (
+		('PVALUE', VARIANT),
+    )
+        
+
+class CollectionSchema(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class CollectionSchemaResponse(NDRCALL):
+    structure = (
+		('PPCOLLECTIONSCHEMA', IAPPHOSTCOLLECTIONSCHEMA),
+    )
+        
+
+class ChildElementSchemas(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class ChildElementSchemasResponse(NDRCALL):
+    structure = (
+		('PPCHILDSCHEMAS', IAPPHOSTELEMENTSCHEMACOLLECTION),
+    )
+        
+
+class PropertySchemas(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class PropertySchemasResponse(NDRCALL):
+    structure = (
+		('PPPROPERTYSCHEMAS', IAPPHOSTPROPERTYSCHEMACOLLECTION),
+    )
+        
+
+class IsCollectionDefault(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class IsCollectionDefaultResponse(NDRCALL):
+    structure = (
+		('PFISCOLLECTIONDEFAULT', VARIANT_BOOL),
+    )
+        
+OPNUMS = {
+0 : (Name,NameResponse),
+1 : (DoesAllowUnschematizedProperties,DoesAllowUnschematizedPropertiesResponse),
+2 : (GetMetadata,GetMetadataResponse),
+3 : (CollectionSchema,CollectionSchemaResponse),
+4 : (ChildElementSchemas,ChildElementSchemasResponse),
+5 : (PropertySchemas,PropertySchemasResponse),
+6 : (IsCollectionDefault,IsCollectionDefaultResponse),
+}
+
+#################################################################################
+
+#IAppHostMethodSchema Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTMETHODSCHEMA = uuidtup_to_bin(('2d9915fb-9d42-4328-b782-1b46819fab9e','0.0'))
+
+
+class Name(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('PBSTRNAME', BSTR),
+    )
+        
+
+class InputSchema(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class InputSchemaResponse(NDRCALL):
+    structure = (
+		('PPINPUTSCHEMA', IAPPHOSTELEMENTSCHEMA),
+    )
+        
+
+class OutputSchema(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class OutputSchemaResponse(NDRCALL):
+    structure = (
+		('PPOUTPUTSCHEMA', IAPPHOSTELEMENTSCHEMA),
+    )
+        
+
+class GetMetadata(NDRCALL):
+    opnum = 3
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+    )
+
+class GetMetadataResponse(NDRCALL):
+    structure = (
+		('PVALUE', VARIANT),
+    )
+        
+OPNUMS = {
+0 : (Name,NameResponse),
+1 : (InputSchema,InputSchemaResponse),
+2 : (OutputSchema,OutputSchemaResponse),
+3 : (GetMetadata,GetMetadataResponse),
+}
+
+#################################################################################
+
+#IAppHostMethodInstance Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTMETHODINSTANCE = uuidtup_to_bin(('b80f3c42-600-4e0-9007-f52852d3dbed','0.0'))
+
+
+class Input(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class InputResponse(NDRCALL):
+    structure = (
+		('PPINPUTELEMENT', IAPPHOSTELEMENT),
+    )
+        
+
+class Output(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class OutputResponse(NDRCALL):
+    structure = (
+		('PPOUTPUTELEMENT', IAPPHOSTELEMENT),
+    )
+        
+
+class Execute(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class ExecuteResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class GetMetadata(NDRCALL):
+    opnum = 3
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+    )
+
+class GetMetadataResponse(NDRCALL):
+    structure = (
+		('PVALUE', VARIANT),
+    )
+        
+
+class SetMetadata(NDRCALL):
+    opnum = 4
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+		('VALUE', VARIANT),
+    )
+
+class SetMetadataResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Input,InputResponse),
+1 : (Output,OutputResponse),
+2 : (Execute,ExecuteResponse),
+3 : (GetMetadata,GetMetadataResponse),
+4 : (SetMetadata,SetMetadataResponse),
+}
+
+#################################################################################
+
+#IAppHostMethod Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTMETHOD = uuidtup_to_bin(('7883ca1c-1112-4447-84c3-52fbeb38069d','0.0'))
+
+
+class Name(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('PBSTRNAME', BSTR),
+    )
+        
+
+class Schema(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class SchemaResponse(NDRCALL):
+    structure = (
+		('PPMETHODSCHEMA', IAPPHOSTMETHODSCHEMA),
+    )
+        
+
+class CreateInstance(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class CreateInstanceResponse(NDRCALL):
+    structure = (
+		('PPMETHODINSTANCE', IAPPHOSTMETHODINSTANCE),
+    )
+        
+OPNUMS = {
+0 : (Name,NameResponse),
+1 : (Schema,SchemaResponse),
+2 : (CreateInstance,CreateInstanceResponse),
+}
+
+#################################################################################
+
+#IAppHostConfigException Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTCONFIGEXCEPTION = uuidtup_to_bin(('4dfa1df3-8900-4bc7-bbb5-d1a458c52410','0.0'))
+
+
+class LineNumber(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class LineNumberResponse(NDRCALL):
+    structure = (
+		('PCLINENUMBER', UNSIGNED_LONG),
+    )
+        
+
+class FileName(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class FileNameResponse(NDRCALL):
+    structure = (
+		('PBSTRFILENAME', BSTR),
+    )
+        
+
+class ConfigPath(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class ConfigPathResponse(NDRCALL):
+    structure = (
+		('PBSTRCONFIGPATH', BSTR),
+    )
+        
+
+class ErrorLine(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class ErrorLineResponse(NDRCALL):
+    structure = (
+		('PBSTRERRORLINE', BSTR),
+    )
+        
+
+class PreErrorLine(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class PreErrorLineResponse(NDRCALL):
+    structure = (
+		('PBSTRPREERRORLINE', BSTR),
+    )
+        
+
+class PostErrorLine(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class PostErrorLineResponse(NDRCALL):
+    structure = (
+		('PBSTRPOSTERRORLINE', BSTR),
+    )
+        
+
+class ErrorString(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class ErrorStringResponse(NDRCALL):
+    structure = (
+		('PBSTRERRORSTRING', BSTR),
+    )
+        
+OPNUMS = {
+0 : (LineNumber,LineNumberResponse),
+1 : (FileName,FileNameResponse),
+2 : (ConfigPath,ConfigPathResponse),
+3 : (ErrorLine,ErrorLineResponse),
+4 : (PreErrorLine,PreErrorLineResponse),
+5 : (PostErrorLine,PostErrorLineResponse),
+6 : (ErrorString,ErrorStringResponse),
+}
+
+#################################################################################
+
+#IAppHostPropertyException Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTPROPERTYEXCEPTION = uuidtup_to_bin(('eafe4895-a929-41a-b14d-613236271','0.0'))
+
+
+class InvalidValue(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class InvalidValueResponse(NDRCALL):
+    structure = (
+		('PBSTRVALUE', BSTR),
+    )
+        
+
+class ValidationFailureReason(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class ValidationFailureReasonResponse(NDRCALL):
+    structure = (
+		('PBSTRVALIDATIONREASON', BSTR),
+    )
+        
+
+class ValidationFailureParameters(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class ValidationFailureParametersResponse(NDRCALL):
+    structure = (
+		('PPARAMETERARRAY', SAFEARRAY ( VARIANT )),
+    )
+        
+OPNUMS = {
+0 : (InvalidValue,InvalidValueResponse),
+1 : (ValidationFailureReason,ValidationFailureReasonResponse),
+2 : (ValidationFailureParameters,ValidationFailureParametersResponse),
+}
+
+#################################################################################
+
+#IAppHostElementCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTELEMENTCOLLECTION = uuidtup_to_bin(('c8550bff-5281-41-ac34-996a38464d','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('PCELEMENTCOUNT', DWORD),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('CINDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('PPELEMENT', IAPPHOSTELEMENT),
+    )
+        
+
+class AddElement(NDRCALL):
+    opnum = 2
+    structure = (
+		('PELEMENT', IAPPHOSTELEMENT),
+		('CPOSITION', INT),
+    )
+
+class AddElementResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class DeleteElement(NDRCALL):
+    opnum = 3
+    structure = (
+		('CINDEX', VARIANT),
+    )
+
+class DeleteElementResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Clear(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class ClearResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CreateNewElement(NDRCALL):
+    opnum = 5
+    structure = (
+		('BSTRELEMENTNAME', BSTR),
+    )
+
+class CreateNewElementResponse(NDRCALL):
+    structure = (
+		('PPELEMENT', IAPPHOSTELEMENT),
+    )
+        
+
+class Schema(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class SchemaResponse(NDRCALL):
+    structure = (
+		('PPSCHEMA', IAPPHOSTCOLLECTIONSCHEMA),
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+2 : (AddElement,AddElementResponse),
+3 : (DeleteElement,DeleteElementResponse),
+4 : (Clear,ClearResponse),
+5 : (CreateNewElement,CreateNewElementResponse),
+6 : (Schema,SchemaResponse),
+}
+
+#################################################################################
+
+#IAppHostElement Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTELEMENT = uuidtup_to_bin(('64ff8ccc-b287-4dae-b08a-a72cbf45f453','0.0'))
+
+
+class Name(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('PBSTRNAME', BSTR),
+    )
+        
+
+class Collection(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class CollectionResponse(NDRCALL):
+    structure = (
+		('PPCOLLECTION', IAPPHOSTELEMENTCOLLECTION),
+    )
+        
+
+class Properties(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class PropertiesResponse(NDRCALL):
+    structure = (
+		('PPPROPERTIES', IAPPHOSTPROPERTYCOLLECTION),
+    )
+        
+
+class ChildElements(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class ChildElementsResponse(NDRCALL):
+    structure = (
+		('PPELEMENTS', IAPPHOSTCHILDELEMENTCOLLECTION),
+    )
+        
+
+class GetMetadata(NDRCALL):
+    opnum = 4
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+    )
+
+class GetMetadataResponse(NDRCALL):
+    structure = (
+		('PVALUE', VARIANT),
+    )
+        
+
+class SetMetadata(NDRCALL):
+    opnum = 5
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+		('VALUE', VARIANT),
+    )
+
+class SetMetadataResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Schema(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class SchemaResponse(NDRCALL):
+    structure = (
+		('PPSCHEMA', IAPPHOSTELEMENTSCHEMA),
+    )
+        
+
+class GetElementByName(NDRCALL):
+    opnum = 7
+    structure = (
+		('BSTRSUBNAME', BSTR),
+    )
+
+class GetElementByNameResponse(NDRCALL):
+    structure = (
+		('PPELEMENT', IAPPHOSTELEMENT),
+    )
+        
+
+class GetPropertyByName(NDRCALL):
+    opnum = 8
+    structure = (
+		('BSTRSUBNAME', BSTR),
+    )
+
+class GetPropertyByNameResponse(NDRCALL):
+    structure = (
+		('PPPROPERTY', IAPPHOSTPROPERTY),
+    )
+        
+
+class Clear(NDRCALL):
+    opnum = 9
+    structure = (
+
+    )
+
+class ClearResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Methods(NDRCALL):
+    opnum = 10
+    structure = (
+
+    )
+
+class MethodsResponse(NDRCALL):
+    structure = (
+		('PPMETHODS', IAPPHOSTMETHODCOLLECTION),
+    )
+        
+OPNUMS = {
+0 : (Name,NameResponse),
+1 : (Collection,CollectionResponse),
+2 : (Properties,PropertiesResponse),
+3 : (ChildElements,ChildElementsResponse),
+4 : (GetMetadata,GetMetadataResponse),
+5 : (SetMetadata,SetMetadataResponse),
+6 : (Schema,SchemaResponse),
+7 : (GetElementByName,GetElementByNameResponse),
+8 : (GetPropertyByName,GetPropertyByNameResponse),
+9 : (Clear,ClearResponse),
+10 : (Methods,MethodsResponse),
+}
+
+#################################################################################
+
+#IAppHostProperty Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTPROPERTY = uuidtup_to_bin(('ed35f7a1-5024-47-a44d-07daf4b524d','0.0'))
+
+
+class Name(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('PBSTRNAME', BSTR),
+    )
+        
+
+class Value(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class ValueResponse(NDRCALL):
+    structure = (
+		('PVARIANT', VARIANT),
+    )
+        
+
+class Value(NDRCALL):
+    opnum = 2
+    structure = (
+		('VALUE', VARIANT),
+    )
+
+class ValueResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Clear(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class ClearResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class StringValue(NDRCALL):
+    opnum = 4
+    structure = (
+
+    )
+
+class StringValueResponse(NDRCALL):
+    structure = (
+		('PBSTRVALUE', BSTR),
+    )
+        
+
+class Exception(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class ExceptionResponse(NDRCALL):
+    structure = (
+		('PPEXCEPTION', IAPPHOSTPROPERTYEXCEPTION),
+    )
+        
+
+class GetMetadata(NDRCALL):
+    opnum = 6
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+    )
+
+class GetMetadataResponse(NDRCALL):
+    structure = (
+		('PVALUE', VARIANT),
+    )
+        
+
+class SetMetadata(NDRCALL):
+    opnum = 7
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+		('VALUE', VARIANT),
+    )
+
+class SetMetadataResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Schema(NDRCALL):
+    opnum = 8
+    structure = (
+
+    )
+
+class SchemaResponse(NDRCALL):
+    structure = (
+		('PPSCHEMA', IAPPHOSTPROPERTYSCHEMA),
+    )
+        
+OPNUMS = {
+0 : (Name,NameResponse),
+1 : (Value,ValueResponse),
+2 : (Clear,ClearResponse),
+3 : (StringValue,StringValueResponse),
+4 : (Exception,ExceptionResponse),
+5 : (GetMetadata,GetMetadataResponse),
+6 : (SetMetadata,SetMetadataResponse),
+7 : (Schema,SchemaResponse),
+}
+
+#################################################################################
+
+#IAppHostConfigLocation Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTCONFIGLOCATION = uuidtup_to_bin(('370af178-7758-4dad-8146-7391f6e18585','0.0'))
+
+
+class Path(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class PathResponse(NDRCALL):
+    structure = (
+		('PBSTRLOCATIONPATH', BSTR),
+    )
+        
+
+class Count(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('PCCOUNT', DWORD),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 2
+    structure = (
+		('CINDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('PPSECTION', IAPPHOSTELEMENT),
+    )
+        
+
+class AddConfigSection(NDRCALL):
+    opnum = 3
+    structure = (
+		('BSTRSECTIONNAME', BSTR),
+    )
+
+class AddConfigSectionResponse(NDRCALL):
+    structure = (
+		('PPADMINELEMENT', IAPPHOSTELEMENT),
+    )
+        
+
+class DeleteConfigSection(NDRCALL):
+    opnum = 4
+    structure = (
+		('CINDEX', VARIANT),
+    )
+
+class DeleteConfigSectionResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Path,PathResponse),
+1 : (Count,CountResponse),
+2 : (Item,ItemResponse),
+3 : (AddConfigSection,AddConfigSectionResponse),
+4 : (DeleteConfigSection,DeleteConfigSectionResponse),
+}
+
+#################################################################################
+
+#IAppHostSectionDefinition Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTSECTIONDEFINITION = uuidtup_to_bin(('c5c04795-321-4014-8d6-d44658799393','0.0'))
+
+
+class Name(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('PBSTRNAME', BSTR),
+    )
+        
+
+class Type(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class TypeResponse(NDRCALL):
+    structure = (
+		('PBSTRTYPE', BSTR),
+    )
+        
+
+class Type(NDRCALL):
+    opnum = 2
+    structure = (
+		('BSTRTYPE', BSTR),
+    )
+
+class TypeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class OverrideModeDefault(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class OverrideModeDefaultResponse(NDRCALL):
+    structure = (
+		('PBSTROVERRIDEMODEDEFAULT', BSTR),
+    )
+        
+
+class OverrideModeDefault(NDRCALL):
+    opnum = 4
+    structure = (
+		('BSTROVERRIDEMODEDEFAULT', BSTR),
+    )
+
+class OverrideModeDefaultResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class AllowDefinition(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class AllowDefinitionResponse(NDRCALL):
+    structure = (
+		('PBSTRALLOWDEFINITION', BSTR),
+    )
+        
+
+class AllowDefinition(NDRCALL):
+    opnum = 6
+    structure = (
+		('BSTRALLOWDEFINITION', BSTR),
+    )
+
+class AllowDefinitionResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class AllowLocation(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class AllowLocationResponse(NDRCALL):
+    structure = (
+		('PBSTRALLOWLOCATION', BSTR),
+    )
+        
+
+class AllowLocation(NDRCALL):
+    opnum = 8
+    structure = (
+		('BSTRALLOWLOCATION', BSTR),
+    )
+
+class AllowLocationResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Name,NameResponse),
+1 : (Type,TypeResponse),
+2 : (OverrideModeDefault,OverrideModeDefaultResponse),
+3 : (AllowDefinition,AllowDefinitionResponse),
+4 : (AllowLocation,AllowLocationResponse),
+}
+
+#################################################################################
+
+#IAppHostSectionDefinitionCollection Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTSECTIONDEFINITIONCOLLECTION = uuidtup_to_bin(('b7d381ee-8860-471-8f4-13321325','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('PCCOUNT', UNSIGNED_LONG),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('VARINDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('PPCONFIGSECTION', IAPPHOSTSECTIONDEFINITION),
+    )
+        
+
+class AddSection(NDRCALL):
+    opnum = 2
+    structure = (
+		('BSTRSECTIONNAME', BSTR),
+    )
+
+class AddSectionResponse(NDRCALL):
+    structure = (
+		('PPCONFIGSECTION', IAPPHOSTSECTIONDEFINITION),
+    )
+        
+
+class DeleteSection(NDRCALL):
+    opnum = 3
+    structure = (
+		('VARINDEX', VARIANT),
+    )
+
+class DeleteSectionResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+2 : (AddSection,AddSectionResponse),
+3 : (DeleteSection,DeleteSectionResponse),
+}
+
+#################################################################################
+
+#IAppHostSectionGroup Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTSECTIONGROUP = uuidtup_to_bin(('0dd8a158-ebe6-4008-a1d9-b7ecc8f1104b','0.0'))
+
+
+class Count(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CountResponse(NDRCALL):
+    structure = (
+		('PCSECTIONGROUP', UNSIGNED_LONG),
+    )
+        
+
+class Item(NDRCALL):
+    opnum = 1
+    structure = (
+		('VARINDEX', VARIANT),
+    )
+
+class ItemResponse(NDRCALL):
+    structure = (
+		('PPSECTIONGROUP', IAPPHOSTSECTIONGROUP),
+    )
+        
+
+class Sections(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class SectionsResponse(NDRCALL):
+    structure = (
+		('PPSECTIONS', IAPPHOSTSECTIONDEFINITIONCOLLECTION),
+    )
+        
+
+class AddSectionGroup(NDRCALL):
+    opnum = 3
+    structure = (
+		('BSTRSECTIONGROUPNAME', BSTR),
+    )
+
+class AddSectionGroupResponse(NDRCALL):
+    structure = (
+		('PPSECTIONGROUP', IAPPHOSTSECTIONGROUP),
+    )
+        
+
+class DeleteSectionGroup(NDRCALL):
+    opnum = 4
+    structure = (
+		('VARINDEX', VARIANT),
+    )
+
+class DeleteSectionGroupResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class Name(NDRCALL):
+    opnum = 5
+    structure = (
+
+    )
+
+class NameResponse(NDRCALL):
+    structure = (
+		('PBSTRNAME', BSTR),
+    )
+        
+
+class Type(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class TypeResponse(NDRCALL):
+    structure = (
+		('PBSTRTYPE', BSTR),
+    )
+        
+
+class Type(NDRCALL):
+    opnum = 7
+    structure = (
+		('BSTRTYPE', BSTR),
+    )
+
+class TypeResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (Count,CountResponse),
+1 : (Item,ItemResponse),
+2 : (Sections,SectionsResponse),
+3 : (AddSectionGroup,AddSectionGroupResponse),
+4 : (DeleteSectionGroup,DeleteSectionGroupResponse),
+5 : (Name,NameResponse),
+6 : (Type,TypeResponse),
+}
+
+#################################################################################
+
+#IAppHostConfigFile Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTCONFIGFILE = uuidtup_to_bin(('ada4e6fb-e025-401-a5d0-c3134a281f07','0.0'))
+
+
+class ConfigPath(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class ConfigPathResponse(NDRCALL):
+    structure = (
+		('PBSTRCONFIGPATH', BSTR),
+    )
+        
+
+class FilePath(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class FilePathResponse(NDRCALL):
+    structure = (
+		('PBSTRFILEPATH', BSTR),
+    )
+        
+
+class Locations(NDRCALL):
+    opnum = 2
+    structure = (
+
+    )
+
+class LocationsResponse(NDRCALL):
+    structure = (
+		('PPLOCATIONS', IAPPHOSTCONFIGLOCATIONCOLLECTION),
+    )
+        
+
+class GetAdminSection(NDRCALL):
+    opnum = 3
+    structure = (
+		('BSTRSECTIONNAME', BSTR),
+		('BSTRPATH', BSTR),
+    )
+
+class GetAdminSectionResponse(NDRCALL):
+    structure = (
+		('PPADMINSECTION', IAPPHOSTELEMENT),
+    )
+        
+
+class GetMetadata(NDRCALL):
+    opnum = 4
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+    )
+
+class GetMetadataResponse(NDRCALL):
+    structure = (
+		('PVALUE', VARIANT),
+    )
+        
+
+class SetMetadata(NDRCALL):
+    opnum = 5
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+		('VALUE', VARIANT),
+    )
+
+class SetMetadataResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ClearInvalidSections(NDRCALL):
+    opnum = 6
+    structure = (
+
+    )
+
+class ClearInvalidSectionsResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class RootSectionGroup(NDRCALL):
+    opnum = 7
+    structure = (
+
+    )
+
+class RootSectionGroupResponse(NDRCALL):
+    structure = (
+		('PPSECTIONGROUPS', IAPPHOSTSECTIONGROUP),
+    )
+        
+OPNUMS = {
+0 : (ConfigPath,ConfigPathResponse),
+1 : (FilePath,FilePathResponse),
+2 : (Locations,LocationsResponse),
+3 : (GetAdminSection,GetAdminSectionResponse),
+4 : (GetMetadata,GetMetadataResponse),
+5 : (SetMetadata,SetMetadataResponse),
+6 : (ClearInvalidSections,ClearInvalidSectionsResponse),
+7 : (RootSectionGroup,RootSectionGroupResponse),
+}
+
+#################################################################################
+
+#IAppHostPathMapper Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTPATHMAPPER = uuidtup_to_bin(('e7927575-5c3-403-822-3286904ee','0.0'))
+
+
+class MapPath(NDRCALL):
+    opnum = 0
+    structure = (
+		('BSTRCONFIGPATH', BSTR),
+		('BSTRMAPPEDPHYSICALPATH', BSTR),
+    )
+
+class MapPathResponse(NDRCALL):
+    structure = (
+		('PBSTRNEWPHYSICALPATH', BSTR),
+    )
+        
+OPNUMS = {
+0 : (MapPath,MapPathResponse),
+}
+
+#################################################################################
+
+#IAppHostChangeHandler Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTCHANGEHANDLER = uuidtup_to_bin(('09829352-87c2-418d-8d79-4133969a489d','0.0'))
+
+
+class OnSectionChanges(NDRCALL):
+    opnum = 0
+    structure = (
+		('BSTRSECTIONNAME', BSTR),
+		('BSTRCONFIGPATH', BSTR),
+    )
+
+class OnSectionChangesResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (OnSectionChanges,OnSectionChangesResponse),
+}
+
+#################################################################################
+
+#IAppHostAdminManager Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTADMINMANAGER = uuidtup_to_bin(('9be77978-73ed-4a9a-87fd-13f09fec1b13','0.0'))
+
+
+class GetAdminSection(NDRCALL):
+    opnum = 0
+    structure = (
+		('BSTRSECTIONNAME', BSTR),
+		('BSTRPATH', BSTR),
+    )
+
+class GetAdminSectionResponse(NDRCALL):
+    structure = (
+		('PPADMINSECTION', IAPPHOSTELEMENT),
+    )
+        
+
+class GetMetadata(NDRCALL):
+    opnum = 1
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+    )
+
+class GetMetadataResponse(NDRCALL):
+    structure = (
+		('PVALUE', VARIANT),
+    )
+        
+
+class SetMetadata(NDRCALL):
+    opnum = 2
+    structure = (
+		('BSTRMETADATATYPE', BSTR),
+		('VALUE', VARIANT),
+    )
+
+class SetMetadataResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class ConfigManager(NDRCALL):
+    opnum = 3
+    structure = (
+
+    )
+
+class ConfigManagerResponse(NDRCALL):
+    structure = (
+		('PPCONFIGMANAGER', IAPPHOSTCONFIGMANAGER),
+    )
+        
+OPNUMS = {
+0 : (GetAdminSection,GetAdminSectionResponse),
+1 : (GetMetadata,GetMetadataResponse),
+2 : (SetMetadata,SetMetadataResponse),
+3 : (ConfigManager,ConfigManagerResponse),
+}
+
+#################################################################################
+
+#IAppHostWritableAdminManager Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTWRITABLEADMINMANAGER = uuidtup_to_bin(('fa7660f6-73-4237-a8bf-ed0ad0dcbbd9','0.0'))
+
+
+class CommitChanges(NDRCALL):
+    opnum = 0
+    structure = (
+
+    )
+
+class CommitChangesResponse(NDRCALL):
+    structure = (
+
+    )
+        
+
+class CommitPath(NDRCALL):
+    opnum = 1
+    structure = (
+
+    )
+
+class CommitPathResponse(NDRCALL):
+    structure = (
+		('PBSTRCOMMITPATH', BSTR),
+    )
+        
+
+class CommitPath(NDRCALL):
+    opnum = 2
+    structure = (
+		('BSTRCOMMITPATH', BSTR),
+    )
+
+class CommitPathResponse(NDRCALL):
+    structure = (
+
+    )
+        
+OPNUMS = {
+0 : (CommitChanges,CommitChangesResponse),
+1 : (CommitPath,CommitPathResponse),
+}
+
+#################################################################################
+
+#IAppHostConfigManager Definition
+
+#################################################################################
+
+MSRPC_UUID_IAPPHOSTCONFIGMANAGER = uuidtup_to_bin(('8f6d760f-f0cb-4d69-b5f6-848b33e9bdc6','0.0'))
+
+
+class GetConfigFile(NDRCALL):
+    opnum = 0
+    structure = (
+		('BSTRCONFIGPATH', BSTR),
+    )
+
+class GetConfigFileResponse(NDRCALL):
+    structure = (
+		('PPCONFIGFILE', IAPPHOSTCONFIGFILE),
+    )
+        
+
+class GetUniqueConfigPath(NDRCALL):
+    opnum = 1
+    structure = (
+		('BSTRCONFIGPATH', BSTR),
+    )
+
+class GetUniqueConfigPathResponse(NDRCALL):
+    structure = (
+		('PBSTRUNIQUEPATH', BSTR),
+    )
+        
+OPNUMS = {
+0 : (GetConfigFile,GetConfigFileResponse),
+1 : (GetUniqueConfigPath,GetUniqueConfigPathResponse),
 }
 
