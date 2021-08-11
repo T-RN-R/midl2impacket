@@ -114,5 +114,5 @@ class MidlTypedefParser(MidlBaseParser):
             raise MidlParserException(f"No typedefs were created.")
         # Slap some attributes on these bad boys
         for td in self.tds:
-            td.attrs = self.attrs
+            td.attrs.update(self.attrs)
         return self.tds

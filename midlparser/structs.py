@@ -32,7 +32,7 @@ class MidlStructParser(MidlBaseParser):
         self.cur_member_array_info = []
         self.members = []
         self.comments = []
-        self.private_name = None
+        self.private_name = ''
         self.declared_names = ''
         self.embedded_struct_count = 0
         self.embedded_union_count = 0
@@ -88,6 +88,9 @@ class MidlStructParser(MidlBaseParser):
             else:
                 # This is part of the type/name e.g unsigned long ptr
                 self.cur_member_parts.append(token.data)
+        elif self.state == StructState.STRUCT_END:
+            # ms-oaut explicitly clobbers SAFEARRAY, for example..
+            self.declared_names += token.data
         else:
             self.invalid(token)
 

@@ -52,17 +52,10 @@ class MidlInterfaceParser(MidlBaseParser):
             self.cur_member_attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
         else: 
             self.invalid(token)
-
-    def rbracket(self, token):
-        """ Round brackets are only valid in CPP_QUOTES """
-        if token.data == '(' and self.state == InterfaceState.CPP_QUOTE:
-            self.state = InterfaceState.CPP_QUOTE_STRING
-        elif token.data == ')' and self.state == InterfaceState.CPP_QUOTE_END:
-            self.state = InterfaceState.DEFINITION
-        else:
-            self.invalid(token)
         
     def comment(self, token):
+        if  '[MS-PAR]' in token.data:
+            print("zx")
         self.interface.add_comment(token)       
 
     def _typedef(self, token):

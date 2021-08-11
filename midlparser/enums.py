@@ -20,7 +20,7 @@ class MidlEnumParser(MidlBaseParser):
     def __init__(self, token_generator, tokenizer):
         self.state = EnumState.BEGIN
         super().__init__(token_generator=token_generator, end_state=EnumState.END, tokenizer=tokenizer)
-        self.private_name = None
+        self.private_name = ''
         self.comments = []
         self.declared_names = ''
         self.cur_member_name = None

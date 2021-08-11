@@ -284,7 +284,7 @@ class MidlVarDef(Macroable):
         var_type,
         name,
         attrs: dict[str, MidlAttribute] = None,
-        array_info=list[MidlArrayDimensions],
+        array_info: list[MidlArrayDimensions] = None,
     ):
         self.type = var_type
         self.name = name
@@ -306,7 +306,7 @@ class MidlTypeDef(Macroable):
     def __init__(self, td, attrs):
         self.type = td
         self.name = td.name
-        self.attrs = attrs
+        self.attrs = attrs or {}
 
     def __str__(self):
         out = "typedef "
@@ -319,6 +319,7 @@ class MidlStructDef(Macroable):
         self.public_names = public_names
         self.private_name = private_name
         self.members = members
+        self.attrs = {}
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
         self.public_names = self._do_macro_iterable(self.public_names, macro)
@@ -345,6 +346,7 @@ class MidlUnionDef(Macroable):
         self.public_names = public_names
         self.private_name = private_name or ''
         self.members = members
+        self.attrs = {}
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
         self.public_names = self._do_macro_iterable(self.public_names, macro)
@@ -370,6 +372,7 @@ class MidlSimpleTypedef(Macroable):
     def __init__(self, name, simple_type):
         self.name = name
         self.type = simple_type
+        self.attrs = {}
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
         self.name = self._do_macro(self.name, macro)
@@ -407,6 +410,7 @@ class MidlEnumDef(Macroable):
         self.public_names = public_names
         self.private_name = private_name
         self.map = map
+        self.attrs = {}
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
         self.public_names = self._do_macro_iterable(self.public_names, macro)
@@ -474,7 +478,7 @@ class MidlParameter(Macroable):
     ):
         self.name = name
         self.type = data_type
-        self.attributes = attributes or []
+        self.attrs = attributes or {}
 
     def __str__(self):
         out = ""

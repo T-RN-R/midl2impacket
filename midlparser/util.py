@@ -26,9 +26,9 @@ class SkipClosureParser(MidlBaseParser):
             if self.closure_level <= 0:
                 self.invalid(token)
             self.closure_level -= 1
-        self.data += token.data
+        self.data += token.data + ' '
         if self.closure_level == 0:
             self.state = SkipClosureState.END
 
     def finished(self):
-        return self.data
+        return self.data.strip()[1:-1].strip()
