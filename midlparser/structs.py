@@ -1,8 +1,10 @@
 import enum
+
 from midl import MidlStructDef, MidlVarDef
 from .attributes import MidlAttributesParser
 from .arrays import MidlArrayParser
 from .base import MidlBaseParser, MidlParserException
+from .util import SkipClosureParser
 
 class StructState(enum.Enum):
     BEGIN = enum.auto()
@@ -129,6 +131,14 @@ class MidlStructParser(MidlBaseParser):
             self.state = StructState.MEMBER_ARRAY
         else:
             self.invalid(token)
+
+    def rbracket(self, token):
+        if self.state not in [StructState.MEMBER_TYPE, StructState.MEMBER_TYPE_OR_ATTR]:
+            self.invalid()
+        # Just grab the whole blob and add it to the current member
+        arg_blob = SkipClosureParser(self.tokens, self.tokenizer, closure_open='(', closure_close=')').parse(token)
+        self.cur_member_parts[-1] += arg_blob
+
 
     def brace(self, token):
         # The struct might be unnamed, so we might be in the STRUCT_NAME state.
