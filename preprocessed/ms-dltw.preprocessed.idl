@@ -1,0 +1,43 @@
+ import "ms-dtyp.idl";
+ typedef signed long SequenceNumber;
+ typedef struct CObjId {
+     GUID    _object;
+ } CObjId;
+ typedef struct CVolumeId {
+     GUID _volume;
+ } CVolumeId;
+ typedef struct CMachineId {
+     char _szMachine[ 16 ];
+ } CMachineId;
+ typedef struct CDomainRelativeObjId {
+     CVolumeId _volume;
+     CObjId _object;
+ } CDomainRelativeObjId;
+ [
+     uuid(300f3532-38cc-11d0-a3f0-0020af6b0add),
+     version(1.2),
+     pointer_default(unique)
+ ]
+ interface trkwks {
+ void Opnum0NotUsedOnWire(void);
+ void Opnum1NotUsedOnWire(void);
+ void Opnum2NotUsedOnWire(void);
+ void Opnum3NotUsedOnWire(void);
+ void Opnum4NotUsedOnWire(void);
+ void Opnum5NotUsedOnWire(void);
+ void Opnum6NotUsedOnWire(void);
+ void Opnum7NotUsedOnWire(void);
+ void Opnum8NotUsedOnWire(void);
+ void Opnum9NotUsedOnWire(void);
+ void Opnum10NotUsedOnWire(void);
+ void Opnum11NotUsedOnWire(void);
+ HRESULT LnkSearchMachine (
+     [in] unsigned long Restrictions,
+     [in] const CDomainRelativeObjId*  pdroidBirthLast,
+     [in] const CDomainRelativeObjId*  pdroidLast,
+     [out] CDomainRelativeObjId*       pdroidBirthNext,
+     [out] CDomainRelativeObjId*       pdroidNext,
+     [out] CMachineId*                 pmcidNext,
+     [out, max_is(261), string] wchar_t* ptszPath
+ );
+ }
