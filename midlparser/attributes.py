@@ -86,9 +86,6 @@ class MidlAttributesParser(MidlBaseParser):
         else:
             self.invalid(token)
 
-    def directive(self, _):
-        pass
-
     def comment(self, _):
         pass
 

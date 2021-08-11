@@ -154,9 +154,7 @@ class MidlParser(MidlBaseParser):
         return
 
     def directive(self, token):
-        if token.data.startswith("#define"):
-            self.definition.defines.append(token.data.split("//")[0])
-            self.state = MidlState.DEFAULT
+        self.definition.directives.append(token.data)   
 
     def parse(self, cur_token):
         try:

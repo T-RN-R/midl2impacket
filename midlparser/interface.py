@@ -134,10 +134,8 @@ class MidlInterfaceParser(MidlBaseParser):
             self.invalid(token)
 
     def directive(self, token):
-        # We keep #defines to be handled like cpp_quotes later on
-        if token.data.startswith("#define"):
-            self.interface.defines.append(token.data)
-
+        self.interface.directives.append(token.data)
+        
     def operator(self, token):
         if self.state == InterfaceState.INHERIT and token.data == ':':
             self.state = InterfaceState.INHERIT_NAME

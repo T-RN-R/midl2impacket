@@ -121,9 +121,6 @@ class MidlStructParser(MidlBaseParser):
             self.declared_names += ','
         else:
             self.invalid(token)
-    
-    def directive(self, _):
-        pass
 
     def sqbracket(self, token):
         # Both the attributes parser and the array parser consume the ']'
