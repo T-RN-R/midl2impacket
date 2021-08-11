@@ -54,8 +54,6 @@ class MidlInterfaceParser(MidlBaseParser):
             self.invalid(token)
         
     def comment(self, token):
-        if  '[MS-PAR]' in token.data:
-            print("zx")
         self.interface.add_comment(token)       
 
     def _typedef(self, token):

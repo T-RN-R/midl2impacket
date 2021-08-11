@@ -288,12 +288,12 @@ class MidlVarDef(Macroable):
         self,
         var_type,
         name,
-        attrs: dict[str, MidlAttribute] = None,
+        attributes: dict[str, MidlAttribute] = None,
         array_info: list[MidlArrayDimensions] = None,
     ):
         self.type = var_type
         self.name = name
-        self.attributes = attrs or {}
+        self.attributes = attributes or {}
         self.array_info = array_info or []
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
@@ -308,14 +308,10 @@ class MidlVarDef(Macroable):
 class MidlTypeDef(Macroable):
     """Represents a typedef, can either be a simple mapping, or a complex struct definition."""
 
-    def __init__(self, td, attrs):
+    def __init__(self, td, attributes):
         self.type = td
         self.name = td.name
-<<<<<<< HEAD
-        self.attrs = attrs or {}
-=======
-        self.attributes = attrs
->>>>>>> db3af239b7364f44a43e6aca4d420442296333a1
+        self.attributes = attributes
 
     def __str__(self):
         out = "typedef "
@@ -328,7 +324,7 @@ class MidlStructDef(Macroable):
         self.public_names = public_names
         self.private_name = private_name
         self.members = members
-        self.attrs = {}
+        self.attributes = {}
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
         self.public_names = self._do_macro_iterable(self.public_names, macro)
@@ -358,7 +354,7 @@ class MidlUnionDef(Macroable):
         self.public_names = public_names
         self.private_name = private_name or ''
         self.members = members
-        self.attrs = {}
+        self.attributes = {}
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
         self.public_names = self._do_macro_iterable(self.public_names, macro)
@@ -384,7 +380,7 @@ class MidlSimpleTypedef(Macroable):
     def __init__(self, name, simple_type):
         self.name = name
         self.type = simple_type
-        self.attrs = {}
+        self.attributes = {}
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
         self.name = self._do_macro(self.name, macro)
@@ -422,7 +418,7 @@ class MidlEnumDef(Macroable):
         self.public_names = public_names
         self.private_name = private_name
         self.map = map
-        self.attrs = {}
+        self.attributes = {}
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
         self.public_names = self._do_macro_iterable(self.public_names, macro)
@@ -457,9 +453,9 @@ class MidlProcedure(Macroable):
         `
     """
 
-    def __init__(self, name, attrs, params):
+    def __init__(self, name, attributes, params):
         self.name = name
-        self.attributes = attrs
+        self.attributes = attributes or {}
         self.params = params
 
     def apply_macro(self, visitor:Visitor, macro:tuple):
@@ -490,7 +486,7 @@ class MidlParameter(Macroable):
     ):
         self.name = name
         self.type = data_type
-        self.attrs = attributes or {}
+        self.attributes = attributes or {}
 
     def __str__(self):
         out = ""
