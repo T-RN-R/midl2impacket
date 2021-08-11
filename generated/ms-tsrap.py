@@ -1858,7 +1858,7 @@ class HYPER_SIZEDARR(NDRSTRUCT):
     )
         
 
-class ANONYMOUS28(NDRUNION):
+class ANONYMOUS30(NDRUNION):
     union = {
         SF_BSTR: ('BstrStr',SAFEARR_BSTR),SF_UNKNOWN: ('UnknownStr',SAFEARR_UNKNOWN),SF_DISPATCH: ('DispatchStr',SAFEARR_DISPATCH),SF_VARIANT: ('VariantStr',SAFEARR_VARIANT),SF_RECORD: ('RecordStr',SAFEARR_BRECORD),SF_HAVEIID: ('HaveIidStr',SAFEARR_HAVEIID),SF_I1: ('ByteStr',BYTE_SIZEDARR),SF_I2: ('WordStr',WORD_SIZEDARR),SF_I4: ('LongStr',DWORD_SIZEDARR),SF_I8: ('HyperStr',HYPER_SIZEDARR),
     }
@@ -1866,7 +1866,7 @@ class ANONYMOUS28(NDRUNION):
 
 class SAFEARRAYUNION(NDRSTRUCT):
     structure = (
-        ('sfType', UNSIGNED_LONG),('Anonymous28', ANONYMOUS28),
+        ('sfType', UNSIGNED_LONG),('Anonymous30', ANONYMOUS30),
     )
 
 

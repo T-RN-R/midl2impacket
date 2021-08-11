@@ -49,6 +49,7 @@ class MidlParser(MidlBaseParser):
             'cpp_quote': self._cpp_quote,
             'library' : self._library,
         }
+
     def _library(self, token):
         lib = MidlLibraryParser(self.tokens, self.tokenizer).parse(token)
         lib.attributes = self.cur_def_attrs
