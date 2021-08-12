@@ -1,8 +1,8 @@
-from .midlreserved import MIDL_OPERATORS
 import enum
 import string
 import uuid
-from .midlreserved import *
+
+from midlparser.keywords import *
 
 
 class TokenType(enum.Enum):
@@ -12,7 +12,9 @@ class TokenType(enum.Enum):
     BRACE = enum.auto()  # curly braces
     QUOTE = enum.auto()  # double quotes
     SYMBOL = enum.auto()  # Words that are not keywords
-    STRING = enum.auto() # everything inside of a pair of quotes, including the quotes themselves
+    STRING = (
+        enum.auto()
+    )  # everything inside of a pair of quotes, including the quotes themselves
     NUMERIC = enum.auto()  # Float or integer
     OPERATOR = enum.auto()  # Mathematic operators, see Token.operators
     SEMICOLON = enum.auto()
@@ -22,6 +24,7 @@ class TokenType(enum.Enum):
     COMMENT = enum.auto()
     ELLIPSIS = enum.auto()
     DIRECTIVE = enum.auto()
+
 
 class Token:
     """Representation of Token types."""
@@ -75,7 +78,7 @@ class MidlTokenizer:
                 to_yield = Token(cur_char, TokenType.RBRACKET)
             elif cur_char == "{" or cur_char == "}":
                 to_yield = Token(cur_char, TokenType.BRACE)
-            elif cur_char == "#" and self.midl[self.ptr + 1] != '#':
+            elif cur_char == "#" and self.midl[self.ptr + 1] != "#":
                 directive = self.get_directive()
                 to_yield = Token(directive, TokenType.DIRECTIVE)
             elif cur_char == '"':
@@ -97,7 +100,7 @@ class MidlTokenizer:
                 if cur_char == "/" and self.midl[self.ptr + 1] in ["/", "*"]:
                     comment = self.get_comment()
                     to_yield = Token(comment, TokenType.COMMENT)
-                elif cur_char == '-' and self.midl[self.ptr + 1] in string.digits:
+                elif cur_char == "-" and self.midl[self.ptr + 1] in string.digits:
                     s, is_guid = self.get_numeric()
                     if is_guid:
                         to_yield = Token(s, TokenType.GUID)
@@ -150,7 +153,7 @@ class MidlTokenizer:
         # 01234567-8711-<rest of guid> might look like octal subtraction
         numeric_str = ""
         c = self.midl[self.ptr]
-        while c.lower() in string.hexdigits + '-':
+        while c.lower() in string.hexdigits + "-":
             numeric_str += c
             self.ptr += 1
             c = self.midl[self.ptr]
@@ -167,28 +170,33 @@ class MidlTokenizer:
         numeric_str = ""
 
         # Check for a negative number
-        if cur_char == '-':
+        if cur_char == "-":
             numeric_str += cur_char
             self.ptr += 1
             cur_char = self.midl[self.ptr]
-        
+
         # Check for hex and octal
-        if cur_char == '0':
-            next_char = self.midl[self.ptr+1].lower()
-            if next_char == 'x':
-                numeric_str += self.midl[self.ptr:self.ptr+2]
+        if cur_char == "0":
+            next_char = self.midl[self.ptr + 1].lower()
+            if next_char == "x":
+                numeric_str += self.midl[self.ptr : self.ptr + 2]
                 self.ptr += 2
                 cur_char = self.midl[self.ptr]
                 is_hex = True
-            elif next_char == 'b':
+            elif next_char == "b":
                 is_bin = True
             elif next_char in string.digits:
                 is_octal = True
-            
+
         while not self.iswspace(cur_char):
             if cur_char in Token.operators:
-                if cur_char == '.':
-                    if not has_decimal and not is_hex and not is_octal and int_suffixes == 0:
+                if cur_char == ".":
+                    if (
+                        not has_decimal
+                        and not is_hex
+                        and not is_octal
+                        and int_suffixes == 0
+                    ):
                         has_decimal = True
                         numeric_str += cur_char
                     else:
@@ -201,22 +209,26 @@ class MidlTokenizer:
                 # We have hit the end of the current MIDL statement. Take a step back and return
                 self.ptr -= 1
                 break
-            
+
             if int_suffixes >= 2:
-                raise Exception(f"Invalid character {cur_char} for numeric {numeric_str}")
+                raise Exception(
+                    f"Invalid character {cur_char} for numeric {numeric_str}"
+                )
 
             # Other stuff like suffixes and guids
             if cur_char not in string.digits:
-                if cur_char.lower() in ['u', 'l']:
+                if cur_char.lower() in ["u", "l"]:
                     int_suffixes += 1
                 elif not is_hex or (is_hex and cur_char not in string.hexdigits):
                     # End of the number!
                     break
             else:
-                if is_bin and cur_char not in ['0', '1']:
+                if is_bin and cur_char not in ["0", "1"]:
                     print(self.midl)
-                    raise Exception(f"Invalid character {cur_char} for binary numeric: {numeric_str}")
-            
+                    raise Exception(
+                        f"Invalid character {cur_char} for binary numeric: {numeric_str}"
+                    )
+
             # Continue reading the numeric
             numeric_str += cur_char
             self.ptr += 1
@@ -246,16 +258,16 @@ class MidlTokenizer:
 
     def get_directive(self):
         cur_char = self.midl[self.ptr]
-        assert(cur_char == "#")
+        assert cur_char == "#"
         directive_pos = self.ptr
         while True:
             directive_end = self.midl[directive_pos:].find("\n") + directive_pos
             # Make sure it wasn't escaped (multi-line macros)
-            if self.midl[directive_end-1] != '\\':
+            if self.midl[directive_end - 1] != "\\":
                 break
-            directive_pos = directive_end+1
-        
-        directive = self.midl[self.ptr:directive_end]
+            directive_pos = directive_end + 1
+
+        directive = self.midl[self.ptr : directive_end]
         self.ptr = directive_end
         return directive
 
@@ -293,7 +305,7 @@ class MidlTokenizer:
         """
         cur_char = self.midl[self.ptr]
         s = ""
-        valid_chars = string.ascii_letters + string.digits + '_'
+        valid_chars = string.ascii_letters + string.digits + "_"
         while not self.iswspace(cur_char):
             if cur_char not in valid_chars:
                 self.ptr -= 1
@@ -322,8 +334,20 @@ class MidlTokenizer:
         for i in range(0, len(self.midl)):
             if i == self.ptr:
                 return lc
-            if self.midl[i] in ["\n", "\r\n", "\r",]:
+            if self.midl[i] in [
+                "\n",
+                "\r\n",
+                "\r",
+            ]:
                 lc += 1
+
     def get_error(self):
         lc = self.get_curr_lc()
-        return 'In file: ' + self.filename +":"+str(lc) + '\n\tAt: ' + self.midl[self.ptr-1:].split("\n")[0]
+        return (
+            "In file: "
+            + self.filename
+            + ":"
+            + str(lc)
+            + "\n\tAt: "
+            + self.midl[self.ptr - 1 :].split("\n")[0]
+        )

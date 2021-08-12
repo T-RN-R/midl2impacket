@@ -1,19 +1,25 @@
 import enum
-from midl import MidlArrayDimensions
-from .base import MidlBaseParser
-from .midltokenizer import Token
+
+from midlparser.parsers.base import MidlBaseParser
+from midlparser.tokenizer import Token
+
 
 class SkipClosureState(enum.Enum):
     BEGIN = enum.auto()
     END = enum.auto()
 
+
 class SkipClosureParser(MidlBaseParser):
-    """Skip over closures we don't care about parsing internally and return the whole blob
-    """
+    """Skip over closures we don't care about parsing internally and return the whole blob"""
+
     def __init__(self, token_generator, tokenizer, closure_open, closure_close):
         self.state = SkipClosureState.BEGIN
-        super().__init__(token_generator=token_generator, end_state=SkipClosureState.END, tokenizer=tokenizer)
-        self.data = ''
+        super().__init__(
+            token_generator=token_generator,
+            end_state=SkipClosureState.END,
+            tokenizer=tokenizer,
+        )
+        self.data = ""
         self.closure_level = 0
         self.closure_open = closure_open
         self.closure_close = closure_close
@@ -26,7 +32,7 @@ class SkipClosureParser(MidlBaseParser):
             if self.closure_level <= 0:
                 self.invalid(token)
             self.closure_level -= 1
-        self.data += token.data + ' '
+        self.data += token.data + " "
         if self.closure_level == 0:
             self.state = SkipClosureState.END
 

@@ -1,13 +1,17 @@
 import abc
 import traceback
-from typing import Any
-from .midltokenizer import Token, TokenType
+import typing
+
+from midlparser.tokenizer import Token, TokenType
+
 
 class MidlInvalidTokenException(Exception):
     pass
 
+
 class MidlParserException(Exception):
     pass
+
 
 class MidlBaseParser(abc.ABC):
     def __init__(self, token_generator, end_state, tokenizer):
@@ -31,64 +35,66 @@ class MidlBaseParser(abc.ABC):
             TokenType.ELLIPSIS: self.ellipsis,
             TokenType.DIRECTIVE: self.directive,
         }
-        self.tokenizer=tokenizer
+        self.tokenizer = tokenizer
 
-    def invalid(self, token):
+    def invalid(self, token: Token):
         try:
             finished = self.finished()
         except:
-            finished = ''
-        raise MidlInvalidTokenException(f"\n\nUnexpected token [{token.type}: {token.data}] in state {self.state} \n\t{self.tokenizer.get_error()}\n\tResulting in:\n{finished}")
+            finished = ""
+        raise MidlInvalidTokenException(
+            f"\n\nUnexpected token [{token.type}: {token.data}] in state {self.state} \n\t{self.tokenizer.get_error()}\n\tResulting in:\n{finished}"
+        )
 
-    def keyword(self, token):
-        self.invalid(token)
-
-    def sqbracket(self, token):
-        self.invalid(token)
-        
-    def rbracket(self, token):
-        self.invalid(token)
-        
-    def brace(self, token):
-        self.invalid(token)
-        
-    def quote(self, token):
-        self.invalid(token)
-        
-    def symbol(self, token):
-        self.invalid(token)
-        
-    def string(self, token):
-        self.invalid(token)
-        
-    def numeric(self, token):
-        self.invalid(token)
-        
-    def operator(self, token):
-        self.invalid(token)
-        
-    def semicolon(self, token):
-        self.invalid(token)
-        
-    def comma(self, token):
-        self.invalid(token)
-        
-    def guid(self, token):
-        self.invalid(token)
-        
-    def comment(self, token):
-        self.invalid(token)
-        
-    def ellipsis(self, token):
+    def keyword(self, token: Token):
         self.invalid(token)
 
-    def directive(self, token):
+    def sqbracket(self, token: Token):
         self.invalid(token)
 
-    def any(self, token):
+    def rbracket(self, token: Token):
         self.invalid(token)
 
-    def parse(self, cur_token:Token) -> Any:
+    def brace(self, token: Token):
+        self.invalid(token)
+
+    def quote(self, token: Token):
+        self.invalid(token)
+
+    def symbol(self, token: Token):
+        self.invalid(token)
+
+    def string(self, token: Token):
+        self.invalid(token)
+
+    def numeric(self, token: Token):
+        self.invalid(token)
+
+    def operator(self, token: Token):
+        self.invalid(token)
+
+    def semicolon(self, token: Token):
+        self.invalid(token)
+
+    def comma(self, token: Token):
+        self.invalid(token)
+
+    def guid(self, token: Token):
+        self.invalid(token)
+
+    def comment(self, token: Token):
+        self.invalid(token)
+
+    def ellipsis(self, token: Token):
+        self.invalid(token)
+
+    def directive(self, token: Token):
+        self.invalid(token)
+
+    def any(self, token: Token):
+        self.invalid(token)
+
+    def parse(self, cur_token: Token) -> typing.Any:
         """
         Base parsing loop that iterates over tokens and invokes their handler function.
         The default handlers all raise an exception to indicate that they have not been handled appropriately.
