@@ -1,5 +1,7 @@
 from impacketbuilder.ndrbuilder.base import PythonDef, PythonDefList, PythonValue
 
+"""This module contains data structures that represent various Python constructs."""
+
 
 class PythonName(PythonValue):
     """Represents a simple python variable name"""
@@ -12,6 +14,8 @@ class PythonName(PythonValue):
 
 
 class PythonNameList(PythonDefList):
+    """List representation of PythonName objects"""
+
     CONTAINED_CLASS = PythonName
 
     def to_python_string(self, tab_level=0) -> str:
@@ -24,31 +28,40 @@ class PythonNameList(PythonDefList):
 
 
 class PythonTuple(PythonValue):
+    """Python tuple implementation"""
+
     def __init__(self, values: list[PythonValue]):
         if type(values) != list:
-            assert(isinstance(values,PythonValue))
+            assert isinstance(values, PythonValue)
             values = [values]
         self.values = values
 
     def to_python_string(self, tab_level=0) -> str:
         if len(self.values) == 2:
-            out = "\t" * tab_level + f"\t({self.values[0].to_python_string(tab_level)}, {self.values[1].to_python_string(tab_level)})"
+            out = (
+                "\t" * tab_level
+                + f"\t({self.values[0].to_python_string(tab_level)}, {self.values[1].to_python_string(tab_level)})"
+            )
             return out
         out = "(\n"
         for val in self.values:
-            out += "\t"* tab_level+ f"{val.to_python_string(tab_level)},\n"
+            out += "\t" * tab_level + f"{val.to_python_string(tab_level)},\n"
         if out[-2:] == ",\n":
-            out = out[:-2] 
-        out+= "\n\t\t)"
+            out = out[:-2]
+        out += "\n\t\t)"
         return out
 
 
 class PythonList(PythonValue):
-    def to_python_string(self,tab_level=0) -> str:
-        return ""
+    """Represents Python lists"""
+
+    def to_python_string(self, tab_level=0) -> str:
+        raise Exception("Unimplemented")
 
 
 class PythonDictEntry(PythonDef):
+    """Represents key:value pairs within a Python dictionary"""
+
     def __init__(self, key: PythonValue, value: PythonValue):
         self.key = key
         self.value = value
@@ -58,6 +71,8 @@ class PythonDictEntry(PythonDef):
 
 
 class PythonDictEntryList(PythonDefList):
+    """List representation of dictionary entries"""
+
     CONTAINED_CLASS = PythonDictEntry
 
     def to_python_string(self, tab_level=0) -> str:
@@ -69,6 +84,8 @@ class PythonDictEntryList(PythonDefList):
 
 
 class PythonDict(PythonValue):
+    """Python dictionary representation"""
+
     def __init__(self, dict_entries: PythonDictEntryList):
         self.entries = dict_entries
 
@@ -77,6 +94,8 @@ class PythonDict(PythonValue):
 
 
 class PythonAssignment(PythonDef):
+    """Represents a Python assignment expression"""
+
     def __init__(self, name: PythonName, rhs: PythonValue):
         self.name = name
         self.rhs = rhs
@@ -86,28 +105,38 @@ class PythonAssignment(PythonDef):
 
 
 class PythonAssignmentList(PythonDefList):
+    """Represents a list of assignment expressions"""
+
     CONTAINED_CLASS = PythonAssignment
 
     def to_python_string(self, tab_level=0) -> str:
         assignments = ""
         for assignment in self.obj_list:
-            assignments += "\t"*tab_level + f"{assignment.to_python_string(tab_level)}\n"
+            assignments += (
+                "\t" * tab_level + f"{assignment.to_python_string(tab_level)}\n"
+            )
         return assignments
 
 
 class PythonFunction(PythonDef):
+    """Represents a Python function"""
+
     def to_python_string(self, tab_level=0) -> str:
-        return ""
+        raise Exception("Unimplemented")
 
 
 class PythonFunctionList(PythonDef):
+    """Represents a list of Python functions"""
+
     CONTAINED_CLASS = PythonFunction
 
     def to_python_string(self, tab_level=0) -> str:
-        return ""
+        raise Exception("Unimplemented")
 
 
 class PythonClass(PythonDef):
+    """Represents a Python class"""
+
     def __init__(
         self,
         name: PythonName,
