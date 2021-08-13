@@ -85,15 +85,11 @@ class MidlParser(MidlBaseParser):
         )
 
     def _interface(self, token: Token):
-        if self.cur_def_attrs:
-            iface = MidlInterfaceParser(self.tokens, self.tokenizer).parse(token)
-            iface.attributes = self.cur_def_attrs
-            self.definition.interfaces.append(iface)
-            self.cur_def_attrs = {}
-            self.state = MidlState.DEF_COMPLETE
-        else:
-            # This is just a forward declaration
-            self.default_kw_handler(token)
+        iface = MidlInterfaceParser(self.tokens, self.tokenizer).parse(token)
+        iface.attributes = self.cur_def_attrs
+        self.definition.interfaces.append(iface)
+        self.cur_def_attrs = {}
+        self.state = MidlState.DEF_COMPLETE
 
     def _coclass(self, token: Token):
         coclass = MidlCoclassParser(self.tokens, self.tokenizer).parse(token)

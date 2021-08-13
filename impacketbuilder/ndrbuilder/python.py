@@ -37,18 +37,14 @@ class PythonTuple(PythonValue):
         self.values = values
 
     def to_python_string(self, tab_level=0) -> str:
-        if len(self.values) == 2:
-            out = (
-                "\t" * tab_level
-                + f"\t({self.values[0].to_python_string(tab_level)}, {self.values[1].to_python_string(tab_level)})"
-            )
-            return out
-        out = "(\n"
+
+        out = "\t"*(tab_level-1) + "(\n"
+        tab_level+=1
         for val in self.values:
-            out += "\t" * tab_level + f"{val.to_python_string(tab_level)},\n"
+            out += "\t" * (tab_level) + f"{val.to_python_string(tab_level)},\n"
         if out[-2:] == ",\n":
             out = out[:-2]
-        out += "\n\t\t)"
+        out += "\n"+"\t"*(tab_level)+")"
         return out
 
 

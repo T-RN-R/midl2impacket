@@ -91,8 +91,6 @@ class MidlInterfaceConverter(Converter):
             attr_names = [td.attributes[k].name for k in td.attributes.keys()]
             if "context_handle" in attr_names:
                 self.handle_context_handle(td)
-            else:
-                print(":asdDadssd")
         elif type(td) is MidlSimpleTypedef:
             self.write(
                 PythonAssignment(
@@ -124,12 +122,17 @@ class MidlInterfaceConverter(Converter):
 
     def handle_midl_enum(self, td: MidlEnumDef):
         if len(td.public_names) > 0:
-            #If it has a public name, the enum may be used inside of an interface definition, so create a typdef for it to "DWORD__ENUM"
-            self.write(PythonAssignment(PythonName(td.public_names[0]),PythonValue("DWORD__ENUM")))
+            if td.public_names[0] == "":
+                self.write(PythonAssignment(PythonName(td.private_name),PythonValue("DWORD__ENUM")))
+            else:
+                #If it has a public name, the enum may be used inside of an interface definition, so create a typdef for it to "DWORD__ENUM"
+                self.write(PythonAssignment(PythonName(td.public_names[0]),PythonValue("DWORD__ENUM")))
+        else:
+            self.write(PythonAssignment(PythonName(td.private_name),PythonValue("DWORD__ENUM")))
 
         val = td.map[list(td.map.keys())[0]]
         # Handle the case where the first enum entry has no value.
-        if val == None:
+        if val == None or val == "":
             # default enum value case
             value = 0
             for key in td.map.keys():
