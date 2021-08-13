@@ -8,6 +8,7 @@ from .converters.typing import TypeMapper, IDL_TYPES
 
 
 class ImpacketBuilder:
+    """Converts a MIDL Definition into a Python module"""
     def __init__(self):
         self.__midl_def = None
 
