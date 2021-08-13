@@ -123,15 +123,18 @@ class MidlInterfaceConverter(Converter):
         struct_converter.convert(td)
 
     def handle_midl_enum(self, td: MidlEnumDef):
-        self.write(PythonAssignment(PythonName(td.public_names[0]),PythonValue("DWORD__ENUM")))
+        if len(td.public_names) > 0:
+            #If it has a public name, the enum may be used inside of an interface definition, so create a typdef for it to "DWORD__ENUM"
+            self.write(PythonAssignment(PythonName(td.public_names[0]),PythonValue("DWORD__ENUM")))
+
         val = td.map[list(td.map.keys())[0]]
+        # Handle the case where the first enum entry has no value.
         if val == None:
             # default enum value case
             value = 0
             for key in td.map.keys():
                 td.map[key] = value
                 value+=1
-
         for key in td.map.keys():
             val = td.map[key]
             enum = PythonAssignment(PythonName(key), PythonValue(str(val)))
