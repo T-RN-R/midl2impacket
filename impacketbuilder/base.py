@@ -10,11 +10,14 @@ class Writer:
         self.io = strIO or StringIO()
 
     def single_line_write(self, line: str):
+        if len(line) == 0:
+            return
         assert "\n" not in line, "Must use only a single line"
         l = "{0}{1}{2}".format("\t" * self.tab_level, line, Writer.NEWLINE)
         self.io.write(l)
 
     def write(self, data: str):
+        assert type(data) is str
         for line in data.split("\n"):
             self.single_line_write(line)
 

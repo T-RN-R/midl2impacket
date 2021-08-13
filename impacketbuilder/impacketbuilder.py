@@ -1,10 +1,10 @@
 from re import L, M
-from io import StringIO
-from .converters.typing import TypeMapper, IDL_TYPES
 
-from midl import *
+from impacketbuilder.ndrbuilder.io import PythonWriter
+from midl import MidlDefinition
 from .converters.definition import MidlDefinitionConverter
 from .converters.static import MidlStaticConverter
+from .converters.typing import TypeMapper, IDL_TYPES
 
 
 class ImpacketBuilder:
@@ -21,7 +21,7 @@ class ImpacketBuilder:
 
     def build(self):
         assert self.__midl_def != None
-        io = StringIO()
+        io = PythonWriter()
         tm = TypeMapper(IDL_TYPES)
         tabs = 0
         static_converter = MidlStaticConverter(io, tabs, mapper=tm)

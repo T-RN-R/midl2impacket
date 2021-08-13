@@ -1,7 +1,9 @@
+from impacketbuilder.ndrbuilder.python import PythonAssignment
 from midl import MidlEnumDef
 from .base import Converter
+from impacketbuilder.ndrbuilder.python import PythonAssignment, PythonValue, PythonName
 
 class MidlEnumConverter(Converter):
     def convert(self, e : MidlEnumDef) -> str:
         for k in e.map.keys():
-            self.write(f"{k} = {e.map[k]}")
+            self.write(PythonAssignment(PythonName(k), PythonValue(e.map[k])))

@@ -3,5 +3,8 @@ from impacketbuilder.ndrbuilder.base import PythonDef
 
 
 class PythonWriter(Writer):
-    def write(self, python_def: PythonDef):
-        python_def.write(self.io)
+    def write_python(self, python_def: PythonDef):
+        self.write(python_def.to_python_string())
+
+    def getvalue(self):
+        return self.io.getvalue()

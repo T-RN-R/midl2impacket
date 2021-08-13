@@ -8,11 +8,8 @@ class PythonTypingException(Exception):
 
 class PythonDef(Writable, ABC):
     @abstractmethod
-    def to_python_string(self) -> str:
+    def to_python_string(self,tab_level=0) -> str:
         pass
-
-    def write(self, writer: Writer):
-        writer.write(self.to_python_string())
 
     def __str__(self) -> str:
         return self.to_python_string()
@@ -38,4 +35,8 @@ class PythonValue(PythonDef):
         PythonDef ([type]): [description]
     """
 
-    pass
+    def __init__(self, value: str):
+        self.value = value
+
+    def to_python_string(self, tab_level=0) -> str:
+        return self.value
