@@ -1,6 +1,6 @@
 from midl import *
 
-from .base import *
+from impacketbuilder.base import Writer
 from .constants import MidlConstantConverter
 from .interface import MidlInterfaceConverter
 

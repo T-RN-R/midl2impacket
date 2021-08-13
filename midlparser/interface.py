@@ -12,9 +12,10 @@ from .unions import MidlUnionParser
 from .variables import MidlVariableInstantiationParser
 from .util import SkipClosureParser
 
+
 class InterfaceState(enum.Enum):
-    """Class used to handle state transitions for MidlInterfaceParser
-    """
+    """Class used to handle state transitions for MidlInterfaceParser"""
+
     BEGIN = enum.auto()
     NAME = enum.auto()
     INHERIT = enum.auto()
@@ -23,15 +24,20 @@ class InterfaceState(enum.Enum):
     DEFINITION = enum.auto()
     END = enum.auto()
 
+
 class MidlInterfaceParser(MidlBaseParser):
     """Responsible for parsing an interface definiton.
 
-        Mostly, this class delegates to other classes to handle parsing
+    Mostly, this class delegates to other classes to handle parsing
     """
 
     def __init__(self, token_generator, tokenizer):
         self.tokens = token_generator
-        super().__init__(token_generator=token_generator, end_state=InterfaceState.END, tokenizer=tokenizer)
+        super().__init__(
+            token_generator=token_generator,
+            end_state=InterfaceState.END,
+            tokenizer=tokenizer,
+        )
         self.interface = MidlInterface()
         self.state = InterfaceState.BEGIN
         self.brace_level = 0
@@ -46,15 +52,16 @@ class MidlInterfaceParser(MidlBaseParser):
         }
 
     def sqbracket(self, token):
-        """ Handle attributes for procedures
-        """
+        """Handle attributes for procedures"""
         if token.data == "[" and self.state == InterfaceState.DEFINITION:
-            self.cur_member_attrs.update(MidlAttributesParser(self.tokens, self.tokenizer).parse(token))
-        else: 
+            self.cur_member_attrs.update(
+                MidlAttributesParser(self.tokens, self.tokenizer).parse(token)
+            )
+        else:
             self.invalid(token)
-        
+
     def comment(self, token):
-        self.interface.add_comment(token)       
+        self.interface.add_comment(token)
 
     def _typedef(self, token):
         tds = MidlTypedefParser(self.tokens, self.tokenizer).parse(token)
@@ -63,14 +70,16 @@ class MidlInterfaceParser(MidlBaseParser):
 
     def _import(self, _):
         import_token = next(self.tokens)
-        assert(import_token.type == TokenType.STRING)
+        assert import_token.type == TokenType.STRING
         self.interface.imports.append(import_token.data)
-        assert(next(self.tokens).type == TokenType.SEMICOLON)
+        assert next(self.tokens).type == TokenType.SEMICOLON
 
     def _cpp_quote(self, _):
         closure_token = next(self.tokens)
-        assert( closure_token.data == '(')
-        cpp_quote = SkipClosureParser(self.tokens, self.tokenizer, closure_open='(', closure_close=')').parse(closure_token)[1:-1]
+        assert closure_token.data == "("
+        cpp_quote = SkipClosureParser(
+            self.tokens, self.tokenizer, closure_open="(", closure_close=")"
+        ).parse(closure_token)[1:-1]
         self.interface.cpp_quotes.append(cpp_quote)
 
     def _const(self, token):
@@ -81,7 +90,7 @@ class MidlInterfaceParser(MidlBaseParser):
         # Create a typedef?
         std = MidlStructParser(self.tokens, self.tokenizer).parse(token)
         self.interface.add_typedef(std)
-        
+
     def _union(self, token):
         # Create a typedef?
         utd = MidlUnionParser(self.tokens, self.tokenizer).parse(token)
@@ -97,12 +106,12 @@ class MidlInterfaceParser(MidlBaseParser):
 
     def semicolon(self, token):
         if self.state == InterfaceState.INHERIT:
-            #TODO This is a forward decl, I don't think anything beyond this is needed by the converter. Verify this
+            # TODO This is a forward decl, I don't think anything beyond this is needed by the converter. Verify this
             self.state = InterfaceState.END
         else:
             self.invalid(token)
 
-    def keyword(self,token):
+    def keyword(self, token):
         if token.data == "interface" and self.state == InterfaceState.BEGIN:
             self.state = InterfaceState.NAME
         elif self.state == InterfaceState.DEFINITION:
@@ -110,13 +119,15 @@ class MidlInterfaceParser(MidlBaseParser):
             self.kw_handlers.get(token.data, self._procedure)(token)
         else:
             self.invalid(token)
-    
+
     def brace(self, token):
-        """Sets the brace level appropriately
-        """
-        if token.data == "{" and self.state in [InterfaceState.BODY, InterfaceState.INHERIT]:
+        """Sets the brace level appropriately"""
+        if token.data == "{" and self.state in [
+            InterfaceState.BODY,
+            InterfaceState.INHERIT,
+        ]:
             self.state = InterfaceState.DEFINITION
-        elif token.data =="}" and self.state == InterfaceState.DEFINITION:
+        elif token.data == "}" and self.state == InterfaceState.DEFINITION:
             self.state = InterfaceState.END
         else:
             self.invalid(token)
@@ -139,14 +150,13 @@ class MidlInterfaceParser(MidlBaseParser):
             self.interface.defines.append(token.data)
 
     def operator(self, token):
-        if self.state == InterfaceState.INHERIT and token.data == ':':
+        if self.state == InterfaceState.INHERIT and token.data == ":":
             self.state = InterfaceState.INHERIT_NAME
         else:
             self.invalid(token)
 
     def finished(self) -> MidlInterface:
-        """Parsing loop
-        """
+        """Parsing loop"""
         if not self.interface:
             raise MidlParserException(f"Failed to parse interface!")
         return self.interface
