@@ -1,9 +1,7 @@
 import pathlib
 from midlparser import parse_idl
-from impacketbuilder.converters.typing import IDL_TYPES
 from midl import MidlImport
-from .base import *
-from .typing import *
+from .base import Converter
 from .comments import MidlCommentWriter
 
 class MidlImportsConverter(Converter):

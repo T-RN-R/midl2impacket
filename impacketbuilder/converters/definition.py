@@ -1,11 +1,10 @@
-from impacketbuilder.converters.imports import MidlImportsConverter
-from impacketbuilder.converters.comments import MidlCommentWriter
-from midl import *
+from midl import MidlDefinition
 
-from .base import *
+from .base import Converter
 from .constants import MidlConstantConverter
 from .interface import MidlInterfaceConverter
 from .comments import MidlCommentWriter
+from .imports import MidlImportsConverter
 
 class MidlDefinitionConverter(Converter):
     def convert(self, definition : MidlDefinition, import_dir:str) -> str:
