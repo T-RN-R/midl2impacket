@@ -1,1 +1,1 @@
-from .midlparser import parse_idl
+from midlparser.midlparser import parse_idl

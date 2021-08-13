@@ -103,7 +103,7 @@ RESERVED_KEYWORDS = [
     "union",
     "unsigned",
     "void",
-    "volatile"
+    "volatile",
 ]
 
 RESERVED_ATTR_KEYWORDS = [
@@ -262,7 +262,7 @@ RESERVED_ATTR_KEYWORDS = [
     "version",
     "winrt_remote_async",
     "wire_marshal",
-    "zeroout_alignmentgap"
+    "zeroout_alignmentgap",
 ]
 
 MIDL_KEYWORDS = RESERVED_KEYWORDS + RESERVED_ATTR_KEYWORDS
@@ -272,55 +272,64 @@ ARITHMETIC_OPERATORS = [
     "-",
     "*",
     "/",
-    '%',
-    '++',
-    '--',
+    "%",
+    "++",
+    "--",
 ]
 
 RELATIONAL_OPERATORS = [
-    '==',
-    '!=',
-    '>',
-    '<',
-    '>=',
-    '<=',
+    "==",
+    "!=",
+    ">",
+    "<",
+    ">=",
+    "<=",
 ]
 
 LOGICAL_OPERATORS = [
-    '&&',
-    '||',
-    '|',
+    "&&",
+    "||",
+    "|",
 ]
 
 BITWISE_OPERATORS = [
-    '&',
-    '|',
-    '^',
-    '~',
-    '<<',
-    '>>',
+    "&",
+    "|",
+    "^",
+    "~",
+    "<<",
+    ">>",
 ]
 
 ASSIGNMENT_OPERATORS = [
-    '=',
-    '+=',
-    '-=',
-    '*=',
-    '/=',
-    '%=',
-    '<<=',
-    '>>=',
-    '&=',
-    '^=',
-    '|=',
+    "=",
+    "+=",
+    "-=",
+    "*=",
+    "/=",
+    "%=",
+    "<<=",
+    ">>=",
+    "&=",
+    "^=",
+    "|=",
 ]
 
 MISC_OPERATORS = [
-    '&',
-    '*',
-    '?',
-    ':',
+    "&",
+    "*",
+    "?",
+    ":",
 ]
 
-MIDL_OPERATORS = ARITHMETIC_OPERATORS + RELATIONAL_OPERATORS + LOGICAL_OPERATORS + BITWISE_OPERATORS + ASSIGNMENT_OPERATORS + MISC_OPERATORS
-RHS_OPERATORS = ARITHMETIC_OPERATORS + RELATIONAL_OPERATORS + LOGICAL_OPERATORS + BITWISE_OPERATORS
+MIDL_OPERATORS = (
+    ARITHMETIC_OPERATORS
+    + RELATIONAL_OPERATORS
+    + LOGICAL_OPERATORS
+    + BITWISE_OPERATORS
+    + ASSIGNMENT_OPERATORS
+    + MISC_OPERATORS
+)
+RHS_OPERATORS = (
+    ARITHMETIC_OPERATORS + RELATIONAL_OPERATORS + LOGICAL_OPERATORS + BITWISE_OPERATORS
+)

@@ -1,8 +1,5 @@
 from .base import Converter
-from .struct import MidlStructConverter
-from .procedure import MidlProcedureConverter
-from midl import *
-from .typing import *
+from .typing import IDL_TYPES, IDL_TO_NDR
 from .comments import MidlCommentWriter
 
 

@@ -1,9 +1,9 @@
 import enum
 
 from midl import MidlArrayDimensions
-from .base import MidlBaseParser
-from .expression import MidlExpressionParser
-from .midltokenizer import Token
+from midlparser.parsers.expression import MidlBaseParser, MidlExpressionParser
+from midlparser.tokenizer import Token
+
 
 class ArrayState(enum.Enum):
     BEGIN = enum.auto()
@@ -13,18 +13,24 @@ class ArrayState(enum.Enum):
     RANGE_MAX_IN_PROGRESS = enum.auto()
     END = enum.auto()
 
+
 class MidlArrayParser(MidlBaseParser):
     """Array dimensionality parser
     https://docs.microsoft.com/en-us/windows/win32/midl/midl-arrays
     """
+
     def __init__(self, token_generator, tokenizer):
         self.state = ArrayState.BEGIN
-        super().__init__(token_generator=token_generator, end_state=ArrayState.END, tokenizer=tokenizer)
-        self.dimensions = [-1, -1] # min, max
-        self.cur_dim = ''
+        super().__init__(
+            token_generator=token_generator,
+            end_state=ArrayState.END,
+            tokenizer=tokenizer,
+        )
+        self.dimensions = [-1, -1]  # min, max
+        self.cur_dim = ""
         self.rbracket_level = 0
 
-    def add_data_to_dimension(self, token):
+    def add_data_to_dimension(self, token: Token):
         if self.state not in [ArrayState.BEGIN, ArrayState.END]:
             # Mark that we have *some* data for the current dimension
             if self.state == ArrayState.RANGE_MIN:
@@ -47,10 +53,10 @@ class MidlArrayParser(MidlBaseParser):
     def operator(self, token: Token):
         self.add_data_to_dimension(token)
 
-    def sqbracket(self, token):
-        if self.state == ArrayState.BEGIN and token.data == '[':
+    def sqbracket(self, token: Token):
+        if self.state == ArrayState.BEGIN and token.data == "[":
             self.state = ArrayState.RANGE_MIN
-        elif token.data == ']':
+        elif token.data == "]":
             if self.state == ArrayState.RANGE_MIN:
                 # This is just an empty [] declaration. We're done
                 pass
@@ -64,17 +70,19 @@ class MidlArrayParser(MidlBaseParser):
         else:
             self.invalid(token)
 
-    def ellipsis(self, token):
+    def ellipsis(self, token: Token):
         if self.state == ArrayState.RANGE_MIN_IN_PROGRESS:
             self.dimensions[0] = self.cur_dim
-            self.cur_dim = ''
+            self.cur_dim = ""
             self.state = ArrayState.RANGE_MAX
         else:
             self.invalid(token)
 
-    def rbracket(self, token):
-        if token.data == '(' and self.state not in [ArrayState.BEGIN, ArrayState.END]:
-            self.cur_dim += MidlExpressionParser(self.tokens, self.tokenizer).parse(token)
+    def rbracket(self, token: Token):
+        if token.data == "(" and self.state not in [ArrayState.BEGIN, ArrayState.END]:
+            self.cur_dim += MidlExpressionParser(self.tokens, self.tokenizer).parse(
+                token
+            )
         else:
             self.invalid(token)
 

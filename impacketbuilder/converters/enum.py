@@ -1,5 +1,5 @@
-from midl import *
-from .base import *
+from midl import MidlEnumDef
+from .base import Converter
 
 class MidlEnumConverter(Converter):
     def convert(self, e : MidlEnumDef) -> str:

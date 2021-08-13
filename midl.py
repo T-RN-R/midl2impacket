@@ -55,6 +55,7 @@ class MidlDefinition(Visitable):
         self.typedefs = []
         self.defines = []
         self.cpp_quotes = []
+        self.directives = []
 
     def add_import(self, imp: str):
         self.imports.append(MidlImport(imp))
@@ -81,6 +82,8 @@ class MidlDefinition(Visitable):
         for i in self.coclasses:
             out += str(i) + "\n"
         for i in self.libraries:
+            out += str(i) + "\n"
+        for i in self.directives:
             out += str(i) + "\n"
         return out
 
@@ -141,6 +144,7 @@ class MidlInterface(Visitable):
         self.defines = []
         self.parents = []
         self.vardefs = []
+        self.directives = []
     
     def add_vardef(self, vd):
         self.vardefs.append(vd)
@@ -172,6 +176,8 @@ class MidlInterface(Visitable):
         for td in self.typedefs:
             out += str(td)
         for p in self.procedures:
+            out += str(p)
+        for p in self.directives:
             out += str(p)
         return out
 

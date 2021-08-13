@@ -10,7 +10,6 @@ class ConversionException(Exception):
 class UnreachableException(Exception):
     pass
 
-
 class Converter(Writer):
     def __init__(
         self, strIO=StringIO(), tab_level=0, mapper: IDLTypeToPythonType = None

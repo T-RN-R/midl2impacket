@@ -1,5 +1,5 @@
-from .base import *
-from midl import *
+from .base import Converter, ConversionException
+from midl import MidlVariableInstantiation
 
 class MidlConstantConverter(Converter):
     SIZEOF_LOOKUP = {
