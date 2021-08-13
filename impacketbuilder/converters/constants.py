@@ -1,6 +1,7 @@
-from .base import Converter, ConversionException
+from impacketbuilder.ndrbuilder.base import PythonValue
 from midl import MidlVariableInstantiation
-
+from .base import Converter, ConversionException
+from impacketbuilder.ndrbuilder.python import PythonAssignment, PythonValue, PythonName
 class MidlConstantConverter(Converter):
     SIZEOF_LOOKUP = {
                     "WCHAR":4,
@@ -13,7 +14,7 @@ class MidlConstantConverter(Converter):
         rhs = constant.rhs
         while "sizeof" in rhs: # eliminate all sizeofs!
             rhs = self.calculate_sizeof(rhs)
-        const = f"{self.mapper.canonicalize(constant.name)} = {rhs}"
+        const = PythonAssignment(PythonName(self.mapper.canonicalize(constant.name)), PythonValue(rhs))
         self.write(const)
 
     def calculate_sizeof(self,rhs):
