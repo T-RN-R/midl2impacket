@@ -1,4 +1,4 @@
-from midl import MidlDefinition
+from midltypes import MidlDefinition
 
 from .base import Converter
 from .constants import MidlConstantConverter

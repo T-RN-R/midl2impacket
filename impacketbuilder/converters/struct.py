@@ -1,5 +1,5 @@
 from .base import ConversionException, Converter
-from midl import *
+from midltypes import *
 
 from impacketbuilder.ndrbuilder.python import (
     PythonAssignment,

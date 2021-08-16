@@ -1,7 +1,7 @@
 from .base import Converter
 from .struct import MidlStructConverter
 from .procedure import MidlProcedureConverter
-from midl import (
+from midltypes import (
     MidlInterface,
     MidlTypeDef,
     MidlSimpleTypedef,

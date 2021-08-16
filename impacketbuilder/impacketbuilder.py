@@ -1,7 +1,7 @@
 from re import L, M
 
 from impacketbuilder.ndrbuilder.io import PythonWriter
-from midl import MidlDefinition
+from midltypes import MidlDefinition
 from .converters.definition import MidlDefinitionConverter
 from .converters.static import MidlStaticConverter
 from .converters.typing import TypeMapper, IDL_TYPES

@@ -1,6 +1,6 @@
 import enum
 
-from midl import MidlVariableInstantiation
+from midltypes import MidlVariableInstantiation
 from midlparser.parsers.arrays import MidlArrayParser
 from midlparser.parsers.base import MidlBaseParser
 from midlparser.tokenizer import Token

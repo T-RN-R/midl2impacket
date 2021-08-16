@@ -1,6 +1,6 @@
 import enum
 
-from midl import MidlProcedure, MidlVarDef
+from midltypes import MidlProcedure, MidlVarDef
 from midlparser.parsers.arrays import MidlArrayParser
 from midlparser.parsers.attributes import MidlAttributesParser
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
@@ -113,7 +113,7 @@ class MidlProcedureParser(MidlBaseParser):
                 self.void = True
                 self.state = ProcedureState.PROC_END
             else:
-                self.invalid()
+                self.invalid(token)
         else:
             self.invalid(token)
 

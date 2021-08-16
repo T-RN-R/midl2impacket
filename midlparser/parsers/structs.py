@@ -1,6 +1,6 @@
 import enum
 
-from midl import MidlStructDef, MidlVarDef
+from midltypes import MidlStructDef, MidlVarDef
 from midlparser.parsers.arrays import MidlArrayParser
 from midlparser.parsers.attributes import MidlAttributesParser
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
@@ -162,7 +162,7 @@ class MidlStructParser(MidlBaseParser):
 
     def rbracket(self, token: Token):
         if self.state not in [StructState.MEMBER_TYPE, StructState.MEMBER_TYPE_OR_ATTR]:
-            self.invalid()
+            self.invalid(token)
         # Just grab the whole blob and add it to the current member
         arg_blob = SkipClosureParser(
             self.tokens, self.tokenizer, closure_open="(", closure_close=")"

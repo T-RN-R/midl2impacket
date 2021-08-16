@@ -1,5 +1,5 @@
-from base import Visitable, Visitor
-import string
+from base import Visitable
+
 
 class MidlImport:
     """Represents a MIDL import statement
@@ -41,6 +41,7 @@ class MidlVariableInstantiation(Visitable):
         out += f"{self.type} {self.name} = {self.rhs};"
         return out
 
+
 class MidlDefinition(Visitable):
     """Represents a MIDL Definition. Maps directly to a MIDL file"""
 
@@ -48,8 +49,8 @@ class MidlDefinition(Visitable):
         self.imports = []  # Imports
         self.comments = []
         self.instantiation = []  # Variable instantiation
-        self.interfaces = []  
-        self.dispinterfaces = []  
+        self.interfaces = []
+        self.dispinterfaces = []
         self.libraries = []
         self.coclasses = []
         self.typedefs = []
@@ -145,7 +146,7 @@ class MidlInterface(Visitable):
         self.parents = []
         self.vardefs = []
         self.directives = []
-    
+
     def add_vardef(self, vd):
         self.vardefs.append(vd)
 
@@ -159,20 +160,11 @@ class MidlInterface(Visitable):
         self.comments.append(c)
 
     def __str__(self):
-        if "version" in self.attributes:
-            version = self.attributes["version"].params[0]
-        else:
-            version = '-1'
-        if "uuid" in self.attributes:
-            iface_uuid = self.attributes["uuid"].params[0]
-        else:
-            iface_uuid = ''
         out = ""
-        out += "UUID: " + iface_uuid + ";\n"
-        out += "Version: " + version + ";\n"
-        out += "interface " + self.name + "{\n"
+        for attr in self.attributes:
+            out += str(attr)
         for imp in self.imports:
-            out += imp + '\n'
+            out += imp + "\n"
         for td in self.typedefs:
             out += str(td)
         for p in self.procedures:
@@ -180,6 +172,7 @@ class MidlInterface(Visitable):
         for p in self.directives:
             out += str(p)
         return out
+
 
 class MidlDispInterface(Visitable):
     def __init__(self, name=None, interface=None, properties=None, methods=None):
@@ -193,9 +186,9 @@ class MidlDispInterface(Visitable):
         out = f"dispinterface {self.name}\n"
         out += f"interface: {self.interface}"
         out += "properties\n"
-        out += '\n    '.join([str(property) for property in self.properties])
+        out += "\n    ".join([str(property) for property in self.properties])
         out += "methods\n"
-        out += '\n    '.join([str(method) for method in self.methods])
+        out += "\n    ".join([str(method) for method in self.methods])
         return out
 
 
@@ -210,7 +203,7 @@ class MidlLibrary(Visitable):
         out = f"library {self.name}\n"
         out += f"attributes: {self.attributes}"
         out += "members\n"
-        out += '\n    '.join([str(member) for member in self.members])
+        out += "\n    ".join([str(member) for member in self.members])
         return out
 
 
@@ -221,10 +214,11 @@ class MidlCoclass(Visitable):
         self.attributes = {}
 
     def __str__(self):
-        out = f'coclass {self.name}\n'
-        out += 'interfaces:\n    '
-        out += '\n    '.join([str(iface) for iface in self.interfaces])
+        out = f"coclass {self.name}\n"
+        out += "interfaces:\n    "
+        out += "\n    ".join([str(iface) for iface in self.interfaces])
         return out
+
 
 class MidlAttribute(Visitable):
     """MIDL Attribute definition
@@ -244,8 +238,12 @@ class MidlAttribute(Visitable):
                 out += str(param)
                 out += ", "
             out = out[:-1]
-            out+=")"
+            out += ")"
         return out
+
+    def __repr__(self):
+        return f"MidlAttribute[{self.__str__()}"
+
 
 class MidlVarDef(Visitable):
     """Struct member or function parameter
@@ -294,7 +292,7 @@ class MidlStructDef(Visitable):
     def __str__(self):
         out = "typedef struct "
         if self.private_name:
-            out += self.private_name +"\n{\n"
+            out += self.private_name + "\n{\n"
         else:
             out += "\n{\n"
         for member in self.members:
@@ -303,31 +301,33 @@ class MidlStructDef(Visitable):
         out = out[:-2]
         out += "\n} "
         for pub_name in self.public_names:
-            out += pub_name +","
+            out += pub_name + ","
         out = out[:-1]
-        out+=";\n"
+        out += ";\n"
         return out
+
 
 class MidlUnionDef(Visitable):
     def __init__(self, public_names, private_name, members: list[MidlVarDef]):
         self.public_names = public_names
-        self.private_name = private_name or ''
+        self.private_name = private_name or ""
         self.members = members
         self.attributes = {}
 
     def __str__(self):
         out = "typedef union "
-        out += self.private_name +"\n{\n"
+        out += self.private_name + "\n{\n"
         for member in self.members:
             out += str(member)
             out += ",\n"
         out = out[:-2]
         out += "\n} "
         for pub_name in self.public_names:
-            out += pub_name +","
+            out += pub_name + ","
         out = out[:-1]
-        out+=";\n"
+        out += ";\n"
         return out
+
 
 class MidlSimpleTypedef(Visitable):
     def __init__(self, name, simple_type):
@@ -337,8 +337,9 @@ class MidlSimpleTypedef(Visitable):
 
     def __str__(self):
         out = ""
-        out = "typedef " + self.name + " " + self.type +";"
+        out = "typedef " + self.name + " " + self.type + ";"
         return out
+
 
 class MidlEnumDef(Visitable):
     """Definition of a MIDL enum.
@@ -380,7 +381,7 @@ class MidlEnumDef(Visitable):
             if self.map[k] is not None:
 
                 out += " = " + str(self.map[k])
-            out +=",\n"
+            out += ",\n"
         out += "}\n"
         return out
 
@@ -402,20 +403,16 @@ class MidlProcedure(Visitable):
 
     def __str__(self):
         out = ""
-        out += self.name +" (\n"
+        out += self.name + " (\n"
         for i in self.params:
             out += "    " + str(i)
-            out +=",\n"
-        
-        if len(self.params) >0:
-            out = out[:-2] #Trim off the last comma and newline
+            out += ",\n"
+
+        if len(self.params) > 0:
+            out = out[:-2]  # Trim off the last comma and newline
         out += ");\n"
-       
-        
+
         return out
-
-        
-
 
 
 class MidlParameter(Visitable):
@@ -433,10 +430,10 @@ class MidlParameter(Visitable):
         if has_attrs:
             out += "["
             for attr in self.attributes:
-                out += str(attr) +","
+                out += str(attr) + ","
             out = out[:-1]
             out += "] "
-        
+
         out += self.type + " "
         out += self.name
         return out

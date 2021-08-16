@@ -1,5 +1,5 @@
 from .base import Converter
-from midl import MidlProcedure
+from midltypes import MidlProcedure
 from impacketbuilder.ndrbuilder.python import (
     PythonAssignment,
     PythonAssignmentList,

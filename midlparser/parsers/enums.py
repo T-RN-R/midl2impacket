@@ -1,6 +1,6 @@
 import enum
 
-from midl import MidlEnumDef
+from midltypes import MidlEnumDef
 from midlparser.keywords import RHS_OPERATORS
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
 from midlparser.tokenizer import Token

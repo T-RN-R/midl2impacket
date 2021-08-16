@@ -1,6 +1,6 @@
 import enum
 
-from midl import MidlAttribute, MidlStructDef, MidlUnionDef, MidlVarDef
+from midltypes import MidlAttribute, MidlStructDef, MidlUnionDef, MidlVarDef
 from midlparser.parsers.arrays import MidlArrayParser
 from midlparser.parsers.attributes import MidlAttributesParser
 from midlparser.parsers.base import MidlBaseParser
@@ -191,7 +191,7 @@ class MidlUnionParser(MidlBaseParser):
                 "default" not in self.cur_member_attrs
                 and "case" not in self.cur_member_attrs
             ):
-                self.invalid()
+                self.invalid(token)
             # Add an empty parameter with the case/default attribute
             member_def = MidlVarDef(None, None, self.cur_member_attrs, None)
             self.members.append(member_def)

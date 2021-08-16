@@ -1,8 +1,8 @@
 import abc
-import traceback
 import typing
 
-from midlparser.tokenizer import Token, TokenType
+from midlparser.logs import get_logger
+from midlparser.tokenizer import MidlTokenizer, Token, TokenType
 
 
 class MidlInvalidTokenException(Exception):
@@ -14,7 +14,9 @@ class MidlParserException(Exception):
 
 
 class MidlBaseParser(abc.ABC):
-    def __init__(self, token_generator, end_state, tokenizer):
+    state = None
+    def __init__(self, token_generator, end_state, tokenizer: MidlTokenizer):
+        self.logger = get_logger(self.__class__.__name__)
         self.tokens = token_generator
         self.end_state = end_state
         self.handle_any = False
@@ -42,9 +44,13 @@ class MidlBaseParser(abc.ABC):
             finished = self.finished()
         except:
             finished = ""
-        raise MidlInvalidTokenException(
-            f"\n\nUnexpected token [{token.type}: {token.data}] in state {self.state} \n\t{self.tokenizer.get_error()}\n\tResulting in:\n{finished}"
+        ts = self.tokenizer.get_state()
+        fmt_error = (
+            f"\nUnexpected: [{token.type}: {token.data}]\n"
+            f"File: {ts.filename}:{ts.lineno}\n"
+            f"{self.__class__.__name__} State [{self.state}]:\n{finished}\n"
         )
+        raise MidlInvalidTokenException(fmt_error)
 
     def keyword(self, token: Token):
         self.invalid(token)
@@ -116,8 +122,8 @@ class MidlBaseParser(abc.ABC):
                 if self.state == self.end_state:
                     break
                 cur_token = next(self.tokens, None)
-            except Exception:
-                traceback.print_exc()
+            except Exception as e:
+                self.logger.exception(e)
                 exit()
         return self.finished()
 

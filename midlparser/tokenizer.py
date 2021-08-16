@@ -2,7 +2,7 @@ import enum
 import string
 import uuid
 
-from midlparser.keywords import *
+from midlparser.keywords import MIDL_KEYWORDS, MIDL_OPERATORS
 
 
 class TokenType(enum.Enum):
@@ -42,6 +42,10 @@ class Token:
         self.type = token_type
         self.data = data
 
+class TokenizerState:
+    def __init__(self, filename, lineno):
+        self.filename = filename
+        self.lineno = lineno
 
 class MidlTokenizer:
     """Class that tokenizes the raw MIDL string
@@ -331,23 +335,17 @@ class MidlTokenizer:
 
     def get_curr_lc(self):
         lc = 1
-        for i in range(0, len(self.midl)):
+        i = 0
+        while i < len(self.midl):
             if i == self.ptr:
                 return lc
-            if self.midl[i] in [
-                "\n",
-                "\r\n",
-                "\r",
-            ]:
+            if self.midl[i:i+2] == "\r\n":
                 lc += 1
+                i += 1
+            elif self.midl[i] in ["\n", "\r"]:
+                lc += 1
+            i += 1
 
-    def get_error(self):
-        lc = self.get_curr_lc()
-        return (
-            "In file: "
-            + self.filename
-            + ":"
-            + str(lc)
-            + "\n\tAt: "
-            + self.midl[self.ptr - 1 :].split("\n")[0]
-        )
+    def get_state(self) -> TokenizerState:
+        lineno = self.get_curr_lc()
+        return TokenizerState(self.filename, lineno)

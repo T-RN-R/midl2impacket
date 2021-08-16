@@ -1,5 +1,5 @@
 from impacketbuilder.ndrbuilder.python import PythonAssignment
-from midl import MidlEnumDef
+from midltypes import MidlEnumDef
 from .base import Converter
 from impacketbuilder.ndrbuilder.python import PythonAssignment, PythonValue, PythonName
 

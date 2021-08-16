@@ -1,6 +1,6 @@
 import enum
 
-from midl import MidlArrayDimensions
+from midltypes import MidlArrayDimensions
 from midlparser.parsers.expression import MidlBaseParser, MidlExpressionParser
 from midlparser.tokenizer import Token
 

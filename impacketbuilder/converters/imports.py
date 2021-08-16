@@ -1,6 +1,6 @@
 import pathlib
 from midlparser import parse_idl
-from midl import MidlImport
+from midltypes import MidlImport
 from .base import Converter
 from .comments import MidlCommentWriter
 

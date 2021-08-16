@@ -1,6 +1,6 @@
 import enum
 
-from midl import MidlCoclass, MidlVarDef
+from midltypes import MidlCoclass, MidlVarDef
 from midlparser.parsers.attributes import MidlAttributesParser
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
 from midlparser.tokenizer import Token
@@ -30,11 +30,12 @@ class MidlCoclassParser(MidlBaseParser):
         self.cur_iface_parts = []
         self.cur_iface_attrs = {}
         self.interfaces = []
+        self.rbracket_level = 0
 
     def keyword(self, token: Token):
         if self.state == CoclassState.BEGIN:
             if token.data != "coclass":
-                self.invalid()
+                self.invalid(token)
             self.state = CoclassState.NAME
         elif self.state == CoclassState.NAME:
             self.name = token.data

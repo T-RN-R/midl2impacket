@@ -1,6 +1,6 @@
 import enum
 
-from midl import MidlAttribute
+from midltypes import MidlAttribute
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
 from midlparser.parsers.util import SkipClosureParser
 from midlparser.tokenizer import Token

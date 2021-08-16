@@ -1,6 +1,6 @@
 import enum
 
-from midl import MidlSimpleTypedef, MidlTypeDef
+from midltypes import MidlSimpleTypedef, MidlTypeDef
 from midlparser.parsers.attributes import MidlAttributesParser
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
 from midlparser.parsers.enums import MidlEnumParser

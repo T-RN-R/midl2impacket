@@ -1,5 +1,5 @@
 from impacketbuilder.ndrbuilder.base import PythonValue
-from midl import MidlVariableInstantiation
+from midltypes import MidlVariableInstantiation
 from .base import Converter, ConversionException
 from impacketbuilder.ndrbuilder.python import PythonAssignment, PythonValue, PythonName
 class MidlConstantConverter(Converter):
