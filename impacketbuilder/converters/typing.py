@@ -45,7 +45,17 @@ IDL_TO_NDR = {
     "unsigned hyper": "NDRUHYPER",
     "hyper": "NDRHYPER",
 }
-SIZEOF_LOOKUP = {"WCHAR": 4, "BOOL": 1, "UINT32": 2, "UINT64": 4, "GUID": 16}
+
+SIZEOF_LOOKUP = {
+    "WCHAR": 4,
+    "WCHAR_T": 4,
+    "CHAR": 2,
+    "BOOL": 1,
+    "UINT32": 2,
+    "UINT64": 4,
+    "UNSIGNEDLONG": 4,
+    "GUID": 16,
+}
 
 
 class TypeMappingException(Exception):
@@ -110,17 +120,30 @@ class TypeMapper:
     def calculate_sizeof(self, rhs):
         if "sizeof" not in rhs:
             return rhs
+        return SizeofCalculator(rhs).calculate()
 
-        so_idx = rhs.index("sizeof")
-        lb_idx = rhs.index("(")
-        rb_idx = rhs.index(")")
-        type_str = rhs[lb_idx + 1 : rb_idx].strip()
-        print(type_str)
-        if type_str not in SIZEOF_LOOKUP:
-            type_str=self.calculate_sizeof(type_str)
-            #raise Exception(f"Could not get sizeof({type_str})")
-        return (
-            rhs[:so_idx]
-            + str(SIZEOF_LOOKUP[type_str])
-            + rhs[rb_idx + 1 :]
-        )
+
+class SizeofCalculator:
+    OPERATORS = ["+", "-", "*", "/"]
+
+    def __init__(self, expression):
+        self.expression = expression
+
+    def eval_size_of(self):
+        ex = self.expression
+        for i in range(0, len(self.expression)):
+            if ex[i:].startswith("sizeof"):
+                tmp = ex[i:]
+                lb_idx = tmp.index("(")
+                rb_idx = tmp.index(")")
+                type_str = tmp[lb_idx + 1 : rb_idx].strip()
+                type_str = TypeMapper(IDL_TYPES).canonicalize(type_str)
+                if type_str not in SIZEOF_LOOKUP:
+                    raise Exception(f"Could not get sizeof({type_str})")
+                ex = ex[:i] + str(SIZEOF_LOOKUP[type_str]) + tmp[rb_idx + 1 :]
+        self.expression = ex
+
+    def calculate(self):
+        self.expression = "".join(self.expression.split(" "))
+        self.eval_size_of()
+        return self.expression

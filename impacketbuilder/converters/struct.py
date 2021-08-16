@@ -124,7 +124,6 @@ class MidlStructConverter(Converter):
             if len(vd.array_info) > 0:
                 if len(vd.array_info) == 1:
                     arr_inf = vd.array_info[0]
-                    print(arr_inf.min,":",arr_inf.max)
                     if arr_inf.min != -1  and arr_inf.max == -1:
                         size = self.mapper.calculate_sizeof(arr_inf.min)
                         self.create_ndr_uni_fixed_array_class(f"ARR_{self.mapper.canonicalize(type_name)}", size)

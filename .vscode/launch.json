@@ -36,9 +36,9 @@
             "program": "midl2impacket.py",
             "console": "integratedTerminal",
             "args":[
-                "--in-file", "\"scraped/ms-vds.idl\"",
-                "--out-file", "\"generated/ms-vds.py\"",
-                "--import-dir", "\"scraped/\""
+                "--in-file", "\"preprocessed/ms-wkst.idl\"",
+                "--out-file", "\"generated/ms-wkst.py\"",
+                "--import-dir", "\"preprocessed/\""
 
             ]
         }
