@@ -2,7 +2,6 @@
 Generated from MIDL2Impacket.py
 """
 
-
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
@@ -15,6 +14,7 @@ from impacket.dcerpc.v5.rpcrt import DCERPCException
 
 DWORD64 = NDRUHYPER
 __INT64 = NDRHYPER
+DWORD__ENUM = DWORD
 class CONTEXT_HANDLE(NDRSTRUCT):
     align = 1
     structure = (
@@ -74,17 +74,11 @@ UNSIGNED_HYPER = NDRUHYPER
 HYPER = NDRHYPER
 
 #################################################################################
-
 #"ms-dtyp.idl"
-
 #################################################################################
-
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -169,734 +163,1856 @@ LPVOID = VOID
 WORD = UNSIGNED_SHORT
 PWORD = UNSIGNED_SHORT
 LPWORD = UNSIGNED_SHORT
-
 class FILETIME(NDRSTRUCT):
-    structure = (
-        ('dwLowDateTime', DWORD),('dwHighDateTime', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'dwLowDateTime',
+			DWORD
+			),
+			(
+			'dwHighDateTime',
+			DWORD
+			)
+		)
+
+
 class PFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
+
+
 class LPFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
 
 
 class GUID(NDRSTRUCT):
-    structure = (
-        ('Data1', UNSIGNED_LONG),('Data2', UNSIGNED_SHORT),('Data3', UNSIGNED_SHORT),('Data4', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Data1',
+			UNSIGNED_LONG
+			),
+			(
+			'Data2',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data3',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data4',
+			BYTE
+			)
+		)
+
+
 UUID = GUID
 class PGUID(NDRPOINTER):
-    referent = (
-        ('Data', GUID),
-    )    
+	referent = (
+			(
+			'Data',
+			GUID
+			)
+		)
 
 
 class LARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', SIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			SIGNED___INT64
+			)
+		)
+
+
 class PLARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', LARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			LARGE_INTEGER
+			)
+		)
 
 
 class EVENT_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Id', USHORT),('Version', UCHAR),('Channel', UCHAR),('Level', UCHAR),('Opcode', UCHAR),('Task', USHORT),('Keyword', ULONGLONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Id',
+			USHORT
+			),
+			(
+			'Version',
+			UCHAR
+			),
+			(
+			'Channel',
+			UCHAR
+			),
+			(
+			'Level',
+			UCHAR
+			),
+			(
+			'Opcode',
+			UCHAR
+			),
+			(
+			'Task',
+			USHORT
+			),
+			(
+			'Keyword',
+			ULONGLONG
+			)
+		)
+
+
 class PEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
+
+
 class PCEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
 
 
 class S0(NDRSTRUCT):
-    structure = (
-        ('KernelTime', ULONG),('UserTime', ULONG),
-    )
+	align = 1
+	structure = (
+			(
+			'KernelTime',
+			ULONG
+			),
+			(
+			'UserTime',
+			ULONG
+			)
+		)
 
 
 class U0(NDRUNION):
-    union = {
-        1: ('s0',S0),2: ('ProcessorTime',ULONG64),
-    }
-        
+	union = {1 : (
+		's0',
+		S0
+		),2 : (
+		'ProcessorTime',
+		ULONG64
+		)}
+
 
 class EVENT_HEADER(NDRSTRUCT):
-    structure = (
-        ('Size', USHORT),('HeaderType', USHORT),('Flags', USHORT),('EventProperty', USHORT),('ThreadId', ULONG),('ProcessId', ULONG),('TimeStamp', LARGE_INTEGER),('ProviderId', GUID),('EventDescriptor', EVENT_DESCRIPTOR),('u0', U0),('ActivityId', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Size',
+			USHORT
+			),
+			(
+			'HeaderType',
+			USHORT
+			),
+			(
+			'Flags',
+			USHORT
+			),
+			(
+			'EventProperty',
+			USHORT
+			),
+			(
+			'ThreadId',
+			ULONG
+			),
+			(
+			'ProcessId',
+			ULONG
+			),
+			(
+			'TimeStamp',
+			LARGE_INTEGER
+			),
+			(
+			'ProviderId',
+			GUID
+			),
+			(
+			'EventDescriptor',
+			EVENT_DESCRIPTOR
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'ActivityId',
+			GUID
+			)
+		)
+
+
 class PEVENT_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_HEADER
+			)
+		)
+
 
 LCID = DWORD
-
 class LUID(NDRSTRUCT):
-    structure = (
-        ('LowPart', DWORD),('HighPart', LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'LowPart',
+			DWORD
+			),
+			(
+			'HighPart',
+			LONG
+			)
+		)
+
+
 class PLUID(NDRPOINTER):
-    referent = (
-        ('Data', LUID),
-    )    
+	referent = (
+			(
+			'Data',
+			LUID
+			)
+		)
 
 
 class MULTI_SZ(NDRSTRUCT):
-    structure = (
-        ('Value', WCHAR_T),('nChar', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			WCHAR_T
+			),
+			(
+			'nChar',
+			DWORD
+			)
+		)
 
 
-class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
-    item = WCHAR
+class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+	item = WCHAR
 
-class PTR_UNSIGNED_SHORT(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_SHORT),
-    )
 
-class UNSIGNED_SHORT(NDRSTRUCT):
-    structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
+class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_RPC_UNICODE_STRING
+			)
+		)
 
-    )
-        
+
+class RPC_UNICODE_STRING(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'Length',
+			UNSIGNED_SHORT
+			),
+			(
+			'MaximumLength',
+			UNSIGNED_SHORT
+			),
+			(
+			'Buffer',
+			PTR_RPC_UNICODE_STRING
+			)
+		)
+
 
 class SERVER_INFO_100(NDRSTRUCT):
-    structure = (
-        ('sv100_platform_id', DWORD),('sv100_name', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv100_platform_id',
+			DWORD
+			),
+			(
+			'sv100_name',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
+
+
 class LPSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
 
 
 class SERVER_INFO_101(NDRSTRUCT):
-    structure = (
-        ('sv101_platform_id', DWORD),('sv101_name', WCHAR_T),('sv101_version_major', DWORD),('sv101_version_minor', DWORD),('sv101_version_type', DWORD),('sv101_comment', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv101_platform_id',
+			DWORD
+			),
+			(
+			'sv101_name',
+			WCHAR_T
+			),
+			(
+			'sv101_version_major',
+			DWORD
+			),
+			(
+			'sv101_version_minor',
+			DWORD
+			),
+			(
+			'sv101_version_type',
+			DWORD
+			),
+			(
+			'sv101_comment',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
+
+
 class LPSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
 
 
 class SYSTEMTIME(NDRSTRUCT):
-    structure = (
-        ('wYear', WORD),('wMonth', WORD),('wDayOfWeek', WORD),('wDay', WORD),('wHour', WORD),('wMinute', WORD),('wSecond', WORD),('wMilliseconds', WORD),
-    )
+	align = 1
+	structure = (
+			(
+			'wYear',
+			WORD
+			),
+			(
+			'wMonth',
+			WORD
+			),
+			(
+			'wDayOfWeek',
+			WORD
+			),
+			(
+			'wDay',
+			WORD
+			),
+			(
+			'wHour',
+			WORD
+			),
+			(
+			'wMinute',
+			WORD
+			),
+			(
+			'wSecond',
+			WORD
+			),
+			(
+			'wMilliseconds',
+			WORD
+			)
+		)
+
+
 class PSYSTEMTIME(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEMTIME),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEMTIME
+			)
+		)
 
 
 class UINT128(NDRSTRUCT):
-    structure = (
-        ('lower', UINT64),('upper', UINT64),
-    )
+	align = 1
+	structure = (
+			(
+			'lower',
+			UINT64
+			),
+			(
+			'upper',
+			UINT64
+			)
+		)
+
+
 class PUINT128(NDRPOINTER):
-    referent = (
-        ('Data', UINT128),
-    )    
+	referent = (
+			(
+			'Data',
+			UINT128
+			)
+		)
 
 
 class ULARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', UNSIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			UNSIGNED___INT64
+			)
+		)
+
+
 class PULARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', ULARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			ULARGE_INTEGER
+			)
+		)
 
 
 class RPC_SID_IDENTIFIER_AUTHORITY(NDRSTRUCT):
-    structure = (
-        ('Value', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			BYTE
+			)
+		)
+
 
 ACCESS_MASK = DWORD
 PACCESS_MASK = ACCESS_MASK
-
 class OBJECT_TYPE_LIST(NDRSTRUCT):
-    structure = (
-        ('Level', WORD),('Remaining', ACCESS_MASK),('ObjectType', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			WORD
+			),
+			(
+			'Remaining',
+			ACCESS_MASK
+			),
+			(
+			'ObjectType',
+			GUID
+			)
+		)
+
+
 class POBJECT_TYPE_LIST(NDRPOINTER):
-    referent = (
-        ('Data', OBJECT_TYPE_LIST),
-    )    
+	referent = (
+			(
+			'Data',
+			OBJECT_TYPE_LIST
+			)
+		)
 
 
 class ACE_HEADER(NDRSTRUCT):
-    structure = (
-        ('AceType', UCHAR),('AceFlags', UCHAR),('AceSize', USHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AceType',
+			UCHAR
+			),
+			(
+			'AceFlags',
+			UCHAR
+			),
+			(
+			'AceSize',
+			USHORT
+			)
+		)
+
+
 class PACE_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', ACE_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			ACE_HEADER
+			)
+		)
 
 
 class SYSTEM_MANDATORY_LABEL_ACE(NDRSTRUCT):
-    structure = (
-        ('Header', ACE_HEADER),('Mask', ACCESS_MASK),('SidStart', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Header',
+			ACE_HEADER
+			),
+			(
+			'Mask',
+			ACCESS_MASK
+			),
+			(
+			'SidStart',
+			DWORD
+			)
+		)
+
+
 class PSYSTEM_MANDATORY_LABEL_ACE(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEM_MANDATORY_LABEL_ACE),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEM_MANDATORY_LABEL_ACE
+			)
+		)
 
 
 class TOKEN_MANDATORY_POLICY(NDRSTRUCT):
-    structure = (
-        ('Policy', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Policy',
+			DWORD
+			)
+		)
+
+
 class PTOKEN_MANDATORY_POLICY(NDRPOINTER):
-    referent = (
-        ('Data', TOKEN_MANDATORY_POLICY),
-    )    
+	referent = (
+			(
+			'Data',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
 
 
 class MANDATORY_INFORMATION(NDRSTRUCT):
-    structure = (
-        ('AllowedAccess', ACCESS_MASK),('WriteAllowed', BOOLEAN),('ReadAllowed', BOOLEAN),('ExecuteAllowed', BOOLEAN),('MandatoryPolicy', TOKEN_MANDATORY_POLICY),
-    )
+	align = 1
+	structure = (
+			(
+			'AllowedAccess',
+			ACCESS_MASK
+			),
+			(
+			'WriteAllowed',
+			BOOLEAN
+			),
+			(
+			'ReadAllowed',
+			BOOLEAN
+			),
+			(
+			'ExecuteAllowed',
+			BOOLEAN
+			),
+			(
+			'MandatoryPolicy',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
+
+
 class PMANDATORY_INFORMATION(NDRPOINTER):
-    referent = (
-        ('Data', MANDATORY_INFORMATION),
-    )    
+	referent = (
+			(
+			'Data',
+			MANDATORY_INFORMATION
+			)
+		)
 
 
 class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRSTRUCT):
-    structure = (
-        ('Length', DWORD),('OctetString', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Length',
+			DWORD
+			),
+			(
+			'OctetString',
+			BYTE
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+			)
+		)
 
 
 class VALUES(NDRUNION):
-    union = {
-        1: ('pInt64',PLONG64),2: ('pUint64',PDWORD64),3: ('ppString',PWSTR),4: ('pOctetString',PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    }
-        
+	union = {1 : (
+		'pInt64',
+		PLONG64
+		),2 : (
+		'pUint64',
+		PDWORD64
+		),3 : (
+		'ppString',
+		PWSTR
+		),4 : (
+		'pOctetString',
+		PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+		)}
+
 
 class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRSTRUCT):
-    structure = (
-        ('Name', DWORD),('ValueType', WORD),('Reserved', WORD),('Flags', DWORD),('ValueCount', DWORD),('Values', VALUES),
-    )
+	align = 1
+	structure = (
+			(
+			'Name',
+			DWORD
+			),
+			(
+			'ValueType',
+			WORD
+			),
+			(
+			'Reserved',
+			WORD
+			),
+			(
+			'Flags',
+			DWORD
+			),
+			(
+			'ValueCount',
+			DWORD
+			),
+			(
+			'Values',
+			VALUES
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1
+			)
+		)
+
 
 SECURITY_INFORMATION = DWORD
 PSECURITY_INFORMATION = DWORD
-
 class RPC_SID(NDRSTRUCT):
-    structure = (
-        ('Revision', UNSIGNED_CHAR),('SubAuthorityCount', UNSIGNED_CHAR),('IdentifierAuthority', RPC_SID_IDENTIFIER_AUTHORITY),('SubAuthority', UNSIGNED_LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UNSIGNED_CHAR
+			),
+			(
+			'SubAuthorityCount',
+			UNSIGNED_CHAR
+			),
+			(
+			'IdentifierAuthority',
+			RPC_SID_IDENTIFIER_AUTHORITY
+			),
+			(
+			'SubAuthority',
+			UNSIGNED_LONG
+			)
+		)
+
+
 class PRPC_SID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
+
+
 class PSID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
 
 
 class ACL(NDRSTRUCT):
-    structure = (
-        ('AclRevision', UNSIGNED_CHAR),('Sbz1', UNSIGNED_CHAR),('AclSize', UNSIGNED_SHORT),('AceCount', UNSIGNED_SHORT),('Sbz2', UNSIGNED_SHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AclRevision',
+			UNSIGNED_CHAR
+			),
+			(
+			'Sbz1',
+			UNSIGNED_CHAR
+			),
+			(
+			'AclSize',
+			UNSIGNED_SHORT
+			),
+			(
+			'AceCount',
+			UNSIGNED_SHORT
+			),
+			(
+			'Sbz2',
+			UNSIGNED_SHORT
+			)
+		)
+
+
 class PACL(NDRPOINTER):
-    referent = (
-        ('Data', ACL),
-    )    
+	referent = (
+			(
+			'Data',
+			ACL
+			)
+		)
 
 
 class SECURITY_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Revision', UCHAR),('Sbz1', UCHAR),('Control', USHORT),('Owner', PSID),('Group', PSID),('Sacl', PACL),('Dacl', PACL),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UCHAR
+			),
+			(
+			'Sbz1',
+			UCHAR
+			),
+			(
+			'Control',
+			USHORT
+			),
+			(
+			'Owner',
+			PSID
+			),
+			(
+			'Group',
+			PSID
+			),
+			(
+			'Sacl',
+			PACL
+			),
+			(
+			'Dacl',
+			PACL
+			)
+		)
+
+
 class PSECURITY_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', SECURITY_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			SECURITY_DESCRIPTOR
+			)
+		)
+
 
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 FRS_REPLICA_SET_ID = GUID
 FRS_CONTENT_SET_ID = GUID
 FRS_DATABASE_ID = GUID
 FRS_MEMBER_ID = GUID
 FRS_CONNECTION_ID = GUID
 EPOQUE = SYSTEMTIME
-
 class FRS_VERSION_VECTOR(NDRSTRUCT):
-    structure = (
-        ('dbGuid', GUID),('low', DWORDLONG),('high', DWORDLONG),
-    )
+	align = 1
+	structure = (
+			(
+			'dbGuid',
+			GUID
+			),
+			(
+			'low',
+			DWORDLONG
+			),
+			(
+			'high',
+			DWORDLONG
+			)
+		)
 
 
 class FRS_EPOQUE_VECTOR(NDRSTRUCT):
-    structure = (
-        ('machine', GUID),('epoque', EPOQUE),
-    )
+	align = 1
+	structure = (
+			(
+			'machine',
+			GUID
+			),
+			(
+			'epoque',
+			EPOQUE
+			)
+		)
 
 
 class FRS_ID_GVSN(NDRSTRUCT):
-    structure = (
-        ('uidDbGuid', GUID),('uidVersion', DWORDLONG),('gvsnDbGuid', GUID),('gvsnVersion', DWORDLONG),
-    )
+	align = 1
+	structure = (
+			(
+			'uidDbGuid',
+			GUID
+			),
+			(
+			'uidVersion',
+			DWORDLONG
+			),
+			(
+			'gvsnDbGuid',
+			GUID
+			),
+			(
+			'gvsnVersion',
+			DWORDLONG
+			)
+		)
 
 
 class FRS_UPDATE(NDRSTRUCT):
-    structure = (
-        ('present', LONG),('nameConflict', LONG),('attributes', UNSIGNED_LONG),('fence', FILETIME),('clock', FILETIME),('createTime', FILETIME),('contentSetId', FRS_CONTENT_SET_ID),('hash', UNSIGNED_CHAR),('rdcSimilarity', UNSIGNED_CHAR),('uidDbGuid', GUID),('uidVersion', DWORDLONG),('gvsnDbGuid', GUID),('gvsnVersion', DWORDLONG),('parentDbGuid', GUID),('parentVersion', DWORDLONG),('name', WCHAR),('flags', LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'present',
+			LONG
+			),
+			(
+			'nameConflict',
+			LONG
+			),
+			(
+			'attributes',
+			UNSIGNED_LONG
+			),
+			(
+			'fence',
+			FILETIME
+			),
+			(
+			'clock',
+			FILETIME
+			),
+			(
+			'createTime',
+			FILETIME
+			),
+			(
+			'contentSetId',
+			FRS_CONTENT_SET_ID
+			),
+			(
+			'hash',
+			UNSIGNED_CHAR
+			),
+			(
+			'rdcSimilarity',
+			UNSIGNED_CHAR
+			),
+			(
+			'uidDbGuid',
+			GUID
+			),
+			(
+			'uidVersion',
+			DWORDLONG
+			),
+			(
+			'gvsnDbGuid',
+			GUID
+			),
+			(
+			'gvsnVersion',
+			DWORDLONG
+			),
+			(
+			'parentDbGuid',
+			GUID
+			),
+			(
+			'parentVersion',
+			DWORDLONG
+			),
+			(
+			'name',
+			WCHAR
+			),
+			(
+			'flags',
+			LONG
+			)
+		)
 
 
 class FRS_UPDATE_CANCEL_DATA(NDRSTRUCT):
-    structure = (
-        ('blockingUpdate', FRS_UPDATE),('contentSetId', FRS_CONTENT_SET_ID),('gvsnDatabaseId', FRS_DATABASE_ID),('uidDatabaseId', FRS_DATABASE_ID),('parentDatabaseId', FRS_DATABASE_ID),('gvsnVersion', DWORDLONG),('uidVersion', DWORDLONG),('parentVersion', DWORDLONG),('cancelType', UNSIGNED_LONG),('isUidValid', LONG),('isParentUidValid', LONG),('isBlockerValid', LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'blockingUpdate',
+			FRS_UPDATE
+			),
+			(
+			'contentSetId',
+			FRS_CONTENT_SET_ID
+			),
+			(
+			'gvsnDatabaseId',
+			FRS_DATABASE_ID
+			),
+			(
+			'uidDatabaseId',
+			FRS_DATABASE_ID
+			),
+			(
+			'parentDatabaseId',
+			FRS_DATABASE_ID
+			),
+			(
+			'gvsnVersion',
+			DWORDLONG
+			),
+			(
+			'uidVersion',
+			DWORDLONG
+			),
+			(
+			'parentVersion',
+			DWORDLONG
+			),
+			(
+			'cancelType',
+			UNSIGNED_LONG
+			),
+			(
+			'isUidValid',
+			LONG
+			),
+			(
+			'isParentUidValid',
+			LONG
+			),
+			(
+			'isBlockerValid',
+			LONG
+			)
+		)
 
 
 class FRS_RDC_SOURCE_NEED(NDRSTRUCT):
-    structure = (
-        ('needOffset', ULONGLONG),('needSize', ULONGLONG),
-    )
+	align = 1
+	structure = (
+			(
+			'needOffset',
+			ULONGLONG
+			),
+			(
+			'needSize',
+			ULONGLONG
+			)
+		)
 
 
+TransportFlags = DWORD__ENUM
 TRANSPORT_SUPPORTS_RDC_SIMILARITY = 1
-        
-
-RDC_UNCOMPRESSED = 0,
+RDC_FILE_COMPRESSION_TYPES = DWORD__ENUM
+RDC_UNCOMPRESSED = 0
 RDC_XPRESS = 1
-        
-
-RDC_FILTERGENERIC = 0,
-RDC_FILTERMAX = 1,
-RDC_FILTERPOINT = 2,
+RDC_CHUNKER_ALGORITHM = DWORD__ENUM
+RDC_FILTERGENERIC = 0
+RDC_FILTERMAX = 1
+RDC_FILTERPOINT = 2
 RDC_MAXALGORITHM = 3
-        
-
-UPDATE_REQUEST_ALL = 0,
-UPDATE_REQUEST_TOMBSTONES = 1,
+UPDATE_REQUEST_TYPE = DWORD__ENUM
+UPDATE_REQUEST_ALL = 0
+UPDATE_REQUEST_TOMBSTONES = 1
 UPDATE_REQUEST_LIVE = 2
-        
-
-UPDATE_STATUS_DONE = 2,
+UPDATE_STATUS = DWORD__ENUM
+UPDATE_STATUS_DONE = 2
 UPDATE_STATUS_MORE = 3
-        
-
-RECORDS_STATUS_DONE = 0,
+RECORDS_STATUS = DWORD__ENUM
+RECORDS_STATUS_DONE = 0
 RECORDS_STATUS_MORE = 1
-        
-
-REQUEST_NORMAL_SYNC = 0,
-REQUEST_SLOW_SYNC = 1,
+VERSION_REQUEST_TYPE = DWORD__ENUM
+REQUEST_NORMAL_SYNC = 0
+REQUEST_SLOW_SYNC = 1
 REQUEST_SUBORDINATE_SYNC = 2
-        
-
-CHANGE_NOTIFY = 0,
+VERSION_CHANGE_TYPE = DWORD__ENUM
+CHANGE_NOTIFY = 0
 CHANGE_ALL = 2
-        
-
-SERVER_DEFAULT = 0,
-STAGING_REQUIRED = 1,
+FRS_REQUESTED_STAGING_POLICY = DWORD__ENUM
+SERVER_DEFAULT = 0
+STAGING_REQUIRED = 1
 RESTAGING_REQUIRED = 2
-        
-
 class FRS_RDC_PARAMETERS_FILTERMAX(NDRSTRUCT):
-    structure = (
-        ('horizonSize', UNSIGNED_SHORT),('windowSize', UNSIGNED_SHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'horizonSize',
+			UNSIGNED_SHORT
+			),
+			(
+			'windowSize',
+			UNSIGNED_SHORT
+			)
+		)
 
 
 class FRS_RDC_PARAMETERS_FILTERPOINT(NDRSTRUCT):
-    structure = (
-        ('minChunkSize', UNSIGNED_SHORT),('maxChunkSize', UNSIGNED_SHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'minChunkSize',
+			UNSIGNED_SHORT
+			),
+			(
+			'maxChunkSize',
+			UNSIGNED_SHORT
+			)
+		)
 
 
 class FRS_RDC_PARAMETERS_GENERIC(NDRSTRUCT):
-    structure = (
-        ('chunkerType', UNSIGNED_SHORT),('chunkerParameters', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'chunkerType',
+			UNSIGNED_SHORT
+			),
+			(
+			'chunkerParameters',
+			BYTE
+			)
+		)
 
 
 class U(NDRUNION):
-    union = {
-        RDC_FILTERGENERIC: ('filterGeneric',FRS_RDC_PARAMETERS_GENERIC),RDC_FILTERMAX: ('filterMax',FRS_RDC_PARAMETERS_FILTERMAX),RDC_FILTERPOINT: ('filterPoint',FRS_RDC_PARAMETERS_FILTERPOINT),
-    }
-        
+	union = {RDC_FILTERGENERIC : (
+		'filterGeneric',
+		FRS_RDC_PARAMETERS_GENERIC
+		),RDC_FILTERMAX : (
+		'filterMax',
+		FRS_RDC_PARAMETERS_FILTERMAX
+		),RDC_FILTERPOINT : (
+		'filterPoint',
+		FRS_RDC_PARAMETERS_FILTERPOINT
+		)}
+
 
 class FRS_RDC_PARAMETERS(NDRSTRUCT):
-    structure = (
-        ('rdcChunkerAlgorithm', UNSIGNED_SHORT),('u', U),
-    )
+	align = 1
+	structure = (
+			(
+			'rdcChunkerAlgorithm',
+			UNSIGNED_SHORT
+			),
+			(
+			'u',
+			U
+			)
+		)
 
 
 class FRS_RDC_FILEINFO(NDRSTRUCT):
-    structure = (
-        ('onDiskFileSize', DWORDLONG),('fileSizeEstimate', DWORDLONG),('rdcVersion', UNSIGNED_SHORT),('rdcMinimumCompatibleVersion', UNSIGNED_SHORT),('rdcSignatureLevels', BYTE),('compressionAlgorithm', RDC_FILE_COMPRESSION_TYPES),('rdcFilterParameters', FRS_RDC_PARAMETERS),
-    )
+	align = 1
+	structure = (
+			(
+			'onDiskFileSize',
+			DWORDLONG
+			),
+			(
+			'fileSizeEstimate',
+			DWORDLONG
+			),
+			(
+			'rdcVersion',
+			UNSIGNED_SHORT
+			),
+			(
+			'rdcMinimumCompatibleVersion',
+			UNSIGNED_SHORT
+			),
+			(
+			'rdcSignatureLevels',
+			BYTE
+			),
+			(
+			'compressionAlgorithm',
+			RDC_FILE_COMPRESSION_TYPES
+			),
+			(
+			'rdcFilterParameters',
+			FRS_RDC_PARAMETERS
+			)
+		)
 
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = FRS_EPOQUE_VECTOR
+class DATA_FRS_ASYNC_VERSION_VECTOR_RESPONSE(NDRUniConformantArray):
+	item = FRS_EPOQUE_VECTOR
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('vvGeneration', ULONGLONG),	('versionVectorCount', UNSIGNED_LONG),	('versionVector', FRS_VERSION_VECTOR),	('epoqueVectorCount', UNSIGNED_LONG),	('epoqueVector', PTR_UNSIGNED_LONG),
+class PTR_FRS_ASYNC_VERSION_VECTOR_RESPONSE(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_FRS_ASYNC_VERSION_VECTOR_RESPONSE
+			)
+		)
 
-    )
-        
+
+class FRS_ASYNC_VERSION_VECTOR_RESPONSE(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'vvGeneration',
+			ULONGLONG
+			),
+			(
+			'versionVectorCount',
+			UNSIGNED_LONG
+			),
+			(
+			'versionVector',
+			FRS_VERSION_VECTOR
+			),
+			(
+			'epoqueVectorCount',
+			UNSIGNED_LONG
+			),
+			(
+			'epoqueVector',
+			PTR_FRS_ASYNC_VERSION_VECTOR_RESPONSE
+			)
+		)
+
 
 class FRS_ASYNC_RESPONSE_CONTEXT(NDRSTRUCT):
-    structure = (
-        ('sequenceNumber', UNSIGNED_LONG),('status', DWORD),('result', FRS_ASYNC_VERSION_VECTOR_RESPONSE),
-    )
+	align = 1
+	structure = (
+			(
+			'sequenceNumber',
+			UNSIGNED_LONG
+			),
+			(
+			'status',
+			DWORD
+			),
+			(
+			'result',
+			FRS_ASYNC_VERSION_VECTOR_RESPONSE
+			)
+		)
+
 
 BYTE_PIPE = PIPE BYTE
 #################################################################################
-
 #INTERFACE DEFINITION
-
 #################################################################################
-
 #################################################################################
-
 #FrsTransport Definition
-
 #################################################################################
-
 MSRPC_UUID_FRSTRANSPORT = uuidtup_to_bin(('897e2e5f-93f3-4376-9c9c-fd2277495c27','0.0'))
-
 PFRS_SERVER_CONTEXT = VOID
-
 class CheckConnectivity(NDRCALL):
-    opnum = 0
-    structure = (
-		('replicaSetId', FRS_REPLICA_SET_ID),
-		('connectionId', FRS_CONNECTION_ID),
-    )
+	OPNUM = 0
+	structure = (
+			(
+			'replicaSetId',
+			FRS_REPLICA_SET_ID
+			),
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			)
+		)
+
 
 class CheckConnectivityResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'replicaSetId',
+			FRS_REPLICA_SET_ID
+			),
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			)
+		)
 
-    )
-        
 
 class EstablishConnection(NDRCALL):
-    opnum = 1
-    structure = (
-		('replicaSetId', FRS_REPLICA_SET_ID),
-		('connectionId', FRS_CONNECTION_ID),
-		('downstreamProtocolVersion', DWORD),
-		('downstreamFlags', DWORD),
-    )
+	OPNUM = 1
+	structure = (
+			(
+			'replicaSetId',
+			FRS_REPLICA_SET_ID
+			),
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'downstreamProtocolVersion',
+			DWORD
+			),
+			(
+			'downstreamFlags',
+			DWORD
+			)
+		)
+
 
 class EstablishConnectionResponse(NDRCALL):
-    structure = (
-		('upstreamProtocolVersion', DWORD),
-		('upstreamFlags', DWORD),
-    )
-        
+	structure = (
+			(
+			'replicaSetId',
+			FRS_REPLICA_SET_ID
+			),
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'downstreamProtocolVersion',
+			DWORD
+			),
+			(
+			'downstreamFlags',
+			DWORD
+			)
+		)
+
 
 class EstablishSession(NDRCALL):
-    opnum = 2
-    structure = (
-		('connectionId', FRS_CONNECTION_ID),
-		('contentSetId', FRS_CONTENT_SET_ID),
-    )
+	OPNUM = 2
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'contentSetId',
+			FRS_CONTENT_SET_ID
+			)
+		)
+
 
 class EstablishSessionResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'contentSetId',
+			FRS_CONTENT_SET_ID
+			)
+		)
 
-    )
-        
 
 class RequestUpdates(NDRCALL):
-    opnum = 3
-    structure = (
-		('connectionId', FRS_CONNECTION_ID),
-		('contentSetId', FRS_CONTENT_SET_ID),
-		('creditsAvailable', DWORD),
-		('hashRequested', LONG),
-		('updateRequestType', UPDATE_REQUEST_TYPE),
-		('versionVectorDiffCount', UNSIGNED_LONG),
-		('versionVectorDiff', FRS_VERSION_VECTOR),
-    )
+	OPNUM = 3
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'contentSetId',
+			FRS_CONTENT_SET_ID
+			),
+			(
+			'creditsAvailable',
+			DWORD
+			),
+			(
+			'hashRequested',
+			LONG
+			),
+			(
+			'updateRequestType',
+			UPDATE_REQUEST_TYPE
+			),
+			(
+			'versionVectorDiffCount',
+			UNSIGNED_LONG
+			),
+			(
+			'versionVectorDiff',
+			FRS_VERSION_VECTOR
+			)
+		)
+
 
 class RequestUpdatesResponse(NDRCALL):
-    structure = (
-		('frsUpdate', FRS_UPDATE),
-		('updateCount', DWORD),
-		('updateStatus', UPDATE_STATUS),
-		('gvsnDbGuid', GUID),
-		('gvsnVersion', DWORDLONG),
-    )
-        
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'contentSetId',
+			FRS_CONTENT_SET_ID
+			),
+			(
+			'creditsAvailable',
+			DWORD
+			),
+			(
+			'hashRequested',
+			LONG
+			),
+			(
+			'updateRequestType',
+			UPDATE_REQUEST_TYPE
+			),
+			(
+			'versionVectorDiffCount',
+			UNSIGNED_LONG
+			),
+			(
+			'versionVectorDiff',
+			FRS_VERSION_VECTOR
+			)
+		)
+
 
 class RequestVersionVector(NDRCALL):
-    opnum = 4
-    structure = (
-		('sequenceNumber', DWORD),
-		('connectionId', FRS_CONNECTION_ID),
-		('contentSetId', FRS_CONTENT_SET_ID),
-		('requestType', VERSION_REQUEST_TYPE),
-		('changeType', VERSION_CHANGE_TYPE),
-		('vvGeneration', ULONGLONG),
-    )
+	OPNUM = 4
+	structure = (
+			(
+			'sequenceNumber',
+			DWORD
+			),
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'contentSetId',
+			FRS_CONTENT_SET_ID
+			),
+			(
+			'requestType',
+			VERSION_REQUEST_TYPE
+			),
+			(
+			'changeType',
+			VERSION_CHANGE_TYPE
+			),
+			(
+			'vvGeneration',
+			ULONGLONG
+			)
+		)
+
 
 class RequestVersionVectorResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'sequenceNumber',
+			DWORD
+			),
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'contentSetId',
+			FRS_CONTENT_SET_ID
+			),
+			(
+			'requestType',
+			VERSION_REQUEST_TYPE
+			),
+			(
+			'changeType',
+			VERSION_CHANGE_TYPE
+			),
+			(
+			'vvGeneration',
+			ULONGLONG
+			)
+		)
 
-    )
-        
 
 class AsyncPoll(NDRCALL):
-    opnum = 5
-    structure = (
-		('connectionId', FRS_CONNECTION_ID),
-    )
+	OPNUM = 5
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			)
+		)
+
 
 class AsyncPollResponse(NDRCALL):
-    structure = (
-		('response', FRS_ASYNC_RESPONSE_CONTEXT),
-    )
-        
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			)
+		)
+
 
 class RequestRecords(NDRCALL):
-    opnum = 6
-    structure = (
-		('connectionId', FRS_CONNECTION_ID),
-		('contentSetId', FRS_CONTENT_SET_ID),
-		('uidDbGuid', FRS_DATABASE_ID),
-		('uidVersion', DWORDLONG),
-		('maxRecords', DWORD),
-    )
+	OPNUM = 6
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'contentSetId',
+			FRS_CONTENT_SET_ID
+			),
+			(
+			'uidDbGuid',
+			FRS_DATABASE_ID
+			),
+			(
+			'uidVersion',
+			DWORDLONG
+			),
+			(
+			'maxRecords',
+			DWORD
+			)
+		)
+
 
 class RequestRecordsResponse(NDRCALL):
-    structure = (
-		('maxRecords', DWORD),
-		('numRecords', DWORD),
-		('numBytes', DWORD),
-		('compressedRecords', BYTE),
-		('recordsStatus', RECORDS_STATUS),
-    )
-        
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'contentSetId',
+			FRS_CONTENT_SET_ID
+			),
+			(
+			'uidDbGuid',
+			FRS_DATABASE_ID
+			),
+			(
+			'uidVersion',
+			DWORDLONG
+			),
+			(
+			'maxRecords',
+			DWORD
+			)
+		)
+
 
 class UpdateCancel(NDRCALL):
-    opnum = 7
-    structure = (
-		('connectionId', FRS_CONNECTION_ID),
-		('cancelData', FRS_UPDATE_CANCEL_DATA),
-    )
+	OPNUM = 7
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'cancelData',
+			FRS_UPDATE_CANCEL_DATA
+			)
+		)
+
 
 class UpdateCancelResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'cancelData',
+			FRS_UPDATE_CANCEL_DATA
+			)
+		)
 
-    )
-        
 
 class RawGetFileData(NDRCALL):
-    opnum = 8
-    structure = (
-		('serverContext', PFRS_SERVER_CONTEXT),
-		('bufferSize', DWORD),
-    )
+	OPNUM = 8
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			),
+			(
+			'bufferSize',
+			DWORD
+			)
+		)
+
 
 class RawGetFileDataResponse(NDRCALL):
-    structure = (
-		('serverContext', PFRS_SERVER_CONTEXT),
-		('dataBuffer', BYTE),
-		('sizeRead', DWORD),
-		('isEndOfFile', LONG),
-    )
-        
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			),
+			(
+			'bufferSize',
+			DWORD
+			)
+		)
+
 
 class RdcGetSignatures(NDRCALL):
-    opnum = 9
-    structure = (
-		('serverContext', PFRS_SERVER_CONTEXT),
-		('level', BYTE),
-		('offset', DWORDLONG),
-		('length', DWORD),
-    )
+	OPNUM = 9
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			),
+			(
+			'level',
+			BYTE
+			),
+			(
+			'offset',
+			DWORDLONG
+			),
+			(
+			'length',
+			DWORD
+			)
+		)
+
 
 class RdcGetSignaturesResponse(NDRCALL):
-    structure = (
-		('buffer', BYTE),
-		('sizeRead', DWORD),
-    )
-        
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			),
+			(
+			'level',
+			BYTE
+			),
+			(
+			'offset',
+			DWORDLONG
+			),
+			(
+			'length',
+			DWORD
+			)
+		)
+
 
 class RdcPushSourceNeeds(NDRCALL):
-    opnum = 10
-    structure = (
-		('serverContext', PFRS_SERVER_CONTEXT),
-		('sourceNeeds', FRS_RDC_SOURCE_NEED),
-		('needCount', DWORD),
-    )
+	OPNUM = 10
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			),
+			(
+			'sourceNeeds',
+			FRS_RDC_SOURCE_NEED
+			),
+			(
+			'needCount',
+			DWORD
+			)
+		)
+
 
 class RdcPushSourceNeedsResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			),
+			(
+			'sourceNeeds',
+			FRS_RDC_SOURCE_NEED
+			),
+			(
+			'needCount',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class RdcGetFileData(NDRCALL):
-    opnum = 11
-    structure = (
-		('serverContext', PFRS_SERVER_CONTEXT),
-		('bufferSize', DWORD),
-    )
+	OPNUM = 11
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			),
+			(
+			'bufferSize',
+			DWORD
+			)
+		)
+
 
 class RdcGetFileDataResponse(NDRCALL):
-    structure = (
-		('dataBuffer', BYTE),
-		('sizeReturned', DWORD),
-    )
-        
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			),
+			(
+			'bufferSize',
+			DWORD
+			)
+		)
+
 
 class RdcClose(NDRCALL):
-    opnum = 12
-    structure = (
-		('serverContext', PFRS_SERVER_CONTEXT),
-    )
+	OPNUM = 12
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			)
+		)
+
 
 class RdcCloseResponse(NDRCALL):
-    structure = (
-		('serverContext', PFRS_SERVER_CONTEXT),
-    )
-        
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			)
+		)
+
 
 class InitializeFileTransferAsync(NDRCALL):
-    opnum = 13
-    structure = (
-		('connectionId', FRS_CONNECTION_ID),
-		('frsUpdate', FRS_UPDATE),
-		('rdcDesired', LONG),
-		('stagingPolicy', FRS_REQUESTED_STAGING_POLICY),
-		('bufferSize', DWORD),
-    )
+	OPNUM = 13
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'frsUpdate',
+			FRS_UPDATE
+			),
+			(
+			'rdcDesired',
+			LONG
+			),
+			(
+			'stagingPolicy',
+			FRS_REQUESTED_STAGING_POLICY
+			),
+			(
+			'bufferSize',
+			DWORD
+			)
+		)
+
 
 class InitializeFileTransferAsyncResponse(NDRCALL):
-    structure = (
-		('frsUpdate', FRS_UPDATE),
-		('stagingPolicy', FRS_REQUESTED_STAGING_POLICY),
-		('serverContext', PFRS_SERVER_CONTEXT),
-		('rdcFileInfo', FRS_RDC_FILEINFO),
-		('dataBuffer', BYTE),
-		('sizeRead', DWORD),
-		('isEndOfFile', LONG),
-    )
-        
+	structure = (
+			(
+			'connectionId',
+			FRS_CONNECTION_ID
+			),
+			(
+			'frsUpdate',
+			FRS_UPDATE
+			),
+			(
+			'rdcDesired',
+			LONG
+			),
+			(
+			'stagingPolicy',
+			FRS_REQUESTED_STAGING_POLICY
+			),
+			(
+			'bufferSize',
+			DWORD
+			)
+		)
+
 
 class Opnum14NotUsedOnWire(NDRCALL):
-    opnum = 14
-    structure = (
+	OPNUM = 14
+	structure = (
 
-    )
+		)
+
 
 class Opnum14NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class RawGetFileDataAsync(NDRCALL):
-    opnum = 15
-    structure = (
-		('serverContext', PFRS_SERVER_CONTEXT),
-    )
+	OPNUM = 15
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			)
+		)
+
 
 class RawGetFileDataAsyncResponse(NDRCALL):
-    structure = (
-		('bytePipe', BYTE_PIPE),
-    )
-        
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			)
+		)
+
 
 class RdcGetFileDataAsync(NDRCALL):
-    opnum = 16
-    structure = (
-		('serverContext', PFRS_SERVER_CONTEXT),
-    )
+	OPNUM = 16
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			)
+		)
+
 
 class RdcGetFileDataAsyncResponse(NDRCALL):
-    structure = (
-		('bytePipe', BYTE_PIPE),
-    )
-        
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			)
+		)
+
 
 class RdcFileDataTransferKeepAlive(NDRCALL):
-    opnum = 17
-    structure = (
-		('serverContext', PFRS_SERVER_CONTEXT),
-    )
+	OPNUM = 17
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			)
+		)
+
 
 class RdcFileDataTransferKeepAliveResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'serverContext',
+			PFRS_SERVER_CONTEXT
+			)
+		)
 
-    )
-        
-OPNUMS = {
-0 : (CheckConnectivity,CheckConnectivityResponse),
-1 : (EstablishConnection,EstablishConnectionResponse),
-2 : (EstablishSession,EstablishSessionResponse),
-3 : (RequestUpdates,RequestUpdatesResponse),
-4 : (RequestVersionVector,RequestVersionVectorResponse),
-5 : (AsyncPoll,AsyncPollResponse),
-6 : (RequestRecords,RequestRecordsResponse),
-7 : (UpdateCancel,UpdateCancelResponse),
-8 : (RawGetFileData,RawGetFileDataResponse),
-9 : (RdcGetSignatures,RdcGetSignaturesResponse),
-10 : (RdcPushSourceNeeds,RdcPushSourceNeedsResponse),
-11 : (RdcGetFileData,RdcGetFileDataResponse),
-12 : (RdcClose,RdcCloseResponse),
-13 : (InitializeFileTransferAsync,InitializeFileTransferAsyncResponse),
-14 : (Opnum14NotUsedOnWire,Opnum14NotUsedOnWireResponse),
-15 : (RawGetFileDataAsync,RawGetFileDataAsyncResponse),
-16 : (RdcGetFileDataAsync,RdcGetFileDataAsyncResponse),
-17 : (RdcFileDataTransferKeepAlive,RdcFileDataTransferKeepAliveResponse),
-}
 
+OPNUMS = {0 : (
+	CheckConnectivity,
+	CheckConnectivityResponse
+	),1 : (
+	EstablishConnection,
+	EstablishConnectionResponse
+	),2 : (
+	EstablishSession,
+	EstablishSessionResponse
+	),3 : (
+	RequestUpdates,
+	RequestUpdatesResponse
+	),4 : (
+	RequestVersionVector,
+	RequestVersionVectorResponse
+	),5 : (
+	AsyncPoll,
+	AsyncPollResponse
+	),6 : (
+	RequestRecords,
+	RequestRecordsResponse
+	),7 : (
+	UpdateCancel,
+	UpdateCancelResponse
+	),8 : (
+	RawGetFileData,
+	RawGetFileDataResponse
+	),9 : (
+	RdcGetSignatures,
+	RdcGetSignaturesResponse
+	),10 : (
+	RdcPushSourceNeeds,
+	RdcPushSourceNeedsResponse
+	),11 : (
+	RdcGetFileData,
+	RdcGetFileDataResponse
+	),12 : (
+	RdcClose,
+	RdcCloseResponse
+	),13 : (
+	InitializeFileTransferAsync,
+	InitializeFileTransferAsyncResponse
+	),14 : (
+	Opnum14NotUsedOnWire,
+	Opnum14NotUsedOnWireResponse
+	),15 : (
+	RawGetFileDataAsync,
+	RawGetFileDataAsyncResponse
+	),16 : (
+	RdcGetFileDataAsync,
+	RdcGetFileDataAsyncResponse
+	),17 : (
+	RdcFileDataTransferKeepAlive,
+	RdcFileDataTransferKeepAliveResponse
+	)}

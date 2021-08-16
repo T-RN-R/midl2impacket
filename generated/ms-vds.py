@@ -1,6 +1,7 @@
 """
 Generated from MIDL2Impacket.py
 """
+
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
@@ -10,6 +11,7 @@ from impacket.structure import Structure
 from impacket import nt_errors
 from impacket.uuid import uuidtup_to_bin
 from impacket.dcerpc.v5.rpcrt import DCERPCException
+
 DWORD64 = NDRUHYPER
 __INT64 = NDRHYPER
 DWORD__ENUM = DWORD
@@ -25,25 +27,30 @@ class RPC_STRING(NDRSTRUCT):
         ('MaximumLength','<H=0'),
         ('Data',LPSTR),
     )
+
     def __setitem__(self, key, value):
         if key == 'Data' and isinstance(value, NDR) is False:
             self['Length'] = len(value)
             self['MaximumLength'] = len(value)
         return NDRSTRUCT.__setitem__(self, key, value)
+
     def dump(self, msg = None, indent = 0):
         if msg is None: msg = self.__class__.__name__
         if msg != '':
             print("%s" % msg, end=' ')
+
         if isinstance(self.fields['Data'] , NDRPOINTERNULL):
             print(" NULL", end=' ')
         elif self.fields['Data']['ReferentID'] == 0:
             print(" NULL", end=' ')
         else:
             return self.fields['Data'].dump('',indent)
+
 class PRPC_STRING(NDRPOINTER):
     referent = (
         ('Data', RPC_STRING),
     )
+
 UNSIGNED_SHORT = NDRUSHORT
 UNSIGNED_CHAR = NDRCHAR
 UNSIGNED_LONG = NDRULONG
@@ -65,6 +72,7 @@ UNSIGNED___INT3264 = NDRULONG
 CONST_UNSIGNED_LONG = NDRULONG
 UNSIGNED_HYPER = NDRUHYPER
 HYPER = NDRHYPER
+
 #################################################################################
 #"ms-dtyp.idl"
 #################################################################################
@@ -157,296 +165,805 @@ PWORD = UNSIGNED_SHORT
 LPWORD = UNSIGNED_SHORT
 class FILETIME(NDRSTRUCT):
 	align = 1
-	structure = 		(		('dwLowDateTime', DWORD), 		('dwHighDateTime', DWORD))
+	structure = (
+			(
+			'dwLowDateTime',
+			DWORD
+			),
+			(
+			'dwHighDateTime',
+			DWORD
+			)
+		)
+
+
 class PFILETIME(NDRPOINTER):
 	referent = (
-			('Data', FILETIME)
+			(
+			'Data',
+			FILETIME
+			)
 		)
+
+
 class LPFILETIME(NDRPOINTER):
 	referent = (
-			('Data', FILETIME)
+			(
+			'Data',
+			FILETIME
+			)
 		)
+
+
 class GUID(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Data1', UNSIGNED_LONG),
-			('Data2', UNSIGNED_SHORT),
-			('Data3', UNSIGNED_SHORT),
-			('Data4', BYTE)
+			(
+			'Data1',
+			UNSIGNED_LONG
+			),
+			(
+			'Data2',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data3',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data4',
+			BYTE
+			)
 		)
+
+
 UUID = GUID
 class PGUID(NDRPOINTER):
 	referent = (
-			('Data', GUID)
+			(
+			'Data',
+			GUID
+			)
 		)
+
+
 class LARGE_INTEGER(NDRSTRUCT):
 	align = 1
 	structure = (
-			('QuadPart', SIGNED___INT64)
+			(
+			'QuadPart',
+			SIGNED___INT64
+			)
 		)
+
+
 class PLARGE_INTEGER(NDRPOINTER):
 	referent = (
-			('Data', LARGE_INTEGER)
+			(
+			'Data',
+			LARGE_INTEGER
+			)
 		)
+
+
 class EVENT_DESCRIPTOR(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Id', USHORT),
-			('Version', UCHAR),
-			('Channel', UCHAR),
-			('Level', UCHAR),
-			('Opcode', UCHAR),
-			('Task', USHORT),
-			('Keyword', ULONGLONG)
+			(
+			'Id',
+			USHORT
+			),
+			(
+			'Version',
+			UCHAR
+			),
+			(
+			'Channel',
+			UCHAR
+			),
+			(
+			'Level',
+			UCHAR
+			),
+			(
+			'Opcode',
+			UCHAR
+			),
+			(
+			'Task',
+			USHORT
+			),
+			(
+			'Keyword',
+			ULONGLONG
+			)
 		)
+
+
 class PEVENT_DESCRIPTOR(NDRPOINTER):
 	referent = (
-			('Data', EVENT_DESCRIPTOR)
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
 		)
+
+
 class PCEVENT_DESCRIPTOR(NDRPOINTER):
 	referent = (
-			('Data', EVENT_DESCRIPTOR)
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
 		)
+
+
 class S0(NDRSTRUCT):
 	align = 1
-	structure = 		(		('KernelTime', ULONG), 		('UserTime', ULONG))
+	structure = (
+			(
+			'KernelTime',
+			ULONG
+			),
+			(
+			'UserTime',
+			ULONG
+			)
+		)
+
+
 class U0(NDRUNION):
-	union = {1 : 		('s0', S0),2 : 		('ProcessorTime', ULONG64)}
+	union = {1 : (
+		's0',
+		S0
+		),2 : (
+		'ProcessorTime',
+		ULONG64
+		)}
+
+
 class EVENT_HEADER(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Size', USHORT),
-			('HeaderType', USHORT),
-			('Flags', USHORT),
-			('EventProperty', USHORT),
-			('ThreadId', ULONG),
-			('ProcessId', ULONG),
-			('TimeStamp', LARGE_INTEGER),
-			('ProviderId', GUID),
-			('EventDescriptor', EVENT_DESCRIPTOR),
-			('u0', U0),
-			('ActivityId', GUID)
+			(
+			'Size',
+			USHORT
+			),
+			(
+			'HeaderType',
+			USHORT
+			),
+			(
+			'Flags',
+			USHORT
+			),
+			(
+			'EventProperty',
+			USHORT
+			),
+			(
+			'ThreadId',
+			ULONG
+			),
+			(
+			'ProcessId',
+			ULONG
+			),
+			(
+			'TimeStamp',
+			LARGE_INTEGER
+			),
+			(
+			'ProviderId',
+			GUID
+			),
+			(
+			'EventDescriptor',
+			EVENT_DESCRIPTOR
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'ActivityId',
+			GUID
+			)
 		)
+
+
 class PEVENT_HEADER(NDRPOINTER):
 	referent = (
-			('Data', EVENT_HEADER)
+			(
+			'Data',
+			EVENT_HEADER
+			)
 		)
+
+
 LCID = DWORD
 class LUID(NDRSTRUCT):
 	align = 1
-	structure = 		(		('LowPart', DWORD), 		('HighPart', LONG))
+	structure = (
+			(
+			'LowPart',
+			DWORD
+			),
+			(
+			'HighPart',
+			LONG
+			)
+		)
+
+
 class PLUID(NDRPOINTER):
 	referent = (
-			('Data', LUID)
+			(
+			'Data',
+			LUID
+			)
 		)
+
+
 class MULTI_SZ(NDRSTRUCT):
 	align = 1
-	structure = 		(		('Value', WCHAR_T), 		('nChar', DWORD))
-class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
-	item = WCHAR
-class PTR_UNSIGNED_SHORT(NDRPOINTER):
-	referent = (
-			('Data', DATA_UNSIGNED_SHORT)
+	structure = (
+			(
+			'Value',
+			WCHAR_T
+			),
+			(
+			'nChar',
+			DWORD
+			)
 		)
-class UNSIGNED_SHORT(NDRSTRUCT):
+
+
+class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+	item = WCHAR
+
+
+class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_RPC_UNICODE_STRING
+			)
+		)
+
+
+class RPC_UNICODE_STRING(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Length', UNSIGNED_SHORT),
-			('MaximumLength', UNSIGNED_SHORT),
-			('Buffer', PTR_UNSIGNED_SHORT)
+			(
+			'Length',
+			UNSIGNED_SHORT
+			),
+			(
+			'MaximumLength',
+			UNSIGNED_SHORT
+			),
+			(
+			'Buffer',
+			PTR_RPC_UNICODE_STRING
+			)
 		)
+
+
 class SERVER_INFO_100(NDRSTRUCT):
 	align = 1
-	structure = 		(		('sv100_platform_id', DWORD), 		('sv100_name', WCHAR_T))
+	structure = (
+			(
+			'sv100_platform_id',
+			DWORD
+			),
+			(
+			'sv100_name',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_100(NDRPOINTER):
 	referent = (
-			('Data', SERVER_INFO_100)
+			(
+			'Data',
+			SERVER_INFO_100
+			)
 		)
+
+
 class LPSERVER_INFO_100(NDRPOINTER):
 	referent = (
-			('Data', SERVER_INFO_100)
+			(
+			'Data',
+			SERVER_INFO_100
+			)
 		)
+
+
 class SERVER_INFO_101(NDRSTRUCT):
 	align = 1
 	structure = (
-			('sv101_platform_id', DWORD),
-			('sv101_name', WCHAR_T),
-			('sv101_version_major', DWORD),
-			('sv101_version_minor', DWORD),
-			('sv101_version_type', DWORD),
-			('sv101_comment', WCHAR_T)
+			(
+			'sv101_platform_id',
+			DWORD
+			),
+			(
+			'sv101_name',
+			WCHAR_T
+			),
+			(
+			'sv101_version_major',
+			DWORD
+			),
+			(
+			'sv101_version_minor',
+			DWORD
+			),
+			(
+			'sv101_version_type',
+			DWORD
+			),
+			(
+			'sv101_comment',
+			WCHAR_T
+			)
 		)
+
+
 class PSERVER_INFO_101(NDRPOINTER):
 	referent = (
-			('Data', SERVER_INFO_101)
+			(
+			'Data',
+			SERVER_INFO_101
+			)
 		)
+
+
 class LPSERVER_INFO_101(NDRPOINTER):
 	referent = (
-			('Data', SERVER_INFO_101)
+			(
+			'Data',
+			SERVER_INFO_101
+			)
 		)
+
+
 class SYSTEMTIME(NDRSTRUCT):
 	align = 1
 	structure = (
-			('wYear', WORD),
-			('wMonth', WORD),
-			('wDayOfWeek', WORD),
-			('wDay', WORD),
-			('wHour', WORD),
-			('wMinute', WORD),
-			('wSecond', WORD),
-			('wMilliseconds', WORD)
+			(
+			'wYear',
+			WORD
+			),
+			(
+			'wMonth',
+			WORD
+			),
+			(
+			'wDayOfWeek',
+			WORD
+			),
+			(
+			'wDay',
+			WORD
+			),
+			(
+			'wHour',
+			WORD
+			),
+			(
+			'wMinute',
+			WORD
+			),
+			(
+			'wSecond',
+			WORD
+			),
+			(
+			'wMilliseconds',
+			WORD
+			)
 		)
+
+
 class PSYSTEMTIME(NDRPOINTER):
 	referent = (
-			('Data', SYSTEMTIME)
+			(
+			'Data',
+			SYSTEMTIME
+			)
 		)
+
+
 class UINT128(NDRSTRUCT):
 	align = 1
-	structure = 		(		('lower', UINT64), 		('upper', UINT64))
+	structure = (
+			(
+			'lower',
+			UINT64
+			),
+			(
+			'upper',
+			UINT64
+			)
+		)
+
+
 class PUINT128(NDRPOINTER):
 	referent = (
-			('Data', UINT128)
+			(
+			'Data',
+			UINT128
+			)
 		)
+
+
 class ULARGE_INTEGER(NDRSTRUCT):
 	align = 1
 	structure = (
-			('QuadPart', UNSIGNED___INT64)
+			(
+			'QuadPart',
+			UNSIGNED___INT64
+			)
 		)
+
+
 class PULARGE_INTEGER(NDRPOINTER):
 	referent = (
-			('Data', ULARGE_INTEGER)
+			(
+			'Data',
+			ULARGE_INTEGER
+			)
 		)
+
+
 class RPC_SID_IDENTIFIER_AUTHORITY(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Value', BYTE)
+			(
+			'Value',
+			BYTE
+			)
 		)
+
+
 ACCESS_MASK = DWORD
 PACCESS_MASK = ACCESS_MASK
 class OBJECT_TYPE_LIST(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Level', WORD),
-			('Remaining', ACCESS_MASK),
-			('ObjectType', GUID)
+			(
+			'Level',
+			WORD
+			),
+			(
+			'Remaining',
+			ACCESS_MASK
+			),
+			(
+			'ObjectType',
+			GUID
+			)
 		)
+
+
 class POBJECT_TYPE_LIST(NDRPOINTER):
 	referent = (
-			('Data', OBJECT_TYPE_LIST)
+			(
+			'Data',
+			OBJECT_TYPE_LIST
+			)
 		)
+
+
 class ACE_HEADER(NDRSTRUCT):
 	align = 1
 	structure = (
-			('AceType', UCHAR),
-			('AceFlags', UCHAR),
-			('AceSize', USHORT)
+			(
+			'AceType',
+			UCHAR
+			),
+			(
+			'AceFlags',
+			UCHAR
+			),
+			(
+			'AceSize',
+			USHORT
+			)
 		)
+
+
 class PACE_HEADER(NDRPOINTER):
 	referent = (
-			('Data', ACE_HEADER)
+			(
+			'Data',
+			ACE_HEADER
+			)
 		)
+
+
 class SYSTEM_MANDATORY_LABEL_ACE(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Header', ACE_HEADER),
-			('Mask', ACCESS_MASK),
-			('SidStart', DWORD)
+			(
+			'Header',
+			ACE_HEADER
+			),
+			(
+			'Mask',
+			ACCESS_MASK
+			),
+			(
+			'SidStart',
+			DWORD
+			)
 		)
+
+
 class PSYSTEM_MANDATORY_LABEL_ACE(NDRPOINTER):
 	referent = (
-			('Data', SYSTEM_MANDATORY_LABEL_ACE)
+			(
+			'Data',
+			SYSTEM_MANDATORY_LABEL_ACE
+			)
 		)
+
+
 class TOKEN_MANDATORY_POLICY(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Policy', DWORD)
+			(
+			'Policy',
+			DWORD
+			)
 		)
+
+
 class PTOKEN_MANDATORY_POLICY(NDRPOINTER):
 	referent = (
-			('Data', TOKEN_MANDATORY_POLICY)
+			(
+			'Data',
+			TOKEN_MANDATORY_POLICY
+			)
 		)
+
+
 class MANDATORY_INFORMATION(NDRSTRUCT):
 	align = 1
 	structure = (
-			('AllowedAccess', ACCESS_MASK),
-			('WriteAllowed', BOOLEAN),
-			('ReadAllowed', BOOLEAN),
-			('ExecuteAllowed', BOOLEAN),
-			('MandatoryPolicy', TOKEN_MANDATORY_POLICY)
+			(
+			'AllowedAccess',
+			ACCESS_MASK
+			),
+			(
+			'WriteAllowed',
+			BOOLEAN
+			),
+			(
+			'ReadAllowed',
+			BOOLEAN
+			),
+			(
+			'ExecuteAllowed',
+			BOOLEAN
+			),
+			(
+			'MandatoryPolicy',
+			TOKEN_MANDATORY_POLICY
+			)
 		)
+
+
 class PMANDATORY_INFORMATION(NDRPOINTER):
 	referent = (
-			('Data', MANDATORY_INFORMATION)
+			(
+			'Data',
+			MANDATORY_INFORMATION
+			)
 		)
+
+
 class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRSTRUCT):
 	align = 1
-	structure = 		(		('Length', DWORD), 		('OctetString', BYTE))
+	structure = (
+			(
+			'Length',
+			DWORD
+			),
+			(
+			'OctetString',
+			BYTE
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRPOINTER):
 	referent = (
-			('Data', CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE)
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+			)
 		)
+
+
 class VALUES(NDRUNION):
-	union = {1 : 		('pInt64', PLONG64),2 : 		('pUint64', PDWORD64),3 : 		('ppString', PWSTR),4 : 		('pOctetString', PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE)}
+	union = {1 : (
+		'pInt64',
+		PLONG64
+		),2 : (
+		'pUint64',
+		PDWORD64
+		),3 : (
+		'ppString',
+		PWSTR
+		),4 : (
+		'pOctetString',
+		PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+		)}
+
+
 class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Name', DWORD),
-			('ValueType', WORD),
-			('Reserved', WORD),
-			('Flags', DWORD),
-			('ValueCount', DWORD),
-			('Values', VALUES)
+			(
+			'Name',
+			DWORD
+			),
+			(
+			'ValueType',
+			WORD
+			),
+			(
+			'Reserved',
+			WORD
+			),
+			(
+			'Flags',
+			DWORD
+			),
+			(
+			'ValueCount',
+			DWORD
+			),
+			(
+			'Values',
+			VALUES
+			)
 		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRPOINTER):
 	referent = (
-			('Data', CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1)
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1
+			)
 		)
+
+
 SECURITY_INFORMATION = DWORD
 PSECURITY_INFORMATION = DWORD
 class RPC_SID(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Revision', UNSIGNED_CHAR),
-			('SubAuthorityCount', UNSIGNED_CHAR),
-			('IdentifierAuthority', RPC_SID_IDENTIFIER_AUTHORITY),
-			('SubAuthority', UNSIGNED_LONG)
+			(
+			'Revision',
+			UNSIGNED_CHAR
+			),
+			(
+			'SubAuthorityCount',
+			UNSIGNED_CHAR
+			),
+			(
+			'IdentifierAuthority',
+			RPC_SID_IDENTIFIER_AUTHORITY
+			),
+			(
+			'SubAuthority',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class PRPC_SID(NDRPOINTER):
 	referent = (
-			('Data', RPC_SID)
+			(
+			'Data',
+			RPC_SID
+			)
 		)
+
+
 class PSID(NDRPOINTER):
 	referent = (
-			('Data', RPC_SID)
+			(
+			'Data',
+			RPC_SID
+			)
 		)
+
+
 class ACL(NDRSTRUCT):
 	align = 1
 	structure = (
-			('AclRevision', UNSIGNED_CHAR),
-			('Sbz1', UNSIGNED_CHAR),
-			('AclSize', UNSIGNED_SHORT),
-			('AceCount', UNSIGNED_SHORT),
-			('Sbz2', UNSIGNED_SHORT)
+			(
+			'AclRevision',
+			UNSIGNED_CHAR
+			),
+			(
+			'Sbz1',
+			UNSIGNED_CHAR
+			),
+			(
+			'AclSize',
+			UNSIGNED_SHORT
+			),
+			(
+			'AceCount',
+			UNSIGNED_SHORT
+			),
+			(
+			'Sbz2',
+			UNSIGNED_SHORT
+			)
 		)
+
+
 class PACL(NDRPOINTER):
 	referent = (
-			('Data', ACL)
+			(
+			'Data',
+			ACL
+			)
 		)
+
+
 class SECURITY_DESCRIPTOR(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Revision', UCHAR),
-			('Sbz1', UCHAR),
-			('Control', USHORT),
-			('Owner', PSID),
-			('Group', PSID),
-			('Sacl', PACL),
-			('Dacl', PACL)
+			(
+			'Revision',
+			UCHAR
+			),
+			(
+			'Sbz1',
+			UCHAR
+			),
+			(
+			'Control',
+			USHORT
+			),
+			(
+			'Owner',
+			PSID
+			),
+			(
+			'Group',
+			PSID
+			),
+			(
+			'Sacl',
+			PACL
+			),
+			(
+			'Dacl',
+			PACL
+			)
 		)
+
+
 class PSECURITY_DESCRIPTOR(NDRPOINTER):
 	referent = (
-			('Data', SECURITY_DESCRIPTOR)
+			(
+			'Data',
+			SECURITY_DESCRIPTOR
+			)
 		)
+
+
 #################################################################################
 #"ms-dcom.idl"
 #################################################################################
@@ -542,296 +1059,805 @@ PWORD = UNSIGNED_SHORT
 LPWORD = UNSIGNED_SHORT
 class FILETIME(NDRSTRUCT):
 	align = 1
-	structure = 		(		('dwLowDateTime', DWORD), 		('dwHighDateTime', DWORD))
+	structure = (
+			(
+			'dwLowDateTime',
+			DWORD
+			),
+			(
+			'dwHighDateTime',
+			DWORD
+			)
+		)
+
+
 class PFILETIME(NDRPOINTER):
 	referent = (
-			('Data', FILETIME)
+			(
+			'Data',
+			FILETIME
+			)
 		)
+
+
 class LPFILETIME(NDRPOINTER):
 	referent = (
-			('Data', FILETIME)
+			(
+			'Data',
+			FILETIME
+			)
 		)
+
+
 class GUID(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Data1', UNSIGNED_LONG),
-			('Data2', UNSIGNED_SHORT),
-			('Data3', UNSIGNED_SHORT),
-			('Data4', BYTE)
+			(
+			'Data1',
+			UNSIGNED_LONG
+			),
+			(
+			'Data2',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data3',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data4',
+			BYTE
+			)
 		)
+
+
 UUID = GUID
 class PGUID(NDRPOINTER):
 	referent = (
-			('Data', GUID)
+			(
+			'Data',
+			GUID
+			)
 		)
+
+
 class LARGE_INTEGER(NDRSTRUCT):
 	align = 1
 	structure = (
-			('QuadPart', SIGNED___INT64)
+			(
+			'QuadPart',
+			SIGNED___INT64
+			)
 		)
+
+
 class PLARGE_INTEGER(NDRPOINTER):
 	referent = (
-			('Data', LARGE_INTEGER)
+			(
+			'Data',
+			LARGE_INTEGER
+			)
 		)
+
+
 class EVENT_DESCRIPTOR(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Id', USHORT),
-			('Version', UCHAR),
-			('Channel', UCHAR),
-			('Level', UCHAR),
-			('Opcode', UCHAR),
-			('Task', USHORT),
-			('Keyword', ULONGLONG)
+			(
+			'Id',
+			USHORT
+			),
+			(
+			'Version',
+			UCHAR
+			),
+			(
+			'Channel',
+			UCHAR
+			),
+			(
+			'Level',
+			UCHAR
+			),
+			(
+			'Opcode',
+			UCHAR
+			),
+			(
+			'Task',
+			USHORT
+			),
+			(
+			'Keyword',
+			ULONGLONG
+			)
 		)
+
+
 class PEVENT_DESCRIPTOR(NDRPOINTER):
 	referent = (
-			('Data', EVENT_DESCRIPTOR)
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
 		)
+
+
 class PCEVENT_DESCRIPTOR(NDRPOINTER):
 	referent = (
-			('Data', EVENT_DESCRIPTOR)
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
 		)
+
+
 class S0(NDRSTRUCT):
 	align = 1
-	structure = 		(		('KernelTime', ULONG), 		('UserTime', ULONG))
+	structure = (
+			(
+			'KernelTime',
+			ULONG
+			),
+			(
+			'UserTime',
+			ULONG
+			)
+		)
+
+
 class U0(NDRUNION):
-	union = {1 : 		('s0', S0),2 : 		('ProcessorTime', ULONG64)}
+	union = {1 : (
+		's0',
+		S0
+		),2 : (
+		'ProcessorTime',
+		ULONG64
+		)}
+
+
 class EVENT_HEADER(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Size', USHORT),
-			('HeaderType', USHORT),
-			('Flags', USHORT),
-			('EventProperty', USHORT),
-			('ThreadId', ULONG),
-			('ProcessId', ULONG),
-			('TimeStamp', LARGE_INTEGER),
-			('ProviderId', GUID),
-			('EventDescriptor', EVENT_DESCRIPTOR),
-			('u0', U0),
-			('ActivityId', GUID)
+			(
+			'Size',
+			USHORT
+			),
+			(
+			'HeaderType',
+			USHORT
+			),
+			(
+			'Flags',
+			USHORT
+			),
+			(
+			'EventProperty',
+			USHORT
+			),
+			(
+			'ThreadId',
+			ULONG
+			),
+			(
+			'ProcessId',
+			ULONG
+			),
+			(
+			'TimeStamp',
+			LARGE_INTEGER
+			),
+			(
+			'ProviderId',
+			GUID
+			),
+			(
+			'EventDescriptor',
+			EVENT_DESCRIPTOR
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'ActivityId',
+			GUID
+			)
 		)
+
+
 class PEVENT_HEADER(NDRPOINTER):
 	referent = (
-			('Data', EVENT_HEADER)
+			(
+			'Data',
+			EVENT_HEADER
+			)
 		)
+
+
 LCID = DWORD
 class LUID(NDRSTRUCT):
 	align = 1
-	structure = 		(		('LowPart', DWORD), 		('HighPart', LONG))
+	structure = (
+			(
+			'LowPart',
+			DWORD
+			),
+			(
+			'HighPart',
+			LONG
+			)
+		)
+
+
 class PLUID(NDRPOINTER):
 	referent = (
-			('Data', LUID)
+			(
+			'Data',
+			LUID
+			)
 		)
+
+
 class MULTI_SZ(NDRSTRUCT):
 	align = 1
-	structure = 		(		('Value', WCHAR_T), 		('nChar', DWORD))
-class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
-	item = WCHAR
-class PTR_UNSIGNED_SHORT(NDRPOINTER):
-	referent = (
-			('Data', DATA_UNSIGNED_SHORT)
+	structure = (
+			(
+			'Value',
+			WCHAR_T
+			),
+			(
+			'nChar',
+			DWORD
+			)
 		)
-class UNSIGNED_SHORT(NDRSTRUCT):
+
+
+class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+	item = WCHAR
+
+
+class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_RPC_UNICODE_STRING
+			)
+		)
+
+
+class RPC_UNICODE_STRING(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Length', UNSIGNED_SHORT),
-			('MaximumLength', UNSIGNED_SHORT),
-			('Buffer', PTR_UNSIGNED_SHORT)
+			(
+			'Length',
+			UNSIGNED_SHORT
+			),
+			(
+			'MaximumLength',
+			UNSIGNED_SHORT
+			),
+			(
+			'Buffer',
+			PTR_RPC_UNICODE_STRING
+			)
 		)
+
+
 class SERVER_INFO_100(NDRSTRUCT):
 	align = 1
-	structure = 		(		('sv100_platform_id', DWORD), 		('sv100_name', WCHAR_T))
+	structure = (
+			(
+			'sv100_platform_id',
+			DWORD
+			),
+			(
+			'sv100_name',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_100(NDRPOINTER):
 	referent = (
-			('Data', SERVER_INFO_100)
+			(
+			'Data',
+			SERVER_INFO_100
+			)
 		)
+
+
 class LPSERVER_INFO_100(NDRPOINTER):
 	referent = (
-			('Data', SERVER_INFO_100)
+			(
+			'Data',
+			SERVER_INFO_100
+			)
 		)
+
+
 class SERVER_INFO_101(NDRSTRUCT):
 	align = 1
 	structure = (
-			('sv101_platform_id', DWORD),
-			('sv101_name', WCHAR_T),
-			('sv101_version_major', DWORD),
-			('sv101_version_minor', DWORD),
-			('sv101_version_type', DWORD),
-			('sv101_comment', WCHAR_T)
+			(
+			'sv101_platform_id',
+			DWORD
+			),
+			(
+			'sv101_name',
+			WCHAR_T
+			),
+			(
+			'sv101_version_major',
+			DWORD
+			),
+			(
+			'sv101_version_minor',
+			DWORD
+			),
+			(
+			'sv101_version_type',
+			DWORD
+			),
+			(
+			'sv101_comment',
+			WCHAR_T
+			)
 		)
+
+
 class PSERVER_INFO_101(NDRPOINTER):
 	referent = (
-			('Data', SERVER_INFO_101)
+			(
+			'Data',
+			SERVER_INFO_101
+			)
 		)
+
+
 class LPSERVER_INFO_101(NDRPOINTER):
 	referent = (
-			('Data', SERVER_INFO_101)
+			(
+			'Data',
+			SERVER_INFO_101
+			)
 		)
+
+
 class SYSTEMTIME(NDRSTRUCT):
 	align = 1
 	structure = (
-			('wYear', WORD),
-			('wMonth', WORD),
-			('wDayOfWeek', WORD),
-			('wDay', WORD),
-			('wHour', WORD),
-			('wMinute', WORD),
-			('wSecond', WORD),
-			('wMilliseconds', WORD)
+			(
+			'wYear',
+			WORD
+			),
+			(
+			'wMonth',
+			WORD
+			),
+			(
+			'wDayOfWeek',
+			WORD
+			),
+			(
+			'wDay',
+			WORD
+			),
+			(
+			'wHour',
+			WORD
+			),
+			(
+			'wMinute',
+			WORD
+			),
+			(
+			'wSecond',
+			WORD
+			),
+			(
+			'wMilliseconds',
+			WORD
+			)
 		)
+
+
 class PSYSTEMTIME(NDRPOINTER):
 	referent = (
-			('Data', SYSTEMTIME)
+			(
+			'Data',
+			SYSTEMTIME
+			)
 		)
+
+
 class UINT128(NDRSTRUCT):
 	align = 1
-	structure = 		(		('lower', UINT64), 		('upper', UINT64))
+	structure = (
+			(
+			'lower',
+			UINT64
+			),
+			(
+			'upper',
+			UINT64
+			)
+		)
+
+
 class PUINT128(NDRPOINTER):
 	referent = (
-			('Data', UINT128)
+			(
+			'Data',
+			UINT128
+			)
 		)
+
+
 class ULARGE_INTEGER(NDRSTRUCT):
 	align = 1
 	structure = (
-			('QuadPart', UNSIGNED___INT64)
+			(
+			'QuadPart',
+			UNSIGNED___INT64
+			)
 		)
+
+
 class PULARGE_INTEGER(NDRPOINTER):
 	referent = (
-			('Data', ULARGE_INTEGER)
+			(
+			'Data',
+			ULARGE_INTEGER
+			)
 		)
+
+
 class RPC_SID_IDENTIFIER_AUTHORITY(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Value', BYTE)
+			(
+			'Value',
+			BYTE
+			)
 		)
+
+
 ACCESS_MASK = DWORD
 PACCESS_MASK = ACCESS_MASK
 class OBJECT_TYPE_LIST(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Level', WORD),
-			('Remaining', ACCESS_MASK),
-			('ObjectType', GUID)
+			(
+			'Level',
+			WORD
+			),
+			(
+			'Remaining',
+			ACCESS_MASK
+			),
+			(
+			'ObjectType',
+			GUID
+			)
 		)
+
+
 class POBJECT_TYPE_LIST(NDRPOINTER):
 	referent = (
-			('Data', OBJECT_TYPE_LIST)
+			(
+			'Data',
+			OBJECT_TYPE_LIST
+			)
 		)
+
+
 class ACE_HEADER(NDRSTRUCT):
 	align = 1
 	structure = (
-			('AceType', UCHAR),
-			('AceFlags', UCHAR),
-			('AceSize', USHORT)
+			(
+			'AceType',
+			UCHAR
+			),
+			(
+			'AceFlags',
+			UCHAR
+			),
+			(
+			'AceSize',
+			USHORT
+			)
 		)
+
+
 class PACE_HEADER(NDRPOINTER):
 	referent = (
-			('Data', ACE_HEADER)
+			(
+			'Data',
+			ACE_HEADER
+			)
 		)
+
+
 class SYSTEM_MANDATORY_LABEL_ACE(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Header', ACE_HEADER),
-			('Mask', ACCESS_MASK),
-			('SidStart', DWORD)
+			(
+			'Header',
+			ACE_HEADER
+			),
+			(
+			'Mask',
+			ACCESS_MASK
+			),
+			(
+			'SidStart',
+			DWORD
+			)
 		)
+
+
 class PSYSTEM_MANDATORY_LABEL_ACE(NDRPOINTER):
 	referent = (
-			('Data', SYSTEM_MANDATORY_LABEL_ACE)
+			(
+			'Data',
+			SYSTEM_MANDATORY_LABEL_ACE
+			)
 		)
+
+
 class TOKEN_MANDATORY_POLICY(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Policy', DWORD)
+			(
+			'Policy',
+			DWORD
+			)
 		)
+
+
 class PTOKEN_MANDATORY_POLICY(NDRPOINTER):
 	referent = (
-			('Data', TOKEN_MANDATORY_POLICY)
+			(
+			'Data',
+			TOKEN_MANDATORY_POLICY
+			)
 		)
+
+
 class MANDATORY_INFORMATION(NDRSTRUCT):
 	align = 1
 	structure = (
-			('AllowedAccess', ACCESS_MASK),
-			('WriteAllowed', BOOLEAN),
-			('ReadAllowed', BOOLEAN),
-			('ExecuteAllowed', BOOLEAN),
-			('MandatoryPolicy', TOKEN_MANDATORY_POLICY)
+			(
+			'AllowedAccess',
+			ACCESS_MASK
+			),
+			(
+			'WriteAllowed',
+			BOOLEAN
+			),
+			(
+			'ReadAllowed',
+			BOOLEAN
+			),
+			(
+			'ExecuteAllowed',
+			BOOLEAN
+			),
+			(
+			'MandatoryPolicy',
+			TOKEN_MANDATORY_POLICY
+			)
 		)
+
+
 class PMANDATORY_INFORMATION(NDRPOINTER):
 	referent = (
-			('Data', MANDATORY_INFORMATION)
+			(
+			'Data',
+			MANDATORY_INFORMATION
+			)
 		)
+
+
 class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRSTRUCT):
 	align = 1
-	structure = 		(		('Length', DWORD), 		('OctetString', BYTE))
+	structure = (
+			(
+			'Length',
+			DWORD
+			),
+			(
+			'OctetString',
+			BYTE
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRPOINTER):
 	referent = (
-			('Data', CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE)
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+			)
 		)
+
+
 class VALUES(NDRUNION):
-	union = {1 : 		('pInt64', PLONG64),2 : 		('pUint64', PDWORD64),3 : 		('ppString', PWSTR),4 : 		('pOctetString', PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE)}
+	union = {1 : (
+		'pInt64',
+		PLONG64
+		),2 : (
+		'pUint64',
+		PDWORD64
+		),3 : (
+		'ppString',
+		PWSTR
+		),4 : (
+		'pOctetString',
+		PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+		)}
+
+
 class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Name', DWORD),
-			('ValueType', WORD),
-			('Reserved', WORD),
-			('Flags', DWORD),
-			('ValueCount', DWORD),
-			('Values', VALUES)
+			(
+			'Name',
+			DWORD
+			),
+			(
+			'ValueType',
+			WORD
+			),
+			(
+			'Reserved',
+			WORD
+			),
+			(
+			'Flags',
+			DWORD
+			),
+			(
+			'ValueCount',
+			DWORD
+			),
+			(
+			'Values',
+			VALUES
+			)
 		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRPOINTER):
 	referent = (
-			('Data', CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1)
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1
+			)
 		)
+
+
 SECURITY_INFORMATION = DWORD
 PSECURITY_INFORMATION = DWORD
 class RPC_SID(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Revision', UNSIGNED_CHAR),
-			('SubAuthorityCount', UNSIGNED_CHAR),
-			('IdentifierAuthority', RPC_SID_IDENTIFIER_AUTHORITY),
-			('SubAuthority', UNSIGNED_LONG)
+			(
+			'Revision',
+			UNSIGNED_CHAR
+			),
+			(
+			'SubAuthorityCount',
+			UNSIGNED_CHAR
+			),
+			(
+			'IdentifierAuthority',
+			RPC_SID_IDENTIFIER_AUTHORITY
+			),
+			(
+			'SubAuthority',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class PRPC_SID(NDRPOINTER):
 	referent = (
-			('Data', RPC_SID)
+			(
+			'Data',
+			RPC_SID
+			)
 		)
+
+
 class PSID(NDRPOINTER):
 	referent = (
-			('Data', RPC_SID)
+			(
+			'Data',
+			RPC_SID
+			)
 		)
+
+
 class ACL(NDRSTRUCT):
 	align = 1
 	structure = (
-			('AclRevision', UNSIGNED_CHAR),
-			('Sbz1', UNSIGNED_CHAR),
-			('AclSize', UNSIGNED_SHORT),
-			('AceCount', UNSIGNED_SHORT),
-			('Sbz2', UNSIGNED_SHORT)
+			(
+			'AclRevision',
+			UNSIGNED_CHAR
+			),
+			(
+			'Sbz1',
+			UNSIGNED_CHAR
+			),
+			(
+			'AclSize',
+			UNSIGNED_SHORT
+			),
+			(
+			'AceCount',
+			UNSIGNED_SHORT
+			),
+			(
+			'Sbz2',
+			UNSIGNED_SHORT
+			)
 		)
+
+
 class PACL(NDRPOINTER):
 	referent = (
-			('Data', ACL)
+			(
+			'Data',
+			ACL
+			)
 		)
+
+
 class SECURITY_DESCRIPTOR(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Revision', UCHAR),
-			('Sbz1', UCHAR),
-			('Control', USHORT),
-			('Owner', PSID),
-			('Group', PSID),
-			('Sacl', PACL),
-			('Dacl', PACL)
+			(
+			'Revision',
+			UCHAR
+			),
+			(
+			'Sbz1',
+			UCHAR
+			),
+			(
+			'Control',
+			USHORT
+			),
+			(
+			'Owner',
+			PSID
+			),
+			(
+			'Group',
+			PSID
+			),
+			(
+			'Sacl',
+			PACL
+			),
+			(
+			'Dacl',
+			PACL
+			)
 		)
+
+
 class PSECURITY_DESCRIPTOR(NDRPOINTER):
 	referent = (
-			('Data', SECURITY_DESCRIPTOR)
+			(
+			'Data',
+			SECURITY_DESCRIPTOR
+			)
 		)
+
+
 #################################################################################
 #TYPEDEFS
 #################################################################################
@@ -843,242 +1869,684 @@ OID = UNSIGNED_HYPER
 SETID = UNSIGNED_HYPER
 IPID = GUID
 CID = GUID
-REFIPID = REFGUID
+REFIPID =  GUID
 class COMVERSION(NDRSTRUCT):
 	align = 1
-	structure = 		(		('MajorVersion', UNSIGNED_SHORT), 		('MinorVersion', UNSIGNED_SHORT))
+	structure = (
+			(
+			'MajorVersion',
+			UNSIGNED_SHORT
+			),
+			(
+			'MinorVersion',
+			UNSIGNED_SHORT
+			)
+		)
+
+
 class ORPC_EXTENT(NDRSTRUCT):
 	align = 1
 	structure = (
-			('id', GUID),
-			('size', UNSIGNED_LONG),
-			('data', BYTE)
+			(
+			'id',
+			GUID
+			),
+			(
+			'size',
+			UNSIGNED_LONG
+			),
+			(
+			'data',
+			BYTE
+			)
 		)
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
+
+
+class DATA_ORPC_EXTENT_ARRAY(NDRUniConformantArray):
 	item = ORPC_EXTENT
-class PTR_UNSIGNED_LONG(NDRPOINTER):
+
+
+class PTR_ORPC_EXTENT_ARRAY(NDRPOINTER):
 	referent = (
-			('Data', DATA_UNSIGNED_LONG)
+			(
+			'Data',
+			DATA_ORPC_EXTENT_ARRAY
+			)
 		)
-class UNSIGNED_LONG(NDRSTRUCT):
+
+
+class ORPC_EXTENT_ARRAY(NDRSTRUCT):
 	align = 1
 	structure = (
-			('size', UNSIGNED_LONG),
-			('reserved', UNSIGNED_LONG),
-			('extent', PTR_UNSIGNED_LONG)
+			(
+			'size',
+			UNSIGNED_LONG
+			),
+			(
+			'reserved',
+			UNSIGNED_LONG
+			),
+			(
+			'extent',
+			PTR_ORPC_EXTENT_ARRAY
+			)
 		)
+
+
 class ORPCTHIS(NDRSTRUCT):
 	align = 1
 	structure = (
-			('version', COMVERSION),
-			('flags', UNSIGNED_LONG),
-			('reserved1', UNSIGNED_LONG),
-			('cid', CID),
-			('extensions', ORPC_EXTENT_ARRAY)
+			(
+			'version',
+			COMVERSION
+			),
+			(
+			'flags',
+			UNSIGNED_LONG
+			),
+			(
+			'reserved1',
+			UNSIGNED_LONG
+			),
+			(
+			'cid',
+			CID
+			),
+			(
+			'extensions',
+			ORPC_EXTENT_ARRAY
+			)
 		)
+
+
 class ORPCTHAT(NDRSTRUCT):
 	align = 1
-	structure = 		(		('flags', UNSIGNED_LONG), 		('extensions', ORPC_EXTENT_ARRAY))
+	structure = (
+			(
+			'flags',
+			UNSIGNED_LONG
+			),
+			(
+			'extensions',
+			ORPC_EXTENT_ARRAY
+			)
+		)
+
+
 class DUALSTRINGARRAY(NDRSTRUCT):
 	align = 1
 	structure = (
-			('wNumEntries', UNSIGNED_SHORT),
-			('wSecurityOffset', UNSIGNED_SHORT),
-			('aStringArray', UNSIGNED_SHORT)
+			(
+			'wNumEntries',
+			UNSIGNED_SHORT
+			),
+			(
+			'wSecurityOffset',
+			UNSIGNED_SHORT
+			),
+			(
+			'aStringArray',
+			UNSIGNED_SHORT
+			)
 		)
- = DWORD__ENUM
+
+
+tagCPFLAGS = DWORD__ENUM
 CPFLAG_PROPAGATE = 1
 CPFLAG_EXPOSE = 2
 CPFLAG_ENVOY = 4
 class MINTERFACEPOINTER(NDRSTRUCT):
 	align = 1
-	structure = 		(		('ulCntData', UNSIGNED_LONG), 		('abData', BYTE))
+	structure = (
+			(
+			'ulCntData',
+			UNSIGNED_LONG
+			),
+			(
+			'abData',
+			BYTE
+			)
+		)
+
+
 PMINTERFACEPOINTER = MINTERFACEPOINTER
 class ERROROBJECTDATA(NDRSTRUCT):
 	align = 1
 	structure = (
-			('dwVersion', DWORD),
-			('dwHelpContext', DWORD),
-			('iid', IID),
-			('pszSource', WCHAR_T),
-			('pszDescription', WCHAR_T),
-			('pszHelpFile', WCHAR_T)
+			(
+			'dwVersion',
+			DWORD
+			),
+			(
+			'dwHelpContext',
+			DWORD
+			),
+			(
+			'iid',
+			IID
+			),
+			(
+			'pszSource',
+			WCHAR_T
+			),
+			(
+			'pszDescription',
+			WCHAR_T
+			),
+			(
+			'pszHelpFile',
+			WCHAR_T
+			)
 		)
+
+
 class STDOBJREF(NDRSTRUCT):
 	align = 1
 	structure = (
-			('flags', UNSIGNED_LONG),
-			('cPublicRefs', UNSIGNED_LONG),
-			('oxid', OXID),
-			('oid', OID),
-			('ipid', IPID)
+			(
+			'flags',
+			UNSIGNED_LONG
+			),
+			(
+			'cPublicRefs',
+			UNSIGNED_LONG
+			),
+			(
+			'oxid',
+			OXID
+			),
+			(
+			'oid',
+			OID
+			),
+			(
+			'ipid',
+			IPID
+			)
 		)
+
+
 class REMQIRESULT(NDRSTRUCT):
 	align = 1
-	structure = 		(		('hResult', HRESULT), 		('std', STDOBJREF))
+	structure = (
+			(
+			'hResult',
+			HRESULT
+			),
+			(
+			'std',
+			STDOBJREF
+			)
+		)
+
+
 class REMINTERFACEREF(NDRSTRUCT):
 	align = 1
 	structure = (
-			('ipid', IPID),
-			('cPublicRefs', UNSIGNED_LONG),
-			('cPrivateRefs', UNSIGNED_LONG)
+			(
+			'ipid',
+			IPID
+			),
+			(
+			'cPublicRefs',
+			UNSIGNED_LONG
+			),
+			(
+			'cPrivateRefs',
+			UNSIGNED_LONG
+			)
 		)
+
+
 PREMQIRESULT = REMQIRESULT
 PMINTERFACEPOINTERINTERNAL = MINTERFACEPOINTER
 class COSERVERINFO(NDRSTRUCT):
 	align = 1
 	structure = (
-			('dwReserved1', DWORD),
-			('pwszName', WCHAR_T),
-			('pdwReserved', DWORD),
-			('dwReserved2', DWORD)
+			(
+			'dwReserved1',
+			DWORD
+			),
+			(
+			'pwszName',
+			WCHAR_T
+			),
+			(
+			'pdwReserved',
+			DWORD
+			),
+			(
+			'dwReserved2',
+			DWORD
+			)
 		)
-class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
+
+
+class DATA_CUSTOMREMOTE_REQUEST_SCM_INFO(NDRUniConformantArray):
 	item = UNSIGNED_SHORT
-class PTR_UNSIGNED_SHORT(NDRPOINTER):
+
+
+class PTR_CUSTOMREMOTE_REQUEST_SCM_INFO(NDRPOINTER):
 	referent = (
-			('Data', DATA_UNSIGNED_SHORT)
+			(
+			'Data',
+			DATA_CUSTOMREMOTE_REQUEST_SCM_INFO
+			)
 		)
-class UNSIGNED_SHORT(NDRSTRUCT):
+
+
+class CUSTOMREMOTE_REQUEST_SCM_INFO(NDRSTRUCT):
 	align = 1
 	structure = (
-			('ClientImpLevel', DWORD),
-			('cRequestedProtseqs', UNSIGNED_SHORT),
-			('pRequestedProtseqs', PTR_UNSIGNED_SHORT)
+			(
+			'ClientImpLevel',
+			DWORD
+			),
+			(
+			'cRequestedProtseqs',
+			UNSIGNED_SHORT
+			),
+			(
+			'pRequestedProtseqs',
+			PTR_CUSTOMREMOTE_REQUEST_SCM_INFO
+			)
 		)
+
+
 class CUSTOMREMOTE_REPLY_SCM_INFO(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Oxid', OXID),
-			('pdsaOxidBindings', DUALSTRINGARRAY),
-			('ipidRemUnknown', IPID),
-			('authnHint', DWORD),
-			('serverVersion', COMVERSION)
+			(
+			'Oxid',
+			OXID
+			),
+			(
+			'pdsaOxidBindings',
+			DUALSTRINGARRAY
+			),
+			(
+			'ipidRemUnknown',
+			IPID
+			),
+			(
+			'authnHint',
+			DWORD
+			),
+			(
+			'serverVersion',
+			COMVERSION
+			)
 		)
-class DATA_COMVERSION(NDRUniConformantArray):
+
+
+class DATA_INSTANTIATIONINFODATA(NDRUniConformantArray):
 	item = IID
-class PTR_COMVERSION(NDRPOINTER):
+
+
+class PTR_INSTANTIATIONINFODATA(NDRPOINTER):
 	referent = (
-			('Data', DATA_COMVERSION)
+			(
+			'Data',
+			DATA_INSTANTIATIONINFODATA
+			)
 		)
-class COMVERSION(NDRSTRUCT):
+
+
+class INSTANTIATIONINFODATA(NDRSTRUCT):
 	align = 1
 	structure = (
-			('classId', CLSID),
-			('classCtx', DWORD),
-			('actvflags', DWORD),
-			('fIsSurrogate', LONG),
-			('cIID', DWORD),
-			('instFlag', DWORD),
-			('pIID', PTR_DWORD),
-			('thisSize', DWORD),
-			('clientCOMVersion', COMVERSION)
+			(
+			'classId',
+			CLSID
+			),
+			(
+			'classCtx',
+			DWORD
+			),
+			(
+			'actvflags',
+			DWORD
+			),
+			(
+			'fIsSurrogate',
+			LONG
+			),
+			(
+			'cIID',
+			DWORD
+			),
+			(
+			'instFlag',
+			DWORD
+			),
+			(
+			'pIID',
+			PTR_INSTANTIATIONINFODATA
+			),
+			(
+			'thisSize',
+			DWORD
+			),
+			(
+			'clientCOMVersion',
+			COMVERSION
+			)
 		)
+
+
 class LOCATIONINFODATA(NDRSTRUCT):
 	align = 1
 	structure = (
-			('machineName', WCHAR_T),
-			('processId', DWORD),
-			('apartmentId', DWORD),
-			('contextId', DWORD)
+			(
+			'machineName',
+			WCHAR_T
+			),
+			(
+			'processId',
+			DWORD
+			),
+			(
+			'apartmentId',
+			DWORD
+			),
+			(
+			'contextId',
+			DWORD
+			)
 		)
+
+
 class ACTIVATIONCONTEXTINFODATA(NDRSTRUCT):
 	align = 1
 	structure = (
-			('clientOK', LONG),
-			('bReserved1', LONG),
-			('dwReserved1', DWORD),
-			('dwReserved2', DWORD),
-			('pIFDClientCtx', MINTERFACEPOINTER),
-			('pIFDPrototypeCtx', MINTERFACEPOINTER)
+			(
+			'clientOK',
+			LONG
+			),
+			(
+			'bReserved1',
+			LONG
+			),
+			(
+			'dwReserved1',
+			DWORD
+			),
+			(
+			'dwReserved2',
+			DWORD
+			),
+			(
+			'pIFDClientCtx',
+			MINTERFACEPOINTER
+			),
+			(
+			'pIFDPrototypeCtx',
+			MINTERFACEPOINTER
+			)
 		)
-class DATA_DWORD(NDRUniConformantArray):
+
+
+class DATA_CUSTOMHEADER(NDRUniConformantArray):
 	item = DWORD
-class PTR_DWORD(NDRPOINTER):
+
+
+class PTR_CUSTOMHEADER(NDRPOINTER):
 	referent = (
-			('Data', DATA_DWORD)
+			(
+			'Data',
+			DATA_CUSTOMHEADER
+			)
 		)
-class DWORD(NDRSTRUCT):
+
+
+class CUSTOMHEADER(NDRSTRUCT):
 	align = 1
 	structure = (
-			('totalSize', DWORD),
-			('headerSize', DWORD),
-			('dwReserved', DWORD),
-			('destCtx', DWORD),
-			('cIfs', DWORD),
-			('classInfoClsid', CLSID),
-			('pclsid', CLSID),
-			('pSizes', PTR_CLSID),
-			('pdwReserved', DWORD)
+			(
+			'totalSize',
+			DWORD
+			),
+			(
+			'headerSize',
+			DWORD
+			),
+			(
+			'dwReserved',
+			DWORD
+			),
+			(
+			'destCtx',
+			DWORD
+			),
+			(
+			'cIfs',
+			DWORD
+			),
+			(
+			'classInfoClsid',
+			CLSID
+			),
+			(
+			'pclsid',
+			CLSID
+			),
+			(
+			'pSizes',
+			PTR_CUSTOMHEADER
+			),
+			(
+			'pdwReserved',
+			DWORD
+			)
 		)
-class DATA_HRESULT(NDRUniConformantArray):
+
+
+class DATA_PROPSOUTINFO(NDRUniConformantArray):
 	item = MINTERFACEPOINTER
-class PTR_HRESULT(NDRPOINTER):
+
+
+class PTR_PROPSOUTINFO(NDRPOINTER):
 	referent = (
-			('Data', DATA_HRESULT)
+			(
+			'Data',
+			DATA_PROPSOUTINFO
+			)
 		)
-class HRESULT(NDRSTRUCT):
+
+
+class PROPSOUTINFO(NDRSTRUCT):
 	align = 1
 	structure = (
-			('cIfs', DWORD),
-			('piid', IID),
-			('phresults', HRESULT),
-			('ppIntfData', PTR_HRESULT)
+			(
+			'cIfs',
+			DWORD
+			),
+			(
+			'piid',
+			IID
+			),
+			(
+			'phresults',
+			HRESULT
+			),
+			(
+			'ppIntfData',
+			PTR_PROPSOUTINFO
+			)
 		)
+
+
 class SECURITYINFODATA(NDRSTRUCT):
 	align = 1
 	structure = (
-			('dwAuthnFlags', DWORD),
-			('pServerInfo', COSERVERINFO),
-			('pdwReserved', DWORD)
+			(
+			'dwAuthnFlags',
+			DWORD
+			),
+			(
+			'pServerInfo',
+			COSERVERINFO
+			),
+			(
+			'pdwReserved',
+			DWORD
+			)
 		)
+
+
 class SCMREQUESTINFODATA(NDRSTRUCT):
 	align = 1
-	structure = 		(		('pdwReserved', DWORD), 		('remoteRequest', CUSTOMREMOTE_REQUEST_SCM_INFO))
+	structure = (
+			(
+			'pdwReserved',
+			DWORD
+			),
+			(
+			'remoteRequest',
+			CUSTOMREMOTE_REQUEST_SCM_INFO
+			)
+		)
+
+
 class SCMREPLYINFODATA(NDRSTRUCT):
 	align = 1
-	structure = 		(		('pdwReserved', DWORD), 		('remoteReply', CUSTOMREMOTE_REPLY_SCM_INFO))
+	structure = (
+			(
+			'pdwReserved',
+			DWORD
+			),
+			(
+			'remoteReply',
+			CUSTOMREMOTE_REPLY_SCM_INFO
+			)
+		)
+
+
 class INSTANCEINFODATA(NDRSTRUCT):
 	align = 1
 	structure = (
-			('fileName', WCHAR_T),
-			('mode', DWORD),
-			('ifdROT', MINTERFACEPOINTER),
-			('ifdStg', MINTERFACEPOINTER)
+			(
+			'fileName',
+			WCHAR_T
+			),
+			(
+			'mode',
+			DWORD
+			),
+			(
+			'ifdROT',
+			MINTERFACEPOINTER
+			),
+			(
+			'ifdStg',
+			MINTERFACEPOINTER
+			)
 		)
+
+
 SPD_FLAGS = DWORD__ENUM
 SPD_FLAG_USE_CONSOLE_SESSION = 1
 SPD_FLAG_USE_DEFAULT_AUTHN_LVL = 2
 class SPECIALPROPERTIESDATA(NDRSTRUCT):
 	align = 1
 	structure = (
-			('dwSessionId', UNSIGNED_LONG),
-			('fRemoteThisSessionId', LONG),
-			('fClientImpersonating', LONG),
-			('fPartitionIDPresent', LONG),
-			('dwDefaultAuthnLvl', DWORD),
-			('guidPartition', GUID),
-			('dwPRTFlags', DWORD),
-			('dwOrigClsctx', DWORD),
-			('dwFlags', DWORD),
-			('Reserved1', DWORD),
-			('Reserved2', UNSIGNED___INT64),
-			('Reserved3', DWORD)
+			(
+			'dwSessionId',
+			UNSIGNED_LONG
+			),
+			(
+			'fRemoteThisSessionId',
+			LONG
+			),
+			(
+			'fClientImpersonating',
+			LONG
+			),
+			(
+			'fPartitionIDPresent',
+			LONG
+			),
+			(
+			'dwDefaultAuthnLvl',
+			DWORD
+			),
+			(
+			'guidPartition',
+			GUID
+			),
+			(
+			'dwPRTFlags',
+			DWORD
+			),
+			(
+			'dwOrigClsctx',
+			DWORD
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'Reserved1',
+			DWORD
+			),
+			(
+			'Reserved2',
+			UNSIGNED___INT64
+			),
+			(
+			'Reserved3',
+			DWORD
+			)
 		)
+
+
 class SPECIALPROPERTIESDATA_ALTERNATE(NDRSTRUCT):
 	align = 1
 	structure = (
-			('dwSessionId', UNSIGNED_LONG),
-			('fRemoteThisSessionId', LONG),
-			('fClientImpersonating', LONG),
-			('fPartitionIDPresent', LONG),
-			('dwDefaultAuthnLvl', DWORD),
-			('guidPartition', GUID),
-			('dwPRTFlags', DWORD),
-			('dwOrigClsctx', DWORD),
-			('dwFlags', DWORD),
-			('Reserved3', DWORD)
+			(
+			'dwSessionId',
+			UNSIGNED_LONG
+			),
+			(
+			'fRemoteThisSessionId',
+			LONG
+			),
+			(
+			'fClientImpersonating',
+			LONG
+			),
+			(
+			'fPartitionIDPresent',
+			LONG
+			),
+			(
+			'dwDefaultAuthnLvl',
+			DWORD
+			),
+			(
+			'guidPartition',
+			GUID
+			),
+			(
+			'dwPRTFlags',
+			DWORD
+			),
+			(
+			'dwOrigClsctx',
+			DWORD
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'Reserved3',
+			DWORD
+			)
 		)
+
+
 #################################################################################
 #CONSTANTS
 #################################################################################
@@ -1096,33 +2564,106 @@ MAX_REQUESTED_PROTSEQS = CONST_UNSIGNED_LONG
 class RemoteActivation(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('hRpc', HANDLE_T),
-			('ORPCthis', ORPCTHIS),
-			('Clsid', GUID),
-			('pwszObjectName', WCHAR_T),
-			('pObjectStorage', MINTERFACEPOINTER),
-			('ClientImpLevel', DWORD),
-			('Mode', DWORD),
-			('Interfaces', DWORD),
-			('pIIDs', IID),
-			('cRequestedProtseqs', UNSIGNED_SHORT),
-			('aRequestedProtseqs', UNSIGNED_SHORT)
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'ORPCthis',
+			ORPCTHIS
+			),
+			(
+			'Clsid',
+			GUID
+			),
+			(
+			'pwszObjectName',
+			WCHAR_T
+			),
+			(
+			'pObjectStorage',
+			MINTERFACEPOINTER
+			),
+			(
+			'ClientImpLevel',
+			DWORD
+			),
+			(
+			'Mode',
+			DWORD
+			),
+			(
+			'Interfaces',
+			DWORD
+			),
+			(
+			'pIIDs',
+			IID
+			),
+			(
+			'cRequestedProtseqs',
+			UNSIGNED_SHORT
+			),
+			(
+			'aRequestedProtseqs',
+			UNSIGNED_SHORT
+			)
 		)
+
+
 class RemoteActivationResponse(NDRCALL):
 	structure = (
-			('hRpc', HANDLE_T),
-			('ORPCthis', ORPCTHIS),
-			('Clsid', GUID),
-			('pwszObjectName', WCHAR_T),
-			('pObjectStorage', MINTERFACEPOINTER),
-			('ClientImpLevel', DWORD),
-			('Mode', DWORD),
-			('Interfaces', DWORD),
-			('pIIDs', IID),
-			('cRequestedProtseqs', UNSIGNED_SHORT),
-			('aRequestedProtseqs', UNSIGNED_SHORT)
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'ORPCthis',
+			ORPCTHIS
+			),
+			(
+			'Clsid',
+			GUID
+			),
+			(
+			'pwszObjectName',
+			WCHAR_T
+			),
+			(
+			'pObjectStorage',
+			MINTERFACEPOINTER
+			),
+			(
+			'ClientImpLevel',
+			DWORD
+			),
+			(
+			'Mode',
+			DWORD
+			),
+			(
+			'Interfaces',
+			DWORD
+			),
+			(
+			'pIIDs',
+			IID
+			),
+			(
+			'cRequestedProtseqs',
+			UNSIGNED_SHORT
+			),
+			(
+			'aRequestedProtseqs',
+			UNSIGNED_SHORT
+			)
 		)
-OPNUMS = {0 : 	(RemoteActivation, RemoteActivationResponse)}
+
+
+OPNUMS = {0 : (
+	RemoteActivation,
+	RemoteActivationResponse
+	)}
 #################################################################################
 #IRemoteSCMActivator Definition
 #################################################################################
@@ -1130,53 +2671,136 @@ MSRPC_UUID_IREMOTESCMACTIVATOR = uuidtup_to_bin(('000001A0-0000-0000-C000-000000
 class Opnum0NotUsedOnWire(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class Opnum0NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum1NotUsedOnWire(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class Opnum1NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum2NotUsedOnWire(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class Opnum2NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class RemoteGetClassObject(NDRCALL):
 	OPNUM = 3
 	structure = (
-			('rpc', HANDLE_T),
-			('orpcthis', ORPCTHIS),
-			('pActProperties', MINTERFACEPOINTER)
+			(
+			'rpc',
+			HANDLE_T
+			),
+			(
+			'orpcthis',
+			ORPCTHIS
+			),
+			(
+			'pActProperties',
+			MINTERFACEPOINTER
+			)
 		)
+
+
 class RemoteGetClassObjectResponse(NDRCALL):
 	structure = (
-			('rpc', HANDLE_T),
-			('orpcthis', ORPCTHIS),
-			('pActProperties', MINTERFACEPOINTER)
+			(
+			'rpc',
+			HANDLE_T
+			),
+			(
+			'orpcthis',
+			ORPCTHIS
+			),
+			(
+			'pActProperties',
+			MINTERFACEPOINTER
+			)
 		)
+
+
 class RemoteCreateInstance(NDRCALL):
 	OPNUM = 4
 	structure = (
-			('rpc', HANDLE_T),
-			('orpcthis', ORPCTHIS),
-			('pUnkOuter', MINTERFACEPOINTER),
-			('pActProperties', MINTERFACEPOINTER)
+			(
+			'rpc',
+			HANDLE_T
+			),
+			(
+			'orpcthis',
+			ORPCTHIS
+			),
+			(
+			'pUnkOuter',
+			MINTERFACEPOINTER
+			),
+			(
+			'pActProperties',
+			MINTERFACEPOINTER
+			)
 		)
+
+
 class RemoteCreateInstanceResponse(NDRCALL):
 	structure = (
-			('rpc', HANDLE_T),
-			('orpcthis', ORPCTHIS),
-			('pUnkOuter', MINTERFACEPOINTER),
-			('pActProperties', MINTERFACEPOINTER)
+			(
+			'rpc',
+			HANDLE_T
+			),
+			(
+			'orpcthis',
+			ORPCTHIS
+			),
+			(
+			'pUnkOuter',
+			MINTERFACEPOINTER
+			),
+			(
+			'pActProperties',
+			MINTERFACEPOINTER
+			)
 		)
-OPNUMS = {0 : 	(Opnum0NotUsedOnWire, Opnum0NotUsedOnWireResponse),1 : 	(Opnum1NotUsedOnWire, Opnum1NotUsedOnWireResponse),2 : 	(Opnum2NotUsedOnWire, Opnum2NotUsedOnWireResponse),3 : 	(RemoteGetClassObject, RemoteGetClassObjectResponse),4 : 	(RemoteCreateInstance, RemoteCreateInstanceResponse)}
+
+
+OPNUMS = {0 : (
+	Opnum0NotUsedOnWire,
+	Opnum0NotUsedOnWireResponse
+	),1 : (
+	Opnum1NotUsedOnWire,
+	Opnum1NotUsedOnWireResponse
+	),2 : (
+	Opnum2NotUsedOnWire,
+	Opnum2NotUsedOnWireResponse
+	),3 : (
+	RemoteGetClassObject,
+	RemoteGetClassObjectResponse
+	),4 : (
+	RemoteCreateInstance,
+	RemoteCreateInstanceResponse
+	)}
 #################################################################################
 #IObjectExporter Definition
 #################################################################################
@@ -1184,78 +2808,240 @@ MSRPC_UUID_IOBJECTEXPORTER = uuidtup_to_bin(('99fcfec4-5260-101b-bbcb-00aa002134
 class ResolveOxid(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('hRpc', HANDLE_T),
-			('pOxid', OXID),
-			('cRequestedProtseqs', UNSIGNED_SHORT),
-			('arRequestedProtseqs', UNSIGNED_SHORT)
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'pOxid',
+			OXID
+			),
+			(
+			'cRequestedProtseqs',
+			UNSIGNED_SHORT
+			),
+			(
+			'arRequestedProtseqs',
+			UNSIGNED_SHORT
+			)
 		)
+
+
 class ResolveOxidResponse(NDRCALL):
 	structure = (
-			('hRpc', HANDLE_T),
-			('pOxid', OXID),
-			('cRequestedProtseqs', UNSIGNED_SHORT),
-			('arRequestedProtseqs', UNSIGNED_SHORT)
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'pOxid',
+			OXID
+			),
+			(
+			'cRequestedProtseqs',
+			UNSIGNED_SHORT
+			),
+			(
+			'arRequestedProtseqs',
+			UNSIGNED_SHORT
+			)
 		)
+
+
 class SimplePing(NDRCALL):
 	OPNUM = 1
-	structure = 		(		('hRpc', HANDLE_T), 		('pSetId', SETID))
+	structure = (
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'pSetId',
+			SETID
+			)
+		)
+
+
 class SimplePingResponse(NDRCALL):
-	structure = 		(		('hRpc', HANDLE_T), 		('pSetId', SETID))
+	structure = (
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'pSetId',
+			SETID
+			)
+		)
+
+
 class ComplexPing(NDRCALL):
 	OPNUM = 2
 	structure = (
-			('hRpc', HANDLE_T),
-			('pSetId', SETID),
-			('SequenceNum', UNSIGNED_SHORT),
-			('cAddToSet', UNSIGNED_SHORT),
-			('cDelFromSet', UNSIGNED_SHORT),
-			('AddToSet', OID),
-			('DelFromSet', OID)
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'pSetId',
+			SETID
+			),
+			(
+			'SequenceNum',
+			UNSIGNED_SHORT
+			),
+			(
+			'cAddToSet',
+			UNSIGNED_SHORT
+			),
+			(
+			'cDelFromSet',
+			UNSIGNED_SHORT
+			),
+			(
+			'AddToSet',
+			OID
+			),
+			(
+			'DelFromSet',
+			OID
+			)
 		)
+
+
 class ComplexPingResponse(NDRCALL):
 	structure = (
-			('hRpc', HANDLE_T),
-			('pSetId', SETID),
-			('SequenceNum', UNSIGNED_SHORT),
-			('cAddToSet', UNSIGNED_SHORT),
-			('cDelFromSet', UNSIGNED_SHORT),
-			('AddToSet', OID),
-			('DelFromSet', OID)
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'pSetId',
+			SETID
+			),
+			(
+			'SequenceNum',
+			UNSIGNED_SHORT
+			),
+			(
+			'cAddToSet',
+			UNSIGNED_SHORT
+			),
+			(
+			'cDelFromSet',
+			UNSIGNED_SHORT
+			),
+			(
+			'AddToSet',
+			OID
+			),
+			(
+			'DelFromSet',
+			OID
+			)
 		)
+
+
 class ServerAlive(NDRCALL):
 	OPNUM = 3
 	structure = (
-			('hRpc', HANDLE_T)
+			(
+			'hRpc',
+			HANDLE_T
+			)
 		)
+
+
 class ServerAliveResponse(NDRCALL):
 	structure = (
-			('hRpc', HANDLE_T)
+			(
+			'hRpc',
+			HANDLE_T
+			)
 		)
+
+
 class ResolveOxid2(NDRCALL):
 	OPNUM = 4
 	structure = (
-			('hRpc', HANDLE_T),
-			('pOxid', OXID),
-			('cRequestedProtseqs', UNSIGNED_SHORT),
-			('arRequestedProtseqs', UNSIGNED_SHORT)
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'pOxid',
+			OXID
+			),
+			(
+			'cRequestedProtseqs',
+			UNSIGNED_SHORT
+			),
+			(
+			'arRequestedProtseqs',
+			UNSIGNED_SHORT
+			)
 		)
+
+
 class ResolveOxid2Response(NDRCALL):
 	structure = (
-			('hRpc', HANDLE_T),
-			('pOxid', OXID),
-			('cRequestedProtseqs', UNSIGNED_SHORT),
-			('arRequestedProtseqs', UNSIGNED_SHORT)
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'pOxid',
+			OXID
+			),
+			(
+			'cRequestedProtseqs',
+			UNSIGNED_SHORT
+			),
+			(
+			'arRequestedProtseqs',
+			UNSIGNED_SHORT
+			)
 		)
+
+
 class ServerAlive2(NDRCALL):
 	OPNUM = 5
 	structure = (
-			('hRpc', HANDLE_T)
+			(
+			'hRpc',
+			HANDLE_T
+			)
 		)
+
+
 class ServerAlive2Response(NDRCALL):
 	structure = (
-			('hRpc', HANDLE_T)
+			(
+			'hRpc',
+			HANDLE_T
+			)
 		)
-OPNUMS = {0 : 	(ResolveOxid, ResolveOxidResponse),1 : 	(SimplePing, SimplePingResponse),2 : 	(ComplexPing, ComplexPingResponse),3 : 	(ServerAlive, ServerAliveResponse),4 : 	(ResolveOxid2, ResolveOxid2Response),5 : 	(ServerAlive2, ServerAlive2Response)}
+
+
+OPNUMS = {0 : (
+	ResolveOxid,
+	ResolveOxidResponse
+	),1 : (
+	SimplePing,
+	SimplePingResponse
+	),2 : (
+	ComplexPing,
+	ComplexPingResponse
+	),3 : (
+	ServerAlive,
+	ServerAliveResponse
+	),4 : (
+	ResolveOxid2,
+	ResolveOxid2Response
+	),5 : (
+	ServerAlive2,
+	ServerAlive2Response
+	)}
 #################################################################################
 #IUnknown Definition
 #################################################################################
@@ -1263,25 +3049,52 @@ MSRPC_UUID_IUNKNOWN = uuidtup_to_bin(('00000000-0000-0000-C000-000000000046','0.
 class Opnum0NotUsedOnWire(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class Opnum0NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum1NotUsedOnWire(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class Opnum1NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum2NotUsedOnWire(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class Opnum2NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(Opnum0NotUsedOnWire, Opnum0NotUsedOnWireResponse),1 : 	(Opnum1NotUsedOnWire, Opnum1NotUsedOnWireResponse),2 : 	(Opnum2NotUsedOnWire, Opnum2NotUsedOnWireResponse)}
+
+
+OPNUMS = {0 : (
+	Opnum0NotUsedOnWire,
+	Opnum0NotUsedOnWireResponse
+	),1 : (
+	Opnum1NotUsedOnWire,
+	Opnum1NotUsedOnWireResponse
+	),2 : (
+	Opnum2NotUsedOnWire,
+	Opnum2NotUsedOnWireResponse
+	)}
 #################################################################################
 #IRemUnknown Definition
 #################################################################################
@@ -1289,29 +3102,110 @@ MSRPC_UUID_IREMUNKNOWN = uuidtup_to_bin(('00000131-0000-0000-C000-000000000046',
 class RemQueryInterface(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('ripid', REFIPID),
-			('cRefs', UNSIGNED_LONG),
-			('cIids', UNSIGNED_SHORT),
-			('iids', IID)
+			(
+			'ripid',
+			REFIPID
+			),
+			(
+			'cRefs',
+			UNSIGNED_LONG
+			),
+			(
+			'cIids',
+			UNSIGNED_SHORT
+			),
+			(
+			'iids',
+			IID
+			)
 		)
+
+
 class RemQueryInterfaceResponse(NDRCALL):
 	structure = (
-			('ripid', REFIPID),
-			('cRefs', UNSIGNED_LONG),
-			('cIids', UNSIGNED_SHORT),
-			('iids', IID)
+			(
+			'ripid',
+			REFIPID
+			),
+			(
+			'cRefs',
+			UNSIGNED_LONG
+			),
+			(
+			'cIids',
+			UNSIGNED_SHORT
+			),
+			(
+			'iids',
+			IID
+			)
 		)
+
+
 class RemAddRef(NDRCALL):
 	OPNUM = 1
-	structure = 		(		('cInterfaceRefs', UNSIGNED_SHORT), 		('InterfaceRefs', REMINTERFACEREF))
+	structure = (
+			(
+			'cInterfaceRefs',
+			UNSIGNED_SHORT
+			),
+			(
+			'InterfaceRefs',
+			REMINTERFACEREF
+			)
+		)
+
+
 class RemAddRefResponse(NDRCALL):
-	structure = 		(		('cInterfaceRefs', UNSIGNED_SHORT), 		('InterfaceRefs', REMINTERFACEREF))
+	structure = (
+			(
+			'cInterfaceRefs',
+			UNSIGNED_SHORT
+			),
+			(
+			'InterfaceRefs',
+			REMINTERFACEREF
+			)
+		)
+
+
 class RemRelease(NDRCALL):
 	OPNUM = 2
-	structure = 		(		('cInterfaceRefs', UNSIGNED_SHORT), 		('InterfaceRefs', REMINTERFACEREF))
+	structure = (
+			(
+			'cInterfaceRefs',
+			UNSIGNED_SHORT
+			),
+			(
+			'InterfaceRefs',
+			REMINTERFACEREF
+			)
+		)
+
+
 class RemReleaseResponse(NDRCALL):
-	structure = 		(		('cInterfaceRefs', UNSIGNED_SHORT), 		('InterfaceRefs', REMINTERFACEREF))
-OPNUMS = {0 : 	(RemQueryInterface, RemQueryInterfaceResponse),1 : 	(RemAddRef, RemAddRefResponse),2 : 	(RemRelease, RemReleaseResponse)}
+	structure = (
+			(
+			'cInterfaceRefs',
+			UNSIGNED_SHORT
+			),
+			(
+			'InterfaceRefs',
+			REMINTERFACEREF
+			)
+		)
+
+
+OPNUMS = {0 : (
+	RemQueryInterface,
+	RemQueryInterfaceResponse
+	),1 : (
+	RemAddRef,
+	RemAddRefResponse
+	),2 : (
+	RemRelease,
+	RemReleaseResponse
+	)}
 #################################################################################
 #IRemUnknown2 Definition
 #################################################################################
@@ -1319,17 +3213,42 @@ MSRPC_UUID_IREMUNKNOWN2 = uuidtup_to_bin(('00000143-0000-0000-C000-000000000046'
 class RemQueryInterface2(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('ripid', REFIPID),
-			('cIids', UNSIGNED_SHORT),
-			('iids', IID)
+			(
+			'ripid',
+			REFIPID
+			),
+			(
+			'cIids',
+			UNSIGNED_SHORT
+			),
+			(
+			'iids',
+			IID
+			)
 		)
+
+
 class RemQueryInterface2Response(NDRCALL):
 	structure = (
-			('ripid', REFIPID),
-			('cIids', UNSIGNED_SHORT),
-			('iids', IID)
+			(
+			'ripid',
+			REFIPID
+			),
+			(
+			'cIids',
+			UNSIGNED_SHORT
+			),
+			(
+			'iids',
+			IID
+			)
 		)
-OPNUMS = {0 : 	(RemQueryInterface2, RemQueryInterface2Response)}
+
+
+OPNUMS = {0 : (
+	RemQueryInterface2,
+	RemQueryInterface2Response
+	)}
 #################################################################################
 #TYPEDEFS
 #################################################################################
@@ -1549,256 +3468,773 @@ VDS_VF_DIRTY = 4194304
 VDS_VF_REFS_NOT_SUPPORTED = 8388608
 class VDS_PACK_NOTIFICATION(NDRSTRUCT):
 	align = 1
-	structure = 		(		('ulEvent', UNSIGNED_LONG), 		('packId', VDS_OBJECT_ID))
+	structure = (
+			(
+			'ulEvent',
+			UNSIGNED_LONG
+			),
+			(
+			'packId',
+			VDS_OBJECT_ID
+			)
+		)
+
+
 class VDS_DISK_NOTIFICATION(NDRSTRUCT):
 	align = 1
-	structure = 		(		('ulEvent', UNSIGNED_LONG), 		('diskId', VDS_OBJECT_ID))
+	structure = (
+			(
+			'ulEvent',
+			UNSIGNED_LONG
+			),
+			(
+			'diskId',
+			VDS_OBJECT_ID
+			)
+		)
+
+
 class VDS_VOLUME_NOTIFICATION(NDRSTRUCT):
 	align = 1
 	structure = (
-			('ulEvent', UNSIGNED_LONG),
-			('volumeId', VDS_OBJECT_ID),
-			('plexId', VDS_OBJECT_ID),
-			('ulPercentCompleted', UNSIGNED_LONG)
+			(
+			'ulEvent',
+			UNSIGNED_LONG
+			),
+			(
+			'volumeId',
+			VDS_OBJECT_ID
+			),
+			(
+			'plexId',
+			VDS_OBJECT_ID
+			),
+			(
+			'ulPercentCompleted',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class VDS_PARTITION_NOTIFICATION(NDRSTRUCT):
 	align = 1
 	structure = (
-			('ulEvent', UNSIGNED_LONG),
-			('diskId', VDS_OBJECT_ID),
-			('ullOffset', ULONGLONG)
+			(
+			'ulEvent',
+			UNSIGNED_LONG
+			),
+			(
+			'diskId',
+			VDS_OBJECT_ID
+			),
+			(
+			'ullOffset',
+			ULONGLONG
+			)
 		)
+
+
 class VDS_DRIVE_LETTER_NOTIFICATION(NDRSTRUCT):
 	align = 1
 	structure = (
-			('ulEvent', UNSIGNED_LONG),
-			('wcLetter', WCHAR),
-			('volumeId', VDS_OBJECT_ID)
+			(
+			'ulEvent',
+			UNSIGNED_LONG
+			),
+			(
+			'wcLetter',
+			WCHAR
+			),
+			(
+			'volumeId',
+			VDS_OBJECT_ID
+			)
 		)
+
+
 class VDS_FILE_SYSTEM_NOTIFICATION(NDRSTRUCT):
 	align = 1
 	structure = (
-			('ulEvent', UNSIGNED_LONG),
-			('volumeId', VDS_OBJECT_ID),
-			('dwPercentCompleted', DWORD)
+			(
+			'ulEvent',
+			UNSIGNED_LONG
+			),
+			(
+			'volumeId',
+			VDS_OBJECT_ID
+			),
+			(
+			'dwPercentCompleted',
+			DWORD
+			)
 		)
+
+
 class VDS_MOUNT_POINT_NOTIFICATION(NDRSTRUCT):
 	align = 1
-	structure = 		(		('ulEvent', UNSIGNED_LONG), 		('volumeId', VDS_OBJECT_ID))
+	structure = (
+			(
+			'ulEvent',
+			UNSIGNED_LONG
+			),
+			(
+			'volumeId',
+			VDS_OBJECT_ID
+			)
+		)
+
+
 VDS_RECOVER_ACTION = DWORD__ENUM
 VDS_RA_UNKNOWN = 0
 VDS_RA_REFRESH = 1
 VDS_RA_RESTART = 2
 class VDS_SERVICE_NOTIFICATION(NDRSTRUCT):
 	align = 1
-	structure = 		(		('ulEvent', ULONG), 		('action', VDS_RECOVER_ACTION))
+	structure = (
+			(
+			'ulEvent',
+			ULONG
+			),
+			(
+			'action',
+			VDS_RECOVER_ACTION
+			)
+		)
+
+
 class U0(NDRUNION):
-	union = {VDS_NTT_PACK : 		('Pack', VDS_PACK_NOTIFICATION),VDS_NTT_DISK : 		('Disk', VDS_DISK_NOTIFICATION),VDS_NTT_VOLUME : 		('Volume', VDS_VOLUME_NOTIFICATION),VDS_NTT_PARTITION : 		('Partition', VDS_PARTITION_NOTIFICATION),VDS_NTT_DRIVE_LETTER : 		('Letter', VDS_DRIVE_LETTER_NOTIFICATION),VDS_NTT_FILE_SYSTEM : 		('FileSystem', VDS_FILE_SYSTEM_NOTIFICATION),VDS_NTT_MOUNT_POINT : 		('MountPoint', VDS_MOUNT_POINT_NOTIFICATION),VDS_NTT_SERVICE : 		('Service', VDS_SERVICE_NOTIFICATION)}
+	union = {VDS_NTT_PACK : (
+		'Pack',
+		VDS_PACK_NOTIFICATION
+		),VDS_NTT_DISK : (
+		'Disk',
+		VDS_DISK_NOTIFICATION
+		),VDS_NTT_VOLUME : (
+		'Volume',
+		VDS_VOLUME_NOTIFICATION
+		),VDS_NTT_PARTITION : (
+		'Partition',
+		VDS_PARTITION_NOTIFICATION
+		),VDS_NTT_DRIVE_LETTER : (
+		'Letter',
+		VDS_DRIVE_LETTER_NOTIFICATION
+		),VDS_NTT_FILE_SYSTEM : (
+		'FileSystem',
+		VDS_FILE_SYSTEM_NOTIFICATION
+		),VDS_NTT_MOUNT_POINT : (
+		'MountPoint',
+		VDS_MOUNT_POINT_NOTIFICATION
+		),VDS_NTT_SERVICE : (
+		'Service',
+		VDS_SERVICE_NOTIFICATION
+		)}
+
+
 class VDS_NOTIFICATION(NDRSTRUCT):
 	align = 1
-	structure = 		(		('objectType', VDS_NOTIFICATION_TARGET_TYPE), 		('u0', U0))
+	structure = (
+			(
+			'objectType',
+			VDS_NOTIFICATION_TARGET_TYPE
+			),
+			(
+			'u0',
+			U0
+			)
+		)
+
+
 class CP(NDRSTRUCT):
 	align = 1
-	structure = 		(		('ullOffset', ULONGLONG), 		('volumeId', VDS_OBJECT_ID))
+	structure = (
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'volumeId',
+			VDS_OBJECT_ID
+			)
+		)
+
+
 class CV(NDRSTRUCT):
 	align = 1
 	structure = (
-			('pVolumeUnk', IUNKNOWN)
+			(
+			'pVolumeUnk',
+			IUNKNOWN
+			)
 		)
+
+
 class BVP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('pVolumeUnk', IUNKNOWN)
+			(
+			'pVolumeUnk',
+			IUNKNOWN
+			)
 		)
+
+
 class SV(NDRSTRUCT):
 	align = 1
 	structure = (
-			('ullReclaimedBytes', ULONGLONG)
+			(
+			'ullReclaimedBytes',
+			ULONGLONG
+			)
 		)
+
+
 class CVD(NDRSTRUCT):
 	align = 1
 	structure = (
-			('pVDiskUnk', IUNKNOWN)
+			(
+			'pVDiskUnk',
+			IUNKNOWN
+			)
 		)
+
+
 class U0(NDRUNION):
-	union = {VDS_ASYNCOUT_CREATE_VDISK : 		('cp', CP),VDS_ASYNCOUT_CREATE_VDISK : 		('cv', CV),VDS_ASYNCOUT_CREATE_VDISK : 		('bvp', BVP),VDS_ASYNCOUT_CREATE_VDISK : 		('sv', SV),VDS_ASYNCOUT_CREATE_VDISK : 		('cvd', CVD)}
+	union = {VDS_ASYNCOUT_CREATE_VDISK : (
+		'cp',
+		CP
+		),VDS_ASYNCOUT_CREATE_VDISK : (
+		'cv',
+		CV
+		),VDS_ASYNCOUT_CREATE_VDISK : (
+		'bvp',
+		BVP
+		),VDS_ASYNCOUT_CREATE_VDISK : (
+		'sv',
+		SV
+		),VDS_ASYNCOUT_CREATE_VDISK : (
+		'cvd',
+		CVD
+		)}
+
+
 class VDS_ASYNC_OUTPUT(NDRSTRUCT):
 	align = 1
-	structure = 		(		('type', VDS_ASYNC_OUTPUT_TYPE), 		('u0', U0))
+	structure = (
+			(
+			'type',
+			VDS_ASYNC_OUTPUT_TYPE
+			),
+			(
+			'u0',
+			U0
+			)
+		)
+
+
 class VDS_PARTITION_INFO_MBR(NDRSTRUCT):
 	align = 1
 	structure = (
-			('partitionType', BYTE),
-			('bootIndicator', BOOLEAN),
-			('recognizedPartition', BOOLEAN),
-			('hiddenSectors', DWORD)
+			(
+			'partitionType',
+			BYTE
+			),
+			(
+			'bootIndicator',
+			BOOLEAN
+			),
+			(
+			'recognizedPartition',
+			BOOLEAN
+			),
+			(
+			'hiddenSectors',
+			DWORD
+			)
 		)
+
+
 class VDS_PARTITION_INFO_GPT(NDRSTRUCT):
 	align = 1
 	structure = (
-			('partitionType', GUID),
-			('partitionId', GUID),
-			('attributes', ULONGLONG),
-			('name', WCHAR)
+			(
+			'partitionType',
+			GUID
+			),
+			(
+			'partitionId',
+			GUID
+			),
+			(
+			'attributes',
+			ULONGLONG
+			),
+			(
+			'name',
+			WCHAR
+			)
 		)
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
+
+
+class DATA_VDS_STORAGE_IDENTIFIER(NDRUniConformantArray):
 	item = BYTE
-class PTR_UNSIGNED_LONG(NDRPOINTER):
+
+
+class PTR_VDS_STORAGE_IDENTIFIER(NDRPOINTER):
 	referent = (
-			('Data', DATA_UNSIGNED_LONG)
+			(
+			'Data',
+			DATA_VDS_STORAGE_IDENTIFIER
+			)
 		)
-class UNSIGNED_LONG(NDRSTRUCT):
+
+
+class VDS_STORAGE_IDENTIFIER(NDRSTRUCT):
 	align = 1
 	structure = (
-			('m_CodeSet', VDS_STORAGE_IDENTIFIER_CODE_SET),
-			('m_Type', VDS_STORAGE_IDENTIFIER_TYPE),
-			('m_cbIdentifier', UNSIGNED_LONG),
-			('m_rgbIdentifier', PTR_UNSIGNED_LONG)
+			(
+			'm_CodeSet',
+			VDS_STORAGE_IDENTIFIER_CODE_SET
+			),
+			(
+			'm_Type',
+			VDS_STORAGE_IDENTIFIER_TYPE
+			),
+			(
+			'm_cbIdentifier',
+			UNSIGNED_LONG
+			),
+			(
+			'm_rgbIdentifier',
+			PTR_VDS_STORAGE_IDENTIFIER
+			)
 		)
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
+
+
+class DATA_VDS_STORAGE_DEVICE_ID_DESCRIPTOR(NDRUniConformantArray):
 	item = VDS_STORAGE_IDENTIFIER
-class PTR_UNSIGNED_LONG(NDRPOINTER):
+
+
+class PTR_VDS_STORAGE_DEVICE_ID_DESCRIPTOR(NDRPOINTER):
 	referent = (
-			('Data', DATA_UNSIGNED_LONG)
+			(
+			'Data',
+			DATA_VDS_STORAGE_DEVICE_ID_DESCRIPTOR
+			)
 		)
-class UNSIGNED_LONG(NDRSTRUCT):
+
+
+class VDS_STORAGE_DEVICE_ID_DESCRIPTOR(NDRSTRUCT):
 	align = 1
 	structure = (
-			('m_version', UNSIGNED_LONG),
-			('m_cIdentifiers', UNSIGNED_LONG),
-			('m_rgIdentifiers', PTR_UNSIGNED_LONG)
+			(
+			'm_version',
+			UNSIGNED_LONG
+			),
+			(
+			'm_cIdentifiers',
+			UNSIGNED_LONG
+			),
+			(
+			'm_rgIdentifiers',
+			PTR_VDS_STORAGE_DEVICE_ID_DESCRIPTOR
+			)
 		)
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
+
+
+class DATA_VDS_INTERCONNECT(NDRUniConformantArray):
 	item = BYTE
-class PTR_UNSIGNED_LONG(NDRPOINTER):
+
+
+class PTR_VDS_INTERCONNECT(NDRPOINTER):
 	referent = (
-			('Data', DATA_UNSIGNED_LONG)
+			(
+			'Data',
+			DATA_VDS_INTERCONNECT
+			)
 		)
-class UNSIGNED_LONG(NDRSTRUCT):
+
+
+class VDS_INTERCONNECT(NDRSTRUCT):
 	align = 1
 	structure = (
-			('m_addressType', VDS_INTERCONNECT_ADDRESS_TYPE),
-			('m_cbPort', UNSIGNED_LONG),
-			('m_pbPort', BYTE),
-			('m_cbAddress', UNSIGNED_LONG),
-			('m_pbAddress', PTR_UNSIGNED_LONG)
+			(
+			'm_addressType',
+			VDS_INTERCONNECT_ADDRESS_TYPE
+			),
+			(
+			'm_cbPort',
+			UNSIGNED_LONG
+			),
+			(
+			'm_pbPort',
+			BYTE
+			),
+			(
+			'm_cbAddress',
+			UNSIGNED_LONG
+			),
+			(
+			'm_pbAddress',
+			PTR_VDS_INTERCONNECT
+			)
 		)
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
+
+
+class DATA_VDS_LUN_INFORMATION(NDRUniConformantArray):
 	item = VDS_INTERCONNECT
-class PTR_UNSIGNED_LONG(NDRPOINTER):
+
+
+class PTR_VDS_LUN_INFORMATION(NDRPOINTER):
 	referent = (
-			('Data', DATA_UNSIGNED_LONG)
+			(
+			'Data',
+			DATA_VDS_LUN_INFORMATION
+			)
 		)
-class UNSIGNED_LONG(NDRSTRUCT):
+
+
+class VDS_LUN_INFORMATION(NDRSTRUCT):
 	align = 1
 	structure = (
-			('m_version', UNSIGNED_LONG),
-			('m_DeviceType', BYTE),
-			('m_DeviceTypeModifier', BYTE),
-			('m_bCommandQueuing', LONG),
-			('m_BusType', VDS_STORAGE_BUS_TYPE),
-			('m_szVendorId', CHAR),
-			('m_szProductId', CHAR),
-			('m_szProductRevision', CHAR),
-			('m_szSerialNumber', CHAR),
-			('m_diskSignature', GUID),
-			('m_deviceIdDescriptor', VDS_STORAGE_DEVICE_ID_DESCRIPTOR),
-			('m_cInterconnects', UNSIGNED_LONG),
-			('m_rgInterconnects', PTR_UNSIGNED_LONG)
+			(
+			'm_version',
+			UNSIGNED_LONG
+			),
+			(
+			'm_DeviceType',
+			BYTE
+			),
+			(
+			'm_DeviceTypeModifier',
+			BYTE
+			),
+			(
+			'm_bCommandQueuing',
+			LONG
+			),
+			(
+			'm_BusType',
+			VDS_STORAGE_BUS_TYPE
+			),
+			(
+			'm_szVendorId',
+			CHAR
+			),
+			(
+			'm_szProductId',
+			CHAR
+			),
+			(
+			'm_szProductRevision',
+			CHAR
+			),
+			(
+			'm_szSerialNumber',
+			CHAR
+			),
+			(
+			'm_diskSignature',
+			GUID
+			),
+			(
+			'm_deviceIdDescriptor',
+			VDS_STORAGE_DEVICE_ID_DESCRIPTOR
+			),
+			(
+			'm_cInterconnects',
+			UNSIGNED_LONG
+			),
+			(
+			'm_rgInterconnects',
+			PTR_VDS_LUN_INFORMATION
+			)
 		)
+
+
 class VDS_FILE_SYSTEM_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('type', VDS_FILE_SYSTEM_TYPE),
-			('volumeId', VDS_OBJECT_ID),
-			('ulFlags', UNSIGNED_LONG),
-			('ullTotalAllocationUnits', ULONGLONG),
-			('ullAvailableAllocationUnits', ULONGLONG),
-			('ulAllocationUnitSize', UNSIGNED_LONG),
-			('pwszLabel', WCHAR)
+			(
+			'type',
+			VDS_FILE_SYSTEM_TYPE
+			),
+			(
+			'volumeId',
+			VDS_OBJECT_ID
+			),
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'ullTotalAllocationUnits',
+			ULONGLONG
+			),
+			(
+			'ullAvailableAllocationUnits',
+			ULONGLONG
+			),
+			(
+			'ulAllocationUnitSize',
+			UNSIGNED_LONG
+			),
+			(
+			'pwszLabel',
+			WCHAR
+			)
 		)
+
+
 class PVDS_FILE_SYSTEM_PROP(NDRPOINTER):
 	referent = (
-			('Data', VDS_FILE_SYSTEM_PROP)
+			(
+			'Data',
+			VDS_FILE_SYSTEM_PROP
+			)
 		)
+
+
 class VDS_FILE_SYSTEM_FORMAT_SUPPORT_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('ulFlags', UNSIGNED_LONG),
-			('usRevision', UNSIGNED_SHORT),
-			('ulDefaultUnitAllocationSize', UNSIGNED_LONG),
-			('rgulAllowedUnitAllocationSizes', UNSIGNED_LONG),
-			('wszName', WCHAR)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'usRevision',
+			UNSIGNED_SHORT
+			),
+			(
+			'ulDefaultUnitAllocationSize',
+			UNSIGNED_LONG
+			),
+			(
+			'rgulAllowedUnitAllocationSizes',
+			UNSIGNED_LONG
+			),
+			(
+			'wszName',
+			WCHAR
+			)
 		)
+
+
 class PVDS_FILE_SYSTEM_FORMAT_SUPPORT_PROP(NDRPOINTER):
 	referent = (
-			('Data', VDS_FILE_SYSTEM_FORMAT_SUPPORT_PROP)
+			(
+			'Data',
+			VDS_FILE_SYSTEM_FORMAT_SUPPORT_PROP
+			)
 		)
+
+
 class VDS_DISK_EXTENT(NDRSTRUCT):
 	align = 1
 	structure = (
-			('diskId', VDS_OBJECT_ID),
-			('type', VDS_DISK_EXTENT_TYPE),
-			('ullOffset', ULONGLONG),
-			('ullSize', ULONGLONG),
-			('volumeId', VDS_OBJECT_ID),
-			('plexId', VDS_OBJECT_ID),
-			('memberIdx', UNSIGNED_LONG)
+			(
+			'diskId',
+			VDS_OBJECT_ID
+			),
+			(
+			'type',
+			VDS_DISK_EXTENT_TYPE
+			),
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'volumeId',
+			VDS_OBJECT_ID
+			),
+			(
+			'plexId',
+			VDS_OBJECT_ID
+			),
+			(
+			'memberIdx',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class PVDS_DISK_EXTENT(NDRPOINTER):
 	referent = (
-			('Data', VDS_DISK_EXTENT)
+			(
+			'Data',
+			VDS_DISK_EXTENT
+			)
 		)
+
+
 class VDS_DISK_FREE_EXTENT(NDRSTRUCT):
 	align = 1
 	structure = (
-			('diskId', VDS_OBJECT_ID),
-			('ullOffset', ULONGLONG),
-			('ullSize', ULONGLONG)
+			(
+			'diskId',
+			VDS_OBJECT_ID
+			),
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			)
 		)
+
+
 class PVDS_DISK_FREE_EXTENT(NDRPOINTER):
 	referent = (
-			('Data', VDS_DISK_FREE_EXTENT)
+			(
+			'Data',
+			VDS_DISK_FREE_EXTENT
+			)
 		)
+
+
 class U0(NDRUNION):
-	union = {VDS_PST_MBR : 		('Mbr', VDS_PARTITION_INFO_MBR),VDS_PST_GPT : 		('Gpt', VDS_PARTITION_INFO_GPT)}
+	union = {VDS_PST_MBR : (
+		'Mbr',
+		VDS_PARTITION_INFO_MBR
+		),VDS_PST_GPT : (
+		'Gpt',
+		VDS_PARTITION_INFO_GPT
+		)}
+
+
 class VDS_PARTITION_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('PartitionStyle', VDS_PARTITION_STYLE),
-			('ulFlags', UNSIGNED_LONG),
-			('ulPartitionNumber', UNSIGNED_LONG),
-			('ullOffset', ULONGLONG),
-			('ullSize', ULONGLONG),
-			('u0', U0)
+			(
+			'PartitionStyle',
+			VDS_PARTITION_STYLE
+			),
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'ulPartitionNumber',
+			UNSIGNED_LONG
+			),
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'u0',
+			U0
+			)
 		)
+
+
 class VDS_INPUT_DISK(NDRSTRUCT):
 	align = 1
 	structure = (
-			('diskId', VDS_OBJECT_ID),
-			('ullSize', ULONGLONG),
-			('plexId', VDS_OBJECT_ID),
-			('memberIdx', UNSIGNED_LONG)
+			(
+			'diskId',
+			VDS_OBJECT_ID
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'plexId',
+			VDS_OBJECT_ID
+			),
+			(
+			'memberIdx',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class MBRPARTINFO(NDRSTRUCT):
 	align = 1
-	structure = 		(		('partitionType', BYTE), 		('bootIndicator', BOOLEAN))
+	structure = (
+			(
+			'partitionType',
+			BYTE
+			),
+			(
+			'bootIndicator',
+			BOOLEAN
+			)
+		)
+
+
 class GPTPARTINFO(NDRSTRUCT):
 	align = 1
 	structure = (
-			('partitionType', GUID),
-			('partitionId', GUID),
-			('attributes', ULONGLONG),
-			('name', WCHAR)
+			(
+			'partitionType',
+			GUID
+			),
+			(
+			'partitionId',
+			GUID
+			),
+			(
+			'attributes',
+			ULONGLONG
+			),
+			(
+			'name',
+			WCHAR
+			)
 		)
+
+
 class U0(NDRUNION):
-	union = {VDS_PST_GPT : 		('MbrPartInfo', MBRPARTINFO),VDS_PST_GPT : 		('GptPartInfo', GPTPARTINFO)}
+	union = {VDS_PST_GPT : (
+		'MbrPartInfo',
+		MBRPARTINFO
+		),VDS_PST_GPT : (
+		'GptPartInfo',
+		GPTPARTINFO
+		)}
+
+
 class CREATE_PARTITION_PARAMETERS(NDRSTRUCT):
 	align = 1
-	structure = 		(		('style', VDS_PARTITION_STYLE), 		('u0', U0))
+	structure = (
+			(
+			'style',
+			VDS_PARTITION_STYLE
+			),
+			(
+			'u0',
+			U0
+			)
+		)
+
+
 class VIRTUAL_STORAGE_TYPE(NDRSTRUCT):
 	align = 1
-	structure = 		(		('DeviceId', ULONG), 		('VendorId', GUID))
+	structure = (
+			(
+			'DeviceId',
+			ULONG
+			),
+			(
+			'VendorId',
+			GUID
+			)
+		)
+
+
 __VDS_PARTITION_STYLE = DWORD__ENUM
 VDS_PARTITION_STYLE_MBR = 0
 VDS_PARTITION_STYLE_GPT = 1
@@ -1922,23 +4358,58 @@ VDS_MPS_FAILED = 5
 VDS_MPS_STANDBY = 7
 class VDS_REPARSE_POINT_PROP(NDRSTRUCT):
 	align = 1
-	structure = 		(		('SourceVolumeId', VDS_OBJECT_ID), 		('pwszPath', WCHAR))
+	structure = (
+			(
+			'SourceVolumeId',
+			VDS_OBJECT_ID
+			),
+			(
+			'pwszPath',
+			WCHAR
+			)
+		)
+
+
 class PVDS_REPARSE_POINT_PROP(NDRPOINTER):
 	referent = (
-			('Data', VDS_REPARSE_POINT_PROP)
+			(
+			'Data',
+			VDS_REPARSE_POINT_PROP
+			)
 		)
+
+
 class VDS_DRIVE_LETTER_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('wcLetter', WCHAR),
-			('volumeId', VDS_OBJECT_ID),
-			('ulFlags', UNSIGNED_LONG),
-			('bUsed', LONG)
+			(
+			'wcLetter',
+			WCHAR
+			),
+			(
+			'volumeId',
+			VDS_OBJECT_ID
+			),
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'bUsed',
+			LONG
+			)
 		)
+
+
 class PVDS_DRIVE_LETTER_PROP(NDRPOINTER):
 	referent = (
-			('Data', VDS_DRIVE_LETTER_PROP)
+			(
+			'Data',
+			VDS_DRIVE_LETTER_PROP
+			)
 		)
+
+
 VDS_SAN_POLICY = DWORD__ENUM
 VDS_SP_UNKNOWN = 0
 VDS_SP_ONLINE = 1
@@ -1949,266 +4420,834 @@ VDS_SP_MAX = 5
 class VDS_FILE_SYSTEM_TYPE_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('type', VDS_FILE_SYSTEM_TYPE),
-			('wszName', WCHAR),
-			('ulFlags', UNSIGNED_LONG),
-			('ulCompressionFlags', UNSIGNED_LONG),
-			('ulMaxLabelLength', UNSIGNED_LONG),
-			('pwszIllegalLabelCharSet', WCHAR)
+			(
+			'type',
+			VDS_FILE_SYSTEM_TYPE
+			),
+			(
+			'wszName',
+			WCHAR
+			),
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'ulCompressionFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'ulMaxLabelLength',
+			UNSIGNED_LONG
+			),
+			(
+			'pwszIllegalLabelCharSet',
+			WCHAR
+			)
 		)
+
+
 class PVDS_FILE_SYSTEM_TYPE_PROP(NDRPOINTER):
 	referent = (
-			('Data', VDS_FILE_SYSTEM_TYPE_PROP)
+			(
+			'Data',
+			VDS_FILE_SYSTEM_TYPE_PROP
+			)
 		)
+
+
 class MBRPARTINFO(NDRSTRUCT):
 	align = 1
 	structure = (
-			('bootIndicator', BOOLEAN)
+			(
+			'bootIndicator',
+			BOOLEAN
+			)
 		)
+
+
 class GPTPARTINFO(NDRSTRUCT):
 	align = 1
 	structure = (
-			('attributes', ULONGLONG)
+			(
+			'attributes',
+			ULONGLONG
+			)
 		)
+
+
 class U0(NDRUNION):
-	union = {VDS_PST_GPT : 		('MbrPartInfo', MBRPARTINFO),VDS_PST_GPT : 		('GptPartInfo', GPTPARTINFO)}
+	union = {VDS_PST_GPT : (
+		'MbrPartInfo',
+		MBRPARTINFO
+		),VDS_PST_GPT : (
+		'GptPartInfo',
+		GPTPARTINFO
+		)}
+
+
 class CHANGE_ATTRIBUTES_PARAMETERS(NDRSTRUCT):
 	align = 1
-	structure = 		(		('style', VDS_PARTITION_STYLE), 		('u0', U0))
+	structure = (
+			(
+			'style',
+			VDS_PARTITION_STYLE
+			),
+			(
+			'u0',
+			U0
+			)
+		)
+
+
 class MBRPARTINFO(NDRSTRUCT):
 	align = 1
 	structure = (
-			('partitionType', BYTE)
+			(
+			'partitionType',
+			BYTE
+			)
 		)
+
+
 class GPTPARTINFO(NDRSTRUCT):
 	align = 1
 	structure = (
-			('partitionType', GUID)
+			(
+			'partitionType',
+			GUID
+			)
 		)
+
+
 class U0(NDRUNION):
-	union = {VDS_PST_GPT : 		('MbrPartInfo', MBRPARTINFO),VDS_PST_GPT : 		('GptPartInfo', GPTPARTINFO)}
+	union = {VDS_PST_GPT : (
+		'MbrPartInfo',
+		MBRPARTINFO
+		),VDS_PST_GPT : (
+		'GptPartInfo',
+		GPTPARTINFO
+		)}
+
+
 class CHANGE_PARTITION_TYPE_PARAMETERS(NDRSTRUCT):
 	align = 1
-	structure = 		(		('style', VDS_PARTITION_STYLE), 		('u0', U0))
+	structure = (
+			(
+			'style',
+			VDS_PARTITION_STYLE
+			),
+			(
+			'u0',
+			U0
+			)
+		)
+
+
 class VDS_WWN(NDRSTRUCT):
 	align = 1
 	structure = (
-			('rguchWwn', UNSIGNED_CHAR)
+			(
+			'rguchWwn',
+			UNSIGNED_CHAR
+			)
 		)
+
+
 class VDS_IPADDRESS(NDRSTRUCT):
 	align = 1
 	structure = (
-			('type', VDS_IPADDRESS_TYPE),
-			('ipv4Address', UNSIGNED_LONG),
-			('ipv6Address', UNSIGNED_CHAR),
-			('ulIpv6FlowInfo', UNSIGNED_LONG),
-			('ulIpv6ScopeId', UNSIGNED_LONG),
-			('wszTextAddress', WCHAR),
-			('ulPort', UNSIGNED_LONG)
+			(
+			'type',
+			VDS_IPADDRESS_TYPE
+			),
+			(
+			'ipv4Address',
+			UNSIGNED_LONG
+			),
+			(
+			'ipv6Address',
+			UNSIGNED_CHAR
+			),
+			(
+			'ulIpv6FlowInfo',
+			UNSIGNED_LONG
+			),
+			(
+			'ulIpv6ScopeId',
+			UNSIGNED_LONG
+			),
+			(
+			'wszTextAddress',
+			WCHAR
+			),
+			(
+			'ulPort',
+			UNSIGNED_LONG
+			)
 		)
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
+
+
+class DATA_VDS_ISCSI_SHARED_SECRET(NDRUniConformantArray):
 	item = UNSIGNED_CHAR
-class PTR_UNSIGNED_LONG(NDRPOINTER):
+
+
+class PTR_VDS_ISCSI_SHARED_SECRET(NDRPOINTER):
 	referent = (
-			('Data', DATA_UNSIGNED_LONG)
+			(
+			'Data',
+			DATA_VDS_ISCSI_SHARED_SECRET
+			)
 		)
-class UNSIGNED_LONG(NDRSTRUCT):
+
+
+class VDS_ISCSI_SHARED_SECRET(NDRSTRUCT):
 	align = 1
-	structure = 		(		('pSharedSecret', PTR_VDS_ISCSI_SHARED_SECRET), 		('ulSharedSecretSize', UNSIGNED_LONG))
+	structure = (
+			(
+			'pSharedSecret',
+			PTR_VDS_ISCSI_SHARED_SECRET
+			),
+			(
+			'ulSharedSecretSize',
+			UNSIGNED_LONG
+			)
+		)
+
+
 class VDS_SERVICE_PROP(NDRSTRUCT):
 	align = 1
-	structure = 		(		('pwszVersion', WCHAR), 		('ulFlags', UNSIGNED_LONG))
+	structure = (
+			(
+			'pwszVersion',
+			WCHAR
+			),
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
+		)
+
+
 class VDS_HBAPORT_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('id', VDS_OBJECT_ID),
-			('wwnNode', VDS_WWN),
-			('wwnPort', VDS_WWN),
-			('type', VDS_HBAPORT_TYPE),
-			('status', VDS_HBAPORT_STATUS),
-			('ulPortSpeed', UNSIGNED_LONG),
-			('ulSupportedPortSpeed', UNSIGNED_LONG)
+			(
+			'id',
+			VDS_OBJECT_ID
+			),
+			(
+			'wwnNode',
+			VDS_WWN
+			),
+			(
+			'wwnPort',
+			VDS_WWN
+			),
+			(
+			'type',
+			VDS_HBAPORT_TYPE
+			),
+			(
+			'status',
+			VDS_HBAPORT_STATUS
+			),
+			(
+			'ulPortSpeed',
+			UNSIGNED_LONG
+			),
+			(
+			'ulSupportedPortSpeed',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class VDS_ISCSI_INITIATOR_ADAPTER_PROP(NDRSTRUCT):
 	align = 1
-	structure = 		(		('id', VDS_OBJECT_ID), 		('pwszName', WCHAR))
+	structure = (
+			(
+			'id',
+			VDS_OBJECT_ID
+			),
+			(
+			'pwszName',
+			WCHAR
+			)
+		)
+
+
 class VDS_ISCSI_INITIATOR_PORTAL_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('id', VDS_OBJECT_ID),
-			('address', VDS_IPADDRESS),
-			('ulPortIndex', UNSIGNED_LONG)
+			(
+			'id',
+			VDS_OBJECT_ID
+			),
+			(
+			'address',
+			VDS_IPADDRESS
+			),
+			(
+			'ulPortIndex',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class VDS_PROVIDER_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('id', VDS_OBJECT_ID),
-			('pwszName', WCHAR),
-			('guidVersionId', GUID),
-			('pwszVersion', WCHAR),
-			('type', VDS_PROVIDER_TYPE),
-			('ulFlags', UNSIGNED_LONG),
-			('ulStripeSizeFlags', UNSIGNED_LONG),
-			('sRebuildPriority', SHORT)
+			(
+			'id',
+			VDS_OBJECT_ID
+			),
+			(
+			'pwszName',
+			WCHAR
+			),
+			(
+			'guidVersionId',
+			GUID
+			),
+			(
+			'pwszVersion',
+			WCHAR
+			),
+			(
+			'type',
+			VDS_PROVIDER_TYPE
+			),
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'ulStripeSizeFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'sRebuildPriority',
+			SHORT
+			)
 		)
+
+
 class VDS_PACK_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('id', VDS_OBJECT_ID),
-			('pwszName', WCHAR),
-			('status', VDS_PACK_STATUS),
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'id',
+			VDS_OBJECT_ID
+			),
+			(
+			'pwszName',
+			WCHAR
+			),
+			(
+			'status',
+			VDS_PACK_STATUS
+			),
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class PVDS_PACK_PROP(NDRPOINTER):
 	referent = (
-			('Data', VDS_PACK_PROP)
+			(
+			'Data',
+			VDS_PACK_PROP
+			)
 		)
+
+
 class U0(NDRUNION):
-	union = {VDS_PST_MBR : 		('dwSignature', DWORD),VDS_PST_GPT : 		('DiskGuid', GUID)}
+	union = {VDS_PST_MBR : (
+		'dwSignature',
+		DWORD
+		),VDS_PST_GPT : (
+		'DiskGuid',
+		GUID
+		)}
+
+
 class VDS_DISK_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('id', VDS_OBJECT_ID),
-			('status', VDS_DISK_STATUS),
-			('ReserveMode', VDS_LUN_RESERVE_MODE),
-			('health', VDS_HEALTH),
-			('dwDeviceType', DWORD),
-			('dwMediaType', DWORD),
-			('ullSize', ULONGLONG),
-			('ulBytesPerSector', UNSIGNED_LONG),
-			('ulSectorsPerTrack', UNSIGNED_LONG),
-			('ulTracksPerCylinder', UNSIGNED_LONG),
-			('ulFlags', UNSIGNED_LONG),
-			('BusType', VDS_STORAGE_BUS_TYPE),
-			('PartitionStyle', VDS_PARTITION_STYLE),
-			('u0', U0),
-			('pwszDiskAddress', WCHAR),
-			('pwszName', WCHAR),
-			('pwszFriendlyName', WCHAR),
-			('pwszAdaptorName', WCHAR),
-			('pwszDevicePath', WCHAR)
+			(
+			'id',
+			VDS_OBJECT_ID
+			),
+			(
+			'status',
+			VDS_DISK_STATUS
+			),
+			(
+			'ReserveMode',
+			VDS_LUN_RESERVE_MODE
+			),
+			(
+			'health',
+			VDS_HEALTH
+			),
+			(
+			'dwDeviceType',
+			DWORD
+			),
+			(
+			'dwMediaType',
+			DWORD
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'ulBytesPerSector',
+			UNSIGNED_LONG
+			),
+			(
+			'ulSectorsPerTrack',
+			UNSIGNED_LONG
+			),
+			(
+			'ulTracksPerCylinder',
+			UNSIGNED_LONG
+			),
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'BusType',
+			VDS_STORAGE_BUS_TYPE
+			),
+			(
+			'PartitionStyle',
+			VDS_PARTITION_STYLE
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'pwszDiskAddress',
+			WCHAR
+			),
+			(
+			'pwszName',
+			WCHAR
+			),
+			(
+			'pwszFriendlyName',
+			WCHAR
+			),
+			(
+			'pwszAdaptorName',
+			WCHAR
+			),
+			(
+			'pwszDevicePath',
+			WCHAR
+			)
 		)
+
+
 class PVDS_DISK_PROP(NDRPOINTER):
 	referent = (
-			('Data', VDS_DISK_PROP)
+			(
+			'Data',
+			VDS_DISK_PROP
+			)
 		)
+
+
 class U0(NDRUNION):
-	union = {VDS_PST_MBR : 		('dwSignature', DWORD),VDS_PST_GPT : 		('DiskGuid', GUID)}
+	union = {VDS_PST_MBR : (
+		'dwSignature',
+		DWORD
+		),VDS_PST_GPT : (
+		'DiskGuid',
+		GUID
+		)}
+
+
 class VDS_DISK_PROP2(NDRSTRUCT):
 	align = 1
 	structure = (
-			('id', VDS_OBJECT_ID),
-			('status', VDS_DISK_STATUS),
-			('ReserveMode', VDS_LUN_RESERVE_MODE),
-			('health', VDS_HEALTH),
-			('dwDeviceType', DWORD),
-			('dwMediaType', DWORD),
-			('ullSize', ULONGLONG),
-			('ulBytesPerSector', UNSIGNED_LONG),
-			('ulSectorsPerTrack', UNSIGNED_LONG),
-			('ulTracksPerCylinder', UNSIGNED_LONG),
-			('ulFlags', UNSIGNED_LONG),
-			('BusType', VDS_STORAGE_BUS_TYPE),
-			('PartitionStyle', VDS_PARTITION_STYLE),
-			('u0', U0),
-			('pwszDiskAddress', WCHAR),
-			('pwszName', WCHAR),
-			('pwszFriendlyName', WCHAR),
-			('pwszAdaptorName', WCHAR),
-			('pwszDevicePath', WCHAR),
-			('pwszLocationPath', WCHAR)
+			(
+			'id',
+			VDS_OBJECT_ID
+			),
+			(
+			'status',
+			VDS_DISK_STATUS
+			),
+			(
+			'ReserveMode',
+			VDS_LUN_RESERVE_MODE
+			),
+			(
+			'health',
+			VDS_HEALTH
+			),
+			(
+			'dwDeviceType',
+			DWORD
+			),
+			(
+			'dwMediaType',
+			DWORD
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'ulBytesPerSector',
+			UNSIGNED_LONG
+			),
+			(
+			'ulSectorsPerTrack',
+			UNSIGNED_LONG
+			),
+			(
+			'ulTracksPerCylinder',
+			UNSIGNED_LONG
+			),
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'BusType',
+			VDS_STORAGE_BUS_TYPE
+			),
+			(
+			'PartitionStyle',
+			VDS_PARTITION_STYLE
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'pwszDiskAddress',
+			WCHAR
+			),
+			(
+			'pwszName',
+			WCHAR
+			),
+			(
+			'pwszFriendlyName',
+			WCHAR
+			),
+			(
+			'pwszAdaptorName',
+			WCHAR
+			),
+			(
+			'pwszDevicePath',
+			WCHAR
+			),
+			(
+			'pwszLocationPath',
+			WCHAR
+			)
 		)
+
+
 class PVDS_DISK_PROP2(NDRPOINTER):
 	referent = (
-			('Data', VDS_DISK_PROP2)
+			(
+			'Data',
+			VDS_DISK_PROP2
+			)
 		)
+
+
 class U0(NDRUNION):
-	union = {VDS_PST_MBR : 		('dwSignature', DWORD),VDS_PST_GPT : 		('DiskGuid', GUID)}
+	union = {VDS_PST_MBR : (
+		'dwSignature',
+		DWORD
+		),VDS_PST_GPT : (
+		'DiskGuid',
+		GUID
+		)}
+
+
 class VDS_ADVANCEDDISK_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('pwszId', LPWSTR),
-			('pwszPathname', LPWSTR),
-			('pwszLocation', LPWSTR),
-			('pwszFriendlyName', LPWSTR),
-			('pswzIdentifier', LPWSTR),
-			('usIdentifierFormat', USHORT),
-			('ulNumber', ULONG),
-			('pwszSerialNumber', LPWSTR),
-			('pwszFirmwareVersion', LPWSTR),
-			('pwszManufacturer', LPWSTR),
-			('pwszModel', LPWSTR),
-			('ullTotalSize', ULONGLONG),
-			('ullAllocatedSize', ULONGLONG),
-			('ulLogicalSectorSize', ULONG),
-			('ulPhysicalSectorSize', ULONG),
-			('ulPartitionCount', ULONG),
-			('status', VDS_DISK_STATUS),
-			('health', VDS_HEALTH),
-			('BusType', VDS_STORAGE_BUS_TYPE),
-			('PartitionStyle', VDS_PARTITION_STYLE),
-			('u0', U0),
-			('ulFlags', ULONG),
-			('dwDeviceType', DWORD)
+			(
+			'pwszId',
+			LPWSTR
+			),
+			(
+			'pwszPathname',
+			LPWSTR
+			),
+			(
+			'pwszLocation',
+			LPWSTR
+			),
+			(
+			'pwszFriendlyName',
+			LPWSTR
+			),
+			(
+			'pswzIdentifier',
+			LPWSTR
+			),
+			(
+			'usIdentifierFormat',
+			USHORT
+			),
+			(
+			'ulNumber',
+			ULONG
+			),
+			(
+			'pwszSerialNumber',
+			LPWSTR
+			),
+			(
+			'pwszFirmwareVersion',
+			LPWSTR
+			),
+			(
+			'pwszManufacturer',
+			LPWSTR
+			),
+			(
+			'pwszModel',
+			LPWSTR
+			),
+			(
+			'ullTotalSize',
+			ULONGLONG
+			),
+			(
+			'ullAllocatedSize',
+			ULONGLONG
+			),
+			(
+			'ulLogicalSectorSize',
+			ULONG
+			),
+			(
+			'ulPhysicalSectorSize',
+			ULONG
+			),
+			(
+			'ulPartitionCount',
+			ULONG
+			),
+			(
+			'status',
+			VDS_DISK_STATUS
+			),
+			(
+			'health',
+			VDS_HEALTH
+			),
+			(
+			'BusType',
+			VDS_STORAGE_BUS_TYPE
+			),
+			(
+			'PartitionStyle',
+			VDS_PARTITION_STYLE
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'ulFlags',
+			ULONG
+			),
+			(
+			'dwDeviceType',
+			DWORD
+			)
 		)
+
+
 class PVDS_ADVANCEDDISK_PROP(NDRPOINTER):
 	referent = (
-			('Data', VDS_ADVANCEDDISK_PROP)
+			(
+			'Data',
+			VDS_ADVANCEDDISK_PROP
+			)
 		)
+
+
 class VDS_VOLUME_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('id', VDS_OBJECT_ID),
-			('type', VDS_VOLUME_TYPE),
-			('status', VDS_VOLUME_STATUS),
-			('health', VDS_HEALTH),
-			('TransitionState', VDS_TRANSITION_STATE),
-			('ullSize', ULONGLONG),
-			('ulFlags', UNSIGNED_LONG),
-			('RecommendedFileSystemType', VDS_FILE_SYSTEM_TYPE),
-			('pwszName', WCHAR)
+			(
+			'id',
+			VDS_OBJECT_ID
+			),
+			(
+			'type',
+			VDS_VOLUME_TYPE
+			),
+			(
+			'status',
+			VDS_VOLUME_STATUS
+			),
+			(
+			'health',
+			VDS_HEALTH
+			),
+			(
+			'TransitionState',
+			VDS_TRANSITION_STATE
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'RecommendedFileSystemType',
+			VDS_FILE_SYSTEM_TYPE
+			),
+			(
+			'pwszName',
+			WCHAR
+			)
 		)
+
+
 class PVDS_VOLUME_PROP(NDRPOINTER):
 	referent = (
-			('Data', VDS_VOLUME_PROP)
+			(
+			'Data',
+			VDS_VOLUME_PROP
+			)
 		)
-class DATA_WCHAR(NDRUniConformantArray):
+
+
+class DATA_VDS_VOLUME_PROP2(NDRUniConformantArray):
 	item = BYTE
-class PTR_WCHAR(NDRPOINTER):
+
+
+class PTR_VDS_VOLUME_PROP2(NDRPOINTER):
 	referent = (
-			('Data', DATA_WCHAR)
+			(
+			'Data',
+			DATA_VDS_VOLUME_PROP2
+			)
 		)
-class WCHAR(NDRSTRUCT):
+
+
+class VDS_VOLUME_PROP2(NDRSTRUCT):
 	align = 1
 	structure = (
-			('id', VDS_OBJECT_ID),
-			('type', VDS_VOLUME_TYPE),
-			('status', VDS_VOLUME_STATUS),
-			('health', VDS_HEALTH),
-			('TransitionState', VDS_TRANSITION_STATE),
-			('ullSize', ULONGLONG),
-			('ulFlags', UNSIGNED_LONG),
-			('RecommendedFileSystemType', VDS_FILE_SYSTEM_TYPE),
-			('cbUniqueId', ULONG),
-			('pwszName', WCHAR),
-			('pUniqueId', PTR_WCHAR)
+			(
+			'id',
+			VDS_OBJECT_ID
+			),
+			(
+			'type',
+			VDS_VOLUME_TYPE
+			),
+			(
+			'status',
+			VDS_VOLUME_STATUS
+			),
+			(
+			'health',
+			VDS_HEALTH
+			),
+			(
+			'TransitionState',
+			VDS_TRANSITION_STATE
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'RecommendedFileSystemType',
+			VDS_FILE_SYSTEM_TYPE
+			),
+			(
+			'cbUniqueId',
+			ULONG
+			),
+			(
+			'pwszName',
+			WCHAR
+			),
+			(
+			'pUniqueId',
+			PTR_VDS_VOLUME_PROP2
+			)
 		)
+
+
 class VDS_VOLUME_PLEX_PROP(NDRSTRUCT):
 	align = 1
 	structure = (
-			('id', VDS_OBJECT_ID),
-			('type', VDS_VOLUME_PLEX_TYPE),
-			('status', VDS_VOLUME_PLEX_STATUS),
-			('health', VDS_HEALTH),
-			('TransitionState', VDS_TRANSITION_STATE),
-			('ullSize', ULONGLONG),
-			('ulStripeSize', UNSIGNED_LONG),
-			('ulNumberOfMembers', UNSIGNED_LONG)
+			(
+			'id',
+			VDS_OBJECT_ID
+			),
+			(
+			'type',
+			VDS_VOLUME_PLEX_TYPE
+			),
+			(
+			'status',
+			VDS_VOLUME_PLEX_STATUS
+			),
+			(
+			'health',
+			VDS_HEALTH
+			),
+			(
+			'TransitionState',
+			VDS_TRANSITION_STATE
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'ulStripeSize',
+			UNSIGNED_LONG
+			),
+			(
+			'ulNumberOfMembers',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class PVDS_VOLUME_PLEX_PROP(NDRPOINTER):
 	referent = (
-			('Data', VDS_VOLUME_PLEX_PROP)
+			(
+			'Data',
+			VDS_VOLUME_PLEX_PROP
+			)
 		)
+
+
 CREATE_VIRTUAL_DISK_FLAG = DWORD__ENUM
 CREATE_VIRTUAL_DISK_FLAG_NONE = 0
 CREATE_VIRTUAL_DISK_FLAG_FULL_PHYSICAL_ALLOCATION = 1
@@ -2220,17 +5259,42 @@ OPEN_VIRTUAL_DISK_FLAG_BOOT_DRIVE = 4
 class VDS_CREATE_VDISK_PARAMETERS(NDRSTRUCT):
 	align = 1
 	structure = (
-			('UniqueId', GUID),
-			('MaximumSize', ULONGLONG),
-			('BlockSizeInBytes', ULONG),
-			('SectorSizeInBytes', ULONG),
-			('pParentPath', LPWSTR),
-			('pSourcePath', LPWSTR)
+			(
+			'UniqueId',
+			GUID
+			),
+			(
+			'MaximumSize',
+			ULONGLONG
+			),
+			(
+			'BlockSizeInBytes',
+			ULONG
+			),
+			(
+			'SectorSizeInBytes',
+			ULONG
+			),
+			(
+			'pParentPath',
+			LPWSTR
+			),
+			(
+			'pSourcePath',
+			LPWSTR
+			)
 		)
+
+
 class PVDS_CREATE_VDISK_PARAMETERS(NDRPOINTER):
 	referent = (
-			('Data', VDS_CREATE_VDISK_PARAMETERS)
+			(
+			'Data',
+			VDS_CREATE_VDISK_PARAMETERS
+			)
 		)
+
+
 VDS_VDISK_STATE = DWORD__ENUM
 VDS_VST_UNKNOWN = 0
 VDS_VST_ADDED = 0
@@ -2273,21 +5337,58 @@ DEPENDENT_DISK_FLAG_PERMANENT_LIFETIME = 1024
 class VDS_VDISK_PROPERTIES(NDRSTRUCT):
 	align = 1
 	structure = (
-			('Id', VDS_OBJECT_ID),
-			('State', VDS_VDISK_STATE),
-			('VirtualDeviceType', VIRTUAL_STORAGE_TYPE),
-			('VirtualSize', ULONGLONG),
-			('PhysicalSize', ULONGLONG),
-			('pPath', LPWSTR),
-			('pDeviceName', LPWSTR),
-			('DiskFlag', DEPENDENT_DISK_FLAG),
-			('bIsChild', BOOL),
-			('pParentPath', LPWSTR)
+			(
+			'Id',
+			VDS_OBJECT_ID
+			),
+			(
+			'State',
+			VDS_VDISK_STATE
+			),
+			(
+			'VirtualDeviceType',
+			VIRTUAL_STORAGE_TYPE
+			),
+			(
+			'VirtualSize',
+			ULONGLONG
+			),
+			(
+			'PhysicalSize',
+			ULONGLONG
+			),
+			(
+			'pPath',
+			LPWSTR
+			),
+			(
+			'pDeviceName',
+			LPWSTR
+			),
+			(
+			'DiskFlag',
+			DEPENDENT_DISK_FLAG
+			),
+			(
+			'bIsChild',
+			BOOL
+			),
+			(
+			'pParentPath',
+			LPWSTR
+			)
 		)
+
+
 class PVDS_VDISK_PROPERTIES(NDRPOINTER):
 	referent = (
-			('Data', VDS_VDISK_PROPERTIES)
+			(
+			'Data',
+			VDS_VDISK_PROPERTIES
+			)
 		)
+
+
 VIRTUAL_DISK_ACCESS_MASK = DWORD__ENUM
 VIRTUAL_DISK_ACCESS_SURFACE_RO = 65536
 VIRTUAL_DISK_ACCESS_SURFACE_RW = 131072
@@ -2301,52 +5402,13 @@ VIRTUAL_DISK_ACCESS_WRITABLE = 3276800
 class PVIRTUAL_STORAGE_TYPE(NDRSTRUCT):
 	align = 1
 	structure = (
+
 		)
+
+
 #################################################################################
 #CONSTANTS
 #################################################################################
-IENUMVDSOBJECT = 
-IVDSADVISESINK = 
-IVDSASYNC = 
-IVDSSERVICELOADER = 
-IVDSSERVICE = 
-IVDSSERVICEINITIALIZATION = 
-IVDSSERVICEUNINSTALLDISK = 
-IVDSSERVICEHBA = 
-IVDSSERVICEISCSI = 
-IVDSSERVICESAN = 
-IVDSSERVICESW = 
-IVDSHBAPORT = 
-IVDSISCSIINITIATORADAPTER = 
-IVDSISCSIINITIATORPORTAL = 
-IVDSPROVIDER = 
-IVDSSWPROVIDER = 
-IVDSHWPROVIDER = 
-IVDSVDPROVIDER = 
-IVDSSUBSYSTEMIMPORTTARGET = 
-IVDSPACK = 
-IVDSPACK2 = 
-IVDSDISK = 
-IVDSDISK2 = 
-IVDSDISK3 = 
-IVDSADVANCEDDISK = 
-IVDSADVANCEDDISK2 = 
-IVDSADVANCEDDISK3 = 
-IVDSCREATEPARTITIONEX = 
-IVDSDISKONLINE = 
-IVDSDISKPARTITIONMF = 
-IVDSDISKPARTITIONMF2 = 
-IVDSREMOVABLE = 
-IVDSVOLUME = 
-IVDSVOLUME2 = 
-IVDSVOLUMEMF = 
-IVDSVOLUMEMF2 = 
-IVDSVOLUMEMF3 = 
-IVDSVOLUMESHRINK = 
-IVDSVOLUMEONLINE = 
-IVDSVOLUMEPLEX = 
-IVDSVDISK = 
-IVDSOPENVDISK = 
 VER_VDS_LUN_INFORMATION = 0x00000001
 VDS_NF_PACK_ARRIVE = 0x00000001
 VDS_NF_PACK_DEPART = 0x00000002
@@ -2373,50 +5435,287 @@ VDS_NF_SERVICE_OUT_OF_SYNC = 0x0000012D
 #################################################################################
 #IEnumVdsObject Definition
 #################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsAdviseSink Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsAsync Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsServiceLoader Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsService Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsServiceInitialization Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsServiceUninstallDisk Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsServiceHba Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsServiceIscsi Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsServiceSAN Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsServiceSw Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsHbaPort Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsIscsiInitiatorAdapter Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsIscsiInitiatorPortal Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsProvider Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsSwProvider Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsHwProvider Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsVdProvider Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsSubSystemImportTarget Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsPack Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsPack2 Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsDisk Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsDisk2 Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsDisk3 Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsAdvancedDisk Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsAdvancedDisk2 Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsAdvancedDisk3 Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsCreatePartitionEx Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsDiskOnline Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsDiskPartitionMF Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsDiskPartitionMF2 Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsRemovable Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsVolume Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsVolume2 Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsVolumeMF Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsVolumeMF2 Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsVolumeMF3 Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsVolumeShrink Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsVolumeOnline Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsVolumePlex Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsVDisk Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IVdsOpenVDisk Definition
+#################################################################################
+OPNUMS = {}
+#################################################################################
+#IEnumVdsObject Definition
+#################################################################################
 MSRPC_UUID_IENUMVDSOBJECT = uuidtup_to_bin(('118610b7-8d94-4030-b5b8-500889788e4e','0.0'))
 class Next(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('celt', UNSIGNED_LONG)
+			(
+			'celt',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class NextResponse(NDRCALL):
 	structure = (
-			('celt', UNSIGNED_LONG)
+			(
+			'celt',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class Skip(NDRCALL):
 	OPNUM = 1
 	structure = (
-			('celt', UNSIGNED_LONG)
+			(
+			'celt',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class SkipResponse(NDRCALL):
 	structure = (
-			('celt', UNSIGNED_LONG)
+			(
+			'celt',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class Reset(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class ResetResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Clone(NDRCALL):
 	OPNUM = 3
 	structure = (
+
 		)
+
+
 class CloneResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(Next, NextResponse),1 : 	(Skip, SkipResponse),2 : 	(Reset, ResetResponse),3 : 	(Clone, CloneResponse)}
+
+
+OPNUMS = {0 : (
+	Next,
+	NextResponse
+	),1 : (
+	Skip,
+	SkipResponse
+	),2 : (
+	Reset,
+	ResetResponse
+	),3 : (
+	Clone,
+	CloneResponse
+	)}
 #################################################################################
 #IVdsAdviseSink Definition
 #################################################################################
 MSRPC_UUID_IVDSADVISESINK = uuidtup_to_bin(('8326cd1d-cf59-4936-b786-5efc08798e25','0.0'))
 class OnNotify(NDRCALL):
 	OPNUM = 0
-	structure = 		(		('lNumberOfNotifications', LONG), 		('pNotificationArray', VDS_NOTIFICATION))
+	structure = (
+			(
+			'lNumberOfNotifications',
+			LONG
+			),
+			(
+			'pNotificationArray',
+			VDS_NOTIFICATION
+			)
+		)
+
+
 class OnNotifyResponse(NDRCALL):
-	structure = 		(		('lNumberOfNotifications', LONG), 		('pNotificationArray', VDS_NOTIFICATION))
-OPNUMS = {0 : 	(OnNotify, OnNotifyResponse)}
+	structure = (
+			(
+			'lNumberOfNotifications',
+			LONG
+			),
+			(
+			'pNotificationArray',
+			VDS_NOTIFICATION
+			)
+		)
+
+
+OPNUMS = {0 : (
+	OnNotify,
+	OnNotifyResponse
+	)}
 #################################################################################
 #IVdsAsync Definition
 #################################################################################
@@ -2424,25 +5723,52 @@ MSRPC_UUID_IVDSASYNC = uuidtup_to_bin(('d5d23b6d-555-4492-9889-397322bc','0.0'))
 class Cancel(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class CancelResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Wait(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class WaitResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryStatus(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class QueryStatusResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(Cancel, CancelResponse),1 : 	(Wait, WaitResponse),2 : 	(QueryStatus, QueryStatusResponse)}
+
+
+OPNUMS = {0 : (
+	Cancel,
+	CancelResponse
+	),1 : (
+	Wait,
+	WaitResponse
+	),2 : (
+	QueryStatus,
+	QueryStatusResponse
+	)}
 #################################################################################
 #IVdsServiceLoader Definition
 #################################################################################
@@ -2450,13 +5776,26 @@ MSRPC_UUID_IVDSSERVICELOADER = uuidtup_to_bin(('e0393303-904-497-ab71-e9b671ee27
 class LoadService(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('pwszMachineName', LPWSTR)
+			(
+			'pwszMachineName',
+			LPWSTR
+			)
 		)
+
+
 class LoadServiceResponse(NDRCALL):
 	structure = (
-			('pwszMachineName', LPWSTR)
+			(
+			'pwszMachineName',
+			LPWSTR
+			)
 		)
-OPNUMS = {0 : 	(LoadService, LoadServiceResponse)}
+
+
+OPNUMS = {0 : (
+	LoadService,
+	LoadServiceResponse
+	)}
 #################################################################################
 #IVdsService Definition
 #################################################################################
@@ -2464,129 +5803,334 @@ MSRPC_UUID_IVDSSERVICE = uuidtup_to_bin(('0818a8ef-9ba9-40d8-a6f9-e22833cc771e',
 class IsServiceReady(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class IsServiceReadyResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class WaitForServiceReady(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class WaitForServiceReadyResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class GetProperties(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class GetPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryProviders(NDRCALL):
 	OPNUM = 3
 	structure = (
-			('masks', DWORD)
+			(
+			'masks',
+			DWORD
+			)
 		)
+
+
 class QueryProvidersResponse(NDRCALL):
 	structure = (
-			('masks', DWORD)
+			(
+			'masks',
+			DWORD
+			)
 		)
+
+
 class Opnum07NotUsedOnWire(NDRCALL):
 	OPNUM = 4
 	structure = (
+
 		)
+
+
 class Opnum07NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryUnallocatedDisks(NDRCALL):
 	OPNUM = 5
 	structure = (
+
 		)
+
+
 class QueryUnallocatedDisksResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class GetObject(NDRCALL):
 	OPNUM = 6
-	structure = 		(		('ObjectId', VDS_OBJECT_ID), 		('type', VDS_OBJECT_TYPE))
+	structure = (
+			(
+			'ObjectId',
+			VDS_OBJECT_ID
+			),
+			(
+			'type',
+			VDS_OBJECT_TYPE
+			)
+		)
+
+
 class GetObjectResponse(NDRCALL):
-	structure = 		(		('ObjectId', VDS_OBJECT_ID), 		('type', VDS_OBJECT_TYPE))
+	structure = (
+			(
+			'ObjectId',
+			VDS_OBJECT_ID
+			),
+			(
+			'type',
+			VDS_OBJECT_TYPE
+			)
+		)
+
+
 class QueryDriveLetters(NDRCALL):
 	OPNUM = 7
-	structure = 		(		('wcFirstLetter', WCHAR), 		('count', DWORD))
+	structure = (
+			(
+			'wcFirstLetter',
+			WCHAR
+			),
+			(
+			'count',
+			DWORD
+			)
+		)
+
+
 class QueryDriveLettersResponse(NDRCALL):
-	structure = 		(		('wcFirstLetter', WCHAR), 		('count', DWORD))
+	structure = (
+			(
+			'wcFirstLetter',
+			WCHAR
+			),
+			(
+			'count',
+			DWORD
+			)
+		)
+
+
 class QueryFileSystemTypes(NDRCALL):
 	OPNUM = 8
 	structure = (
+
 		)
+
+
 class QueryFileSystemTypesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Reenumerate(NDRCALL):
 	OPNUM = 9
 	structure = (
+
 		)
+
+
 class ReenumerateResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Refresh(NDRCALL):
 	OPNUM = 10
 	structure = (
+
 		)
+
+
 class RefreshResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class CleanupObsoleteMountPoints(NDRCALL):
 	OPNUM = 11
 	structure = (
+
 		)
+
+
 class CleanupObsoleteMountPointsResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Advise(NDRCALL):
 	OPNUM = 12
 	structure = (
-			('pSink', IVDSADVISESINK)
+			(
+			'pSink',
+			IVDSADVISESINK
+			)
 		)
+
+
 class AdviseResponse(NDRCALL):
 	structure = (
-			('pSink', IVDSADVISESINK)
+			(
+			'pSink',
+			IVDSADVISESINK
+			)
 		)
+
+
 class Unadvise(NDRCALL):
 	OPNUM = 13
 	structure = (
-			('dwCookie', DWORD)
+			(
+			'dwCookie',
+			DWORD
+			)
 		)
+
+
 class UnadviseResponse(NDRCALL):
 	structure = (
-			('dwCookie', DWORD)
+			(
+			'dwCookie',
+			DWORD
+			)
 		)
+
+
 class Reboot(NDRCALL):
 	OPNUM = 14
 	structure = (
+
 		)
+
+
 class RebootResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class SetFlags(NDRCALL):
 	OPNUM = 15
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class SetFlagsResponse(NDRCALL):
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class ClearFlags(NDRCALL):
 	OPNUM = 16
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class ClearFlagsResponse(NDRCALL):
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
-OPNUMS = {0 : 	(IsServiceReady, IsServiceReadyResponse),1 : 	(WaitForServiceReady, WaitForServiceReadyResponse),2 : 	(GetProperties, GetPropertiesResponse),3 : 	(QueryProviders, QueryProvidersResponse),4 : 	(Opnum07NotUsedOnWire, Opnum07NotUsedOnWireResponse),5 : 	(QueryUnallocatedDisks, QueryUnallocatedDisksResponse),6 : 	(GetObject, GetObjectResponse),7 : 	(QueryDriveLetters, QueryDriveLettersResponse),8 : 	(QueryFileSystemTypes, QueryFileSystemTypesResponse),9 : 	(Reenumerate, ReenumerateResponse),10 : 	(Refresh, RefreshResponse),11 : 	(CleanupObsoleteMountPoints, CleanupObsoleteMountPointsResponse),12 : 	(Advise, AdviseResponse),13 : 	(Unadvise, UnadviseResponse),14 : 	(Reboot, RebootResponse),15 : 	(SetFlags, SetFlagsResponse),16 : 	(ClearFlags, ClearFlagsResponse)}
+
+
+OPNUMS = {0 : (
+	IsServiceReady,
+	IsServiceReadyResponse
+	),1 : (
+	WaitForServiceReady,
+	WaitForServiceReadyResponse
+	),2 : (
+	GetProperties,
+	GetPropertiesResponse
+	),3 : (
+	QueryProviders,
+	QueryProvidersResponse
+	),4 : (
+	Opnum07NotUsedOnWire,
+	Opnum07NotUsedOnWireResponse
+	),5 : (
+	QueryUnallocatedDisks,
+	QueryUnallocatedDisksResponse
+	),6 : (
+	GetObject,
+	GetObjectResponse
+	),7 : (
+	QueryDriveLetters,
+	QueryDriveLettersResponse
+	),8 : (
+	QueryFileSystemTypes,
+	QueryFileSystemTypesResponse
+	),9 : (
+	Reenumerate,
+	ReenumerateResponse
+	),10 : (
+	Refresh,
+	RefreshResponse
+	),11 : (
+	CleanupObsoleteMountPoints,
+	CleanupObsoleteMountPointsResponse
+	),12 : (
+	Advise,
+	AdviseResponse
+	),13 : (
+	Unadvise,
+	UnadviseResponse
+	),14 : (
+	Reboot,
+	RebootResponse
+	),15 : (
+	SetFlags,
+	SetFlagsResponse
+	),16 : (
+	ClearFlags,
+	ClearFlagsResponse
+	)}
 #################################################################################
 #IVdsServiceInitialization Definition
 #################################################################################
@@ -2594,13 +6138,26 @@ MSRPC_UUID_IVDSSERVICEINITIALIZATION = uuidtup_to_bin(('4afc3636-db01-4052-80c3-
 class Initialize(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('pwszMachineName', WCHAR)
+			(
+			'pwszMachineName',
+			WCHAR
+			)
 		)
+
+
 class InitializeResponse(NDRCALL):
 	structure = (
-			('pwszMachineName', WCHAR)
+			(
+			'pwszMachineName',
+			WCHAR
+			)
 		)
-OPNUMS = {0 : 	(Initialize, InitializeResponse)}
+
+
+OPNUMS = {0 : (
+	Initialize,
+	InitializeResponse
+	)}
 #################################################################################
 #IVdsServiceUninstallDisk Definition
 #################################################################################
@@ -2608,26 +6165,64 @@ MSRPC_UUID_IVDSSERVICEUNINSTALLDISK = uuidtup_to_bin(('B6B22DA8-F903-4e7-B492-C0
 class GetDiskIdFromLunInfo(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('pLunInfo', VDS_LUN_INFORMATION)
+			(
+			'pLunInfo',
+			VDS_LUN_INFORMATION
+			)
 		)
+
+
 class GetDiskIdFromLunInfoResponse(NDRCALL):
 	structure = (
-			('pLunInfo', VDS_LUN_INFORMATION)
+			(
+			'pLunInfo',
+			VDS_LUN_INFORMATION
+			)
 		)
+
+
 class UninstallDisks(NDRCALL):
 	OPNUM = 1
 	structure = (
-			('pDiskIdArray', VDS_OBJECT_ID),
-			('ulCount', UNSIGNED_LONG),
-			('bForce', BOOLEAN)
+			(
+			'pDiskIdArray',
+			VDS_OBJECT_ID
+			),
+			(
+			'ulCount',
+			UNSIGNED_LONG
+			),
+			(
+			'bForce',
+			BOOLEAN
+			)
 		)
+
+
 class UninstallDisksResponse(NDRCALL):
 	structure = (
-			('pDiskIdArray', VDS_OBJECT_ID),
-			('ulCount', UNSIGNED_LONG),
-			('bForce', BOOLEAN)
+			(
+			'pDiskIdArray',
+			VDS_OBJECT_ID
+			),
+			(
+			'ulCount',
+			UNSIGNED_LONG
+			),
+			(
+			'bForce',
+			BOOLEAN
+			)
 		)
-OPNUMS = {0 : 	(GetDiskIdFromLunInfo, GetDiskIdFromLunInfoResponse),1 : 	(UninstallDisks, UninstallDisksResponse)}
+
+
+OPNUMS = {0 : (
+	GetDiskIdFromLunInfo,
+	GetDiskIdFromLunInfoResponse
+	),1 : (
+	UninstallDisks,
+	UninstallDisksResponse
+	)}
 #################################################################################
 #IVdsServiceHba Definition
 #################################################################################
@@ -2635,11 +6230,20 @@ MSRPC_UUID_IVDSSERVICEHBA = uuidtup_to_bin(('0ac13689-3134-47c6-a17c-4669216801b
 class QueryHbaPorts(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class QueryHbaPortsResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(QueryHbaPorts, QueryHbaPortsResponse)}
+
+
+OPNUMS = {0 : (
+	QueryHbaPorts,
+	QueryHbaPortsResponse
+	)}
 #################################################################################
 #IVdsServiceIscsi Definition
 #################################################################################
@@ -2647,51 +6251,130 @@ MSRPC_UUID_IVDSSERVICEISCSI = uuidtup_to_bin(('14fbe036-3ed7-4e10-90e9-a5ff991af
 class GetInitiatorName(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetInitiatorNameResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryInitiatorAdapters(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class QueryInitiatorAdaptersResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum05NotUsedOnWire(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class Opnum05NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum06NotUsedOnWire(NDRCALL):
 	OPNUM = 3
 	structure = (
+
 		)
+
+
 class Opnum06NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum07NotUsedOnWire(NDRCALL):
 	OPNUM = 4
 	structure = (
+
 		)
+
+
 class Opnum07NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class SetInitiatorSharedSecret(NDRCALL):
 	OPNUM = 5
-	structure = 		(		('pInitiatorSharedSecret', VDS_ISCSI_SHARED_SECRET), 		('targetId', VDS_OBJECT_ID))
+	structure = (
+			(
+			'pInitiatorSharedSecret',
+			VDS_ISCSI_SHARED_SECRET
+			),
+			(
+			'targetId',
+			VDS_OBJECT_ID
+			)
+		)
+
+
 class SetInitiatorSharedSecretResponse(NDRCALL):
-	structure = 		(		('pInitiatorSharedSecret', VDS_ISCSI_SHARED_SECRET), 		('targetId', VDS_OBJECT_ID))
+	structure = (
+			(
+			'pInitiatorSharedSecret',
+			VDS_ISCSI_SHARED_SECRET
+			),
+			(
+			'targetId',
+			VDS_OBJECT_ID
+			)
+		)
+
+
 class Opnum09NotUsedOnWire(NDRCALL):
 	OPNUM = 6
 	structure = (
+
 		)
+
+
 class Opnum09NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(GetInitiatorName, GetInitiatorNameResponse),1 : 	(QueryInitiatorAdapters, QueryInitiatorAdaptersResponse),2 : 	(Opnum05NotUsedOnWire, Opnum05NotUsedOnWireResponse),3 : 	(Opnum06NotUsedOnWire, Opnum06NotUsedOnWireResponse),4 : 	(Opnum07NotUsedOnWire, Opnum07NotUsedOnWireResponse),5 : 	(SetInitiatorSharedSecret, SetInitiatorSharedSecretResponse),6 : 	(Opnum09NotUsedOnWire, Opnum09NotUsedOnWireResponse)}
+
+
+OPNUMS = {0 : (
+	GetInitiatorName,
+	GetInitiatorNameResponse
+	),1 : (
+	QueryInitiatorAdapters,
+	QueryInitiatorAdaptersResponse
+	),2 : (
+	Opnum05NotUsedOnWire,
+	Opnum05NotUsedOnWireResponse
+	),3 : (
+	Opnum06NotUsedOnWire,
+	Opnum06NotUsedOnWireResponse
+	),4 : (
+	Opnum07NotUsedOnWire,
+	Opnum07NotUsedOnWireResponse
+	),5 : (
+	SetInitiatorSharedSecret,
+	SetInitiatorSharedSecretResponse
+	),6 : (
+	Opnum09NotUsedOnWire,
+	Opnum09NotUsedOnWireResponse
+	)}
 #################################################################################
 #IVdsServiceSAN Definition
 #################################################################################
@@ -2699,20 +6382,42 @@ MSRPC_UUID_IVDSSERVICESAN = uuidtup_to_bin(('FC5D23E8-A88B-415-8E0-22735630','0.
 class GetSANPolicy(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetSANPolicyResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class SetSANPolicy(NDRCALL):
 	OPNUM = 1
 	structure = (
-			('SanPolicy', VDS_SAN_POLICY)
+			(
+			'SanPolicy',
+			VDS_SAN_POLICY
+			)
 		)
+
+
 class SetSANPolicyResponse(NDRCALL):
 	structure = (
-			('SanPolicy', VDS_SAN_POLICY)
+			(
+			'SanPolicy',
+			VDS_SAN_POLICY
+			)
 		)
-OPNUMS = {0 : 	(GetSANPolicy, GetSANPolicyResponse),1 : 	(SetSANPolicy, SetSANPolicyResponse)}
+
+
+OPNUMS = {0 : (
+	GetSANPolicy,
+	GetSANPolicyResponse
+	),1 : (
+	SetSANPolicy,
+	SetSANPolicyResponse
+	)}
 #################################################################################
 #IVdsServiceSw Definition
 #################################################################################
@@ -2720,13 +6425,26 @@ MSRPC_UUID_IVDSSERVICESW = uuidtup_to_bin(('15fc031c-0652-4306-b2c3-f558b8f837e2
 class GetDiskObject(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('pwszDeviceID', LPCWSTR)
+			(
+			'pwszDeviceID',
+			LPCWSTR
+			)
 		)
+
+
 class GetDiskObjectResponse(NDRCALL):
 	structure = (
-			('pwszDeviceID', LPCWSTR)
+			(
+			'pwszDeviceID',
+			LPCWSTR
+			)
 		)
-OPNUMS = {0 : 	(GetDiskObject, GetDiskObjectResponse)}
+
+
+OPNUMS = {0 : (
+	GetDiskObject,
+	GetDiskObjectResponse
+	)}
 #################################################################################
 #IVdsHbaPort Definition
 #################################################################################
@@ -2734,20 +6452,42 @@ MSRPC_UUID_IVDSHBAPORT = uuidtup_to_bin(('2abd757f-2851-4997-9a13-47d2a885d6ca',
 class GetProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class SetAllPathStatuses(NDRCALL):
 	OPNUM = 1
 	structure = (
-			('status', VDS_PATH_STATUS)
+			(
+			'status',
+			VDS_PATH_STATUS
+			)
 		)
+
+
 class SetAllPathStatusesResponse(NDRCALL):
 	structure = (
-			('status', VDS_PATH_STATUS)
+			(
+			'status',
+			VDS_PATH_STATUS
+			)
 		)
-OPNUMS = {0 : 	(GetProperties, GetPropertiesResponse),1 : 	(SetAllPathStatuses, SetAllPathStatusesResponse)}
+
+
+OPNUMS = {0 : (
+	GetProperties,
+	GetPropertiesResponse
+	),1 : (
+	SetAllPathStatuses,
+	SetAllPathStatusesResponse
+	)}
 #################################################################################
 #IVdsIscsiInitiatorAdapter Definition
 #################################################################################
@@ -2755,32 +6495,68 @@ MSRPC_UUID_IVDSISCSIINITIATORADAPTER = uuidtup_to_bin(('b07fedd4-1682-4440-9189-
 class GetProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryInitiatorPortals(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class QueryInitiatorPortalsResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum05NotUsedOnWire(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class Opnum05NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum06NotUsedOnWire(NDRCALL):
 	OPNUM = 3
 	structure = (
+
 		)
+
+
 class Opnum06NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(GetProperties, GetPropertiesResponse),1 : 	(QueryInitiatorPortals, QueryInitiatorPortalsResponse),2 : 	(Opnum05NotUsedOnWire, Opnum05NotUsedOnWireResponse),3 : 	(Opnum06NotUsedOnWire, Opnum06NotUsedOnWireResponse)}
+
+
+OPNUMS = {0 : (
+	GetProperties,
+	GetPropertiesResponse
+	),1 : (
+	QueryInitiatorPortals,
+	QueryInitiatorPortalsResponse
+	),2 : (
+	Opnum05NotUsedOnWire,
+	Opnum05NotUsedOnWireResponse
+	),3 : (
+	Opnum06NotUsedOnWire,
+	Opnum06NotUsedOnWireResponse
+	)}
 #################################################################################
 #IVdsIscsiInitiatorPortal Definition
 #################################################################################
@@ -2788,39 +6564,84 @@ MSRPC_UUID_IVDSISCSIINITIATORPORTAL = uuidtup_to_bin(('38a0a9ab-7cc8-4693-ac07-1
 class GetProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class GetInitiatorAdapter(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class GetInitiatorAdapterResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum05NotUsedOnWire(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class Opnum05NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum06NotUsedOnWire(NDRCALL):
 	OPNUM = 3
 	structure = (
+
 		)
+
+
 class Opnum06NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum07NotUsedOnWire(NDRCALL):
 	OPNUM = 4
 	structure = (
+
 		)
+
+
 class Opnum07NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(GetProperties, GetPropertiesResponse),1 : 	(GetInitiatorAdapter, GetInitiatorAdapterResponse),2 : 	(Opnum05NotUsedOnWire, Opnum05NotUsedOnWireResponse),3 : 	(Opnum06NotUsedOnWire, Opnum06NotUsedOnWireResponse),4 : 	(Opnum07NotUsedOnWire, Opnum07NotUsedOnWireResponse)}
+
+
+OPNUMS = {0 : (
+	GetProperties,
+	GetPropertiesResponse
+	),1 : (
+	GetInitiatorAdapter,
+	GetInitiatorAdapterResponse
+	),2 : (
+	Opnum05NotUsedOnWire,
+	Opnum05NotUsedOnWireResponse
+	),3 : (
+	Opnum06NotUsedOnWire,
+	Opnum06NotUsedOnWireResponse
+	),4 : (
+	Opnum07NotUsedOnWire,
+	Opnum07NotUsedOnWireResponse
+	)}
 #################################################################################
 #IVdsProvider Definition
 #################################################################################
@@ -2828,11 +6649,20 @@ MSRPC_UUID_IVDSPROVIDER = uuidtup_to_bin(('10c5e575-7984-4e81-a56b-431f5f92ae42'
 class GetProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(GetProperties, GetPropertiesResponse)}
+
+
+OPNUMS = {0 : (
+	GetProperties,
+	GetPropertiesResponse
+	)}
 #################################################################################
 #IVdsSwProvider Definition
 #################################################################################
@@ -2840,18 +6670,36 @@ MSRPC_UUID_IVDSSWPROVIDER = uuidtup_to_bin(('9aa58360-ce33-4f92-b658-ed24b14425b
 class QueryPacks(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class QueryPacksResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class CreatePack(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class CreatePackResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(QueryPacks, QueryPacksResponse),1 : 	(CreatePack, CreatePackResponse)}
+
+
+OPNUMS = {0 : (
+	QueryPacks,
+	QueryPacksResponse
+	),1 : (
+	CreatePack,
+	CreatePackResponse
+	)}
 #################################################################################
 #IVdsHwProvider Definition
 #################################################################################
@@ -2859,25 +6707,52 @@ MSRPC_UUID_IVDSHWPROVIDER = uuidtup_to_bin(('d99bdaae-b13a-4178-9db-e27f16b4603e
 class QuerySubSystems(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class QuerySubSystemsResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum04NotUsedOnWire(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class Opnum04NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Opnum05NotUsedOnWire(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class Opnum05NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(QuerySubSystems, QuerySubSystemsResponse),1 : 	(Opnum04NotUsedOnWire, Opnum04NotUsedOnWireResponse),2 : 	(Opnum05NotUsedOnWire, Opnum05NotUsedOnWireResponse)}
+
+
+OPNUMS = {0 : (
+	QuerySubSystems,
+	QuerySubSystemsResponse
+	),1 : (
+	Opnum04NotUsedOnWire,
+	Opnum04NotUsedOnWireResponse
+	),2 : (
+	Opnum05NotUsedOnWire,
+	Opnum05NotUsedOnWireResponse
+	)}
 #################################################################################
 #IVdsVdProvider Definition
 #################################################################################
@@ -2885,57 +6760,172 @@ MSRPC_UUID_IVDSVDPROVIDER = uuidtup_to_bin(('b481498c-8354-459-840-0dd2832a91f',
 class QueryVDisks(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class QueryVDisksResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class CreateVDisk(NDRCALL):
 	OPNUM = 1
 	structure = (
-			('VirtualDeviceType', PVIRTUAL_STORAGE_TYPE),
-			('pPath', LPWSTR),
-			('pStringSecurityDescriptor', LPWSTR),
-			('Flags', CREATE_VIRTUAL_DISK_FLAG),
-			('ProviderSpecificFlags', ULONG),
-			('Reserved', ULONG),
-			('pCreateDiskParameters', PVDS_CREATE_VDISK_PARAMETERS),
-			('ppAsync', IVDSASYNC)
+			(
+			'VirtualDeviceType',
+			PVIRTUAL_STORAGE_TYPE
+			),
+			(
+			'pPath',
+			LPWSTR
+			),
+			(
+			'pStringSecurityDescriptor',
+			LPWSTR
+			),
+			(
+			'Flags',
+			CREATE_VIRTUAL_DISK_FLAG
+			),
+			(
+			'ProviderSpecificFlags',
+			ULONG
+			),
+			(
+			'Reserved',
+			ULONG
+			),
+			(
+			'pCreateDiskParameters',
+			PVDS_CREATE_VDISK_PARAMETERS
+			),
+			(
+			'ppAsync',
+			IVDSASYNC
+			)
 		)
+
+
 class CreateVDiskResponse(NDRCALL):
 	structure = (
-			('VirtualDeviceType', PVIRTUAL_STORAGE_TYPE),
-			('pPath', LPWSTR),
-			('pStringSecurityDescriptor', LPWSTR),
-			('Flags', CREATE_VIRTUAL_DISK_FLAG),
-			('ProviderSpecificFlags', ULONG),
-			('Reserved', ULONG),
-			('pCreateDiskParameters', PVDS_CREATE_VDISK_PARAMETERS),
-			('ppAsync', IVDSASYNC)
+			(
+			'VirtualDeviceType',
+			PVIRTUAL_STORAGE_TYPE
+			),
+			(
+			'pPath',
+			LPWSTR
+			),
+			(
+			'pStringSecurityDescriptor',
+			LPWSTR
+			),
+			(
+			'Flags',
+			CREATE_VIRTUAL_DISK_FLAG
+			),
+			(
+			'ProviderSpecificFlags',
+			ULONG
+			),
+			(
+			'Reserved',
+			ULONG
+			),
+			(
+			'pCreateDiskParameters',
+			PVDS_CREATE_VDISK_PARAMETERS
+			),
+			(
+			'ppAsync',
+			IVDSASYNC
+			)
 		)
+
+
 class AddVDisk(NDRCALL):
 	OPNUM = 2
-	structure = 		(		('VirtualDeviceType', PVIRTUAL_STORAGE_TYPE), 		('pPath', LPWSTR))
+	structure = (
+			(
+			'VirtualDeviceType',
+			PVIRTUAL_STORAGE_TYPE
+			),
+			(
+			'pPath',
+			LPWSTR
+			)
+		)
+
+
 class AddVDiskResponse(NDRCALL):
-	structure = 		(		('VirtualDeviceType', PVIRTUAL_STORAGE_TYPE), 		('pPath', LPWSTR))
+	structure = (
+			(
+			'VirtualDeviceType',
+			PVIRTUAL_STORAGE_TYPE
+			),
+			(
+			'pPath',
+			LPWSTR
+			)
+		)
+
+
 class GetDiskFromVDisk(NDRCALL):
 	OPNUM = 3
 	structure = (
-			('pVDisk', IVDSVDISK)
+			(
+			'pVDisk',
+			IVDSVDISK
+			)
 		)
+
+
 class GetDiskFromVDiskResponse(NDRCALL):
 	structure = (
-			('pVDisk', IVDSVDISK)
+			(
+			'pVDisk',
+			IVDSVDISK
+			)
 		)
+
+
 class GetVDiskFromDisk(NDRCALL):
 	OPNUM = 4
 	structure = (
-			('pDisk', IVDSDISK)
+			(
+			'pDisk',
+			IVDSDISK
+			)
 		)
+
+
 class GetVDiskFromDiskResponse(NDRCALL):
 	structure = (
-			('pDisk', IVDSDISK)
+			(
+			'pDisk',
+			IVDSDISK
+			)
 		)
-OPNUMS = {0 : 	(QueryVDisks, QueryVDisksResponse),1 : 	(CreateVDisk, CreateVDiskResponse),2 : 	(AddVDisk, AddVDiskResponse),3 : 	(GetDiskFromVDisk, GetDiskFromVDiskResponse),4 : 	(GetVDiskFromDisk, GetVDiskFromDiskResponse)}
+
+
+OPNUMS = {0 : (
+	QueryVDisks,
+	QueryVDisksResponse
+	),1 : (
+	CreateVDisk,
+	CreateVDiskResponse
+	),2 : (
+	AddVDisk,
+	AddVDiskResponse
+	),3 : (
+	GetDiskFromVDisk,
+	GetDiskFromVDiskResponse
+	),4 : (
+	GetVDiskFromDisk,
+	GetVDiskFromDiskResponse
+	)}
 #################################################################################
 #IVdsSubSystemImportTarget Definition
 #################################################################################
@@ -2943,20 +6933,42 @@ MSRPC_UUID_IVDSSUBSYSTEMIMPORTTARGET = uuidtup_to_bin(('83bfb87f-43fb-4903-baa6-
 class GetImportTarget(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetImportTargetResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class SetImportTarget(NDRCALL):
 	OPNUM = 1
 	structure = (
-			('pwszIscsiName', LPWSTR)
+			(
+			'pwszIscsiName',
+			LPWSTR
+			)
 		)
+
+
 class SetImportTargetResponse(NDRCALL):
 	structure = (
-			('pwszIscsiName', LPWSTR)
+			(
+			'pwszIscsiName',
+			LPWSTR
+			)
 		)
-OPNUMS = {0 : 	(GetImportTarget, GetImportTargetResponse),1 : 	(SetImportTarget, SetImportTargetResponse)}
+
+
+OPNUMS = {0 : (
+	GetImportTarget,
+	GetImportTargetResponse
+	),1 : (
+	SetImportTarget,
+	SetImportTargetResponse
+	)}
 #################################################################################
 #IVdsPack Definition
 #################################################################################
@@ -2964,100 +6976,260 @@ MSRPC_UUID_IVDSPACK = uuidtup_to_bin(('3b69d7f5-9d94-4648-91ca-79939ba263bf','0.
 class GetProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class GetProvider(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class GetProviderResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryVolumes(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class QueryVolumesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryDisks(NDRCALL):
 	OPNUM = 3
 	structure = (
+
 		)
+
+
 class QueryDisksResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class CreateVolume(NDRCALL):
 	OPNUM = 4
 	structure = (
-			('type', VDS_VOLUME_TYPE),
-			('pInputDiskArray', VDS_INPUT_DISK),
-			('lNumberOfDisks', LONG),
-			('ulStripeSize', UNSIGNED_LONG)
+			(
+			'type',
+			VDS_VOLUME_TYPE
+			),
+			(
+			'pInputDiskArray',
+			VDS_INPUT_DISK
+			),
+			(
+			'lNumberOfDisks',
+			LONG
+			),
+			(
+			'ulStripeSize',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class CreateVolumeResponse(NDRCALL):
 	structure = (
-			('type', VDS_VOLUME_TYPE),
-			('pInputDiskArray', VDS_INPUT_DISK),
-			('lNumberOfDisks', LONG),
-			('ulStripeSize', UNSIGNED_LONG)
+			(
+			'type',
+			VDS_VOLUME_TYPE
+			),
+			(
+			'pInputDiskArray',
+			VDS_INPUT_DISK
+			),
+			(
+			'lNumberOfDisks',
+			LONG
+			),
+			(
+			'ulStripeSize',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class AddDisk(NDRCALL):
 	OPNUM = 5
 	structure = (
-			('DiskId', VDS_OBJECT_ID),
-			('PartitionStyle', VDS_PARTITION_STYLE),
-			('bAsHotSpare', LONG)
+			(
+			'DiskId',
+			VDS_OBJECT_ID
+			),
+			(
+			'PartitionStyle',
+			VDS_PARTITION_STYLE
+			),
+			(
+			'bAsHotSpare',
+			LONG
+			)
 		)
+
+
 class AddDiskResponse(NDRCALL):
 	structure = (
-			('DiskId', VDS_OBJECT_ID),
-			('PartitionStyle', VDS_PARTITION_STYLE),
-			('bAsHotSpare', LONG)
+			(
+			'DiskId',
+			VDS_OBJECT_ID
+			),
+			(
+			'PartitionStyle',
+			VDS_PARTITION_STYLE
+			),
+			(
+			'bAsHotSpare',
+			LONG
+			)
 		)
+
+
 class MigrateDisks(NDRCALL):
 	OPNUM = 6
 	structure = (
-			('pDiskArray', VDS_OBJECT_ID),
-			('lNumberOfDisks', LONG),
-			('TargetPack', VDS_OBJECT_ID),
-			('bForce', LONG),
-			('bQueryOnly', LONG)
+			(
+			'pDiskArray',
+			VDS_OBJECT_ID
+			),
+			(
+			'lNumberOfDisks',
+			LONG
+			),
+			(
+			'TargetPack',
+			VDS_OBJECT_ID
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bQueryOnly',
+			LONG
+			)
 		)
+
+
 class MigrateDisksResponse(NDRCALL):
 	structure = (
-			('pDiskArray', VDS_OBJECT_ID),
-			('lNumberOfDisks', LONG),
-			('TargetPack', VDS_OBJECT_ID),
-			('bForce', LONG),
-			('bQueryOnly', LONG)
+			(
+			'pDiskArray',
+			VDS_OBJECT_ID
+			),
+			(
+			'lNumberOfDisks',
+			LONG
+			),
+			(
+			'TargetPack',
+			VDS_OBJECT_ID
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bQueryOnly',
+			LONG
+			)
 		)
+
+
 class Opnum10NotUsedOnWire(NDRCALL):
 	OPNUM = 7
 	structure = (
+
 		)
+
+
 class Opnum10NotUsedOnWireResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class RemoveMissingDisk(NDRCALL):
 	OPNUM = 8
 	structure = (
-			('DiskId', VDS_OBJECT_ID)
+			(
+			'DiskId',
+			VDS_OBJECT_ID
+			)
 		)
+
+
 class RemoveMissingDiskResponse(NDRCALL):
 	structure = (
-			('DiskId', VDS_OBJECT_ID)
+			(
+			'DiskId',
+			VDS_OBJECT_ID
+			)
 		)
+
+
 class Recover(NDRCALL):
 	OPNUM = 9
 	structure = (
+
 		)
+
+
 class RecoverResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(GetProperties, GetPropertiesResponse),1 : 	(GetProvider, GetProviderResponse),2 : 	(QueryVolumes, QueryVolumesResponse),3 : 	(QueryDisks, QueryDisksResponse),4 : 	(CreateVolume, CreateVolumeResponse),5 : 	(AddDisk, AddDiskResponse),6 : 	(MigrateDisks, MigrateDisksResponse),7 : 	(Opnum10NotUsedOnWire, Opnum10NotUsedOnWireResponse),8 : 	(RemoveMissingDisk, RemoveMissingDiskResponse),9 : 	(Recover, RecoverResponse)}
+
+
+OPNUMS = {0 : (
+	GetProperties,
+	GetPropertiesResponse
+	),1 : (
+	GetProvider,
+	GetProviderResponse
+	),2 : (
+	QueryVolumes,
+	QueryVolumesResponse
+	),3 : (
+	QueryDisks,
+	QueryDisksResponse
+	),4 : (
+	CreateVolume,
+	CreateVolumeResponse
+	),5 : (
+	AddDisk,
+	AddDiskResponse
+	),6 : (
+	MigrateDisks,
+	MigrateDisksResponse
+	),7 : (
+	Opnum10NotUsedOnWire,
+	Opnum10NotUsedOnWireResponse
+	),8 : (
+	RemoveMissingDisk,
+	RemoveMissingDiskResponse
+	),9 : (
+	Recover,
+	RecoverResponse
+	)}
 #################################################################################
 #IVdsPack2 Definition
 #################################################################################
@@ -3065,21 +7237,58 @@ MSRPC_UUID_IVDSPACK2 = uuidtup_to_bin(('13B50BFF-290A-47DD-8558-B7C58DB1A71A','0
 class CreateVolume2(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('type', VDS_VOLUME_TYPE),
-			('pInputDiskArray', VDS_INPUT_DISK),
-			('lNumberOfDisks', LONG),
-			('ulStripeSize', UNSIGNED_LONG),
-			('ulAlign', UNSIGNED_LONG)
+			(
+			'type',
+			VDS_VOLUME_TYPE
+			),
+			(
+			'pInputDiskArray',
+			VDS_INPUT_DISK
+			),
+			(
+			'lNumberOfDisks',
+			LONG
+			),
+			(
+			'ulStripeSize',
+			UNSIGNED_LONG
+			),
+			(
+			'ulAlign',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class CreateVolume2Response(NDRCALL):
 	structure = (
-			('type', VDS_VOLUME_TYPE),
-			('pInputDiskArray', VDS_INPUT_DISK),
-			('lNumberOfDisks', LONG),
-			('ulStripeSize', UNSIGNED_LONG),
-			('ulAlign', UNSIGNED_LONG)
+			(
+			'type',
+			VDS_VOLUME_TYPE
+			),
+			(
+			'pInputDiskArray',
+			VDS_INPUT_DISK
+			),
+			(
+			'lNumberOfDisks',
+			LONG
+			),
+			(
+			'ulStripeSize',
+			UNSIGNED_LONG
+			),
+			(
+			'ulAlign',
+			UNSIGNED_LONG
+			)
 		)
-OPNUMS = {0 : 	(CreateVolume2, CreateVolume2Response)}
+
+
+OPNUMS = {0 : (
+	CreateVolume2,
+	CreateVolume2Response
+	)}
 #################################################################################
 #IVdsDisk Definition
 #################################################################################
@@ -3087,59 +7296,134 @@ MSRPC_UUID_IVDSDISK = uuidtup_to_bin(('07e5c822-f00c-47a1-8fce-b244da56fd06','0.
 class GetProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class GetPack(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class GetPackResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class GetIdentificationData(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class GetIdentificationDataResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryExtents(NDRCALL):
 	OPNUM = 3
 	structure = (
+
 		)
+
+
 class QueryExtentsResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class ConvertStyle(NDRCALL):
 	OPNUM = 4
 	structure = (
-			('NewStyle', VDS_PARTITION_STYLE)
+			(
+			'NewStyle',
+			VDS_PARTITION_STYLE
+			)
 		)
+
+
 class ConvertStyleResponse(NDRCALL):
 	structure = (
-			('NewStyle', VDS_PARTITION_STYLE)
+			(
+			'NewStyle',
+			VDS_PARTITION_STYLE
+			)
 		)
+
+
 class SetFlags(NDRCALL):
 	OPNUM = 5
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class SetFlagsResponse(NDRCALL):
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class ClearFlags(NDRCALL):
 	OPNUM = 6
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class ClearFlagsResponse(NDRCALL):
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
-OPNUMS = {0 : 	(GetProperties, GetPropertiesResponse),1 : 	(GetPack, GetPackResponse),2 : 	(GetIdentificationData, GetIdentificationDataResponse),3 : 	(QueryExtents, QueryExtentsResponse),4 : 	(ConvertStyle, ConvertStyleResponse),5 : 	(SetFlags, SetFlagsResponse),6 : 	(ClearFlags, ClearFlagsResponse)}
+
+
+OPNUMS = {0 : (
+	GetProperties,
+	GetPropertiesResponse
+	),1 : (
+	GetPack,
+	GetPackResponse
+	),2 : (
+	GetIdentificationData,
+	GetIdentificationDataResponse
+	),3 : (
+	QueryExtents,
+	QueryExtentsResponse
+	),4 : (
+	ConvertStyle,
+	ConvertStyleResponse
+	),5 : (
+	SetFlags,
+	SetFlagsResponse
+	),6 : (
+	ClearFlags,
+	ClearFlagsResponse
+	)}
 #################################################################################
 #IVdsDisk2 Definition
 #################################################################################
@@ -3147,13 +7431,26 @@ MSRPC_UUID_IVDSDISK2 = uuidtup_to_bin(('40F73C8B-687D-4a13-8D96-3D7F2E683936','0
 class SetSANMode(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('bEnable', LONG)
+			(
+			'bEnable',
+			LONG
+			)
 		)
+
+
 class SetSANModeResponse(NDRCALL):
 	structure = (
-			('bEnable', LONG)
+			(
+			'bEnable',
+			LONG
+			)
 		)
-OPNUMS = {0 : 	(SetSANMode, SetSANModeResponse)}
+
+
+OPNUMS = {0 : (
+	SetSANMode,
+	SetSANModeResponse
+	)}
 #################################################################################
 #IVdsDisk3 Definition
 #################################################################################
@@ -3161,20 +7458,42 @@ MSRPC_UUID_IVDSDISK3 = uuidtup_to_bin(('8F4B2F5D-EC15-4357-992F-473EF10975B9','0
 class GetProperties2(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetProperties2Response(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryFreeExtents(NDRCALL):
 	OPNUM = 1
 	structure = (
-			('ulAlign', ULONG)
+			(
+			'ulAlign',
+			ULONG
+			)
 		)
+
+
 class QueryFreeExtentsResponse(NDRCALL):
 	structure = (
-			('ulAlign', ULONG)
+			(
+			'ulAlign',
+			ULONG
+			)
 		)
-OPNUMS = {0 : 	(GetProperties2, GetProperties2Response),1 : 	(QueryFreeExtents, QueryFreeExtentsResponse)}
+
+
+OPNUMS = {0 : (
+	GetProperties2,
+	GetProperties2Response
+	),1 : (
+	QueryFreeExtents,
+	QueryFreeExtentsResponse
+	)}
 #################################################################################
 #IVdsAdvancedDisk Definition
 #################################################################################
@@ -3182,104 +7501,338 @@ MSRPC_UUID_IVDSADVANCEDDISK = uuidtup_to_bin(('6e6f6b40-977c-4069-bddd-ac710059f
 class GetPartitionProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('ullOffset', ULONGLONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			)
 		)
+
+
 class GetPartitionPropertiesResponse(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			)
 		)
+
+
 class QueryPartitions(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class QueryPartitionsResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class CreatePartition(NDRCALL):
 	OPNUM = 2
 	structure = (
-			('ullOffset', ULONGLONG),
-			('ullSize', ULONGLONG),
-			('para', CREATE_PARTITION_PARAMETERS)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'para',
+			CREATE_PARTITION_PARAMETERS
+			)
 		)
+
+
 class CreatePartitionResponse(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG),
-			('ullSize', ULONGLONG),
-			('para', CREATE_PARTITION_PARAMETERS)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'para',
+			CREATE_PARTITION_PARAMETERS
+			)
 		)
+
+
 class DeletePartition(NDRCALL):
 	OPNUM = 3
 	structure = (
-			('ullOffset', ULONGLONG),
-			('bForce', LONG),
-			('bForceProtected', LONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bForceProtected',
+			LONG
+			)
 		)
+
+
 class DeletePartitionResponse(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG),
-			('bForce', LONG),
-			('bForceProtected', LONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bForceProtected',
+			LONG
+			)
 		)
+
+
 class ChangeAttributes(NDRCALL):
 	OPNUM = 4
-	structure = 		(		('ullOffset', ULONGLONG), 		('para', CHANGE_ATTRIBUTES_PARAMETERS))
+	structure = (
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'para',
+			CHANGE_ATTRIBUTES_PARAMETERS
+			)
+		)
+
+
 class ChangeAttributesResponse(NDRCALL):
-	structure = 		(		('ullOffset', ULONGLONG), 		('para', CHANGE_ATTRIBUTES_PARAMETERS))
+	structure = (
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'para',
+			CHANGE_ATTRIBUTES_PARAMETERS
+			)
+		)
+
+
 class AssignDriveLetter(NDRCALL):
 	OPNUM = 5
-	structure = 		(		('ullOffset', ULONGLONG), 		('wcLetter', WCHAR))
+	structure = (
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'wcLetter',
+			WCHAR
+			)
+		)
+
+
 class AssignDriveLetterResponse(NDRCALL):
-	structure = 		(		('ullOffset', ULONGLONG), 		('wcLetter', WCHAR))
+	structure = (
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'wcLetter',
+			WCHAR
+			)
+		)
+
+
 class DeleteDriveLetter(NDRCALL):
 	OPNUM = 6
-	structure = 		(		('ullOffset', ULONGLONG), 		('wcLetter', WCHAR))
+	structure = (
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'wcLetter',
+			WCHAR
+			)
+		)
+
+
 class DeleteDriveLetterResponse(NDRCALL):
-	structure = 		(		('ullOffset', ULONGLONG), 		('wcLetter', WCHAR))
+	structure = (
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'wcLetter',
+			WCHAR
+			)
+		)
+
+
 class GetDriveLetter(NDRCALL):
 	OPNUM = 7
 	structure = (
-			('ullOffset', ULONGLONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			)
 		)
+
+
 class GetDriveLetterResponse(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			)
 		)
+
+
 class FormatPartition(NDRCALL):
 	OPNUM = 8
 	structure = (
-			('ullOffset', ULONGLONG),
-			('type', VDS_FILE_SYSTEM_TYPE),
-			('pwszLabel', WCHAR),
-			('dwUnitAllocationSize', DWORD),
-			('bForce', LONG),
-			('bQuickFormat', LONG),
-			('bEnableCompression', LONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'type',
+			VDS_FILE_SYSTEM_TYPE
+			),
+			(
+			'pwszLabel',
+			WCHAR
+			),
+			(
+			'dwUnitAllocationSize',
+			DWORD
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bQuickFormat',
+			LONG
+			),
+			(
+			'bEnableCompression',
+			LONG
+			)
 		)
+
+
 class FormatPartitionResponse(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG),
-			('type', VDS_FILE_SYSTEM_TYPE),
-			('pwszLabel', WCHAR),
-			('dwUnitAllocationSize', DWORD),
-			('bForce', LONG),
-			('bQuickFormat', LONG),
-			('bEnableCompression', LONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'type',
+			VDS_FILE_SYSTEM_TYPE
+			),
+			(
+			'pwszLabel',
+			WCHAR
+			),
+			(
+			'dwUnitAllocationSize',
+			DWORD
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bQuickFormat',
+			LONG
+			),
+			(
+			'bEnableCompression',
+			LONG
+			)
 		)
+
+
 class Clean(NDRCALL):
 	OPNUM = 9
 	structure = (
-			('bForce', LONG),
-			('bForceOEM', LONG),
-			('bFullClean', LONG)
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bForceOEM',
+			LONG
+			),
+			(
+			'bFullClean',
+			LONG
+			)
 		)
+
+
 class CleanResponse(NDRCALL):
 	structure = (
-			('bForce', LONG),
-			('bForceOEM', LONG),
-			('bFullClean', LONG)
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bForceOEM',
+			LONG
+			),
+			(
+			'bFullClean',
+			LONG
+			)
 		)
-OPNUMS = {0 : 	(GetPartitionProperties, GetPartitionPropertiesResponse),1 : 	(QueryPartitions, QueryPartitionsResponse),2 : 	(CreatePartition, CreatePartitionResponse),3 : 	(DeletePartition, DeletePartitionResponse),4 : 	(ChangeAttributes, ChangeAttributesResponse),5 : 	(AssignDriveLetter, AssignDriveLetterResponse),6 : 	(DeleteDriveLetter, DeleteDriveLetterResponse),7 : 	(GetDriveLetter, GetDriveLetterResponse),8 : 	(FormatPartition, FormatPartitionResponse),9 : 	(Clean, CleanResponse)}
+
+
+OPNUMS = {0 : (
+	GetPartitionProperties,
+	GetPartitionPropertiesResponse
+	),1 : (
+	QueryPartitions,
+	QueryPartitionsResponse
+	),2 : (
+	CreatePartition,
+	CreatePartitionResponse
+	),3 : (
+	DeletePartition,
+	DeletePartitionResponse
+	),4 : (
+	ChangeAttributes,
+	ChangeAttributesResponse
+	),5 : (
+	AssignDriveLetter,
+	AssignDriveLetterResponse
+	),6 : (
+	DeleteDriveLetter,
+	DeleteDriveLetterResponse
+	),7 : (
+	GetDriveLetter,
+	GetDriveLetterResponse
+	),8 : (
+	FormatPartition,
+	FormatPartitionResponse
+	),9 : (
+	Clean,
+	CleanResponse
+	)}
 #################################################################################
 #IVdsAdvancedDisk2 Definition
 #################################################################################
@@ -3287,17 +7840,42 @@ MSRPC_UUID_IVDSADVANCEDDISK2 = uuidtup_to_bin(('9723f420-9355-42de-ab66-e31bb15b
 class ChangePartitionType(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('ullOffset', ULONGLONG),
-			('bForce', LONG),
-			('para', CHANGE_PARTITION_TYPE_PARAMETERS)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'para',
+			CHANGE_PARTITION_TYPE_PARAMETERS
+			)
 		)
+
+
 class ChangePartitionTypeResponse(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG),
-			('bForce', LONG),
-			('para', CHANGE_PARTITION_TYPE_PARAMETERS)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'para',
+			CHANGE_PARTITION_TYPE_PARAMETERS
+			)
 		)
-OPNUMS = {0 : 	(ChangePartitionType, ChangePartitionTypeResponse)}
+
+
+OPNUMS = {0 : (
+	ChangePartitionType,
+	ChangePartitionTypeResponse
+	)}
 #################################################################################
 #IVdsAdvancedDisk3 Definition
 #################################################################################
@@ -3305,18 +7883,36 @@ MSRPC_UUID_IVDSADVANCEDDISK3 = uuidtup_to_bin(('3858C0D5-0F35-4BF5-9714-69874963
 class GetProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class GetUniqueId(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class GetUniqueIdResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(GetProperties, GetPropertiesResponse),1 : 	(GetUniqueId, GetUniqueIdResponse)}
+
+
+OPNUMS = {0 : (
+	GetProperties,
+	GetPropertiesResponse
+	),1 : (
+	GetUniqueId,
+	GetUniqueIdResponse
+	)}
 #################################################################################
 #IVdsCreatePartitionEx Definition
 #################################################################################
@@ -3324,19 +7920,50 @@ MSRPC_UUID_IVDSCREATEPARTITIONEX = uuidtup_to_bin(('9882f547-cfc3-420b-9750-00df
 class CreatePartitionEx(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('ullOffset', ULONGLONG),
-			('ullSize', ULONGLONG),
-			('ulAlign', UNSIGNED_LONG),
-			('para', CREATE_PARTITION_PARAMETERS)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'ulAlign',
+			UNSIGNED_LONG
+			),
+			(
+			'para',
+			CREATE_PARTITION_PARAMETERS
+			)
 		)
+
+
 class CreatePartitionExResponse(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG),
-			('ullSize', ULONGLONG),
-			('ulAlign', UNSIGNED_LONG),
-			('para', CREATE_PARTITION_PARAMETERS)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'ullSize',
+			ULONGLONG
+			),
+			(
+			'ulAlign',
+			UNSIGNED_LONG
+			),
+			(
+			'para',
+			CREATE_PARTITION_PARAMETERS
+			)
 		)
-OPNUMS = {0 : 	(CreatePartitionEx, CreatePartitionExResponse)}
+
+
+OPNUMS = {0 : (
+	CreatePartitionEx,
+	CreatePartitionExResponse
+	)}
 #################################################################################
 #IVdsDiskOnline Definition
 #################################################################################
@@ -3344,18 +7971,36 @@ MSRPC_UUID_IVDSDISKONLINE = uuidtup_to_bin(('90681B1D-6A7F-48e8-9061-31B7AA12532
 class Online(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class OnlineResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Offline(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class OfflineResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(Online, OnlineResponse),1 : 	(Offline, OfflineResponse)}
+
+
+OPNUMS = {0 : (
+	Online,
+	OnlineResponse
+	),1 : (
+	Offline,
+	OfflineResponse
+	)}
 #################################################################################
 #IVdsDiskPartitionMF Definition
 #################################################################################
@@ -3363,54 +8008,148 @@ MSRPC_UUID_IVDSDISKPARTITIONMF = uuidtup_to_bin(('538684e0-ba3d-4bc0-aca9-164aff
 class GetPartitionFileSystemProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('ullOffset', ULONGLONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			)
 		)
+
+
 class GetPartitionFileSystemPropertiesResponse(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			)
 		)
+
+
 class GetPartitionFileSystemTypeName(NDRCALL):
 	OPNUM = 1
 	structure = (
-			('ullOffset', ULONGLONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			)
 		)
+
+
 class GetPartitionFileSystemTypeNameResponse(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			)
 		)
+
+
 class QueryPartitionFileSystemFormatSupport(NDRCALL):
 	OPNUM = 2
 	structure = (
-			('ullOffset', ULONGLONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			)
 		)
+
+
 class QueryPartitionFileSystemFormatSupportResponse(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			)
 		)
+
+
 class FormatPartitionEx(NDRCALL):
 	OPNUM = 3
 	structure = (
-			('ullOffset', ULONGLONG),
-			('pwszFileSystemTypeName', WCHAR),
-			('usFileSystemRevision', UNSIGNED_SHORT),
-			('ulDesiredUnitAllocationSize', UNSIGNED_LONG),
-			('pwszLabel', WCHAR),
-			('bForce', LONG),
-			('bQuickFormat', LONG),
-			('bEnableCompression', LONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'pwszFileSystemTypeName',
+			WCHAR
+			),
+			(
+			'usFileSystemRevision',
+			UNSIGNED_SHORT
+			),
+			(
+			'ulDesiredUnitAllocationSize',
+			UNSIGNED_LONG
+			),
+			(
+			'pwszLabel',
+			WCHAR
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bQuickFormat',
+			LONG
+			),
+			(
+			'bEnableCompression',
+			LONG
+			)
 		)
+
+
 class FormatPartitionExResponse(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG),
-			('pwszFileSystemTypeName', WCHAR),
-			('usFileSystemRevision', UNSIGNED_SHORT),
-			('ulDesiredUnitAllocationSize', UNSIGNED_LONG),
-			('pwszLabel', WCHAR),
-			('bForce', LONG),
-			('bQuickFormat', LONG),
-			('bEnableCompression', LONG)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'pwszFileSystemTypeName',
+			WCHAR
+			),
+			(
+			'usFileSystemRevision',
+			UNSIGNED_SHORT
+			),
+			(
+			'ulDesiredUnitAllocationSize',
+			UNSIGNED_LONG
+			),
+			(
+			'pwszLabel',
+			WCHAR
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bQuickFormat',
+			LONG
+			),
+			(
+			'bEnableCompression',
+			LONG
+			)
 		)
-OPNUMS = {0 : 	(GetPartitionFileSystemProperties, GetPartitionFileSystemPropertiesResponse),1 : 	(GetPartitionFileSystemTypeName, GetPartitionFileSystemTypeNameResponse),2 : 	(QueryPartitionFileSystemFormatSupport, QueryPartitionFileSystemFormatSupportResponse),3 : 	(FormatPartitionEx, FormatPartitionExResponse)}
+
+
+OPNUMS = {0 : (
+	GetPartitionFileSystemProperties,
+	GetPartitionFileSystemPropertiesResponse
+	),1 : (
+	GetPartitionFileSystemTypeName,
+	GetPartitionFileSystemTypeNameResponse
+	),2 : (
+	QueryPartitionFileSystemFormatSupport,
+	QueryPartitionFileSystemFormatSupportResponse
+	),3 : (
+	FormatPartitionEx,
+	FormatPartitionExResponse
+	)}
 #################################################################################
 #IVdsDiskPartitionMF2 Definition
 #################################################################################
@@ -3418,23 +8157,66 @@ MSRPC_UUID_IVDSDISKPARTITIONMF2 = uuidtup_to_bin(('9CBE50CA-F2D2-4bf4-ACE1-96896
 class FormatPartitionEx2(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('ullOffset', ULONGLONG),
-			('pwszFileSystemTypeName', LPWSTR),
-			('usFileSystemRevision', UNSIGNED_SHORT),
-			('ulDesiredUnitAllocationSize', UNSIGNED_LONG),
-			('pwszLabel', LPWSTR),
-			('Options', DWORD)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'pwszFileSystemTypeName',
+			LPWSTR
+			),
+			(
+			'usFileSystemRevision',
+			UNSIGNED_SHORT
+			),
+			(
+			'ulDesiredUnitAllocationSize',
+			UNSIGNED_LONG
+			),
+			(
+			'pwszLabel',
+			LPWSTR
+			),
+			(
+			'Options',
+			DWORD
+			)
 		)
+
+
 class FormatPartitionEx2Response(NDRCALL):
 	structure = (
-			('ullOffset', ULONGLONG),
-			('pwszFileSystemTypeName', LPWSTR),
-			('usFileSystemRevision', UNSIGNED_SHORT),
-			('ulDesiredUnitAllocationSize', UNSIGNED_LONG),
-			('pwszLabel', LPWSTR),
-			('Options', DWORD)
+			(
+			'ullOffset',
+			ULONGLONG
+			),
+			(
+			'pwszFileSystemTypeName',
+			LPWSTR
+			),
+			(
+			'usFileSystemRevision',
+			UNSIGNED_SHORT
+			),
+			(
+			'ulDesiredUnitAllocationSize',
+			UNSIGNED_LONG
+			),
+			(
+			'pwszLabel',
+			LPWSTR
+			),
+			(
+			'Options',
+			DWORD
+			)
 		)
-OPNUMS = {0 : 	(FormatPartitionEx2, FormatPartitionEx2Response)}
+
+
+OPNUMS = {0 : (
+	FormatPartitionEx2,
+	FormatPartitionEx2Response
+	)}
 #################################################################################
 #IVdsRemovable Definition
 #################################################################################
@@ -3442,18 +8224,36 @@ MSRPC_UUID_IVDSREMOVABLE = uuidtup_to_bin(('0316560b-5db4-4ed9-bbb5-213436ddc0d9
 class QueryMedia(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class QueryMediaResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Eject(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class EjectResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(QueryMedia, QueryMediaResponse),1 : 	(Eject, EjectResponse)}
+
+
+OPNUMS = {0 : (
+	QueryMedia,
+	QueryMediaResponse
+	),1 : (
+	Eject,
+	EjectResponse
+	)}
 #################################################################################
 #IVdsVolume Definition
 #################################################################################
@@ -3461,89 +8261,244 @@ MSRPC_UUID_IVDSVOLUME = uuidtup_to_bin(('88306bb2-e71f-478c-86a2-79da200a0f11','
 class GetProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class GetPack(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class GetPackResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryPlexes(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class QueryPlexesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Extend(NDRCALL):
 	OPNUM = 3
-	structure = 		(		('pInputDiskArray', VDS_INPUT_DISK), 		('lNumberOfDisks', LONG))
+	structure = (
+			(
+			'pInputDiskArray',
+			VDS_INPUT_DISK
+			),
+			(
+			'lNumberOfDisks',
+			LONG
+			)
+		)
+
+
 class ExtendResponse(NDRCALL):
-	structure = 		(		('pInputDiskArray', VDS_INPUT_DISK), 		('lNumberOfDisks', LONG))
+	structure = (
+			(
+			'pInputDiskArray',
+			VDS_INPUT_DISK
+			),
+			(
+			'lNumberOfDisks',
+			LONG
+			)
+		)
+
+
 class Shrink(NDRCALL):
 	OPNUM = 4
 	structure = (
-			('ullNumberOfBytesToRemove', ULONGLONG)
+			(
+			'ullNumberOfBytesToRemove',
+			ULONGLONG
+			)
 		)
+
+
 class ShrinkResponse(NDRCALL):
 	structure = (
-			('ullNumberOfBytesToRemove', ULONGLONG)
+			(
+			'ullNumberOfBytesToRemove',
+			ULONGLONG
+			)
 		)
+
+
 class AddPlex(NDRCALL):
 	OPNUM = 5
 	structure = (
-			('VolumeId', VDS_OBJECT_ID)
+			(
+			'VolumeId',
+			VDS_OBJECT_ID
+			)
 		)
+
+
 class AddPlexResponse(NDRCALL):
 	structure = (
-			('VolumeId', VDS_OBJECT_ID)
+			(
+			'VolumeId',
+			VDS_OBJECT_ID
+			)
 		)
+
+
 class BreakPlex(NDRCALL):
 	OPNUM = 6
 	structure = (
-			('plexId', VDS_OBJECT_ID)
+			(
+			'plexId',
+			VDS_OBJECT_ID
+			)
 		)
+
+
 class BreakPlexResponse(NDRCALL):
 	structure = (
-			('plexId', VDS_OBJECT_ID)
+			(
+			'plexId',
+			VDS_OBJECT_ID
+			)
 		)
+
+
 class RemovePlex(NDRCALL):
 	OPNUM = 7
 	structure = (
-			('plexId', VDS_OBJECT_ID)
+			(
+			'plexId',
+			VDS_OBJECT_ID
+			)
 		)
+
+
 class RemovePlexResponse(NDRCALL):
 	structure = (
-			('plexId', VDS_OBJECT_ID)
+			(
+			'plexId',
+			VDS_OBJECT_ID
+			)
 		)
+
+
 class Delete(NDRCALL):
 	OPNUM = 8
 	structure = (
-			('bForce', LONG)
+			(
+			'bForce',
+			LONG
+			)
 		)
+
+
 class DeleteResponse(NDRCALL):
 	structure = (
-			('bForce', LONG)
+			(
+			'bForce',
+			LONG
+			)
 		)
+
+
 class SetFlags(NDRCALL):
 	OPNUM = 9
-	structure = 		(		('ulFlags', UNSIGNED_LONG), 		('bRevertOnClose', LONG))
+	structure = (
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'bRevertOnClose',
+			LONG
+			)
+		)
+
+
 class SetFlagsResponse(NDRCALL):
-	structure = 		(		('ulFlags', UNSIGNED_LONG), 		('bRevertOnClose', LONG))
+	structure = (
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'bRevertOnClose',
+			LONG
+			)
+		)
+
+
 class ClearFlags(NDRCALL):
 	OPNUM = 10
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class ClearFlagsResponse(NDRCALL):
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
-OPNUMS = {0 : 	(GetProperties, GetPropertiesResponse),1 : 	(GetPack, GetPackResponse),2 : 	(QueryPlexes, QueryPlexesResponse),3 : 	(Extend, ExtendResponse),4 : 	(Shrink, ShrinkResponse),5 : 	(AddPlex, AddPlexResponse),6 : 	(BreakPlex, BreakPlexResponse),7 : 	(RemovePlex, RemovePlexResponse),8 : 	(Delete, DeleteResponse),9 : 	(SetFlags, SetFlagsResponse),10 : 	(ClearFlags, ClearFlagsResponse)}
+
+
+OPNUMS = {0 : (
+	GetProperties,
+	GetPropertiesResponse
+	),1 : (
+	GetPack,
+	GetPackResponse
+	),2 : (
+	QueryPlexes,
+	QueryPlexesResponse
+	),3 : (
+	Extend,
+	ExtendResponse
+	),4 : (
+	Shrink,
+	ShrinkResponse
+	),5 : (
+	AddPlex,
+	AddPlexResponse
+	),6 : (
+	BreakPlex,
+	BreakPlexResponse
+	),7 : (
+	RemovePlex,
+	RemovePlexResponse
+	),8 : (
+	Delete,
+	DeleteResponse
+	),9 : (
+	SetFlags,
+	SetFlagsResponse
+	),10 : (
+	ClearFlags,
+	ClearFlagsResponse
+	)}
 #################################################################################
 #IVdsVolume2 Definition
 #################################################################################
@@ -3551,11 +8506,20 @@ MSRPC_UUID_IVDSVOLUME2 = uuidtup_to_bin(('72AE6713-DCBB-4a03-B36B-371F6AC6B53D',
 class GetProperties2(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetProperties2Response(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(GetProperties2, GetProperties2Response)}
+
+
+OPNUMS = {0 : (
+	GetProperties2,
+	GetProperties2Response
+	)}
 #################################################################################
 #IVdsVolumeMF Definition
 #################################################################################
@@ -3563,88 +8527,256 @@ MSRPC_UUID_IVDSVOLUMEMF = uuidtup_to_bin(('ee2d5ded-6236-4169-931-b9778ce03dc6',
 class GetFileSystemProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetFileSystemPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Format(NDRCALL):
 	OPNUM = 1
 	structure = (
-			('type', VDS_FILE_SYSTEM_TYPE),
-			('pwszLabel', WCHAR),
-			('dwUnitAllocationSize', DWORD),
-			('bForce', LONG),
-			('bQuickFormat', LONG),
-			('bEnableCompression', LONG)
+			(
+			'type',
+			VDS_FILE_SYSTEM_TYPE
+			),
+			(
+			'pwszLabel',
+			WCHAR
+			),
+			(
+			'dwUnitAllocationSize',
+			DWORD
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bQuickFormat',
+			LONG
+			),
+			(
+			'bEnableCompression',
+			LONG
+			)
 		)
+
+
 class FormatResponse(NDRCALL):
 	structure = (
-			('type', VDS_FILE_SYSTEM_TYPE),
-			('pwszLabel', WCHAR),
-			('dwUnitAllocationSize', DWORD),
-			('bForce', LONG),
-			('bQuickFormat', LONG),
-			('bEnableCompression', LONG)
+			(
+			'type',
+			VDS_FILE_SYSTEM_TYPE
+			),
+			(
+			'pwszLabel',
+			WCHAR
+			),
+			(
+			'dwUnitAllocationSize',
+			DWORD
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bQuickFormat',
+			LONG
+			),
+			(
+			'bEnableCompression',
+			LONG
+			)
 		)
+
+
 class AddAccessPath(NDRCALL):
 	OPNUM = 2
 	structure = (
-			('pwszPath', WCHAR)
+			(
+			'pwszPath',
+			WCHAR
+			)
 		)
+
+
 class AddAccessPathResponse(NDRCALL):
 	structure = (
-			('pwszPath', WCHAR)
+			(
+			'pwszPath',
+			WCHAR
+			)
 		)
+
+
 class QueryAccessPaths(NDRCALL):
 	OPNUM = 3
 	structure = (
+
 		)
+
+
 class QueryAccessPathsResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryReparsePoints(NDRCALL):
 	OPNUM = 4
 	structure = (
+
 		)
+
+
 class QueryReparsePointsResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class DeleteAccessPath(NDRCALL):
 	OPNUM = 5
-	structure = 		(		('pwszPath', WCHAR), 		('bForce', LONG))
+	structure = (
+			(
+			'pwszPath',
+			WCHAR
+			),
+			(
+			'bForce',
+			LONG
+			)
+		)
+
+
 class DeleteAccessPathResponse(NDRCALL):
-	structure = 		(		('pwszPath', WCHAR), 		('bForce', LONG))
+	structure = (
+			(
+			'pwszPath',
+			WCHAR
+			),
+			(
+			'bForce',
+			LONG
+			)
+		)
+
+
 class Mount(NDRCALL):
 	OPNUM = 6
 	structure = (
+
 		)
+
+
 class MountResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Dismount(NDRCALL):
 	OPNUM = 7
-	structure = 		(		('bForce', LONG), 		('bPermanent', LONG))
+	structure = (
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bPermanent',
+			LONG
+			)
+		)
+
+
 class DismountResponse(NDRCALL):
-	structure = 		(		('bForce', LONG), 		('bPermanent', LONG))
+	structure = (
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bPermanent',
+			LONG
+			)
+		)
+
+
 class SetFileSystemFlags(NDRCALL):
 	OPNUM = 8
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class SetFileSystemFlagsResponse(NDRCALL):
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class ClearFileSystemFlags(NDRCALL):
 	OPNUM = 9
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
+
+
 class ClearFileSystemFlagsResponse(NDRCALL):
 	structure = (
-			('ulFlags', UNSIGNED_LONG)
+			(
+			'ulFlags',
+			UNSIGNED_LONG
+			)
 		)
-OPNUMS = {0 : 	(GetFileSystemProperties, GetFileSystemPropertiesResponse),1 : 	(Format, FormatResponse),2 : 	(AddAccessPath, AddAccessPathResponse),3 : 	(QueryAccessPaths, QueryAccessPathsResponse),4 : 	(QueryReparsePoints, QueryReparsePointsResponse),5 : 	(DeleteAccessPath, DeleteAccessPathResponse),6 : 	(Mount, MountResponse),7 : 	(Dismount, DismountResponse),8 : 	(SetFileSystemFlags, SetFileSystemFlagsResponse),9 : 	(ClearFileSystemFlags, ClearFileSystemFlagsResponse)}
+
+
+OPNUMS = {0 : (
+	GetFileSystemProperties,
+	GetFileSystemPropertiesResponse
+	),1 : (
+	Format,
+	FormatResponse
+	),2 : (
+	AddAccessPath,
+	AddAccessPathResponse
+	),3 : (
+	QueryAccessPaths,
+	QueryAccessPathsResponse
+	),4 : (
+	QueryReparsePoints,
+	QueryReparsePointsResponse
+	),5 : (
+	DeleteAccessPath,
+	DeleteAccessPathResponse
+	),6 : (
+	Mount,
+	MountResponse
+	),7 : (
+	Dismount,
+	DismountResponse
+	),8 : (
+	SetFileSystemFlags,
+	SetFileSystemFlagsResponse
+	),9 : (
+	ClearFileSystemFlags,
+	ClearFileSystemFlagsResponse
+	)}
 #################################################################################
 #IVdsVolumeMF2 Definition
 #################################################################################
@@ -3652,39 +8784,106 @@ MSRPC_UUID_IVDSVOLUMEMF2 = uuidtup_to_bin(('4dbcee9a-6343-4651-b85f-5e75d74d983c
 class GetFileSystemTypeName(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetFileSystemTypeNameResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryFileSystemFormatSupport(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class QueryFileSystemFormatSupportResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class FormatEx(NDRCALL):
 	OPNUM = 2
 	structure = (
-			('pwszFileSystemTypeName', WCHAR),
-			('usFileSystemRevision', UNSIGNED_SHORT),
-			('ulDesiredUnitAllocationSize', UNSIGNED_LONG),
-			('pwszLabel', WCHAR),
-			('bForce', LONG),
-			('bQuickFormat', LONG),
-			('bEnableCompression', LONG)
+			(
+			'pwszFileSystemTypeName',
+			WCHAR
+			),
+			(
+			'usFileSystemRevision',
+			UNSIGNED_SHORT
+			),
+			(
+			'ulDesiredUnitAllocationSize',
+			UNSIGNED_LONG
+			),
+			(
+			'pwszLabel',
+			WCHAR
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bQuickFormat',
+			LONG
+			),
+			(
+			'bEnableCompression',
+			LONG
+			)
 		)
+
+
 class FormatExResponse(NDRCALL):
 	structure = (
-			('pwszFileSystemTypeName', WCHAR),
-			('usFileSystemRevision', UNSIGNED_SHORT),
-			('ulDesiredUnitAllocationSize', UNSIGNED_LONG),
-			('pwszLabel', WCHAR),
-			('bForce', LONG),
-			('bQuickFormat', LONG),
-			('bEnableCompression', LONG)
+			(
+			'pwszFileSystemTypeName',
+			WCHAR
+			),
+			(
+			'usFileSystemRevision',
+			UNSIGNED_SHORT
+			),
+			(
+			'ulDesiredUnitAllocationSize',
+			UNSIGNED_LONG
+			),
+			(
+			'pwszLabel',
+			WCHAR
+			),
+			(
+			'bForce',
+			LONG
+			),
+			(
+			'bQuickFormat',
+			LONG
+			),
+			(
+			'bEnableCompression',
+			LONG
+			)
 		)
-OPNUMS = {0 : 	(GetFileSystemTypeName, GetFileSystemTypeNameResponse),1 : 	(QueryFileSystemFormatSupport, QueryFileSystemFormatSupportResponse),2 : 	(FormatEx, FormatExResponse)}
+
+
+OPNUMS = {0 : (
+	GetFileSystemTypeName,
+	GetFileSystemTypeNameResponse
+	),1 : (
+	QueryFileSystemFormatSupport,
+	QueryFileSystemFormatSupportResponse
+	),2 : (
+	FormatEx,
+	FormatExResponse
+	)}
 #################################################################################
 #IVdsVolumeMF3 Definition
 #################################################################################
@@ -3692,35 +8891,90 @@ MSRPC_UUID_IVDSVOLUMEMF3 = uuidtup_to_bin(('6788FAF9-214E-4b85-BA59-266953616E09
 class QueryVolumeGuidPathnames(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class QueryVolumeGuidPathnamesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class FormatEx2(NDRCALL):
 	OPNUM = 1
 	structure = (
-			('pwszFileSystemTypeName', LPWSTR),
-			('usFileSystemRevision', USHORT),
-			('ulDesiredUnitAllocationSize', ULONG),
-			('pwszLabel', LPWSTR),
-			('Options', DWORD)
+			(
+			'pwszFileSystemTypeName',
+			LPWSTR
+			),
+			(
+			'usFileSystemRevision',
+			USHORT
+			),
+			(
+			'ulDesiredUnitAllocationSize',
+			ULONG
+			),
+			(
+			'pwszLabel',
+			LPWSTR
+			),
+			(
+			'Options',
+			DWORD
+			)
 		)
+
+
 class FormatEx2Response(NDRCALL):
 	structure = (
-			('pwszFileSystemTypeName', LPWSTR),
-			('usFileSystemRevision', USHORT),
-			('ulDesiredUnitAllocationSize', ULONG),
-			('pwszLabel', LPWSTR),
-			('Options', DWORD)
+			(
+			'pwszFileSystemTypeName',
+			LPWSTR
+			),
+			(
+			'usFileSystemRevision',
+			USHORT
+			),
+			(
+			'ulDesiredUnitAllocationSize',
+			ULONG
+			),
+			(
+			'pwszLabel',
+			LPWSTR
+			),
+			(
+			'Options',
+			DWORD
+			)
 		)
+
+
 class OfflineVolume(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class OfflineVolumeResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(QueryVolumeGuidPathnames, QueryVolumeGuidPathnamesResponse),1 : 	(FormatEx2, FormatEx2Response),2 : 	(OfflineVolume, OfflineVolumeResponse)}
+
+
+OPNUMS = {0 : (
+	QueryVolumeGuidPathnames,
+	QueryVolumeGuidPathnamesResponse
+	),1 : (
+	FormatEx2,
+	FormatEx2Response
+	),2 : (
+	OfflineVolume,
+	OfflineVolumeResponse
+	)}
 #################################################################################
 #IVdsVolumeShrink Definition
 #################################################################################
@@ -3728,16 +8982,50 @@ MSRPC_UUID_IVDSVOLUMESHRINK = uuidtup_to_bin(('d68168c9-822-485-b6e9-747074958',
 class QueryMaxReclaimableBytes(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class QueryMaxReclaimableBytesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Shrink(NDRCALL):
 	OPNUM = 1
-	structure = 		(		('ullDesiredNumberOfReclaimableBytes', ULONGLONG), 		('ullMinNumberOfReclaimableBytes', ULONGLONG))
+	structure = (
+			(
+			'ullDesiredNumberOfReclaimableBytes',
+			ULONGLONG
+			),
+			(
+			'ullMinNumberOfReclaimableBytes',
+			ULONGLONG
+			)
+		)
+
+
 class ShrinkResponse(NDRCALL):
-	structure = 		(		('ullDesiredNumberOfReclaimableBytes', ULONGLONG), 		('ullMinNumberOfReclaimableBytes', ULONGLONG))
-OPNUMS = {0 : 	(QueryMaxReclaimableBytes, QueryMaxReclaimableBytesResponse),1 : 	(Shrink, ShrinkResponse)}
+	structure = (
+			(
+			'ullDesiredNumberOfReclaimableBytes',
+			ULONGLONG
+			),
+			(
+			'ullMinNumberOfReclaimableBytes',
+			ULONGLONG
+			)
+		)
+
+
+OPNUMS = {0 : (
+	QueryMaxReclaimableBytes,
+	QueryMaxReclaimableBytesResponse
+	),1 : (
+	Shrink,
+	ShrinkResponse
+	)}
 #################################################################################
 #IVdsVolumeOnline Definition
 #################################################################################
@@ -3745,11 +9033,20 @@ MSRPC_UUID_IVDSVOLUMEONLINE = uuidtup_to_bin(('1BE2275A-B315-4f70-9E44-879B3A2A5
 class Online(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class OnlineResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(Online, OnlineResponse)}
+
+
+OPNUMS = {0 : (
+	Online,
+	OnlineResponse
+	)}
 #################################################################################
 #IVdsVolumePlex Definition
 #################################################################################
@@ -3757,30 +9054,82 @@ MSRPC_UUID_IVDSVOLUMEPLEX = uuidtup_to_bin(('4daa0135-e1d1-40f1-aaa5-3cc1e53221c
 class GetProperties(NDRCALL):
 	OPNUM = 0
 	structure = (
+
 		)
+
+
 class GetPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class GetVolume(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class GetVolumeResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class QueryExtents(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class QueryExtentsResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class Repair(NDRCALL):
 	OPNUM = 3
-	structure = 		(		('pInputDiskArray', VDS_INPUT_DISK), 		('lNumberOfDisks', LONG))
+	structure = (
+			(
+			'pInputDiskArray',
+			VDS_INPUT_DISK
+			),
+			(
+			'lNumberOfDisks',
+			LONG
+			)
+		)
+
+
 class RepairResponse(NDRCALL):
-	structure = 		(		('pInputDiskArray', VDS_INPUT_DISK), 		('lNumberOfDisks', LONG))
-OPNUMS = {0 : 	(GetProperties, GetPropertiesResponse),1 : 	(GetVolume, GetVolumeResponse),2 : 	(QueryExtents, QueryExtentsResponse),3 : 	(Repair, RepairResponse)}
+	structure = (
+			(
+			'pInputDiskArray',
+			VDS_INPUT_DISK
+			),
+			(
+			'lNumberOfDisks',
+			LONG
+			)
+		)
+
+
+OPNUMS = {0 : (
+	GetProperties,
+	GetPropertiesResponse
+	),1 : (
+	GetVolume,
+	GetVolumeResponse
+	),2 : (
+	QueryExtents,
+	QueryExtentsResponse
+	),3 : (
+	Repair,
+	RepairResponse
+	)}
 #################################################################################
 #IVdsVDisk Definition
 #################################################################################
@@ -3788,38 +9137,90 @@ MSRPC_UUID_IVDSVDISK = uuidtup_to_bin(('1e062b84-e5e6-4b4b-8a25-67b81e8f13e8','0
 class Open(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('AccessMask', VIRTUAL_DISK_ACCESS_MASK),
-			('Flags', OPEN_VIRTUAL_DISK_FLAG),
-			('ReadWriteDepth', ULONG)
+			(
+			'AccessMask',
+			VIRTUAL_DISK_ACCESS_MASK
+			),
+			(
+			'Flags',
+			OPEN_VIRTUAL_DISK_FLAG
+			),
+			(
+			'ReadWriteDepth',
+			ULONG
+			)
 		)
+
+
 class OpenResponse(NDRCALL):
 	structure = (
-			('AccessMask', VIRTUAL_DISK_ACCESS_MASK),
-			('Flags', OPEN_VIRTUAL_DISK_FLAG),
-			('ReadWriteDepth', ULONG)
+			(
+			'AccessMask',
+			VIRTUAL_DISK_ACCESS_MASK
+			),
+			(
+			'Flags',
+			OPEN_VIRTUAL_DISK_FLAG
+			),
+			(
+			'ReadWriteDepth',
+			ULONG
+			)
 		)
+
+
 class GetProperties(NDRCALL):
 	OPNUM = 1
 	structure = (
+
 		)
+
+
 class GetPropertiesResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class GetHostVolume(NDRCALL):
 	OPNUM = 2
 	structure = (
+
 		)
+
+
 class GetHostVolumeResponse(NDRCALL):
 	structure = (
+
 		)
+
+
 class GetDeviceName(NDRCALL):
 	OPNUM = 3
 	structure = (
+
 		)
+
+
 class GetDeviceNameResponse(NDRCALL):
 	structure = (
+
 		)
-OPNUMS = {0 : 	(Open, OpenResponse),1 : 	(GetProperties, GetPropertiesResponse),2 : 	(GetHostVolume, GetHostVolumeResponse),3 : 	(GetDeviceName, GetDeviceNameResponse)}
+
+
+OPNUMS = {0 : (
+	Open,
+	OpenResponse
+	),1 : (
+	GetProperties,
+	GetPropertiesResponse
+	),2 : (
+	GetHostVolume,
+	GetHostVolumeResponse
+	),3 : (
+	GetDeviceName,
+	GetDeviceNameResponse
+	)}
 #################################################################################
 #IVdsOpenVDisk Definition
 #################################################################################
@@ -3827,41 +9228,197 @@ MSRPC_UUID_IVDSOPENVDISK = uuidtup_to_bin(('75c8f324-f715-4fe3-a28e-f9011b61a4a1
 class Attach(NDRCALL):
 	OPNUM = 0
 	structure = (
-			('pStringSecurityDescriptor', LPWSTR),
-			('Flags', ATTACH_VIRTUAL_DISK_FLAG),
-			('ProviderSpecificFlags', ULONG),
-			('TimeoutInMs', ULONG)
+			(
+			'pStringSecurityDescriptor',
+			LPWSTR
+			),
+			(
+			'Flags',
+			ATTACH_VIRTUAL_DISK_FLAG
+			),
+			(
+			'ProviderSpecificFlags',
+			ULONG
+			),
+			(
+			'TimeoutInMs',
+			ULONG
+			)
 		)
+
+
 class AttachResponse(NDRCALL):
 	structure = (
-			('pStringSecurityDescriptor', LPWSTR),
-			('Flags', ATTACH_VIRTUAL_DISK_FLAG),
-			('ProviderSpecificFlags', ULONG),
-			('TimeoutInMs', ULONG)
+			(
+			'pStringSecurityDescriptor',
+			LPWSTR
+			),
+			(
+			'Flags',
+			ATTACH_VIRTUAL_DISK_FLAG
+			),
+			(
+			'ProviderSpecificFlags',
+			ULONG
+			),
+			(
+			'TimeoutInMs',
+			ULONG
+			)
 		)
+
+
 class Detach(NDRCALL):
 	OPNUM = 1
-	structure = 		(		('Flags', DETACH_VIRTUAL_DISK_FLAG), 		('ProviderSpecificFlags', ULONG))
+	structure = (
+			(
+			'Flags',
+			DETACH_VIRTUAL_DISK_FLAG
+			),
+			(
+			'ProviderSpecificFlags',
+			ULONG
+			)
+		)
+
+
 class DetachResponse(NDRCALL):
-	structure = 		(		('Flags', DETACH_VIRTUAL_DISK_FLAG), 		('ProviderSpecificFlags', ULONG))
+	structure = (
+			(
+			'Flags',
+			DETACH_VIRTUAL_DISK_FLAG
+			),
+			(
+			'ProviderSpecificFlags',
+			ULONG
+			)
+		)
+
+
 class DetachAndDelete(NDRCALL):
 	OPNUM = 2
-	structure = 		(		('Flags', DETACH_VIRTUAL_DISK_FLAG), 		('ProviderSpecificFlags', ULONG))
+	structure = (
+			(
+			'Flags',
+			DETACH_VIRTUAL_DISK_FLAG
+			),
+			(
+			'ProviderSpecificFlags',
+			ULONG
+			)
+		)
+
+
 class DetachAndDeleteResponse(NDRCALL):
-	structure = 		(		('Flags', DETACH_VIRTUAL_DISK_FLAG), 		('ProviderSpecificFlags', ULONG))
+	structure = (
+			(
+			'Flags',
+			DETACH_VIRTUAL_DISK_FLAG
+			),
+			(
+			'ProviderSpecificFlags',
+			ULONG
+			)
+		)
+
+
 class Compact(NDRCALL):
 	OPNUM = 3
-	structure = 		(		('Flags', COMPACT_VIRTUAL_DISK_FLAG), 		('Reserved', ULONG))
+	structure = (
+			(
+			'Flags',
+			COMPACT_VIRTUAL_DISK_FLAG
+			),
+			(
+			'Reserved',
+			ULONG
+			)
+		)
+
+
 class CompactResponse(NDRCALL):
-	structure = 		(		('Flags', COMPACT_VIRTUAL_DISK_FLAG), 		('Reserved', ULONG))
+	structure = (
+			(
+			'Flags',
+			COMPACT_VIRTUAL_DISK_FLAG
+			),
+			(
+			'Reserved',
+			ULONG
+			)
+		)
+
+
 class Merge(NDRCALL):
 	OPNUM = 4
-	structure = 		(		('Flags', MERGE_VIRTUAL_DISK_FLAG), 		('MergeDepth', ULONG))
+	structure = (
+			(
+			'Flags',
+			MERGE_VIRTUAL_DISK_FLAG
+			),
+			(
+			'MergeDepth',
+			ULONG
+			)
+		)
+
+
 class MergeResponse(NDRCALL):
-	structure = 		(		('Flags', MERGE_VIRTUAL_DISK_FLAG), 		('MergeDepth', ULONG))
+	structure = (
+			(
+			'Flags',
+			MERGE_VIRTUAL_DISK_FLAG
+			),
+			(
+			'MergeDepth',
+			ULONG
+			)
+		)
+
+
 class Expand(NDRCALL):
 	OPNUM = 5
-	structure = 		(		('Flags', EXPAND_VIRTUAL_DISK_FLAG), 		('NewSize', ULONGLONG))
+	structure = (
+			(
+			'Flags',
+			EXPAND_VIRTUAL_DISK_FLAG
+			),
+			(
+			'NewSize',
+			ULONGLONG
+			)
+		)
+
+
 class ExpandResponse(NDRCALL):
-	structure = 		(		('Flags', EXPAND_VIRTUAL_DISK_FLAG), 		('NewSize', ULONGLONG))
-OPNUMS = {0 : 	(Attach, AttachResponse),1 : 	(Detach, DetachResponse),2 : 	(DetachAndDelete, DetachAndDeleteResponse),3 : 	(Compact, CompactResponse),4 : 	(Merge, MergeResponse),5 : 	(Expand, ExpandResponse)}
+	structure = (
+			(
+			'Flags',
+			EXPAND_VIRTUAL_DISK_FLAG
+			),
+			(
+			'NewSize',
+			ULONGLONG
+			)
+		)
+
+
+OPNUMS = {0 : (
+	Attach,
+	AttachResponse
+	),1 : (
+	Detach,
+	DetachResponse
+	),2 : (
+	DetachAndDelete,
+	DetachAndDeleteResponse
+	),3 : (
+	Compact,
+	CompactResponse
+	),4 : (
+	Merge,
+	MergeResponse
+	),5 : (
+	Expand,
+	ExpandResponse
+	)}

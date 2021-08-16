@@ -2,7 +2,6 @@
 Generated from MIDL2Impacket.py
 """
 
-
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
@@ -15,6 +14,7 @@ from impacket.dcerpc.v5.rpcrt import DCERPCException
 
 DWORD64 = NDRUHYPER
 __INT64 = NDRHYPER
+DWORD__ENUM = DWORD
 class CONTEXT_HANDLE(NDRSTRUCT):
     align = 1
     structure = (
@@ -74,17 +74,11 @@ UNSIGNED_HYPER = NDRUHYPER
 HYPER = NDRHYPER
 
 #################################################################################
-
 #"ms-dtyp.idl"
-
 #################################################################################
-
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -169,970 +163,2609 @@ LPVOID = VOID
 WORD = UNSIGNED_SHORT
 PWORD = UNSIGNED_SHORT
 LPWORD = UNSIGNED_SHORT
-
 class FILETIME(NDRSTRUCT):
-    structure = (
-        ('dwLowDateTime', DWORD),('dwHighDateTime', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'dwLowDateTime',
+			DWORD
+			),
+			(
+			'dwHighDateTime',
+			DWORD
+			)
+		)
+
+
 class PFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
+
+
 class LPFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
 
 
 class GUID(NDRSTRUCT):
-    structure = (
-        ('Data1', UNSIGNED_LONG),('Data2', UNSIGNED_SHORT),('Data3', UNSIGNED_SHORT),('Data4', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Data1',
+			UNSIGNED_LONG
+			),
+			(
+			'Data2',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data3',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data4',
+			BYTE
+			)
+		)
+
+
 UUID = GUID
 class PGUID(NDRPOINTER):
-    referent = (
-        ('Data', GUID),
-    )    
+	referent = (
+			(
+			'Data',
+			GUID
+			)
+		)
 
 
 class LARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', SIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			SIGNED___INT64
+			)
+		)
+
+
 class PLARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', LARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			LARGE_INTEGER
+			)
+		)
 
 
 class EVENT_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Id', USHORT),('Version', UCHAR),('Channel', UCHAR),('Level', UCHAR),('Opcode', UCHAR),('Task', USHORT),('Keyword', ULONGLONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Id',
+			USHORT
+			),
+			(
+			'Version',
+			UCHAR
+			),
+			(
+			'Channel',
+			UCHAR
+			),
+			(
+			'Level',
+			UCHAR
+			),
+			(
+			'Opcode',
+			UCHAR
+			),
+			(
+			'Task',
+			USHORT
+			),
+			(
+			'Keyword',
+			ULONGLONG
+			)
+		)
+
+
 class PEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
+
+
 class PCEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
 
 
 class S0(NDRSTRUCT):
-    structure = (
-        ('KernelTime', ULONG),('UserTime', ULONG),
-    )
+	align = 1
+	structure = (
+			(
+			'KernelTime',
+			ULONG
+			),
+			(
+			'UserTime',
+			ULONG
+			)
+		)
 
 
 class U0(NDRUNION):
-    union = {
-        1: ('s0',S0),2: ('ProcessorTime',ULONG64),
-    }
-        
+	union = {1 : (
+		's0',
+		S0
+		),2 : (
+		'ProcessorTime',
+		ULONG64
+		)}
+
 
 class EVENT_HEADER(NDRSTRUCT):
-    structure = (
-        ('Size', USHORT),('HeaderType', USHORT),('Flags', USHORT),('EventProperty', USHORT),('ThreadId', ULONG),('ProcessId', ULONG),('TimeStamp', LARGE_INTEGER),('ProviderId', GUID),('EventDescriptor', EVENT_DESCRIPTOR),('u0', U0),('ActivityId', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Size',
+			USHORT
+			),
+			(
+			'HeaderType',
+			USHORT
+			),
+			(
+			'Flags',
+			USHORT
+			),
+			(
+			'EventProperty',
+			USHORT
+			),
+			(
+			'ThreadId',
+			ULONG
+			),
+			(
+			'ProcessId',
+			ULONG
+			),
+			(
+			'TimeStamp',
+			LARGE_INTEGER
+			),
+			(
+			'ProviderId',
+			GUID
+			),
+			(
+			'EventDescriptor',
+			EVENT_DESCRIPTOR
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'ActivityId',
+			GUID
+			)
+		)
+
+
 class PEVENT_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_HEADER
+			)
+		)
+
 
 LCID = DWORD
-
 class LUID(NDRSTRUCT):
-    structure = (
-        ('LowPart', DWORD),('HighPart', LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'LowPart',
+			DWORD
+			),
+			(
+			'HighPart',
+			LONG
+			)
+		)
+
+
 class PLUID(NDRPOINTER):
-    referent = (
-        ('Data', LUID),
-    )    
+	referent = (
+			(
+			'Data',
+			LUID
+			)
+		)
 
 
 class MULTI_SZ(NDRSTRUCT):
-    structure = (
-        ('Value', WCHAR_T),('nChar', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			WCHAR_T
+			),
+			(
+			'nChar',
+			DWORD
+			)
+		)
 
 
-class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
-    item = WCHAR
+class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+	item = WCHAR
 
-class PTR_UNSIGNED_SHORT(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_SHORT),
-    )
 
-class UNSIGNED_SHORT(NDRSTRUCT):
-    structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
+class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_RPC_UNICODE_STRING
+			)
+		)
 
-    )
-        
+
+class RPC_UNICODE_STRING(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'Length',
+			UNSIGNED_SHORT
+			),
+			(
+			'MaximumLength',
+			UNSIGNED_SHORT
+			),
+			(
+			'Buffer',
+			PTR_RPC_UNICODE_STRING
+			)
+		)
+
 
 class SERVER_INFO_100(NDRSTRUCT):
-    structure = (
-        ('sv100_platform_id', DWORD),('sv100_name', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv100_platform_id',
+			DWORD
+			),
+			(
+			'sv100_name',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
+
+
 class LPSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
 
 
 class SERVER_INFO_101(NDRSTRUCT):
-    structure = (
-        ('sv101_platform_id', DWORD),('sv101_name', WCHAR_T),('sv101_version_major', DWORD),('sv101_version_minor', DWORD),('sv101_version_type', DWORD),('sv101_comment', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv101_platform_id',
+			DWORD
+			),
+			(
+			'sv101_name',
+			WCHAR_T
+			),
+			(
+			'sv101_version_major',
+			DWORD
+			),
+			(
+			'sv101_version_minor',
+			DWORD
+			),
+			(
+			'sv101_version_type',
+			DWORD
+			),
+			(
+			'sv101_comment',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
+
+
 class LPSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
 
 
 class SYSTEMTIME(NDRSTRUCT):
-    structure = (
-        ('wYear', WORD),('wMonth', WORD),('wDayOfWeek', WORD),('wDay', WORD),('wHour', WORD),('wMinute', WORD),('wSecond', WORD),('wMilliseconds', WORD),
-    )
+	align = 1
+	structure = (
+			(
+			'wYear',
+			WORD
+			),
+			(
+			'wMonth',
+			WORD
+			),
+			(
+			'wDayOfWeek',
+			WORD
+			),
+			(
+			'wDay',
+			WORD
+			),
+			(
+			'wHour',
+			WORD
+			),
+			(
+			'wMinute',
+			WORD
+			),
+			(
+			'wSecond',
+			WORD
+			),
+			(
+			'wMilliseconds',
+			WORD
+			)
+		)
+
+
 class PSYSTEMTIME(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEMTIME),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEMTIME
+			)
+		)
 
 
 class UINT128(NDRSTRUCT):
-    structure = (
-        ('lower', UINT64),('upper', UINT64),
-    )
+	align = 1
+	structure = (
+			(
+			'lower',
+			UINT64
+			),
+			(
+			'upper',
+			UINT64
+			)
+		)
+
+
 class PUINT128(NDRPOINTER):
-    referent = (
-        ('Data', UINT128),
-    )    
+	referent = (
+			(
+			'Data',
+			UINT128
+			)
+		)
 
 
 class ULARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', UNSIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			UNSIGNED___INT64
+			)
+		)
+
+
 class PULARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', ULARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			ULARGE_INTEGER
+			)
+		)
 
 
 class RPC_SID_IDENTIFIER_AUTHORITY(NDRSTRUCT):
-    structure = (
-        ('Value', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			BYTE
+			)
+		)
+
 
 ACCESS_MASK = DWORD
 PACCESS_MASK = ACCESS_MASK
-
 class OBJECT_TYPE_LIST(NDRSTRUCT):
-    structure = (
-        ('Level', WORD),('Remaining', ACCESS_MASK),('ObjectType', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			WORD
+			),
+			(
+			'Remaining',
+			ACCESS_MASK
+			),
+			(
+			'ObjectType',
+			GUID
+			)
+		)
+
+
 class POBJECT_TYPE_LIST(NDRPOINTER):
-    referent = (
-        ('Data', OBJECT_TYPE_LIST),
-    )    
+	referent = (
+			(
+			'Data',
+			OBJECT_TYPE_LIST
+			)
+		)
 
 
 class ACE_HEADER(NDRSTRUCT):
-    structure = (
-        ('AceType', UCHAR),('AceFlags', UCHAR),('AceSize', USHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AceType',
+			UCHAR
+			),
+			(
+			'AceFlags',
+			UCHAR
+			),
+			(
+			'AceSize',
+			USHORT
+			)
+		)
+
+
 class PACE_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', ACE_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			ACE_HEADER
+			)
+		)
 
 
 class SYSTEM_MANDATORY_LABEL_ACE(NDRSTRUCT):
-    structure = (
-        ('Header', ACE_HEADER),('Mask', ACCESS_MASK),('SidStart', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Header',
+			ACE_HEADER
+			),
+			(
+			'Mask',
+			ACCESS_MASK
+			),
+			(
+			'SidStart',
+			DWORD
+			)
+		)
+
+
 class PSYSTEM_MANDATORY_LABEL_ACE(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEM_MANDATORY_LABEL_ACE),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEM_MANDATORY_LABEL_ACE
+			)
+		)
 
 
 class TOKEN_MANDATORY_POLICY(NDRSTRUCT):
-    structure = (
-        ('Policy', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Policy',
+			DWORD
+			)
+		)
+
+
 class PTOKEN_MANDATORY_POLICY(NDRPOINTER):
-    referent = (
-        ('Data', TOKEN_MANDATORY_POLICY),
-    )    
+	referent = (
+			(
+			'Data',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
 
 
 class MANDATORY_INFORMATION(NDRSTRUCT):
-    structure = (
-        ('AllowedAccess', ACCESS_MASK),('WriteAllowed', BOOLEAN),('ReadAllowed', BOOLEAN),('ExecuteAllowed', BOOLEAN),('MandatoryPolicy', TOKEN_MANDATORY_POLICY),
-    )
+	align = 1
+	structure = (
+			(
+			'AllowedAccess',
+			ACCESS_MASK
+			),
+			(
+			'WriteAllowed',
+			BOOLEAN
+			),
+			(
+			'ReadAllowed',
+			BOOLEAN
+			),
+			(
+			'ExecuteAllowed',
+			BOOLEAN
+			),
+			(
+			'MandatoryPolicy',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
+
+
 class PMANDATORY_INFORMATION(NDRPOINTER):
-    referent = (
-        ('Data', MANDATORY_INFORMATION),
-    )    
+	referent = (
+			(
+			'Data',
+			MANDATORY_INFORMATION
+			)
+		)
 
 
 class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRSTRUCT):
-    structure = (
-        ('Length', DWORD),('OctetString', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Length',
+			DWORD
+			),
+			(
+			'OctetString',
+			BYTE
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+			)
+		)
 
 
 class VALUES(NDRUNION):
-    union = {
-        1: ('pInt64',PLONG64),2: ('pUint64',PDWORD64),3: ('ppString',PWSTR),4: ('pOctetString',PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    }
-        
+	union = {1 : (
+		'pInt64',
+		PLONG64
+		),2 : (
+		'pUint64',
+		PDWORD64
+		),3 : (
+		'ppString',
+		PWSTR
+		),4 : (
+		'pOctetString',
+		PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+		)}
+
 
 class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRSTRUCT):
-    structure = (
-        ('Name', DWORD),('ValueType', WORD),('Reserved', WORD),('Flags', DWORD),('ValueCount', DWORD),('Values', VALUES),
-    )
+	align = 1
+	structure = (
+			(
+			'Name',
+			DWORD
+			),
+			(
+			'ValueType',
+			WORD
+			),
+			(
+			'Reserved',
+			WORD
+			),
+			(
+			'Flags',
+			DWORD
+			),
+			(
+			'ValueCount',
+			DWORD
+			),
+			(
+			'Values',
+			VALUES
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1
+			)
+		)
+
 
 SECURITY_INFORMATION = DWORD
 PSECURITY_INFORMATION = DWORD
-
 class RPC_SID(NDRSTRUCT):
-    structure = (
-        ('Revision', UNSIGNED_CHAR),('SubAuthorityCount', UNSIGNED_CHAR),('IdentifierAuthority', RPC_SID_IDENTIFIER_AUTHORITY),('SubAuthority', UNSIGNED_LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UNSIGNED_CHAR
+			),
+			(
+			'SubAuthorityCount',
+			UNSIGNED_CHAR
+			),
+			(
+			'IdentifierAuthority',
+			RPC_SID_IDENTIFIER_AUTHORITY
+			),
+			(
+			'SubAuthority',
+			UNSIGNED_LONG
+			)
+		)
+
+
 class PRPC_SID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
+
+
 class PSID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
 
 
 class ACL(NDRSTRUCT):
-    structure = (
-        ('AclRevision', UNSIGNED_CHAR),('Sbz1', UNSIGNED_CHAR),('AclSize', UNSIGNED_SHORT),('AceCount', UNSIGNED_SHORT),('Sbz2', UNSIGNED_SHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AclRevision',
+			UNSIGNED_CHAR
+			),
+			(
+			'Sbz1',
+			UNSIGNED_CHAR
+			),
+			(
+			'AclSize',
+			UNSIGNED_SHORT
+			),
+			(
+			'AceCount',
+			UNSIGNED_SHORT
+			),
+			(
+			'Sbz2',
+			UNSIGNED_SHORT
+			)
+		)
+
+
 class PACL(NDRPOINTER):
-    referent = (
-        ('Data', ACL),
-    )    
+	referent = (
+			(
+			'Data',
+			ACL
+			)
+		)
 
 
 class SECURITY_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Revision', UCHAR),('Sbz1', UCHAR),('Control', USHORT),('Owner', PSID),('Group', PSID),('Sacl', PACL),('Dacl', PACL),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UCHAR
+			),
+			(
+			'Sbz1',
+			UCHAR
+			),
+			(
+			'Control',
+			USHORT
+			),
+			(
+			'Owner',
+			PSID
+			),
+			(
+			'Group',
+			PSID
+			),
+			(
+			'Sacl',
+			PACL
+			),
+			(
+			'Dacl',
+			PACL
+			)
+		)
+
+
 class PSECURITY_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', SECURITY_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			SECURITY_DESCRIPTOR
+			)
+		)
+
 
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 #################################################################################
-
 #INTERFACE DEFINITION
-
 #################################################################################
-
 #################################################################################
-
 #nspi Definition
-
 #################################################################################
-
 MSRPC_UUID_NSPI = uuidtup_to_bin(('F5CC5A18-4264-101-859-0800228426','0.0'))
-
-
 class FLATUID_R(NDRSTRUCT):
-    structure = (
-        ('ab', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'ab',
+			BYTE
+			)
+		)
 
 
 class PROPERTYTAGARRAY_R(NDRSTRUCT):
-    structure = (
-        ('cValues', DWORD),('aulPropTag', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'cValues',
+			DWORD
+			),
+			(
+			'aulPropTag',
+			DWORD
+			)
+		)
 
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = BYTE
+class DATA_BINARY_R(NDRUniConformantArray):
+	item = BYTE
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('cb', DWORD),	('lpb', PTR_DWORD),
+class PTR_BINARY_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_BINARY_R
+			)
+		)
 
-    )
-        
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = SHORT INT
+class BINARY_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cb',
+			DWORD
+			),
+			(
+			'lpb',
+			PTR_BINARY_R
+			)
+		)
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('cValues', DWORD),	('lpi', PTR_DWORD),
+class DATA_SHORTARRAY_R(NDRUniConformantArray):
+	item = SHORT INT
 
-    )
-        
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = LONG
+class PTR_SHORTARRAY_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_SHORTARRAY_R
+			)
+		)
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('cValues', DWORD),	('lpl', PTR_DWORD),
+class SHORTARRAY_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cValues',
+			DWORD
+			),
+			(
+			'lpi',
+			PTR_SHORTARRAY_R
+			)
+		)
 
-    )
-        
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = CHAR
+class DATA_LONGARRAY_R(NDRUniConformantArray):
+	item = LONG
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('cValues', DWORD),	('lppszA', PTR_DWORD),
+class PTR_LONGARRAY_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_LONGARRAY_R
+			)
+		)
 
-    )
-        
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = BINARY_R
+class LONGARRAY_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cValues',
+			DWORD
+			),
+			(
+			'lpl',
+			PTR_LONGARRAY_R
+			)
+		)
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('cValues', DWORD),	('lpbin', PTR_DWORD),
+class DATA_STRINGARRAY_R(NDRUniConformantArray):
+	item = CHAR
 
-    )
-        
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = FLATUID_R
+class PTR_STRINGARRAY_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_STRINGARRAY_R
+			)
+		)
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('cValues', DWORD),	('lpguid', PTR_DWORD),
+class STRINGARRAY_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cValues',
+			DWORD
+			),
+			(
+			'lppszA',
+			PTR_STRINGARRAY_R
+			)
+		)
 
-    )
-        
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = WCHAR_T
+class DATA_BINARYARRAY_R(NDRUniConformantArray):
+	item = BINARY_R
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('cValues', DWORD),	('lppszW', PTR_DWORD),
+class PTR_BINARYARRAY_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_BINARYARRAY_R
+			)
+		)
 
-    )
-        
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = FILETIME
+class BINARYARRAY_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cValues',
+			DWORD
+			),
+			(
+			'lpbin',
+			PTR_BINARYARRAY_R
+			)
+		)
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('cValues', DWORD),	('lpft', PTR_DWORD),
+class DATA_FLATUIDARRAY_R(NDRUniConformantArray):
+	item = FLATUID_R
 
-    )
-        
+
+class PTR_FLATUIDARRAY_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_FLATUIDARRAY_R
+			)
+		)
+
+
+class FLATUIDARRAY_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cValues',
+			DWORD
+			),
+			(
+			'lpguid',
+			PTR_FLATUIDARRAY_R
+			)
+		)
+
+
+class DATA_WSTRINGARRAY_R(NDRUniConformantArray):
+	item = WCHAR_T
+
+
+class PTR_WSTRINGARRAY_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_WSTRINGARRAY_R
+			)
+		)
+
+
+class WSTRINGARRAY_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cValues',
+			DWORD
+			),
+			(
+			'lppszW',
+			PTR_WSTRINGARRAY_R
+			)
+		)
+
+
+class DATA_DATETIMEARRAY_R(NDRUniConformantArray):
+	item = FILETIME
+
+
+class PTR_DATETIMEARRAY_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_DATETIMEARRAY_R
+			)
+		)
+
+
+class DATETIMEARRAY_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cValues',
+			DWORD
+			),
+			(
+			'lpft',
+			PTR_DATETIMEARRAY_R
+			)
+		)
+
 
 class PROPERTYVALUE_R(NDRSTRUCT):
-    structure = (
-        
-    )
+	align = 1
+	structure = (
+
+		)
 
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = PROPERTYVALUE_R
+class DATA_PROPERTYROW_R(NDRUniConformantArray):
+	item = PROPERTYVALUE_R
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('Reserved', DWORD),	('cValues', DWORD),	('lpProps', PTR_DWORD),
+class PTR_PROPERTYROW_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_PROPERTYROW_R
+			)
+		)
 
-    )
-        
+
+class PROPERTYROW_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'cValues',
+			DWORD
+			),
+			(
+			'lpProps',
+			PTR_PROPERTYROW_R
+			)
+		)
+
 
 class PROPERTYROWSET_R(NDRSTRUCT):
-    structure = (
-        ('cRows', DWORD),('aRow', PROPERTYROW_R),
-    )
+	align = 1
+	structure = (
+			(
+			'cRows',
+			DWORD
+			),
+			(
+			'aRow',
+			PROPERTYROW_R
+			)
+		)
 
 
 class RESTRICTION_R(NDRSTRUCT):
-    structure = (
-        
-    )
+	align = 1
+	structure = (
+
+		)
 
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = RESTRICTION_R
+class DATA_ANDRESTRICTION_R(NDRUniConformantArray):
+	item = RESTRICTION_R
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('cRes', DWORD),	('lpRes', PTR_DWORD),
+class PTR_ANDRESTRICTION_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_ANDRESTRICTION_R
+			)
+		)
 
-    )
-        
+
+class ANDRESTRICTION_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cRes',
+			DWORD
+			),
+			(
+			'lpRes',
+			PTR_ANDRESTRICTION_R
+			)
+		)
+
 
 class NOTRESTRICTION_R(NDRSTRUCT):
-    structure = (
-        ('lpRes', RESTRICTION_R),
-    )
+	align = 1
+	structure = (
+			(
+			'lpRes',
+			RESTRICTION_R
+			)
+		)
 
 
 class CONTENTRESTRICTION_R(NDRSTRUCT):
-    structure = (
-        ('ulFuzzyLevel', DWORD),('ulPropTag', DWORD),('lpProp', PROPERTYVALUE_R),
-    )
+	align = 1
+	structure = (
+			(
+			'ulFuzzyLevel',
+			DWORD
+			),
+			(
+			'ulPropTag',
+			DWORD
+			),
+			(
+			'lpProp',
+			PROPERTYVALUE_R
+			)
+		)
 
 
 class BITMASKRESTRICTION_R(NDRSTRUCT):
-    structure = (
-        ('relBMR', DWORD),('ulPropTag', DWORD),('ulMask', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'relBMR',
+			DWORD
+			),
+			(
+			'ulPropTag',
+			DWORD
+			),
+			(
+			'ulMask',
+			DWORD
+			)
+		)
 
 
 class PROPERTYRESTRICTION_R(NDRSTRUCT):
-    structure = (
-        ('relop', DWORD),('ulPropTag', DWORD),('lpProp', PROPERTYVALUE_R),
-    )
+	align = 1
+	structure = (
+			(
+			'relop',
+			DWORD
+			),
+			(
+			'ulPropTag',
+			DWORD
+			),
+			(
+			'lpProp',
+			PROPERTYVALUE_R
+			)
+		)
 
 
 class COMPAREPROPSRESTRICTION_R(NDRSTRUCT):
-    structure = (
-        ('relop', DWORD),('ulPropTag1', DWORD),('ulPropTag2', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'relop',
+			DWORD
+			),
+			(
+			'ulPropTag1',
+			DWORD
+			),
+			(
+			'ulPropTag2',
+			DWORD
+			)
+		)
 
 
 class SUBRESTRICTION_R(NDRSTRUCT):
-    structure = (
-        ('ulSubObject', DWORD),('lpRes', RESTRICTION_R),
-    )
+	align = 1
+	structure = (
+			(
+			'ulSubObject',
+			DWORD
+			),
+			(
+			'lpRes',
+			RESTRICTION_R
+			)
+		)
 
 
 class SIZERESTRICTION_R(NDRSTRUCT):
-    structure = (
-        ('relop', DWORD),('ulPropTag', DWORD),('cb', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'relop',
+			DWORD
+			),
+			(
+			'ulPropTag',
+			DWORD
+			),
+			(
+			'cb',
+			DWORD
+			)
+		)
 
 
 class EXISTRESTRICTION_R(NDRSTRUCT):
-    structure = (
-        ('ulReserved1', DWORD),('ulPropTag', DWORD),('ulReserved2', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'ulReserved1',
+			DWORD
+			),
+			(
+			'ulPropTag',
+			DWORD
+			),
+			(
+			'ulReserved2',
+			DWORD
+			)
+		)
 
 
 class RESTRICTIONUNION_R(NDRUNION):
-    union = {
-        0x00000000: ('resAnd',ANDRESTRICTION_R),0x00000001: ('resOr',ORRESTRICTION_R),0x00000002: ('resNot',NOTRESTRICTION_R),0x00000003: ('resContent',CONTENTRESTRICTION_R),0x00000004: ('resProperty',PROPERTYRESTRICTION_R),0x00000005: ('resCompareProps',COMPAREPROPSRESTRICTION_R),0x00000006: ('resBitMask',BITMASKRESTRICTION_R),0x00000007: ('resSize',SIZERESTRICTION_R),0x00000008: ('resExist',EXISTRESTRICTION_R),0x00000009: ('resSubRestriction',SUBRESTRICTION_R),
-    }
-        
+	union = {0x00000000 : (
+		'resAnd',
+		ANDRESTRICTION_R
+		),0x00000001 : (
+		'resOr',
+		ORRESTRICTION_R
+		),0x00000002 : (
+		'resNot',
+		NOTRESTRICTION_R
+		),0x00000003 : (
+		'resContent',
+		CONTENTRESTRICTION_R
+		),0x00000004 : (
+		'resProperty',
+		PROPERTYRESTRICTION_R
+		),0x00000005 : (
+		'resCompareProps',
+		COMPAREPROPSRESTRICTION_R
+		),0x00000006 : (
+		'resBitMask',
+		BITMASKRESTRICTION_R
+		),0x00000007 : (
+		'resSize',
+		SIZERESTRICTION_R
+		),0x00000008 : (
+		'resExist',
+		EXISTRESTRICTION_R
+		),0x00000009 : (
+		'resSubRestriction',
+		SUBRESTRICTION_R
+		)}
+
 
 class Anonymous15(NDRSTRUCT):
-    structure = (
-        ('rt', DWORD),('res', RESTRICTIONUNION_R),
-    )
+	align = 1
+	structure = (
+			(
+			'rt',
+			DWORD
+			),
+			(
+			'res',
+			RESTRICTIONUNION_R
+			)
+		)
 
 
 class PROPERTYNAME_R(NDRSTRUCT):
-    structure = (
-        ('lpguid', FLATUID_R),('ulReserved', DWORD),('lID', LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'lpguid',
+			FLATUID_R
+			),
+			(
+			'ulReserved',
+			DWORD
+			),
+			(
+			'lID',
+			LONG
+			)
+		)
 
 
 class PROPERTYNAMESET_R(NDRSTRUCT):
-    structure = (
-        ('cNames', DWORD),('aNames', PROPERTYNAME_R),
-    )
+	align = 1
+	structure = (
+			(
+			'cNames',
+			DWORD
+			),
+			(
+			'aNames',
+			PROPERTYNAME_R
+			)
+		)
 
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = CHAR
+class DATA_STRINGSARRAY_R(NDRUniConformantArray):
+	item = CHAR
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('Count', DWORD),	('Strings', PTR_DWORD),
+class PTR_STRINGSARRAY_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_STRINGSARRAY_R
+			)
+		)
 
-    )
-        
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = WCHAR_T
+class STRINGSARRAY_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'Count',
+			DWORD
+			),
+			(
+			'Strings',
+			PTR_STRINGSARRAY_R
+			)
+		)
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('Count', DWORD),	('Strings', PTR_DWORD),
+class DATA_WSTRINGSARRAY_R(NDRUniConformantArray):
+	item = WCHAR_T
 
-    )
-        
+
+class PTR_WSTRINGSARRAY_R(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_WSTRINGSARRAY_R
+			)
+		)
+
+
+class WSTRINGSARRAY_R(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'Count',
+			DWORD
+			),
+			(
+			'Strings',
+			PTR_WSTRINGSARRAY_R
+			)
+		)
+
 
 class STAT(NDRSTRUCT):
-    structure = (
-        ('SortType', DWORD),('ContainerID', DWORD),('CurrentRec', DWORD),('Delta', LONG),('NumPos', DWORD),('TotalRecs', DWORD),('CodePage', DWORD),('TemplateLocale', DWORD),('SortLocale', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'SortType',
+			DWORD
+			),
+			(
+			'ContainerID',
+			DWORD
+			),
+			(
+			'CurrentRec',
+			DWORD
+			),
+			(
+			'Delta',
+			LONG
+			),
+			(
+			'NumPos',
+			DWORD
+			),
+			(
+			'TotalRecs',
+			DWORD
+			),
+			(
+			'CodePage',
+			DWORD
+			),
+			(
+			'TemplateLocale',
+			DWORD
+			),
+			(
+			'SortLocale',
+			DWORD
+			)
+		)
 
 
 class PROP_VAL_UNION(NDRUNION):
-    union = {
-        0x00000002: ('i',SHORT INT),0x00000003: ('l',LONG),0x0000000B: ('b',UNSIGNED SHORT INT),0x0000001E: ('lpszA',CHAR),0x00000102: ('bin',BINARY_R),0x0000001F: ('lpszW',WCHAR_T),0x00000048: ('lpguid',FLATUID_R),0x00000040: ('ft',FILETIME),0x0000000A: ('err',LONG),0x00001002: ('MVi',SHORTARRAY_R),0x00001003: ('MVl',LONGARRAY_R),0x0000101E: ('MVszA',STRINGARRAY_R),0x00001102: ('MVbin',BINARYARRAY_R),0x00001048: ('MVguid',FLATUIDARRAY_R),0x0000101F: ('MVszW',WSTRINGARRAY_R),0x00001040: ('MVft',DATETIMEARRAY_R),0x00000001: ('lReserved',LONG),
-    }
-        
+	union = {0x00000002 : (
+		'i',
+		SHORT INT
+		),0x00000003 : (
+		'l',
+		LONG
+		),0x0000000B : (
+		'b',
+		UNSIGNED SHORT INT
+		),0x0000001E : (
+		'lpszA',
+		CHAR
+		),0x00000102 : (
+		'bin',
+		BINARY_R
+		),0x0000001F : (
+		'lpszW',
+		WCHAR_T
+		),0x00000048 : (
+		'lpguid',
+		FLATUID_R
+		),0x00000040 : (
+		'ft',
+		FILETIME
+		),0x0000000A : (
+		'err',
+		LONG
+		),0x00001002 : (
+		'MVi',
+		SHORTARRAY_R
+		),0x00001003 : (
+		'MVl',
+		LONGARRAY_R
+		),0x0000101E : (
+		'MVszA',
+		STRINGARRAY_R
+		),0x00001102 : (
+		'MVbin',
+		BINARYARRAY_R
+		),0x00001048 : (
+		'MVguid',
+		FLATUIDARRAY_R
+		),0x0000101F : (
+		'MVszW',
+		WSTRINGARRAY_R
+		),0x00001040 : (
+		'MVft',
+		DATETIMEARRAY_R
+		),0x00000001 : (
+		'lReserved',
+		LONG
+		)}
+
 
 class Anonymous16(NDRSTRUCT):
-    structure = (
-        ('ulPropTag', DWORD),('ulReserved', DWORD),('Value', PROP_VAL_UNION),
-    )
+	align = 1
+	structure = (
+			(
+			'ulPropTag',
+			DWORD
+			),
+			(
+			'ulReserved',
+			DWORD
+			),
+			(
+			'Value',
+			PROP_VAL_UNION
+			)
+		)
+
 
 NSPI_HANDLE = VOID
-
 class NspiBind(NDRCALL):
-    opnum = 0
-    structure = (
-		('hRpc', HANDLE_T),
-		('dwFlags', DWORD),
-		('pStat', STAT),
-		('pServerGuid', FLATUID_R),
-    )
+	OPNUM = 0
+	structure = (
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pServerGuid',
+			FLATUID_R
+			)
+		)
+
 
 class NspiBindResponse(NDRCALL):
-    structure = (
-		('pServerGuid', FLATUID_R),
-		('contextHandle', NSPI_HANDLE),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			HANDLE_T
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pServerGuid',
+			FLATUID_R
+			)
+		)
+
 
 class NspiUnbind(NDRCALL):
-    opnum = 1
-    structure = (
-		('contextHandle', NSPI_HANDLE),
-		('Reserved', DWORD),
-    )
+	OPNUM = 1
+	structure = (
+			(
+			'contextHandle',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			)
+		)
+
 
 class NspiUnbindResponse(NDRCALL):
-    structure = (
-		('contextHandle', NSPI_HANDLE),
-    )
-        
+	structure = (
+			(
+			'contextHandle',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			)
+		)
+
 
 class NspiUpdateStat(NDRCALL):
-    opnum = 2
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved', DWORD),
-		('pStat', STAT),
-		('plDelta', LONG),
-    )
+	OPNUM = 2
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'plDelta',
+			LONG
+			)
+		)
+
 
 class NspiUpdateStatResponse(NDRCALL):
-    structure = (
-		('pStat', STAT),
-		('plDelta', LONG),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'plDelta',
+			LONG
+			)
+		)
+
 
 class NspiQueryRows(NDRCALL):
-    opnum = 3
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('dwFlags', DWORD),
-		('pStat', STAT),
-		('dwETableCount', DWORD),
-		('lpETable', DWORD),
-		('Count', DWORD),
-		('pPropTags', PROPERTYTAGARRAY_R),
-    )
+	OPNUM = 3
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'dwETableCount',
+			DWORD
+			),
+			(
+			'lpETable',
+			DWORD
+			),
+			(
+			'Count',
+			DWORD
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiQueryRowsResponse(NDRCALL):
-    structure = (
-		('pStat', STAT),
-		('ppRows', PROPERTYROWSET_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'dwETableCount',
+			DWORD
+			),
+			(
+			'lpETable',
+			DWORD
+			),
+			(
+			'Count',
+			DWORD
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiSeekEntries(NDRCALL):
-    opnum = 4
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved', DWORD),
-		('pStat', STAT),
-		('pTarget', PROPERTYVALUE_R),
-		('lpETable', PROPERTYTAGARRAY_R),
-		('pPropTags', PROPERTYTAGARRAY_R),
-    )
+	OPNUM = 4
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pTarget',
+			PROPERTYVALUE_R
+			),
+			(
+			'lpETable',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiSeekEntriesResponse(NDRCALL):
-    structure = (
-		('pStat', STAT),
-		('ppRows', PROPERTYROWSET_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pTarget',
+			PROPERTYVALUE_R
+			),
+			(
+			'lpETable',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiGetMatches(NDRCALL):
-    opnum = 5
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved1', DWORD),
-		('pStat', STAT),
-		('pReserved', PROPERTYTAGARRAY_R),
-		('Reserved2', DWORD),
-		('Filter', RESTRICTION_R),
-		('lpPropName', PROPERTYNAME_R),
-		('ulRequested', DWORD),
-		('pPropTags', PROPERTYTAGARRAY_R),
-    )
+	OPNUM = 5
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved1',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pReserved',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'Reserved2',
+			DWORD
+			),
+			(
+			'Filter',
+			RESTRICTION_R
+			),
+			(
+			'lpPropName',
+			PROPERTYNAME_R
+			),
+			(
+			'ulRequested',
+			DWORD
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiGetMatchesResponse(NDRCALL):
-    structure = (
-		('pStat', STAT),
-		('ppOutMIds', PROPERTYTAGARRAY_R),
-		('ppRows', PROPERTYROWSET_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved1',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pReserved',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'Reserved2',
+			DWORD
+			),
+			(
+			'Filter',
+			RESTRICTION_R
+			),
+			(
+			'lpPropName',
+			PROPERTYNAME_R
+			),
+			(
+			'ulRequested',
+			DWORD
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiResortRestriction(NDRCALL):
-    opnum = 6
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved', DWORD),
-		('pStat', STAT),
-		('pInMIds', PROPERTYTAGARRAY_R),
-		('ppOutMIds', PROPERTYTAGARRAY_R),
-    )
+	OPNUM = 6
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pInMIds',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'ppOutMIds',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiResortRestrictionResponse(NDRCALL):
-    structure = (
-		('pStat', STAT),
-		('ppOutMIds', PROPERTYTAGARRAY_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pInMIds',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'ppOutMIds',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiDNToMId(NDRCALL):
-    opnum = 7
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved', DWORD),
-		('pNames', STRINGSARRAY_R),
-    )
+	OPNUM = 7
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pNames',
+			STRINGSARRAY_R
+			)
+		)
+
 
 class NspiDNToMIdResponse(NDRCALL):
-    structure = (
-		('ppOutMIds', PROPERTYTAGARRAY_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pNames',
+			STRINGSARRAY_R
+			)
+		)
+
 
 class NspiGetPropList(NDRCALL):
-    opnum = 8
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('dwFlags', DWORD),
-		('dwMId', DWORD),
-		('CodePage', DWORD),
-    )
+	OPNUM = 8
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'dwMId',
+			DWORD
+			),
+			(
+			'CodePage',
+			DWORD
+			)
+		)
+
 
 class NspiGetPropListResponse(NDRCALL):
-    structure = (
-		('ppPropTags', PROPERTYTAGARRAY_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'dwMId',
+			DWORD
+			),
+			(
+			'CodePage',
+			DWORD
+			)
+		)
+
 
 class NspiGetProps(NDRCALL):
-    opnum = 9
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('dwFlags', DWORD),
-		('pStat', STAT),
-		('pPropTags', PROPERTYTAGARRAY_R),
-    )
+	OPNUM = 9
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiGetPropsResponse(NDRCALL):
-    structure = (
-		('ppRows', PROPERTYROW_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiCompareMIds(NDRCALL):
-    opnum = 10
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved', DWORD),
-		('pStat', STAT),
-		('MId1', DWORD),
-		('MId2', DWORD),
-    )
+	OPNUM = 10
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'MId1',
+			DWORD
+			),
+			(
+			'MId2',
+			DWORD
+			)
+		)
+
 
 class NspiCompareMIdsResponse(NDRCALL):
-    structure = (
-		('plResult', LONG),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'MId1',
+			DWORD
+			),
+			(
+			'MId2',
+			DWORD
+			)
+		)
+
 
 class NspiModProps(NDRCALL):
-    opnum = 11
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved', DWORD),
-		('pStat', STAT),
-		('pPropTags', PROPERTYTAGARRAY_R),
-		('pRow', PROPERTYROW_R),
-    )
+	OPNUM = 11
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'pRow',
+			PROPERTYROW_R
+			)
+		)
+
 
 class NspiModPropsResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'pRow',
+			PROPERTYROW_R
+			)
+		)
 
-    )
-        
 
 class NspiGetSpecialTable(NDRCALL):
-    opnum = 12
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('dwFlags', DWORD),
-		('pStat', STAT),
-		('lpVersion', DWORD),
-    )
+	OPNUM = 12
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'lpVersion',
+			DWORD
+			)
+		)
+
 
 class NspiGetSpecialTableResponse(NDRCALL):
-    structure = (
-		('lpVersion', DWORD),
-		('ppRows', PROPERTYROWSET_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'lpVersion',
+			DWORD
+			)
+		)
+
 
 class NspiGetTemplateInfo(NDRCALL):
-    opnum = 13
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('dwFlags', DWORD),
-		('ulType', DWORD),
-		('pDN', CHAR),
-		('dwCodePage', DWORD),
-		('dwLocaleID', DWORD),
-    )
+	OPNUM = 13
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'ulType',
+			DWORD
+			),
+			(
+			'pDN',
+			CHAR
+			),
+			(
+			'dwCodePage',
+			DWORD
+			),
+			(
+			'dwLocaleID',
+			DWORD
+			)
+		)
+
 
 class NspiGetTemplateInfoResponse(NDRCALL):
-    structure = (
-		('ppData', PROPERTYROW_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'ulType',
+			DWORD
+			),
+			(
+			'pDN',
+			CHAR
+			),
+			(
+			'dwCodePage',
+			DWORD
+			),
+			(
+			'dwLocaleID',
+			DWORD
+			)
+		)
+
 
 class NspiModLinkAtt(NDRCALL):
-    opnum = 14
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('dwFlags', DWORD),
-		('ulPropTag', DWORD),
-		('dwMId', DWORD),
-		('lpEntryIds', BINARYARRAY_R),
-    )
+	OPNUM = 14
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'ulPropTag',
+			DWORD
+			),
+			(
+			'dwMId',
+			DWORD
+			),
+			(
+			'lpEntryIds',
+			BINARYARRAY_R
+			)
+		)
+
 
 class NspiModLinkAttResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'ulPropTag',
+			DWORD
+			),
+			(
+			'dwMId',
+			DWORD
+			),
+			(
+			'lpEntryIds',
+			BINARYARRAY_R
+			)
+		)
 
-    )
-        
 
 class Opnum15NotUsedOnWire(NDRCALL):
-    opnum = 15
-    structure = (
-		('Reserved1', NSPI_HANDLE),
-		('Reserved2', DWORD),
-		('Reserved3', DWORD),
-		('Reserved4', BINARYARRAY_R),
-    )
+	OPNUM = 15
+	structure = (
+			(
+			'Reserved1',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved2',
+			DWORD
+			),
+			(
+			'Reserved3',
+			DWORD
+			),
+			(
+			'Reserved4',
+			BINARYARRAY_R
+			)
+		)
+
 
 class Opnum15NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'Reserved1',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved2',
+			DWORD
+			),
+			(
+			'Reserved3',
+			DWORD
+			),
+			(
+			'Reserved4',
+			BINARYARRAY_R
+			)
+		)
 
-    )
-        
 
 class NspiQueryColumns(NDRCALL):
-    opnum = 16
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved', DWORD),
-		('dwFlags', DWORD),
-    )
+	OPNUM = 16
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'dwFlags',
+			DWORD
+			)
+		)
+
 
 class NspiQueryColumnsResponse(NDRCALL):
-    structure = (
-		('ppColumns', PROPERTYTAGARRAY_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'dwFlags',
+			DWORD
+			)
+		)
+
 
 class NspiGetNamesFromIDs(NDRCALL):
-    opnum = 17
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved', DWORD),
-		('lpguid', FLATUID_R),
-		('pPropTags', PROPERTYTAGARRAY_R),
-    )
+	OPNUM = 17
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'lpguid',
+			FLATUID_R
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiGetNamesFromIDsResponse(NDRCALL):
-    structure = (
-		('ppReturnedPropTags', PROPERTYTAGARRAY_R),
-		('ppNames', PROPERTYNAMESET_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'lpguid',
+			FLATUID_R
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			)
+		)
+
 
 class NspiGetIDsFromNames(NDRCALL):
-    opnum = 18
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved', DWORD),
-		('dwFlags', DWORD),
-		('cPropNames', DWORD),
-		('pNames', PROPERTYNAME_R),
-    )
+	OPNUM = 18
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'cPropNames',
+			DWORD
+			),
+			(
+			'pNames',
+			PROPERTYNAME_R
+			)
+		)
+
 
 class NspiGetIDsFromNamesResponse(NDRCALL):
-    structure = (
-		('ppPropTags', PROPERTYTAGARRAY_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'cPropNames',
+			DWORD
+			),
+			(
+			'pNames',
+			PROPERTYNAME_R
+			)
+		)
+
 
 class NspiResolveNames(NDRCALL):
-    opnum = 19
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved', DWORD),
-		('pStat', STAT),
-		('pPropTags', PROPERTYTAGARRAY_R),
-		('paStr', STRINGSARRAY_R),
-    )
+	OPNUM = 19
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'paStr',
+			STRINGSARRAY_R
+			)
+		)
+
 
 class NspiResolveNamesResponse(NDRCALL):
-    structure = (
-		('ppMIds', PROPERTYTAGARRAY_R),
-		('ppRows', PROPERTYROWSET_R),
-    )
-        
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'paStr',
+			STRINGSARRAY_R
+			)
+		)
+
 
 class NspiResolveNamesW(NDRCALL):
-    opnum = 20
-    structure = (
-		('hRpc', NSPI_HANDLE),
-		('Reserved', DWORD),
-		('pStat', STAT),
-		('pPropTags', PROPERTYTAGARRAY_R),
-		('paWStr', WSTRINGSARRAY_R),
-    )
+	OPNUM = 20
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'paWStr',
+			WSTRINGSARRAY_R
+			)
+		)
+
 
 class NspiResolveNamesWResponse(NDRCALL):
-    structure = (
-		('ppMIds', PROPERTYTAGARRAY_R),
-		('ppRows', PROPERTYROWSET_R),
-    )
-        
-OPNUMS = {
-0 : (NspiBind,NspiBindResponse),
-1 : (NspiUnbind,NspiUnbindResponse),
-2 : (NspiUpdateStat,NspiUpdateStatResponse),
-3 : (NspiQueryRows,NspiQueryRowsResponse),
-4 : (NspiSeekEntries,NspiSeekEntriesResponse),
-5 : (NspiGetMatches,NspiGetMatchesResponse),
-6 : (NspiResortRestriction,NspiResortRestrictionResponse),
-7 : (NspiDNToMId,NspiDNToMIdResponse),
-8 : (NspiGetPropList,NspiGetPropListResponse),
-9 : (NspiGetProps,NspiGetPropsResponse),
-10 : (NspiCompareMIds,NspiCompareMIdsResponse),
-11 : (NspiModProps,NspiModPropsResponse),
-12 : (NspiGetSpecialTable,NspiGetSpecialTableResponse),
-13 : (NspiGetTemplateInfo,NspiGetTemplateInfoResponse),
-14 : (NspiModLinkAtt,NspiModLinkAttResponse),
-15 : (Opnum15NotUsedOnWire,Opnum15NotUsedOnWireResponse),
-16 : (NspiQueryColumns,NspiQueryColumnsResponse),
-17 : (NspiGetNamesFromIDs,NspiGetNamesFromIDsResponse),
-18 : (NspiGetIDsFromNames,NspiGetIDsFromNamesResponse),
-19 : (NspiResolveNames,NspiResolveNamesResponse),
-20 : (NspiResolveNamesW,NspiResolveNamesWResponse),
-}
+	structure = (
+			(
+			'hRpc',
+			NSPI_HANDLE
+			),
+			(
+			'Reserved',
+			DWORD
+			),
+			(
+			'pStat',
+			STAT
+			),
+			(
+			'pPropTags',
+			PROPERTYTAGARRAY_R
+			),
+			(
+			'paWStr',
+			WSTRINGSARRAY_R
+			)
+		)
 
+
+OPNUMS = {0 : (
+	NspiBind,
+	NspiBindResponse
+	),1 : (
+	NspiUnbind,
+	NspiUnbindResponse
+	),2 : (
+	NspiUpdateStat,
+	NspiUpdateStatResponse
+	),3 : (
+	NspiQueryRows,
+	NspiQueryRowsResponse
+	),4 : (
+	NspiSeekEntries,
+	NspiSeekEntriesResponse
+	),5 : (
+	NspiGetMatches,
+	NspiGetMatchesResponse
+	),6 : (
+	NspiResortRestriction,
+	NspiResortRestrictionResponse
+	),7 : (
+	NspiDNToMId,
+	NspiDNToMIdResponse
+	),8 : (
+	NspiGetPropList,
+	NspiGetPropListResponse
+	),9 : (
+	NspiGetProps,
+	NspiGetPropsResponse
+	),10 : (
+	NspiCompareMIds,
+	NspiCompareMIdsResponse
+	),11 : (
+	NspiModProps,
+	NspiModPropsResponse
+	),12 : (
+	NspiGetSpecialTable,
+	NspiGetSpecialTableResponse
+	),13 : (
+	NspiGetTemplateInfo,
+	NspiGetTemplateInfoResponse
+	),14 : (
+	NspiModLinkAtt,
+	NspiModLinkAttResponse
+	),15 : (
+	Opnum15NotUsedOnWire,
+	Opnum15NotUsedOnWireResponse
+	),16 : (
+	NspiQueryColumns,
+	NspiQueryColumnsResponse
+	),17 : (
+	NspiGetNamesFromIDs,
+	NspiGetNamesFromIDsResponse
+	),18 : (
+	NspiGetIDsFromNames,
+	NspiGetIDsFromNamesResponse
+	),19 : (
+	NspiResolveNames,
+	NspiResolveNamesResponse
+	),20 : (
+	NspiResolveNamesW,
+	NspiResolveNamesWResponse
+	)}

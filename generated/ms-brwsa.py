@@ -2,7 +2,6 @@
 Generated from MIDL2Impacket.py
 """
 
-
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
@@ -15,6 +14,7 @@ from impacket.dcerpc.v5.rpcrt import DCERPCException
 
 DWORD64 = NDRUHYPER
 __INT64 = NDRHYPER
+DWORD__ENUM = DWORD
 class CONTEXT_HANDLE(NDRSTRUCT):
     align = 1
     structure = (
@@ -74,219 +74,292 @@ UNSIGNED_HYPER = NDRUHYPER
 HYPER = NDRHYPER
 
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 #################################################################################
-
 #INTERFACE DEFINITION
-
 #################################################################################
-
 #################################################################################
-
 #browser Definition
-
 #################################################################################
-
 MSRPC_UUID_BROWSER = uuidtup_to_bin(('6BFFD098-A112-3610-9833-012892020162','0.0'))
-
 LPWSTR = WCHAR
 BROWSER_IDENTIFY_HANDLE = LPWSTR
-
 class SERVER_INFO_100_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSERVER_INFO_100),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSERVER_INFO_100
+			)
+		)
+
+
 class PSERVER_INFO_100_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100_CONTAINER
+			)
+		)
+
+
 class LPSERVER_INFO_100_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100_CONTAINER
+			)
+		)
 
 
 class SERVERINFO(NDRUNION):
-    union = {
-        100: ('Level100',LPSERVER_INFO_100_CONTAINER),
-    }
-        
+	union = {100 : (
+		'Level100',
+		LPSERVER_INFO_100_CONTAINER
+		)}
+
 
 class SERVER_ENUM_STRUCT(NDRSTRUCT):
-    structure = (
-        ('Level', DWORD),('ServerInfo', SERVERINFO),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'ServerInfo',
+			SERVERINFO
+			)
+		)
+
+
 class PSERVER_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_ENUM_STRUCT
+			)
+		)
+
+
 class LPSERVER_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_ENUM_STRUCT
+			)
+		)
 
 
 class Opnum0NotUsedOnWire(NDRCALL):
-    opnum = 0
-    structure = (
+	OPNUM = 0
+	structure = (
 
-    )
+		)
+
 
 class Opnum0NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum1NotUsedOnWire(NDRCALL):
-    opnum = 1
-    structure = (
+	OPNUM = 1
+	structure = (
 
-    )
+		)
+
 
 class Opnum1NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class I_BrowserrQueryOtherDomains(NDRCALL):
-    opnum = 2
-    structure = (
-		('ServerName', BROWSER_IDENTIFY_HANDLE),
-		('InfoStruct', LPSERVER_ENUM_STRUCT),
-    )
+	OPNUM = 2
+	structure = (
+			(
+			'ServerName',
+			BROWSER_IDENTIFY_HANDLE
+			),
+			(
+			'InfoStruct',
+			LPSERVER_ENUM_STRUCT
+			)
+		)
+
 
 class I_BrowserrQueryOtherDomainsResponse(NDRCALL):
-    structure = (
-		('InfoStruct', LPSERVER_ENUM_STRUCT),
-		('TotalEntries', LPDWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			BROWSER_IDENTIFY_HANDLE
+			),
+			(
+			'InfoStruct',
+			LPSERVER_ENUM_STRUCT
+			)
+		)
+
 
 class Opnum3NotUsedOnWire(NDRCALL):
-    opnum = 3
-    structure = (
+	OPNUM = 3
+	structure = (
 
-    )
+		)
+
 
 class Opnum3NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum4NotUsedOnWire(NDRCALL):
-    opnum = 4
-    structure = (
+	OPNUM = 4
+	structure = (
 
-    )
+		)
+
 
 class Opnum4NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum5NotUsedOnWire(NDRCALL):
-    opnum = 5
-    structure = (
+	OPNUM = 5
+	structure = (
 
-    )
+		)
+
 
 class Opnum5NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum6NotUsedOnWire(NDRCALL):
-    opnum = 6
-    structure = (
+	OPNUM = 6
+	structure = (
 
-    )
+		)
+
 
 class Opnum6NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum7NotUsedOnWire(NDRCALL):
-    opnum = 7
-    structure = (
+	OPNUM = 7
+	structure = (
 
-    )
+		)
+
 
 class Opnum7NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum8NotUsedOnWire(NDRCALL):
-    opnum = 8
-    structure = (
+	OPNUM = 8
+	structure = (
 
-    )
+		)
+
 
 class Opnum8NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum9NotUsedOnWire(NDRCALL):
-    opnum = 9
-    structure = (
+	OPNUM = 9
+	structure = (
 
-    )
+		)
+
 
 class Opnum9NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum10NotUsedOnWire(NDRCALL):
-    opnum = 10
-    structure = (
+	OPNUM = 10
+	structure = (
 
-    )
+		)
+
 
 class Opnum10NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum11NotUsedOnWire(NDRCALL):
-    opnum = 11
-    structure = (
+	OPNUM = 11
+	structure = (
 
-    )
+		)
+
 
 class Opnum11NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
-OPNUMS = {
-0 : (Opnum0NotUsedOnWire,Opnum0NotUsedOnWireResponse),
-1 : (Opnum1NotUsedOnWire,Opnum1NotUsedOnWireResponse),
-2 : (I_BrowserrQueryOtherDomains,I_BrowserrQueryOtherDomainsResponse),
-3 : (Opnum3NotUsedOnWire,Opnum3NotUsedOnWireResponse),
-4 : (Opnum4NotUsedOnWire,Opnum4NotUsedOnWireResponse),
-5 : (Opnum5NotUsedOnWire,Opnum5NotUsedOnWireResponse),
-6 : (Opnum6NotUsedOnWire,Opnum6NotUsedOnWireResponse),
-7 : (Opnum7NotUsedOnWire,Opnum7NotUsedOnWireResponse),
-8 : (Opnum8NotUsedOnWire,Opnum8NotUsedOnWireResponse),
-9 : (Opnum9NotUsedOnWire,Opnum9NotUsedOnWireResponse),
-10 : (Opnum10NotUsedOnWire,Opnum10NotUsedOnWireResponse),
-11 : (Opnum11NotUsedOnWire,Opnum11NotUsedOnWireResponse),
-}
+		)
 
+
+OPNUMS = {0 : (
+	Opnum0NotUsedOnWire,
+	Opnum0NotUsedOnWireResponse
+	),1 : (
+	Opnum1NotUsedOnWire,
+	Opnum1NotUsedOnWireResponse
+	),2 : (
+	I_BrowserrQueryOtherDomains,
+	I_BrowserrQueryOtherDomainsResponse
+	),3 : (
+	Opnum3NotUsedOnWire,
+	Opnum3NotUsedOnWireResponse
+	),4 : (
+	Opnum4NotUsedOnWire,
+	Opnum4NotUsedOnWireResponse
+	),5 : (
+	Opnum5NotUsedOnWire,
+	Opnum5NotUsedOnWireResponse
+	),6 : (
+	Opnum6NotUsedOnWire,
+	Opnum6NotUsedOnWireResponse
+	),7 : (
+	Opnum7NotUsedOnWire,
+	Opnum7NotUsedOnWireResponse
+	),8 : (
+	Opnum8NotUsedOnWire,
+	Opnum8NotUsedOnWireResponse
+	),9 : (
+	Opnum9NotUsedOnWire,
+	Opnum9NotUsedOnWireResponse
+	),10 : (
+	Opnum10NotUsedOnWire,
+	Opnum10NotUsedOnWireResponse
+	),11 : (
+	Opnum11NotUsedOnWire,
+	Opnum11NotUsedOnWireResponse
+	)}

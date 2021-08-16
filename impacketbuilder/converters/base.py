@@ -14,9 +14,9 @@ class UnreachableException(Exception):
 
 
 class Converter(Writer):
-    def __init__(self, io=StringIO(), tab_level=0, mapper: IDLTypeToPythonType = None):
+    def __init__(self, io=None, tab_level=0, mapper: IDLTypeToPythonType = None):
         self.tab_level = tab_level
-        self.io = io
+        self.io = io or StringIO()
         self.python_writer = PythonWriter(strIO=self.io)
         assert mapper is not None, "Must pass a mapper!"
         self.mapper = mapper

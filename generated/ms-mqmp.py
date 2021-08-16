@@ -2,7 +2,6 @@
 Generated from MIDL2Impacket.py
 """
 
-
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
@@ -15,6 +14,7 @@ from impacket.dcerpc.v5.rpcrt import DCERPCException
 
 DWORD64 = NDRUHYPER
 __INT64 = NDRHYPER
+DWORD__ENUM = DWORD
 class CONTEXT_HANDLE(NDRSTRUCT):
     align = 1
     structure = (
@@ -74,23 +74,14 @@ UNSIGNED_HYPER = NDRUHYPER
 HYPER = NDRHYPER
 
 #################################################################################
-
 #"ms-mqmq.idl"
-
 #################################################################################
-
 #################################################################################
-
 #"ms-dtyp.idl"
-
 #################################################################################
-
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -175,527 +166,1285 @@ LPVOID = VOID
 WORD = UNSIGNED_SHORT
 PWORD = UNSIGNED_SHORT
 LPWORD = UNSIGNED_SHORT
-
 class FILETIME(NDRSTRUCT):
-    structure = (
-        ('dwLowDateTime', DWORD),('dwHighDateTime', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'dwLowDateTime',
+			DWORD
+			),
+			(
+			'dwHighDateTime',
+			DWORD
+			)
+		)
+
+
 class PFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
+
+
 class LPFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
 
 
 class GUID(NDRSTRUCT):
-    structure = (
-        ('Data1', UNSIGNED_LONG),('Data2', UNSIGNED_SHORT),('Data3', UNSIGNED_SHORT),('Data4', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Data1',
+			UNSIGNED_LONG
+			),
+			(
+			'Data2',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data3',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data4',
+			BYTE
+			)
+		)
+
+
 UUID = GUID
 class PGUID(NDRPOINTER):
-    referent = (
-        ('Data', GUID),
-    )    
+	referent = (
+			(
+			'Data',
+			GUID
+			)
+		)
 
 
 class LARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', SIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			SIGNED___INT64
+			)
+		)
+
+
 class PLARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', LARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			LARGE_INTEGER
+			)
+		)
 
 
 class EVENT_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Id', USHORT),('Version', UCHAR),('Channel', UCHAR),('Level', UCHAR),('Opcode', UCHAR),('Task', USHORT),('Keyword', ULONGLONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Id',
+			USHORT
+			),
+			(
+			'Version',
+			UCHAR
+			),
+			(
+			'Channel',
+			UCHAR
+			),
+			(
+			'Level',
+			UCHAR
+			),
+			(
+			'Opcode',
+			UCHAR
+			),
+			(
+			'Task',
+			USHORT
+			),
+			(
+			'Keyword',
+			ULONGLONG
+			)
+		)
+
+
 class PEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
+
+
 class PCEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
 
 
 class S0(NDRSTRUCT):
-    structure = (
-        ('KernelTime', ULONG),('UserTime', ULONG),
-    )
+	align = 1
+	structure = (
+			(
+			'KernelTime',
+			ULONG
+			),
+			(
+			'UserTime',
+			ULONG
+			)
+		)
 
 
 class U0(NDRUNION):
-    union = {
-        1: ('s0',S0),2: ('ProcessorTime',ULONG64),
-    }
-        
+	union = {1 : (
+		's0',
+		S0
+		),2 : (
+		'ProcessorTime',
+		ULONG64
+		)}
+
 
 class EVENT_HEADER(NDRSTRUCT):
-    structure = (
-        ('Size', USHORT),('HeaderType', USHORT),('Flags', USHORT),('EventProperty', USHORT),('ThreadId', ULONG),('ProcessId', ULONG),('TimeStamp', LARGE_INTEGER),('ProviderId', GUID),('EventDescriptor', EVENT_DESCRIPTOR),('u0', U0),('ActivityId', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Size',
+			USHORT
+			),
+			(
+			'HeaderType',
+			USHORT
+			),
+			(
+			'Flags',
+			USHORT
+			),
+			(
+			'EventProperty',
+			USHORT
+			),
+			(
+			'ThreadId',
+			ULONG
+			),
+			(
+			'ProcessId',
+			ULONG
+			),
+			(
+			'TimeStamp',
+			LARGE_INTEGER
+			),
+			(
+			'ProviderId',
+			GUID
+			),
+			(
+			'EventDescriptor',
+			EVENT_DESCRIPTOR
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'ActivityId',
+			GUID
+			)
+		)
+
+
 class PEVENT_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_HEADER
+			)
+		)
+
 
 LCID = DWORD
-
 class LUID(NDRSTRUCT):
-    structure = (
-        ('LowPart', DWORD),('HighPart', LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'LowPart',
+			DWORD
+			),
+			(
+			'HighPart',
+			LONG
+			)
+		)
+
+
 class PLUID(NDRPOINTER):
-    referent = (
-        ('Data', LUID),
-    )    
+	referent = (
+			(
+			'Data',
+			LUID
+			)
+		)
 
 
 class MULTI_SZ(NDRSTRUCT):
-    structure = (
-        ('Value', WCHAR_T),('nChar', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			WCHAR_T
+			),
+			(
+			'nChar',
+			DWORD
+			)
+		)
 
 
-class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
-    item = WCHAR
+class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+	item = WCHAR
 
-class PTR_UNSIGNED_SHORT(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_SHORT),
-    )
 
-class UNSIGNED_SHORT(NDRSTRUCT):
-    structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
+class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_RPC_UNICODE_STRING
+			)
+		)
 
-    )
-        
+
+class RPC_UNICODE_STRING(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'Length',
+			UNSIGNED_SHORT
+			),
+			(
+			'MaximumLength',
+			UNSIGNED_SHORT
+			),
+			(
+			'Buffer',
+			PTR_RPC_UNICODE_STRING
+			)
+		)
+
 
 class SERVER_INFO_100(NDRSTRUCT):
-    structure = (
-        ('sv100_platform_id', DWORD),('sv100_name', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv100_platform_id',
+			DWORD
+			),
+			(
+			'sv100_name',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
+
+
 class LPSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
 
 
 class SERVER_INFO_101(NDRSTRUCT):
-    structure = (
-        ('sv101_platform_id', DWORD),('sv101_name', WCHAR_T),('sv101_version_major', DWORD),('sv101_version_minor', DWORD),('sv101_version_type', DWORD),('sv101_comment', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv101_platform_id',
+			DWORD
+			),
+			(
+			'sv101_name',
+			WCHAR_T
+			),
+			(
+			'sv101_version_major',
+			DWORD
+			),
+			(
+			'sv101_version_minor',
+			DWORD
+			),
+			(
+			'sv101_version_type',
+			DWORD
+			),
+			(
+			'sv101_comment',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
+
+
 class LPSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
 
 
 class SYSTEMTIME(NDRSTRUCT):
-    structure = (
-        ('wYear', WORD),('wMonth', WORD),('wDayOfWeek', WORD),('wDay', WORD),('wHour', WORD),('wMinute', WORD),('wSecond', WORD),('wMilliseconds', WORD),
-    )
+	align = 1
+	structure = (
+			(
+			'wYear',
+			WORD
+			),
+			(
+			'wMonth',
+			WORD
+			),
+			(
+			'wDayOfWeek',
+			WORD
+			),
+			(
+			'wDay',
+			WORD
+			),
+			(
+			'wHour',
+			WORD
+			),
+			(
+			'wMinute',
+			WORD
+			),
+			(
+			'wSecond',
+			WORD
+			),
+			(
+			'wMilliseconds',
+			WORD
+			)
+		)
+
+
 class PSYSTEMTIME(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEMTIME),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEMTIME
+			)
+		)
 
 
 class UINT128(NDRSTRUCT):
-    structure = (
-        ('lower', UINT64),('upper', UINT64),
-    )
+	align = 1
+	structure = (
+			(
+			'lower',
+			UINT64
+			),
+			(
+			'upper',
+			UINT64
+			)
+		)
+
+
 class PUINT128(NDRPOINTER):
-    referent = (
-        ('Data', UINT128),
-    )    
+	referent = (
+			(
+			'Data',
+			UINT128
+			)
+		)
 
 
 class ULARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', UNSIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			UNSIGNED___INT64
+			)
+		)
+
+
 class PULARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', ULARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			ULARGE_INTEGER
+			)
+		)
 
 
 class RPC_SID_IDENTIFIER_AUTHORITY(NDRSTRUCT):
-    structure = (
-        ('Value', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			BYTE
+			)
+		)
+
 
 ACCESS_MASK = DWORD
 PACCESS_MASK = ACCESS_MASK
-
 class OBJECT_TYPE_LIST(NDRSTRUCT):
-    structure = (
-        ('Level', WORD),('Remaining', ACCESS_MASK),('ObjectType', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			WORD
+			),
+			(
+			'Remaining',
+			ACCESS_MASK
+			),
+			(
+			'ObjectType',
+			GUID
+			)
+		)
+
+
 class POBJECT_TYPE_LIST(NDRPOINTER):
-    referent = (
-        ('Data', OBJECT_TYPE_LIST),
-    )    
+	referent = (
+			(
+			'Data',
+			OBJECT_TYPE_LIST
+			)
+		)
 
 
 class ACE_HEADER(NDRSTRUCT):
-    structure = (
-        ('AceType', UCHAR),('AceFlags', UCHAR),('AceSize', USHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AceType',
+			UCHAR
+			),
+			(
+			'AceFlags',
+			UCHAR
+			),
+			(
+			'AceSize',
+			USHORT
+			)
+		)
+
+
 class PACE_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', ACE_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			ACE_HEADER
+			)
+		)
 
 
 class SYSTEM_MANDATORY_LABEL_ACE(NDRSTRUCT):
-    structure = (
-        ('Header', ACE_HEADER),('Mask', ACCESS_MASK),('SidStart', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Header',
+			ACE_HEADER
+			),
+			(
+			'Mask',
+			ACCESS_MASK
+			),
+			(
+			'SidStart',
+			DWORD
+			)
+		)
+
+
 class PSYSTEM_MANDATORY_LABEL_ACE(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEM_MANDATORY_LABEL_ACE),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEM_MANDATORY_LABEL_ACE
+			)
+		)
 
 
 class TOKEN_MANDATORY_POLICY(NDRSTRUCT):
-    structure = (
-        ('Policy', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Policy',
+			DWORD
+			)
+		)
+
+
 class PTOKEN_MANDATORY_POLICY(NDRPOINTER):
-    referent = (
-        ('Data', TOKEN_MANDATORY_POLICY),
-    )    
+	referent = (
+			(
+			'Data',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
 
 
 class MANDATORY_INFORMATION(NDRSTRUCT):
-    structure = (
-        ('AllowedAccess', ACCESS_MASK),('WriteAllowed', BOOLEAN),('ReadAllowed', BOOLEAN),('ExecuteAllowed', BOOLEAN),('MandatoryPolicy', TOKEN_MANDATORY_POLICY),
-    )
+	align = 1
+	structure = (
+			(
+			'AllowedAccess',
+			ACCESS_MASK
+			),
+			(
+			'WriteAllowed',
+			BOOLEAN
+			),
+			(
+			'ReadAllowed',
+			BOOLEAN
+			),
+			(
+			'ExecuteAllowed',
+			BOOLEAN
+			),
+			(
+			'MandatoryPolicy',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
+
+
 class PMANDATORY_INFORMATION(NDRPOINTER):
-    referent = (
-        ('Data', MANDATORY_INFORMATION),
-    )    
+	referent = (
+			(
+			'Data',
+			MANDATORY_INFORMATION
+			)
+		)
 
 
 class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRSTRUCT):
-    structure = (
-        ('Length', DWORD),('OctetString', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Length',
+			DWORD
+			),
+			(
+			'OctetString',
+			BYTE
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+			)
+		)
 
 
 class VALUES(NDRUNION):
-    union = {
-        1: ('pInt64',PLONG64),2: ('pUint64',PDWORD64),3: ('ppString',PWSTR),4: ('pOctetString',PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    }
-        
+	union = {1 : (
+		'pInt64',
+		PLONG64
+		),2 : (
+		'pUint64',
+		PDWORD64
+		),3 : (
+		'ppString',
+		PWSTR
+		),4 : (
+		'pOctetString',
+		PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+		)}
+
 
 class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRSTRUCT):
-    structure = (
-        ('Name', DWORD),('ValueType', WORD),('Reserved', WORD),('Flags', DWORD),('ValueCount', DWORD),('Values', VALUES),
-    )
+	align = 1
+	structure = (
+			(
+			'Name',
+			DWORD
+			),
+			(
+			'ValueType',
+			WORD
+			),
+			(
+			'Reserved',
+			WORD
+			),
+			(
+			'Flags',
+			DWORD
+			),
+			(
+			'ValueCount',
+			DWORD
+			),
+			(
+			'Values',
+			VALUES
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1
+			)
+		)
+
 
 SECURITY_INFORMATION = DWORD
 PSECURITY_INFORMATION = DWORD
-
 class RPC_SID(NDRSTRUCT):
-    structure = (
-        ('Revision', UNSIGNED_CHAR),('SubAuthorityCount', UNSIGNED_CHAR),('IdentifierAuthority', RPC_SID_IDENTIFIER_AUTHORITY),('SubAuthority', UNSIGNED_LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UNSIGNED_CHAR
+			),
+			(
+			'SubAuthorityCount',
+			UNSIGNED_CHAR
+			),
+			(
+			'IdentifierAuthority',
+			RPC_SID_IDENTIFIER_AUTHORITY
+			),
+			(
+			'SubAuthority',
+			UNSIGNED_LONG
+			)
+		)
+
+
 class PRPC_SID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
+
+
 class PSID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
 
 
 class ACL(NDRSTRUCT):
-    structure = (
-        ('AclRevision', UNSIGNED_CHAR),('Sbz1', UNSIGNED_CHAR),('AclSize', UNSIGNED_SHORT),('AceCount', UNSIGNED_SHORT),('Sbz2', UNSIGNED_SHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AclRevision',
+			UNSIGNED_CHAR
+			),
+			(
+			'Sbz1',
+			UNSIGNED_CHAR
+			),
+			(
+			'AclSize',
+			UNSIGNED_SHORT
+			),
+			(
+			'AceCount',
+			UNSIGNED_SHORT
+			),
+			(
+			'Sbz2',
+			UNSIGNED_SHORT
+			)
+		)
+
+
 class PACL(NDRPOINTER):
-    referent = (
-        ('Data', ACL),
-    )    
+	referent = (
+			(
+			'Data',
+			ACL
+			)
+		)
 
 
 class SECURITY_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Revision', UCHAR),('Sbz1', UCHAR),('Control', USHORT),('Owner', PSID),('Group', PSID),('Sacl', PACL),('Dacl', PACL),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UCHAR
+			),
+			(
+			'Sbz1',
+			UCHAR
+			),
+			(
+			'Control',
+			USHORT
+			),
+			(
+			'Owner',
+			PSID
+			),
+			(
+			'Group',
+			PSID
+			),
+			(
+			'Sacl',
+			PACL
+			),
+			(
+			'Dacl',
+			PACL
+			)
+		)
+
+
 class PSECURITY_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', SECURITY_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			SECURITY_DESCRIPTOR
+			)
+		)
+
 
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 PROPVARIANT = TAG_INNER_PROPVARIANT
 PROPID = UNSIGNED_LONG
 VARIANT_BOOL = SHORT
-
 class XACTUOW(NDRSTRUCT):
-    structure = (
-        ('rgb', UNSIGNED_CHAR),
-    )
+	align = 1
+	structure = (
+			(
+			'rgb',
+			UNSIGNED_CHAR
+			)
+		)
 
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
+class DATA_BLOB(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cbSize', UNSIGNED_LONG),	('pBlobData', PTR_UNSIGNED_LONG),
+class PTR_BLOB(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_BLOB
+			)
+		)
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
+class BLOB(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cbSize',
+			UNSIGNED_LONG
+			),
+			(
+			'pBlobData',
+			PTR_BLOB
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class DATA_CAUB(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = UNSIGNED_SHORT
+class PTR_CAUB(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAUB
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class CAUB(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAUB
+			)
+		)
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = LONG
+class DATA_CAUI(NDRUniConformantArray):
+	item = UNSIGNED_SHORT
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class PTR_CAUI(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAUI
+			)
+		)
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = UNSIGNED_LONG
+class CAUI(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAUI
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class DATA_CAL(NDRUniConformantArray):
+	item = LONG
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = ULARGE_INTEGER
+class PTR_CAL(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAL
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class CAL(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAL
+			)
+		)
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = GUID
+class DATA_CAUL(NDRUniConformantArray):
+	item = UNSIGNED_LONG
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class PTR_CAUL(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAUL
+			)
+		)
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = WCHAR_T
+class CAUL(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAUL
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class DATA_CAUH(NDRUniConformantArray):
+	item = ULARGE_INTEGER
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = PROPVARIANT
+class PTR_CAUH(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAUH
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class CAUH(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAUH
+			)
+		)
 
-    )
-        
 
-VT_EMPTY = 0,
-VT_NULL = 1,
-VT_I2 = 2,
-VT_I4 = 3,
-VT_BOOL = 11,
-VT_VARIANT = 12,
-VT_I1 = 16,
-VT_UI1 = 17,
-VT_UI2 = 18,
-VT_UI4 = 19,
-VT_I8 = 20,
-VT_UI8 = 21,
-VT_LPWSTR = 31,
-VT_BLOB = 65,
-VT_CLSID = 72,
+class DATA_CACLSID(NDRUniConformantArray):
+	item = GUID
+
+
+class PTR_CACLSID(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CACLSID
+			)
+		)
+
+
+class CACLSID(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CACLSID
+			)
+		)
+
+
+class DATA_CALPWSTR(NDRUniConformantArray):
+	item = WCHAR_T
+
+
+class PTR_CALPWSTR(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CALPWSTR
+			)
+		)
+
+
+class CALPWSTR(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CALPWSTR
+			)
+		)
+
+
+class DATA_CAPROPVARIANT(NDRUniConformantArray):
+	item = PROPVARIANT
+
+
+class PTR_CAPROPVARIANT(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAPROPVARIANT
+			)
+		)
+
+
+class CAPROPVARIANT(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAPROPVARIANT
+			)
+		)
+
+
+VARENUM = DWORD__ENUM
+VT_EMPTY = 0
+VT_NULL = 1
+VT_I2 = 2
+VT_I4 = 3
+VT_BOOL = 11
+VT_VARIANT = 12
+VT_I1 = 16
+VT_UI1 = 17
+VT_UI2 = 18
+VT_UI4 = 19
+VT_I8 = 20
+VT_UI8 = 21
+VT_LPWSTR = 31
+VT_BLOB = 65
+VT_CLSID = 72
 VT_VECTOR = 4096
-        
 VARTYPE = UNSIGNED_SHORT
-
 class _VARUNION(NDRUNION):
-    union = {
-        VT_I1: ('cVal',CHAR),VT_UI1: ('bVal',UCHAR),VT_I2: ('iVal',SHORT),VT_UI2: ('uiVal',USHORT),VT_I4: ('lVal',LONG),VT_UI4: ('ulVal',ULONG),VT_I8: ('hVal',LARGE_INTEGER),VT_UI8: ('uhVal',ULARGE_INTEGER),VT_BOOL: ('boolVal',VARIANT_BOOL),VT_CLSID: ('puuid',GUID),VT_BLOB: ('blob',BLOB),VT_LPWSTR: ('pwszVal',WCHAR_T),VT_VECTOR|VT_UI1: ('caub',CAUB),VT_VECTOR|VT_UI2: ('caui',CAUI),VT_VECTOR|VT_I4: ('cal',CAL),VT_VECTOR|VT_UI4: ('caul',CAUL),VT_VECTOR|VT_UI8: ('cauh',CAUH),VT_VECTOR|VT_CLSID: ('cauuid',CACLSID),VT_VECTOR|VT_LPWSTR: ('calpwstr',CALPWSTR),VT_VECTOR|VT_VARIANT: ('capropvar',CAPROPVARIANT),
-    }
-        
+	union = {VT_I1 : (
+		'cVal',
+		CHAR
+		),VT_UI1 : (
+		'bVal',
+		UCHAR
+		),VT_I2 : (
+		'iVal',
+		SHORT
+		),VT_UI2 : (
+		'uiVal',
+		USHORT
+		),VT_I4 : (
+		'lVal',
+		LONG
+		),VT_UI4 : (
+		'ulVal',
+		ULONG
+		),VT_I8 : (
+		'hVal',
+		LARGE_INTEGER
+		),VT_UI8 : (
+		'uhVal',
+		ULARGE_INTEGER
+		),VT_BOOL : (
+		'boolVal',
+		VARIANT_BOOL
+		),VT_CLSID : (
+		'puuid',
+		GUID
+		),VT_BLOB : (
+		'blob',
+		BLOB
+		),VT_LPWSTR : (
+		'pwszVal',
+		WCHAR_T
+		),VT_VECTOR|VT_UI1 : (
+		'caub',
+		CAUB
+		),VT_VECTOR|VT_UI2 : (
+		'caui',
+		CAUI
+		),VT_VECTOR|VT_I4 : (
+		'cal',
+		CAL
+		),VT_VECTOR|VT_UI4 : (
+		'caul',
+		CAUL
+		),VT_VECTOR|VT_UI8 : (
+		'cauh',
+		CAUH
+		),VT_VECTOR|VT_CLSID : (
+		'cauuid',
+		CACLSID
+		),VT_VECTOR|VT_LPWSTR : (
+		'calpwstr',
+		CALPWSTR
+		),VT_VECTOR|VT_VARIANT : (
+		'capropvar',
+		CAPROPVARIANT
+		)}
+
 
 class TAG_INNER_PROPVARIANT(NDRSTRUCT):
-    structure = (
-        ('vt', VARTYPE),('wReserved1', UCHAR),('wReserved2', UCHAR),('wReserved3', ULONG),('_varUnion', _VARUNION),
-    )
+	align = 1
+	structure = (
+			(
+			'vt',
+			VARTYPE
+			),
+			(
+			'wReserved1',
+			UCHAR
+			),
+			(
+			'wReserved2',
+			UCHAR
+			),
+			(
+			'wReserved3',
+			ULONG
+			),
+			(
+			'_varUnion',
+			_VARUNION
+			)
+		)
 
 
 class DL_ID(NDRSTRUCT):
-    structure = (
-        ('m_DlGuid', GUID),('m_pwzDomain', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'm_DlGuid',
+			GUID
+			),
+			(
+			'm_pwzDomain',
+			WCHAR_T
+			)
+		)
 
 
 class MULTICAST_ID(NDRSTRUCT):
-    structure = (
-        ('m_address', ULONG),('m_port', ULONG),
-    )
+	align = 1
+	structure = (
+			(
+			'm_address',
+			ULONG
+			),
+			(
+			'm_port',
+			ULONG
+			)
+		)
 
 
 class OBJECTID(NDRSTRUCT):
-    structure = (
-        ('Lineage', GUID),('Uniquifier', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Lineage',
+			GUID
+			),
+			(
+			'Uniquifier',
+			DWORD
+			)
+		)
 
 
-QUEUE_FORMAT_TYPE_UNKNOWN = 0,
-QUEUE_FORMAT_TYPE_PUBLIC = 1,
-QUEUE_FORMAT_TYPE_PRIVATE = 2,
-QUEUE_FORMAT_TYPE_DIRECT = 3,
-QUEUE_FORMAT_TYPE_MACHINE = 4,
-QUEUE_FORMAT_TYPE_CONNECTOR = 5,
-QUEUE_FORMAT_TYPE_DL = 6,
-QUEUE_FORMAT_TYPE_MULTICAST = 7,
+QUEUE_FORMAT_TYPE = DWORD__ENUM
+QUEUE_FORMAT_TYPE_UNKNOWN = 0
+QUEUE_FORMAT_TYPE_PUBLIC = 1
+QUEUE_FORMAT_TYPE_PRIVATE = 2
+QUEUE_FORMAT_TYPE_DIRECT = 3
+QUEUE_FORMAT_TYPE_MACHINE = 4
+QUEUE_FORMAT_TYPE_CONNECTOR = 5
+QUEUE_FORMAT_TYPE_DL = 6
+QUEUE_FORMAT_TYPE_MULTICAST = 7
 QUEUE_FORMAT_TYPE_SUBQUEUE = 8
-        
-
 class U0(NDRUNION):
-    union = {
-        QUEUE_FORMAT_TYPE_PUBLIC: ('m_gPublicID',GUID),QUEUE_FORMAT_TYPE_PRIVATE: ('m_oPrivateID',OBJECTID),QUEUE_FORMAT_TYPE_DIRECT: ('m_pDirectID',WCHAR_T),QUEUE_FORMAT_TYPE_MACHINE: ('m_gMachineID',GUID),QUEUE_FORMAT_TYPE_CONNECTOR: ('m_GConnectorID',GUID),QUEUE_FORMAT_TYPE_DL: ('m_DlID',DL_ID),QUEUE_FORMAT_TYPE_MULTICAST: ('m_MulticastID',MULTICAST_ID),QUEUE_FORMAT_TYPE_SUBQUEUE: ('m_pDirectSubqueueID',WCHAR_T),
-    }
-        
+	union = {QUEUE_FORMAT_TYPE_PUBLIC : (
+		'm_gPublicID',
+		GUID
+		),QUEUE_FORMAT_TYPE_PRIVATE : (
+		'm_oPrivateID',
+		OBJECTID
+		),QUEUE_FORMAT_TYPE_DIRECT : (
+		'm_pDirectID',
+		WCHAR_T
+		),QUEUE_FORMAT_TYPE_MACHINE : (
+		'm_gMachineID',
+		GUID
+		),QUEUE_FORMAT_TYPE_CONNECTOR : (
+		'm_GConnectorID',
+		GUID
+		),QUEUE_FORMAT_TYPE_DL : (
+		'm_DlID',
+		DL_ID
+		),QUEUE_FORMAT_TYPE_MULTICAST : (
+		'm_MulticastID',
+		MULTICAST_ID
+		),QUEUE_FORMAT_TYPE_SUBQUEUE : (
+		'm_pDirectSubqueueID',
+		WCHAR_T
+		)}
+
 
 class QUEUE_FORMAT(NDRSTRUCT):
-    structure = (
-        ('m_qft', UNSIGNED_CHAR),('m_SuffixAndFlags', UNSIGNED_CHAR),('m_reserved', UNSIGNED_SHORT),('u0', U0),
-    )
+	align = 1
+	structure = (
+			(
+			'm_qft',
+			UNSIGNED_CHAR
+			),
+			(
+			'm_SuffixAndFlags',
+			UNSIGNED_CHAR
+			),
+			(
+			'm_reserved',
+			UNSIGNED_SHORT
+			),
+			(
+			'u0',
+			U0
+			)
+		)
+
 
 #################################################################################
-
 #"ms-mqrr.idl"
-
 #################################################################################
-
 #################################################################################
-
 #"ms-dtyp.idl"
-
 #################################################################################
-
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -780,305 +1529,816 @@ LPVOID = VOID
 WORD = UNSIGNED_SHORT
 PWORD = UNSIGNED_SHORT
 LPWORD = UNSIGNED_SHORT
-
 class FILETIME(NDRSTRUCT):
-    structure = (
-        ('dwLowDateTime', DWORD),('dwHighDateTime', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'dwLowDateTime',
+			DWORD
+			),
+			(
+			'dwHighDateTime',
+			DWORD
+			)
+		)
+
+
 class PFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
+
+
 class LPFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
 
 
 class GUID(NDRSTRUCT):
-    structure = (
-        ('Data1', UNSIGNED_LONG),('Data2', UNSIGNED_SHORT),('Data3', UNSIGNED_SHORT),('Data4', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Data1',
+			UNSIGNED_LONG
+			),
+			(
+			'Data2',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data3',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data4',
+			BYTE
+			)
+		)
+
+
 UUID = GUID
 class PGUID(NDRPOINTER):
-    referent = (
-        ('Data', GUID),
-    )    
+	referent = (
+			(
+			'Data',
+			GUID
+			)
+		)
 
 
 class LARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', SIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			SIGNED___INT64
+			)
+		)
+
+
 class PLARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', LARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			LARGE_INTEGER
+			)
+		)
 
 
 class EVENT_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Id', USHORT),('Version', UCHAR),('Channel', UCHAR),('Level', UCHAR),('Opcode', UCHAR),('Task', USHORT),('Keyword', ULONGLONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Id',
+			USHORT
+			),
+			(
+			'Version',
+			UCHAR
+			),
+			(
+			'Channel',
+			UCHAR
+			),
+			(
+			'Level',
+			UCHAR
+			),
+			(
+			'Opcode',
+			UCHAR
+			),
+			(
+			'Task',
+			USHORT
+			),
+			(
+			'Keyword',
+			ULONGLONG
+			)
+		)
+
+
 class PEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
+
+
 class PCEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
 
 
 class S0(NDRSTRUCT):
-    structure = (
-        ('KernelTime', ULONG),('UserTime', ULONG),
-    )
+	align = 1
+	structure = (
+			(
+			'KernelTime',
+			ULONG
+			),
+			(
+			'UserTime',
+			ULONG
+			)
+		)
 
 
 class U0(NDRUNION):
-    union = {
-        1: ('s0',S0),2: ('ProcessorTime',ULONG64),
-    }
-        
+	union = {1 : (
+		's0',
+		S0
+		),2 : (
+		'ProcessorTime',
+		ULONG64
+		)}
+
 
 class EVENT_HEADER(NDRSTRUCT):
-    structure = (
-        ('Size', USHORT),('HeaderType', USHORT),('Flags', USHORT),('EventProperty', USHORT),('ThreadId', ULONG),('ProcessId', ULONG),('TimeStamp', LARGE_INTEGER),('ProviderId', GUID),('EventDescriptor', EVENT_DESCRIPTOR),('u0', U0),('ActivityId', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Size',
+			USHORT
+			),
+			(
+			'HeaderType',
+			USHORT
+			),
+			(
+			'Flags',
+			USHORT
+			),
+			(
+			'EventProperty',
+			USHORT
+			),
+			(
+			'ThreadId',
+			ULONG
+			),
+			(
+			'ProcessId',
+			ULONG
+			),
+			(
+			'TimeStamp',
+			LARGE_INTEGER
+			),
+			(
+			'ProviderId',
+			GUID
+			),
+			(
+			'EventDescriptor',
+			EVENT_DESCRIPTOR
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'ActivityId',
+			GUID
+			)
+		)
+
+
 class PEVENT_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_HEADER
+			)
+		)
+
 
 LCID = DWORD
-
 class LUID(NDRSTRUCT):
-    structure = (
-        ('LowPart', DWORD),('HighPart', LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'LowPart',
+			DWORD
+			),
+			(
+			'HighPart',
+			LONG
+			)
+		)
+
+
 class PLUID(NDRPOINTER):
-    referent = (
-        ('Data', LUID),
-    )    
+	referent = (
+			(
+			'Data',
+			LUID
+			)
+		)
 
 
 class MULTI_SZ(NDRSTRUCT):
-    structure = (
-        ('Value', WCHAR_T),('nChar', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			WCHAR_T
+			),
+			(
+			'nChar',
+			DWORD
+			)
+		)
 
 
-class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
-    item = WCHAR
+class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+	item = WCHAR
 
-class PTR_UNSIGNED_SHORT(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_SHORT),
-    )
 
-class UNSIGNED_SHORT(NDRSTRUCT):
-    structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
+class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_RPC_UNICODE_STRING
+			)
+		)
 
-    )
-        
+
+class RPC_UNICODE_STRING(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'Length',
+			UNSIGNED_SHORT
+			),
+			(
+			'MaximumLength',
+			UNSIGNED_SHORT
+			),
+			(
+			'Buffer',
+			PTR_RPC_UNICODE_STRING
+			)
+		)
+
 
 class SERVER_INFO_100(NDRSTRUCT):
-    structure = (
-        ('sv100_platform_id', DWORD),('sv100_name', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv100_platform_id',
+			DWORD
+			),
+			(
+			'sv100_name',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
+
+
 class LPSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
 
 
 class SERVER_INFO_101(NDRSTRUCT):
-    structure = (
-        ('sv101_platform_id', DWORD),('sv101_name', WCHAR_T),('sv101_version_major', DWORD),('sv101_version_minor', DWORD),('sv101_version_type', DWORD),('sv101_comment', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv101_platform_id',
+			DWORD
+			),
+			(
+			'sv101_name',
+			WCHAR_T
+			),
+			(
+			'sv101_version_major',
+			DWORD
+			),
+			(
+			'sv101_version_minor',
+			DWORD
+			),
+			(
+			'sv101_version_type',
+			DWORD
+			),
+			(
+			'sv101_comment',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
+
+
 class LPSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
 
 
 class SYSTEMTIME(NDRSTRUCT):
-    structure = (
-        ('wYear', WORD),('wMonth', WORD),('wDayOfWeek', WORD),('wDay', WORD),('wHour', WORD),('wMinute', WORD),('wSecond', WORD),('wMilliseconds', WORD),
-    )
+	align = 1
+	structure = (
+			(
+			'wYear',
+			WORD
+			),
+			(
+			'wMonth',
+			WORD
+			),
+			(
+			'wDayOfWeek',
+			WORD
+			),
+			(
+			'wDay',
+			WORD
+			),
+			(
+			'wHour',
+			WORD
+			),
+			(
+			'wMinute',
+			WORD
+			),
+			(
+			'wSecond',
+			WORD
+			),
+			(
+			'wMilliseconds',
+			WORD
+			)
+		)
+
+
 class PSYSTEMTIME(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEMTIME),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEMTIME
+			)
+		)
 
 
 class UINT128(NDRSTRUCT):
-    structure = (
-        ('lower', UINT64),('upper', UINT64),
-    )
+	align = 1
+	structure = (
+			(
+			'lower',
+			UINT64
+			),
+			(
+			'upper',
+			UINT64
+			)
+		)
+
+
 class PUINT128(NDRPOINTER):
-    referent = (
-        ('Data', UINT128),
-    )    
+	referent = (
+			(
+			'Data',
+			UINT128
+			)
+		)
 
 
 class ULARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', UNSIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			UNSIGNED___INT64
+			)
+		)
+
+
 class PULARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', ULARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			ULARGE_INTEGER
+			)
+		)
 
 
 class RPC_SID_IDENTIFIER_AUTHORITY(NDRSTRUCT):
-    structure = (
-        ('Value', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			BYTE
+			)
+		)
+
 
 ACCESS_MASK = DWORD
 PACCESS_MASK = ACCESS_MASK
-
 class OBJECT_TYPE_LIST(NDRSTRUCT):
-    structure = (
-        ('Level', WORD),('Remaining', ACCESS_MASK),('ObjectType', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			WORD
+			),
+			(
+			'Remaining',
+			ACCESS_MASK
+			),
+			(
+			'ObjectType',
+			GUID
+			)
+		)
+
+
 class POBJECT_TYPE_LIST(NDRPOINTER):
-    referent = (
-        ('Data', OBJECT_TYPE_LIST),
-    )    
+	referent = (
+			(
+			'Data',
+			OBJECT_TYPE_LIST
+			)
+		)
 
 
 class ACE_HEADER(NDRSTRUCT):
-    structure = (
-        ('AceType', UCHAR),('AceFlags', UCHAR),('AceSize', USHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AceType',
+			UCHAR
+			),
+			(
+			'AceFlags',
+			UCHAR
+			),
+			(
+			'AceSize',
+			USHORT
+			)
+		)
+
+
 class PACE_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', ACE_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			ACE_HEADER
+			)
+		)
 
 
 class SYSTEM_MANDATORY_LABEL_ACE(NDRSTRUCT):
-    structure = (
-        ('Header', ACE_HEADER),('Mask', ACCESS_MASK),('SidStart', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Header',
+			ACE_HEADER
+			),
+			(
+			'Mask',
+			ACCESS_MASK
+			),
+			(
+			'SidStart',
+			DWORD
+			)
+		)
+
+
 class PSYSTEM_MANDATORY_LABEL_ACE(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEM_MANDATORY_LABEL_ACE),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEM_MANDATORY_LABEL_ACE
+			)
+		)
 
 
 class TOKEN_MANDATORY_POLICY(NDRSTRUCT):
-    structure = (
-        ('Policy', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Policy',
+			DWORD
+			)
+		)
+
+
 class PTOKEN_MANDATORY_POLICY(NDRPOINTER):
-    referent = (
-        ('Data', TOKEN_MANDATORY_POLICY),
-    )    
+	referent = (
+			(
+			'Data',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
 
 
 class MANDATORY_INFORMATION(NDRSTRUCT):
-    structure = (
-        ('AllowedAccess', ACCESS_MASK),('WriteAllowed', BOOLEAN),('ReadAllowed', BOOLEAN),('ExecuteAllowed', BOOLEAN),('MandatoryPolicy', TOKEN_MANDATORY_POLICY),
-    )
+	align = 1
+	structure = (
+			(
+			'AllowedAccess',
+			ACCESS_MASK
+			),
+			(
+			'WriteAllowed',
+			BOOLEAN
+			),
+			(
+			'ReadAllowed',
+			BOOLEAN
+			),
+			(
+			'ExecuteAllowed',
+			BOOLEAN
+			),
+			(
+			'MandatoryPolicy',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
+
+
 class PMANDATORY_INFORMATION(NDRPOINTER):
-    referent = (
-        ('Data', MANDATORY_INFORMATION),
-    )    
+	referent = (
+			(
+			'Data',
+			MANDATORY_INFORMATION
+			)
+		)
 
 
 class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRSTRUCT):
-    structure = (
-        ('Length', DWORD),('OctetString', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Length',
+			DWORD
+			),
+			(
+			'OctetString',
+			BYTE
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+			)
+		)
 
 
 class VALUES(NDRUNION):
-    union = {
-        1: ('pInt64',PLONG64),2: ('pUint64',PDWORD64),3: ('ppString',PWSTR),4: ('pOctetString',PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    }
-        
+	union = {1 : (
+		'pInt64',
+		PLONG64
+		),2 : (
+		'pUint64',
+		PDWORD64
+		),3 : (
+		'ppString',
+		PWSTR
+		),4 : (
+		'pOctetString',
+		PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+		)}
+
 
 class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRSTRUCT):
-    structure = (
-        ('Name', DWORD),('ValueType', WORD),('Reserved', WORD),('Flags', DWORD),('ValueCount', DWORD),('Values', VALUES),
-    )
+	align = 1
+	structure = (
+			(
+			'Name',
+			DWORD
+			),
+			(
+			'ValueType',
+			WORD
+			),
+			(
+			'Reserved',
+			WORD
+			),
+			(
+			'Flags',
+			DWORD
+			),
+			(
+			'ValueCount',
+			DWORD
+			),
+			(
+			'Values',
+			VALUES
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1
+			)
+		)
+
 
 SECURITY_INFORMATION = DWORD
 PSECURITY_INFORMATION = DWORD
-
 class RPC_SID(NDRSTRUCT):
-    structure = (
-        ('Revision', UNSIGNED_CHAR),('SubAuthorityCount', UNSIGNED_CHAR),('IdentifierAuthority', RPC_SID_IDENTIFIER_AUTHORITY),('SubAuthority', UNSIGNED_LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UNSIGNED_CHAR
+			),
+			(
+			'SubAuthorityCount',
+			UNSIGNED_CHAR
+			),
+			(
+			'IdentifierAuthority',
+			RPC_SID_IDENTIFIER_AUTHORITY
+			),
+			(
+			'SubAuthority',
+			UNSIGNED_LONG
+			)
+		)
+
+
 class PRPC_SID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
+
+
 class PSID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
 
 
 class ACL(NDRSTRUCT):
-    structure = (
-        ('AclRevision', UNSIGNED_CHAR),('Sbz1', UNSIGNED_CHAR),('AclSize', UNSIGNED_SHORT),('AceCount', UNSIGNED_SHORT),('Sbz2', UNSIGNED_SHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AclRevision',
+			UNSIGNED_CHAR
+			),
+			(
+			'Sbz1',
+			UNSIGNED_CHAR
+			),
+			(
+			'AclSize',
+			UNSIGNED_SHORT
+			),
+			(
+			'AceCount',
+			UNSIGNED_SHORT
+			),
+			(
+			'Sbz2',
+			UNSIGNED_SHORT
+			)
+		)
+
+
 class PACL(NDRPOINTER):
-    referent = (
-        ('Data', ACL),
-    )    
+	referent = (
+			(
+			'Data',
+			ACL
+			)
+		)
 
 
 class SECURITY_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Revision', UCHAR),('Sbz1', UCHAR),('Control', USHORT),('Owner', PSID),('Group', PSID),('Sacl', PACL),('Dacl', PACL),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UCHAR
+			),
+			(
+			'Sbz1',
+			UCHAR
+			),
+			(
+			'Control',
+			USHORT
+			),
+			(
+			'Owner',
+			PSID
+			),
+			(
+			'Group',
+			PSID
+			),
+			(
+			'Sacl',
+			PACL
+			),
+			(
+			'Dacl',
+			PACL
+			)
+		)
+
+
 class PSECURITY_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', SECURITY_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			SECURITY_DESCRIPTOR
+			)
+		)
+
 
 #################################################################################
-
 #"ms-mqmq.idl"
-
 #################################################################################
-
 #################################################################################
-
 #"ms-dtyp.idl"
-
 #################################################################################
-
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -1163,1494 +2423,3802 @@ LPVOID = VOID
 WORD = UNSIGNED_SHORT
 PWORD = UNSIGNED_SHORT
 LPWORD = UNSIGNED_SHORT
-
 class FILETIME(NDRSTRUCT):
-    structure = (
-        ('dwLowDateTime', DWORD),('dwHighDateTime', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'dwLowDateTime',
+			DWORD
+			),
+			(
+			'dwHighDateTime',
+			DWORD
+			)
+		)
+
+
 class PFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
+
+
 class LPFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
 
 
 class GUID(NDRSTRUCT):
-    structure = (
-        ('Data1', UNSIGNED_LONG),('Data2', UNSIGNED_SHORT),('Data3', UNSIGNED_SHORT),('Data4', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Data1',
+			UNSIGNED_LONG
+			),
+			(
+			'Data2',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data3',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data4',
+			BYTE
+			)
+		)
+
+
 UUID = GUID
 class PGUID(NDRPOINTER):
-    referent = (
-        ('Data', GUID),
-    )    
+	referent = (
+			(
+			'Data',
+			GUID
+			)
+		)
 
 
 class LARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', SIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			SIGNED___INT64
+			)
+		)
+
+
 class PLARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', LARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			LARGE_INTEGER
+			)
+		)
 
 
 class EVENT_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Id', USHORT),('Version', UCHAR),('Channel', UCHAR),('Level', UCHAR),('Opcode', UCHAR),('Task', USHORT),('Keyword', ULONGLONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Id',
+			USHORT
+			),
+			(
+			'Version',
+			UCHAR
+			),
+			(
+			'Channel',
+			UCHAR
+			),
+			(
+			'Level',
+			UCHAR
+			),
+			(
+			'Opcode',
+			UCHAR
+			),
+			(
+			'Task',
+			USHORT
+			),
+			(
+			'Keyword',
+			ULONGLONG
+			)
+		)
+
+
 class PEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
+
+
 class PCEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
 
 
 class S0(NDRSTRUCT):
-    structure = (
-        ('KernelTime', ULONG),('UserTime', ULONG),
-    )
+	align = 1
+	structure = (
+			(
+			'KernelTime',
+			ULONG
+			),
+			(
+			'UserTime',
+			ULONG
+			)
+		)
 
 
 class U0(NDRUNION):
-    union = {
-        1: ('s0',S0),2: ('ProcessorTime',ULONG64),
-    }
-        
+	union = {1 : (
+		's0',
+		S0
+		),2 : (
+		'ProcessorTime',
+		ULONG64
+		)}
+
 
 class EVENT_HEADER(NDRSTRUCT):
-    structure = (
-        ('Size', USHORT),('HeaderType', USHORT),('Flags', USHORT),('EventProperty', USHORT),('ThreadId', ULONG),('ProcessId', ULONG),('TimeStamp', LARGE_INTEGER),('ProviderId', GUID),('EventDescriptor', EVENT_DESCRIPTOR),('u0', U0),('ActivityId', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Size',
+			USHORT
+			),
+			(
+			'HeaderType',
+			USHORT
+			),
+			(
+			'Flags',
+			USHORT
+			),
+			(
+			'EventProperty',
+			USHORT
+			),
+			(
+			'ThreadId',
+			ULONG
+			),
+			(
+			'ProcessId',
+			ULONG
+			),
+			(
+			'TimeStamp',
+			LARGE_INTEGER
+			),
+			(
+			'ProviderId',
+			GUID
+			),
+			(
+			'EventDescriptor',
+			EVENT_DESCRIPTOR
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'ActivityId',
+			GUID
+			)
+		)
+
+
 class PEVENT_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_HEADER
+			)
+		)
+
 
 LCID = DWORD
-
 class LUID(NDRSTRUCT):
-    structure = (
-        ('LowPart', DWORD),('HighPart', LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'LowPart',
+			DWORD
+			),
+			(
+			'HighPart',
+			LONG
+			)
+		)
+
+
 class PLUID(NDRPOINTER):
-    referent = (
-        ('Data', LUID),
-    )    
+	referent = (
+			(
+			'Data',
+			LUID
+			)
+		)
 
 
 class MULTI_SZ(NDRSTRUCT):
-    structure = (
-        ('Value', WCHAR_T),('nChar', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			WCHAR_T
+			),
+			(
+			'nChar',
+			DWORD
+			)
+		)
 
 
-class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
-    item = WCHAR
+class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+	item = WCHAR
 
-class PTR_UNSIGNED_SHORT(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_SHORT),
-    )
 
-class UNSIGNED_SHORT(NDRSTRUCT):
-    structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
+class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_RPC_UNICODE_STRING
+			)
+		)
 
-    )
-        
+
+class RPC_UNICODE_STRING(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'Length',
+			UNSIGNED_SHORT
+			),
+			(
+			'MaximumLength',
+			UNSIGNED_SHORT
+			),
+			(
+			'Buffer',
+			PTR_RPC_UNICODE_STRING
+			)
+		)
+
 
 class SERVER_INFO_100(NDRSTRUCT):
-    structure = (
-        ('sv100_platform_id', DWORD),('sv100_name', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv100_platform_id',
+			DWORD
+			),
+			(
+			'sv100_name',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
+
+
 class LPSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
 
 
 class SERVER_INFO_101(NDRSTRUCT):
-    structure = (
-        ('sv101_platform_id', DWORD),('sv101_name', WCHAR_T),('sv101_version_major', DWORD),('sv101_version_minor', DWORD),('sv101_version_type', DWORD),('sv101_comment', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv101_platform_id',
+			DWORD
+			),
+			(
+			'sv101_name',
+			WCHAR_T
+			),
+			(
+			'sv101_version_major',
+			DWORD
+			),
+			(
+			'sv101_version_minor',
+			DWORD
+			),
+			(
+			'sv101_version_type',
+			DWORD
+			),
+			(
+			'sv101_comment',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
+
+
 class LPSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
 
 
 class SYSTEMTIME(NDRSTRUCT):
-    structure = (
-        ('wYear', WORD),('wMonth', WORD),('wDayOfWeek', WORD),('wDay', WORD),('wHour', WORD),('wMinute', WORD),('wSecond', WORD),('wMilliseconds', WORD),
-    )
+	align = 1
+	structure = (
+			(
+			'wYear',
+			WORD
+			),
+			(
+			'wMonth',
+			WORD
+			),
+			(
+			'wDayOfWeek',
+			WORD
+			),
+			(
+			'wDay',
+			WORD
+			),
+			(
+			'wHour',
+			WORD
+			),
+			(
+			'wMinute',
+			WORD
+			),
+			(
+			'wSecond',
+			WORD
+			),
+			(
+			'wMilliseconds',
+			WORD
+			)
+		)
+
+
 class PSYSTEMTIME(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEMTIME),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEMTIME
+			)
+		)
 
 
 class UINT128(NDRSTRUCT):
-    structure = (
-        ('lower', UINT64),('upper', UINT64),
-    )
+	align = 1
+	structure = (
+			(
+			'lower',
+			UINT64
+			),
+			(
+			'upper',
+			UINT64
+			)
+		)
+
+
 class PUINT128(NDRPOINTER):
-    referent = (
-        ('Data', UINT128),
-    )    
+	referent = (
+			(
+			'Data',
+			UINT128
+			)
+		)
 
 
 class ULARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', UNSIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			UNSIGNED___INT64
+			)
+		)
+
+
 class PULARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', ULARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			ULARGE_INTEGER
+			)
+		)
 
 
 class RPC_SID_IDENTIFIER_AUTHORITY(NDRSTRUCT):
-    structure = (
-        ('Value', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			BYTE
+			)
+		)
+
 
 ACCESS_MASK = DWORD
 PACCESS_MASK = ACCESS_MASK
-
 class OBJECT_TYPE_LIST(NDRSTRUCT):
-    structure = (
-        ('Level', WORD),('Remaining', ACCESS_MASK),('ObjectType', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			WORD
+			),
+			(
+			'Remaining',
+			ACCESS_MASK
+			),
+			(
+			'ObjectType',
+			GUID
+			)
+		)
+
+
 class POBJECT_TYPE_LIST(NDRPOINTER):
-    referent = (
-        ('Data', OBJECT_TYPE_LIST),
-    )    
+	referent = (
+			(
+			'Data',
+			OBJECT_TYPE_LIST
+			)
+		)
 
 
 class ACE_HEADER(NDRSTRUCT):
-    structure = (
-        ('AceType', UCHAR),('AceFlags', UCHAR),('AceSize', USHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AceType',
+			UCHAR
+			),
+			(
+			'AceFlags',
+			UCHAR
+			),
+			(
+			'AceSize',
+			USHORT
+			)
+		)
+
+
 class PACE_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', ACE_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			ACE_HEADER
+			)
+		)
 
 
 class SYSTEM_MANDATORY_LABEL_ACE(NDRSTRUCT):
-    structure = (
-        ('Header', ACE_HEADER),('Mask', ACCESS_MASK),('SidStart', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Header',
+			ACE_HEADER
+			),
+			(
+			'Mask',
+			ACCESS_MASK
+			),
+			(
+			'SidStart',
+			DWORD
+			)
+		)
+
+
 class PSYSTEM_MANDATORY_LABEL_ACE(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEM_MANDATORY_LABEL_ACE),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEM_MANDATORY_LABEL_ACE
+			)
+		)
 
 
 class TOKEN_MANDATORY_POLICY(NDRSTRUCT):
-    structure = (
-        ('Policy', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Policy',
+			DWORD
+			)
+		)
+
+
 class PTOKEN_MANDATORY_POLICY(NDRPOINTER):
-    referent = (
-        ('Data', TOKEN_MANDATORY_POLICY),
-    )    
+	referent = (
+			(
+			'Data',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
 
 
 class MANDATORY_INFORMATION(NDRSTRUCT):
-    structure = (
-        ('AllowedAccess', ACCESS_MASK),('WriteAllowed', BOOLEAN),('ReadAllowed', BOOLEAN),('ExecuteAllowed', BOOLEAN),('MandatoryPolicy', TOKEN_MANDATORY_POLICY),
-    )
+	align = 1
+	structure = (
+			(
+			'AllowedAccess',
+			ACCESS_MASK
+			),
+			(
+			'WriteAllowed',
+			BOOLEAN
+			),
+			(
+			'ReadAllowed',
+			BOOLEAN
+			),
+			(
+			'ExecuteAllowed',
+			BOOLEAN
+			),
+			(
+			'MandatoryPolicy',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
+
+
 class PMANDATORY_INFORMATION(NDRPOINTER):
-    referent = (
-        ('Data', MANDATORY_INFORMATION),
-    )    
+	referent = (
+			(
+			'Data',
+			MANDATORY_INFORMATION
+			)
+		)
 
 
 class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRSTRUCT):
-    structure = (
-        ('Length', DWORD),('OctetString', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Length',
+			DWORD
+			),
+			(
+			'OctetString',
+			BYTE
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+			)
+		)
 
 
 class VALUES(NDRUNION):
-    union = {
-        1: ('pInt64',PLONG64),2: ('pUint64',PDWORD64),3: ('ppString',PWSTR),4: ('pOctetString',PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    }
-        
+	union = {1 : (
+		'pInt64',
+		PLONG64
+		),2 : (
+		'pUint64',
+		PDWORD64
+		),3 : (
+		'ppString',
+		PWSTR
+		),4 : (
+		'pOctetString',
+		PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+		)}
+
 
 class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRSTRUCT):
-    structure = (
-        ('Name', DWORD),('ValueType', WORD),('Reserved', WORD),('Flags', DWORD),('ValueCount', DWORD),('Values', VALUES),
-    )
+	align = 1
+	structure = (
+			(
+			'Name',
+			DWORD
+			),
+			(
+			'ValueType',
+			WORD
+			),
+			(
+			'Reserved',
+			WORD
+			),
+			(
+			'Flags',
+			DWORD
+			),
+			(
+			'ValueCount',
+			DWORD
+			),
+			(
+			'Values',
+			VALUES
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1
+			)
+		)
+
 
 SECURITY_INFORMATION = DWORD
 PSECURITY_INFORMATION = DWORD
-
 class RPC_SID(NDRSTRUCT):
-    structure = (
-        ('Revision', UNSIGNED_CHAR),('SubAuthorityCount', UNSIGNED_CHAR),('IdentifierAuthority', RPC_SID_IDENTIFIER_AUTHORITY),('SubAuthority', UNSIGNED_LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UNSIGNED_CHAR
+			),
+			(
+			'SubAuthorityCount',
+			UNSIGNED_CHAR
+			),
+			(
+			'IdentifierAuthority',
+			RPC_SID_IDENTIFIER_AUTHORITY
+			),
+			(
+			'SubAuthority',
+			UNSIGNED_LONG
+			)
+		)
+
+
 class PRPC_SID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
+
+
 class PSID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
 
 
 class ACL(NDRSTRUCT):
-    structure = (
-        ('AclRevision', UNSIGNED_CHAR),('Sbz1', UNSIGNED_CHAR),('AclSize', UNSIGNED_SHORT),('AceCount', UNSIGNED_SHORT),('Sbz2', UNSIGNED_SHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AclRevision',
+			UNSIGNED_CHAR
+			),
+			(
+			'Sbz1',
+			UNSIGNED_CHAR
+			),
+			(
+			'AclSize',
+			UNSIGNED_SHORT
+			),
+			(
+			'AceCount',
+			UNSIGNED_SHORT
+			),
+			(
+			'Sbz2',
+			UNSIGNED_SHORT
+			)
+		)
+
+
 class PACL(NDRPOINTER):
-    referent = (
-        ('Data', ACL),
-    )    
+	referent = (
+			(
+			'Data',
+			ACL
+			)
+		)
 
 
 class SECURITY_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Revision', UCHAR),('Sbz1', UCHAR),('Control', USHORT),('Owner', PSID),('Group', PSID),('Sacl', PACL),('Dacl', PACL),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UCHAR
+			),
+			(
+			'Sbz1',
+			UCHAR
+			),
+			(
+			'Control',
+			USHORT
+			),
+			(
+			'Owner',
+			PSID
+			),
+			(
+			'Group',
+			PSID
+			),
+			(
+			'Sacl',
+			PACL
+			),
+			(
+			'Dacl',
+			PACL
+			)
+		)
+
+
 class PSECURITY_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', SECURITY_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			SECURITY_DESCRIPTOR
+			)
+		)
+
 
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 PROPVARIANT = TAG_INNER_PROPVARIANT
 PROPID = UNSIGNED_LONG
 VARIANT_BOOL = SHORT
-
 class XACTUOW(NDRSTRUCT):
-    structure = (
-        ('rgb', UNSIGNED_CHAR),
-    )
+	align = 1
+	structure = (
+			(
+			'rgb',
+			UNSIGNED_CHAR
+			)
+		)
 
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
+class DATA_BLOB(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cbSize', UNSIGNED_LONG),	('pBlobData', PTR_UNSIGNED_LONG),
+class PTR_BLOB(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_BLOB
+			)
+		)
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
+class BLOB(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cbSize',
+			UNSIGNED_LONG
+			),
+			(
+			'pBlobData',
+			PTR_BLOB
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class DATA_CAUB(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = UNSIGNED_SHORT
+class PTR_CAUB(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAUB
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class CAUB(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAUB
+			)
+		)
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = LONG
+class DATA_CAUI(NDRUniConformantArray):
+	item = UNSIGNED_SHORT
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class PTR_CAUI(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAUI
+			)
+		)
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = UNSIGNED_LONG
+class CAUI(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAUI
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class DATA_CAL(NDRUniConformantArray):
+	item = LONG
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = ULARGE_INTEGER
+class PTR_CAL(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAL
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class CAL(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAL
+			)
+		)
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = GUID
+class DATA_CAUL(NDRUniConformantArray):
+	item = UNSIGNED_LONG
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class PTR_CAUL(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAUL
+			)
+		)
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = WCHAR_T
+class CAUL(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAUL
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class DATA_CAUH(NDRUniConformantArray):
+	item = ULARGE_INTEGER
 
-    )
-        
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = PROPVARIANT
+class PTR_CAUH(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAUH
+			)
+		)
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('cElems', UNSIGNED_LONG),	('pElems', PTR_UNSIGNED_LONG),
+class CAUH(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAUH
+			)
+		)
 
-    )
-        
 
-VT_EMPTY = 0,
-VT_NULL = 1,
-VT_I2 = 2,
-VT_I4 = 3,
-VT_BOOL = 11,
-VT_VARIANT = 12,
-VT_I1 = 16,
-VT_UI1 = 17,
-VT_UI2 = 18,
-VT_UI4 = 19,
-VT_I8 = 20,
-VT_UI8 = 21,
-VT_LPWSTR = 31,
-VT_BLOB = 65,
-VT_CLSID = 72,
+class DATA_CACLSID(NDRUniConformantArray):
+	item = GUID
+
+
+class PTR_CACLSID(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CACLSID
+			)
+		)
+
+
+class CACLSID(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CACLSID
+			)
+		)
+
+
+class DATA_CALPWSTR(NDRUniConformantArray):
+	item = WCHAR_T
+
+
+class PTR_CALPWSTR(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CALPWSTR
+			)
+		)
+
+
+class CALPWSTR(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CALPWSTR
+			)
+		)
+
+
+class DATA_CAPROPVARIANT(NDRUniConformantArray):
+	item = PROPVARIANT
+
+
+class PTR_CAPROPVARIANT(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CAPROPVARIANT
+			)
+		)
+
+
+class CAPROPVARIANT(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cElems',
+			UNSIGNED_LONG
+			),
+			(
+			'pElems',
+			PTR_CAPROPVARIANT
+			)
+		)
+
+
+VARENUM = DWORD__ENUM
+VT_EMPTY = 0
+VT_NULL = 1
+VT_I2 = 2
+VT_I4 = 3
+VT_BOOL = 11
+VT_VARIANT = 12
+VT_I1 = 16
+VT_UI1 = 17
+VT_UI2 = 18
+VT_UI4 = 19
+VT_I8 = 20
+VT_UI8 = 21
+VT_LPWSTR = 31
+VT_BLOB = 65
+VT_CLSID = 72
 VT_VECTOR = 4096
-        
 VARTYPE = UNSIGNED_SHORT
-
 class _VARUNION(NDRUNION):
-    union = {
-        VT_I1: ('cVal',CHAR),VT_UI1: ('bVal',UCHAR),VT_I2: ('iVal',SHORT),VT_UI2: ('uiVal',USHORT),VT_I4: ('lVal',LONG),VT_UI4: ('ulVal',ULONG),VT_I8: ('hVal',LARGE_INTEGER),VT_UI8: ('uhVal',ULARGE_INTEGER),VT_BOOL: ('boolVal',VARIANT_BOOL),VT_CLSID: ('puuid',GUID),VT_BLOB: ('blob',BLOB),VT_LPWSTR: ('pwszVal',WCHAR_T),VT_VECTOR|VT_UI1: ('caub',CAUB),VT_VECTOR|VT_UI2: ('caui',CAUI),VT_VECTOR|VT_I4: ('cal',CAL),VT_VECTOR|VT_UI4: ('caul',CAUL),VT_VECTOR|VT_UI8: ('cauh',CAUH),VT_VECTOR|VT_CLSID: ('cauuid',CACLSID),VT_VECTOR|VT_LPWSTR: ('calpwstr',CALPWSTR),VT_VECTOR|VT_VARIANT: ('capropvar',CAPROPVARIANT),
-    }
-        
+	union = {VT_I1 : (
+		'cVal',
+		CHAR
+		),VT_UI1 : (
+		'bVal',
+		UCHAR
+		),VT_I2 : (
+		'iVal',
+		SHORT
+		),VT_UI2 : (
+		'uiVal',
+		USHORT
+		),VT_I4 : (
+		'lVal',
+		LONG
+		),VT_UI4 : (
+		'ulVal',
+		ULONG
+		),VT_I8 : (
+		'hVal',
+		LARGE_INTEGER
+		),VT_UI8 : (
+		'uhVal',
+		ULARGE_INTEGER
+		),VT_BOOL : (
+		'boolVal',
+		VARIANT_BOOL
+		),VT_CLSID : (
+		'puuid',
+		GUID
+		),VT_BLOB : (
+		'blob',
+		BLOB
+		),VT_LPWSTR : (
+		'pwszVal',
+		WCHAR_T
+		),VT_VECTOR|VT_UI1 : (
+		'caub',
+		CAUB
+		),VT_VECTOR|VT_UI2 : (
+		'caui',
+		CAUI
+		),VT_VECTOR|VT_I4 : (
+		'cal',
+		CAL
+		),VT_VECTOR|VT_UI4 : (
+		'caul',
+		CAUL
+		),VT_VECTOR|VT_UI8 : (
+		'cauh',
+		CAUH
+		),VT_VECTOR|VT_CLSID : (
+		'cauuid',
+		CACLSID
+		),VT_VECTOR|VT_LPWSTR : (
+		'calpwstr',
+		CALPWSTR
+		),VT_VECTOR|VT_VARIANT : (
+		'capropvar',
+		CAPROPVARIANT
+		)}
+
 
 class TAG_INNER_PROPVARIANT(NDRSTRUCT):
-    structure = (
-        ('vt', VARTYPE),('wReserved1', UCHAR),('wReserved2', UCHAR),('wReserved3', ULONG),('_varUnion', _VARUNION),
-    )
+	align = 1
+	structure = (
+			(
+			'vt',
+			VARTYPE
+			),
+			(
+			'wReserved1',
+			UCHAR
+			),
+			(
+			'wReserved2',
+			UCHAR
+			),
+			(
+			'wReserved3',
+			ULONG
+			),
+			(
+			'_varUnion',
+			_VARUNION
+			)
+		)
 
 
 class DL_ID(NDRSTRUCT):
-    structure = (
-        ('m_DlGuid', GUID),('m_pwzDomain', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'm_DlGuid',
+			GUID
+			),
+			(
+			'm_pwzDomain',
+			WCHAR_T
+			)
+		)
 
 
 class MULTICAST_ID(NDRSTRUCT):
-    structure = (
-        ('m_address', ULONG),('m_port', ULONG),
-    )
+	align = 1
+	structure = (
+			(
+			'm_address',
+			ULONG
+			),
+			(
+			'm_port',
+			ULONG
+			)
+		)
 
 
 class OBJECTID(NDRSTRUCT):
-    structure = (
-        ('Lineage', GUID),('Uniquifier', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Lineage',
+			GUID
+			),
+			(
+			'Uniquifier',
+			DWORD
+			)
+		)
 
 
-QUEUE_FORMAT_TYPE_UNKNOWN = 0,
-QUEUE_FORMAT_TYPE_PUBLIC = 1,
-QUEUE_FORMAT_TYPE_PRIVATE = 2,
-QUEUE_FORMAT_TYPE_DIRECT = 3,
-QUEUE_FORMAT_TYPE_MACHINE = 4,
-QUEUE_FORMAT_TYPE_CONNECTOR = 5,
-QUEUE_FORMAT_TYPE_DL = 6,
-QUEUE_FORMAT_TYPE_MULTICAST = 7,
+QUEUE_FORMAT_TYPE = DWORD__ENUM
+QUEUE_FORMAT_TYPE_UNKNOWN = 0
+QUEUE_FORMAT_TYPE_PUBLIC = 1
+QUEUE_FORMAT_TYPE_PRIVATE = 2
+QUEUE_FORMAT_TYPE_DIRECT = 3
+QUEUE_FORMAT_TYPE_MACHINE = 4
+QUEUE_FORMAT_TYPE_CONNECTOR = 5
+QUEUE_FORMAT_TYPE_DL = 6
+QUEUE_FORMAT_TYPE_MULTICAST = 7
 QUEUE_FORMAT_TYPE_SUBQUEUE = 8
-        
-
 class U0(NDRUNION):
-    union = {
-        QUEUE_FORMAT_TYPE_PUBLIC: ('m_gPublicID',GUID),QUEUE_FORMAT_TYPE_PRIVATE: ('m_oPrivateID',OBJECTID),QUEUE_FORMAT_TYPE_DIRECT: ('m_pDirectID',WCHAR_T),QUEUE_FORMAT_TYPE_MACHINE: ('m_gMachineID',GUID),QUEUE_FORMAT_TYPE_CONNECTOR: ('m_GConnectorID',GUID),QUEUE_FORMAT_TYPE_DL: ('m_DlID',DL_ID),QUEUE_FORMAT_TYPE_MULTICAST: ('m_MulticastID',MULTICAST_ID),QUEUE_FORMAT_TYPE_SUBQUEUE: ('m_pDirectSubqueueID',WCHAR_T),
-    }
-        
+	union = {QUEUE_FORMAT_TYPE_PUBLIC : (
+		'm_gPublicID',
+		GUID
+		),QUEUE_FORMAT_TYPE_PRIVATE : (
+		'm_oPrivateID',
+		OBJECTID
+		),QUEUE_FORMAT_TYPE_DIRECT : (
+		'm_pDirectID',
+		WCHAR_T
+		),QUEUE_FORMAT_TYPE_MACHINE : (
+		'm_gMachineID',
+		GUID
+		),QUEUE_FORMAT_TYPE_CONNECTOR : (
+		'm_GConnectorID',
+		GUID
+		),QUEUE_FORMAT_TYPE_DL : (
+		'm_DlID',
+		DL_ID
+		),QUEUE_FORMAT_TYPE_MULTICAST : (
+		'm_MulticastID',
+		MULTICAST_ID
+		),QUEUE_FORMAT_TYPE_SUBQUEUE : (
+		'm_pDirectSubqueueID',
+		WCHAR_T
+		)}
+
 
 class QUEUE_FORMAT(NDRSTRUCT):
-    structure = (
-        ('m_qft', UNSIGNED_CHAR),('m_SuffixAndFlags', UNSIGNED_CHAR),('m_reserved', UNSIGNED_SHORT),('u0', U0),
-    )
+	align = 1
+	structure = (
+			(
+			'm_qft',
+			UNSIGNED_CHAR
+			),
+			(
+			'm_SuffixAndFlags',
+			UNSIGNED_CHAR
+			),
+			(
+			'm_reserved',
+			UNSIGNED_SHORT
+			),
+			(
+			'u0',
+			U0
+			)
+		)
+
 
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 #################################################################################
-
 #INTERFACE DEFINITION
-
 #################################################################################
-
 #################################################################################
-
 #RemoteRead Definition
-
 #################################################################################
-
 MSRPC_UUID_REMOTEREAD = uuidtup_to_bin(('1a9134dd-7b39-45ba-ad88-44d01ca47f28','0.0'))
-
 QUEUE_CONTEXT_HANDLE_NOSERIALIZE = VOID
 QUEUE_CONTEXT_HANDLE_SERIALIZE = QUEUE_CONTEXT_HANDLE_NOSERIALIZE
-
-stFullPacket = 0,
-stBinaryFirstSection = 1,
-stBinarySecondSection = 2,
-stSrmpFirstSection = 3,
+SectionType = DWORD__ENUM
+stFullPacket = 0
+stBinaryFirstSection = 1
+stBinarySecondSection = 2
+stSrmpFirstSection = 3
 stSrmpSecondSection = 4
-        
+class DATA_SECTIONBUFFER(NDRUniConformantArray):
+	item = BYTE
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = BYTE
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
+class PTR_SECTIONBUFFER(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_SECTIONBUFFER
+			)
+		)
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('SectionBufferType', SECTIONTYPE),	('SectionSizeAlloc', DWORD),	('SectionSize', DWORD),	('pSectionBuffer', PTR_DWORD),
 
-    )
-        
+class SECTIONBUFFER(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'SectionBufferType',
+			SECTIONTYPE
+			),
+			(
+			'SectionSizeAlloc',
+			DWORD
+			),
+			(
+			'SectionSize',
+			DWORD
+			),
+			(
+			'pSectionBuffer',
+			PTR_SECTIONBUFFER
+			)
+		)
+
 
 class R_GetServerPort(NDRCALL):
-    opnum = 0
-    structure = (
-		('hBind', HANDLE_T),
-    )
+	OPNUM = 0
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			)
+		)
+
 
 class R_GetServerPortResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			)
+		)
 
-    )
-        
 
 class Opnum1NotUsedOnWire(NDRCALL):
-    opnum = 1
-    structure = (
+	OPNUM = 1
+	structure = (
 
-    )
+		)
+
 
 class Opnum1NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class R_OpenQueue(NDRCALL):
-    opnum = 2
-    structure = (
-		('hBind', HANDLE_T),
-		('pQueueFormat', QUEUE_FORMAT),
-		('dwAccess', DWORD),
-		('dwShareMode', DWORD),
-		('pClientId', GUID),
-		('fNonRoutingServer', LONG),
-		('Major', UNSIGNED_CHAR),
-		('Minor', UNSIGNED_CHAR),
-		('BuildNumber', USHORT),
-		('fWorkgroup', LONG),
-    )
+	OPNUM = 2
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			),
+			(
+			'dwAccess',
+			DWORD
+			),
+			(
+			'dwShareMode',
+			DWORD
+			),
+			(
+			'pClientId',
+			GUID
+			),
+			(
+			'fNonRoutingServer',
+			LONG
+			),
+			(
+			'Major',
+			UNSIGNED_CHAR
+			),
+			(
+			'Minor',
+			UNSIGNED_CHAR
+			),
+			(
+			'BuildNumber',
+			USHORT
+			),
+			(
+			'fWorkgroup',
+			LONG
+			)
+		)
+
 
 class R_OpenQueueResponse(NDRCALL):
-    structure = (
-		('pphContext', QUEUE_CONTEXT_HANDLE_SERIALIZE),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			),
+			(
+			'dwAccess',
+			DWORD
+			),
+			(
+			'dwShareMode',
+			DWORD
+			),
+			(
+			'pClientId',
+			GUID
+			),
+			(
+			'fNonRoutingServer',
+			LONG
+			),
+			(
+			'Major',
+			UNSIGNED_CHAR
+			),
+			(
+			'Minor',
+			UNSIGNED_CHAR
+			),
+			(
+			'BuildNumber',
+			USHORT
+			),
+			(
+			'fWorkgroup',
+			LONG
+			)
+		)
+
 
 class R_CloseQueue(NDRCALL):
-    opnum = 3
-    structure = (
-		('hBind', HANDLE_T),
-		('pphContext', QUEUE_CONTEXT_HANDLE_SERIALIZE),
-    )
+	OPNUM = 3
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pphContext',
+			QUEUE_CONTEXT_HANDLE_SERIALIZE
+			)
+		)
+
 
 class R_CloseQueueResponse(NDRCALL):
-    structure = (
-		('pphContext', QUEUE_CONTEXT_HANDLE_SERIALIZE),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pphContext',
+			QUEUE_CONTEXT_HANDLE_SERIALIZE
+			)
+		)
+
 
 class R_CreateCursor(NDRCALL):
-    opnum = 4
-    structure = (
-		('hBind', HANDLE_T),
-		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-    )
+	OPNUM = 4
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			)
+		)
+
 
 class R_CreateCursorResponse(NDRCALL):
-    structure = (
-		('phCursor', DWORD),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			)
+		)
+
 
 class R_CloseCursor(NDRCALL):
-    opnum = 5
-    structure = (
-		('hBind', HANDLE_T),
-		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('hCursor', DWORD),
-    )
+	OPNUM = 5
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'hCursor',
+			DWORD
+			)
+		)
+
 
 class R_CloseCursorResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'hCursor',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class R_PurgeQueue(NDRCALL):
-    opnum = 6
-    structure = (
-		('hBind', HANDLE_T),
-		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-    )
+	OPNUM = 6
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			)
+		)
+
 
 class R_PurgeQueueResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			)
+		)
 
-    )
-        
 
 class R_StartReceive(NDRCALL):
-    opnum = 7
-    structure = (
-		('hBind', HANDLE_T),
-		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('LookupId', ULONGLONG),
-		('hCursor', DWORD),
-		('ulAction', DWORD),
-		('ulTimeout', DWORD),
-		('dwRequestId', DWORD),
-		('dwMaxBodySize', DWORD),
-		('dwMaxCompoundMessageSize', DWORD),
-    )
+	OPNUM = 7
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'LookupId',
+			ULONGLONG
+			),
+			(
+			'hCursor',
+			DWORD
+			),
+			(
+			'ulAction',
+			DWORD
+			),
+			(
+			'ulTimeout',
+			DWORD
+			),
+			(
+			'dwRequestId',
+			DWORD
+			),
+			(
+			'dwMaxBodySize',
+			DWORD
+			),
+			(
+			'dwMaxCompoundMessageSize',
+			DWORD
+			)
+		)
+
 
 class R_StartReceiveResponse(NDRCALL):
-    structure = (
-		('pdwArriveTime', DWORD),
-		('pSequenceId', ULONGLONG),
-		('pdwNumberOfSections', DWORD),
-		('ppPacketSections', SECTIONBUFFER),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'LookupId',
+			ULONGLONG
+			),
+			(
+			'hCursor',
+			DWORD
+			),
+			(
+			'ulAction',
+			DWORD
+			),
+			(
+			'ulTimeout',
+			DWORD
+			),
+			(
+			'dwRequestId',
+			DWORD
+			),
+			(
+			'dwMaxBodySize',
+			DWORD
+			),
+			(
+			'dwMaxCompoundMessageSize',
+			DWORD
+			)
+		)
+
 
 class R_CancelReceive(NDRCALL):
-    opnum = 8
-    structure = (
-		('hBind', HANDLE_T),
-		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('dwRequestId', DWORD),
-    )
+	OPNUM = 8
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'dwRequestId',
+			DWORD
+			)
+		)
+
 
 class R_CancelReceiveResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'dwRequestId',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class R_EndReceive(NDRCALL):
-    opnum = 9
-    structure = (
-		('hBind', HANDLE_T),
-		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('dwAck', DWORD),
-		('dwRequestId', DWORD),
-    )
+	OPNUM = 9
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'dwAck',
+			DWORD
+			),
+			(
+			'dwRequestId',
+			DWORD
+			)
+		)
+
 
 class R_EndReceiveResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'dwAck',
+			DWORD
+			),
+			(
+			'dwRequestId',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class R_MoveMessage(NDRCALL):
-    opnum = 10
-    structure = (
-		('hBind', HANDLE_T),
-		('phContextFrom', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('ullContextTo', ULONGLONG),
-		('LookupId', ULONGLONG),
-		('pTransactionId', XACTUOW),
-    )
+	OPNUM = 10
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContextFrom',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'ullContextTo',
+			ULONGLONG
+			),
+			(
+			'LookupId',
+			ULONGLONG
+			),
+			(
+			'pTransactionId',
+			XACTUOW
+			)
+		)
+
 
 class R_MoveMessageResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContextFrom',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'ullContextTo',
+			ULONGLONG
+			),
+			(
+			'LookupId',
+			ULONGLONG
+			),
+			(
+			'pTransactionId',
+			XACTUOW
+			)
+		)
 
-    )
-        
 
 class R_OpenQueueForMove(NDRCALL):
-    opnum = 11
-    structure = (
-		('hBind', HANDLE_T),
-		('pQueueFormat', QUEUE_FORMAT),
-		('dwAccess', DWORD),
-		('dwShareMode', DWORD),
-		('pClientId', GUID),
-		('fNonRoutingServer', LONG),
-		('Major', UNSIGNED_CHAR),
-		('Minor', UNSIGNED_CHAR),
-		('BuildNumber', USHORT),
-		('fWorkgroup', LONG),
-    )
+	OPNUM = 11
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			),
+			(
+			'dwAccess',
+			DWORD
+			),
+			(
+			'dwShareMode',
+			DWORD
+			),
+			(
+			'pClientId',
+			GUID
+			),
+			(
+			'fNonRoutingServer',
+			LONG
+			),
+			(
+			'Major',
+			UNSIGNED_CHAR
+			),
+			(
+			'Minor',
+			UNSIGNED_CHAR
+			),
+			(
+			'BuildNumber',
+			USHORT
+			),
+			(
+			'fWorkgroup',
+			LONG
+			)
+		)
+
 
 class R_OpenQueueForMoveResponse(NDRCALL):
-    structure = (
-		('pMoveContext', ULONGLONG),
-		('pphContext', QUEUE_CONTEXT_HANDLE_SERIALIZE),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			),
+			(
+			'dwAccess',
+			DWORD
+			),
+			(
+			'dwShareMode',
+			DWORD
+			),
+			(
+			'pClientId',
+			GUID
+			),
+			(
+			'fNonRoutingServer',
+			LONG
+			),
+			(
+			'Major',
+			UNSIGNED_CHAR
+			),
+			(
+			'Minor',
+			UNSIGNED_CHAR
+			),
+			(
+			'BuildNumber',
+			USHORT
+			),
+			(
+			'fWorkgroup',
+			LONG
+			)
+		)
+
 
 class R_QMEnlistRemoteTransaction(NDRCALL):
-    opnum = 12
-    structure = (
-		('hBind', HANDLE_T),
-		('pTransactionId', XACTUOW),
-		('cbPropagationToken', DWORD),
-		('pbPropagationToken', UNSIGNED_CHAR),
-		('pQueueFormat', QUEUE_FORMAT),
-    )
+	OPNUM = 12
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pTransactionId',
+			XACTUOW
+			),
+			(
+			'cbPropagationToken',
+			DWORD
+			),
+			(
+			'pbPropagationToken',
+			UNSIGNED_CHAR
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			)
+		)
+
 
 class R_QMEnlistRemoteTransactionResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pTransactionId',
+			XACTUOW
+			),
+			(
+			'cbPropagationToken',
+			DWORD
+			),
+			(
+			'pbPropagationToken',
+			UNSIGNED_CHAR
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			)
+		)
 
-    )
-        
 
 class R_StartTransactionalReceive(NDRCALL):
-    opnum = 13
-    structure = (
-		('hBind', HANDLE_T),
-		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('LookupId', ULONGLONG),
-		('hCursor', DWORD),
-		('ulAction', DWORD),
-		('ulTimeout', DWORD),
-		('dwRequestId', DWORD),
-		('dwMaxBodySize', DWORD),
-		('dwMaxCompoundMessageSize', DWORD),
-		('pTransactionId', XACTUOW),
-    )
+	OPNUM = 13
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'LookupId',
+			ULONGLONG
+			),
+			(
+			'hCursor',
+			DWORD
+			),
+			(
+			'ulAction',
+			DWORD
+			),
+			(
+			'ulTimeout',
+			DWORD
+			),
+			(
+			'dwRequestId',
+			DWORD
+			),
+			(
+			'dwMaxBodySize',
+			DWORD
+			),
+			(
+			'dwMaxCompoundMessageSize',
+			DWORD
+			),
+			(
+			'pTransactionId',
+			XACTUOW
+			)
+		)
+
 
 class R_StartTransactionalReceiveResponse(NDRCALL):
-    structure = (
-		('pdwArriveTime', DWORD),
-		('pSequenceId', ULONGLONG),
-		('pdwNumberOfSections', DWORD),
-		('ppPacketSections', SECTIONBUFFER),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'LookupId',
+			ULONGLONG
+			),
+			(
+			'hCursor',
+			DWORD
+			),
+			(
+			'ulAction',
+			DWORD
+			),
+			(
+			'ulTimeout',
+			DWORD
+			),
+			(
+			'dwRequestId',
+			DWORD
+			),
+			(
+			'dwMaxBodySize',
+			DWORD
+			),
+			(
+			'dwMaxCompoundMessageSize',
+			DWORD
+			),
+			(
+			'pTransactionId',
+			XACTUOW
+			)
+		)
+
 
 class R_SetUserAcknowledgementClass(NDRCALL):
-    opnum = 14
-    structure = (
-		('hBind', HANDLE_T),
-		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('LookupId', ULONGLONG),
-		('usClass', USHORT),
-    )
+	OPNUM = 14
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'LookupId',
+			ULONGLONG
+			),
+			(
+			'usClass',
+			USHORT
+			)
+		)
+
 
 class R_SetUserAcknowledgementClassResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'LookupId',
+			ULONGLONG
+			),
+			(
+			'usClass',
+			USHORT
+			)
+		)
 
-    )
-        
 
 class R_EndTransactionalReceive(NDRCALL):
-    opnum = 15
-    structure = (
-		('hBind', HANDLE_T),
-		('phContext', QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-		('dwAck', DWORD),
-		('dwRequestId', DWORD),
-    )
+	OPNUM = 15
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'dwAck',
+			DWORD
+			),
+			(
+			'dwRequestId',
+			DWORD
+			)
+		)
+
 
 class R_EndTransactionalReceiveResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'phContext',
+			QUEUE_CONTEXT_HANDLE_NOSERIALIZE
+			),
+			(
+			'dwAck',
+			DWORD
+			),
+			(
+			'dwRequestId',
+			DWORD
+			)
+		)
 
-    )
-        
-OPNUMS = {
-0 : (R_GetServerPort,R_GetServerPortResponse),
-1 : (Opnum1NotUsedOnWire,Opnum1NotUsedOnWireResponse),
-2 : (R_OpenQueue,R_OpenQueueResponse),
-3 : (R_CloseQueue,R_CloseQueueResponse),
-4 : (R_CreateCursor,R_CreateCursorResponse),
-5 : (R_CloseCursor,R_CloseCursorResponse),
-6 : (R_PurgeQueue,R_PurgeQueueResponse),
-7 : (R_StartReceive,R_StartReceiveResponse),
-8 : (R_CancelReceive,R_CancelReceiveResponse),
-9 : (R_EndReceive,R_EndReceiveResponse),
-10 : (R_MoveMessage,R_MoveMessageResponse),
-11 : (R_OpenQueueForMove,R_OpenQueueForMoveResponse),
-12 : (R_QMEnlistRemoteTransaction,R_QMEnlistRemoteTransactionResponse),
-13 : (R_StartTransactionalReceive,R_StartTransactionalReceiveResponse),
-14 : (R_SetUserAcknowledgementClass,R_SetUserAcknowledgementClassResponse),
-15 : (R_EndTransactionalReceive,R_EndTransactionalReceiveResponse),
-}
 
+OPNUMS = {0 : (
+	R_GetServerPort,
+	R_GetServerPortResponse
+	),1 : (
+	Opnum1NotUsedOnWire,
+	Opnum1NotUsedOnWireResponse
+	),2 : (
+	R_OpenQueue,
+	R_OpenQueueResponse
+	),3 : (
+	R_CloseQueue,
+	R_CloseQueueResponse
+	),4 : (
+	R_CreateCursor,
+	R_CreateCursorResponse
+	),5 : (
+	R_CloseCursor,
+	R_CloseCursorResponse
+	),6 : (
+	R_PurgeQueue,
+	R_PurgeQueueResponse
+	),7 : (
+	R_StartReceive,
+	R_StartReceiveResponse
+	),8 : (
+	R_CancelReceive,
+	R_CancelReceiveResponse
+	),9 : (
+	R_EndReceive,
+	R_EndReceiveResponse
+	),10 : (
+	R_MoveMessage,
+	R_MoveMessageResponse
+	),11 : (
+	R_OpenQueueForMove,
+	R_OpenQueueForMoveResponse
+	),12 : (
+	R_QMEnlistRemoteTransaction,
+	R_QMEnlistRemoteTransactionResponse
+	),13 : (
+	R_StartTransactionalReceive,
+	R_StartTransactionalReceiveResponse
+	),14 : (
+	R_SetUserAcknowledgementClass,
+	R_SetUserAcknowledgementClassResponse
+	),15 : (
+	R_EndTransactionalReceive,
+	R_EndTransactionalReceiveResponse
+	)}
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 #################################################################################
-
 #INTERFACE DEFINITION
-
 #################################################################################
-
 #################################################################################
-
 #qmcomm Definition
-
 #################################################################################
-
 MSRPC_UUID_QMCOMM = uuidtup_to_bin(('fdb3a030-065-111-bb9b-00024a5525','0.0'))
-
-
 class CACCREATEREMOTECURSOR(NDRSTRUCT):
-    structure = (
-        ('hCursor', DWORD),('srv_hACQueue', DWORD),('cli_pQMQueue', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'hCursor',
+			DWORD
+			),
+			(
+			'srv_hACQueue',
+			DWORD
+			),
+			(
+			'cli_pQMQueue',
+			DWORD
+			)
+		)
 
 
-CACTB_SEND = 0,
+TRANSFER_TYPE = DWORD__ENUM
+CACTB_SEND = 0
 CACTB_RECEIVE = 0
-        
+class DATA_CACTRANSFERBUFFERV1(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
+class PTR_CACTRANSFERBUFFERV1(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_CACTRANSFERBUFFERV1
+			)
+		)
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('uTransferType', DWORD),	('u0', U0),	('pClass', UNSIGNED_SHORT),	('ppMessageID', OBJECTID),	('ppCorrelationID', UNSIGNED_CHAR),	('pSentTime', DWORD),	('pArrivedTime', DWORD),	('pPriority', UNSIGNED_CHAR),	('pDelivery', UNSIGNED_CHAR),	('pAcknowledge', UNSIGNED_CHAR),	('pAuditing', UNSIGNED_CHAR),	('pApplicationTag', DWORD),	('ppBody', UNSIGNED_CHAR),	('ulBodyBufferSizeInBytes', DWORD),	('ulAllocBodyBufferInBytes', DWORD),	('pBodySize', DWORD),	('ppTitle', WCHAR),	('ulTitleBufferSizeInWCHARs', DWORD),	('pulTitleBufferSizeInWCHARs', DWORD),	('ulAbsoluteTimeToQueue', DWORD),	('pulRelativeTimeToQueue', DWORD),	('ulRelativeTimeToLive', DWORD),	('pulRelativeTimeToLive', DWORD),	('pTrace', UNSIGNED_CHAR),	('pulSenderIDType', DWORD),	('ppSenderID', UNSIGNED_CHAR),	('pulSenderIDLenProp', DWORD),	('pulPrivLevel', DWORD),	('ulAuthLevel', DWORD),	('pAuthenticated', UNSIGNED_CHAR),	('pulHashAlg', DWORD),	('pulEncryptAlg', DWORD),	('ppSenderCert', UNSIGNED_CHAR),	('ulSenderCertLen', DWORD),	('pulSenderCertLenProp', DWORD),	('ppwcsProvName', WCHAR),	('ulProvNameLen', DWORD),	('pulAuthProvNameLenProp', DWORD),	('pulProvType', DWORD),	('fDefaultProvider', LONG),	('ppSymmKeys', UNSIGNED_CHAR),	('ulSymmKeysSize', DWORD),	('pulSymmKeysSizeProp', DWORD),	('bEncrypted', UNSIGNED_CHAR),	('bAuthenticated', UNSIGNED_CHAR),	('uSenderIDLen', UNSIGNED_SHORT),	('ppSignature', UNSIGNED_CHAR),	('ulSignatureSize', DWORD),	('pulSignatureSizeProp', DWORD),	('ppSrcQMID', GUID),	('pUow', XACTUOW),	('ppMsgExtension', PTR_XACTUOW),
-	('ulMsgExtensionBufferInBytes', DWORD),	('pMsgExtensionSize', DWORD),	('ppConnectorType', GUID),	('pulBodyType', DWORD),	('pulVersion', DWORD),
-    )
-        
+
+class CACTRANSFERBUFFERV1(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'uTransferType',
+			DWORD
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'pClass',
+			UNSIGNED_SHORT
+			),
+			(
+			'ppMessageID',
+			OBJECTID
+			),
+			(
+			'ppCorrelationID',
+			UNSIGNED_CHAR
+			),
+			(
+			'pSentTime',
+			DWORD
+			),
+			(
+			'pArrivedTime',
+			DWORD
+			),
+			(
+			'pPriority',
+			UNSIGNED_CHAR
+			),
+			(
+			'pDelivery',
+			UNSIGNED_CHAR
+			),
+			(
+			'pAcknowledge',
+			UNSIGNED_CHAR
+			),
+			(
+			'pAuditing',
+			UNSIGNED_CHAR
+			),
+			(
+			'pApplicationTag',
+			DWORD
+			),
+			(
+			'ppBody',
+			UNSIGNED_CHAR
+			),
+			(
+			'ulBodyBufferSizeInBytes',
+			DWORD
+			),
+			(
+			'ulAllocBodyBufferInBytes',
+			DWORD
+			),
+			(
+			'pBodySize',
+			DWORD
+			),
+			(
+			'ppTitle',
+			WCHAR
+			),
+			(
+			'ulTitleBufferSizeInWCHARs',
+			DWORD
+			),
+			(
+			'pulTitleBufferSizeInWCHARs',
+			DWORD
+			),
+			(
+			'ulAbsoluteTimeToQueue',
+			DWORD
+			),
+			(
+			'pulRelativeTimeToQueue',
+			DWORD
+			),
+			(
+			'ulRelativeTimeToLive',
+			DWORD
+			),
+			(
+			'pulRelativeTimeToLive',
+			DWORD
+			),
+			(
+			'pTrace',
+			UNSIGNED_CHAR
+			),
+			(
+			'pulSenderIDType',
+			DWORD
+			),
+			(
+			'ppSenderID',
+			UNSIGNED_CHAR
+			),
+			(
+			'pulSenderIDLenProp',
+			DWORD
+			),
+			(
+			'pulPrivLevel',
+			DWORD
+			),
+			(
+			'ulAuthLevel',
+			DWORD
+			),
+			(
+			'pAuthenticated',
+			UNSIGNED_CHAR
+			),
+			(
+			'pulHashAlg',
+			DWORD
+			),
+			(
+			'pulEncryptAlg',
+			DWORD
+			),
+			(
+			'ppSenderCert',
+			UNSIGNED_CHAR
+			),
+			(
+			'ulSenderCertLen',
+			DWORD
+			),
+			(
+			'pulSenderCertLenProp',
+			DWORD
+			),
+			(
+			'ppwcsProvName',
+			WCHAR
+			),
+			(
+			'ulProvNameLen',
+			DWORD
+			),
+			(
+			'pulAuthProvNameLenProp',
+			DWORD
+			),
+			(
+			'pulProvType',
+			DWORD
+			),
+			(
+			'fDefaultProvider',
+			LONG
+			),
+			(
+			'ppSymmKeys',
+			UNSIGNED_CHAR
+			),
+			(
+			'ulSymmKeysSize',
+			DWORD
+			),
+			(
+			'pulSymmKeysSizeProp',
+			DWORD
+			),
+			(
+			'bEncrypted',
+			UNSIGNED_CHAR
+			),
+			(
+			'bAuthenticated',
+			UNSIGNED_CHAR
+			),
+			(
+			'uSenderIDLen',
+			UNSIGNED_SHORT
+			),
+			(
+			'ppSignature',
+			UNSIGNED_CHAR
+			),
+			(
+			'ulSignatureSize',
+			DWORD
+			),
+			(
+			'pulSignatureSizeProp',
+			DWORD
+			),
+			(
+			'ppSrcQMID',
+			GUID
+			),
+			(
+			'pUow',
+			XACTUOW
+			),
+			(
+			'ppMsgExtension',
+			PTR_CACTRANSFERBUFFERV1
+			),
+			(
+			'ulMsgExtensionBufferInBytes',
+			DWORD
+			),
+			(
+			'pMsgExtensionSize',
+			DWORD
+			),
+			(
+			'ppConnectorType',
+			GUID
+			),
+			(
+			'pulBodyType',
+			DWORD
+			),
+			(
+			'pulVersion',
+			DWORD
+			)
+		)
+
 
 class OLD(NDRSTRUCT):
-    structure = (
-        
-    )
+	align = 1
+	structure = (
+
+		)
 
 
 class CACTRANSFERBUFFERV2(NDRSTRUCT):
-    structure = (
-        ('OLD', OLD),('pbFirstInXact', UNSIGNED_CHAR),('pbLastInXact', UNSIGNED_CHAR),('ppXactID', OBJECTID),
-    )
+	align = 1
+	structure = (
+			(
+			'OLD',
+			OLD
+			),
+			(
+			'pbFirstInXact',
+			UNSIGNED_CHAR
+			),
+			(
+			'pbLastInXact',
+			UNSIGNED_CHAR
+			),
+			(
+			'ppXactID',
+			OBJECTID
+			)
+		)
 
 
 class U0(NDRUNION):
-    union = {
-        1: ('pQueueFormat',QUEUE_FORMAT),
-    }
-        
+	union = {1 : (
+		'pQueueFormat',
+		QUEUE_FORMAT
+		)}
+
 
 class OBJECT_FORMAT(NDRSTRUCT):
-    structure = (
-        ('ObjType', DWORD),('u0', U0),
-    )
+	align = 1
+	structure = (
+			(
+			'ObjType',
+			DWORD
+			),
+			(
+			'u0',
+			U0
+			)
+		)
+
 
 PCTX_OPENREMOTE_HANDLE_TYPE = VOID
 RPC_QUEUE_HANDLE = VOID
 RPC_INT_XACT_HANDLE = VOID
-
 class Opnum0NotUsedOnWire(NDRCALL):
-    opnum = 0
-    structure = (
+	OPNUM = 0
+	structure = (
 
-    )
+		)
+
 
 class Opnum0NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class R_QMGetRemoteQueueName(NDRCALL):
-    opnum = 1
-    structure = (
-		('hBind', HANDLE_T),
-		('pQueue', DWORD),
-		('lplpRemoteQueueName', WCHAR),
-    )
+	OPNUM = 1
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueue',
+			DWORD
+			),
+			(
+			'lplpRemoteQueueName',
+			WCHAR
+			)
+		)
+
 
 class R_QMGetRemoteQueueNameResponse(NDRCALL):
-    structure = (
-		('lplpRemoteQueueName', WCHAR),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueue',
+			DWORD
+			),
+			(
+			'lplpRemoteQueueName',
+			WCHAR
+			)
+		)
+
 
 class R_QMOpenRemoteQueue(NDRCALL):
-    opnum = 2
-    structure = (
-		('hBind', HANDLE_T),
-		('pQueueFormat', QUEUE_FORMAT),
-		('dwCallingProcessID', DWORD),
-		('dwDesiredAccess', DWORD),
-		('dwShareMode', DWORD),
-		('pLicGuid', GUID),
-		('dwMQS', DWORD),
-    )
+	OPNUM = 2
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			),
+			(
+			'dwCallingProcessID',
+			DWORD
+			),
+			(
+			'dwDesiredAccess',
+			DWORD
+			),
+			(
+			'dwShareMode',
+			DWORD
+			),
+			(
+			'pLicGuid',
+			GUID
+			),
+			(
+			'dwMQS',
+			DWORD
+			)
+		)
+
 
 class R_QMOpenRemoteQueueResponse(NDRCALL):
-    structure = (
-		('pphContext', PCTX_OPENREMOTE_HANDLE_TYPE),
-		('pdwContext', DWORD),
-		('dwpQueue', DWORD),
-		('phQueue', DWORD),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			),
+			(
+			'dwCallingProcessID',
+			DWORD
+			),
+			(
+			'dwDesiredAccess',
+			DWORD
+			),
+			(
+			'dwShareMode',
+			DWORD
+			),
+			(
+			'pLicGuid',
+			GUID
+			),
+			(
+			'dwMQS',
+			DWORD
+			)
+		)
+
 
 class R_QMCloseRemoteQueueContext(NDRCALL):
-    opnum = 3
-    structure = (
-		('pphContext', PCTX_OPENREMOTE_HANDLE_TYPE),
-    )
+	OPNUM = 3
+	structure = (
+			(
+			'pphContext',
+			PCTX_OPENREMOTE_HANDLE_TYPE
+			)
+		)
+
 
 class R_QMCloseRemoteQueueContextResponse(NDRCALL):
-    structure = (
-		('pphContext', PCTX_OPENREMOTE_HANDLE_TYPE),
-    )
-        
+	structure = (
+			(
+			'pphContext',
+			PCTX_OPENREMOTE_HANDLE_TYPE
+			)
+		)
+
 
 class R_QMCreateRemoteCursor(NDRCALL):
-    opnum = 4
-    structure = (
-		('hBind', HANDLE_T),
-		('ptb1', STRUCT CACTRANSFERBUFFERV1),
-		('hQueue', DWORD),
-    )
+	OPNUM = 4
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'ptb1',
+			STRUCT CACTRANSFERBUFFERV1
+			),
+			(
+			'hQueue',
+			DWORD
+			)
+		)
+
 
 class R_QMCreateRemoteCursorResponse(NDRCALL):
-    structure = (
-		('phCursor', DWORD),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'ptb1',
+			STRUCT CACTRANSFERBUFFERV1
+			),
+			(
+			'hQueue',
+			DWORD
+			)
+		)
+
 
 class Opnum5NotUsedOnWire(NDRCALL):
-    opnum = 5
-    structure = (
+	OPNUM = 5
+	structure = (
 
-    )
+		)
+
 
 class Opnum5NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class R_QMCreateObjectInternal(NDRCALL):
-    opnum = 6
-    structure = (
-		('hBind', HANDLE_T),
-		('dwObjectType', DWORD),
-		('lpwcsPathName',  WCHAR),
-		('SDSize', DWORD),
-		('pSecurityDescriptor', UNSIGNED_CHAR),
-		('cp', DWORD),
-		('aProp', DWORD),
-		('apVar', PROPVARIANT),
-    )
+	OPNUM = 6
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'dwObjectType',
+			DWORD
+			),
+			(
+			'lpwcsPathName',
+			 WCHAR
+			),
+			(
+			'SDSize',
+			DWORD
+			),
+			(
+			'pSecurityDescriptor',
+			UNSIGNED_CHAR
+			),
+			(
+			'cp',
+			DWORD
+			),
+			(
+			'aProp',
+			DWORD
+			),
+			(
+			'apVar',
+			PROPVARIANT
+			)
+		)
+
 
 class R_QMCreateObjectInternalResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'dwObjectType',
+			DWORD
+			),
+			(
+			'lpwcsPathName',
+			 WCHAR
+			),
+			(
+			'SDSize',
+			DWORD
+			),
+			(
+			'pSecurityDescriptor',
+			UNSIGNED_CHAR
+			),
+			(
+			'cp',
+			DWORD
+			),
+			(
+			'aProp',
+			DWORD
+			),
+			(
+			'apVar',
+			PROPVARIANT
+			)
+		)
 
-    )
-        
 
 class R_QMSetObjectSecurityInternal(NDRCALL):
-    opnum = 7
-    structure = (
-		('hBind', HANDLE_T),
-		('pObjectFormat', STRUCT OBJECT_FORMAT),
-		('SecurityInformation', DWORD),
-		('SDSize', DWORD),
-		('pSecurityDescriptor', UNSIGNED_CHAR),
-    )
+	OPNUM = 7
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			),
+			(
+			'SecurityInformation',
+			DWORD
+			),
+			(
+			'SDSize',
+			DWORD
+			),
+			(
+			'pSecurityDescriptor',
+			UNSIGNED_CHAR
+			)
+		)
+
 
 class R_QMSetObjectSecurityInternalResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			),
+			(
+			'SecurityInformation',
+			DWORD
+			),
+			(
+			'SDSize',
+			DWORD
+			),
+			(
+			'pSecurityDescriptor',
+			UNSIGNED_CHAR
+			)
+		)
 
-    )
-        
 
 class R_QMGetObjectSecurityInternal(NDRCALL):
-    opnum = 8
-    structure = (
-		('hBind', HANDLE_T),
-		('pObjectFormat', STRUCT OBJECT_FORMAT),
-		('RequestedInformation', DWORD),
-		('nLength', DWORD),
-    )
+	OPNUM = 8
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			),
+			(
+			'RequestedInformation',
+			DWORD
+			),
+			(
+			'nLength',
+			DWORD
+			)
+		)
+
 
 class R_QMGetObjectSecurityInternalResponse(NDRCALL):
-    structure = (
-		('pSecurityDescriptor', UNSIGNED_CHAR),
-		('lpnLengthNeeded', DWORD),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			),
+			(
+			'RequestedInformation',
+			DWORD
+			),
+			(
+			'nLength',
+			DWORD
+			)
+		)
+
 
 class R_QMDeleteObject(NDRCALL):
-    opnum = 9
-    structure = (
-		('hBind', HANDLE_T),
-		('pObjectFormat', STRUCT OBJECT_FORMAT),
-    )
+	OPNUM = 9
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			)
+		)
+
 
 class R_QMDeleteObjectResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			)
+		)
 
-    )
-        
 
 class R_QMGetObjectProperties(NDRCALL):
-    opnum = 10
-    structure = (
-		('hBind', HANDLE_T),
-		('pObjectFormat', STRUCT OBJECT_FORMAT),
-		('cp', DWORD),
-		('aProp', DWORD),
-		('apVar', PROPVARIANT),
-    )
+	OPNUM = 10
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			),
+			(
+			'cp',
+			DWORD
+			),
+			(
+			'aProp',
+			DWORD
+			),
+			(
+			'apVar',
+			PROPVARIANT
+			)
+		)
+
 
 class R_QMGetObjectPropertiesResponse(NDRCALL):
-    structure = (
-		('apVar', PROPVARIANT),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			),
+			(
+			'cp',
+			DWORD
+			),
+			(
+			'aProp',
+			DWORD
+			),
+			(
+			'apVar',
+			PROPVARIANT
+			)
+		)
+
 
 class R_QMSetObjectProperties(NDRCALL):
-    opnum = 11
-    structure = (
-		('hBind', HANDLE_T),
-		('pObjectFormat', STRUCT OBJECT_FORMAT),
-		('cp', DWORD),
-		('aProp', DWORD),
-		('apVar', PROPVARIANT),
-    )
+	OPNUM = 11
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			),
+			(
+			'cp',
+			DWORD
+			),
+			(
+			'aProp',
+			DWORD
+			),
+			(
+			'apVar',
+			PROPVARIANT
+			)
+		)
+
 
 class R_QMSetObjectPropertiesResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			),
+			(
+			'cp',
+			DWORD
+			),
+			(
+			'aProp',
+			DWORD
+			),
+			(
+			'apVar',
+			PROPVARIANT
+			)
+		)
 
-    )
-        
 
 class R_QMObjectPathToObjectFormat(NDRCALL):
-    opnum = 12
-    structure = (
-		('hBind', HANDLE_T),
-		('lpwcsPathName',  WCHAR),
-		('pObjectFormat', STRUCT OBJECT_FORMAT),
-    )
+	OPNUM = 12
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'lpwcsPathName',
+			 WCHAR
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			)
+		)
+
 
 class R_QMObjectPathToObjectFormatResponse(NDRCALL):
-    structure = (
-		('pObjectFormat', STRUCT OBJECT_FORMAT),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'lpwcsPathName',
+			 WCHAR
+			),
+			(
+			'pObjectFormat',
+			STRUCT OBJECT_FORMAT
+			)
+		)
+
 
 class Opnum13NotUsedOnWire(NDRCALL):
-    opnum = 13
-    structure = (
+	OPNUM = 13
+	structure = (
 
-    )
+		)
+
 
 class Opnum13NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class R_QMGetTmWhereabouts(NDRCALL):
-    opnum = 14
-    structure = (
-		('hBind', HANDLE_T),
-		('cbBufSize', DWORD),
-    )
+	OPNUM = 14
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'cbBufSize',
+			DWORD
+			)
+		)
+
 
 class R_QMGetTmWhereaboutsResponse(NDRCALL):
-    structure = (
-		('pbWhereabouts', UNSIGNED_CHAR),
-		('pcbWhereabouts', DWORD),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'cbBufSize',
+			DWORD
+			)
+		)
+
 
 class R_QMEnlistTransaction(NDRCALL):
-    opnum = 15
-    structure = (
-		('hBind', HANDLE_T),
-		('pUow', XACTUOW),
-		('cbCookie', DWORD),
-		('pbCookie', UNSIGNED_CHAR),
-    )
+	OPNUM = 15
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pUow',
+			XACTUOW
+			),
+			(
+			'cbCookie',
+			DWORD
+			),
+			(
+			'pbCookie',
+			UNSIGNED_CHAR
+			)
+		)
+
 
 class R_QMEnlistTransactionResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pUow',
+			XACTUOW
+			),
+			(
+			'cbCookie',
+			DWORD
+			),
+			(
+			'pbCookie',
+			UNSIGNED_CHAR
+			)
+		)
 
-    )
-        
 
 class R_QMEnlistInternalTransaction(NDRCALL):
-    opnum = 16
-    structure = (
-		('hBind', HANDLE_T),
-		('pUow', XACTUOW),
-    )
+	OPNUM = 16
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pUow',
+			XACTUOW
+			)
+		)
+
 
 class R_QMEnlistInternalTransactionResponse(NDRCALL):
-    structure = (
-		('phIntXact', RPC_INT_XACT_HANDLE),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pUow',
+			XACTUOW
+			)
+		)
+
 
 class R_QMCommitTransaction(NDRCALL):
-    opnum = 17
-    structure = (
-		('phIntXact', RPC_INT_XACT_HANDLE),
-    )
+	OPNUM = 17
+	structure = (
+			(
+			'phIntXact',
+			RPC_INT_XACT_HANDLE
+			)
+		)
+
 
 class R_QMCommitTransactionResponse(NDRCALL):
-    structure = (
-		('phIntXact', RPC_INT_XACT_HANDLE),
-    )
-        
+	structure = (
+			(
+			'phIntXact',
+			RPC_INT_XACT_HANDLE
+			)
+		)
+
 
 class R_QMAbortTransaction(NDRCALL):
-    opnum = 18
-    structure = (
-		('phIntXact', RPC_INT_XACT_HANDLE),
-    )
+	OPNUM = 18
+	structure = (
+			(
+			'phIntXact',
+			RPC_INT_XACT_HANDLE
+			)
+		)
+
 
 class R_QMAbortTransactionResponse(NDRCALL):
-    structure = (
-		('phIntXact', RPC_INT_XACT_HANDLE),
-    )
-        
+	structure = (
+			(
+			'phIntXact',
+			RPC_INT_XACT_HANDLE
+			)
+		)
+
 
 class rpc_QMOpenQueueInternal(NDRCALL):
-    opnum = 19
-    structure = (
-		('hBind', HANDLE_T),
-		('pQueueFormat', QUEUE_FORMAT),
-		('dwDesiredAccess', DWORD),
-		('dwShareMode', DWORD),
-		('hRemoteQueue', DWORD),
-		('lplpRemoteQueueName', WCHAR),
-		('dwpQueue', DWORD),
-		('pLicGuid', GUID),
-		('lpClientName', WCHAR),
-		('dwRemoteProtocol', DWORD),
-		('dwpRemoteContext', DWORD),
-    )
+	OPNUM = 19
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			),
+			(
+			'dwDesiredAccess',
+			DWORD
+			),
+			(
+			'dwShareMode',
+			DWORD
+			),
+			(
+			'hRemoteQueue',
+			DWORD
+			),
+			(
+			'lplpRemoteQueueName',
+			WCHAR
+			),
+			(
+			'dwpQueue',
+			DWORD
+			),
+			(
+			'pLicGuid',
+			GUID
+			),
+			(
+			'lpClientName',
+			WCHAR
+			),
+			(
+			'dwRemoteProtocol',
+			DWORD
+			),
+			(
+			'dwpRemoteContext',
+			DWORD
+			)
+		)
+
 
 class rpc_QMOpenQueueInternalResponse(NDRCALL):
-    structure = (
-		('lplpRemoteQueueName', WCHAR),
-		('pdwQMContext', DWORD),
-		('phQueue', RPC_QUEUE_HANDLE),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			),
+			(
+			'dwDesiredAccess',
+			DWORD
+			),
+			(
+			'dwShareMode',
+			DWORD
+			),
+			(
+			'hRemoteQueue',
+			DWORD
+			),
+			(
+			'lplpRemoteQueueName',
+			WCHAR
+			),
+			(
+			'dwpQueue',
+			DWORD
+			),
+			(
+			'pLicGuid',
+			GUID
+			),
+			(
+			'lpClientName',
+			WCHAR
+			),
+			(
+			'dwRemoteProtocol',
+			DWORD
+			),
+			(
+			'dwpRemoteContext',
+			DWORD
+			)
+		)
+
 
 class rpc_ACCloseHandle(NDRCALL):
-    opnum = 20
-    structure = (
-		('phQueue', RPC_QUEUE_HANDLE),
-    )
+	OPNUM = 20
+	structure = (
+			(
+			'phQueue',
+			RPC_QUEUE_HANDLE
+			)
+		)
+
 
 class rpc_ACCloseHandleResponse(NDRCALL):
-    structure = (
-		('phQueue', RPC_QUEUE_HANDLE),
-    )
-        
+	structure = (
+			(
+			'phQueue',
+			RPC_QUEUE_HANDLE
+			)
+		)
+
 
 class Opnum21NotUsedOnWire(NDRCALL):
-    opnum = 21
-    structure = (
+	OPNUM = 21
+	structure = (
 
-    )
+		)
+
 
 class Opnum21NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class rpc_ACCloseCursor(NDRCALL):
-    opnum = 22
-    structure = (
-		('hQueue', RPC_QUEUE_HANDLE),
-		('hCursor', DWORD),
-    )
+	OPNUM = 22
+	structure = (
+			(
+			'hQueue',
+			RPC_QUEUE_HANDLE
+			),
+			(
+			'hCursor',
+			DWORD
+			)
+		)
+
 
 class rpc_ACCloseCursorResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hQueue',
+			RPC_QUEUE_HANDLE
+			),
+			(
+			'hCursor',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class rpc_ACSetCursorProperties(NDRCALL):
-    opnum = 23
-    structure = (
-		('hProxy', RPC_QUEUE_HANDLE),
-		('hCursor', DWORD),
-		('hRemoteCursor', DWORD),
-    )
+	OPNUM = 23
+	structure = (
+			(
+			'hProxy',
+			RPC_QUEUE_HANDLE
+			),
+			(
+			'hCursor',
+			DWORD
+			),
+			(
+			'hRemoteCursor',
+			DWORD
+			)
+		)
+
 
 class rpc_ACSetCursorPropertiesResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hProxy',
+			RPC_QUEUE_HANDLE
+			),
+			(
+			'hCursor',
+			DWORD
+			),
+			(
+			'hRemoteCursor',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class Opnum24NotUsedOnWire(NDRCALL):
-    opnum = 24
-    structure = (
+	OPNUM = 24
+	structure = (
 
-    )
+		)
+
 
 class Opnum24NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum25NotUsedOnWire(NDRCALL):
-    opnum = 25
-    structure = (
+	OPNUM = 25
+	structure = (
 
-    )
+		)
+
 
 class Opnum25NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class rpc_ACHandleToFormatName(NDRCALL):
-    opnum = 26
-    structure = (
-		('hQueue', RPC_QUEUE_HANDLE),
-		('dwFormatNameRPCBufferLen', DWORD),
-		('lpwcsFormatName', WCHAR),
-		('pdwLength', DWORD),
-    )
+	OPNUM = 26
+	structure = (
+			(
+			'hQueue',
+			RPC_QUEUE_HANDLE
+			),
+			(
+			'dwFormatNameRPCBufferLen',
+			DWORD
+			),
+			(
+			'lpwcsFormatName',
+			WCHAR
+			),
+			(
+			'pdwLength',
+			DWORD
+			)
+		)
+
 
 class rpc_ACHandleToFormatNameResponse(NDRCALL):
-    structure = (
-		('lpwcsFormatName', WCHAR),
-		('pdwLength', DWORD),
-    )
-        
+	structure = (
+			(
+			'hQueue',
+			RPC_QUEUE_HANDLE
+			),
+			(
+			'dwFormatNameRPCBufferLen',
+			DWORD
+			),
+			(
+			'lpwcsFormatName',
+			WCHAR
+			),
+			(
+			'pdwLength',
+			DWORD
+			)
+		)
+
 
 class rpc_ACPurgeQueue(NDRCALL):
-    opnum = 27
-    structure = (
-		('hQueue', RPC_QUEUE_HANDLE),
-    )
+	OPNUM = 27
+	structure = (
+			(
+			'hQueue',
+			RPC_QUEUE_HANDLE
+			)
+		)
+
 
 class rpc_ACPurgeQueueResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hQueue',
+			RPC_QUEUE_HANDLE
+			)
+		)
 
-    )
-        
 
 class R_QMQueryQMRegistryInternal(NDRCALL):
-    opnum = 28
-    structure = (
-		('hBind', HANDLE_T),
-		('dwQueryType', DWORD),
-    )
+	OPNUM = 28
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'dwQueryType',
+			DWORD
+			)
+		)
+
 
 class R_QMQueryQMRegistryInternalResponse(NDRCALL):
-    structure = (
-		('lplpMQISServer', WCHAR),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'dwQueryType',
+			DWORD
+			)
+		)
+
 
 class Opnum29NotUsedOnWire(NDRCALL):
-    opnum = 29
-    structure = (
+	OPNUM = 29
+	structure = (
 
-    )
+		)
+
 
 class Opnum29NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum30NotUsedOnWire(NDRCALL):
-    opnum = 30
-    structure = (
+	OPNUM = 30
+	structure = (
 
-    )
+		)
+
 
 class Opnum30NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class R_QMGetRTQMServerPort(NDRCALL):
-    opnum = 31
-    structure = (
-		('hBind', HANDLE_T),
-		('fIP', DWORD),
-    )
+	OPNUM = 31
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'fIP',
+			DWORD
+			)
+		)
+
 
 class R_QMGetRTQMServerPortResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'fIP',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class Opnum32NotUsedOnWire(NDRCALL):
-    opnum = 32
-    structure = (
+	OPNUM = 32
+	structure = (
 
-    )
+		)
+
 
 class Opnum32NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum33NotUsedOnWire(NDRCALL):
-    opnum = 33
-    structure = (
+	OPNUM = 33
+	structure = (
 
-    )
+		)
+
 
 class Opnum33NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum34NotUsedOnWire(NDRCALL):
-    opnum = 34
-    structure = (
+	OPNUM = 34
+	structure = (
 
-    )
+		)
+
 
 class Opnum34NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
-OPNUMS = {
-0 : (Opnum0NotUsedOnWire,Opnum0NotUsedOnWireResponse),
-1 : (R_QMGetRemoteQueueName,R_QMGetRemoteQueueNameResponse),
-2 : (R_QMOpenRemoteQueue,R_QMOpenRemoteQueueResponse),
-3 : (R_QMCloseRemoteQueueContext,R_QMCloseRemoteQueueContextResponse),
-4 : (R_QMCreateRemoteCursor,R_QMCreateRemoteCursorResponse),
-5 : (Opnum5NotUsedOnWire,Opnum5NotUsedOnWireResponse),
-6 : (R_QMCreateObjectInternal,R_QMCreateObjectInternalResponse),
-7 : (R_QMSetObjectSecurityInternal,R_QMSetObjectSecurityInternalResponse),
-8 : (R_QMGetObjectSecurityInternal,R_QMGetObjectSecurityInternalResponse),
-9 : (R_QMDeleteObject,R_QMDeleteObjectResponse),
-10 : (R_QMGetObjectProperties,R_QMGetObjectPropertiesResponse),
-11 : (R_QMSetObjectProperties,R_QMSetObjectPropertiesResponse),
-12 : (R_QMObjectPathToObjectFormat,R_QMObjectPathToObjectFormatResponse),
-13 : (Opnum13NotUsedOnWire,Opnum13NotUsedOnWireResponse),
-14 : (R_QMGetTmWhereabouts,R_QMGetTmWhereaboutsResponse),
-15 : (R_QMEnlistTransaction,R_QMEnlistTransactionResponse),
-16 : (R_QMEnlistInternalTransaction,R_QMEnlistInternalTransactionResponse),
-17 : (R_QMCommitTransaction,R_QMCommitTransactionResponse),
-18 : (R_QMAbortTransaction,R_QMAbortTransactionResponse),
-19 : (rpc_QMOpenQueueInternal,rpc_QMOpenQueueInternalResponse),
-20 : (rpc_ACCloseHandle,rpc_ACCloseHandleResponse),
-21 : (Opnum21NotUsedOnWire,Opnum21NotUsedOnWireResponse),
-22 : (rpc_ACCloseCursor,rpc_ACCloseCursorResponse),
-23 : (rpc_ACSetCursorProperties,rpc_ACSetCursorPropertiesResponse),
-24 : (Opnum24NotUsedOnWire,Opnum24NotUsedOnWireResponse),
-25 : (Opnum25NotUsedOnWire,Opnum25NotUsedOnWireResponse),
-26 : (rpc_ACHandleToFormatName,rpc_ACHandleToFormatNameResponse),
-27 : (rpc_ACPurgeQueue,rpc_ACPurgeQueueResponse),
-28 : (R_QMQueryQMRegistryInternal,R_QMQueryQMRegistryInternalResponse),
-29 : (Opnum29NotUsedOnWire,Opnum29NotUsedOnWireResponse),
-30 : (Opnum30NotUsedOnWire,Opnum30NotUsedOnWireResponse),
-31 : (R_QMGetRTQMServerPort,R_QMGetRTQMServerPortResponse),
-32 : (Opnum32NotUsedOnWire,Opnum32NotUsedOnWireResponse),
-33 : (Opnum33NotUsedOnWire,Opnum33NotUsedOnWireResponse),
-34 : (Opnum34NotUsedOnWire,Opnum34NotUsedOnWireResponse),
-}
+		)
 
+
+OPNUMS = {0 : (
+	Opnum0NotUsedOnWire,
+	Opnum0NotUsedOnWireResponse
+	),1 : (
+	R_QMGetRemoteQueueName,
+	R_QMGetRemoteQueueNameResponse
+	),2 : (
+	R_QMOpenRemoteQueue,
+	R_QMOpenRemoteQueueResponse
+	),3 : (
+	R_QMCloseRemoteQueueContext,
+	R_QMCloseRemoteQueueContextResponse
+	),4 : (
+	R_QMCreateRemoteCursor,
+	R_QMCreateRemoteCursorResponse
+	),5 : (
+	Opnum5NotUsedOnWire,
+	Opnum5NotUsedOnWireResponse
+	),6 : (
+	R_QMCreateObjectInternal,
+	R_QMCreateObjectInternalResponse
+	),7 : (
+	R_QMSetObjectSecurityInternal,
+	R_QMSetObjectSecurityInternalResponse
+	),8 : (
+	R_QMGetObjectSecurityInternal,
+	R_QMGetObjectSecurityInternalResponse
+	),9 : (
+	R_QMDeleteObject,
+	R_QMDeleteObjectResponse
+	),10 : (
+	R_QMGetObjectProperties,
+	R_QMGetObjectPropertiesResponse
+	),11 : (
+	R_QMSetObjectProperties,
+	R_QMSetObjectPropertiesResponse
+	),12 : (
+	R_QMObjectPathToObjectFormat,
+	R_QMObjectPathToObjectFormatResponse
+	),13 : (
+	Opnum13NotUsedOnWire,
+	Opnum13NotUsedOnWireResponse
+	),14 : (
+	R_QMGetTmWhereabouts,
+	R_QMGetTmWhereaboutsResponse
+	),15 : (
+	R_QMEnlistTransaction,
+	R_QMEnlistTransactionResponse
+	),16 : (
+	R_QMEnlistInternalTransaction,
+	R_QMEnlistInternalTransactionResponse
+	),17 : (
+	R_QMCommitTransaction,
+	R_QMCommitTransactionResponse
+	),18 : (
+	R_QMAbortTransaction,
+	R_QMAbortTransactionResponse
+	),19 : (
+	rpc_QMOpenQueueInternal,
+	rpc_QMOpenQueueInternalResponse
+	),20 : (
+	rpc_ACCloseHandle,
+	rpc_ACCloseHandleResponse
+	),21 : (
+	Opnum21NotUsedOnWire,
+	Opnum21NotUsedOnWireResponse
+	),22 : (
+	rpc_ACCloseCursor,
+	rpc_ACCloseCursorResponse
+	),23 : (
+	rpc_ACSetCursorProperties,
+	rpc_ACSetCursorPropertiesResponse
+	),24 : (
+	Opnum24NotUsedOnWire,
+	Opnum24NotUsedOnWireResponse
+	),25 : (
+	Opnum25NotUsedOnWire,
+	Opnum25NotUsedOnWireResponse
+	),26 : (
+	rpc_ACHandleToFormatName,
+	rpc_ACHandleToFormatNameResponse
+	),27 : (
+	rpc_ACPurgeQueue,
+	rpc_ACPurgeQueueResponse
+	),28 : (
+	R_QMQueryQMRegistryInternal,
+	R_QMQueryQMRegistryInternalResponse
+	),29 : (
+	Opnum29NotUsedOnWire,
+	Opnum29NotUsedOnWireResponse
+	),30 : (
+	Opnum30NotUsedOnWire,
+	Opnum30NotUsedOnWireResponse
+	),31 : (
+	R_QMGetRTQMServerPort,
+	R_QMGetRTQMServerPortResponse
+	),32 : (
+	Opnum32NotUsedOnWire,
+	Opnum32NotUsedOnWireResponse
+	),33 : (
+	Opnum33NotUsedOnWire,
+	Opnum33NotUsedOnWireResponse
+	),34 : (
+	Opnum34NotUsedOnWire,
+	Opnum34NotUsedOnWireResponse
+	)}
 #################################################################################
-
 #qmcomm2 Definition
-
 #################################################################################
-
 MSRPC_UUID_QMCOMM2 = uuidtup_to_bin(('76d12b80-3467-11d3-91ff-0090272f9ea3','0.0'))
-
-
 class QMSendMessageInternalEx(NDRCALL):
-    opnum = 0
-    structure = (
-		('hBind', HANDLE_T),
-		('pQueueFormat', QUEUE_FORMAT),
-		('ptb', STRUCT CACTRANSFERBUFFERV2),
-		('pMessageID', OBJECTID),
-    )
+	OPNUM = 0
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			),
+			(
+			'ptb',
+			STRUCT CACTRANSFERBUFFERV2
+			),
+			(
+			'pMessageID',
+			OBJECTID
+			)
+		)
+
 
 class QMSendMessageInternalExResponse(NDRCALL):
-    structure = (
-		('pMessageID', OBJECTID),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'pQueueFormat',
+			QUEUE_FORMAT
+			),
+			(
+			'ptb',
+			STRUCT CACTRANSFERBUFFERV2
+			),
+			(
+			'pMessageID',
+			OBJECTID
+			)
+		)
+
 
 class rpc_ACSendMessageEx(NDRCALL):
-    opnum = 1
-    structure = (
-		('hQueue', RPC_QUEUE_HANDLE),
-		('ptb', STRUCT CACTRANSFERBUFFERV2),
-		('pMessageID', OBJECTID),
-    )
+	OPNUM = 1
+	structure = (
+			(
+			'hQueue',
+			RPC_QUEUE_HANDLE
+			),
+			(
+			'ptb',
+			STRUCT CACTRANSFERBUFFERV2
+			),
+			(
+			'pMessageID',
+			OBJECTID
+			)
+		)
+
 
 class rpc_ACSendMessageExResponse(NDRCALL):
-    structure = (
-		('pMessageID', OBJECTID),
-    )
-        
+	structure = (
+			(
+			'hQueue',
+			RPC_QUEUE_HANDLE
+			),
+			(
+			'ptb',
+			STRUCT CACTRANSFERBUFFERV2
+			),
+			(
+			'pMessageID',
+			OBJECTID
+			)
+		)
+
 
 class rpc_ACReceiveMessageEx(NDRCALL):
-    opnum = 2
-    structure = (
-		('hBind', HANDLE_T),
-		('hQMContext', DWORD),
-		('ptb', STRUCT CACTRANSFERBUFFERV2),
-    )
+	OPNUM = 2
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'hQMContext',
+			DWORD
+			),
+			(
+			'ptb',
+			STRUCT CACTRANSFERBUFFERV2
+			)
+		)
+
 
 class rpc_ACReceiveMessageExResponse(NDRCALL):
-    structure = (
-		('ptb', STRUCT CACTRANSFERBUFFERV2),
-    )
-        
+	structure = (
+			(
+			'hBind',
+			HANDLE_T
+			),
+			(
+			'hQMContext',
+			DWORD
+			),
+			(
+			'ptb',
+			STRUCT CACTRANSFERBUFFERV2
+			)
+		)
+
 
 class rpc_ACCreateCursorEx(NDRCALL):
-    opnum = 3
-    structure = (
-		('hQueue', RPC_QUEUE_HANDLE),
-		('pcc', STRUCT CACCREATEREMOTECURSOR),
-    )
+	OPNUM = 3
+	structure = (
+			(
+			'hQueue',
+			RPC_QUEUE_HANDLE
+			),
+			(
+			'pcc',
+			STRUCT CACCREATEREMOTECURSOR
+			)
+		)
+
 
 class rpc_ACCreateCursorExResponse(NDRCALL):
-    structure = (
-		('pcc', STRUCT CACCREATEREMOTECURSOR),
-    )
-        
-OPNUMS = {
-0 : (QMSendMessageInternalEx,QMSendMessageInternalExResponse),
-1 : (rpc_ACSendMessageEx,rpc_ACSendMessageExResponse),
-2 : (rpc_ACReceiveMessageEx,rpc_ACReceiveMessageExResponse),
-3 : (rpc_ACCreateCursorEx,rpc_ACCreateCursorExResponse),
-}
+	structure = (
+			(
+			'hQueue',
+			RPC_QUEUE_HANDLE
+			),
+			(
+			'pcc',
+			STRUCT CACCREATEREMOTECURSOR
+			)
+		)
 
+
+OPNUMS = {0 : (
+	QMSendMessageInternalEx,
+	QMSendMessageInternalExResponse
+	),1 : (
+	rpc_ACSendMessageEx,
+	rpc_ACSendMessageExResponse
+	),2 : (
+	rpc_ACReceiveMessageEx,
+	rpc_ACReceiveMessageExResponse
+	),3 : (
+	rpc_ACCreateCursorEx,
+	rpc_ACCreateCursorExResponse
+	)}

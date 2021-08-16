@@ -5,7 +5,7 @@ class Writer:
     NEWLINE = "\n"
     TAB = "\t"
 
-    def __init__(self, strIO=StringIO(), tab_level=0):
+    def __init__(self, strIO=None, tab_level=0):
         self.tab_level = tab_level
         self.io = strIO or StringIO()
 

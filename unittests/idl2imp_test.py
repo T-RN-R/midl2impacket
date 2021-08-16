@@ -17,8 +17,8 @@ def test_full():
             continue
         try:
             generated_code = generate_impacket(midl, "./preprocessed/")
-        except:
-            print(f"Unable to generate impacket for {scraped_file}")
+        except Exception as e:
+            print(f"Unable to generate impacket for {scraped_file}: {e}")
             continue
         out_file.write_text(generated_code)
 

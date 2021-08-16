@@ -2,7 +2,6 @@
 Generated from MIDL2Impacket.py
 """
 
-
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
@@ -15,6 +14,7 @@ from impacket.dcerpc.v5.rpcrt import DCERPCException
 
 DWORD64 = NDRUHYPER
 __INT64 = NDRHYPER
+DWORD__ENUM = DWORD
 class CONTEXT_HANDLE(NDRSTRUCT):
     align = 1
     structure = (
@@ -74,17 +74,11 @@ UNSIGNED_HYPER = NDRUHYPER
 HYPER = NDRHYPER
 
 #################################################################################
-
 #"ms-dtyp.idl"
-
 #################################################################################
-
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -169,1080 +163,2321 @@ LPVOID = VOID
 WORD = UNSIGNED_SHORT
 PWORD = UNSIGNED_SHORT
 LPWORD = UNSIGNED_SHORT
-
 class FILETIME(NDRSTRUCT):
-    structure = (
-        ('dwLowDateTime', DWORD),('dwHighDateTime', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'dwLowDateTime',
+			DWORD
+			),
+			(
+			'dwHighDateTime',
+			DWORD
+			)
+		)
+
+
 class PFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
+
+
 class LPFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
 
 
 class GUID(NDRSTRUCT):
-    structure = (
-        ('Data1', UNSIGNED_LONG),('Data2', UNSIGNED_SHORT),('Data3', UNSIGNED_SHORT),('Data4', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Data1',
+			UNSIGNED_LONG
+			),
+			(
+			'Data2',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data3',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data4',
+			BYTE
+			)
+		)
+
+
 UUID = GUID
 class PGUID(NDRPOINTER):
-    referent = (
-        ('Data', GUID),
-    )    
+	referent = (
+			(
+			'Data',
+			GUID
+			)
+		)
 
 
 class LARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', SIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			SIGNED___INT64
+			)
+		)
+
+
 class PLARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', LARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			LARGE_INTEGER
+			)
+		)
 
 
 class EVENT_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Id', USHORT),('Version', UCHAR),('Channel', UCHAR),('Level', UCHAR),('Opcode', UCHAR),('Task', USHORT),('Keyword', ULONGLONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Id',
+			USHORT
+			),
+			(
+			'Version',
+			UCHAR
+			),
+			(
+			'Channel',
+			UCHAR
+			),
+			(
+			'Level',
+			UCHAR
+			),
+			(
+			'Opcode',
+			UCHAR
+			),
+			(
+			'Task',
+			USHORT
+			),
+			(
+			'Keyword',
+			ULONGLONG
+			)
+		)
+
+
 class PEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
+
+
 class PCEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
 
 
 class S0(NDRSTRUCT):
-    structure = (
-        ('KernelTime', ULONG),('UserTime', ULONG),
-    )
+	align = 1
+	structure = (
+			(
+			'KernelTime',
+			ULONG
+			),
+			(
+			'UserTime',
+			ULONG
+			)
+		)
 
 
 class U0(NDRUNION):
-    union = {
-        1: ('s0',S0),2: ('ProcessorTime',ULONG64),
-    }
-        
+	union = {1 : (
+		's0',
+		S0
+		),2 : (
+		'ProcessorTime',
+		ULONG64
+		)}
+
 
 class EVENT_HEADER(NDRSTRUCT):
-    structure = (
-        ('Size', USHORT),('HeaderType', USHORT),('Flags', USHORT),('EventProperty', USHORT),('ThreadId', ULONG),('ProcessId', ULONG),('TimeStamp', LARGE_INTEGER),('ProviderId', GUID),('EventDescriptor', EVENT_DESCRIPTOR),('u0', U0),('ActivityId', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Size',
+			USHORT
+			),
+			(
+			'HeaderType',
+			USHORT
+			),
+			(
+			'Flags',
+			USHORT
+			),
+			(
+			'EventProperty',
+			USHORT
+			),
+			(
+			'ThreadId',
+			ULONG
+			),
+			(
+			'ProcessId',
+			ULONG
+			),
+			(
+			'TimeStamp',
+			LARGE_INTEGER
+			),
+			(
+			'ProviderId',
+			GUID
+			),
+			(
+			'EventDescriptor',
+			EVENT_DESCRIPTOR
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'ActivityId',
+			GUID
+			)
+		)
+
+
 class PEVENT_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_HEADER
+			)
+		)
+
 
 LCID = DWORD
-
 class LUID(NDRSTRUCT):
-    structure = (
-        ('LowPart', DWORD),('HighPart', LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'LowPart',
+			DWORD
+			),
+			(
+			'HighPart',
+			LONG
+			)
+		)
+
+
 class PLUID(NDRPOINTER):
-    referent = (
-        ('Data', LUID),
-    )    
+	referent = (
+			(
+			'Data',
+			LUID
+			)
+		)
 
 
 class MULTI_SZ(NDRSTRUCT):
-    structure = (
-        ('Value', WCHAR_T),('nChar', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			WCHAR_T
+			),
+			(
+			'nChar',
+			DWORD
+			)
+		)
 
 
-class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
-    item = WCHAR
+class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+	item = WCHAR
 
-class PTR_UNSIGNED_SHORT(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_SHORT),
-    )
 
-class UNSIGNED_SHORT(NDRSTRUCT):
-    structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
+class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_RPC_UNICODE_STRING
+			)
+		)
 
-    )
-        
+
+class RPC_UNICODE_STRING(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'Length',
+			UNSIGNED_SHORT
+			),
+			(
+			'MaximumLength',
+			UNSIGNED_SHORT
+			),
+			(
+			'Buffer',
+			PTR_RPC_UNICODE_STRING
+			)
+		)
+
 
 class SERVER_INFO_100(NDRSTRUCT):
-    structure = (
-        ('sv100_platform_id', DWORD),('sv100_name', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv100_platform_id',
+			DWORD
+			),
+			(
+			'sv100_name',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
+
+
 class LPSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
 
 
 class SERVER_INFO_101(NDRSTRUCT):
-    structure = (
-        ('sv101_platform_id', DWORD),('sv101_name', WCHAR_T),('sv101_version_major', DWORD),('sv101_version_minor', DWORD),('sv101_version_type', DWORD),('sv101_comment', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv101_platform_id',
+			DWORD
+			),
+			(
+			'sv101_name',
+			WCHAR_T
+			),
+			(
+			'sv101_version_major',
+			DWORD
+			),
+			(
+			'sv101_version_minor',
+			DWORD
+			),
+			(
+			'sv101_version_type',
+			DWORD
+			),
+			(
+			'sv101_comment',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
+
+
 class LPSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
 
 
 class SYSTEMTIME(NDRSTRUCT):
-    structure = (
-        ('wYear', WORD),('wMonth', WORD),('wDayOfWeek', WORD),('wDay', WORD),('wHour', WORD),('wMinute', WORD),('wSecond', WORD),('wMilliseconds', WORD),
-    )
+	align = 1
+	structure = (
+			(
+			'wYear',
+			WORD
+			),
+			(
+			'wMonth',
+			WORD
+			),
+			(
+			'wDayOfWeek',
+			WORD
+			),
+			(
+			'wDay',
+			WORD
+			),
+			(
+			'wHour',
+			WORD
+			),
+			(
+			'wMinute',
+			WORD
+			),
+			(
+			'wSecond',
+			WORD
+			),
+			(
+			'wMilliseconds',
+			WORD
+			)
+		)
+
+
 class PSYSTEMTIME(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEMTIME),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEMTIME
+			)
+		)
 
 
 class UINT128(NDRSTRUCT):
-    structure = (
-        ('lower', UINT64),('upper', UINT64),
-    )
+	align = 1
+	structure = (
+			(
+			'lower',
+			UINT64
+			),
+			(
+			'upper',
+			UINT64
+			)
+		)
+
+
 class PUINT128(NDRPOINTER):
-    referent = (
-        ('Data', UINT128),
-    )    
+	referent = (
+			(
+			'Data',
+			UINT128
+			)
+		)
 
 
 class ULARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', UNSIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			UNSIGNED___INT64
+			)
+		)
+
+
 class PULARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', ULARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			ULARGE_INTEGER
+			)
+		)
 
 
 class RPC_SID_IDENTIFIER_AUTHORITY(NDRSTRUCT):
-    structure = (
-        ('Value', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			BYTE
+			)
+		)
+
 
 ACCESS_MASK = DWORD
 PACCESS_MASK = ACCESS_MASK
-
 class OBJECT_TYPE_LIST(NDRSTRUCT):
-    structure = (
-        ('Level', WORD),('Remaining', ACCESS_MASK),('ObjectType', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			WORD
+			),
+			(
+			'Remaining',
+			ACCESS_MASK
+			),
+			(
+			'ObjectType',
+			GUID
+			)
+		)
+
+
 class POBJECT_TYPE_LIST(NDRPOINTER):
-    referent = (
-        ('Data', OBJECT_TYPE_LIST),
-    )    
+	referent = (
+			(
+			'Data',
+			OBJECT_TYPE_LIST
+			)
+		)
 
 
 class ACE_HEADER(NDRSTRUCT):
-    structure = (
-        ('AceType', UCHAR),('AceFlags', UCHAR),('AceSize', USHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AceType',
+			UCHAR
+			),
+			(
+			'AceFlags',
+			UCHAR
+			),
+			(
+			'AceSize',
+			USHORT
+			)
+		)
+
+
 class PACE_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', ACE_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			ACE_HEADER
+			)
+		)
 
 
 class SYSTEM_MANDATORY_LABEL_ACE(NDRSTRUCT):
-    structure = (
-        ('Header', ACE_HEADER),('Mask', ACCESS_MASK),('SidStart', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Header',
+			ACE_HEADER
+			),
+			(
+			'Mask',
+			ACCESS_MASK
+			),
+			(
+			'SidStart',
+			DWORD
+			)
+		)
+
+
 class PSYSTEM_MANDATORY_LABEL_ACE(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEM_MANDATORY_LABEL_ACE),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEM_MANDATORY_LABEL_ACE
+			)
+		)
 
 
 class TOKEN_MANDATORY_POLICY(NDRSTRUCT):
-    structure = (
-        ('Policy', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Policy',
+			DWORD
+			)
+		)
+
+
 class PTOKEN_MANDATORY_POLICY(NDRPOINTER):
-    referent = (
-        ('Data', TOKEN_MANDATORY_POLICY),
-    )    
+	referent = (
+			(
+			'Data',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
 
 
 class MANDATORY_INFORMATION(NDRSTRUCT):
-    structure = (
-        ('AllowedAccess', ACCESS_MASK),('WriteAllowed', BOOLEAN),('ReadAllowed', BOOLEAN),('ExecuteAllowed', BOOLEAN),('MandatoryPolicy', TOKEN_MANDATORY_POLICY),
-    )
+	align = 1
+	structure = (
+			(
+			'AllowedAccess',
+			ACCESS_MASK
+			),
+			(
+			'WriteAllowed',
+			BOOLEAN
+			),
+			(
+			'ReadAllowed',
+			BOOLEAN
+			),
+			(
+			'ExecuteAllowed',
+			BOOLEAN
+			),
+			(
+			'MandatoryPolicy',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
+
+
 class PMANDATORY_INFORMATION(NDRPOINTER):
-    referent = (
-        ('Data', MANDATORY_INFORMATION),
-    )    
+	referent = (
+			(
+			'Data',
+			MANDATORY_INFORMATION
+			)
+		)
 
 
 class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRSTRUCT):
-    structure = (
-        ('Length', DWORD),('OctetString', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Length',
+			DWORD
+			),
+			(
+			'OctetString',
+			BYTE
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+			)
+		)
 
 
 class VALUES(NDRUNION):
-    union = {
-        1: ('pInt64',PLONG64),2: ('pUint64',PDWORD64),3: ('ppString',PWSTR),4: ('pOctetString',PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    }
-        
+	union = {1 : (
+		'pInt64',
+		PLONG64
+		),2 : (
+		'pUint64',
+		PDWORD64
+		),3 : (
+		'ppString',
+		PWSTR
+		),4 : (
+		'pOctetString',
+		PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+		)}
+
 
 class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRSTRUCT):
-    structure = (
-        ('Name', DWORD),('ValueType', WORD),('Reserved', WORD),('Flags', DWORD),('ValueCount', DWORD),('Values', VALUES),
-    )
+	align = 1
+	structure = (
+			(
+			'Name',
+			DWORD
+			),
+			(
+			'ValueType',
+			WORD
+			),
+			(
+			'Reserved',
+			WORD
+			),
+			(
+			'Flags',
+			DWORD
+			),
+			(
+			'ValueCount',
+			DWORD
+			),
+			(
+			'Values',
+			VALUES
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1
+			)
+		)
+
 
 SECURITY_INFORMATION = DWORD
 PSECURITY_INFORMATION = DWORD
-
 class RPC_SID(NDRSTRUCT):
-    structure = (
-        ('Revision', UNSIGNED_CHAR),('SubAuthorityCount', UNSIGNED_CHAR),('IdentifierAuthority', RPC_SID_IDENTIFIER_AUTHORITY),('SubAuthority', UNSIGNED_LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UNSIGNED_CHAR
+			),
+			(
+			'SubAuthorityCount',
+			UNSIGNED_CHAR
+			),
+			(
+			'IdentifierAuthority',
+			RPC_SID_IDENTIFIER_AUTHORITY
+			),
+			(
+			'SubAuthority',
+			UNSIGNED_LONG
+			)
+		)
+
+
 class PRPC_SID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
+
+
 class PSID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
 
 
 class ACL(NDRSTRUCT):
-    structure = (
-        ('AclRevision', UNSIGNED_CHAR),('Sbz1', UNSIGNED_CHAR),('AclSize', UNSIGNED_SHORT),('AceCount', UNSIGNED_SHORT),('Sbz2', UNSIGNED_SHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AclRevision',
+			UNSIGNED_CHAR
+			),
+			(
+			'Sbz1',
+			UNSIGNED_CHAR
+			),
+			(
+			'AclSize',
+			UNSIGNED_SHORT
+			),
+			(
+			'AceCount',
+			UNSIGNED_SHORT
+			),
+			(
+			'Sbz2',
+			UNSIGNED_SHORT
+			)
+		)
+
+
 class PACL(NDRPOINTER):
-    referent = (
-        ('Data', ACL),
-    )    
+	referent = (
+			(
+			'Data',
+			ACL
+			)
+		)
 
 
 class SECURITY_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Revision', UCHAR),('Sbz1', UCHAR),('Control', USHORT),('Owner', PSID),('Group', PSID),('Sacl', PACL),('Dacl', PACL),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UCHAR
+			),
+			(
+			'Sbz1',
+			UCHAR
+			),
+			(
+			'Control',
+			USHORT
+			),
+			(
+			'Owner',
+			PSID
+			),
+			(
+			'Group',
+			PSID
+			),
+			(
+			'Sacl',
+			PACL
+			),
+			(
+			'Dacl',
+			PACL
+			)
+		)
+
+
 class PSECURITY_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', SECURITY_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			SECURITY_DESCRIPTOR
+			)
+		)
+
 
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 #################################################################################
-
 #INTERFACE DEFINITION
-
 #################################################################################
-
 #################################################################################
-
 #efsrpc Definition
-
 #################################################################################
-
 MSRPC_UUID_EFSRPC = uuidtup_to_bin(('c681d488-d850-110-852-0004d90f7e','0.0'))
-
 PEXIMPORT_CONTEXT_HANDLE = VOID
 EFS_EXIM_PIPE = PIPE UNSIGNED CHAR
+class DATA_EFS_RPC_BLOB(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
+class PTR_EFS_RPC_BLOB(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_EFS_RPC_BLOB
+			)
+		)
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('cbData', DWORD),	('bData', PTR_DWORD),
 
-    )
-        
+class EFS_RPC_BLOB(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cbData',
+			DWORD
+			),
+			(
+			'bData',
+			PTR_EFS_RPC_BLOB
+			)
+		)
+
 
 class EFS_COMPATIBILITY_INFO(NDRSTRUCT):
-    structure = (
-        ('EfsVersion', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'EfsVersion',
+			DWORD
+			)
+		)
+
 
 ALG_ID = UNSIGNED_INT
+class DATA_EFS_HASH_BLOB(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
+class PTR_EFS_HASH_BLOB(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_EFS_HASH_BLOB
+			)
+		)
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('cbData', DWORD),	('bData', PTR_DWORD),
 
-    )
-        
+class EFS_HASH_BLOB(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'cbData',
+			DWORD
+			),
+			(
+			'bData',
+			PTR_EFS_HASH_BLOB
+			)
+		)
+
 
 class ENCRYPTION_CERTIFICATE_HASH(NDRSTRUCT):
-    structure = (
-        ('cbTotalLength', DWORD),('UserSid', RPC_SID),('Hash', EFS_HASH_BLOB),('lpDisplayInformation', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'cbTotalLength',
+			DWORD
+			),
+			(
+			'UserSid',
+			RPC_SID
+			),
+			(
+			'Hash',
+			EFS_HASH_BLOB
+			),
+			(
+			'lpDisplayInformation',
+			WCHAR_T
+			)
+		)
 
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = ENCRYPTION_CERTIFICATE_HASH
+class DATA_ENCRYPTION_CERTIFICATE_HASH_LIST(NDRUniConformantArray):
+	item = ENCRYPTION_CERTIFICATE_HASH
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('nCert_Hash', DWORD),	('Users', PTR_DWORD),
+class PTR_ENCRYPTION_CERTIFICATE_HASH_LIST(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_ENCRYPTION_CERTIFICATE_HASH_LIST
+			)
+		)
 
-    )
-        
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
+class ENCRYPTION_CERTIFICATE_HASH_LIST(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'nCert_Hash',
+			DWORD
+			),
+			(
+			'Users',
+			PTR_ENCRYPTION_CERTIFICATE_HASH_LIST
+			)
+		)
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('dwCertEncodingType', DWORD),	('cbData', DWORD),	('bData', PTR_DWORD),
+class DATA_EFS_CERTIFICATE_BLOB(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-    )
-        
+
+class PTR_EFS_CERTIFICATE_BLOB(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_EFS_CERTIFICATE_BLOB
+			)
+		)
+
+
+class EFS_CERTIFICATE_BLOB(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'dwCertEncodingType',
+			DWORD
+			),
+			(
+			'cbData',
+			DWORD
+			),
+			(
+			'bData',
+			PTR_EFS_CERTIFICATE_BLOB
+			)
+		)
+
 
 class ENCRYPTION_CERTIFICATE(NDRSTRUCT):
-    structure = (
-        ('cbTotalLength', DWORD),('UserSid', RPC_SID),('CertBlob', EFS_CERTIFICATE_BLOB),
-    )
+	align = 1
+	structure = (
+			(
+			'cbTotalLength',
+			DWORD
+			),
+			(
+			'UserSid',
+			RPC_SID
+			),
+			(
+			'CertBlob',
+			EFS_CERTIFICATE_BLOB
+			)
+		)
 
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = ENCRYPTION_CERTIFICATE
+class DATA_ENCRYPTION_CERTIFICATE_LIST(NDRUniConformantArray):
+	item = ENCRYPTION_CERTIFICATE
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('nUsers', DWORD),	('Users', PTR_DWORD),
+class PTR_ENCRYPTION_CERTIFICATE_LIST(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_ENCRYPTION_CERTIFICATE_LIST
+			)
+		)
 
-    )
-        
+
+class ENCRYPTION_CERTIFICATE_LIST(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'nUsers',
+			DWORD
+			),
+			(
+			'Users',
+			PTR_ENCRYPTION_CERTIFICATE_LIST
+			)
+		)
+
 
 class ENCRYPTED_FILE_METADATA_SIGNATURE(NDRSTRUCT):
-    structure = (
-        ('dwEfsAccessType', DWORD),('CertificatesAdded', ENCRYPTION_CERTIFICATE_HASH_LIST),('EncryptionCertificate', ENCRYPTION_CERTIFICATE),('EfsStreamSignature', EFS_RPC_BLOB),
-    )
+	align = 1
+	structure = (
+			(
+			'dwEfsAccessType',
+			DWORD
+			),
+			(
+			'CertificatesAdded',
+			ENCRYPTION_CERTIFICATE_HASH_LIST
+			),
+			(
+			'EncryptionCertificate',
+			ENCRYPTION_CERTIFICATE
+			),
+			(
+			'EfsStreamSignature',
+			EFS_RPC_BLOB
+			)
+		)
 
 
 class EFS_KEY_INFO(NDRSTRUCT):
-    structure = (
-        ('dwVersion', DWORD),('Entropy', UNSIGNED_LONG),('Algorithm', ALG_ID),('KeyLength', UNSIGNED_LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'dwVersion',
+			DWORD
+			),
+			(
+			'Entropy',
+			UNSIGNED_LONG
+			),
+			(
+			'Algorithm',
+			ALG_ID
+			),
+			(
+			'KeyLength',
+			UNSIGNED_LONG
+			)
+		)
 
 
 class EFS_DECRYPTION_STATUS_INFO(NDRSTRUCT):
-    structure = (
-        ('dwDecryptionError', DWORD),('dwHashOffset', DWORD),('cbHash', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'dwDecryptionError',
+			DWORD
+			),
+			(
+			'dwHashOffset',
+			DWORD
+			),
+			(
+			'cbHash',
+			DWORD
+			)
+		)
 
 
 class EFS_ENCRYPTION_STATUS_INFO(NDRSTRUCT):
-    structure = (
-        ('bHasCurrentKey', BOOL),('dwEncryptionError', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'bHasCurrentKey',
+			BOOL
+			),
+			(
+			'dwEncryptionError',
+			DWORD
+			)
+		)
 
 
 class ENCRYPTION_PROTECTOR(NDRSTRUCT):
-    structure = (
-        ('cbTotalLength', DWORD),('UserSid', RPC_SID),('lpProtectorDescriptor', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'cbTotalLength',
+			DWORD
+			),
+			(
+			'UserSid',
+			RPC_SID
+			),
+			(
+			'lpProtectorDescriptor',
+			WCHAR_T
+			)
+		)
+
+
 class PENCRYPTION_PROTECTOR(NDRPOINTER):
-    referent = (
-        ('Data', ENCRYPTION_PROTECTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			ENCRYPTION_PROTECTOR
+			)
+		)
 
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = PENCRYPTION_PROTECTOR
+class DATA_ENCRYPTION_PROTECTOR_LIST(NDRUniConformantArray):
+	item = PENCRYPTION_PROTECTOR
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('nProtectors', DWORD),	('pProtectors', PTR_DWORD),
+class PTR_ENCRYPTION_PROTECTOR_LIST(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_ENCRYPTION_PROTECTOR_LIST
+			)
+		)
 
-    )
-        
+
+class ENCRYPTION_PROTECTOR_LIST(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'nProtectors',
+			DWORD
+			),
+			(
+			'pProtectors',
+			PTR_ENCRYPTION_PROTECTOR_LIST
+			)
+		)
+
 
 class EfsRpcOpenFileRaw(NDRCALL):
-    opnum = 0
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-		('Flags', LONG),
-    )
+	OPNUM = 0
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'Flags',
+			LONG
+			)
+		)
+
 
 class EfsRpcOpenFileRawResponse(NDRCALL):
-    structure = (
-		('hContext', PEXIMPORT_CONTEXT_HANDLE),
-    )
-        
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'Flags',
+			LONG
+			)
+		)
+
 
 class EfsRpcReadFileRaw(NDRCALL):
-    opnum = 1
-    structure = (
-		('hContext', PEXIMPORT_CONTEXT_HANDLE),
-    )
+	OPNUM = 1
+	structure = (
+			(
+			'hContext',
+			PEXIMPORT_CONTEXT_HANDLE
+			)
+		)
+
 
 class EfsRpcReadFileRawResponse(NDRCALL):
-    structure = (
-		('EfsOutPipe', EFS_EXIM_PIPE),
-    )
-        
+	structure = (
+			(
+			'hContext',
+			PEXIMPORT_CONTEXT_HANDLE
+			)
+		)
+
 
 class EfsRpcWriteFileRaw(NDRCALL):
-    opnum = 2
-    structure = (
-		('hContext', PEXIMPORT_CONTEXT_HANDLE),
-		('EfsInPipe', EFS_EXIM_PIPE),
-    )
+	OPNUM = 2
+	structure = (
+			(
+			'hContext',
+			PEXIMPORT_CONTEXT_HANDLE
+			),
+			(
+			'EfsInPipe',
+			EFS_EXIM_PIPE
+			)
+		)
+
 
 class EfsRpcWriteFileRawResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'hContext',
+			PEXIMPORT_CONTEXT_HANDLE
+			),
+			(
+			'EfsInPipe',
+			EFS_EXIM_PIPE
+			)
+		)
 
-    )
-        
 
 class EfsRpcCloseRaw(NDRCALL):
-    opnum = 3
-    structure = (
-		('hContext', PEXIMPORT_CONTEXT_HANDLE),
-    )
+	OPNUM = 3
+	structure = (
+			(
+			'hContext',
+			PEXIMPORT_CONTEXT_HANDLE
+			)
+		)
+
 
 class EfsRpcCloseRawResponse(NDRCALL):
-    structure = (
-		('hContext', PEXIMPORT_CONTEXT_HANDLE),
-    )
-        
+	structure = (
+			(
+			'hContext',
+			PEXIMPORT_CONTEXT_HANDLE
+			)
+		)
+
 
 class EfsRpcEncryptFileSrv(NDRCALL):
-    opnum = 4
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-    )
+	OPNUM = 4
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			)
+		)
+
 
 class EfsRpcEncryptFileSrvResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			)
+		)
 
-    )
-        
 
 class EfsRpcDecryptFileSrv(NDRCALL):
-    opnum = 5
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-		('OpenFlag', UNSIGNED_LONG),
-    )
+	OPNUM = 5
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'OpenFlag',
+			UNSIGNED_LONG
+			)
+		)
+
 
 class EfsRpcDecryptFileSrvResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'OpenFlag',
+			UNSIGNED_LONG
+			)
+		)
 
-    )
-        
 
 class EfsRpcQueryUsersOnFile(NDRCALL):
-    opnum = 6
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-    )
+	OPNUM = 6
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			)
+		)
+
 
 class EfsRpcQueryUsersOnFileResponse(NDRCALL):
-    structure = (
-		('Users', ENCRYPTION_CERTIFICATE_HASH_LIST),
-    )
-        
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			)
+		)
+
 
 class EfsRpcQueryRecoveryAgents(NDRCALL):
-    opnum = 7
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-    )
+	OPNUM = 7
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			)
+		)
+
 
 class EfsRpcQueryRecoveryAgentsResponse(NDRCALL):
-    structure = (
-		('RecoveryAgents', ENCRYPTION_CERTIFICATE_HASH_LIST),
-    )
-        
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			)
+		)
+
 
 class EfsRpcRemoveUsersFromFile(NDRCALL):
-    opnum = 8
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-		('Users', ENCRYPTION_CERTIFICATE_HASH_LIST),
-    )
+	OPNUM = 8
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'Users',
+			ENCRYPTION_CERTIFICATE_HASH_LIST
+			)
+		)
+
 
 class EfsRpcRemoveUsersFromFileResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'Users',
+			ENCRYPTION_CERTIFICATE_HASH_LIST
+			)
+		)
 
-    )
-        
 
 class EfsRpcAddUsersToFile(NDRCALL):
-    opnum = 9
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-		('EncryptionCertificates', ENCRYPTION_CERTIFICATE_LIST),
-    )
+	OPNUM = 9
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'EncryptionCertificates',
+			ENCRYPTION_CERTIFICATE_LIST
+			)
+		)
+
 
 class EfsRpcAddUsersToFileResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'EncryptionCertificates',
+			ENCRYPTION_CERTIFICATE_LIST
+			)
+		)
 
-    )
-        
 
 class Opnum10NotUsedOnWire(NDRCALL):
-    opnum = 10
-    structure = (
+	OPNUM = 10
+	structure = (
 
-    )
+		)
+
 
 class Opnum10NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class EfsRpcNotSupported(NDRCALL):
-    opnum = 11
-    structure = (
-		('binding_h', HANDLE_T),
-		('Reserved1', WCHAR_T),
-		('Reserved2', WCHAR_T),
-		('dwReserved1', DWORD),
-		('dwReserved2', DWORD),
-		('Reserved', EFS_RPC_BLOB),
-		('bReserved', BOOL),
-    )
+	OPNUM = 11
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'Reserved1',
+			WCHAR_T
+			),
+			(
+			'Reserved2',
+			WCHAR_T
+			),
+			(
+			'dwReserved1',
+			DWORD
+			),
+			(
+			'dwReserved2',
+			DWORD
+			),
+			(
+			'Reserved',
+			EFS_RPC_BLOB
+			),
+			(
+			'bReserved',
+			BOOL
+			)
+		)
+
 
 class EfsRpcNotSupportedResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'Reserved1',
+			WCHAR_T
+			),
+			(
+			'Reserved2',
+			WCHAR_T
+			),
+			(
+			'dwReserved1',
+			DWORD
+			),
+			(
+			'dwReserved2',
+			DWORD
+			),
+			(
+			'Reserved',
+			EFS_RPC_BLOB
+			),
+			(
+			'bReserved',
+			BOOL
+			)
+		)
 
-    )
-        
 
 class EfsRpcFileKeyInfo(NDRCALL):
-    opnum = 12
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-		('InfoClass', DWORD),
-    )
+	OPNUM = 12
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'InfoClass',
+			DWORD
+			)
+		)
+
 
 class EfsRpcFileKeyInfoResponse(NDRCALL):
-    structure = (
-		('KeyInfo', EFS_RPC_BLOB),
-    )
-        
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'InfoClass',
+			DWORD
+			)
+		)
+
 
 class EfsRpcDuplicateEncryptionInfoFile(NDRCALL):
-    opnum = 13
-    structure = (
-		('binding_h', HANDLE_T),
-		('SrcFileName', WCHAR_T),
-		('DestFileName', WCHAR_T),
-		('dwCreationDisposition', DWORD),
-		('dwAttributes', DWORD),
-		('RelativeSD', EFS_RPC_BLOB),
-		('bInheritHandle', BOOL),
-    )
+	OPNUM = 13
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'SrcFileName',
+			WCHAR_T
+			),
+			(
+			'DestFileName',
+			WCHAR_T
+			),
+			(
+			'dwCreationDisposition',
+			DWORD
+			),
+			(
+			'dwAttributes',
+			DWORD
+			),
+			(
+			'RelativeSD',
+			EFS_RPC_BLOB
+			),
+			(
+			'bInheritHandle',
+			BOOL
+			)
+		)
+
 
 class EfsRpcDuplicateEncryptionInfoFileResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'SrcFileName',
+			WCHAR_T
+			),
+			(
+			'DestFileName',
+			WCHAR_T
+			),
+			(
+			'dwCreationDisposition',
+			DWORD
+			),
+			(
+			'dwAttributes',
+			DWORD
+			),
+			(
+			'RelativeSD',
+			EFS_RPC_BLOB
+			),
+			(
+			'bInheritHandle',
+			BOOL
+			)
+		)
 
-    )
-        
 
 class Opnum14NotUsedOnWire(NDRCALL):
-    opnum = 14
-    structure = (
+	OPNUM = 14
+	structure = (
 
-    )
+		)
+
 
 class Opnum14NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class EfsRpcAddUsersToFileEx(NDRCALL):
-    opnum = 15
-    structure = (
-		('binding_h', HANDLE_T),
-		('dwFlags', DWORD),
-		('Reserved', EFS_RPC_BLOB),
-		('FileName', WCHAR_T),
-		('EncryptionCertificates', ENCRYPTION_CERTIFICATE_LIST),
-    )
+	OPNUM = 15
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'Reserved',
+			EFS_RPC_BLOB
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'EncryptionCertificates',
+			ENCRYPTION_CERTIFICATE_LIST
+			)
+		)
+
 
 class EfsRpcAddUsersToFileExResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'dwFlags',
+			DWORD
+			),
+			(
+			'Reserved',
+			EFS_RPC_BLOB
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'EncryptionCertificates',
+			ENCRYPTION_CERTIFICATE_LIST
+			)
+		)
 
-    )
-        
 
 class EfsRpcFileKeyInfoEx(NDRCALL):
-    opnum = 16
-    structure = (
-		('binding_h', HANDLE_T),
-		('dwFileKeyInfoFlags', DWORD),
-		('Reserved', EFS_RPC_BLOB),
-		('FileName', WCHAR_T),
-		('InfoClass', DWORD),
-    )
+	OPNUM = 16
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'dwFileKeyInfoFlags',
+			DWORD
+			),
+			(
+			'Reserved',
+			EFS_RPC_BLOB
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'InfoClass',
+			DWORD
+			)
+		)
+
 
 class EfsRpcFileKeyInfoExResponse(NDRCALL):
-    structure = (
-		('KeyInfo', EFS_RPC_BLOB),
-    )
-        
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'dwFileKeyInfoFlags',
+			DWORD
+			),
+			(
+			'Reserved',
+			EFS_RPC_BLOB
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'InfoClass',
+			DWORD
+			)
+		)
+
 
 class Opnum17NotUsedOnWire(NDRCALL):
-    opnum = 17
-    structure = (
+	OPNUM = 17
+	structure = (
 
-    )
+		)
+
 
 class Opnum17NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class EfsRpcGetEncryptedFileMetadata(NDRCALL):
-    opnum = 18
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-    )
+	OPNUM = 18
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			)
+		)
+
 
 class EfsRpcGetEncryptedFileMetadataResponse(NDRCALL):
-    structure = (
-		('EfsStreamBlob', EFS_RPC_BLOB),
-    )
-        
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			)
+		)
+
 
 class EfsRpcSetEncryptedFileMetadata(NDRCALL):
-    opnum = 19
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-		('OldEfsStreamBlob', EFS_RPC_BLOB),
-		('NewEfsStreamBlob', EFS_RPC_BLOB),
-		('NewEfsSignature', ENCRYPTED_FILE_METADATA_SIGNATURE),
-    )
+	OPNUM = 19
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'OldEfsStreamBlob',
+			EFS_RPC_BLOB
+			),
+			(
+			'NewEfsStreamBlob',
+			EFS_RPC_BLOB
+			),
+			(
+			'NewEfsSignature',
+			ENCRYPTED_FILE_METADATA_SIGNATURE
+			)
+		)
+
 
 class EfsRpcSetEncryptedFileMetadataResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'OldEfsStreamBlob',
+			EFS_RPC_BLOB
+			),
+			(
+			'NewEfsStreamBlob',
+			EFS_RPC_BLOB
+			),
+			(
+			'NewEfsSignature',
+			ENCRYPTED_FILE_METADATA_SIGNATURE
+			)
+		)
 
-    )
-        
 
 class EfsRpcFlushEfsCache(NDRCALL):
-    opnum = 20
-    structure = (
-		('binding_h', HANDLE_T),
-    )
+	OPNUM = 20
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			)
+		)
+
 
 class EfsRpcFlushEfsCacheResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			)
+		)
 
-    )
-        
 
 class EfsRpcEncryptFileExSrv(NDRCALL):
-    opnum = 21
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-		('ProtectorDescriptor', WCHAR_T),
-		('Flags', UNSIGNED_LONG),
-    )
+	OPNUM = 21
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'ProtectorDescriptor',
+			WCHAR_T
+			),
+			(
+			'Flags',
+			UNSIGNED_LONG
+			)
+		)
+
 
 class EfsRpcEncryptFileExSrvResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			),
+			(
+			'ProtectorDescriptor',
+			WCHAR_T
+			),
+			(
+			'Flags',
+			UNSIGNED_LONG
+			)
+		)
 
-    )
-        
 
 class EfsRpcQueryProtectors(NDRCALL):
-    opnum = 22
-    structure = (
-		('binding_h', HANDLE_T),
-		('FileName', WCHAR_T),
-    )
+	OPNUM = 22
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			)
+		)
+
 
 class EfsRpcQueryProtectorsResponse(NDRCALL):
-    structure = (
-		('ppProtectorList', PENCRYPTION_PROTECTOR_LIST),
-    )
-        
+	structure = (
+			(
+			'binding_h',
+			HANDLE_T
+			),
+			(
+			'FileName',
+			WCHAR_T
+			)
+		)
+
 
 class Opnum23NotUsedOnWire(NDRCALL):
-    opnum = 23
-    structure = (
+	OPNUM = 23
+	structure = (
 
-    )
+		)
+
 
 class Opnum23NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum24NotUsedOnWire(NDRCALL):
-    opnum = 24
-    structure = (
+	OPNUM = 24
+	structure = (
 
-    )
+		)
+
 
 class Opnum24NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum25NotUsedOnWire(NDRCALL):
-    opnum = 25
-    structure = (
+	OPNUM = 25
+	structure = (
 
-    )
+		)
+
 
 class Opnum25NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum26NotUsedOnWire(NDRCALL):
-    opnum = 26
-    structure = (
+	OPNUM = 26
+	structure = (
 
-    )
+		)
+
 
 class Opnum26NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum27NotUsedOnWire(NDRCALL):
-    opnum = 27
-    structure = (
+	OPNUM = 27
+	structure = (
 
-    )
+		)
+
 
 class Opnum27NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum28NotUsedOnWire(NDRCALL):
-    opnum = 28
-    structure = (
+	OPNUM = 28
+	structure = (
 
-    )
+		)
+
 
 class Opnum28NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum29NotUsedOnWire(NDRCALL):
-    opnum = 29
-    structure = (
+	OPNUM = 29
+	structure = (
 
-    )
+		)
+
 
 class Opnum29NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum30NotUsedOnWire(NDRCALL):
-    opnum = 30
-    structure = (
+	OPNUM = 30
+	structure = (
 
-    )
+		)
+
 
 class Opnum30NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum31NotUsedOnWire(NDRCALL):
-    opnum = 31
-    structure = (
+	OPNUM = 31
+	structure = (
 
-    )
+		)
+
 
 class Opnum31NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum32NotUsedOnWire(NDRCALL):
-    opnum = 32
-    structure = (
+	OPNUM = 32
+	structure = (
 
-    )
+		)
+
 
 class Opnum32NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum33NotUsedOnWire(NDRCALL):
-    opnum = 33
-    structure = (
+	OPNUM = 33
+	structure = (
 
-    )
+		)
+
 
 class Opnum33NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum34NotUsedOnWire(NDRCALL):
-    opnum = 34
-    structure = (
+	OPNUM = 34
+	structure = (
 
-    )
+		)
+
 
 class Opnum34NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum35NotUsedOnWire(NDRCALL):
-    opnum = 35
-    structure = (
+	OPNUM = 35
+	structure = (
 
-    )
+		)
+
 
 class Opnum35NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum36NotUsedOnWire(NDRCALL):
-    opnum = 36
-    structure = (
+	OPNUM = 36
+	structure = (
 
-    )
+		)
+
 
 class Opnum36NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum37NotUsedOnWire(NDRCALL):
-    opnum = 37
-    structure = (
+	OPNUM = 37
+	structure = (
 
-    )
+		)
+
 
 class Opnum37NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum38NotUsedOnWire(NDRCALL):
-    opnum = 38
-    structure = (
+	OPNUM = 38
+	structure = (
 
-    )
+		)
+
 
 class Opnum38NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum39NotUsedOnWire(NDRCALL):
-    opnum = 39
-    structure = (
+	OPNUM = 39
+	structure = (
 
-    )
+		)
+
 
 class Opnum39NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum40NotUsedOnWire(NDRCALL):
-    opnum = 40
-    structure = (
+	OPNUM = 40
+	structure = (
 
-    )
+		)
+
 
 class Opnum40NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum41NotUsedOnWire(NDRCALL):
-    opnum = 41
-    structure = (
+	OPNUM = 41
+	structure = (
 
-    )
+		)
+
 
 class Opnum41NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum42NotUsedOnWire(NDRCALL):
-    opnum = 42
-    structure = (
+	OPNUM = 42
+	structure = (
 
-    )
+		)
+
 
 class Opnum42NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum43NotUsedOnWire(NDRCALL):
-    opnum = 43
-    structure = (
+	OPNUM = 43
+	structure = (
 
-    )
+		)
+
 
 class Opnum43NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum44NotUsedOnWire(NDRCALL):
-    opnum = 44
-    structure = (
+	OPNUM = 44
+	structure = (
 
-    )
+		)
+
 
 class Opnum44NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
-OPNUMS = {
-0 : (EfsRpcOpenFileRaw,EfsRpcOpenFileRawResponse),
-1 : (EfsRpcReadFileRaw,EfsRpcReadFileRawResponse),
-2 : (EfsRpcWriteFileRaw,EfsRpcWriteFileRawResponse),
-3 : (EfsRpcCloseRaw,EfsRpcCloseRawResponse),
-4 : (EfsRpcEncryptFileSrv,EfsRpcEncryptFileSrvResponse),
-5 : (EfsRpcDecryptFileSrv,EfsRpcDecryptFileSrvResponse),
-6 : (EfsRpcQueryUsersOnFile,EfsRpcQueryUsersOnFileResponse),
-7 : (EfsRpcQueryRecoveryAgents,EfsRpcQueryRecoveryAgentsResponse),
-8 : (EfsRpcRemoveUsersFromFile,EfsRpcRemoveUsersFromFileResponse),
-9 : (EfsRpcAddUsersToFile,EfsRpcAddUsersToFileResponse),
-10 : (Opnum10NotUsedOnWire,Opnum10NotUsedOnWireResponse),
-11 : (EfsRpcNotSupported,EfsRpcNotSupportedResponse),
-12 : (EfsRpcFileKeyInfo,EfsRpcFileKeyInfoResponse),
-13 : (EfsRpcDuplicateEncryptionInfoFile,EfsRpcDuplicateEncryptionInfoFileResponse),
-14 : (Opnum14NotUsedOnWire,Opnum14NotUsedOnWireResponse),
-15 : (EfsRpcAddUsersToFileEx,EfsRpcAddUsersToFileExResponse),
-16 : (EfsRpcFileKeyInfoEx,EfsRpcFileKeyInfoExResponse),
-17 : (Opnum17NotUsedOnWire,Opnum17NotUsedOnWireResponse),
-18 : (EfsRpcGetEncryptedFileMetadata,EfsRpcGetEncryptedFileMetadataResponse),
-19 : (EfsRpcSetEncryptedFileMetadata,EfsRpcSetEncryptedFileMetadataResponse),
-20 : (EfsRpcFlushEfsCache,EfsRpcFlushEfsCacheResponse),
-21 : (EfsRpcEncryptFileExSrv,EfsRpcEncryptFileExSrvResponse),
-22 : (EfsRpcQueryProtectors,EfsRpcQueryProtectorsResponse),
-23 : (Opnum23NotUsedOnWire,Opnum23NotUsedOnWireResponse),
-24 : (Opnum24NotUsedOnWire,Opnum24NotUsedOnWireResponse),
-25 : (Opnum25NotUsedOnWire,Opnum25NotUsedOnWireResponse),
-26 : (Opnum26NotUsedOnWire,Opnum26NotUsedOnWireResponse),
-27 : (Opnum27NotUsedOnWire,Opnum27NotUsedOnWireResponse),
-28 : (Opnum28NotUsedOnWire,Opnum28NotUsedOnWireResponse),
-29 : (Opnum29NotUsedOnWire,Opnum29NotUsedOnWireResponse),
-30 : (Opnum30NotUsedOnWire,Opnum30NotUsedOnWireResponse),
-31 : (Opnum31NotUsedOnWire,Opnum31NotUsedOnWireResponse),
-32 : (Opnum32NotUsedOnWire,Opnum32NotUsedOnWireResponse),
-33 : (Opnum33NotUsedOnWire,Opnum33NotUsedOnWireResponse),
-34 : (Opnum34NotUsedOnWire,Opnum34NotUsedOnWireResponse),
-35 : (Opnum35NotUsedOnWire,Opnum35NotUsedOnWireResponse),
-36 : (Opnum36NotUsedOnWire,Opnum36NotUsedOnWireResponse),
-37 : (Opnum37NotUsedOnWire,Opnum37NotUsedOnWireResponse),
-38 : (Opnum38NotUsedOnWire,Opnum38NotUsedOnWireResponse),
-39 : (Opnum39NotUsedOnWire,Opnum39NotUsedOnWireResponse),
-40 : (Opnum40NotUsedOnWire,Opnum40NotUsedOnWireResponse),
-41 : (Opnum41NotUsedOnWire,Opnum41NotUsedOnWireResponse),
-42 : (Opnum42NotUsedOnWire,Opnum42NotUsedOnWireResponse),
-43 : (Opnum43NotUsedOnWire,Opnum43NotUsedOnWireResponse),
-44 : (Opnum44NotUsedOnWire,Opnum44NotUsedOnWireResponse),
-}
+		)
 
+
+OPNUMS = {0 : (
+	EfsRpcOpenFileRaw,
+	EfsRpcOpenFileRawResponse
+	),1 : (
+	EfsRpcReadFileRaw,
+	EfsRpcReadFileRawResponse
+	),2 : (
+	EfsRpcWriteFileRaw,
+	EfsRpcWriteFileRawResponse
+	),3 : (
+	EfsRpcCloseRaw,
+	EfsRpcCloseRawResponse
+	),4 : (
+	EfsRpcEncryptFileSrv,
+	EfsRpcEncryptFileSrvResponse
+	),5 : (
+	EfsRpcDecryptFileSrv,
+	EfsRpcDecryptFileSrvResponse
+	),6 : (
+	EfsRpcQueryUsersOnFile,
+	EfsRpcQueryUsersOnFileResponse
+	),7 : (
+	EfsRpcQueryRecoveryAgents,
+	EfsRpcQueryRecoveryAgentsResponse
+	),8 : (
+	EfsRpcRemoveUsersFromFile,
+	EfsRpcRemoveUsersFromFileResponse
+	),9 : (
+	EfsRpcAddUsersToFile,
+	EfsRpcAddUsersToFileResponse
+	),10 : (
+	Opnum10NotUsedOnWire,
+	Opnum10NotUsedOnWireResponse
+	),11 : (
+	EfsRpcNotSupported,
+	EfsRpcNotSupportedResponse
+	),12 : (
+	EfsRpcFileKeyInfo,
+	EfsRpcFileKeyInfoResponse
+	),13 : (
+	EfsRpcDuplicateEncryptionInfoFile,
+	EfsRpcDuplicateEncryptionInfoFileResponse
+	),14 : (
+	Opnum14NotUsedOnWire,
+	Opnum14NotUsedOnWireResponse
+	),15 : (
+	EfsRpcAddUsersToFileEx,
+	EfsRpcAddUsersToFileExResponse
+	),16 : (
+	EfsRpcFileKeyInfoEx,
+	EfsRpcFileKeyInfoExResponse
+	),17 : (
+	Opnum17NotUsedOnWire,
+	Opnum17NotUsedOnWireResponse
+	),18 : (
+	EfsRpcGetEncryptedFileMetadata,
+	EfsRpcGetEncryptedFileMetadataResponse
+	),19 : (
+	EfsRpcSetEncryptedFileMetadata,
+	EfsRpcSetEncryptedFileMetadataResponse
+	),20 : (
+	EfsRpcFlushEfsCache,
+	EfsRpcFlushEfsCacheResponse
+	),21 : (
+	EfsRpcEncryptFileExSrv,
+	EfsRpcEncryptFileExSrvResponse
+	),22 : (
+	EfsRpcQueryProtectors,
+	EfsRpcQueryProtectorsResponse
+	),23 : (
+	Opnum23NotUsedOnWire,
+	Opnum23NotUsedOnWireResponse
+	),24 : (
+	Opnum24NotUsedOnWire,
+	Opnum24NotUsedOnWireResponse
+	),25 : (
+	Opnum25NotUsedOnWire,
+	Opnum25NotUsedOnWireResponse
+	),26 : (
+	Opnum26NotUsedOnWire,
+	Opnum26NotUsedOnWireResponse
+	),27 : (
+	Opnum27NotUsedOnWire,
+	Opnum27NotUsedOnWireResponse
+	),28 : (
+	Opnum28NotUsedOnWire,
+	Opnum28NotUsedOnWireResponse
+	),29 : (
+	Opnum29NotUsedOnWire,
+	Opnum29NotUsedOnWireResponse
+	),30 : (
+	Opnum30NotUsedOnWire,
+	Opnum30NotUsedOnWireResponse
+	),31 : (
+	Opnum31NotUsedOnWire,
+	Opnum31NotUsedOnWireResponse
+	),32 : (
+	Opnum32NotUsedOnWire,
+	Opnum32NotUsedOnWireResponse
+	),33 : (
+	Opnum33NotUsedOnWire,
+	Opnum33NotUsedOnWireResponse
+	),34 : (
+	Opnum34NotUsedOnWire,
+	Opnum34NotUsedOnWireResponse
+	),35 : (
+	Opnum35NotUsedOnWire,
+	Opnum35NotUsedOnWireResponse
+	),36 : (
+	Opnum36NotUsedOnWire,
+	Opnum36NotUsedOnWireResponse
+	),37 : (
+	Opnum37NotUsedOnWire,
+	Opnum37NotUsedOnWireResponse
+	),38 : (
+	Opnum38NotUsedOnWire,
+	Opnum38NotUsedOnWireResponse
+	),39 : (
+	Opnum39NotUsedOnWire,
+	Opnum39NotUsedOnWireResponse
+	),40 : (
+	Opnum40NotUsedOnWire,
+	Opnum40NotUsedOnWireResponse
+	),41 : (
+	Opnum41NotUsedOnWire,
+	Opnum41NotUsedOnWireResponse
+	),42 : (
+	Opnum42NotUsedOnWire,
+	Opnum42NotUsedOnWireResponse
+	),43 : (
+	Opnum43NotUsedOnWire,
+	Opnum43NotUsedOnWireResponse
+	),44 : (
+	Opnum44NotUsedOnWire,
+	Opnum44NotUsedOnWireResponse
+	)}

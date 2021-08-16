@@ -2,7 +2,6 @@
 Generated from MIDL2Impacket.py
 """
 
-
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
@@ -15,6 +14,7 @@ from impacket.dcerpc.v5.rpcrt import DCERPCException
 
 DWORD64 = NDRUHYPER
 __INT64 = NDRHYPER
+DWORD__ENUM = DWORD
 class CONTEXT_HANDLE(NDRSTRUCT):
     align = 1
     structure = (
@@ -74,17 +74,11 @@ UNSIGNED_HYPER = NDRUHYPER
 HYPER = NDRHYPER
 
 #################################################################################
-
 #"ms-dtyp.idl"
-
 #################################################################################
-
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -169,2780 +163,7473 @@ LPVOID = VOID
 WORD = UNSIGNED_SHORT
 PWORD = UNSIGNED_SHORT
 LPWORD = UNSIGNED_SHORT
-
 class FILETIME(NDRSTRUCT):
-    structure = (
-        ('dwLowDateTime', DWORD),('dwHighDateTime', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'dwLowDateTime',
+			DWORD
+			),
+			(
+			'dwHighDateTime',
+			DWORD
+			)
+		)
+
+
 class PFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
+
+
 class LPFILETIME(NDRPOINTER):
-    referent = (
-        ('Data', FILETIME),
-    )    
+	referent = (
+			(
+			'Data',
+			FILETIME
+			)
+		)
 
 
 class GUID(NDRSTRUCT):
-    structure = (
-        ('Data1', UNSIGNED_LONG),('Data2', UNSIGNED_SHORT),('Data3', UNSIGNED_SHORT),('Data4', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Data1',
+			UNSIGNED_LONG
+			),
+			(
+			'Data2',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data3',
+			UNSIGNED_SHORT
+			),
+			(
+			'Data4',
+			BYTE
+			)
+		)
+
+
 UUID = GUID
 class PGUID(NDRPOINTER):
-    referent = (
-        ('Data', GUID),
-    )    
+	referent = (
+			(
+			'Data',
+			GUID
+			)
+		)
 
 
 class LARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', SIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			SIGNED___INT64
+			)
+		)
+
+
 class PLARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', LARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			LARGE_INTEGER
+			)
+		)
 
 
 class EVENT_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Id', USHORT),('Version', UCHAR),('Channel', UCHAR),('Level', UCHAR),('Opcode', UCHAR),('Task', USHORT),('Keyword', ULONGLONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Id',
+			USHORT
+			),
+			(
+			'Version',
+			UCHAR
+			),
+			(
+			'Channel',
+			UCHAR
+			),
+			(
+			'Level',
+			UCHAR
+			),
+			(
+			'Opcode',
+			UCHAR
+			),
+			(
+			'Task',
+			USHORT
+			),
+			(
+			'Keyword',
+			ULONGLONG
+			)
+		)
+
+
 class PEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
+
+
 class PCEVENT_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_DESCRIPTOR
+			)
+		)
 
 
 class S0(NDRSTRUCT):
-    structure = (
-        ('KernelTime', ULONG),('UserTime', ULONG),
-    )
+	align = 1
+	structure = (
+			(
+			'KernelTime',
+			ULONG
+			),
+			(
+			'UserTime',
+			ULONG
+			)
+		)
 
 
 class U0(NDRUNION):
-    union = {
-        1: ('s0',S0),2: ('ProcessorTime',ULONG64),
-    }
-        
+	union = {1 : (
+		's0',
+		S0
+		),2 : (
+		'ProcessorTime',
+		ULONG64
+		)}
+
 
 class EVENT_HEADER(NDRSTRUCT):
-    structure = (
-        ('Size', USHORT),('HeaderType', USHORT),('Flags', USHORT),('EventProperty', USHORT),('ThreadId', ULONG),('ProcessId', ULONG),('TimeStamp', LARGE_INTEGER),('ProviderId', GUID),('EventDescriptor', EVENT_DESCRIPTOR),('u0', U0),('ActivityId', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Size',
+			USHORT
+			),
+			(
+			'HeaderType',
+			USHORT
+			),
+			(
+			'Flags',
+			USHORT
+			),
+			(
+			'EventProperty',
+			USHORT
+			),
+			(
+			'ThreadId',
+			ULONG
+			),
+			(
+			'ProcessId',
+			ULONG
+			),
+			(
+			'TimeStamp',
+			LARGE_INTEGER
+			),
+			(
+			'ProviderId',
+			GUID
+			),
+			(
+			'EventDescriptor',
+			EVENT_DESCRIPTOR
+			),
+			(
+			'u0',
+			U0
+			),
+			(
+			'ActivityId',
+			GUID
+			)
+		)
+
+
 class PEVENT_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', EVENT_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			EVENT_HEADER
+			)
+		)
+
 
 LCID = DWORD
-
 class LUID(NDRSTRUCT):
-    structure = (
-        ('LowPart', DWORD),('HighPart', LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'LowPart',
+			DWORD
+			),
+			(
+			'HighPart',
+			LONG
+			)
+		)
+
+
 class PLUID(NDRPOINTER):
-    referent = (
-        ('Data', LUID),
-    )    
+	referent = (
+			(
+			'Data',
+			LUID
+			)
+		)
 
 
 class MULTI_SZ(NDRSTRUCT):
-    structure = (
-        ('Value', WCHAR_T),('nChar', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			WCHAR_T
+			),
+			(
+			'nChar',
+			DWORD
+			)
+		)
 
 
-class DATA_UNSIGNED_SHORT(NDRUniConformantArray):
-    item = WCHAR
+class DATA_RPC_UNICODE_STRING(NDRUniConformantArray):
+	item = WCHAR
 
-class PTR_UNSIGNED_SHORT(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_SHORT),
-    )
 
-class UNSIGNED_SHORT(NDRSTRUCT):
-    structure = (
-	('Length', UNSIGNED_SHORT),	('MaximumLength', UNSIGNED_SHORT),	('Buffer', PTR_UNSIGNED_SHORT),
+class PTR_RPC_UNICODE_STRING(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_RPC_UNICODE_STRING
+			)
+		)
 
-    )
-        
+
+class RPC_UNICODE_STRING(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'Length',
+			UNSIGNED_SHORT
+			),
+			(
+			'MaximumLength',
+			UNSIGNED_SHORT
+			),
+			(
+			'Buffer',
+			PTR_RPC_UNICODE_STRING
+			)
+		)
+
 
 class SERVER_INFO_100(NDRSTRUCT):
-    structure = (
-        ('sv100_platform_id', DWORD),('sv100_name', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv100_platform_id',
+			DWORD
+			),
+			(
+			'sv100_name',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
+
+
 class LPSERVER_INFO_100(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_100),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_100
+			)
+		)
 
 
 class SERVER_INFO_101(NDRSTRUCT):
-    structure = (
-        ('sv101_platform_id', DWORD),('sv101_name', WCHAR_T),('sv101_version_major', DWORD),('sv101_version_minor', DWORD),('sv101_version_type', DWORD),('sv101_comment', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv101_platform_id',
+			DWORD
+			),
+			(
+			'sv101_name',
+			WCHAR_T
+			),
+			(
+			'sv101_version_major',
+			DWORD
+			),
+			(
+			'sv101_version_minor',
+			DWORD
+			),
+			(
+			'sv101_version_type',
+			DWORD
+			),
+			(
+			'sv101_comment',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
+
+
 class LPSERVER_INFO_101(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_101),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_101
+			)
+		)
 
 
 class SYSTEMTIME(NDRSTRUCT):
-    structure = (
-        ('wYear', WORD),('wMonth', WORD),('wDayOfWeek', WORD),('wDay', WORD),('wHour', WORD),('wMinute', WORD),('wSecond', WORD),('wMilliseconds', WORD),
-    )
+	align = 1
+	structure = (
+			(
+			'wYear',
+			WORD
+			),
+			(
+			'wMonth',
+			WORD
+			),
+			(
+			'wDayOfWeek',
+			WORD
+			),
+			(
+			'wDay',
+			WORD
+			),
+			(
+			'wHour',
+			WORD
+			),
+			(
+			'wMinute',
+			WORD
+			),
+			(
+			'wSecond',
+			WORD
+			),
+			(
+			'wMilliseconds',
+			WORD
+			)
+		)
+
+
 class PSYSTEMTIME(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEMTIME),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEMTIME
+			)
+		)
 
 
 class UINT128(NDRSTRUCT):
-    structure = (
-        ('lower', UINT64),('upper', UINT64),
-    )
+	align = 1
+	structure = (
+			(
+			'lower',
+			UINT64
+			),
+			(
+			'upper',
+			UINT64
+			)
+		)
+
+
 class PUINT128(NDRPOINTER):
-    referent = (
-        ('Data', UINT128),
-    )    
+	referent = (
+			(
+			'Data',
+			UINT128
+			)
+		)
 
 
 class ULARGE_INTEGER(NDRSTRUCT):
-    structure = (
-        ('QuadPart', UNSIGNED___INT64),
-    )
+	align = 1
+	structure = (
+			(
+			'QuadPart',
+			UNSIGNED___INT64
+			)
+		)
+
+
 class PULARGE_INTEGER(NDRPOINTER):
-    referent = (
-        ('Data', ULARGE_INTEGER),
-    )    
+	referent = (
+			(
+			'Data',
+			ULARGE_INTEGER
+			)
+		)
 
 
 class RPC_SID_IDENTIFIER_AUTHORITY(NDRSTRUCT):
-    structure = (
-        ('Value', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Value',
+			BYTE
+			)
+		)
+
 
 ACCESS_MASK = DWORD
 PACCESS_MASK = ACCESS_MASK
-
 class OBJECT_TYPE_LIST(NDRSTRUCT):
-    structure = (
-        ('Level', WORD),('Remaining', ACCESS_MASK),('ObjectType', GUID),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			WORD
+			),
+			(
+			'Remaining',
+			ACCESS_MASK
+			),
+			(
+			'ObjectType',
+			GUID
+			)
+		)
+
+
 class POBJECT_TYPE_LIST(NDRPOINTER):
-    referent = (
-        ('Data', OBJECT_TYPE_LIST),
-    )    
+	referent = (
+			(
+			'Data',
+			OBJECT_TYPE_LIST
+			)
+		)
 
 
 class ACE_HEADER(NDRSTRUCT):
-    structure = (
-        ('AceType', UCHAR),('AceFlags', UCHAR),('AceSize', USHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AceType',
+			UCHAR
+			),
+			(
+			'AceFlags',
+			UCHAR
+			),
+			(
+			'AceSize',
+			USHORT
+			)
+		)
+
+
 class PACE_HEADER(NDRPOINTER):
-    referent = (
-        ('Data', ACE_HEADER),
-    )    
+	referent = (
+			(
+			'Data',
+			ACE_HEADER
+			)
+		)
 
 
 class SYSTEM_MANDATORY_LABEL_ACE(NDRSTRUCT):
-    structure = (
-        ('Header', ACE_HEADER),('Mask', ACCESS_MASK),('SidStart', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Header',
+			ACE_HEADER
+			),
+			(
+			'Mask',
+			ACCESS_MASK
+			),
+			(
+			'SidStart',
+			DWORD
+			)
+		)
+
+
 class PSYSTEM_MANDATORY_LABEL_ACE(NDRPOINTER):
-    referent = (
-        ('Data', SYSTEM_MANDATORY_LABEL_ACE),
-    )    
+	referent = (
+			(
+			'Data',
+			SYSTEM_MANDATORY_LABEL_ACE
+			)
+		)
 
 
 class TOKEN_MANDATORY_POLICY(NDRSTRUCT):
-    structure = (
-        ('Policy', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'Policy',
+			DWORD
+			)
+		)
+
+
 class PTOKEN_MANDATORY_POLICY(NDRPOINTER):
-    referent = (
-        ('Data', TOKEN_MANDATORY_POLICY),
-    )    
+	referent = (
+			(
+			'Data',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
 
 
 class MANDATORY_INFORMATION(NDRSTRUCT):
-    structure = (
-        ('AllowedAccess', ACCESS_MASK),('WriteAllowed', BOOLEAN),('ReadAllowed', BOOLEAN),('ExecuteAllowed', BOOLEAN),('MandatoryPolicy', TOKEN_MANDATORY_POLICY),
-    )
+	align = 1
+	structure = (
+			(
+			'AllowedAccess',
+			ACCESS_MASK
+			),
+			(
+			'WriteAllowed',
+			BOOLEAN
+			),
+			(
+			'ReadAllowed',
+			BOOLEAN
+			),
+			(
+			'ExecuteAllowed',
+			BOOLEAN
+			),
+			(
+			'MandatoryPolicy',
+			TOKEN_MANDATORY_POLICY
+			)
+		)
+
+
 class PMANDATORY_INFORMATION(NDRPOINTER):
-    referent = (
-        ('Data', MANDATORY_INFORMATION),
-    )    
+	referent = (
+			(
+			'Data',
+			MANDATORY_INFORMATION
+			)
+		)
 
 
 class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRSTRUCT):
-    structure = (
-        ('Length', DWORD),('OctetString', BYTE),
-    )
+	align = 1
+	structure = (
+			(
+			'Length',
+			DWORD
+			),
+			(
+			'OctetString',
+			BYTE
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+			)
+		)
 
 
 class VALUES(NDRUNION):
-    union = {
-        1: ('pInt64',PLONG64),2: ('pUint64',PDWORD64),3: ('ppString',PWSTR),4: ('pOctetString',PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE),
-    }
-        
+	union = {1 : (
+		'pInt64',
+		PLONG64
+		),2 : (
+		'pUint64',
+		PDWORD64
+		),3 : (
+		'ppString',
+		PWSTR
+		),4 : (
+		'pOctetString',
+		PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE
+		)}
+
 
 class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRSTRUCT):
-    structure = (
-        ('Name', DWORD),('ValueType', WORD),('Reserved', WORD),('Flags', DWORD),('ValueCount', DWORD),('Values', VALUES),
-    )
+	align = 1
+	structure = (
+			(
+			'Name',
+			DWORD
+			),
+			(
+			'ValueType',
+			WORD
+			),
+			(
+			'Reserved',
+			WORD
+			),
+			(
+			'Flags',
+			DWORD
+			),
+			(
+			'ValueCount',
+			DWORD
+			),
+			(
+			'Values',
+			VALUES
+			)
+		)
+
+
 class PCLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NDRPOINTER):
-    referent = (
-        ('Data', CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1),
-    )    
+	referent = (
+			(
+			'Data',
+			CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1
+			)
+		)
+
 
 SECURITY_INFORMATION = DWORD
 PSECURITY_INFORMATION = DWORD
-
 class RPC_SID(NDRSTRUCT):
-    structure = (
-        ('Revision', UNSIGNED_CHAR),('SubAuthorityCount', UNSIGNED_CHAR),('IdentifierAuthority', RPC_SID_IDENTIFIER_AUTHORITY),('SubAuthority', UNSIGNED_LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UNSIGNED_CHAR
+			),
+			(
+			'SubAuthorityCount',
+			UNSIGNED_CHAR
+			),
+			(
+			'IdentifierAuthority',
+			RPC_SID_IDENTIFIER_AUTHORITY
+			),
+			(
+			'SubAuthority',
+			UNSIGNED_LONG
+			)
+		)
+
+
 class PRPC_SID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
+
+
 class PSID(NDRPOINTER):
-    referent = (
-        ('Data', RPC_SID),
-    )    
+	referent = (
+			(
+			'Data',
+			RPC_SID
+			)
+		)
 
 
 class ACL(NDRSTRUCT):
-    structure = (
-        ('AclRevision', UNSIGNED_CHAR),('Sbz1', UNSIGNED_CHAR),('AclSize', UNSIGNED_SHORT),('AceCount', UNSIGNED_SHORT),('Sbz2', UNSIGNED_SHORT),
-    )
+	align = 1
+	structure = (
+			(
+			'AclRevision',
+			UNSIGNED_CHAR
+			),
+			(
+			'Sbz1',
+			UNSIGNED_CHAR
+			),
+			(
+			'AclSize',
+			UNSIGNED_SHORT
+			),
+			(
+			'AceCount',
+			UNSIGNED_SHORT
+			),
+			(
+			'Sbz2',
+			UNSIGNED_SHORT
+			)
+		)
+
+
 class PACL(NDRPOINTER):
-    referent = (
-        ('Data', ACL),
-    )    
+	referent = (
+			(
+			'Data',
+			ACL
+			)
+		)
 
 
 class SECURITY_DESCRIPTOR(NDRSTRUCT):
-    structure = (
-        ('Revision', UCHAR),('Sbz1', UCHAR),('Control', USHORT),('Owner', PSID),('Group', PSID),('Sacl', PACL),('Dacl', PACL),
-    )
+	align = 1
+	structure = (
+			(
+			'Revision',
+			UCHAR
+			),
+			(
+			'Sbz1',
+			UCHAR
+			),
+			(
+			'Control',
+			USHORT
+			),
+			(
+			'Owner',
+			PSID
+			),
+			(
+			'Group',
+			PSID
+			),
+			(
+			'Sacl',
+			PACL
+			),
+			(
+			'Dacl',
+			PACL
+			)
+		)
+
+
 class PSECURITY_DESCRIPTOR(NDRPOINTER):
-    referent = (
-        ('Data', SECURITY_DESCRIPTOR),
-    )    
+	referent = (
+			(
+			'Data',
+			SECURITY_DESCRIPTOR
+			)
+		)
+
 
 #################################################################################
-
 #TYPEDEFS
-
 #################################################################################
-
 #################################################################################
-
 #INTERFACE DEFINITION
-
 #################################################################################
-
 #################################################################################
-
 #srvsvc Definition
-
 #################################################################################
-
 MSRPC_UUID_SRVSVC = uuidtup_to_bin(('4B324FC8-1670-01D3-1278-5A47BF6EE188','0.0'))
-
 SRVSVC_HANDLE = WCHAR_T
-
 class CONNECTION_INFO_0(NDRSTRUCT):
-    structure = (
-        ('coni0_id', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'coni0_id',
+			DWORD
+			)
+		)
+
+
 class PCONNECTION_INFO_0(NDRPOINTER):
-    referent = (
-        ('Data', CONNECTION_INFO_0),
-    )    
+	referent = (
+			(
+			'Data',
+			CONNECTION_INFO_0
+			)
+		)
+
+
 class LPCONNECTION_INFO_0(NDRPOINTER):
-    referent = (
-        ('Data', CONNECTION_INFO_0),
-    )    
+	referent = (
+			(
+			'Data',
+			CONNECTION_INFO_0
+			)
+		)
 
 
 class CONNECT_INFO_0_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPCONNECTION_INFO_0),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPCONNECTION_INFO_0
+			)
+		)
+
+
 class PCONNECT_INFO_0_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', CONNECT_INFO_0_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			CONNECT_INFO_0_CONTAINER
+			)
+		)
+
+
 class LPCONNECT_INFO_0_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', CONNECT_INFO_0_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			CONNECT_INFO_0_CONTAINER
+			)
+		)
 
 
 class CONNECTION_INFO_1(NDRSTRUCT):
-    structure = (
-        ('coni1_id', DWORD),('coni1_type', DWORD),('coni1_num_opens', DWORD),('coni1_num_users', DWORD),('coni1_time', DWORD),('coni1_username', WCHAR_T),('coni1_netname', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'coni1_id',
+			DWORD
+			),
+			(
+			'coni1_type',
+			DWORD
+			),
+			(
+			'coni1_num_opens',
+			DWORD
+			),
+			(
+			'coni1_num_users',
+			DWORD
+			),
+			(
+			'coni1_time',
+			DWORD
+			),
+			(
+			'coni1_username',
+			WCHAR_T
+			),
+			(
+			'coni1_netname',
+			WCHAR_T
+			)
+		)
+
+
 class PCONNECTION_INFO_1(NDRPOINTER):
-    referent = (
-        ('Data', CONNECTION_INFO_1),
-    )    
+	referent = (
+			(
+			'Data',
+			CONNECTION_INFO_1
+			)
+		)
+
+
 class LPCONNECTION_INFO_1(NDRPOINTER):
-    referent = (
-        ('Data', CONNECTION_INFO_1),
-    )    
+	referent = (
+			(
+			'Data',
+			CONNECTION_INFO_1
+			)
+		)
 
 
 class CONNECT_INFO_1_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPCONNECTION_INFO_1),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPCONNECTION_INFO_1
+			)
+		)
+
+
 class PCONNECT_INFO_1_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', CONNECT_INFO_1_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			CONNECT_INFO_1_CONTAINER
+			)
+		)
+
+
 class LPCONNECT_INFO_1_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', CONNECT_INFO_1_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			CONNECT_INFO_1_CONTAINER
+			)
+		)
 
 
 class CONNECT_ENUM_UNION(NDRUNION):
-    union = {
-        0: ('Level0',CONNECT_INFO_0_CONTAINER),1: ('Level1',CONNECT_INFO_1_CONTAINER),
-    }
-        
+	union = {0 : (
+		'Level0',
+		CONNECT_INFO_0_CONTAINER
+		),1 : (
+		'Level1',
+		CONNECT_INFO_1_CONTAINER
+		)}
+
 
 class CONNECT_ENUM_STRUCT(NDRSTRUCT):
-    structure = (
-        ('Level', DWORD),('ConnectInfo', CONNECT_ENUM_UNION),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'ConnectInfo',
+			CONNECT_ENUM_UNION
+			)
+		)
+
+
 class PCONNECT_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', CONNECT_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			CONNECT_ENUM_STRUCT
+			)
+		)
+
+
 class LPCONNECT_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', CONNECT_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			CONNECT_ENUM_STRUCT
+			)
+		)
 
 
 class FILE_INFO_2(NDRSTRUCT):
-    structure = (
-        ('fi2_id', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'fi2_id',
+			DWORD
+			)
+		)
+
+
 class PFILE_INFO_2(NDRPOINTER):
-    referent = (
-        ('Data', FILE_INFO_2),
-    )    
+	referent = (
+			(
+			'Data',
+			FILE_INFO_2
+			)
+		)
+
+
 class LPFILE_INFO_2(NDRPOINTER):
-    referent = (
-        ('Data', FILE_INFO_2),
-    )    
+	referent = (
+			(
+			'Data',
+			FILE_INFO_2
+			)
+		)
 
 
 class FILE_INFO_2_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPFILE_INFO_2),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPFILE_INFO_2
+			)
+		)
+
+
 class PFILE_INFO_2_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', FILE_INFO_2_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			FILE_INFO_2_CONTAINER
+			)
+		)
+
+
 class LPFILE_INFO_2_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', FILE_INFO_2_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			FILE_INFO_2_CONTAINER
+			)
+		)
 
 
 class FILE_INFO_3(NDRSTRUCT):
-    structure = (
-        ('fi3_id', DWORD),('fi3_permissions', DWORD),('fi3_num_locks', DWORD),('fi3_pathname', WCHAR_T),('fi3_username', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'fi3_id',
+			DWORD
+			),
+			(
+			'fi3_permissions',
+			DWORD
+			),
+			(
+			'fi3_num_locks',
+			DWORD
+			),
+			(
+			'fi3_pathname',
+			WCHAR_T
+			),
+			(
+			'fi3_username',
+			WCHAR_T
+			)
+		)
+
+
 class PFILE_INFO_3(NDRPOINTER):
-    referent = (
-        ('Data', FILE_INFO_3),
-    )    
+	referent = (
+			(
+			'Data',
+			FILE_INFO_3
+			)
+		)
+
+
 class LPFILE_INFO_3(NDRPOINTER):
-    referent = (
-        ('Data', FILE_INFO_3),
-    )    
+	referent = (
+			(
+			'Data',
+			FILE_INFO_3
+			)
+		)
 
 
 class FILE_INFO_3_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPFILE_INFO_3),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPFILE_INFO_3
+			)
+		)
+
+
 class PFILE_INFO_3_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', FILE_INFO_3_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			FILE_INFO_3_CONTAINER
+			)
+		)
+
+
 class LPFILE_INFO_3_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', FILE_INFO_3_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			FILE_INFO_3_CONTAINER
+			)
+		)
 
 
 class FILE_ENUM_UNION(NDRUNION):
-    union = {
-        2: ('Level2',FILE_INFO_2_CONTAINER),3: ('Level3',FILE_INFO_3_CONTAINER),
-    }
-        
+	union = {2 : (
+		'Level2',
+		FILE_INFO_2_CONTAINER
+		),3 : (
+		'Level3',
+		FILE_INFO_3_CONTAINER
+		)}
+
 
 class FILE_ENUM_STRUCT(NDRSTRUCT):
-    structure = (
-        ('Level', DWORD),('FileInfo', FILE_ENUM_UNION),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'FileInfo',
+			FILE_ENUM_UNION
+			)
+		)
+
+
 class PFILE_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', FILE_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			FILE_ENUM_STRUCT
+			)
+		)
+
+
 class LPFILE_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', FILE_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			FILE_ENUM_STRUCT
+			)
+		)
 
 
 class FILE_INFO(NDRUNION):
-    union = {
-        2: ('FileInfo2',LPFILE_INFO_2),3: ('FileInfo3',LPFILE_INFO_3),
-    }
-        class PFILE_INFO(NDRPOINTER):
-    referent = (
-        ('Data', FILE_INFO),
-    )    
+	union = {2 : (
+		'FileInfo2',
+		LPFILE_INFO_2
+		),3 : (
+		'FileInfo3',
+		LPFILE_INFO_3
+		)}
+
+
+class PFILE_INFO(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			FILE_INFO
+			)
+		)
+
+
 class LPFILE_INFO(NDRPOINTER):
-    referent = (
-        ('Data', FILE_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			FILE_INFO
+			)
+		)
 
 
 class SESSION_INFO_0(NDRSTRUCT):
-    structure = (
-        ('sesi0_cname', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sesi0_cname',
+			WCHAR_T
+			)
+		)
+
+
 class PSESSION_INFO_0(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_0),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_0
+			)
+		)
+
+
 class LPSESSION_INFO_0(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_0),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_0
+			)
+		)
 
 
 class SESSION_INFO_0_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSESSION_INFO_0),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSESSION_INFO_0
+			)
+		)
+
+
 class PSESSION_INFO_0_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_0_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_0_CONTAINER
+			)
+		)
+
+
 class LPSESSION_INFO_0_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_0_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_0_CONTAINER
+			)
+		)
 
 
 class SESSION_INFO_1(NDRSTRUCT):
-    structure = (
-        ('sesi1_cname', WCHAR_T),('sesi1_username', WCHAR_T),('sesi1_num_opens', DWORD),('sesi1_time', DWORD),('sesi1_idle_time', DWORD),('sesi1_user_flags', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sesi1_cname',
+			WCHAR_T
+			),
+			(
+			'sesi1_username',
+			WCHAR_T
+			),
+			(
+			'sesi1_num_opens',
+			DWORD
+			),
+			(
+			'sesi1_time',
+			DWORD
+			),
+			(
+			'sesi1_idle_time',
+			DWORD
+			),
+			(
+			'sesi1_user_flags',
+			DWORD
+			)
+		)
+
+
 class PSESSION_INFO_1(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_1),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_1
+			)
+		)
+
+
 class LPSESSION_INFO_1(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_1),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_1
+			)
+		)
 
 
 class SESSION_INFO_1_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSESSION_INFO_1),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSESSION_INFO_1
+			)
+		)
+
+
 class PSESSION_INFO_1_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_1_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_1_CONTAINER
+			)
+		)
+
+
 class LPSESSION_INFO_1_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_1_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_1_CONTAINER
+			)
+		)
 
 
 class SESSION_INFO_2(NDRSTRUCT):
-    structure = (
-        ('sesi2_cname', WCHAR_T),('sesi2_username', WCHAR_T),('sesi2_num_opens', DWORD),('sesi2_time', DWORD),('sesi2_idle_time', DWORD),('sesi2_user_flags', DWORD),('sesi2_cltype_name', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sesi2_cname',
+			WCHAR_T
+			),
+			(
+			'sesi2_username',
+			WCHAR_T
+			),
+			(
+			'sesi2_num_opens',
+			DWORD
+			),
+			(
+			'sesi2_time',
+			DWORD
+			),
+			(
+			'sesi2_idle_time',
+			DWORD
+			),
+			(
+			'sesi2_user_flags',
+			DWORD
+			),
+			(
+			'sesi2_cltype_name',
+			WCHAR_T
+			)
+		)
+
+
 class PSESSION_INFO_2(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_2),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_2
+			)
+		)
+
+
 class LPSESSION_INFO_2(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_2),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_2
+			)
+		)
 
 
 class SESSION_INFO_2_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSESSION_INFO_2),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSESSION_INFO_2
+			)
+		)
+
+
 class PSESSION_INFO_2_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_2_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_2_CONTAINER
+			)
+		)
+
+
 class LPSESSION_INFO_2_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_2_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_2_CONTAINER
+			)
+		)
 
 
 class SESSION_INFO_10(NDRSTRUCT):
-    structure = (
-        ('sesi10_cname', WCHAR_T),('sesi10_username', WCHAR_T),('sesi10_time', DWORD),('sesi10_idle_time', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sesi10_cname',
+			WCHAR_T
+			),
+			(
+			'sesi10_username',
+			WCHAR_T
+			),
+			(
+			'sesi10_time',
+			DWORD
+			),
+			(
+			'sesi10_idle_time',
+			DWORD
+			)
+		)
+
+
 class PSESSION_INFO_10(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_10),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_10
+			)
+		)
+
+
 class LPSESSION_INFO_10(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_10),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_10
+			)
+		)
 
 
 class SESSION_INFO_10_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSESSION_INFO_10),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSESSION_INFO_10
+			)
+		)
+
+
 class PSESSION_INFO_10_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_10_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_10_CONTAINER
+			)
+		)
+
+
 class LPSESSION_INFO_10_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_10_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_10_CONTAINER
+			)
+		)
 
 
 class SESSION_INFO_502(NDRSTRUCT):
-    structure = (
-        ('sesi502_cname', WCHAR_T),('sesi502_username', WCHAR_T),('sesi502_num_opens', DWORD),('sesi502_time', DWORD),('sesi502_idle_time', DWORD),('sesi502_user_flags', DWORD),('sesi502_cltype_name', WCHAR_T),('sesi502_transport', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sesi502_cname',
+			WCHAR_T
+			),
+			(
+			'sesi502_username',
+			WCHAR_T
+			),
+			(
+			'sesi502_num_opens',
+			DWORD
+			),
+			(
+			'sesi502_time',
+			DWORD
+			),
+			(
+			'sesi502_idle_time',
+			DWORD
+			),
+			(
+			'sesi502_user_flags',
+			DWORD
+			),
+			(
+			'sesi502_cltype_name',
+			WCHAR_T
+			),
+			(
+			'sesi502_transport',
+			WCHAR_T
+			)
+		)
+
+
 class PSESSION_INFO_502(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_502),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_502
+			)
+		)
+
+
 class LPSESSION_INFO_502(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_502),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_502
+			)
+		)
 
 
 class SESSION_INFO_502_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSESSION_INFO_502),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSESSION_INFO_502
+			)
+		)
+
+
 class PSESSION_INFO_502_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_502_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_502_CONTAINER
+			)
+		)
+
+
 class LPSESSION_INFO_502_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_INFO_502_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_INFO_502_CONTAINER
+			)
+		)
 
 
 class SESSION_ENUM_UNION(NDRUNION):
-    union = {
-        0: ('Level0',SESSION_INFO_0_CONTAINER),1: ('Level1',SESSION_INFO_1_CONTAINER),2: ('Level2',SESSION_INFO_2_CONTAINER),10: ('Level10',SESSION_INFO_10_CONTAINER),502: ('Level502',SESSION_INFO_502_CONTAINER),
-    }
-        
+	union = {0 : (
+		'Level0',
+		SESSION_INFO_0_CONTAINER
+		),1 : (
+		'Level1',
+		SESSION_INFO_1_CONTAINER
+		),2 : (
+		'Level2',
+		SESSION_INFO_2_CONTAINER
+		),10 : (
+		'Level10',
+		SESSION_INFO_10_CONTAINER
+		),502 : (
+		'Level502',
+		SESSION_INFO_502_CONTAINER
+		)}
+
 
 class SESSION_ENUM_STRUCT(NDRSTRUCT):
-    structure = (
-        ('Level', DWORD),('SessionInfo', SESSION_ENUM_UNION),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'SessionInfo',
+			SESSION_ENUM_UNION
+			)
+		)
+
+
 class PSESSION_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_ENUM_STRUCT
+			)
+		)
+
+
 class LPSESSION_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', SESSION_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			SESSION_ENUM_STRUCT
+			)
+		)
 
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
+class DATA_SHARE_INFO_502_I(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('shi502_netname', WCHAR),	('shi502_type', DWORD),	('shi502_remark', WCHAR),	('shi502_permissions', DWORD),	('shi502_max_uses', DWORD),	('shi502_current_uses', DWORD),	('shi502_path', WCHAR),	('shi502_passwd', WCHAR),	('shi502_reserved', DWORD),	('shi502_security_descriptor', PTR_DWORD),
+class PTR_SHARE_INFO_502_I(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_SHARE_INFO_502_I
+			)
+		)
 
-    )
-        
+
+class SHARE_INFO_502_I(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'shi502_netname',
+			WCHAR
+			),
+			(
+			'shi502_type',
+			DWORD
+			),
+			(
+			'shi502_remark',
+			WCHAR
+			),
+			(
+			'shi502_permissions',
+			DWORD
+			),
+			(
+			'shi502_max_uses',
+			DWORD
+			),
+			(
+			'shi502_current_uses',
+			DWORD
+			),
+			(
+			'shi502_path',
+			WCHAR
+			),
+			(
+			'shi502_passwd',
+			WCHAR
+			),
+			(
+			'shi502_reserved',
+			DWORD
+			),
+			(
+			'shi502_security_descriptor',
+			PTR_SHARE_INFO_502_I
+			)
+		)
+
 
 class SHARE_INFO_503_I(NDRSTRUCT):
-    structure = (
-        ('shi503_netname', WCHAR),('shi503_type', DWORD),('shi503_remark', WCHAR),('shi503_permissions', DWORD),('shi503_max_uses', DWORD),('shi503_current_uses', DWORD),('shi503_path', WCHAR),('shi503_passwd', WCHAR),('shi503_servername', WCHAR),('shi503_reserved', DWORD),('shi503_security_descriptor', PUCHAR),
-    )
+	align = 1
+	structure = (
+			(
+			'shi503_netname',
+			WCHAR
+			),
+			(
+			'shi503_type',
+			DWORD
+			),
+			(
+			'shi503_remark',
+			WCHAR
+			),
+			(
+			'shi503_permissions',
+			DWORD
+			),
+			(
+			'shi503_max_uses',
+			DWORD
+			),
+			(
+			'shi503_current_uses',
+			DWORD
+			),
+			(
+			'shi503_path',
+			WCHAR
+			),
+			(
+			'shi503_passwd',
+			WCHAR
+			),
+			(
+			'shi503_servername',
+			WCHAR
+			),
+			(
+			'shi503_reserved',
+			DWORD
+			),
+			(
+			'shi503_security_descriptor',
+			PUCHAR
+			)
+		)
+
+
 class PSHARE_INFO_503_I(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_503_I),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_503_I
+			)
+		)
+
+
 class LPSHARE_INFO_503_I(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_503_I),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_503_I
+			)
+		)
 
 
 class SHARE_INFO_503_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSHARE_INFO_503_I),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSHARE_INFO_503_I
+			)
+		)
+
+
 class PSHARE_INFO_503_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_503_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_503_CONTAINER
+			)
+		)
+
+
 class LPSHARE_INFO_503_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_503_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_503_CONTAINER
+			)
+		)
 
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
+class DATA_SHARE_INFO_1501_I(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('shi1501_reserved', DWORD),	('shi1501_security_descriptor', PTR_DWORD),
+class PTR_SHARE_INFO_1501_I(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_SHARE_INFO_1501_I
+			)
+		)
 
-    )
-        
+
+class SHARE_INFO_1501_I(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'shi1501_reserved',
+			DWORD
+			),
+			(
+			'shi1501_security_descriptor',
+			PTR_SHARE_INFO_1501_I
+			)
+		)
+
 
 class SHARE_INFO_0(NDRSTRUCT):
-    structure = (
-        ('shi0_netname', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'shi0_netname',
+			WCHAR_T
+			)
+		)
+
+
 class PSHARE_INFO_0(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_0),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_0
+			)
+		)
+
+
 class LPSHARE_INFO_0(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_0),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_0
+			)
+		)
 
 
 class SHARE_INFO_0_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSHARE_INFO_0),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSHARE_INFO_0
+			)
+		)
 
 
 class SHARE_INFO_1(NDRSTRUCT):
-    structure = (
-        ('shi1_netname', WCHAR_T),('shi1_type', DWORD),('shi1_remark', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'shi1_netname',
+			WCHAR_T
+			),
+			(
+			'shi1_type',
+			DWORD
+			),
+			(
+			'shi1_remark',
+			WCHAR_T
+			)
+		)
+
+
 class PSHARE_INFO_1(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_1),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_1
+			)
+		)
+
+
 class LPSHARE_INFO_1(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_1),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_1
+			)
+		)
 
 
 class SHARE_INFO_1_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSHARE_INFO_1),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSHARE_INFO_1
+			)
+		)
 
 
 class SHARE_INFO_2(NDRSTRUCT):
-    structure = (
-        ('shi2_netname', WCHAR_T),('shi2_type', DWORD),('shi2_remark', WCHAR_T),('shi2_permissions', DWORD),('shi2_max_uses', DWORD),('shi2_current_uses', DWORD),('shi2_path', WCHAR_T),('shi2_passwd', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'shi2_netname',
+			WCHAR_T
+			),
+			(
+			'shi2_type',
+			DWORD
+			),
+			(
+			'shi2_remark',
+			WCHAR_T
+			),
+			(
+			'shi2_permissions',
+			DWORD
+			),
+			(
+			'shi2_max_uses',
+			DWORD
+			),
+			(
+			'shi2_current_uses',
+			DWORD
+			),
+			(
+			'shi2_path',
+			WCHAR_T
+			),
+			(
+			'shi2_passwd',
+			WCHAR_T
+			)
+		)
+
+
 class PSHARE_INFO_2(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_2),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_2
+			)
+		)
+
+
 class LPSHARE_INFO_2(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_2),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_2
+			)
+		)
 
 
 class SHARE_INFO_2_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSHARE_INFO_2),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSHARE_INFO_2
+			)
+		)
+
+
 class PSHARE_INFO_2_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_2_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_2_CONTAINER
+			)
+		)
+
+
 class LPSHARE_INFO_2_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_2_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_2_CONTAINER
+			)
+		)
 
 
 class SHARE_INFO_501(NDRSTRUCT):
-    structure = (
-        ('shi501_netname', WCHAR_T),('shi501_type', DWORD),('shi501_remark', WCHAR_T),('shi501_flags', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'shi501_netname',
+			WCHAR_T
+			),
+			(
+			'shi501_type',
+			DWORD
+			),
+			(
+			'shi501_remark',
+			WCHAR_T
+			),
+			(
+			'shi501_flags',
+			DWORD
+			)
+		)
+
+
 class PSHARE_INFO_501(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_501),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_501
+			)
+		)
+
+
 class LPSHARE_INFO_501(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_501),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_501
+			)
+		)
 
 
 class SHARE_INFO_501_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSHARE_INFO_501),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSHARE_INFO_501
+			)
+		)
+
+
 class PSHARE_INFO_501_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_501_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_501_CONTAINER
+			)
+		)
+
+
 class LPSHARE_INFO_501_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_501_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_501_CONTAINER
+			)
+		)
 
 
 class SHARE_INFO_502_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSHARE_INFO_502_I),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSHARE_INFO_502_I
+			)
+		)
+
+
 class PSHARE_INFO_502_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_502_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_502_CONTAINER
+			)
+		)
+
+
 class LPSHARE_INFO_502_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_502_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_502_CONTAINER
+			)
+		)
 
 
 class SHARE_ENUM_UNION(NDRUNION):
-    union = {
-        0: ('Level0',SHARE_INFO_0_CONTAINER),1: ('Level1',SHARE_INFO_1_CONTAINER),2: ('Level2',SHARE_INFO_2_CONTAINER),501: ('Level501',SHARE_INFO_501_CONTAINER),502: ('Level502',SHARE_INFO_502_CONTAINER),503: ('Level503',SHARE_INFO_503_CONTAINER),
-    }
-        
+	union = {0 : (
+		'Level0',
+		SHARE_INFO_0_CONTAINER
+		),1 : (
+		'Level1',
+		SHARE_INFO_1_CONTAINER
+		),2 : (
+		'Level2',
+		SHARE_INFO_2_CONTAINER
+		),501 : (
+		'Level501',
+		SHARE_INFO_501_CONTAINER
+		),502 : (
+		'Level502',
+		SHARE_INFO_502_CONTAINER
+		),503 : (
+		'Level503',
+		SHARE_INFO_503_CONTAINER
+		)}
+
 
 class SHARE_ENUM_STRUCT(NDRSTRUCT):
-    structure = (
-        ('Level', DWORD),('ShareInfo', SHARE_ENUM_UNION),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'ShareInfo',
+			SHARE_ENUM_UNION
+			)
+		)
+
+
 class PSHARE_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_ENUM_STRUCT
+			)
+		)
+
+
 class LPSHARE_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_ENUM_STRUCT
+			)
+		)
 
 
 class SHARE_INFO_1004(NDRSTRUCT):
-    structure = (
-        ('shi1004_remark', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'shi1004_remark',
+			WCHAR_T
+			)
+		)
+
+
 class PSHARE_INFO_1004(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_1004),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_1004
+			)
+		)
+
+
 class LPSHARE_INFO_1004(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_1004),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_1004
+			)
+		)
 
 
 class SHARE_INFO_1006(NDRSTRUCT):
-    structure = (
-        ('shi1006_max_uses', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'shi1006_max_uses',
+			DWORD
+			)
+		)
+
+
 class PSHARE_INFO_1006(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_1006),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_1006
+			)
+		)
+
+
 class LPSHARE_INFO_1006(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_1006),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_1006
+			)
+		)
 
 
 class SHARE_INFO_1005(NDRSTRUCT):
-    structure = (
-        ('shi1005_flags', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'shi1005_flags',
+			DWORD
+			)
+		)
+
+
 class PSHARE_INFO_1005(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_1005),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_1005
+			)
+		)
+
+
 class LPSHARE_INFO_1005(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO_1005),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO_1005
+			)
+		)
 
 
 class SHARE_INFO(NDRUNION):
-    union = {
-        0: ('ShareInfo0',LPSHARE_INFO_0),1: ('ShareInfo1',LPSHARE_INFO_1),2: ('ShareInfo2',LPSHARE_INFO_2),502: ('ShareInfo502',LPSHARE_INFO_502_I),1004: ('ShareInfo1004',LPSHARE_INFO_1004),1006: ('ShareInfo1006',LPSHARE_INFO_1006),1501: ('ShareInfo1501',LPSHARE_INFO_1501_I),1005: ('ShareInfo1005',LPSHARE_INFO_1005),501: ('ShareInfo501',LPSHARE_INFO_501),503: ('ShareInfo503',LPSHARE_INFO_503_I),
-    }
-        class PSHARE_INFO(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO),
-    )    
+	union = {0 : (
+		'ShareInfo0',
+		LPSHARE_INFO_0
+		),1 : (
+		'ShareInfo1',
+		LPSHARE_INFO_1
+		),2 : (
+		'ShareInfo2',
+		LPSHARE_INFO_2
+		),502 : (
+		'ShareInfo502',
+		LPSHARE_INFO_502_I
+		),1004 : (
+		'ShareInfo1004',
+		LPSHARE_INFO_1004
+		),1006 : (
+		'ShareInfo1006',
+		LPSHARE_INFO_1006
+		),1501 : (
+		'ShareInfo1501',
+		LPSHARE_INFO_1501_I
+		),1005 : (
+		'ShareInfo1005',
+		LPSHARE_INFO_1005
+		),501 : (
+		'ShareInfo501',
+		LPSHARE_INFO_501
+		),503 : (
+		'ShareInfo503',
+		LPSHARE_INFO_503_I
+		)}
+
+
+class PSHARE_INFO(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			SHARE_INFO
+			)
+		)
+
+
 class LPSHARE_INFO(NDRPOINTER):
-    referent = (
-        ('Data', SHARE_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			SHARE_INFO
+			)
+		)
 
 
 class SERVER_INFO_102(NDRSTRUCT):
-    structure = (
-        ('sv102_platform_id', DWORD),('sv102_name', WCHAR_T),('sv102_version_major', DWORD),('sv102_version_minor', DWORD),('sv102_type', DWORD),('sv102_comment', WCHAR_T),('sv102_users', DWORD),('sv102_disc', LONG),('sv102_hidden', INT),('sv102_announce', DWORD),('sv102_anndelta', DWORD),('sv102_licenses', DWORD),('sv102_userpath', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv102_platform_id',
+			DWORD
+			),
+			(
+			'sv102_name',
+			WCHAR_T
+			),
+			(
+			'sv102_version_major',
+			DWORD
+			),
+			(
+			'sv102_version_minor',
+			DWORD
+			),
+			(
+			'sv102_type',
+			DWORD
+			),
+			(
+			'sv102_comment',
+			WCHAR_T
+			),
+			(
+			'sv102_users',
+			DWORD
+			),
+			(
+			'sv102_disc',
+			LONG
+			),
+			(
+			'sv102_hidden',
+			INT
+			),
+			(
+			'sv102_announce',
+			DWORD
+			),
+			(
+			'sv102_anndelta',
+			DWORD
+			),
+			(
+			'sv102_licenses',
+			DWORD
+			),
+			(
+			'sv102_userpath',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_102(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_102),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_102
+			)
+		)
+
+
 class LPSERVER_INFO_102(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_102),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_102
+			)
+		)
 
 
 class SERVER_INFO_103(NDRSTRUCT):
-    structure = (
-        ('sv103_platform_id', DWORD),('sv103_name', WCHAR_T),('sv103_version_major', DWORD),('sv103_version_minor', DWORD),('sv103_type', DWORD),('sv103_comment', WCHAR_T),('sv103_users', DWORD),('sv103_disc', LONG),('sv103_hidden', BOOL),('sv103_announce', DWORD),('sv103_anndelta', DWORD),('sv103_licenses', DWORD),('sv103_userpath', WCHAR_T),('sv103_capabilities', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv103_platform_id',
+			DWORD
+			),
+			(
+			'sv103_name',
+			WCHAR_T
+			),
+			(
+			'sv103_version_major',
+			DWORD
+			),
+			(
+			'sv103_version_minor',
+			DWORD
+			),
+			(
+			'sv103_type',
+			DWORD
+			),
+			(
+			'sv103_comment',
+			WCHAR_T
+			),
+			(
+			'sv103_users',
+			DWORD
+			),
+			(
+			'sv103_disc',
+			LONG
+			),
+			(
+			'sv103_hidden',
+			BOOL
+			),
+			(
+			'sv103_announce',
+			DWORD
+			),
+			(
+			'sv103_anndelta',
+			DWORD
+			),
+			(
+			'sv103_licenses',
+			DWORD
+			),
+			(
+			'sv103_userpath',
+			WCHAR_T
+			),
+			(
+			'sv103_capabilities',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_103(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_103),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_103
+			)
+		)
+
+
 class LPSERVER_INFO_103(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_103),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_103
+			)
+		)
 
 
 class SERVER_INFO_502(NDRSTRUCT):
-    structure = (
-        ('sv502_sessopens', DWORD),('sv502_sessvcs', DWORD),('sv502_opensearch', DWORD),('sv502_sizreqbuf', DWORD),('sv502_initworkitems', DWORD),('sv502_maxworkitems', DWORD),('sv502_rawworkitems', DWORD),('sv502_irpstacksize', DWORD),('sv502_maxrawbuflen', DWORD),('sv502_sessusers', DWORD),('sv502_sessconns', DWORD),('sv502_maxpagedmemoryusage', DWORD),('sv502_maxnonpagedmemoryusage', DWORD),('sv502_enablesoftcompat', INT),('sv502_enableforcedlogoff', INT),('sv502_timesource', INT),('sv502_acceptdownlevelapis', INT),('sv502_lmannounce', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv502_sessopens',
+			DWORD
+			),
+			(
+			'sv502_sessvcs',
+			DWORD
+			),
+			(
+			'sv502_opensearch',
+			DWORD
+			),
+			(
+			'sv502_sizreqbuf',
+			DWORD
+			),
+			(
+			'sv502_initworkitems',
+			DWORD
+			),
+			(
+			'sv502_maxworkitems',
+			DWORD
+			),
+			(
+			'sv502_rawworkitems',
+			DWORD
+			),
+			(
+			'sv502_irpstacksize',
+			DWORD
+			),
+			(
+			'sv502_maxrawbuflen',
+			DWORD
+			),
+			(
+			'sv502_sessusers',
+			DWORD
+			),
+			(
+			'sv502_sessconns',
+			DWORD
+			),
+			(
+			'sv502_maxpagedmemoryusage',
+			DWORD
+			),
+			(
+			'sv502_maxnonpagedmemoryusage',
+			DWORD
+			),
+			(
+			'sv502_enablesoftcompat',
+			INT
+			),
+			(
+			'sv502_enableforcedlogoff',
+			INT
+			),
+			(
+			'sv502_timesource',
+			INT
+			),
+			(
+			'sv502_acceptdownlevelapis',
+			INT
+			),
+			(
+			'sv502_lmannounce',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_502(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_502),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_502
+			)
+		)
+
+
 class LPSERVER_INFO_502(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_502),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_502
+			)
+		)
 
 
 class SERVER_INFO_503(NDRSTRUCT):
-    structure = (
-        ('sv503_sessopens', DWORD),('sv503_sessvcs', DWORD),('sv503_opensearch', DWORD),('sv503_sizreqbuf', DWORD),('sv503_initworkitems', DWORD),('sv503_maxworkitems', DWORD),('sv503_rawworkitems', DWORD),('sv503_irpstacksize', DWORD),('sv503_maxrawbuflen', DWORD),('sv503_sessusers', DWORD),('sv503_sessconns', DWORD),('sv503_maxpagedmemoryusage', DWORD),('sv503_maxnonpagedmemoryusage', DWORD),('sv503_enablesoftcompat', INT),('sv503_enableforcedlogoff', INT),('sv503_timesource', INT),('sv503_acceptdownlevelapis', INT),('sv503_lmannounce', INT),('sv503_domain', WCHAR_T),('sv503_maxcopyreadlen', DWORD),('sv503_maxcopywritelen', DWORD),('sv503_minkeepsearch', DWORD),('sv503_maxkeepsearch', DWORD),('sv503_minkeepcomplsearch', DWORD),('sv503_maxkeepcomplsearch', DWORD),('sv503_threadcountadd', DWORD),('sv503_numblockthreads', DWORD),('sv503_scavtimeout', DWORD),('sv503_minrcvqueue', DWORD),('sv503_minfreeworkitems', DWORD),('sv503_xactmemsize', DWORD),('sv503_threadpriority', DWORD),('sv503_maxmpxct', DWORD),('sv503_oplockbreakwait', DWORD),('sv503_oplockbreakresponsewait', DWORD),('sv503_enableoplocks', INT),('sv503_enableoplockforceclose', INT),('sv503_enablefcbopens', INT),('sv503_enableraw', INT),('sv503_enablesharednetdrives', INT),('sv503_minfreeconnections', DWORD),('sv503_maxfreeconnections', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv503_sessopens',
+			DWORD
+			),
+			(
+			'sv503_sessvcs',
+			DWORD
+			),
+			(
+			'sv503_opensearch',
+			DWORD
+			),
+			(
+			'sv503_sizreqbuf',
+			DWORD
+			),
+			(
+			'sv503_initworkitems',
+			DWORD
+			),
+			(
+			'sv503_maxworkitems',
+			DWORD
+			),
+			(
+			'sv503_rawworkitems',
+			DWORD
+			),
+			(
+			'sv503_irpstacksize',
+			DWORD
+			),
+			(
+			'sv503_maxrawbuflen',
+			DWORD
+			),
+			(
+			'sv503_sessusers',
+			DWORD
+			),
+			(
+			'sv503_sessconns',
+			DWORD
+			),
+			(
+			'sv503_maxpagedmemoryusage',
+			DWORD
+			),
+			(
+			'sv503_maxnonpagedmemoryusage',
+			DWORD
+			),
+			(
+			'sv503_enablesoftcompat',
+			INT
+			),
+			(
+			'sv503_enableforcedlogoff',
+			INT
+			),
+			(
+			'sv503_timesource',
+			INT
+			),
+			(
+			'sv503_acceptdownlevelapis',
+			INT
+			),
+			(
+			'sv503_lmannounce',
+			INT
+			),
+			(
+			'sv503_domain',
+			WCHAR_T
+			),
+			(
+			'sv503_maxcopyreadlen',
+			DWORD
+			),
+			(
+			'sv503_maxcopywritelen',
+			DWORD
+			),
+			(
+			'sv503_minkeepsearch',
+			DWORD
+			),
+			(
+			'sv503_maxkeepsearch',
+			DWORD
+			),
+			(
+			'sv503_minkeepcomplsearch',
+			DWORD
+			),
+			(
+			'sv503_maxkeepcomplsearch',
+			DWORD
+			),
+			(
+			'sv503_threadcountadd',
+			DWORD
+			),
+			(
+			'sv503_numblockthreads',
+			DWORD
+			),
+			(
+			'sv503_scavtimeout',
+			DWORD
+			),
+			(
+			'sv503_minrcvqueue',
+			DWORD
+			),
+			(
+			'sv503_minfreeworkitems',
+			DWORD
+			),
+			(
+			'sv503_xactmemsize',
+			DWORD
+			),
+			(
+			'sv503_threadpriority',
+			DWORD
+			),
+			(
+			'sv503_maxmpxct',
+			DWORD
+			),
+			(
+			'sv503_oplockbreakwait',
+			DWORD
+			),
+			(
+			'sv503_oplockbreakresponsewait',
+			DWORD
+			),
+			(
+			'sv503_enableoplocks',
+			INT
+			),
+			(
+			'sv503_enableoplockforceclose',
+			INT
+			),
+			(
+			'sv503_enablefcbopens',
+			INT
+			),
+			(
+			'sv503_enableraw',
+			INT
+			),
+			(
+			'sv503_enablesharednetdrives',
+			INT
+			),
+			(
+			'sv503_minfreeconnections',
+			DWORD
+			),
+			(
+			'sv503_maxfreeconnections',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_503(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_503),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_503
+			)
+		)
+
+
 class LPSERVER_INFO_503(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_503),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_503
+			)
+		)
 
 
 class SERVER_INFO_599(NDRSTRUCT):
-    structure = (
-        ('sv599_sessopens', DWORD),('sv599_sessvcs', DWORD),('sv599_opensearch', DWORD),('sv599_sizreqbuf', DWORD),('sv599_initworkitems', DWORD),('sv599_maxworkitems', DWORD),('sv599_rawworkitems', DWORD),('sv599_irpstacksize', DWORD),('sv599_maxrawbuflen', DWORD),('sv599_sessusers', DWORD),('sv599_sessconns', DWORD),('sv599_maxpagedmemoryusage', DWORD),('sv599_maxnonpagedmemoryusage', DWORD),('sv599_enablesoftcompat', INT),('sv599_enableforcedlogoff', INT),('sv599_timesource', INT),('sv599_acceptdownlevelapis', INT),('sv599_lmannounce', INT),('sv599_domain', WCHAR_T),('sv599_maxcopyreadlen', DWORD),('sv599_maxcopywritelen', DWORD),('sv599_minkeepsearch', DWORD),('sv599_maxkeepsearch', DWORD),('sv599_minkeepcomplsearch', DWORD),('sv599_maxkeepcomplsearch', DWORD),('sv599_threadcountadd', DWORD),('sv599_numblockthreads', DWORD),('sv599_scavtimeout', DWORD),('sv599_minrcvqueue', DWORD),('sv599_minfreeworkitems', DWORD),('sv599_xactmemsize', DWORD),('sv599_threadpriority', DWORD),('sv599_maxmpxct', DWORD),('sv599_oplockbreakwait', DWORD),('sv599_oplockbreakresponsewait', DWORD),('sv599_enableoplocks', INT),('sv599_enableoplockforceclose', INT),('sv599_enablefcbopens', INT),('sv599_enableraw', INT),('sv599_enablesharednetdrives', INT),('sv599_minfreeconnections', DWORD),('sv599_maxfreeconnections', DWORD),('sv599_initsesstable', DWORD),('sv599_initconntable', DWORD),('sv599_initfiletable', DWORD),('sv599_initsearchtable', DWORD),('sv599_alertschedule', DWORD),('sv599_errorthreshold', DWORD),('sv599_networkerrorthreshold', DWORD),('sv599_diskspacethreshold', DWORD),('sv599_reserved', DWORD),('sv599_maxlinkdelay', DWORD),('sv599_minlinkthroughput', DWORD),('sv599_linkinfovalidtime', DWORD),('sv599_scavqosinfoupdatetime', DWORD),('sv599_maxworkitemidletime', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv599_sessopens',
+			DWORD
+			),
+			(
+			'sv599_sessvcs',
+			DWORD
+			),
+			(
+			'sv599_opensearch',
+			DWORD
+			),
+			(
+			'sv599_sizreqbuf',
+			DWORD
+			),
+			(
+			'sv599_initworkitems',
+			DWORD
+			),
+			(
+			'sv599_maxworkitems',
+			DWORD
+			),
+			(
+			'sv599_rawworkitems',
+			DWORD
+			),
+			(
+			'sv599_irpstacksize',
+			DWORD
+			),
+			(
+			'sv599_maxrawbuflen',
+			DWORD
+			),
+			(
+			'sv599_sessusers',
+			DWORD
+			),
+			(
+			'sv599_sessconns',
+			DWORD
+			),
+			(
+			'sv599_maxpagedmemoryusage',
+			DWORD
+			),
+			(
+			'sv599_maxnonpagedmemoryusage',
+			DWORD
+			),
+			(
+			'sv599_enablesoftcompat',
+			INT
+			),
+			(
+			'sv599_enableforcedlogoff',
+			INT
+			),
+			(
+			'sv599_timesource',
+			INT
+			),
+			(
+			'sv599_acceptdownlevelapis',
+			INT
+			),
+			(
+			'sv599_lmannounce',
+			INT
+			),
+			(
+			'sv599_domain',
+			WCHAR_T
+			),
+			(
+			'sv599_maxcopyreadlen',
+			DWORD
+			),
+			(
+			'sv599_maxcopywritelen',
+			DWORD
+			),
+			(
+			'sv599_minkeepsearch',
+			DWORD
+			),
+			(
+			'sv599_maxkeepsearch',
+			DWORD
+			),
+			(
+			'sv599_minkeepcomplsearch',
+			DWORD
+			),
+			(
+			'sv599_maxkeepcomplsearch',
+			DWORD
+			),
+			(
+			'sv599_threadcountadd',
+			DWORD
+			),
+			(
+			'sv599_numblockthreads',
+			DWORD
+			),
+			(
+			'sv599_scavtimeout',
+			DWORD
+			),
+			(
+			'sv599_minrcvqueue',
+			DWORD
+			),
+			(
+			'sv599_minfreeworkitems',
+			DWORD
+			),
+			(
+			'sv599_xactmemsize',
+			DWORD
+			),
+			(
+			'sv599_threadpriority',
+			DWORD
+			),
+			(
+			'sv599_maxmpxct',
+			DWORD
+			),
+			(
+			'sv599_oplockbreakwait',
+			DWORD
+			),
+			(
+			'sv599_oplockbreakresponsewait',
+			DWORD
+			),
+			(
+			'sv599_enableoplocks',
+			INT
+			),
+			(
+			'sv599_enableoplockforceclose',
+			INT
+			),
+			(
+			'sv599_enablefcbopens',
+			INT
+			),
+			(
+			'sv599_enableraw',
+			INT
+			),
+			(
+			'sv599_enablesharednetdrives',
+			INT
+			),
+			(
+			'sv599_minfreeconnections',
+			DWORD
+			),
+			(
+			'sv599_maxfreeconnections',
+			DWORD
+			),
+			(
+			'sv599_initsesstable',
+			DWORD
+			),
+			(
+			'sv599_initconntable',
+			DWORD
+			),
+			(
+			'sv599_initfiletable',
+			DWORD
+			),
+			(
+			'sv599_initsearchtable',
+			DWORD
+			),
+			(
+			'sv599_alertschedule',
+			DWORD
+			),
+			(
+			'sv599_errorthreshold',
+			DWORD
+			),
+			(
+			'sv599_networkerrorthreshold',
+			DWORD
+			),
+			(
+			'sv599_diskspacethreshold',
+			DWORD
+			),
+			(
+			'sv599_reserved',
+			DWORD
+			),
+			(
+			'sv599_maxlinkdelay',
+			DWORD
+			),
+			(
+			'sv599_minlinkthroughput',
+			DWORD
+			),
+			(
+			'sv599_linkinfovalidtime',
+			DWORD
+			),
+			(
+			'sv599_scavqosinfoupdatetime',
+			DWORD
+			),
+			(
+			'sv599_maxworkitemidletime',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_599(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_599),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_599
+			)
+		)
+
+
 class LPSERVER_INFO_599(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_599),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_599
+			)
+		)
 
 
 class SERVER_INFO_1005(NDRSTRUCT):
-    structure = (
-        ('sv1005_comment', WCHAR_T),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1005_comment',
+			WCHAR_T
+			)
+		)
+
+
 class PSERVER_INFO_1005(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1005),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1005
+			)
+		)
+
+
 class LPSERVER_INFO_1005(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1005),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1005
+			)
+		)
 
 
 class SERVER_INFO_1107(NDRSTRUCT):
-    structure = (
-        ('sv1107_users', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1107_users',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1107(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1107),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1107
+			)
+		)
+
+
 class LPSERVER_INFO_1107(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1107),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1107
+			)
+		)
 
 
 class SERVER_INFO_1010(NDRSTRUCT):
-    structure = (
-        ('sv1010_disc', LONG),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1010_disc',
+			LONG
+			)
+		)
+
+
 class PSERVER_INFO_1010(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1010),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1010
+			)
+		)
+
+
 class LPSERVER_INFO_1010(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1010),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1010
+			)
+		)
 
 
 class SERVER_INFO_1016(NDRSTRUCT):
-    structure = (
-        ('sv1016_hidden', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1016_hidden',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_1016(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1016),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1016
+			)
+		)
+
+
 class LPSERVER_INFO_1016(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1016),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1016
+			)
+		)
 
 
 class SERVER_INFO_1017(NDRSTRUCT):
-    structure = (
-        ('sv1017_announce', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1017_announce',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1017(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1017),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1017
+			)
+		)
+
+
 class LPSERVER_INFO_1017(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1017),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1017
+			)
+		)
 
 
 class SERVER_INFO_1018(NDRSTRUCT):
-    structure = (
-        ('sv1018_anndelta', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1018_anndelta',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1018(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1018),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1018
+			)
+		)
+
+
 class LPSERVER_INFO_1018(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1018),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1018
+			)
+		)
 
 
 class SERVER_INFO_1501(NDRSTRUCT):
-    structure = (
-        ('sv1501_sessopens', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1501_sessopens',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1501(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1501),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1501
+			)
+		)
+
+
 class LPSERVER_INFO_1501(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1501),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1501
+			)
+		)
 
 
 class SERVER_INFO_1502(NDRSTRUCT):
-    structure = (
-        ('sv1502_sessvcs', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1502_sessvcs',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1502(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1502),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1502
+			)
+		)
+
+
 class LPSERVER_INFO_1502(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1502),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1502
+			)
+		)
 
 
 class SERVER_INFO_1503(NDRSTRUCT):
-    structure = (
-        ('sv1503_opensearch', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1503_opensearch',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1503(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1503),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1503
+			)
+		)
+
+
 class LPSERVER_INFO_1503(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1503),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1503
+			)
+		)
 
 
 class SERVER_INFO_1506(NDRSTRUCT):
-    structure = (
-        ('sv1506_maxworkitems', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1506_maxworkitems',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1506(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1506),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1506
+			)
+		)
+
+
 class LPSERVER_INFO_1506(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1506),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1506
+			)
+		)
 
 
 class SERVER_INFO_1510(NDRSTRUCT):
-    structure = (
-        ('sv1510_sessusers', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1510_sessusers',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1510(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1510),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1510
+			)
+		)
+
+
 class LPSERVER_INFO_1510(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1510),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1510
+			)
+		)
 
 
 class SERVER_INFO_1511(NDRSTRUCT):
-    structure = (
-        ('sv1511_sessconns', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1511_sessconns',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1511(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1511),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1511
+			)
+		)
+
+
 class LPSERVER_INFO_1511(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1511),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1511
+			)
+		)
 
 
 class SERVER_INFO_1512(NDRSTRUCT):
-    structure = (
-        ('sv1512_maxnonpagedmemoryusage', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1512_maxnonpagedmemoryusage',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1512(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1512),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1512
+			)
+		)
+
+
 class LPSERVER_INFO_1512(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1512),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1512
+			)
+		)
 
 
 class SERVER_INFO_1513(NDRSTRUCT):
-    structure = (
-        ('sv1513_maxpagedmemoryusage', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1513_maxpagedmemoryusage',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1513(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1513),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1513
+			)
+		)
+
+
 class LPSERVER_INFO_1513(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1513),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1513
+			)
+		)
 
 
 class SERVER_INFO_1514(NDRSTRUCT):
-    structure = (
-        ('sv1514_enablesoftcompat', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1514_enablesoftcompat',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_1514(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1514),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1514
+			)
+		)
+
+
 class LPSERVER_INFO_1514(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1514),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1514
+			)
+		)
 
 
 class SERVER_INFO_1515(NDRSTRUCT):
-    structure = (
-        ('sv1515_enableforcedlogoff', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1515_enableforcedlogoff',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_1515(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1515),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1515
+			)
+		)
+
+
 class LPSERVER_INFO_1515(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1515),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1515
+			)
+		)
 
 
 class SERVER_INFO_1516(NDRSTRUCT):
-    structure = (
-        ('sv1516_timesource', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1516_timesource',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_1516(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1516),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1516
+			)
+		)
+
+
 class LPSERVER_INFO_1516(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1516),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1516
+			)
+		)
 
 
 class SERVER_INFO_1518(NDRSTRUCT):
-    structure = (
-        ('sv1518_lmannounce', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1518_lmannounce',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_1518(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1518),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1518
+			)
+		)
+
+
 class LPSERVER_INFO_1518(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1518),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1518
+			)
+		)
 
 
 class SERVER_INFO_1523(NDRSTRUCT):
-    structure = (
-        ('sv1523_maxkeepsearch', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1523_maxkeepsearch',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1523(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1523),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1523
+			)
+		)
+
+
 class LPSERVER_INFO_1523(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1523),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1523
+			)
+		)
 
 
 class SERVER_INFO_1528(NDRSTRUCT):
-    structure = (
-        ('sv1528_scavtimeout', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1528_scavtimeout',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1528(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1528),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1528
+			)
+		)
+
+
 class LPSERVER_INFO_1528(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1528),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1528
+			)
+		)
 
 
 class SERVER_INFO_1529(NDRSTRUCT):
-    structure = (
-        ('sv1529_minrcvqueue', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1529_minrcvqueue',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1529(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1529),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1529
+			)
+		)
+
+
 class LPSERVER_INFO_1529(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1529),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1529
+			)
+		)
 
 
 class SERVER_INFO_1530(NDRSTRUCT):
-    structure = (
-        ('sv1530_minfreeworkitems', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1530_minfreeworkitems',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1530(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1530),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1530
+			)
+		)
+
+
 class LPSERVER_INFO_1530(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1530),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1530
+			)
+		)
 
 
 class SERVER_INFO_1533(NDRSTRUCT):
-    structure = (
-        ('sv1533_maxmpxct', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1533_maxmpxct',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1533(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1533),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1533
+			)
+		)
+
+
 class LPSERVER_INFO_1533(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1533),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1533
+			)
+		)
 
 
 class SERVER_INFO_1534(NDRSTRUCT):
-    structure = (
-        ('sv1534_oplockbreakwait', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1534_oplockbreakwait',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1534(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1534),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1534
+			)
+		)
+
+
 class LPSERVER_INFO_1534(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1534),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1534
+			)
+		)
 
 
 class SERVER_INFO_1535(NDRSTRUCT):
-    structure = (
-        ('sv1535_oplockbreakresponsewait', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1535_oplockbreakresponsewait',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1535(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1535),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1535
+			)
+		)
+
+
 class LPSERVER_INFO_1535(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1535),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1535
+			)
+		)
 
 
 class SERVER_INFO_1536(NDRSTRUCT):
-    structure = (
-        ('sv1536_enableoplocks', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1536_enableoplocks',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_1536(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1536),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1536
+			)
+		)
+
+
 class LPSERVER_INFO_1536(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1536),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1536
+			)
+		)
 
 
 class SERVER_INFO_1538(NDRSTRUCT):
-    structure = (
-        ('sv1538_enablefcbopens', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1538_enablefcbopens',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_1538(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1538),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1538
+			)
+		)
+
+
 class LPSERVER_INFO_1538(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1538),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1538
+			)
+		)
 
 
 class SERVER_INFO_1539(NDRSTRUCT):
-    structure = (
-        ('sv1539_enableraw', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1539_enableraw',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_1539(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1539),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1539
+			)
+		)
+
+
 class LPSERVER_INFO_1539(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1539),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1539
+			)
+		)
 
 
 class SERVER_INFO_1540(NDRSTRUCT):
-    structure = (
-        ('sv1540_enablesharednetdrives', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1540_enablesharednetdrives',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_1540(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1540),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1540
+			)
+		)
+
+
 class LPSERVER_INFO_1540(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1540),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1540
+			)
+		)
 
 
 class SERVER_INFO_1541(NDRSTRUCT):
-    structure = (
-        ('sv1541_minfreeconnections', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1541_minfreeconnections',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_1541(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1541),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1541
+			)
+		)
+
+
 class LPSERVER_INFO_1541(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1541),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1541
+			)
+		)
 
 
 class SERVER_INFO_1542(NDRSTRUCT):
-    structure = (
-        ('sv1542_maxfreeconnections', INT),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1542_maxfreeconnections',
+			INT
+			)
+		)
+
+
 class PSERVER_INFO_1542(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1542),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1542
+			)
+		)
+
+
 class LPSERVER_INFO_1542(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1542),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1542
+			)
+		)
 
 
 class SERVER_INFO_1543(NDRSTRUCT):
-    structure = (
-        ('sv1543_initsesstable', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1543_initsesstable',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1543(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1543),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1543
+			)
+		)
+
+
 class LPSERVER_INFO_1543(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1543),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1543
+			)
+		)
 
 
 class SERVER_INFO_1544(NDRSTRUCT):
-    structure = (
-        ('sv1544_initconntable', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1544_initconntable',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1544(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1544),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1544
+			)
+		)
+
+
 class LPSERVER_INFO_1544(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1544),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1544
+			)
+		)
 
 
 class SERVER_INFO_1545(NDRSTRUCT):
-    structure = (
-        ('sv1545_initfiletable', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1545_initfiletable',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1545(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1545),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1545
+			)
+		)
+
+
 class LPSERVER_INFO_1545(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1545),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1545
+			)
+		)
 
 
 class SERVER_INFO_1546(NDRSTRUCT):
-    structure = (
-        ('sv1546_initsearchtable', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1546_initsearchtable',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1546(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1546),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1546
+			)
+		)
+
+
 class LPSERVER_INFO_1546(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1546),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1546
+			)
+		)
 
 
 class SERVER_INFO_1547(NDRSTRUCT):
-    structure = (
-        ('sv1547_alertschedule', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1547_alertschedule',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1547(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1547),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1547
+			)
+		)
+
+
 class LPSERVER_INFO_1547(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1547),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1547
+			)
+		)
 
 
 class SERVER_INFO_1548(NDRSTRUCT):
-    structure = (
-        ('sv1548_errorthreshold', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1548_errorthreshold',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1548(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1548),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1548
+			)
+		)
+
+
 class LPSERVER_INFO_1548(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1548),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1548
+			)
+		)
 
 
 class SERVER_INFO_1549(NDRSTRUCT):
-    structure = (
-        ('sv1549_networkerrorthreshold', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1549_networkerrorthreshold',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1549(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1549),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1549
+			)
+		)
+
+
 class LPSERVER_INFO_1549(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1549),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1549
+			)
+		)
 
 
 class SERVER_INFO_1550(NDRSTRUCT):
-    structure = (
-        ('sv1550_diskspacethreshold', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1550_diskspacethreshold',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1550(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1550),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1550
+			)
+		)
+
+
 class LPSERVER_INFO_1550(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1550),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1550
+			)
+		)
 
 
 class SERVER_INFO_1552(NDRSTRUCT):
-    structure = (
-        ('sv1552_maxlinkdelay', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1552_maxlinkdelay',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1552(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1552),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1552
+			)
+		)
+
+
 class LPSERVER_INFO_1552(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1552),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1552
+			)
+		)
 
 
 class SERVER_INFO_1553(NDRSTRUCT):
-    structure = (
-        ('sv1553_minlinkthroughput', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1553_minlinkthroughput',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1553(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1553),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1553
+			)
+		)
+
+
 class LPSERVER_INFO_1553(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1553),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1553
+			)
+		)
 
 
 class SERVER_INFO_1554(NDRSTRUCT):
-    structure = (
-        ('sv1554_linkinfovalidtime', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1554_linkinfovalidtime',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1554(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1554),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1554
+			)
+		)
+
+
 class LPSERVER_INFO_1554(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1554),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1554
+			)
+		)
 
 
 class SERVER_INFO_1555(NDRSTRUCT):
-    structure = (
-        ('sv1555_scavqosinfoupdatetime', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1555_scavqosinfoupdatetime',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1555(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1555),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1555
+			)
+		)
+
+
 class LPSERVER_INFO_1555(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1555),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1555
+			)
+		)
 
 
 class SERVER_INFO_1556(NDRSTRUCT):
-    structure = (
-        ('sv1556_maxworkitemidletime', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sv1556_maxworkitemidletime',
+			DWORD
+			)
+		)
+
+
 class PSERVER_INFO_1556(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1556),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1556
+			)
+		)
+
+
 class LPSERVER_INFO_1556(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO_1556),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO_1556
+			)
+		)
 
 
 class SERVER_INFO(NDRUNION):
-    union = {
-        100: ('ServerInfo100',LPSERVER_INFO_100),101: ('ServerInfo101',LPSERVER_INFO_101),102: ('ServerInfo102',LPSERVER_INFO_102),103: ('ServerInfo103',LPSERVER_INFO_103),502: ('ServerInfo502',LPSERVER_INFO_502),503: ('ServerInfo503',LPSERVER_INFO_503),599: ('ServerInfo599',LPSERVER_INFO_599),1005: ('ServerInfo1005',LPSERVER_INFO_1005),1107: ('ServerInfo1107',LPSERVER_INFO_1107),1010: ('ServerInfo1010',LPSERVER_INFO_1010),1016: ('ServerInfo1016',LPSERVER_INFO_1016),1017: ('ServerInfo1017',LPSERVER_INFO_1017),1018: ('ServerInfo1018',LPSERVER_INFO_1018),1501: ('ServerInfo1501',LPSERVER_INFO_1501),1502: ('ServerInfo1502',LPSERVER_INFO_1502),1503: ('ServerInfo1503',LPSERVER_INFO_1503),1506: ('ServerInfo1506',LPSERVER_INFO_1506),1510: ('ServerInfo1510',LPSERVER_INFO_1510),1511: ('ServerInfo1511',LPSERVER_INFO_1511),1512: ('ServerInfo1512',LPSERVER_INFO_1512),1513: ('ServerInfo1513',LPSERVER_INFO_1513),1514: ('ServerInfo1514',LPSERVER_INFO_1514),1515: ('ServerInfo1515',LPSERVER_INFO_1515),1516: ('ServerInfo1516',LPSERVER_INFO_1516),1518: ('ServerInfo1518',LPSERVER_INFO_1518),1523: ('ServerInfo1523',LPSERVER_INFO_1523),1528: ('ServerInfo1528',LPSERVER_INFO_1528),1529: ('ServerInfo1529',LPSERVER_INFO_1529),1530: ('ServerInfo1530',LPSERVER_INFO_1530),1533: ('ServerInfo1533',LPSERVER_INFO_1533),1534: ('ServerInfo1534',LPSERVER_INFO_1534),1535: ('ServerInfo1535',LPSERVER_INFO_1535),1536: ('ServerInfo1536',LPSERVER_INFO_1536),1538: ('ServerInfo1538',LPSERVER_INFO_1538),1539: ('ServerInfo1539',LPSERVER_INFO_1539),1540: ('ServerInfo1540',LPSERVER_INFO_1540),1541: ('ServerInfo1541',LPSERVER_INFO_1541),1542: ('ServerInfo1542',LPSERVER_INFO_1542),1543: ('ServerInfo1543',LPSERVER_INFO_1543),1544: ('ServerInfo1544',LPSERVER_INFO_1544),1545: ('ServerInfo1545',LPSERVER_INFO_1545),1546: ('ServerInfo1546',LPSERVER_INFO_1546),1547: ('ServerInfo1547',LPSERVER_INFO_1547),1548: ('ServerInfo1548',LPSERVER_INFO_1548),1549: ('ServerInfo1549',LPSERVER_INFO_1549),1550: ('ServerInfo1550',LPSERVER_INFO_1550),1552: ('ServerInfo1552',LPSERVER_INFO_1552),1553: ('ServerInfo1553',LPSERVER_INFO_1553),1554: ('ServerInfo1554',LPSERVER_INFO_1554),1555: ('ServerInfo1555',LPSERVER_INFO_1555),1556: ('ServerInfo1556',LPSERVER_INFO_1556),
-    }
-        class PSERVER_INFO(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO),
-    )    
+	union = {100 : (
+		'ServerInfo100',
+		LPSERVER_INFO_100
+		),101 : (
+		'ServerInfo101',
+		LPSERVER_INFO_101
+		),102 : (
+		'ServerInfo102',
+		LPSERVER_INFO_102
+		),103 : (
+		'ServerInfo103',
+		LPSERVER_INFO_103
+		),502 : (
+		'ServerInfo502',
+		LPSERVER_INFO_502
+		),503 : (
+		'ServerInfo503',
+		LPSERVER_INFO_503
+		),599 : (
+		'ServerInfo599',
+		LPSERVER_INFO_599
+		),1005 : (
+		'ServerInfo1005',
+		LPSERVER_INFO_1005
+		),1107 : (
+		'ServerInfo1107',
+		LPSERVER_INFO_1107
+		),1010 : (
+		'ServerInfo1010',
+		LPSERVER_INFO_1010
+		),1016 : (
+		'ServerInfo1016',
+		LPSERVER_INFO_1016
+		),1017 : (
+		'ServerInfo1017',
+		LPSERVER_INFO_1017
+		),1018 : (
+		'ServerInfo1018',
+		LPSERVER_INFO_1018
+		),1501 : (
+		'ServerInfo1501',
+		LPSERVER_INFO_1501
+		),1502 : (
+		'ServerInfo1502',
+		LPSERVER_INFO_1502
+		),1503 : (
+		'ServerInfo1503',
+		LPSERVER_INFO_1503
+		),1506 : (
+		'ServerInfo1506',
+		LPSERVER_INFO_1506
+		),1510 : (
+		'ServerInfo1510',
+		LPSERVER_INFO_1510
+		),1511 : (
+		'ServerInfo1511',
+		LPSERVER_INFO_1511
+		),1512 : (
+		'ServerInfo1512',
+		LPSERVER_INFO_1512
+		),1513 : (
+		'ServerInfo1513',
+		LPSERVER_INFO_1513
+		),1514 : (
+		'ServerInfo1514',
+		LPSERVER_INFO_1514
+		),1515 : (
+		'ServerInfo1515',
+		LPSERVER_INFO_1515
+		),1516 : (
+		'ServerInfo1516',
+		LPSERVER_INFO_1516
+		),1518 : (
+		'ServerInfo1518',
+		LPSERVER_INFO_1518
+		),1523 : (
+		'ServerInfo1523',
+		LPSERVER_INFO_1523
+		),1528 : (
+		'ServerInfo1528',
+		LPSERVER_INFO_1528
+		),1529 : (
+		'ServerInfo1529',
+		LPSERVER_INFO_1529
+		),1530 : (
+		'ServerInfo1530',
+		LPSERVER_INFO_1530
+		),1533 : (
+		'ServerInfo1533',
+		LPSERVER_INFO_1533
+		),1534 : (
+		'ServerInfo1534',
+		LPSERVER_INFO_1534
+		),1535 : (
+		'ServerInfo1535',
+		LPSERVER_INFO_1535
+		),1536 : (
+		'ServerInfo1536',
+		LPSERVER_INFO_1536
+		),1538 : (
+		'ServerInfo1538',
+		LPSERVER_INFO_1538
+		),1539 : (
+		'ServerInfo1539',
+		LPSERVER_INFO_1539
+		),1540 : (
+		'ServerInfo1540',
+		LPSERVER_INFO_1540
+		),1541 : (
+		'ServerInfo1541',
+		LPSERVER_INFO_1541
+		),1542 : (
+		'ServerInfo1542',
+		LPSERVER_INFO_1542
+		),1543 : (
+		'ServerInfo1543',
+		LPSERVER_INFO_1543
+		),1544 : (
+		'ServerInfo1544',
+		LPSERVER_INFO_1544
+		),1545 : (
+		'ServerInfo1545',
+		LPSERVER_INFO_1545
+		),1546 : (
+		'ServerInfo1546',
+		LPSERVER_INFO_1546
+		),1547 : (
+		'ServerInfo1547',
+		LPSERVER_INFO_1547
+		),1548 : (
+		'ServerInfo1548',
+		LPSERVER_INFO_1548
+		),1549 : (
+		'ServerInfo1549',
+		LPSERVER_INFO_1549
+		),1550 : (
+		'ServerInfo1550',
+		LPSERVER_INFO_1550
+		),1552 : (
+		'ServerInfo1552',
+		LPSERVER_INFO_1552
+		),1553 : (
+		'ServerInfo1553',
+		LPSERVER_INFO_1553
+		),1554 : (
+		'ServerInfo1554',
+		LPSERVER_INFO_1554
+		),1555 : (
+		'ServerInfo1555',
+		LPSERVER_INFO_1555
+		),1556 : (
+		'ServerInfo1556',
+		LPSERVER_INFO_1556
+		)}
+
+
+class PSERVER_INFO(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			SERVER_INFO
+			)
+		)
+
+
 class LPSERVER_INFO(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_INFO
+			)
+		)
 
 
 class DISK_INFO(NDRSTRUCT):
-    structure = (
-        ('Disk', WCHAR),
-    )
+	align = 1
+	structure = (
+			(
+			'Disk',
+			WCHAR
+			)
+		)
+
+
 class PDISK_INFO(NDRPOINTER):
-    referent = (
-        ('Data', DISK_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			DISK_INFO
+			)
+		)
+
+
 class LPDISK_INFO(NDRPOINTER):
-    referent = (
-        ('Data', DISK_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			DISK_INFO
+			)
+		)
 
 
 class DISK_ENUM_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPDISK_INFO),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPDISK_INFO
+			)
+		)
 
 
-class DATA_WCHAR_T(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
+class DATA_SERVER_TRANSPORT_INFO_0(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class PTR_WCHAR_T(NDRPOINTER):
-    referent = (
-        ('Data', DATA_WCHAR_T),
-    )
 
-class WCHAR_T(NDRSTRUCT):
-    structure = (
-	('svti0_numberofvcs', DWORD),	('svti0_transportname', WCHAR_T),	('svti0_transportaddress', PTR_WCHAR_T),
-	('svti0_transportaddresslength', DWORD),	('svti0_networkaddress', WCHAR_T),
-    )
-        
+class PTR_SERVER_TRANSPORT_INFO_0(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_SERVER_TRANSPORT_INFO_0
+			)
+		)
+
+
+class SERVER_TRANSPORT_INFO_0(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'svti0_numberofvcs',
+			DWORD
+			),
+			(
+			'svti0_transportname',
+			WCHAR_T
+			),
+			(
+			'svti0_transportaddress',
+			PTR_SERVER_TRANSPORT_INFO_0
+			),
+			(
+			'svti0_transportaddresslength',
+			DWORD
+			),
+			(
+			'svti0_networkaddress',
+			WCHAR_T
+			)
+		)
+
 
 class SERVER_XPORT_INFO_0_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSERVER_TRANSPORT_INFO_0),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSERVER_TRANSPORT_INFO_0
+			)
+		)
+
+
 class PSERVER_XPORT_INFO_0_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_XPORT_INFO_0_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_XPORT_INFO_0_CONTAINER
+			)
+		)
 
 
-class DATA_WCHAR_T(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
+class DATA_SERVER_TRANSPORT_INFO_1(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class PTR_WCHAR_T(NDRPOINTER):
-    referent = (
-        ('Data', DATA_WCHAR_T),
-    )
 
-class WCHAR_T(NDRSTRUCT):
-    structure = (
-	('svti1_numberofvcs', DWORD),	('svti1_transportname', WCHAR_T),	('svti1_transportaddress', PTR_WCHAR_T),
-	('svti1_transportaddresslength', DWORD),	('svti1_networkaddress', WCHAR_T),	('svti1_domain', WCHAR_T),
-    )
-        
+class PTR_SERVER_TRANSPORT_INFO_1(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_SERVER_TRANSPORT_INFO_1
+			)
+		)
+
+
+class SERVER_TRANSPORT_INFO_1(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'svti1_numberofvcs',
+			DWORD
+			),
+			(
+			'svti1_transportname',
+			WCHAR_T
+			),
+			(
+			'svti1_transportaddress',
+			PTR_SERVER_TRANSPORT_INFO_1
+			),
+			(
+			'svti1_transportaddresslength',
+			DWORD
+			),
+			(
+			'svti1_networkaddress',
+			WCHAR_T
+			),
+			(
+			'svti1_domain',
+			WCHAR_T
+			)
+		)
+
 
 class SERVER_XPORT_INFO_1_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSERVER_TRANSPORT_INFO_1),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSERVER_TRANSPORT_INFO_1
+			)
+		)
+
+
 class PSERVER_XPORT_INFO_1_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_XPORT_INFO_1_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_XPORT_INFO_1_CONTAINER
+			)
+		)
 
 
-class DATA_UNSIGNED_LONG(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
+class DATA_SERVER_TRANSPORT_INFO_2(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class PTR_UNSIGNED_LONG(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_LONG),
-    )
 
-class UNSIGNED_LONG(NDRSTRUCT):
-    structure = (
-	('svti2_numberofvcs', DWORD),	('svti2_transportname', WCHAR_T),	('svti2_transportaddress', PTR_WCHAR_T),
-	('svti2_transportaddresslength', DWORD),	('svti2_networkaddress', WCHAR_T),	('svti2_domain', WCHAR_T),	('svti2_flags', UNSIGNED_LONG),
-    )
-        
+class PTR_SERVER_TRANSPORT_INFO_2(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_SERVER_TRANSPORT_INFO_2
+			)
+		)
+
+
+class SERVER_TRANSPORT_INFO_2(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'svti2_numberofvcs',
+			DWORD
+			),
+			(
+			'svti2_transportname',
+			WCHAR_T
+			),
+			(
+			'svti2_transportaddress',
+			PTR_SERVER_TRANSPORT_INFO_2
+			),
+			(
+			'svti2_transportaddresslength',
+			DWORD
+			),
+			(
+			'svti2_networkaddress',
+			WCHAR_T
+			),
+			(
+			'svti2_domain',
+			WCHAR_T
+			),
+			(
+			'svti2_flags',
+			UNSIGNED_LONG
+			)
+		)
+
 
 class SERVER_XPORT_INFO_2_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSERVER_TRANSPORT_INFO_2),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSERVER_TRANSPORT_INFO_2
+			)
+		)
+
+
 class PSERVER_XPORT_INFO_2_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_XPORT_INFO_2_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_XPORT_INFO_2_CONTAINER
+			)
+		)
 
 
-class DATA_UNSIGNED_CHAR(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
+class DATA_SERVER_TRANSPORT_INFO_3(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class PTR_UNSIGNED_CHAR(NDRPOINTER):
-    referent = (
-        ('Data', DATA_UNSIGNED_CHAR),
-    )
 
-class UNSIGNED_CHAR(NDRSTRUCT):
-    structure = (
-	('svti3_numberofvcs', DWORD),	('svti3_transportname', WCHAR_T),	('svti3_transportaddress', PTR_WCHAR_T),
-	('svti3_transportaddresslength', DWORD),	('svti3_networkaddress', WCHAR_T),	('svti3_domain', WCHAR_T),	('svti3_flags', UNSIGNED_LONG),	('svti3_passwordlength', DWORD),	('svti3_password', UNSIGNED_CHAR),
-    )
-        
+class PTR_SERVER_TRANSPORT_INFO_3(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_SERVER_TRANSPORT_INFO_3
+			)
+		)
+
+
+class SERVER_TRANSPORT_INFO_3(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'svti3_numberofvcs',
+			DWORD
+			),
+			(
+			'svti3_transportname',
+			WCHAR_T
+			),
+			(
+			'svti3_transportaddress',
+			PTR_SERVER_TRANSPORT_INFO_3
+			),
+			(
+			'svti3_transportaddresslength',
+			DWORD
+			),
+			(
+			'svti3_networkaddress',
+			WCHAR_T
+			),
+			(
+			'svti3_domain',
+			WCHAR_T
+			),
+			(
+			'svti3_flags',
+			UNSIGNED_LONG
+			),
+			(
+			'svti3_passwordlength',
+			DWORD
+			),
+			(
+			'svti3_password',
+			UNSIGNED_CHAR
+			)
+		)
+
 
 class SERVER_XPORT_INFO_3_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSERVER_TRANSPORT_INFO_3),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSERVER_TRANSPORT_INFO_3
+			)
+		)
+
+
 class PSERVER_XPORT_INFO_3_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_XPORT_INFO_3_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_XPORT_INFO_3_CONTAINER
+			)
+		)
 
 
 class TRANSPORT_INFO(NDRUNION):
-    union = {
-        0: ('Transport0',SERVER_TRANSPORT_INFO_0),1: ('Transport1',SERVER_TRANSPORT_INFO_1),2: ('Transport2',SERVER_TRANSPORT_INFO_2),3: ('Transport3',SERVER_TRANSPORT_INFO_3),
-    }
-        class PTRANSPORT_INFO(NDRPOINTER):
-    referent = (
-        ('Data', TRANSPORT_INFO),
-    )    
+	union = {0 : (
+		'Transport0',
+		SERVER_TRANSPORT_INFO_0
+		),1 : (
+		'Transport1',
+		SERVER_TRANSPORT_INFO_1
+		),2 : (
+		'Transport2',
+		SERVER_TRANSPORT_INFO_2
+		),3 : (
+		'Transport3',
+		SERVER_TRANSPORT_INFO_3
+		)}
+
+
+class PTRANSPORT_INFO(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			TRANSPORT_INFO
+			)
+		)
+
+
 class LPTRANSPORT_INFO(NDRPOINTER):
-    referent = (
-        ('Data', TRANSPORT_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			TRANSPORT_INFO
+			)
+		)
 
 
 class SERVER_XPORT_ENUM_UNION(NDRUNION):
-    union = {
-        0: ('Level0',PSERVER_XPORT_INFO_0_CONTAINER),1: ('Level1',PSERVER_XPORT_INFO_1_CONTAINER),2: ('Level2',PSERVER_XPORT_INFO_2_CONTAINER),3: ('Level3',PSERVER_XPORT_INFO_3_CONTAINER),
-    }
-        
+	union = {0 : (
+		'Level0',
+		PSERVER_XPORT_INFO_0_CONTAINER
+		),1 : (
+		'Level1',
+		PSERVER_XPORT_INFO_1_CONTAINER
+		),2 : (
+		'Level2',
+		PSERVER_XPORT_INFO_2_CONTAINER
+		),3 : (
+		'Level3',
+		PSERVER_XPORT_INFO_3_CONTAINER
+		)}
+
 
 class SERVER_XPORT_ENUM_STRUCT(NDRSTRUCT):
-    structure = (
-        ('Level', DWORD),('XportInfo', SERVER_XPORT_ENUM_UNION),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'XportInfo',
+			SERVER_XPORT_ENUM_UNION
+			)
+		)
+
+
 class PSERVER_XPORT_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_XPORT_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_XPORT_ENUM_STRUCT
+			)
+		)
+
+
 class LPSERVER_XPORT_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_XPORT_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_XPORT_ENUM_STRUCT
+			)
+		)
+
 
 SHARE_DEL_HANDLE = VOID
 PSHARE_DEL_HANDLE = SHARE_DEL_HANDLE
+class DATA_ADT_SECURITY_DESCRIPTOR(NDRUniConformantArray):
+	item = UNSIGNED_CHAR
 
-class DATA_DWORD(NDRUniConformantArray):
-    item = UNSIGNED_CHAR
 
-class PTR_DWORD(NDRPOINTER):
-    referent = (
-        ('Data', DATA_DWORD),
-    )
+class PTR_ADT_SECURITY_DESCRIPTOR(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			DATA_ADT_SECURITY_DESCRIPTOR
+			)
+		)
 
-class DWORD(NDRSTRUCT):
-    structure = (
-	('Length', DWORD),	('Buffer', PTR_DWORD),
 
-    )
-        
+class ADT_SECURITY_DESCRIPTOR(NDRSTRUCT):
+	align = 1
+	structure = (
+			(
+			'Length',
+			DWORD
+			),
+			(
+			'Buffer',
+			PTR_ADT_SECURITY_DESCRIPTOR
+			)
+		)
+
 
 class STAT_SERVER_0(NDRSTRUCT):
-    structure = (
-        ('sts0_start', DWORD),('sts0_fopens', DWORD),('sts0_devopens', DWORD),('sts0_jobsqueued', DWORD),('sts0_sopens', DWORD),('sts0_stimedout', DWORD),('sts0_serrorout', DWORD),('sts0_pwerrors', DWORD),('sts0_permerrors', DWORD),('sts0_syserrors', DWORD),('sts0_bytessent_low', DWORD),('sts0_bytessent_high', DWORD),('sts0_bytesrcvd_low', DWORD),('sts0_bytesrcvd_high', DWORD),('sts0_avresponse', DWORD),('sts0_reqbufneed', DWORD),('sts0_bigbufneed', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'sts0_start',
+			DWORD
+			),
+			(
+			'sts0_fopens',
+			DWORD
+			),
+			(
+			'sts0_devopens',
+			DWORD
+			),
+			(
+			'sts0_jobsqueued',
+			DWORD
+			),
+			(
+			'sts0_sopens',
+			DWORD
+			),
+			(
+			'sts0_stimedout',
+			DWORD
+			),
+			(
+			'sts0_serrorout',
+			DWORD
+			),
+			(
+			'sts0_pwerrors',
+			DWORD
+			),
+			(
+			'sts0_permerrors',
+			DWORD
+			),
+			(
+			'sts0_syserrors',
+			DWORD
+			),
+			(
+			'sts0_bytessent_low',
+			DWORD
+			),
+			(
+			'sts0_bytessent_high',
+			DWORD
+			),
+			(
+			'sts0_bytesrcvd_low',
+			DWORD
+			),
+			(
+			'sts0_bytesrcvd_high',
+			DWORD
+			),
+			(
+			'sts0_avresponse',
+			DWORD
+			),
+			(
+			'sts0_reqbufneed',
+			DWORD
+			),
+			(
+			'sts0_bigbufneed',
+			DWORD
+			)
+		)
+
+
 class PSTAT_SERVER_0(NDRPOINTER):
-    referent = (
-        ('Data', STAT_SERVER_0),
-    )    
+	referent = (
+			(
+			'Data',
+			STAT_SERVER_0
+			)
+		)
+
+
 class LPSTAT_SERVER_0(NDRPOINTER):
-    referent = (
-        ('Data', STAT_SERVER_0),
-    )    
+	referent = (
+			(
+			'Data',
+			STAT_SERVER_0
+			)
+		)
 
 
 class TIME_OF_DAY_INFO(NDRSTRUCT):
-    structure = (
-        ('tod_elapsedt', DWORD),('tod_msecs', DWORD),('tod_hours', DWORD),('tod_mins', DWORD),('tod_secs', DWORD),('tod_hunds', DWORD),('tod_timezone', LONG),('tod_tinterval', DWORD),('tod_day', DWORD),('tod_month', DWORD),('tod_year', DWORD),('tod_weekday', DWORD),
-    )
+	align = 1
+	structure = (
+			(
+			'tod_elapsedt',
+			DWORD
+			),
+			(
+			'tod_msecs',
+			DWORD
+			),
+			(
+			'tod_hours',
+			DWORD
+			),
+			(
+			'tod_mins',
+			DWORD
+			),
+			(
+			'tod_secs',
+			DWORD
+			),
+			(
+			'tod_hunds',
+			DWORD
+			),
+			(
+			'tod_timezone',
+			LONG
+			),
+			(
+			'tod_tinterval',
+			DWORD
+			),
+			(
+			'tod_day',
+			DWORD
+			),
+			(
+			'tod_month',
+			DWORD
+			),
+			(
+			'tod_year',
+			DWORD
+			),
+			(
+			'tod_weekday',
+			DWORD
+			)
+		)
+
+
 class PTIME_OF_DAY_INFO(NDRPOINTER):
-    referent = (
-        ('Data', TIME_OF_DAY_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			TIME_OF_DAY_INFO
+			)
+		)
+
+
 class LPTIME_OF_DAY_INFO(NDRPOINTER):
-    referent = (
-        ('Data', TIME_OF_DAY_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			TIME_OF_DAY_INFO
+			)
+		)
 
 
 class NET_DFS_ENTRY_ID(NDRSTRUCT):
-    structure = (
-        ('Uid', GUID),('Prefix', WCHAR),
-    )
+	align = 1
+	structure = (
+			(
+			'Uid',
+			GUID
+			),
+			(
+			'Prefix',
+			WCHAR
+			)
+		)
+
+
 class LPNET_DFS_ENTRY_ID(NDRPOINTER):
-    referent = (
-        ('Data', NET_DFS_ENTRY_ID),
-    )    
+	referent = (
+			(
+			'Data',
+			NET_DFS_ENTRY_ID
+			)
+		)
 
 
 class NET_DFS_ENTRY_ID_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('Count', UNSIGNED_LONG),('Buffer', LPNET_DFS_ENTRY_ID),
-    )
+	align = 1
+	structure = (
+			(
+			'Count',
+			UNSIGNED_LONG
+			),
+			(
+			'Buffer',
+			LPNET_DFS_ENTRY_ID
+			)
+		)
+
+
 class LPNET_DFS_ENTRY_ID_CONTAINER(NDRPOINTER):
-    referent = (
-        ('Data', NET_DFS_ENTRY_ID_CONTAINER),
-    )    
+	referent = (
+			(
+			'Data',
+			NET_DFS_ENTRY_ID_CONTAINER
+			)
+		)
 
 
 class DFS_SITENAME_INFO(NDRSTRUCT):
-    structure = (
-        ('SiteFlags', UNSIGNED_LONG),('SiteName', WCHAR),
-    )
+	align = 1
+	structure = (
+			(
+			'SiteFlags',
+			UNSIGNED_LONG
+			),
+			(
+			'SiteName',
+			WCHAR
+			)
+		)
+
+
 class PDFS_SITENAME_INFO(NDRPOINTER):
-    referent = (
-        ('Data', DFS_SITENAME_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			DFS_SITENAME_INFO
+			)
+		)
+
+
 class LPDFS_SITENAME_INFO(NDRPOINTER):
-    referent = (
-        ('Data', DFS_SITENAME_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			DFS_SITENAME_INFO
+			)
+		)
 
 
 class DFS_SITELIST_INFO(NDRSTRUCT):
-    structure = (
-        ('cSites', UNSIGNED_LONG),('Site', DFS_SITENAME_INFO),
-    )
+	align = 1
+	structure = (
+			(
+			'cSites',
+			UNSIGNED_LONG
+			),
+			(
+			'Site',
+			DFS_SITENAME_INFO
+			)
+		)
+
+
 class PDFS_SITELIST_INFO(NDRPOINTER):
-    referent = (
-        ('Data', DFS_SITELIST_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			DFS_SITELIST_INFO
+			)
+		)
+
+
 class LPDFS_SITELIST_INFO(NDRPOINTER):
-    referent = (
-        ('Data', DFS_SITELIST_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			DFS_SITELIST_INFO
+			)
+		)
 
 
 class SERVER_ALIAS_INFO_0(NDRSTRUCT):
-    structure = (
-        ('srvai0_alias', LMSTR),('srvai0_target', LMSTR),('srvai0_default', BOOLEAN),('srvai0_reserved', ULONG),
-    )
+	align = 1
+	structure = (
+			(
+			'srvai0_alias',
+			LMSTR
+			),
+			(
+			'srvai0_target',
+			LMSTR
+			),
+			(
+			'srvai0_default',
+			BOOLEAN
+			),
+			(
+			'srvai0_reserved',
+			ULONG
+			)
+		)
+
+
 class PSERVER_ALIAS_INFO_0(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_ALIAS_INFO_0),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_ALIAS_INFO_0
+			)
+		)
+
+
 class LPSERVER_ALIAS_INFO_0(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_ALIAS_INFO_0),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_ALIAS_INFO_0
+			)
+		)
 
 
 class SERVER_ALIAS_INFO_0_CONTAINER(NDRSTRUCT):
-    structure = (
-        ('EntriesRead', DWORD),('Buffer', LPSERVER_ALIAS_INFO_0),
-    )
+	align = 1
+	structure = (
+			(
+			'EntriesRead',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSERVER_ALIAS_INFO_0
+			)
+		)
 
 
 class SERVERALIASINFO(NDRUNION):
-    union = {
-        0: ('Level0',SERVER_ALIAS_INFO_0_CONTAINER),
-    }
-        
+	union = {0 : (
+		'Level0',
+		SERVER_ALIAS_INFO_0_CONTAINER
+		)}
+
 
 class SERVER_ALIAS_ENUM_STRUCT(NDRSTRUCT):
-    structure = (
-        ('Level', DWORD),('ServerAliasInfo', SERVERALIASINFO),
-    )
+	align = 1
+	structure = (
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'ServerAliasInfo',
+			SERVERALIASINFO
+			)
+		)
+
+
 class PSERVER_ALIAS_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_ALIAS_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_ALIAS_ENUM_STRUCT
+			)
+		)
+
+
 class LPSERVER_ALIAS_ENUM_STRUCT(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_ALIAS_ENUM_STRUCT),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_ALIAS_ENUM_STRUCT
+			)
+		)
 
 
 class SERVER_ALIAS_INFO(NDRUNION):
-    union = {
-        0: ('ServerAliasInfo0',LPSERVER_ALIAS_INFO_0),
-    }
-        class PSERVER_ALIAS_INFO(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_ALIAS_INFO),
-    )    
+	union = {0 : (
+		'ServerAliasInfo0',
+		LPSERVER_ALIAS_INFO_0
+		)}
+
+
+class PSERVER_ALIAS_INFO(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			SERVER_ALIAS_INFO
+			)
+		)
+
+
 class LPSERVER_ALIAS_INFO(NDRPOINTER):
-    referent = (
-        ('Data', SERVER_ALIAS_INFO),
-    )    
+	referent = (
+			(
+			'Data',
+			SERVER_ALIAS_INFO
+			)
+		)
 
 
 class Opnum0NotUsedOnWire(NDRCALL):
-    opnum = 0
-    structure = (
+	OPNUM = 0
+	structure = (
 
-    )
+		)
+
 
 class Opnum0NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum1NotUsedOnWire(NDRCALL):
-    opnum = 1
-    structure = (
+	OPNUM = 1
+	structure = (
 
-    )
+		)
+
 
 class Opnum1NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum2NotUsedOnWire(NDRCALL):
-    opnum = 2
-    structure = (
+	OPNUM = 2
+	structure = (
 
-    )
+		)
+
 
 class Opnum2NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum3NotUsedOnWire(NDRCALL):
-    opnum = 3
-    structure = (
+	OPNUM = 3
+	structure = (
 
-    )
+		)
+
 
 class Opnum3NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum4NotUsedOnWire(NDRCALL):
-    opnum = 4
-    structure = (
+	OPNUM = 4
+	structure = (
 
-    )
+		)
+
 
 class Opnum4NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum5NotUsedOnWire(NDRCALL):
-    opnum = 5
-    structure = (
+	OPNUM = 5
+	structure = (
 
-    )
+		)
+
 
 class Opnum5NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum6NotUsedOnWire(NDRCALL):
-    opnum = 6
-    structure = (
+	OPNUM = 6
+	structure = (
 
-    )
+		)
+
 
 class Opnum6NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class Opnum7NotUsedOnWire(NDRCALL):
-    opnum = 7
-    structure = (
+	OPNUM = 7
+	structure = (
 
-    )
+		)
+
 
 class Opnum7NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class NetrConnectionEnum(NDRCALL):
-    opnum = 8
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Qualifier', WCHAR),
-		('InfoStruct', LPCONNECT_ENUM_STRUCT),
-		('PreferedMaximumLength', DWORD),
-		('ResumeHandle', DWORD),
-    )
+	OPNUM = 8
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Qualifier',
+			WCHAR
+			),
+			(
+			'InfoStruct',
+			LPCONNECT_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrConnectionEnumResponse(NDRCALL):
-    structure = (
-		('InfoStruct', LPCONNECT_ENUM_STRUCT),
-		('TotalEntries', DWORD),
-		('ResumeHandle', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Qualifier',
+			WCHAR
+			),
+			(
+			'InfoStruct',
+			LPCONNECT_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrFileEnum(NDRCALL):
-    opnum = 9
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('BasePath', WCHAR),
-		('UserName', WCHAR),
-		('InfoStruct', PFILE_ENUM_STRUCT),
-		('PreferedMaximumLength', DWORD),
-		('ResumeHandle', DWORD),
-    )
+	OPNUM = 9
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'BasePath',
+			WCHAR
+			),
+			(
+			'UserName',
+			WCHAR
+			),
+			(
+			'InfoStruct',
+			PFILE_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrFileEnumResponse(NDRCALL):
-    structure = (
-		('InfoStruct', PFILE_ENUM_STRUCT),
-		('TotalEntries', DWORD),
-		('ResumeHandle', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'BasePath',
+			WCHAR
+			),
+			(
+			'UserName',
+			WCHAR
+			),
+			(
+			'InfoStruct',
+			PFILE_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrFileGetInfo(NDRCALL):
-    opnum = 10
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('FileId', DWORD),
-		('Level', DWORD),
-    )
+	OPNUM = 10
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'FileId',
+			DWORD
+			),
+			(
+			'Level',
+			DWORD
+			)
+		)
+
 
 class NetrFileGetInfoResponse(NDRCALL):
-    structure = (
-		('InfoStruct', LPFILE_INFO),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'FileId',
+			DWORD
+			),
+			(
+			'Level',
+			DWORD
+			)
+		)
+
 
 class NetrFileClose(NDRCALL):
-    opnum = 11
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('FileId', DWORD),
-    )
+	OPNUM = 11
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'FileId',
+			DWORD
+			)
+		)
+
 
 class NetrFileCloseResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'FileId',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class NetrSessionEnum(NDRCALL):
-    opnum = 12
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('ClientName', WCHAR),
-		('UserName', WCHAR),
-		('InfoStruct', PSESSION_ENUM_STRUCT),
-		('PreferedMaximumLength', DWORD),
-		('ResumeHandle', DWORD),
-    )
+	OPNUM = 12
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ClientName',
+			WCHAR
+			),
+			(
+			'UserName',
+			WCHAR
+			),
+			(
+			'InfoStruct',
+			PSESSION_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrSessionEnumResponse(NDRCALL):
-    structure = (
-		('InfoStruct', PSESSION_ENUM_STRUCT),
-		('TotalEntries', DWORD),
-		('ResumeHandle', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ClientName',
+			WCHAR
+			),
+			(
+			'UserName',
+			WCHAR
+			),
+			(
+			'InfoStruct',
+			PSESSION_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrSessionDel(NDRCALL):
-    opnum = 13
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('ClientName', WCHAR),
-		('UserName', WCHAR),
-    )
+	OPNUM = 13
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ClientName',
+			WCHAR
+			),
+			(
+			'UserName',
+			WCHAR
+			)
+		)
+
 
 class NetrSessionDelResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ClientName',
+			WCHAR
+			),
+			(
+			'UserName',
+			WCHAR
+			)
+		)
 
-    )
-        
 
 class NetrShareAdd(NDRCALL):
-    opnum = 14
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Level', DWORD),
-		('InfoStruct', LPSHARE_INFO),
-		('ParmErr', DWORD),
-    )
+	OPNUM = 14
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'InfoStruct',
+			LPSHARE_INFO
+			),
+			(
+			'ParmErr',
+			DWORD
+			)
+		)
+
 
 class NetrShareAddResponse(NDRCALL):
-    structure = (
-		('ParmErr', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'InfoStruct',
+			LPSHARE_INFO
+			),
+			(
+			'ParmErr',
+			DWORD
+			)
+		)
+
 
 class NetrShareEnum(NDRCALL):
-    opnum = 15
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('InfoStruct', LPSHARE_ENUM_STRUCT),
-		('PreferedMaximumLength', DWORD),
-		('ResumeHandle', DWORD),
-    )
+	OPNUM = 15
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'InfoStruct',
+			LPSHARE_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrShareEnumResponse(NDRCALL):
-    structure = (
-		('InfoStruct', LPSHARE_ENUM_STRUCT),
-		('TotalEntries', DWORD),
-		('ResumeHandle', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'InfoStruct',
+			LPSHARE_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrShareGetInfo(NDRCALL):
-    opnum = 16
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('NetName', WCHAR),
-		('Level', DWORD),
-    )
+	OPNUM = 16
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'NetName',
+			WCHAR
+			),
+			(
+			'Level',
+			DWORD
+			)
+		)
+
 
 class NetrShareGetInfoResponse(NDRCALL):
-    structure = (
-		('InfoStruct', LPSHARE_INFO),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'NetName',
+			WCHAR
+			),
+			(
+			'Level',
+			DWORD
+			)
+		)
+
 
 class NetrShareSetInfo(NDRCALL):
-    opnum = 17
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('NetName', WCHAR),
-		('Level', DWORD),
-		('ShareInfo', LPSHARE_INFO),
-		('ParmErr', DWORD),
-    )
+	OPNUM = 17
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'NetName',
+			WCHAR
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'ShareInfo',
+			LPSHARE_INFO
+			),
+			(
+			'ParmErr',
+			DWORD
+			)
+		)
+
 
 class NetrShareSetInfoResponse(NDRCALL):
-    structure = (
-		('ParmErr', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'NetName',
+			WCHAR
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'ShareInfo',
+			LPSHARE_INFO
+			),
+			(
+			'ParmErr',
+			DWORD
+			)
+		)
+
 
 class NetrShareDel(NDRCALL):
-    opnum = 18
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('NetName', WCHAR),
-		('Reserved', DWORD),
-    )
+	OPNUM = 18
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'NetName',
+			WCHAR
+			),
+			(
+			'Reserved',
+			DWORD
+			)
+		)
+
 
 class NetrShareDelResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'NetName',
+			WCHAR
+			),
+			(
+			'Reserved',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class NetrShareDelSticky(NDRCALL):
-    opnum = 19
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('NetName', WCHAR),
-		('Reserved', DWORD),
-    )
+	OPNUM = 19
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'NetName',
+			WCHAR
+			),
+			(
+			'Reserved',
+			DWORD
+			)
+		)
+
 
 class NetrShareDelStickyResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'NetName',
+			WCHAR
+			),
+			(
+			'Reserved',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class NetrShareCheck(NDRCALL):
-    opnum = 20
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Device', WCHAR),
-    )
+	OPNUM = 20
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Device',
+			WCHAR
+			)
+		)
+
 
 class NetrShareCheckResponse(NDRCALL):
-    structure = (
-		('Type', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Device',
+			WCHAR
+			)
+		)
+
 
 class NetrServerGetInfo(NDRCALL):
-    opnum = 21
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Level', DWORD),
-    )
+	OPNUM = 21
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			)
+		)
+
 
 class NetrServerGetInfoResponse(NDRCALL):
-    structure = (
-		('InfoStruct', LPSERVER_INFO),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			)
+		)
+
 
 class NetrServerSetInfo(NDRCALL):
-    opnum = 22
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Level', DWORD),
-		('ServerInfo', LPSERVER_INFO),
-		('ParmErr', DWORD),
-    )
+	OPNUM = 22
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'ServerInfo',
+			LPSERVER_INFO
+			),
+			(
+			'ParmErr',
+			DWORD
+			)
+		)
+
 
 class NetrServerSetInfoResponse(NDRCALL):
-    structure = (
-		('ParmErr', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'ServerInfo',
+			LPSERVER_INFO
+			),
+			(
+			'ParmErr',
+			DWORD
+			)
+		)
+
 
 class NetrServerDiskEnum(NDRCALL):
-    opnum = 23
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Level', DWORD),
-		('DiskInfoStruct', DISK_ENUM_CONTAINER),
-		('PreferedMaximumLength', DWORD),
-		('ResumeHandle', DWORD),
-    )
+	OPNUM = 23
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'DiskInfoStruct',
+			DISK_ENUM_CONTAINER
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrServerDiskEnumResponse(NDRCALL):
-    structure = (
-		('DiskInfoStruct', DISK_ENUM_CONTAINER),
-		('TotalEntries', DWORD),
-		('ResumeHandle', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'DiskInfoStruct',
+			DISK_ENUM_CONTAINER
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrServerStatisticsGet(NDRCALL):
-    opnum = 24
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Service', WCHAR),
-		('Level', DWORD),
-		('Options', DWORD),
-    )
+	OPNUM = 24
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Service',
+			WCHAR
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'Options',
+			DWORD
+			)
+		)
+
 
 class NetrServerStatisticsGetResponse(NDRCALL):
-    structure = (
-		('InfoStruct', LPSTAT_SERVER_0),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Service',
+			WCHAR
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'Options',
+			DWORD
+			)
+		)
+
 
 class NetrServerTransportAdd(NDRCALL):
-    opnum = 25
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Level', DWORD),
-		('Buffer', LPSERVER_TRANSPORT_INFO_0),
-    )
+	OPNUM = 25
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSERVER_TRANSPORT_INFO_0
+			)
+		)
+
 
 class NetrServerTransportAddResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSERVER_TRANSPORT_INFO_0
+			)
+		)
 
-    )
-        
 
 class NetrServerTransportEnum(NDRCALL):
-    opnum = 26
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('InfoStruct', LPSERVER_XPORT_ENUM_STRUCT),
-		('PreferedMaximumLength', DWORD),
-		('ResumeHandle', DWORD),
-    )
+	OPNUM = 26
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'InfoStruct',
+			LPSERVER_XPORT_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrServerTransportEnumResponse(NDRCALL):
-    structure = (
-		('InfoStruct', LPSERVER_XPORT_ENUM_STRUCT),
-		('TotalEntries', DWORD),
-		('ResumeHandle', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'InfoStruct',
+			LPSERVER_XPORT_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrServerTransportDel(NDRCALL):
-    opnum = 27
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Level', DWORD),
-		('Buffer', LPSERVER_TRANSPORT_INFO_0),
-    )
+	OPNUM = 27
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSERVER_TRANSPORT_INFO_0
+			)
+		)
+
 
 class NetrServerTransportDelResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPSERVER_TRANSPORT_INFO_0
+			)
+		)
 
-    )
-        
 
 class NetrRemoteTOD(NDRCALL):
-    opnum = 28
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-    )
+	OPNUM = 28
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			)
+		)
+
 
 class NetrRemoteTODResponse(NDRCALL):
-    structure = (
-		('BufferPtr', LPTIME_OF_DAY_INFO),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			)
+		)
+
 
 class Opnum29NotUsedOnWire(NDRCALL):
-    opnum = 29
-    structure = (
+	OPNUM = 29
+	structure = (
 
-    )
+		)
+
 
 class Opnum29NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class NetprPathType(NDRCALL):
-    opnum = 30
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('PathName', WCHAR),
-		('Flags', DWORD),
-    )
+	OPNUM = 30
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'PathName',
+			WCHAR
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
+
 
 class NetprPathTypeResponse(NDRCALL):
-    structure = (
-		('PathType', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'PathName',
+			WCHAR
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
+
 
 class NetprPathCanonicalize(NDRCALL):
-    opnum = 31
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('PathName', WCHAR),
-		('OutbufLen', DWORD),
-		('Prefix', WCHAR),
-		('PathType', DWORD),
-		('Flags', DWORD),
-    )
+	OPNUM = 31
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'PathName',
+			WCHAR
+			),
+			(
+			'OutbufLen',
+			DWORD
+			),
+			(
+			'Prefix',
+			WCHAR
+			),
+			(
+			'PathType',
+			DWORD
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
+
 
 class NetprPathCanonicalizeResponse(NDRCALL):
-    structure = (
-		('Outbuf', UNSIGNED_CHAR),
-		('PathType', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'PathName',
+			WCHAR
+			),
+			(
+			'OutbufLen',
+			DWORD
+			),
+			(
+			'Prefix',
+			WCHAR
+			),
+			(
+			'PathType',
+			DWORD
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
+
 
 class NetprPathCompare(NDRCALL):
-    opnum = 32
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('PathName1', WCHAR),
-		('PathName2', WCHAR),
-		('PathType', DWORD),
-		('Flags', DWORD),
-    )
+	OPNUM = 32
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'PathName1',
+			WCHAR
+			),
+			(
+			'PathName2',
+			WCHAR
+			),
+			(
+			'PathType',
+			DWORD
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
+
 
 class NetprPathCompareResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'PathName1',
+			WCHAR
+			),
+			(
+			'PathName2',
+			WCHAR
+			),
+			(
+			'PathType',
+			DWORD
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class NetprNameValidate(NDRCALL):
-    opnum = 33
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Name', WCHAR),
-		('NameType', DWORD),
-		('Flags', DWORD),
-    )
+	OPNUM = 33
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Name',
+			WCHAR
+			),
+			(
+			'NameType',
+			DWORD
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
+
 
 class NetprNameValidateResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Name',
+			WCHAR
+			),
+			(
+			'NameType',
+			DWORD
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class NetprNameCanonicalize(NDRCALL):
-    opnum = 34
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Name', WCHAR),
-		('OutbufLen', DWORD),
-		('NameType', DWORD),
-		('Flags', DWORD),
-    )
+	OPNUM = 34
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Name',
+			WCHAR
+			),
+			(
+			'OutbufLen',
+			DWORD
+			),
+			(
+			'NameType',
+			DWORD
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
+
 
 class NetprNameCanonicalizeResponse(NDRCALL):
-    structure = (
-		('Outbuf', WCHAR),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Name',
+			WCHAR
+			),
+			(
+			'OutbufLen',
+			DWORD
+			),
+			(
+			'NameType',
+			DWORD
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
+
 
 class NetprNameCompare(NDRCALL):
-    opnum = 35
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Name1', WCHAR),
-		('Name2', WCHAR),
-		('NameType', DWORD),
-		('Flags', DWORD),
-    )
+	OPNUM = 35
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Name1',
+			WCHAR
+			),
+			(
+			'Name2',
+			WCHAR
+			),
+			(
+			'NameType',
+			DWORD
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
+
 
 class NetprNameCompareResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Name1',
+			WCHAR
+			),
+			(
+			'Name2',
+			WCHAR
+			),
+			(
+			'NameType',
+			DWORD
+			),
+			(
+			'Flags',
+			DWORD
+			)
+		)
 
-    )
-        
 
 class NetrShareEnumSticky(NDRCALL):
-    opnum = 36
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('InfoStruct', LPSHARE_ENUM_STRUCT),
-		('PreferedMaximumLength', DWORD),
-		('ResumeHandle', DWORD),
-    )
+	OPNUM = 36
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'InfoStruct',
+			LPSHARE_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrShareEnumStickyResponse(NDRCALL):
-    structure = (
-		('InfoStruct', LPSHARE_ENUM_STRUCT),
-		('TotalEntries', DWORD),
-		('ResumeHandle', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'InfoStruct',
+			LPSHARE_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			DWORD
+			)
+		)
+
 
 class NetrShareDelStart(NDRCALL):
-    opnum = 37
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('NetName', WCHAR),
-		('Reserved', DWORD),
-    )
+	OPNUM = 37
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'NetName',
+			WCHAR
+			),
+			(
+			'Reserved',
+			DWORD
+			)
+		)
+
 
 class NetrShareDelStartResponse(NDRCALL):
-    structure = (
-		('ContextHandle', PSHARE_DEL_HANDLE),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'NetName',
+			WCHAR
+			),
+			(
+			'Reserved',
+			DWORD
+			)
+		)
+
 
 class NetrShareDelCommit(NDRCALL):
-    opnum = 38
-    structure = (
-		('ContextHandle', PSHARE_DEL_HANDLE),
-    )
+	OPNUM = 38
+	structure = (
+			(
+			'ContextHandle',
+			PSHARE_DEL_HANDLE
+			)
+		)
+
 
 class NetrShareDelCommitResponse(NDRCALL):
-    structure = (
-		('ContextHandle', PSHARE_DEL_HANDLE),
-    )
-        
+	structure = (
+			(
+			'ContextHandle',
+			PSHARE_DEL_HANDLE
+			)
+		)
+
 
 class NetrpGetFileSecurity(NDRCALL):
-    opnum = 39
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('ShareName', WCHAR),
-		('lpFileName', WCHAR),
-		('RequestedInformation', SECURITY_INFORMATION),
-    )
+	OPNUM = 39
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ShareName',
+			WCHAR
+			),
+			(
+			'lpFileName',
+			WCHAR
+			),
+			(
+			'RequestedInformation',
+			SECURITY_INFORMATION
+			)
+		)
+
 
 class NetrpGetFileSecurityResponse(NDRCALL):
-    structure = (
-		('SecurityDescriptor', PADT_SECURITY_DESCRIPTOR),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ShareName',
+			WCHAR
+			),
+			(
+			'lpFileName',
+			WCHAR
+			),
+			(
+			'RequestedInformation',
+			SECURITY_INFORMATION
+			)
+		)
+
 
 class NetrpSetFileSecurity(NDRCALL):
-    opnum = 40
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('ShareName', WCHAR),
-		('lpFileName', WCHAR),
-		('SecurityInformation', SECURITY_INFORMATION),
-		('SecurityDescriptor', PADT_SECURITY_DESCRIPTOR),
-    )
+	OPNUM = 40
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ShareName',
+			WCHAR
+			),
+			(
+			'lpFileName',
+			WCHAR
+			),
+			(
+			'SecurityInformation',
+			SECURITY_INFORMATION
+			),
+			(
+			'SecurityDescriptor',
+			PADT_SECURITY_DESCRIPTOR
+			)
+		)
+
 
 class NetrpSetFileSecurityResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ShareName',
+			WCHAR
+			),
+			(
+			'lpFileName',
+			WCHAR
+			),
+			(
+			'SecurityInformation',
+			SECURITY_INFORMATION
+			),
+			(
+			'SecurityDescriptor',
+			PADT_SECURITY_DESCRIPTOR
+			)
+		)
 
-    )
-        
 
 class NetrServerTransportAddEx(NDRCALL):
-    opnum = 41
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Level', DWORD),
-		('Buffer', LPTRANSPORT_INFO),
-    )
+	OPNUM = 41
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPTRANSPORT_INFO
+			)
+		)
+
 
 class NetrServerTransportAddExResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPTRANSPORT_INFO
+			)
+		)
 
-    )
-        
 
 class Opnum42NotUsedOnWire(NDRCALL):
-    opnum = 42
-    structure = (
+	OPNUM = 42
+	structure = (
 
-    )
+		)
+
 
 class Opnum42NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class NetrDfsGetVersion(NDRCALL):
-    opnum = 43
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-    )
+	OPNUM = 43
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			)
+		)
+
 
 class NetrDfsGetVersionResponse(NDRCALL):
-    structure = (
-		('Version', DWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			)
+		)
+
 
 class NetrDfsCreateLocalPartition(NDRCALL):
-    opnum = 44
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('ShareName', WCHAR),
-		('EntryUid', GUID),
-		('EntryPrefix', WCHAR),
-		('ShortName', WCHAR),
-		('RelationInfo', LPNET_DFS_ENTRY_ID_CONTAINER),
-		('Force', INT),
-    )
+	OPNUM = 44
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ShareName',
+			WCHAR
+			),
+			(
+			'EntryUid',
+			GUID
+			),
+			(
+			'EntryPrefix',
+			WCHAR
+			),
+			(
+			'ShortName',
+			WCHAR
+			),
+			(
+			'RelationInfo',
+			LPNET_DFS_ENTRY_ID_CONTAINER
+			),
+			(
+			'Force',
+			INT
+			)
+		)
+
 
 class NetrDfsCreateLocalPartitionResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ShareName',
+			WCHAR
+			),
+			(
+			'EntryUid',
+			GUID
+			),
+			(
+			'EntryPrefix',
+			WCHAR
+			),
+			(
+			'ShortName',
+			WCHAR
+			),
+			(
+			'RelationInfo',
+			LPNET_DFS_ENTRY_ID_CONTAINER
+			),
+			(
+			'Force',
+			INT
+			)
+		)
 
-    )
-        
 
 class NetrDfsDeleteLocalPartition(NDRCALL):
-    opnum = 45
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Uid', GUID),
-		('Prefix', WCHAR),
-    )
+	OPNUM = 45
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Uid',
+			GUID
+			),
+			(
+			'Prefix',
+			WCHAR
+			)
+		)
+
 
 class NetrDfsDeleteLocalPartitionResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Uid',
+			GUID
+			),
+			(
+			'Prefix',
+			WCHAR
+			)
+		)
 
-    )
-        
 
 class NetrDfsSetLocalVolumeState(NDRCALL):
-    opnum = 46
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Uid', GUID),
-		('Prefix', WCHAR),
-		('State', UNSIGNED_LONG),
-    )
+	OPNUM = 46
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Uid',
+			GUID
+			),
+			(
+			'Prefix',
+			WCHAR
+			),
+			(
+			'State',
+			UNSIGNED_LONG
+			)
+		)
+
 
 class NetrDfsSetLocalVolumeStateResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Uid',
+			GUID
+			),
+			(
+			'Prefix',
+			WCHAR
+			),
+			(
+			'State',
+			UNSIGNED_LONG
+			)
+		)
 
-    )
-        
 
 class Opnum47NotUsedOnWire(NDRCALL):
-    opnum = 47
-    structure = (
+	OPNUM = 47
+	structure = (
 
-    )
+		)
+
 
 class Opnum47NotUsedOnWireResponse(NDRCALL):
-    structure = (
+	structure = (
 
-    )
-        
+		)
+
 
 class NetrDfsCreateExitPoint(NDRCALL):
-    opnum = 48
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Uid', GUID),
-		('Prefix', WCHAR),
-		('Type', UNSIGNED_LONG),
-		('ShortPrefixLen', DWORD),
-    )
+	OPNUM = 48
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Uid',
+			GUID
+			),
+			(
+			'Prefix',
+			WCHAR
+			),
+			(
+			'Type',
+			UNSIGNED_LONG
+			),
+			(
+			'ShortPrefixLen',
+			DWORD
+			)
+		)
+
 
 class NetrDfsCreateExitPointResponse(NDRCALL):
-    structure = (
-		('ShortPrefix', WCHAR),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Uid',
+			GUID
+			),
+			(
+			'Prefix',
+			WCHAR
+			),
+			(
+			'Type',
+			UNSIGNED_LONG
+			),
+			(
+			'ShortPrefixLen',
+			DWORD
+			)
+		)
+
 
 class NetrDfsDeleteExitPoint(NDRCALL):
-    opnum = 49
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Uid', GUID),
-		('Prefix', WCHAR),
-		('Type', UNSIGNED_LONG),
-    )
+	OPNUM = 49
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Uid',
+			GUID
+			),
+			(
+			'Prefix',
+			WCHAR
+			),
+			(
+			'Type',
+			UNSIGNED_LONG
+			)
+		)
+
 
 class NetrDfsDeleteExitPointResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Uid',
+			GUID
+			),
+			(
+			'Prefix',
+			WCHAR
+			),
+			(
+			'Type',
+			UNSIGNED_LONG
+			)
+		)
 
-    )
-        
 
 class NetrDfsModifyPrefix(NDRCALL):
-    opnum = 50
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Uid', GUID),
-		('Prefix', WCHAR),
-    )
+	OPNUM = 50
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Uid',
+			GUID
+			),
+			(
+			'Prefix',
+			WCHAR
+			)
+		)
+
 
 class NetrDfsModifyPrefixResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Uid',
+			GUID
+			),
+			(
+			'Prefix',
+			WCHAR
+			)
+		)
 
-    )
-        
 
 class NetrDfsFixLocalVolume(NDRCALL):
-    opnum = 51
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('VolumeName', WCHAR),
-		('EntryType', UNSIGNED_LONG),
-		('ServiceType', UNSIGNED_LONG),
-		('StgId', WCHAR),
-		('EntryUid', GUID),
-		('EntryPrefix', WCHAR),
-		('RelationInfo', LPNET_DFS_ENTRY_ID_CONTAINER),
-		('CreateDisposition', UNSIGNED_LONG),
-    )
+	OPNUM = 51
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'VolumeName',
+			WCHAR
+			),
+			(
+			'EntryType',
+			UNSIGNED_LONG
+			),
+			(
+			'ServiceType',
+			UNSIGNED_LONG
+			),
+			(
+			'StgId',
+			WCHAR
+			),
+			(
+			'EntryUid',
+			GUID
+			),
+			(
+			'EntryPrefix',
+			WCHAR
+			),
+			(
+			'RelationInfo',
+			LPNET_DFS_ENTRY_ID_CONTAINER
+			),
+			(
+			'CreateDisposition',
+			UNSIGNED_LONG
+			)
+		)
+
 
 class NetrDfsFixLocalVolumeResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'VolumeName',
+			WCHAR
+			),
+			(
+			'EntryType',
+			UNSIGNED_LONG
+			),
+			(
+			'ServiceType',
+			UNSIGNED_LONG
+			),
+			(
+			'StgId',
+			WCHAR
+			),
+			(
+			'EntryUid',
+			GUID
+			),
+			(
+			'EntryPrefix',
+			WCHAR
+			),
+			(
+			'RelationInfo',
+			LPNET_DFS_ENTRY_ID_CONTAINER
+			),
+			(
+			'CreateDisposition',
+			UNSIGNED_LONG
+			)
+		)
 
-    )
-        
 
 class NetrDfsManagerReportSiteInfo(NDRCALL):
-    opnum = 52
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('ppSiteInfo', LPDFS_SITELIST_INFO),
-    )
+	OPNUM = 52
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ppSiteInfo',
+			LPDFS_SITELIST_INFO
+			)
+		)
+
 
 class NetrDfsManagerReportSiteInfoResponse(NDRCALL):
-    structure = (
-		('ppSiteInfo', LPDFS_SITELIST_INFO),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'ppSiteInfo',
+			LPDFS_SITELIST_INFO
+			)
+		)
+
 
 class NetrServerTransportDelEx(NDRCALL):
-    opnum = 53
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Level', DWORD),
-		('Buffer', LPTRANSPORT_INFO),
-    )
+	OPNUM = 53
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPTRANSPORT_INFO
+			)
+		)
+
 
 class NetrServerTransportDelExResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'Buffer',
+			LPTRANSPORT_INFO
+			)
+		)
 
-    )
-        
 
 class NetrServerAliasAdd(NDRCALL):
-    opnum = 54
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Level', DWORD),
-		('InfoStruct', LPSERVER_ALIAS_INFO),
-    )
+	OPNUM = 54
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'InfoStruct',
+			LPSERVER_ALIAS_INFO
+			)
+		)
+
 
 class NetrServerAliasAddResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'InfoStruct',
+			LPSERVER_ALIAS_INFO
+			)
+		)
 
-    )
-        
 
 class NetrServerAliasEnum(NDRCALL):
-    opnum = 55
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('InfoStruct', LPSERVER_ALIAS_ENUM_STRUCT),
-		('PreferedMaximumLength', DWORD),
-		('ResumeHandle', LPDWORD),
-    )
+	OPNUM = 55
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'InfoStruct',
+			LPSERVER_ALIAS_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			LPDWORD
+			)
+		)
+
 
 class NetrServerAliasEnumResponse(NDRCALL):
-    structure = (
-		('InfoStruct', LPSERVER_ALIAS_ENUM_STRUCT),
-		('TotalEntries', LPDWORD),
-		('ResumeHandle', LPDWORD),
-    )
-        
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'InfoStruct',
+			LPSERVER_ALIAS_ENUM_STRUCT
+			),
+			(
+			'PreferedMaximumLength',
+			DWORD
+			),
+			(
+			'ResumeHandle',
+			LPDWORD
+			)
+		)
+
 
 class NetrServerAliasDel(NDRCALL):
-    opnum = 56
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Level', DWORD),
-		('InfoStruct', LPSERVER_ALIAS_INFO),
-    )
+	OPNUM = 56
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'InfoStruct',
+			LPSERVER_ALIAS_INFO
+			)
+		)
+
 
 class NetrServerAliasDelResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'InfoStruct',
+			LPSERVER_ALIAS_INFO
+			)
+		)
 
-    )
-        
 
 class NetrShareDelEx(NDRCALL):
-    opnum = 57
-    structure = (
-		('ServerName', SRVSVC_HANDLE),
-		('Level', DWORD),
-		('ShareInfo', LPSHARE_INFO),
-    )
+	OPNUM = 57
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'ShareInfo',
+			LPSHARE_INFO
+			)
+		)
+
 
 class NetrShareDelExResponse(NDRCALL):
-    structure = (
+	structure = (
+			(
+			'ServerName',
+			SRVSVC_HANDLE
+			),
+			(
+			'Level',
+			DWORD
+			),
+			(
+			'ShareInfo',
+			LPSHARE_INFO
+			)
+		)
 
-    )
-        
-OPNUMS = {
-0 : (Opnum0NotUsedOnWire,Opnum0NotUsedOnWireResponse),
-1 : (Opnum1NotUsedOnWire,Opnum1NotUsedOnWireResponse),
-2 : (Opnum2NotUsedOnWire,Opnum2NotUsedOnWireResponse),
-3 : (Opnum3NotUsedOnWire,Opnum3NotUsedOnWireResponse),
-4 : (Opnum4NotUsedOnWire,Opnum4NotUsedOnWireResponse),
-5 : (Opnum5NotUsedOnWire,Opnum5NotUsedOnWireResponse),
-6 : (Opnum6NotUsedOnWire,Opnum6NotUsedOnWireResponse),
-7 : (Opnum7NotUsedOnWire,Opnum7NotUsedOnWireResponse),
-8 : (NetrConnectionEnum,NetrConnectionEnumResponse),
-9 : (NetrFileEnum,NetrFileEnumResponse),
-10 : (NetrFileGetInfo,NetrFileGetInfoResponse),
-11 : (NetrFileClose,NetrFileCloseResponse),
-12 : (NetrSessionEnum,NetrSessionEnumResponse),
-13 : (NetrSessionDel,NetrSessionDelResponse),
-14 : (NetrShareAdd,NetrShareAddResponse),
-15 : (NetrShareEnum,NetrShareEnumResponse),
-16 : (NetrShareGetInfo,NetrShareGetInfoResponse),
-17 : (NetrShareSetInfo,NetrShareSetInfoResponse),
-18 : (NetrShareDel,NetrShareDelResponse),
-19 : (NetrShareDelSticky,NetrShareDelStickyResponse),
-20 : (NetrShareCheck,NetrShareCheckResponse),
-21 : (NetrServerGetInfo,NetrServerGetInfoResponse),
-22 : (NetrServerSetInfo,NetrServerSetInfoResponse),
-23 : (NetrServerDiskEnum,NetrServerDiskEnumResponse),
-24 : (NetrServerStatisticsGet,NetrServerStatisticsGetResponse),
-25 : (NetrServerTransportAdd,NetrServerTransportAddResponse),
-26 : (NetrServerTransportEnum,NetrServerTransportEnumResponse),
-27 : (NetrServerTransportDel,NetrServerTransportDelResponse),
-28 : (NetrRemoteTOD,NetrRemoteTODResponse),
-29 : (Opnum29NotUsedOnWire,Opnum29NotUsedOnWireResponse),
-30 : (NetprPathType,NetprPathTypeResponse),
-31 : (NetprPathCanonicalize,NetprPathCanonicalizeResponse),
-32 : (NetprPathCompare,NetprPathCompareResponse),
-33 : (NetprNameValidate,NetprNameValidateResponse),
-34 : (NetprNameCanonicalize,NetprNameCanonicalizeResponse),
-35 : (NetprNameCompare,NetprNameCompareResponse),
-36 : (NetrShareEnumSticky,NetrShareEnumStickyResponse),
-37 : (NetrShareDelStart,NetrShareDelStartResponse),
-38 : (NetrShareDelCommit,NetrShareDelCommitResponse),
-39 : (NetrpGetFileSecurity,NetrpGetFileSecurityResponse),
-40 : (NetrpSetFileSecurity,NetrpSetFileSecurityResponse),
-41 : (NetrServerTransportAddEx,NetrServerTransportAddExResponse),
-42 : (Opnum42NotUsedOnWire,Opnum42NotUsedOnWireResponse),
-43 : (NetrDfsGetVersion,NetrDfsGetVersionResponse),
-44 : (NetrDfsCreateLocalPartition,NetrDfsCreateLocalPartitionResponse),
-45 : (NetrDfsDeleteLocalPartition,NetrDfsDeleteLocalPartitionResponse),
-46 : (NetrDfsSetLocalVolumeState,NetrDfsSetLocalVolumeStateResponse),
-47 : (Opnum47NotUsedOnWire,Opnum47NotUsedOnWireResponse),
-48 : (NetrDfsCreateExitPoint,NetrDfsCreateExitPointResponse),
-49 : (NetrDfsDeleteExitPoint,NetrDfsDeleteExitPointResponse),
-50 : (NetrDfsModifyPrefix,NetrDfsModifyPrefixResponse),
-51 : (NetrDfsFixLocalVolume,NetrDfsFixLocalVolumeResponse),
-52 : (NetrDfsManagerReportSiteInfo,NetrDfsManagerReportSiteInfoResponse),
-53 : (NetrServerTransportDelEx,NetrServerTransportDelExResponse),
-54 : (NetrServerAliasAdd,NetrServerAliasAddResponse),
-55 : (NetrServerAliasEnum,NetrServerAliasEnumResponse),
-56 : (NetrServerAliasDel,NetrServerAliasDelResponse),
-57 : (NetrShareDelEx,NetrShareDelExResponse),
-}
 
+OPNUMS = {0 : (
+	Opnum0NotUsedOnWire,
+	Opnum0NotUsedOnWireResponse
+	),1 : (
+	Opnum1NotUsedOnWire,
+	Opnum1NotUsedOnWireResponse
+	),2 : (
+	Opnum2NotUsedOnWire,
+	Opnum2NotUsedOnWireResponse
+	),3 : (
+	Opnum3NotUsedOnWire,
+	Opnum3NotUsedOnWireResponse
+	),4 : (
+	Opnum4NotUsedOnWire,
+	Opnum4NotUsedOnWireResponse
+	),5 : (
+	Opnum5NotUsedOnWire,
+	Opnum5NotUsedOnWireResponse
+	),6 : (
+	Opnum6NotUsedOnWire,
+	Opnum6NotUsedOnWireResponse
+	),7 : (
+	Opnum7NotUsedOnWire,
+	Opnum7NotUsedOnWireResponse
+	),8 : (
+	NetrConnectionEnum,
+	NetrConnectionEnumResponse
+	),9 : (
+	NetrFileEnum,
+	NetrFileEnumResponse
+	),10 : (
+	NetrFileGetInfo,
+	NetrFileGetInfoResponse
+	),11 : (
+	NetrFileClose,
+	NetrFileCloseResponse
+	),12 : (
+	NetrSessionEnum,
+	NetrSessionEnumResponse
+	),13 : (
+	NetrSessionDel,
+	NetrSessionDelResponse
+	),14 : (
+	NetrShareAdd,
+	NetrShareAddResponse
+	),15 : (
+	NetrShareEnum,
+	NetrShareEnumResponse
+	),16 : (
+	NetrShareGetInfo,
+	NetrShareGetInfoResponse
+	),17 : (
+	NetrShareSetInfo,
+	NetrShareSetInfoResponse
+	),18 : (
+	NetrShareDel,
+	NetrShareDelResponse
+	),19 : (
+	NetrShareDelSticky,
+	NetrShareDelStickyResponse
+	),20 : (
+	NetrShareCheck,
+	NetrShareCheckResponse
+	),21 : (
+	NetrServerGetInfo,
+	NetrServerGetInfoResponse
+	),22 : (
+	NetrServerSetInfo,
+	NetrServerSetInfoResponse
+	),23 : (
+	NetrServerDiskEnum,
+	NetrServerDiskEnumResponse
+	),24 : (
+	NetrServerStatisticsGet,
+	NetrServerStatisticsGetResponse
+	),25 : (
+	NetrServerTransportAdd,
+	NetrServerTransportAddResponse
+	),26 : (
+	NetrServerTransportEnum,
+	NetrServerTransportEnumResponse
+	),27 : (
+	NetrServerTransportDel,
+	NetrServerTransportDelResponse
+	),28 : (
+	NetrRemoteTOD,
+	NetrRemoteTODResponse
+	),29 : (
+	Opnum29NotUsedOnWire,
+	Opnum29NotUsedOnWireResponse
+	),30 : (
+	NetprPathType,
+	NetprPathTypeResponse
+	),31 : (
+	NetprPathCanonicalize,
+	NetprPathCanonicalizeResponse
+	),32 : (
+	NetprPathCompare,
+	NetprPathCompareResponse
+	),33 : (
+	NetprNameValidate,
+	NetprNameValidateResponse
+	),34 : (
+	NetprNameCanonicalize,
+	NetprNameCanonicalizeResponse
+	),35 : (
+	NetprNameCompare,
+	NetprNameCompareResponse
+	),36 : (
+	NetrShareEnumSticky,
+	NetrShareEnumStickyResponse
+	),37 : (
+	NetrShareDelStart,
+	NetrShareDelStartResponse
+	),38 : (
+	NetrShareDelCommit,
+	NetrShareDelCommitResponse
+	),39 : (
+	NetrpGetFileSecurity,
+	NetrpGetFileSecurityResponse
+	),40 : (
+	NetrpSetFileSecurity,
+	NetrpSetFileSecurityResponse
+	),41 : (
+	NetrServerTransportAddEx,
+	NetrServerTransportAddExResponse
+	),42 : (
+	Opnum42NotUsedOnWire,
+	Opnum42NotUsedOnWireResponse
+	),43 : (
+	NetrDfsGetVersion,
+	NetrDfsGetVersionResponse
+	),44 : (
+	NetrDfsCreateLocalPartition,
+	NetrDfsCreateLocalPartitionResponse
+	),45 : (
+	NetrDfsDeleteLocalPartition,
+	NetrDfsDeleteLocalPartitionResponse
+	),46 : (
+	NetrDfsSetLocalVolumeState,
+	NetrDfsSetLocalVolumeStateResponse
+	),47 : (
+	Opnum47NotUsedOnWire,
+	Opnum47NotUsedOnWireResponse
+	),48 : (
+	NetrDfsCreateExitPoint,
+	NetrDfsCreateExitPointResponse
+	),49 : (
+	NetrDfsDeleteExitPoint,
+	NetrDfsDeleteExitPointResponse
+	),50 : (
+	NetrDfsModifyPrefix,
+	NetrDfsModifyPrefixResponse
+	),51 : (
+	NetrDfsFixLocalVolume,
+	NetrDfsFixLocalVolumeResponse
+	),52 : (
+	NetrDfsManagerReportSiteInfo,
+	NetrDfsManagerReportSiteInfoResponse
+	),53 : (
+	NetrServerTransportDelEx,
+	NetrServerTransportDelExResponse
+	),54 : (
+	NetrServerAliasAdd,
+	NetrServerAliasAddResponse
+	),55 : (
+	NetrServerAliasEnum,
+	NetrServerAliasEnumResponse
+	),56 : (
+	NetrServerAliasDel,
+	NetrServerAliasDelResponse
+	),57 : (
+	NetrShareDelEx,
+	NetrShareDelExResponse
+	)}
