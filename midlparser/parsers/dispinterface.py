@@ -1,10 +1,11 @@
 import enum
 
-from midltypes import MidlDispInterface, MidlVariableInstantiation
 from midlparser.parsers.attributes import MidlAttributesParser
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
 from midlparser.parsers.procedures import MidlProcedureParser
+from midlparser.parsers.variables import MidlVariableInstantiationParser
 from midlparser.tokenizer import Token, TokenType
+from midltypes import MidlDispInterface
 
 
 class DispInterfaceState(enum.Enum):
@@ -93,7 +94,9 @@ class MidlDispInterfaceParser(MidlBaseParser):
             DispInterfaceState.PROP_TYPE,
         ]:
             # Procedure declaration return type
-            prop = MidlVariableInstantiation(self.tokens, self.tokenizer).parse(token)
+            prop = MidlVariableInstantiationParser(self.tokens, self.tokenizer).parse(
+                token
+            )
             if prop:
                 prop.attributes = self.cur_prop_attrs
                 self.dispinterface.properties.append(prop)
@@ -122,7 +125,9 @@ class MidlDispInterfaceParser(MidlBaseParser):
             DispInterfaceState.PROP_TYPE,
         ]:
             # Procedure declaration return type
-            prop = MidlVariableInstantiation(self.tokens, self.tokenizer).parse(token)
+            prop = MidlVariableInstantiationParser(self.tokens, self.tokenizer).parse(
+                token
+            )
             if prop:
                 prop.attributes = self.cur_prop_attrs
                 self.dispinterface.properties.append(prop)
