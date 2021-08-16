@@ -2,6 +2,8 @@ from impacketbuilder.ndrbuilder.python import (
     PythonAssignment,
     PythonAssignmentList,
     PythonDictEntryList,
+    PythonFunction,
+    PythonFunctionList,
     PythonNameList,
     PythonValue,
     PythonName,
@@ -37,7 +39,7 @@ class PythonNdrStruct(PythonNdrClassDefiniton):
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRSTRUCT")),
             class_props=props,
-            functions=None,
+            functions=PythonFunctionList(),
         )
 
 
@@ -57,7 +59,7 @@ class PythonNdrPointer(PythonNdrClassDefiniton):
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRPOINTER")),
             class_props=props,
-            functions=None,
+            functions=PythonFunctionList(),
         )
 
 
@@ -72,7 +74,7 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRUNION")),
             class_props=props,
-            functions=None,
+            functions=PythonFunctionList(),
         )
 
 
@@ -91,7 +93,7 @@ class PythonNdrCall(PythonNdrClassDefiniton):
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRCALL")),
             class_props=props,
-            functions=None,
+            functions=PythonFunctionList(),
         )
 
 
@@ -108,5 +110,23 @@ class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRUniConformantArray")),
             class_props=props,
-            functions=None,
+            functions=PythonFunctionList(),
+        )
+
+
+class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
+    """Creates a simple NDRUniFixedArray"""
+
+    def __init__(self, name: str, length: str):
+        align = PythonAssignment(PythonValue("align"), PythonValue("1"))
+        prop_list = [align]
+        props = PythonAssignmentList(*prop_list)
+        getDataLen = PythonFunction("getDataLen", args ="self,data,offset=0", body=f"return {length}" )
+        func_list = [getDataLen]
+        funcs = PythonFunctionList(*func_list)
+        self.clazz = PythonClass(
+            name=PythonName(name),
+            parent_classes=PythonNameList(PythonName("NDRUniFixedArray")),
+            class_props=props,
+            functions=funcs,
         )

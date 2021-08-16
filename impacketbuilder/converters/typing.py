@@ -45,6 +45,7 @@ IDL_TO_NDR = {
     "unsigned hyper": "NDRUHYPER",
     "hyper": "NDRHYPER",
 }
+SIZEOF_LOOKUP = {"WCHAR": 4, "BOOL": 1, "UINT32": 2, "UINT64": 4, "GUID": 16}
 
 
 class TypeMappingException(Exception):
@@ -105,3 +106,21 @@ class TypeMapper:
             return type_name
         name = name.replace("const", "")
         return name.replace("*", "").upper()
+
+    def calculate_sizeof(self, rhs):
+        if "sizeof" not in rhs:
+            return rhs
+
+        so_idx = rhs.index("sizeof")
+        lb_idx = rhs.index("(")
+        rb_idx = rhs.index(")")
+        type_str = rhs[lb_idx + 1 : rb_idx].strip()
+        print(type_str)
+        if type_str not in SIZEOF_LOOKUP:
+            type_str=self.calculate_sizeof(type_str)
+            #raise Exception(f"Could not get sizeof({type_str})")
+        return (
+            rhs[:so_idx]
+            + str(SIZEOF_LOOKUP[type_str])
+            + rhs[rb_idx + 1 :]
+        )

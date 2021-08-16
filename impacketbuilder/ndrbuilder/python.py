@@ -38,13 +38,13 @@ class PythonTuple(PythonValue):
 
     def to_python_string(self, tab_level=0) -> str:
 
-        out = "\t"*(tab_level-1) + "(\n"
-        tab_level+=1
+        out = "\t" * (tab_level - 1) + "(\n"
+        tab_level += 1
         for val in self.values:
             out += "\t" * (tab_level) + f"{val.to_python_string(tab_level)},\n"
         if out[-2:] == ",\n":
             out = out[:-2]
-        out += "\n"+"\t"*(tab_level)+")"
+        out += "\n" + "\t" * (tab_level) + ")"
         return out
 
 
@@ -117,17 +117,29 @@ class PythonAssignmentList(PythonDefList):
 class PythonFunction(PythonDef):
     """Represents a Python function"""
 
+    def __init__(self, name: str, args: str, body: str):
+        self.name = name
+        self.args = args
+        self.body = body
+
     def to_python_string(self, tab_level=0) -> str:
-        raise Exception("Unimplemented")
+        out = ""
+        out += "\t"*tab_level + f"def {self.name}({self.args}):\n"
+        tab_level+=1
+        out += "\t"*tab_level + self.body
+        return out
 
 
-class PythonFunctionList(PythonDef):
+class PythonFunctionList(PythonDefList):
     """Represents a list of Python functions"""
 
     CONTAINED_CLASS = PythonFunction
 
     def to_python_string(self, tab_level=0) -> str:
-        raise Exception("Unimplemented")
+        out = ""
+        for func in self.obj_list:
+            out += func.to_python_string(tab_level) + "\n"
+        return out
 
 
 class PythonClass(PythonDef):
@@ -149,5 +161,6 @@ class PythonClass(PythonDef):
         output = (
             f"class {self.name.to_python_string(tab_level)}({self.parent_classes.to_python_string(tab_level)}):\n"
             f"{self.class_props.to_python_string(1)}\n"
+            f"{self.functions.to_python_string(1)}"
         )
         return output

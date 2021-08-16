@@ -15,6 +15,7 @@ from impacketbuilder.ndrbuilder.ndr import (
     PythonNdrPointer,
     PythonNdrUnion,
     PythonNdrUniConformantArray,
+    PythonNdrUniFixedArray,
 )
 
 
@@ -104,21 +105,41 @@ class MidlStructConverter(Converter):
                         "Multiple asterisks encountered in name: {pn}"
                     )
         return name
+    def create_ndr_uni_fixed_array_class(self, name, length):
+        uni_arr = PythonNdrUniFixedArray(name=name,length=length)
+        self.write(uni_arr.to_string())
 
     def handle_ndr_struct(self, struct):
         struct_entries = []
         for vd in struct.members:
+            type_name = None
             if type(vd.type) is MidlUnionDef or type(vd.type) is MidlStructDef:
                 # handle nested unions/structs
-                data_type = self.convert(vd.type)
-                vd.name = data_type
+                if type_name is None:
+                    type_name = self.convert(vd.type)
+                vd.name = type_name
             elif type(vd.type) is str:
-                data_type = vd.type
+                if type_name is None:
+                    type_name = vd.type
+            if len(vd.array_info) > 0:
+                if len(vd.array_info) == 1:
+                    arr_inf = vd.array_info[0]
+                    print(arr_inf.min,":",arr_inf.max)
+                    if arr_inf.min != -1  and arr_inf.max == -1:
+                        size = self.mapper.calculate_sizeof(arr_inf.min)
+                        self.create_ndr_uni_fixed_array_class(f"ARR_{self.mapper.canonicalize(type_name)}", size)
+                    else:
+                        #TODO handle non-fixed unidimensional arrays here
+                        pass
+                else:
+                    #TODO handle multidimensional arrays here
+                    raise Exception("Multi-dimensional arrays are unhandled")
+
             struct_entries.append(
                 PythonTuple(
                     [
                         PythonValue(f"'{vd.name}'"),
-                        PythonValue(self.mapper.canonicalize(data_type)),
+                        PythonValue(self.mapper.canonicalize(type_name)),
                     ]
                 )
             )
