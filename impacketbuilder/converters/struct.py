@@ -156,7 +156,7 @@ class MidlStructConverter(Converter):
         count_name = None
         arr_var = None
         count_var = None
-        name = struct.public_names[0]
+        main_name = struct.public_names[0]
         for vd in struct.members:
             for attr_name in vd.attributes:
                 if attr_name == "size_is":
@@ -169,7 +169,7 @@ class MidlStructConverter(Converter):
         struct_entries = []
         for vd in struct.members:
             if vd is arr_var:
-                struct_entries.append(PythonTuple([PythonValue(f"'{arr_var.name}'"),PythonValue(f"PTR_{self.mapper.canonicalize(name)}")]))
+                struct_entries.append(PythonTuple([PythonValue(f"'{arr_var.name}'"),PythonValue(f"PTR_{self.mapper.canonicalize(main_name)}")]))
             else:
                 name = None
                 if type(vd.type) is str:
@@ -180,15 +180,15 @@ class MidlStructConverter(Converter):
                 struct_entries.append(PythonTuple([PythonValue(f"'{vd.name}'"),PythonValue(f"{self.mapper.canonicalize(name)}")]))
 
         underlying_type = arr_var.type.replace("*", "")
-        name = self.mapper.canonicalize(name)
+        main_name = self.mapper.canonicalize(main_name)
 
         struct_tuple = PythonTuple(struct_entries)
         ndr_array = PythonNdrUniConformantArray(
-            name=f"DATA_{name}",
+            name=f"DATA_{main_name}",
             underlying_type_name=self.mapper.canonicalize(underlying_type),
         )
-        ndr_ptr = PythonNdrPointer(name=f"PTR_{name}", referent_name=f"DATA_{name}")
-        ndr_struct = PythonNdrStruct(name = name, structure=struct_tuple)
+        ndr_ptr = PythonNdrPointer(name=f"PTR_{main_name}", referent_name=f"DATA_{main_name}")
+        ndr_struct = PythonNdrStruct(name = main_name, structure=struct_tuple)
 
         self.write(ndr_array.to_string())
         self.write(ndr_ptr.to_string())
