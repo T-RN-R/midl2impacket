@@ -6,11 +6,21 @@ def generate_impacket(midl_def, import_dir:str):
     return ImpacketBuilder().midl_def(midl_def).import_dir(import_dir).build()
 
 def test_full():
+    generated_dir = pathlib.Path('generated')
     scraped_files = pathlib.Path('preprocessed').glob("*.idl")
     for scraped_file in scraped_files:
-        print(f"Parsing IDL {scraped_file}")
-        midl = parse_idl(scraped_file)
-        generate_impacket(midl, "./preprocessed/")
+        out_file = generated_dir / scraped_file.with_suffix('.py').name
+        try:
+            midl = parse_idl(scraped_file)
+        except:
+            print(f"Unable to parse file: {scraped_file}")
+            continue
+        try:
+            generated_code = generate_impacket(midl, "./preprocessed/")
+        except:
+            print(f"Unable to generate impacket for {scraped_file}")
+            continue
+        out_file.write_text(generated_code)
 
 
 if __name__ == "__main__":
