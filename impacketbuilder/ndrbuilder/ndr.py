@@ -100,11 +100,18 @@ class PythonNdrCall(PythonNdrClassDefiniton):
 class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
     """Creates a simple NDRUniConformantArray"""
 
-    def __init__(self, name: str, underlying_type_name: str):
+    def __init__(self, name: str, underlying_type_name: str, maximum_length=None):
+        item = PythonAssignment(PythonValue("item"), PythonName(underlying_type_name))
         structure = PythonAssignment(
-            PythonValue("item"), PythonName(underlying_type_name)
+            PythonValue("structure"),
+            PythonTuple(
+                [PythonName("'MaximumCount'"), PythonValue(str(maximum_length))]
+            ),
         )
-        prop_list = [structure]
+        if maximum_length != None:
+            prop_list = [item, structure]
+        else:
+            prop_list = [item]
         props = PythonAssignmentList(*prop_list)
         self.clazz = PythonClass(
             name=PythonName(name),
@@ -121,7 +128,9 @@ class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
         align = PythonAssignment(PythonValue("align"), PythonValue("1"))
         prop_list = [align]
         props = PythonAssignmentList(*prop_list)
-        getDataLen = PythonFunction("getDataLen", args ="self,data,offset=0", body=f"return {length}" )
+        getDataLen = PythonFunction(
+            "getDataLen", args="self,data,offset=0", body=f"return {length}"
+        )
         func_list = [getDataLen]
         funcs = PythonFunctionList(*func_list)
         self.clazz = PythonClass(

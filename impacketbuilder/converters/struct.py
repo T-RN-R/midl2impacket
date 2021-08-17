@@ -125,14 +125,23 @@ class MidlStructConverter(Converter):
                 if len(vd.array_info) == 1:
                     arr_inf = vd.array_info[0]
                     if arr_inf.min != -1  and arr_inf.max == -1:
+                        #NDRUniFixedArrays
                         if type(arr_inf.min) == str:
                             size = self.mapper.calculate_sizeof(arr_inf.min)
                         else:
                             size = arr_inf.min
-                        self.create_ndr_uni_fixed_array_class(f"ARR_{self.mapper.canonicalize(type_name)}", size)
+                        type_name = f"ARR_{self.mapper.canonicalize(type_name)}"
+                        self.create_ndr_uni_fixed_array_class(type_name, size)
                     else:
-                        #TODO handle non-fixed unidimensional arrays here
-                        pass
+                        # NDRUniConformantArrays
+                        array_item_name = type_name
+                        if type(arr_inf.max) == str:
+                            size = self.mapper.calculate_sizeof(arr_inf.max)
+                        else:
+                            size = arr_inf.max
+                        type_name = f"{self.mapper.canonicalize(array_item_name)}_ARRAY"
+                        arr = PythonNdrUniConformantArray(type_name, f"{self.mapper.canonicalize(array_item_name)}", size)
+                        self.write(arr.to_string())
                 else:
                     #TODO handle multidimensional arrays here
                     raise Exception("Multi-dimensional arrays are unhandled")
@@ -178,7 +187,6 @@ class MidlStructConverter(Converter):
         # First step: Find the count and the array variables
         count_name = None
         arr_var = None
-        count_var = None
         main_name = struct.public_names[0]
         for vd in struct.members:
             for attr_name in vd.attributes:
