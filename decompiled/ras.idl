@@ -1,0 +1,545 @@
+[
+uuid(650a7e26-eab8-5533-ce43-9c1dfce11511),
+version(1.0),
+]
+interface DefaultIfName
+{
+
+	typedef [switch_type(/* enum_16 */ short )] union union_120
+	{
+		[case(2)]	struct Struct_232_t unionMember_2;
+		[case(7)]	[unique]struct Struct_408_t* unionMember_7;
+		[case(8)]	long unionMember_8;
+		[default]	;
+	} union_120;
+
+
+	typedef struct Struct_232_t
+	{
+		/* enum_16 */ short 	StructMember0;
+		long 	StructMember1;
+		[unique][size_is(StructMember1)]/*[range(0,0)]*/ byte *	StructMember2;
+		long 	StructMember3;
+		[unique][size_is(StructMember3)]/*[range(0,0)]*/ byte *	StructMember4;
+		long 	StructMember5;
+		[unique][size_is(StructMember5)]/*[range(0,0)]*/ byte *	StructMember6;
+		long 	StructMember7;
+		[unique][size_is(StructMember7)]/*[range(0,0)]*/ byte *	StructMember8;
+	}Struct_232_t;
+
+	typedef [switch_type(/* enum_16 */ short )] union union_294
+	{
+		[case(0)]	struct Struct_330_t unionMember_0;
+		[case(1)]	struct Struct_344_t unionMember_1;
+		[case(3)]	struct Struct_344_t unionMember_3;
+		[case(2)]	/* FC_ZERO */;
+		[case(4)]	/* FC_ZERO */;
+	/* no default member to print for this Union.
+	An exception will be raised if the switch_is value does not match any of the cases values */
+	} union_294;
+
+
+	typedef struct Struct_330_t
+	{
+		[unique][string] wchar_t* 	StructMember0;
+	}Struct_330_t;
+
+	typedef struct Struct_344_t
+	{
+		long 	StructMember0;
+	}Struct_344_t;
+
+	typedef struct Struct_350_t
+	{
+		/* enum_16 */ short 	StructMember0;
+		[switch_is(StructMember0)]union union_294 	StructMember1;
+	}Struct_350_t;
+
+	typedef struct Struct_408_t
+	{
+		long 	StructMember0;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember0)]/*[range(0,0)]*/  /*  */ struct Struct_350_t* 	StructMember1;
+	}Struct_408_t;
+
+	typedef struct Struct_424_t
+	{
+		[range(0,10)] /* enum_16 */ short 	StructMember0;
+		long 	StructMember1;
+		[switch_is(StructMember0)]union union_120 	StructMember2;
+		hyper 	StructMember3;
+	}Struct_424_t;
+
+	typedef struct Struct_564_t
+	{
+		long 	StructMember0;
+		[unique][size_is(StructMember0)]/*[range(0,0)]*/ long *	StructMember1;
+	}Struct_564_t;
+
+	typedef struct Struct_586_t
+	{
+		byte 	StructMember0[16];
+	}Struct_586_t;
+
+	typedef struct Struct_638_t
+	{
+		long 	StructMember0;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember0)]/*[range(0,0)]*/  /*  */ struct Struct_586_t* 	StructMember1;
+	}Struct_638_t;
+
+	typedef struct Struct_654_t
+	{
+		struct Struct_564_t 	StructMember0;
+		struct Struct_638_t 	StructMember1;
+		hyper 	StructMember2;
+	}Struct_654_t;
+
+	typedef struct Struct_726_t
+	{
+		long 	StructMember0;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember0)]/*[range(0,0)]*/  /*  */ [string] wchar_t** 	StructMember1;
+	}Struct_726_t;
+
+	typedef struct Struct_742_t
+	{
+		[unique][string] wchar_t* 	StructMember0;
+		struct Struct_726_t 	StructMember1;
+		struct Struct_726_t 	StructMember2;
+	}Struct_742_t;
+
+	typedef struct Struct_806_t
+	{
+		long 	StructMember0;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember0)]/*[range(0,0)]*/  /*  */ struct Struct_742_t* 	StructMember1;
+	}Struct_806_t;
+
+	typedef struct Struct_822_t
+	{
+		struct Struct_806_t 	StructMember0;
+		[unique][string] wchar_t* 	StructMember1;
+	}Struct_822_t;
+
+	typedef struct Struct_844_t
+	{
+		long 	StructMember0;
+		byte 	StructMember1;
+	}Struct_844_t;
+
+	typedef struct Struct_898_t
+	{
+		long 	StructMember0;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember0)]/*[range(0,0)]*/  /*  */ struct Struct_844_t* 	StructMember1;
+	}Struct_898_t;
+
+	typedef struct Struct_914_t
+	{
+		byte 	StructMember0[16];
+		byte 	StructMember1;
+	}Struct_914_t;
+
+	typedef struct Struct_966_t
+	{
+		long 	StructMember0;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember0)]/*[range(0,0)]*/  /*  */ struct Struct_914_t* 	StructMember1;
+	}Struct_966_t;
+
+	typedef struct Struct_982_t
+	{
+		struct Struct_898_t 	StructMember0;
+		struct Struct_898_t 	StructMember1;
+		struct Struct_966_t 	StructMember2;
+		struct Struct_966_t 	StructMember3;
+		long 	StructMember4;
+	}Struct_982_t;
+
+	typedef [switch_type(unsigned short )] union union_1064
+	{
+		[case(6)]	struct Struct_1164_t unionMember_6;
+		[case(17)]	struct Struct_1164_t unionMember_17;
+		[default]	;
+	} union_1064;
+
+
+	typedef struct Struct_1082_t
+	{
+		short 	StructMember0;
+		short 	StructMember1;
+	}Struct_1082_t;
+
+	typedef struct Struct_1132_t
+	{
+		long 	StructMember0;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember0)]/*[range(0,10000)]*/  /*  */ struct Struct_1082_t* 	StructMember1;
+	}Struct_1132_t;
+
+	typedef struct Struct_1148_t
+	{
+		short 	StructMember0;
+		struct Struct_1132_t 	StructMember1;
+	}Struct_1148_t;
+
+	typedef struct Struct_1164_t
+	{
+		struct Struct_1148_t 	StructMember0;
+		struct Struct_1148_t 	StructMember1;
+	}Struct_1164_t;
+
+	typedef struct Struct_1182_t
+	{
+		long 	StructMember0;
+		long 	StructMember1;
+	}Struct_1182_t;
+
+	typedef struct Struct_1232_t
+	{
+		long 	StructMember0;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember0)]/*[range(0,10000)]*/  /*  */ struct Struct_1182_t* 	StructMember1;
+	}Struct_1232_t;
+
+	typedef struct Struct_1248_t
+	{
+		byte 	StructMember0[16];
+		byte 	StructMember1[16];
+	}Struct_1248_t;
+
+	typedef struct Struct_1304_t
+	{
+		long 	StructMember0;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember0)]/*[range(0,10000)]*/  /*  */ struct Struct_1248_t* 	StructMember1;
+	}Struct_1304_t;
+
+	typedef struct Struct_1320_t
+	{
+		long 	StructMember0;
+		long 	StructMember1;
+		struct Struct_898_t 	StructMember2;
+		struct Struct_1232_t 	StructMember3;
+		struct Struct_966_t 	StructMember4;
+		struct Struct_1304_t 	StructMember5;
+	}Struct_1320_t;
+
+	typedef struct Struct_1460_t
+	{
+		[range(0,4)] /* enum_16 */ short 	StructMember0;
+		short 	StructMember1;
+		[unique][range(1,10001)] [string] wchar_t* 	StructMember2;
+		[unique][range(1,10001)] [string] wchar_t* 	StructMember3;
+		long 	StructMember4;
+		[range(0,2)] /* enum_16 */ short 	StructMember5;
+		[range(0,256)] short 	StructMember6;
+		[switch_is(StructMember6)]union union_1064 	StructMember7;
+		struct Struct_1320_t 	StructMember8;
+		struct Struct_1320_t 	StructMember9;
+		[unique][range(1,10001)] [string] wchar_t* 	StructMember10;
+		[unique][range(1,10001)] [string] wchar_t* 	StructMember11;
+		[unique][range(1,10001)] [string] wchar_t* 	StructMember12;
+		[unique][range(1,10001)] [string] wchar_t* 	StructMember13;
+		[unique][range(1,10001)] [string] wchar_t* 	StructMember14;
+		[unique][range(1,10001)] [string] wchar_t* 	StructMember15;
+	}Struct_1460_t;
+
+	typedef struct Struct_1580_t
+	{
+		long 	StructMember0;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember0)]/*[range(0,0)]*/  /*  */ struct Struct_1460_t* 	StructMember1;
+	}Struct_1580_t;
+
+	typedef struct Struct_1596_t
+	{
+		struct Struct_1580_t 	StructMember0;
+		long 	StructMember1;
+		small 	StructMember2;
+	}Struct_1596_t;
+
+	typedef struct Struct_1684_t
+	{
+		struct Struct_726_t 	StructMember0;
+		long 	StructMember1;
+		[unique][string] wchar_t* 	StructMember2;
+		long 	StructMember3;
+		long 	StructMember4;
+		long 	StructMember5;
+	}Struct_1684_t;
+
+	typedef struct Struct_1764_t
+	{
+		long 	StructMember0;
+		short 	StructMember1;
+		short 	StructMember2;
+		byte 	StructMember3[8];
+	}Struct_1764_t;
+
+	typedef [switch_type(/* enum_16 */ short )] union union_1898
+	{
+		[case(0)]	struct Struct_1934_t unionMember_0;
+		[case(1)]	struct Struct_1948_t unionMember_1;
+		[case(2)]	struct Struct_1962_t unionMember_2;
+		[case(3)]	struct Struct_344_t unionMember_3;
+		[case(4)]	struct Struct_1976_t unionMember_4;
+	/* no default member to print for this Union.
+	An exception will be raised if the switch_is value does not match any of the cases values */
+	} union_1898;
+
+
+	typedef struct Struct_1934_t
+	{
+		[unique][string] wchar_t* 	StructMember0;
+	}Struct_1934_t;
+
+	typedef struct Struct_1948_t
+	{
+		struct Struct_726_t 	StructMember0;
+	}Struct_1948_t;
+
+	typedef struct Struct_1962_t
+	{
+		[unique][string] wchar_t* 	StructMember0;
+	}Struct_1962_t;
+
+	typedef struct Struct_1976_t
+	{
+		[unique][string] wchar_t* 	StructMember0;
+	}Struct_1976_t;
+
+	typedef struct Struct_1990_t
+	{
+		/* enum_16 */ short 	StructMember0;
+		long 	StructMember1;
+		[unique][string] wchar_t* 	StructMember2;
+		[switch_is(StructMember0)]union union_1898 	StructMember3;
+	}Struct_1990_t;
+
+	typedef struct Struct_2052_t
+	{
+		long 	StructMember0;
+		long 	StructMember1;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember1)]/*[range(0,0)]*/  /*  */ struct Struct_1990_t* 	StructMember2;
+	}Struct_2052_t;
+
+	typedef struct Struct_2136_t
+	{
+		char 	StructMember0[6];
+	}Struct_2136_t;
+
+	typedef struct Struct_2168_t
+	{
+		byte 	StructMember0;
+		byte 	StructMember1;
+		struct Struct_2136_t 	StructMember2;
+	[size_is(StructMember1)]/*[range(0,0)]*/ long StructMember3[];
+		}Struct_2168_t;
+
+	typedef struct Struct_2236_t
+	{
+		[unique]struct Struct_2168_t* 	StructMember0;
+		[unique]struct Struct_2168_t* 	StructMember1;
+		[unique][string] wchar_t* 	StructMember2;
+	}Struct_2236_t;
+
+	typedef struct Struct_2302_t
+	{
+		long 	StructMember0;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember0)]/*[range(0,0)]*/  /*  */ struct Struct_2236_t* 	StructMember1;
+	}Struct_2302_t;
+
+	typedef struct Struct_2384_t
+	{
+		long 	StructMember0;
+		long 	StructMember1;
+		long 	StructMember2;
+		long 	StructMember3;
+		long 	StructMember4;
+	}Struct_2384_t;
+
+	typedef struct Struct_2410_t
+	{
+		[string] wchar_t 	StructMember0[257];
+		[string] wchar_t 	StructMember1[129];
+	}Struct_2410_t;
+
+	typedef struct Struct_2492_t
+	{
+		long 	StructMember0;
+		[string] wchar_t 	StructMember1[261];
+		[unique][string][size_is(StructMember0)]/*[range(0,0)]*/  wchar_t* 	StructMember2;
+	}Struct_2492_t;
+
+	typedef struct Struct_2512_t
+	{
+		long 	StructMember0;
+		long 	StructMember1;
+		long 	StructMember2;
+		[unique] /* [DBG] FC_BOGUS_ARRAY */ [size_is(StructMember2)]/*[range(0,0)]*/  /*  */ struct Struct_2410_t* 	StructMember3;
+		[unique]struct Struct_2492_t* 	StructMember4;
+	}Struct_2512_t;
+
+long Proc0_Rpc_VpnProtEngOpen(
+	[in][string] wchar_t* arg_1, 
+	[out][context_handle] void** arg_2);
+
+long Proc1_Rpc_VpnProtEngClose(
+	[in][out][context_handle] void** arg_1);
+
+long Proc2_Rpc_VpnProtEngEventSubscribe(
+	[in][string] wchar_t* arg_1, 
+	[in][out][context_handle] void** arg_2);
+
+long Proc3_Rpc_VpnProtEngEventSubscriptionGetLastEvent(
+	[in][context_handle] void* arg_2, 
+	[out][ref]struct Struct_424_t** arg_3);
+
+long Proc4_Rpc_VpnProtEngEventUnsubscribe(
+	[in][out][context_handle] void** arg_1);
+
+long Proc5_Rpc_VpnProtEngSendGetCredentialsRequest(
+	[in][context_handle] void* arg_1, 
+	[in]/* enum_16 */ short arg_2, 
+	[in]long arg_3, 
+	[in]long arg_4, 
+	[in]long arg_5, 
+	[in][unique][size_is(arg_5)]/*[range(0,0)]*/ byte *arg_6);
+
+long Proc6_Rpc_VpnProtEngSendNegotiatingNetworkRequest(
+	[in][context_handle] void* arg_1);
+
+long Proc7_Rpc_VpnProtEngSendInterfaceCreateRequest(
+	[in][context_handle] void* arg_1, 
+	[in]struct Struct_654_t* arg_2, 
+	[in]long *arg_3, 
+	[in]struct Struct_586_t* arg_4, 
+	[in][unique]struct Struct_822_t* arg_5, 
+	[in][unique]struct Struct_982_t* arg_6, 
+	[in][unique]struct Struct_1596_t* arg_7, 
+	[in]long arg_8);
+
+long Proc8_Rpc_VpnProtEngSendInterfaceDestroyRequest(
+	[in][context_handle] void* arg_1);
+
+long Proc9_Rpc_VpnProtEngDisconnectInternal(
+	[in][context_handle] void* arg_1);
+
+long Proc10_Rpc_VpnProtEngSendConnectError(
+	[in][context_handle] void* arg_1, 
+	[in]long arg_2, 
+	[in]long arg_3, 
+	[in][string] wchar_t* arg_4);
+
+long Proc11_Rpc_VpnProtEngGetConfiguration(
+	[in][context_handle] void* arg_1, 
+	[out][ref]struct Struct_1684_t** arg_2, 
+	[out] /* [DBG] FC_BOGUS_ARRAY */ [size_is(1)]/*[range(0,0)]*/  /*  */ [string] wchar_t** arg_3, 
+	[out]struct Struct_1764_t* arg_4);
+
+long Proc12_Rpc_VpnProtEngGetBestCostInterface(
+	[in][context_handle] void* arg_1, 
+	[out]struct Struct_1764_t* arg_2);
+
+long Proc13_Rpc_VpnProtEngGetStatementOfHealth(
+	[in][context_handle] void* arg_1, 
+	[out][ref][size_is(, *arg_3)]/*[range(0,0)]*/ byte **arg_2, 
+	[out]long *arg_3);
+
+long Proc14_Rpc_VpnProtEngSetKeepAliveFrequencyOverrideRequest(
+	[in][context_handle] void* arg_1, 
+	[in]long arg_2);
+
+long Proc15_Rpc_VpnProtEngSendGetCustomPromptRequest(
+	[in][context_handle] void* arg_1, 
+	[in]struct Struct_2052_t* arg_2);
+
+long Proc16_Rpc_VpnProtEngSendGetCertificateConsentBlankUiRequest(
+	[in][context_handle] void* arg_1, 
+	[in]long arg_2);
+
+long Proc17_Rpc_VpnProtEngSendCloseCertificateConsentBlankUiRequest(
+	[in][context_handle] void* arg_1, 
+	[in]long arg_2, 
+	[in][unique][size_is(arg_2)]/*[range(0,0)]*/ byte *arg_3);
+
+long Proc18_Rpc_VpnProtEngPluginInstall(
+	[in][string] wchar_t* arg_1, 
+	[in][string] wchar_t* arg_2, 
+	[in]struct Struct_2168_t* arg_3);
+
+long Proc19_Rpc_VpnProtEngPluginUninstall(
+	[in][string] wchar_t* arg_1, 
+	[in]struct Struct_2168_t* arg_2);
+
+long Proc20_Rpc_VpnProtEngSetCostNetworkSettings(
+	[in]long arg_1, 
+	[in]long arg_2);
+
+long Proc21_Rpc_VpnProtEngGetCostNetworkSettings(
+	[out]long *arg_1, 
+	[out]long *arg_2);
+
+long Proc22_Rpc_VpnProtEngExecuteAndCaptureLogs(
+	[in][string] wchar_t* arg_1);
+
+long Proc23_Rpc_VpnProtEngGetInterface(
+	[in]long arg_1, 
+	[in] /* [DBG] FC_BOGUS_ARRAY */ [size_is(arg_4)]/*[range(0,0)]*/  /*  */ [string] wchar_t** arg_2, 
+	[in] /* [DBG] FC_BOGUS_ARRAY */ [size_is(arg_4)]/*[range(0,0)]*/  /*  */ [string] wchar_t** arg_3, 
+	[in]long arg_4, 
+	[out]long *arg_5, 
+	[out]long *arg_6);
+
+long Proc24_Rpc_VpnProtEngPluginEnumerate(
+	[out][ref]struct Struct_2302_t** arg_1);
+
+long Proc25_Rpc_VpnProtEngAddProfileFromXml(
+	[in][string] wchar_t* arg_1);
+
+long Proc26_Rpc_VpnProtEngWinRtConnect(
+	[in][string] wchar_t* arg_1, 
+	[in][string] wchar_t* arg_2, 
+	[in][unique][string] wchar_t* arg_3, 
+	[in][unique][string] wchar_t* arg_4, 
+	[in]struct Struct_1764_t* arg_5);
+
+long Proc27_Rpc_VpnProtEngWinRtDisconnect(
+	[in][string] wchar_t* arg_1, 
+	[in][string] wchar_t* arg_2);
+
+long Proc28_Rpc_VpnProtEngWinRtEnumerate(
+	[out]long *arg_1, 
+	[out][ref] /* [DBG] FC_BOGUS_ARRAY */ [size_is(, *arg_1)]/*[range(0,0)]*/  /*  */ [string] wchar_t*** arg_2);
+
+long Proc29_Rpc_VpnProtEngWinRtGetEntryProperties(
+	[in][string] wchar_t* arg_1, 
+	[in]long arg_2, 
+	[out][ref]struct Struct_2384_t** arg_3, 
+	[out][ref]struct Struct_2512_t** arg_4);
+
+long Proc30_Rpc_VpnProtEngWinRtGetRasCustomData(
+	[in][string] wchar_t* arg_1, 
+	[out]long *arg_2, 
+	[out][ref][size_is(, *arg_2)]/*[range(0,0)]*/ byte **arg_3);
+
+long Proc31_Rpc_VpnProtEngWinRtGetEapBlob(
+	[in][string] wchar_t* arg_1, 
+	[out][ref][size_is(, *arg_3)]/*[range(0,0)]*/ byte **arg_2, 
+	[out]long *arg_3, 
+	[out]long *arg_4);
+
+long Proc32_Rpc_VpnProtEngWinRtGetEapXml(
+	[in][size_is(arg_2)]/*[range(0,0)]*/ byte *arg_1, 
+	[in]long arg_2, 
+	[in]long arg_3, 
+	[out][ref][string] wchar_t** arg_4);
+
+long Proc33_Rpc_VpnProtEngWinRtGetMoniker(
+	[in][string] wchar_t* arg_1, 
+	[out][ref][string] wchar_t** arg_2);
+
+long Proc34_Rpc_VpnProtEngWinRtGetConnectionStatus(
+	[in][string] wchar_t* arg_1, 
+	[in][string] wchar_t* arg_2, 
+	[out]long *arg_3);
+
+long Proc35_Rpc_VpnProtEngWinRtUpdateRegistryProfileList(
+	[in][string] wchar_t* arg_1);
+
+long Proc36_Rpc_VpnProtEngGetProxyForUrlAndSingleSessionDeviceUser(
+	[in][string] wchar_t* arg_1, 
+	[out][ref][string] wchar_t** arg_2);
+} 

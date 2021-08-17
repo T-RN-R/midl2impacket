@@ -185,17 +185,12 @@ class MidlStructConverter(Converter):
 
     def handle_ndr_array(self, struct):
         # First step: Find the count and the array variables
-        count_name = None
         arr_var = None
         main_name = struct.public_names[0]
         for vd in struct.members:
             for attr_name in vd.attributes:
                 if attr_name == "size_is":
                     arr_var = vd
-                    count_name = vd.attributes[attr_name].params[0]
-        for vd in struct.members:
-            if vd.name == count_name:
-                count_var = vd
 
         struct_entries = []
         for vd in struct.members:
@@ -229,7 +224,6 @@ class MidlStructConverter(Converter):
     def detect_ndr_type(self, struct):
         if type(struct) is MidlUnionDef:
             return MidlStructConverter.NDR_UNION
-        types = [vd.type for vd in struct.members]
         for vd in struct.members:
             t = vd.type
             if type(t) is str:  # We can have MidlUnionDefs here!!!
