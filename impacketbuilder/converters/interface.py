@@ -41,10 +41,12 @@ class MidlInterfaceConverter(Converter):
         dentries = []
         count = 0
         for k in mapping:
-            dentries.append(PythonDictEntry(
-                PythonValue(count),
-                PythonTuple([PythonValue(k), PythonValue(mapping[k])]),
-            ))
+            dentries.append(
+                PythonDictEntry(
+                    PythonValue(count),
+                    PythonTuple([PythonValue(k), PythonValue(mapping[k])]),
+                )
+            )
             count += 1
 
         rhs = PythonDict(PythonDictEntryList(*dentries))
@@ -123,21 +125,39 @@ class MidlInterfaceConverter(Converter):
     def handle_midl_enum(self, td: MidlEnumDef):
         if len(td.public_names) > 0:
             if td.public_names[0] == "":
-                self.write(PythonAssignment(PythonName(td.private_name),PythonValue("DWORD__ENUM")))
+                self.write(
+                    PythonAssignment(
+                        PythonName(td.private_name), PythonValue("DWORD__ENUM")
+                    )
+                )
             else:
-                #If it has a public name, the enum may be used inside of an interface definition, so create a typdef for it to "DWORD__ENUM"
-                self.write(PythonAssignment(PythonName(td.public_names[0]),PythonValue("DWORD__ENUM")))
+                # If it has a public name, the enum may be used inside of an interface definition, so create a typdef for it to "DWORD__ENUM"
+                self.write(
+                    PythonAssignment(
+                        PythonName(td.public_names[0]), PythonValue("DWORD__ENUM")
+                    )
+                )
         else:
-            self.write(PythonAssignment(PythonName(td.private_name),PythonValue("DWORD__ENUM")))
+            self.write(
+                PythonAssignment(
+                    PythonName(td.private_name), PythonValue("DWORD__ENUM")
+                )
+            )
 
         val = td.map[list(td.map.keys())[0]]
         # Handle the case where the first enum entry has no value.
-        if val == None or val == "":
+        if val == None or val == "" or val == "0":
             # default enum value case
             value = 0
             for key in td.map.keys():
-                td.map[key] = value
-                value+=1
+                val = td.map[key]
+                if val == None or val == "" or val == "0":
+                    td.map.update({key: value})
+                    value += 1
+                else:
+                    td.map.update({key: val})
+                    value += 1
+
         for key in td.map.keys():
             val = td.map[key]
             enum = PythonAssignment(PythonName(key), PythonValue(str(val)))
