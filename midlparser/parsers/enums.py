@@ -67,7 +67,6 @@ class MidlEnumParser(MidlBaseParser):
         if self.state == EnumState.MEMBER_VALUE:
             numeric_str = token.data
             is_negative = False
-            
             # Parse
             if numeric_str.startswith('-'):
                 is_negative = True
@@ -75,7 +74,6 @@ class MidlEnumParser(MidlBaseParser):
             # Strip off integer suffixes (U,u,L,l)
             while numeric_str[-1].lower() in ['u', 'l']:
                 numeric_str = numeric_str[:-1]
-            
             # Convert
             if numeric_str.lower().startswith("0x"):
                 numeric_val = int(numeric_str, 16)

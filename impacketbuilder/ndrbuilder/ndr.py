@@ -66,9 +66,18 @@ class PythonNdrPointer(PythonNdrClassDefiniton):
 class PythonNdrUnion(PythonNdrClassDefiniton):
     """Creates a simple NDRUNION"""
 
-    def __init__(self, name: str, union_entries: PythonDictEntryList):
+    def __init__(self, name: str, union_entries: PythonDictEntryList, tag=None):
+        prop_list = []
+        if tag:
+            commonHdr =  PythonAssignment(
+                PythonName('commonHdr'),
+                PythonTuple(
+                    [PythonTuple([PythonValue("'tag'"), PythonValue(tag)])]
+                ),
+            )
+            prop_list.append(commonHdr)
         structure = PythonAssignment(PythonValue("union"), PythonDict(union_entries))
-        prop_list = [structure]
+        prop_list.append(structure)
         props = PythonAssignmentList(*prop_list)
         self.clazz = PythonClass(
             name=PythonName(name),
@@ -84,7 +93,7 @@ class PythonNdrCall(PythonNdrClassDefiniton):
     def __init__(self, name: str, structure: PythonTuple, opnum=None):
         structure = PythonAssignment(PythonName("structure"), structure)
         if opnum is not None:
-            op = PythonAssignment(PythonName("OPNUM"), PythonValue(str(opnum)))
+            op = PythonAssignment(PythonName("opnum"), PythonValue(str(opnum)))
             prop_list = [op, structure]
         else:
             prop_list = [structure]

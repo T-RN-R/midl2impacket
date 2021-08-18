@@ -9,6 +9,7 @@ IDL_TYPES = [
     "signed long",
     "signed char",
     "signed short",
+    "wchar_t",
     "const wchar_t",
     "const char",
     "const int",
@@ -20,6 +21,8 @@ IDL_TYPES = [
     "const unsigned long",
     "unsigned hyper",
     "hyper",
+    "dwordlong",
+    "long ptr",
 ]
 
 IDL_TO_NDR = {
@@ -34,16 +37,20 @@ IDL_TO_NDR = {
     "signed char": "NDRCHAR",
     "signed short": "NDRSHORT",
     "const wchar_t": "WSTR",
+    "wchar_t": "WSTR",
     "const char": "NDRCHAR",
     "const int": "NDRLONG",
     "const void": "CONTEXT_HANDLE",
     "const long": "NDRLONG",
     "void": "CONTEXT_HANDLE",
-    "__int3264": "NDRLONG",
-    "unsigned __int3264": "NDRULONG",
+    "__int3264": "NDRHYPER",
+    "unsigned __int3264": "NDRUHYPER",
     "const unsigned long": "NDRULONG",
     "unsigned hyper": "NDRUHYPER",
     "hyper": "NDRHYPER",
+    "dwordlong": "NDRUHYPER",
+    "long ptr": "NDRHYPER",
+    "ulong ptr": "NDRUHYPER",
 }
 
 SIZEOF_LOOKUP = {

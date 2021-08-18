@@ -27,6 +27,6 @@ class MidlDefinitionConverter(Converter):
             comment_writer.banner_comment("INTERFACE DEFINITION")
         for interface in definition.interfaces:
             comment_writer.banner_comment(f"{interface.name} Definition")
-            interface_converter.convert(interface)
+            interface_converter.convert(interface, import_dir, self)
         return self.io.getvalue()
 
