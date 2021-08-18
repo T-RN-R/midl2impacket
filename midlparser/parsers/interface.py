@@ -1,6 +1,6 @@
 import enum
 
-from midltypes import MidlInterface
+from midltypes import MidlImport, MidlInterface
 from midlparser.parsers.attributes import MidlAttributesParser
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
 from midlparser.parsers.procedures import MidlProcedureParser
@@ -72,7 +72,7 @@ class MidlInterfaceParser(MidlBaseParser):
     def _import(self, _):
         import_token = next(self.tokens)
         assert import_token.type == TokenType.STRING
-        self.interface.imports.append(import_token.data)
+        self.interface.imports.append(MidlImport(import_token.data[1:-1]))
         assert next(self.tokens).type == TokenType.SEMICOLON
 
     def _cpp_quote(self, _):

@@ -124,7 +124,7 @@ class MidlParser(MidlBaseParser):
         """
         if self.state == MidlState.IMPORT:
             # Encountered an import statement so add it to the definition's imports
-            self.definition.add_import(token.data)
+            self.definition.add_import(token.data[1:-1])
             self.state = MidlState.DEF_COMPLETE
         else:
             self.invalid(token)
