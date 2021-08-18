@@ -42,7 +42,7 @@ class MidlProcedureConverter(Converter):
                     ]
                 )
             )
-        outputs = PythonTuple(input_list)
+        outputs = PythonTuple(output_list)
 
         ndr_response = PythonNdrCall(procedure.name + "Response", outputs, opnum=None)
 
