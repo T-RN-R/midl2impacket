@@ -43,6 +43,7 @@ class MidlUnionParser(MidlBaseParser):
         # If we're actually a switched struct
         self.switch_param = None
         self.struct_private_name = None
+        self.prev_member = None
 
     def add_current_member(self):
         """Add the currently tracked member to the union"""
@@ -67,8 +68,8 @@ class MidlUnionParser(MidlBaseParser):
             # Embedded
             if token.data == "struct":
                 from .structs import MidlStructParser
-
                 struct_type = MidlStructParser(self.tokens, self.tokenizer).parse(token)
+                struct_type.attributes = self.cur_member_attrs
                 if not len(struct_type.public_names):
                     struct_type.public_names.append(f"s{self.embedded_struct_count}")
                     self.embedded_struct_count += 1
@@ -77,8 +78,10 @@ class MidlUnionParser(MidlBaseParser):
                 )
                 self.members.append(var_def)
                 self.state = UnionState.MEMBER_TYPE_OR_ATTR
+                self.cur_member_attrs = {}
             elif token.data == "union":
                 union_type = MidlUnionParser(self.tokens, self.tokenizer).parse(token)
+                union_type.attributes = self.cur_member_attrs
                 if not len(union_type.public_names):
                     union_type.public_names.append(f"u{self.embedded_union_count}")
                     self.embedded_union_count += 1
@@ -87,6 +90,7 @@ class MidlUnionParser(MidlBaseParser):
                 )
                 self.members.append(var_def)
                 self.state = UnionState.MEMBER_TYPE_OR_ATTR
+                self.cur_member_attrs = {}
             elif self.state == UnionState.MEMBER_TYPE_OR_ATTR and token.data in [
                 "case",
                 "default",

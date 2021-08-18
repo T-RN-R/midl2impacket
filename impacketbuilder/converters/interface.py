@@ -1,3 +1,4 @@
+from impacketbuilder.converters.imports import MidlImportsConverter
 from .base import Converter
 from .struct import MidlStructConverter
 from .procedure import MidlProcedureConverter
@@ -24,13 +25,16 @@ from impacketbuilder.ndrbuilder.ndr import PythonNdrStruct, PythonNdrPointer
 
 
 class MidlInterfaceConverter(Converter):
-    def convert(self, interface):
+    def convert(self, interface, import_dir, import_converter):
+        if interface.imports:
+            MidlImportsConverter(self.io, self.tab_level, mapper=self.mapper).convert(interface.imports, import_dir, import_converter)
         # write uuid def
         self.uuid(interface)
         for vd in interface.vardefs:
             self.handle_vardef(vd)
         for td in interface.typedefs:
             self.handle_typedef(td)
+        
         count = 0
         mapping = {}
         for proc in interface.procedures:
@@ -127,20 +131,20 @@ class MidlInterfaceConverter(Converter):
             if td.public_names[0] == "":
                 self.write(
                     PythonAssignment(
-                        PythonName(td.private_name), PythonValue("DWORD__ENUM")
+                        PythonName(td.private_name.upper()), PythonValue("DWORD__ENUM")
                     )
                 )
             else:
                 # If it has a public name, the enum may be used inside of an interface definition, so create a typdef for it to "DWORD__ENUM"
                 self.write(
                     PythonAssignment(
-                        PythonName(td.public_names[0]), PythonValue("DWORD__ENUM")
+                        PythonName(td.public_names[0].upper()), PythonValue("DWORD__ENUM")
                     )
                 )
         else:
             self.write(
                 PythonAssignment(
-                    PythonName(td.private_name), PythonValue("DWORD__ENUM")
+                    PythonName(td.private_name.upper()), PythonValue("DWORD__ENUM")
                 )
             )
 

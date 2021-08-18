@@ -50,6 +50,10 @@ class MidlStructConverter(Converter):
         else:
             name = self.get_anonymous_name()
 
+        tag:MidlAttribute
+        if tag := struct.attributes.get('switch_type'):
+            tag = tag.params[0].upper()
+
         count = 1
         entries = []
         for m in struct.members:
@@ -86,7 +90,7 @@ class MidlStructConverter(Converter):
             count += 1
         base_name = self.mapper.canonicalize(name)
         dentries = PythonDictEntryList(*entries)
-        union_def = PythonNdrUnion(name=base_name, union_entries=dentries)
+        union_def = PythonNdrUnion(name=base_name, union_entries=dentries, tag=tag)
         self.write(union_def.to_string())
 
         # Now handle the cases where there are multiple public names, including pointers

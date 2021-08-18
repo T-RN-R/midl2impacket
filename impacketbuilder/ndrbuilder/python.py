@@ -42,8 +42,8 @@ class PythonTuple(PythonValue):
         tab_level += 1
         for val in self.values:
             out += "\t" * (tab_level) + f"{val.to_python_string(tab_level)},\n"
-        if out[-2:] == ",\n":
-            out = out[:-2]
+        # if out[-2:] == ",\n":
+        #     out = out[:-2]
         out += "\n" + "\t" * (tab_level) + ")"
         return out
 
