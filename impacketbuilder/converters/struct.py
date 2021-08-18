@@ -99,7 +99,7 @@ class MidlStructConverter(Converter):
                     )
                     self.write(ndr_ptr.to_string())
                 elif star_count == 0:
-                    self.write(PythonAssignment(PythonName(pn), PythonValue(base_name)))
+                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(pn)), PythonValue(base_name)))
                 else:
                     raise ConversionException(
                         "Multiple asterisks encountered in name: {pn}"
@@ -175,7 +175,7 @@ class MidlStructConverter(Converter):
                     )
                     self.write(ndr_ptr.to_string())
                 elif star_count == 0:
-                    self.write(PythonAssignment(PythonName(pn), PythonValue(base_name)))
+                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(pn)), PythonValue(base_name)))
                 else:
                     raise ConversionException(
                         "Multiple asterisks encountered in name: {pn}"
@@ -219,6 +219,22 @@ class MidlStructConverter(Converter):
         self.write(ndr_array.to_string())
         self.write(ndr_ptr.to_string())
         self.write(ndr_struct.to_string())
+        # Now handle the cases where there are multiple public names, including pointers
+        base_name = main_name
+        if len(struct.public_names) > 1:
+            for pn in struct.public_names[1:]:
+                star_count = pn.count("*")
+                if star_count == 1:
+                    ndr_ptr = PythonNdrPointer(
+                        name=self.mapper.canonicalize(pn), referent_name=base_name
+                    )
+                    self.write(ndr_ptr.to_string())
+                elif star_count == 0:
+                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(pn)), PythonValue(base_name)))
+                else:
+                    raise ConversionException(
+                        "Multiple asterisks encountered in name: {pn}"
+                    )
         return name
 
     def detect_ndr_type(self, struct):
