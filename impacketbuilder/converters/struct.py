@@ -1,6 +1,6 @@
 from .base import ConversionException, Converter
 from midltypes import *
-
+from .vardef import VarDefConverter
 from impacketbuilder.ndrbuilder.python import (
     PythonAssignment,
     PythonDictEntry,
@@ -57,6 +57,7 @@ class MidlStructConverter(Converter):
         count = 1
         entries = []
         for m in struct.members:
+            #VarDefConverter(self.io,self.tab_level,self.mapper).convert(m)
             key = None
             if m.attributes:
                 if "case" in m.attributes.keys():
@@ -115,49 +116,20 @@ class MidlStructConverter(Converter):
 
     def handle_ndr_struct(self, struct):
         struct_entries = []
-        for vd in struct.members:
+        for var_def in struct.members:
             type_name = None
-            if type(vd.type) is MidlUnionDef or type(vd.type) is MidlStructDef:
+            if type(var_def.type) is MidlUnionDef or type(var_def.type) is MidlStructDef:
                 # handle nested unions/structs
                 if type_name is None:
-                    type_name = self.convert(vd.type)
-                vd.name = type_name
-            elif type(vd.type) is str:
+                    type_name = self.convert(var_def.type)
+                var_def.type = type_name
+            elif type(var_def.type) is str:
                 if type_name is None:
-                    type_name = vd.type
-            if len(vd.array_info) > 0:
-                if len(vd.array_info) == 1:
-                    arr_inf = vd.array_info[0]
-                    if arr_inf.min != -1  and arr_inf.max == -1:
-                        #NDRUniFixedArrays
-                        if type(arr_inf.min) == str:
-                            size = self.mapper.calculate_sizeof(arr_inf.min)
-                        else:
-                            size = arr_inf.min
-                        type_name = f"ARR_{self.mapper.canonicalize(type_name)}"
-                        self.create_ndr_uni_fixed_array_class(type_name, size)
-                    else:
-                        # NDRUniConformantArrays
-                        array_item_name = type_name
-                        if type(arr_inf.max) == str:
-                            size = self.mapper.calculate_sizeof(arr_inf.max)
-                        else:
-                            size = arr_inf.max
-                        type_name = f"{self.mapper.canonicalize(array_item_name)}_ARRAY"
-                        arr = PythonNdrUniConformantArray(type_name, f"{self.mapper.canonicalize(array_item_name)}", size)
-                        self.write(arr.to_string())
-                else:
-                    #TODO handle multidimensional arrays here
-                    raise Exception("Multi-dimensional arrays are unhandled")
+                    type_name = var_def.type
+                    
+            p_vd = VarDefConverter(self.io,self.tab_level,self.mapper).convert(var_def)
+            struct_entries.append(p_vd)
 
-            struct_entries.append(
-                PythonTuple(
-                    [
-                        PythonValue(f"'{vd.name}'"),
-                        PythonValue(self.mapper.canonicalize(type_name)),
-                    ]
-                )
-            )
 
         struct_tuple = PythonTuple(struct_entries)
 
