@@ -26,10 +26,8 @@ class MidlArrayParser(MidlBaseParser):
             end_state=ArrayState.END,
             tokenizer=tokenizer,
         )
-        self.dimensions = [-1, -1]  # min, max
+        self.dimensions = [None, None]  # min, max
         self.cur_dim = ""
-        self.rbracket_level = 0
-        self.defined_max = False
 
     def add_data_to_dimension(self, token: Token):
         if self.state not in [ArrayState.BEGIN, ArrayState.END]:
@@ -38,7 +36,6 @@ class MidlArrayParser(MidlBaseParser):
                 self.state = ArrayState.RANGE_MIN_IN_PROGRESS
             elif self.state == ArrayState.RANGE_MAX:
                 self.state = ArrayState.RANGE_MAX_IN_PROGRESS
-                self.defined_max = True
             self.cur_dim += token.data
         else:
             self.invalid(token)
@@ -87,15 +84,9 @@ class MidlArrayParser(MidlBaseParser):
             )
             if self.state == ArrayState.RANGE_MAX:
                 self.state = ArrayState.RANGE_MAX_IN_PROGRESS
-                self.defined_max = True
         else:
             self.invalid(token)
 
-    def finished(self) -> MidlArrayDimensions:
-        if not self.defined_max:
-            # e.g. array_type[2] - treat as max 2 with no defined min?
-            self.dimensions[1] = self.dimensions[0]
-            self.dimensions[0] = 0
-            
+    def finished(self) -> MidlArrayDimensions:            
         dims = MidlArrayDimensions(self.dimensions[0], self.dimensions[1])
         return dims
