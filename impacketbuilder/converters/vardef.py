@@ -184,11 +184,12 @@ class VarDefConverter(Converter):
         [size_is(m)] short a[]);
         [size_is(m)] short b[][20]);
         """
-
+        
     def handle_pointer_array(self, var_def: MidlVarDef) -> PythonTuple:
         """Handles the following cases:
-        [size_is( , m)] short ** ppshort);
-        [size_is(m ,)] short ** ppshort);
-        [size_is(m,n)] short ** ppshort);
-        [size_is( , *pSize)] my_type ** ppMyType);
+        POINTER_TO_SCALAR_ARRAY                     : [size_is(m)] short * pshort);
+        POINTER_TO_POINTER_TO_SCALAR_ARRAY          : [size_is( , m)] short ** ppshort);
+        ARRAY_OF_POINTERS_TO_SCALARS                : [size_is(m ,)] short ** ppshort);
+        POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY : [size_is(m,n)] short ** ppshort);
+        POINTER_TO_SIZED_POINTER_TO_SCALAR          : [size_is( , *pSize)] my_type ** ppMyType);
         """
