@@ -1,3 +1,4 @@
+from typing import NamedTuple
 from midlparser.parsers import attributes
 from midltypes import MidlAttribute, MidlVarDef
 import enum
@@ -6,6 +7,7 @@ IDL_TYPES = [
     "unsigned short",
     "unsigned char",
     "unsigned long",
+    "unsignedlong",
     "unsigned int",
     "unsigned __int64",
     "signed __int64",
@@ -29,13 +31,15 @@ IDL_TYPES = [
     "long ptr",
     "char",
     "int",
-    "long"
+    "long",
+    "LARGE_INTEGER"
 ]
 
 IDL_TO_NDR = {
     "unsigned short": "NDRUSHORT",
     "unsigned char": "NDRCHAR",
     "unsigned long": "NDRULONG",
+    "unsignedlong": "NDRULONG",
     "unsigned int": "NDRULONG",
     "unsigned __int64": "NDRUHYPER",
     "signed __int64": "NDRHYPER",
@@ -102,7 +106,6 @@ class IDLTypeToPythonType:
 
     def get_python_type_name(self, type_name: str) -> str:
         if type(type_name) is not str:
-            print(type_name)
             raise TypeError(f"Expecting str, got {type(type_name)} instead")
         type_name = type_name.strip()
         if type_name not in self._type_lookup:
@@ -140,8 +143,9 @@ class TypeMapper:
         if type_name != None:
             return type_name
         else:
-            pass
-            #raise TypeMappingException(f"Could not convert: {name} to a type.")
+            #Create a canonicalization
+            self.idl2python.add_entry(name, name)
+            return name
 
     def calculate_sizeof(self, rhs):
         if "sizeof" not in rhs:

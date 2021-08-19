@@ -86,31 +86,6 @@ class VarDefConverter(Converter):
         if len(var_def.array_info) > 0:
             # This array handling should never be hit, it is old code TODO
             raise Exception("Unreachable")
-            if len(var_def.array_info) == 1:
-                arr_inf = var_def.array_info[0]
-                if arr_inf.min != -1 and arr_inf.max == -1:
-                    # NDRUniFixedArrays
-                    if type(arr_inf.min) == str:
-                        size = self.mapper.calculate_sizeof(arr_inf.min)
-                    else:
-                        size = arr_inf.min
-                    type_name = f"ARR_{self.mapper.canonicalize(type_name)}"
-                    PythonNdrUniFixedArray(type_name, size)
-                else:
-                    # NDRUniConformantArrays
-                    array_item_name = type_name
-                    if type(arr_inf.max) == str:
-                        size = self.mapper.calculate_sizeof(arr_inf.max)
-                    else:
-                        size = arr_inf.max
-                    type_name = f"{self.mapper.canonicalize(array_item_name)}_ARRAY"
-                    arr = PythonNdrUniConformantArray(
-                        type_name, f"{self.mapper.canonicalize(array_item_name)}", size
-                    )
-                    self.write(arr.to_string())
-            else:
-                # TODO handle multidimensional arrays here
-                raise Exception("Multi-dimensional arrays are unhandled")
         return self.python_vardef(var_def.name, self.mapper.canonicalize(var_def.type))
 
     def handle_string(self, var_def: MidlVarDef) -> PythonTuple:
@@ -190,7 +165,7 @@ class VarDefConverter(Converter):
             arr_inf = var_def.array_info[0]
             if arr_inf.min != -1 and arr_inf.max == -1:
                 # NDRUniFixedArrays
-                if type(arr_inf.min) == str:
+                if isinstance(arr_inf.min,str):
                     size = self.mapper.calculate_sizeof(arr_inf.min)
                 else:
                     size = arr_inf.min
@@ -199,14 +174,14 @@ class VarDefConverter(Converter):
                 arr = PythonNdrUniFixedArray(type_name, size)
             else:
                 # NDRUniConformantArrays
-                if type(arr_inf.max) == str:
+                if isinstance(arr_inf.max,str):
                     size = self.mapper.calculate_sizeof(arr_inf.max)
                 else:
                     size = arr_inf.max
                 # TODO Create better typenames
                 type_name = f"ARR_{self.mapper.canonicalize(type_name)}"
                 arr = PythonNdrUniConformantArray(
-                    type_name, f"{self.mapper.canonicalize(type_name)}", size
+                    type_name, f"{self.mapper.canonicalize(var_def.type)}", size
                 )
             self.write(arr.to_string())
             return self.python_vardef(
@@ -223,3 +198,27 @@ class VarDefConverter(Converter):
         POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY : [size_is(m,n)] short ** ppshort);
         POINTER_TO_SIZED_POINTER_TO_SCALAR          : [size_is( , *pSize)] my_type ** ppMyType);
         """
+        # TODO handle more than the 1 and 2 dimensional cases
+        dimensionality = len(var_def.attributes["size_is"].params)
+        if dimensionality == 1:
+            size_var = var_def.attributes["size_is"].params[0]
+            # size_var can be either a numeric,  or variable name or an expression.
+            
+            if isinstance(size_var,str):
+                #Handle expression and variable case
+                size = self.mapper.calculate_sizeof(size_var)
+            elif size_var.isnumeric():
+                size = size_var
+
+            # TODO Create better typenames
+            type_name = f"ARR_{self.mapper.canonicalize(var_def.type)}"
+            arr = PythonNdrUniConformantArray(
+                    type_name, f"{self.mapper.canonicalize(var_def.type)}", size
+                )
+            self.write(arr.to_string())
+            return self.python_vardef(
+                var_name=var_def.name, type_name=self.mapper.canonicalize(type_name)
+            )
+        else:
+            raise Exception("Unhandled")
+
