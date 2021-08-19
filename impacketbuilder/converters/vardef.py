@@ -52,8 +52,8 @@ class Dimensionality(enum.Enum):
 
 
 class VarDefConverter(Converter):
-    """Converts MidlVarDef objects into Python definitions
-    """
+    """Converts MidlVarDef objects into Python definitions"""
+
     def convert(self, var_def: MidlVarDef) -> PythonTuple:
         """Delegate handling depending upon attributes"""
         is_string = False
@@ -181,10 +181,40 @@ class VarDefConverter(Converter):
 
     def handle_square_array(self, var_def: MidlVarDef) -> PythonTuple:
         """Handles the following cases:
-        [size_is(m)] short a[]);
-        [size_is(m)] short b[][20]);
+        UNI : [size_is(m)] short a[]);
+        MULTI : [size_is(m)] short b[][20]);
         """
-        
+        dimensionality = len(var_def.array_info)
+        if dimensionality == 1:
+            type_name = var_def.type
+            arr_inf = var_def.array_info[0]
+            if arr_inf.min != -1 and arr_inf.max == -1:
+                # NDRUniFixedArrays
+                if type(arr_inf.min) == str:
+                    size = self.mapper.calculate_sizeof(arr_inf.min)
+                else:
+                    size = arr_inf.min
+                # TODO Create better typenames
+                type_name = f"ARR_{self.mapper.canonicalize(type_name)}"
+                arr = PythonNdrUniFixedArray(type_name, size)
+            else:
+                # NDRUniConformantArrays
+                if type(arr_inf.max) == str:
+                    size = self.mapper.calculate_sizeof(arr_inf.max)
+                else:
+                    size = arr_inf.max
+                # TODO Create better typenames
+                type_name = f"ARR_{self.mapper.canonicalize(type_name)}"
+                arr = PythonNdrUniConformantArray(
+                    type_name, f"{self.mapper.canonicalize(type_name)}", size
+                )
+            self.write(arr.to_string())
+            return self.python_vardef(
+                var_name=var_def.name, type_name=self.mapper.canonicalize(type_name)
+            )
+        else:
+            raise Exception("Multidimensional arrays are unimplemented")
+
     def handle_pointer_array(self, var_def: MidlVarDef) -> PythonTuple:
         """Handles the following cases:
         POINTER_TO_SCALAR_ARRAY                     : [size_is(m)] short * pshort);
