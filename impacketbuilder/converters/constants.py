@@ -10,7 +10,8 @@ class MidlConstantConverter(Converter):
                     "UINT64":4,
                     "GUID":16
                     }
-    def convert(self,constant : MidlVariableInstantiation):
+
+    def convert(self, constant : MidlVariableInstantiation):
         rhs = constant.rhs
         while "sizeof" in rhs: # eliminate all sizeofs!
             rhs = self.calculate_sizeof(rhs)

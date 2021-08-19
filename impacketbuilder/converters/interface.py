@@ -93,18 +93,20 @@ class MidlInterfaceConverter(Converter):
         self.write(f"{vd.name} = {self.mapper.canonicalize(vd.type)}")
 
     def handle_midl_td(self, td: MidlTypeDef):
-        if type(td) is MidlTypeDef:
+        if isinstance(td, MidlTypeDef):
             attr_names = [td.attributes[k].name for k in td.attributes.keys()]
             if "context_handle" in attr_names:
                 self.handle_context_handle(td)
-        elif type(td) is MidlSimpleTypedef:
+        elif isinstance(td, MidlSimpleTypedef):
+            if '*' in td.type:
+                self.generate_pointers(td.type)
             self.write(
                 PythonAssignment(
                     PythonValue(self.mapper.canonicalize(td.name)),
                     PythonValue(self.mapper.canonicalize(td.type)),
                 )
             )
-
+            
     def handle_context_handle(self, td):
         pointer_name = td.name
         real_name = td.name

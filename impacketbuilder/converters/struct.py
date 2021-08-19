@@ -87,6 +87,9 @@ class MidlStructConverter(Converter):
                     ),
                 )
             )
+            # Make sure pointer types exist
+            if type_name.endswith('*'):
+                self.generate_pointers(type_name)
             count += 1
         base_name = self.mapper.canonicalize(name)
         dentries = PythonDictEntryList(*entries)
@@ -95,19 +98,11 @@ class MidlStructConverter(Converter):
 
         # Now handle the cases where there are multiple public names, including pointers
         if len(struct.public_names) > 1:
-            for pn in struct.public_names[1:]:
-                star_count = pn.count("*")
-                if star_count == 1:
-                    ndr_ptr = PythonNdrPointer(
-                        name=self.mapper.canonicalize(pn), referent_name=base_name
-                    )
-                    self.write(ndr_ptr.to_string())
-                elif star_count == 0:
-                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(pn)), PythonValue(base_name)))
+            for public_name in struct.public_names[1:]:
+                if '*' in public_name:
+                    self.generate_pointers(public_name, base_name)
                 else:
-                    raise ConversionException(
-                        "Multiple asterisks encountered in name: {pn}"
-                    )
+                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(public_name)), PythonValue(base_name)))
         return name
     def create_ndr_uni_fixed_array_class(self, name, length):
         uni_arr = PythonNdrUniFixedArray(name=name,length=length)
@@ -115,37 +110,41 @@ class MidlStructConverter(Converter):
 
     def handle_ndr_struct(self, struct):
         struct_entries = []
-        for vd in struct.members:
+        for var_def in struct.members:
             type_name = None
-            if type(vd.type) is MidlUnionDef or type(vd.type) is MidlStructDef:
+            if isinstance(var_def.type, (MidlUnionDef, MidlStructDef)):
                 # handle nested unions/structs
                 if type_name is None:
-                    type_name = self.convert(vd.type)
-                vd.name = type_name
-            elif type(vd.type) is str:
+                    type_name = self.convert(var_def.type)
+                var_def.name = type_name
+            elif isinstance(var_def.type, str):
                 if type_name is None:
-                    type_name = vd.type
-            if len(vd.array_info) > 0:
-                if len(vd.array_info) == 1:
-                    arr_inf = vd.array_info[0]
+                    type_name = var_def.type
+            if len(var_def.array_info) > 0:
+                if len(var_def.array_info) == 1:
+                    arr_inf = var_def.array_info[0]
                     if arr_inf.min != -1  and arr_inf.max == -1:
                         #NDRUniFixedArrays
-                        if type(arr_inf.min) == str:
+                        if isinstance(arr_inf.min, str):
                             size = self.mapper.calculate_sizeof(arr_inf.min)
                         else:
                             size = arr_inf.min
-                        type_name = f"ARR_{self.mapper.canonicalize(type_name)}"
-                        self.create_ndr_uni_fixed_array_class(type_name, size)
+                        type_name = f"ARR_{self.mapper.canonicalize(type_name)}_{size}"
+                        if not self.mapper.idl2python.exists(type_name):
+                            self.create_ndr_uni_fixed_array_class(type_name, size)
+                            self.mapper.idl2python.add_entry(type_name, type_name)
                     else:
                         # NDRUniConformantArrays
                         array_item_name = type_name
-                        if type(arr_inf.max) == str:
+                        if isinstance(arr_inf.max, str):
                             size = self.mapper.calculate_sizeof(arr_inf.max)
                         else:
                             size = arr_inf.max
-                        type_name = f"{self.mapper.canonicalize(array_item_name)}_ARRAY"
-                        arr = PythonNdrUniConformantArray(type_name, f"{self.mapper.canonicalize(array_item_name)}", size)
-                        self.write(arr.to_string())
+                        type_name = f"{self.mapper.canonicalize(array_item_name)}_ARRAY_{size}"
+                        if not self.mapper.idl2python.exists(type_name):
+                            arr = PythonNdrUniConformantArray(type_name, f"{self.mapper.canonicalize(array_item_name)}", size)
+                            self.write(arr.to_string())
+                            self.mapper.idl2python.add_entry(type_name, type_name)
                 else:
                     #TODO handle multidimensional arrays here
                     raise Exception("Multi-dimensional arrays are unhandled")
@@ -153,11 +152,14 @@ class MidlStructConverter(Converter):
             struct_entries.append(
                 PythonTuple(
                     [
-                        PythonValue(f"'{vd.name}'"),
+                        PythonValue(f"'{var_def.name}'"),
                         PythonValue(self.mapper.canonicalize(type_name)),
                     ]
                 )
             )
+            # Make sure pointer types exist
+            if type_name.endswith('*'):
+                self.generate_pointers(type_name)
 
         struct_tuple = PythonTuple(struct_entries)
 
@@ -171,19 +173,11 @@ class MidlStructConverter(Converter):
 
         # Now handle the cases where there are multiple public names, including pointers
         if len(struct.public_names) > 1:
-            for pn in struct.public_names[1:]:
-                star_count = pn.count("*")
-                if star_count == 1:
-                    ndr_ptr = PythonNdrPointer(
-                        name=self.mapper.canonicalize(pn), referent_name=base_name
-                    )
-                    self.write(ndr_ptr.to_string())
-                elif star_count == 0:
-                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(pn)), PythonValue(base_name)))
+            for public_name in struct.public_names[1:]:
+                if '*' in public_name:
+                    self.generate_pointers(public_name, base_name)
                 else:
-                    raise ConversionException(
-                        "Multiple asterisks encountered in name: {pn}"
-                    )
+                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(public_name)), PythonValue(base_name)))
 
         return base_name
 
@@ -191,25 +185,31 @@ class MidlStructConverter(Converter):
         # First step: Find the count and the array variables
         arr_var = None
         main_name = struct.public_names[0]
-        for vd in struct.members:
-            for attr_name in vd.attributes:
+        for var_def in struct.members:
+            for attr_name in var_def.attributes:
                 if attr_name == "size_is":
-                    arr_var = vd
+                    arr_var = var_def
 
         struct_entries = []
-        for vd in struct.members:
-            if vd is arr_var:
+        for var_def in struct.members:
+            if var_def is arr_var:
                 struct_entries.append(PythonTuple([PythonValue(f"'{arr_var.name}'"),PythonValue(f"PTR_{self.mapper.canonicalize(main_name)}")]))
             else:
                 name = None
-                if type(vd.type) is str:
-                    name = vd.type
+                if isinstance(var_def.type, str):
+                    name = var_def.type
                 else:
-                    name = vd.type.public_names[0]
+                    name = var_def.type.public_names[0]
 
-                struct_entries.append(PythonTuple([PythonValue(f"'{vd.name}'"),PythonValue(f"{self.mapper.canonicalize(name)}")]))
+                struct_entries.append(PythonTuple([PythonValue(f"'{var_def.name}'"),PythonValue(f"{self.mapper.canonicalize(name)}")]))
 
-        underlying_type = arr_var.type.replace("*", "")
+        # Make sure pointer types exist
+        arr_var_type = arr_var.type
+        if arr_var_type.endswith('*'):
+            self.generate_pointers(arr_var_type)
+            # We're an array, so remove the last instance of *
+            arr_var_type = arr_var_type[:-1]
+        underlying_type = self.mapper.canonicalize(arr_var_type)
         main_name = self.mapper.canonicalize(main_name)
 
         struct_tuple = PythonTuple(struct_entries)

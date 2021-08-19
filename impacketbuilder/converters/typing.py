@@ -9,13 +9,13 @@ IDL_TYPES = [
     "signed long",
     "signed char",
     "signed short",
-    "wchar_t",
     "const wchar_t",
     "const char",
     "const int",
     "const void",
     "const long",
     "void",
+    "pvoid",
     "__int3264",
     "unsigned __int3264",
     "const unsigned long",
@@ -37,12 +37,12 @@ IDL_TO_NDR = {
     "signed char": "NDRCHAR",
     "signed short": "NDRSHORT",
     "const wchar_t": "WSTR",
-    "wchar_t": "WSTR",
     "const char": "NDRCHAR",
     "const int": "NDRLONG",
     "const void": "CONTEXT_HANDLE",
     "const long": "NDRLONG",
     "void": "CONTEXT_HANDLE",
+    "pvoid": "CONTEXT_HANDLE",
     "__int3264": "NDRHYPER",
     "unsigned __int3264": "NDRUHYPER",
     "const unsigned long": "NDRULONG",
@@ -90,9 +90,7 @@ class IDLTypeToPythonType:
 
     def get_python_type_name(self, type_name: str):
         if type(type_name) is not str:
-            print(type_name)
             raise TypeError(f"Expecting str, got {type(type_name)} instead")
-        type_name = type_name.replace("*", "")
         if type_name not in self._type_lookup:
             return None
         return self._type_lookup[type_name].raw()[0]
@@ -110,24 +108,39 @@ class IDLTypeToPythonType:
         for word in words:
             self.add_entry(word, "_".join(word.split(" ")).upper())
 
+    def exists(self, type_name):
+        return type_name in self._type_lookup
 
 class TypeMapper:
     def __init__(self, default_names):
         self.idl2python = IDLTypeToPythonType()
         self.idl2python.set_defaults(default_names)
 
+
+    def fixup_name(self, type_name: str):
+        type_name = type_name.replace("const", "").strip()
+        while type_name[-1] == '*':
+            type_name = f"P{type_name[:-1]}"
+        # Get rid of leading *s and spaces
+        return type_name.lstrip('*').replace(' ', '_')
+
     def canonicalize(self, name: str) -> str:
         """canonicalizes an IDL typename into the Python typename format"""
-        type_name = self.idl2python.get_python_type_name(name)
-        if type_name != None:
-            return type_name
-        name = name.replace("const", "")
-        return name.replace("*", "").upper()
+        type_name = self.fixup_name(name)
+        if (py_name := self.idl2python.get_python_type_name(type_name)) is not None:
+            return py_name
+        return type_name.upper()
 
     def calculate_sizeof(self, rhs):
         if "sizeof" not in rhs:
             return rhs
         return SizeofCalculator(rhs).calculate()
+
+    def exists(self, type_name):
+        return self.idl2python.exists(type_name)
+
+    def add_entry(self, idl_name: str, python_name: str):
+        return self.idl2python.add_entry(idl_name, python_name)
 
 
 class SizeofCalculator:

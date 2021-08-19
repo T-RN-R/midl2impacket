@@ -70,6 +70,9 @@ class PRPC_STRING(NDRPOINTER):
 
     def type_mapping(self):
         mapping = ""
-        for t in IDL_TYPES:
-            mapping += f"{self.mapper.canonicalize(t)} = {IDL_TO_NDR[t]}\n"
+        for type_name in IDL_TYPES:
+            canonicalized = self.mapper.canonicalize(type_name)
+            mapping += f"{canonicalized} = {IDL_TO_NDR[type_name]}\n"
+            self.mapper.add_entry(canonicalized, canonicalized)
         self.write(mapping)
+        

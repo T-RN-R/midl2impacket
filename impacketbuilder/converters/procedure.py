@@ -10,40 +10,44 @@ from impacketbuilder.ndrbuilder.python import (
     PythonClass,
     PythonAssignmentList,
 )
-from impacketbuilder.ndrbuilder.ndr import PythonNdrCall
+from impacketbuilder.ndrbuilder.ndr import PythonNdrCall, PythonNdrPointer
 
 
 class MidlProcedureConverter(Converter):
     def convert(self, procedure: MidlProcedure, count):
-        input = self.get_input(procedure)
-        output = self.get_output(procedure)
+        proc_inputs = self.get_input(procedure)
+        proc_outputs = self.get_output(procedure)
 
+        # Generate the request structure
         input_list = []
-        for i in input:
+        for in_param in proc_inputs:
+            if '*' in in_param.type:
+                self.generate_pointers(in_param.type)
             input_list.append(
                 PythonTuple(
                     [
-                        PythonValue(f"'{i.name}'"),
-                        PythonValue(self.mapper.canonicalize(i.type)),
+                        PythonValue(f"'{in_param.name}'"),
+                        PythonValue(self.mapper.canonicalize(in_param.type)),
                     ]
                 )
             )
         inputs = PythonTuple(input_list)
-
         ndr_request = PythonNdrCall(procedure.name, inputs, opnum=count)
 
+        # Generate the response structure
         output_list = []
-        for i in output:
+        for out_param in proc_outputs:
+            if '*' in out_param.type:
+                self.generate_pointers(out_param.type)
             output_list.append(
                 PythonTuple(
                     [
-                        PythonValue(f"'{i.name}'"),
-                        PythonValue(self.mapper.canonicalize(i.type)),
+                        PythonValue(f"'{out_param.name}'"),
+                        PythonValue(self.mapper.canonicalize(out_param.type)),
                     ]
                 )
             )
         outputs = PythonTuple(output_list)
-
         ndr_response = PythonNdrCall(procedure.name + "Response", outputs, opnum=None)
 
         self.write(ndr_request.to_string())
