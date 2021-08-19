@@ -59,7 +59,7 @@ class VarDefConverter(Converter):
         is_string = False
         is_arr = False
         for attr in var_def.attributes:
-            if attr == "switch_is":
+            if attr in ["switch_is","unique","range", "switch_type", "ref"]:
                 continue
             elif attr == "string":
                 is_string = True
@@ -201,6 +201,7 @@ class VarDefConverter(Converter):
         # TODO handle more than the 1 and 2 dimensional cases
         dimensionality = len(var_def.attributes["size_is"].params)
         if dimensionality == 1:
+            """POINTER_TO_SCALAR_ARRAY case"""
             size_var = var_def.attributes["size_is"].params[0]
             # size_var can be either a numeric,  or variable name or an expression.
             

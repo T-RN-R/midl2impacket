@@ -10,6 +10,7 @@ def test_full():
     scraped_files = pathlib.Path('preprocessed').glob("*.idl")
     for scraped_file in scraped_files:
         out_file = generated_dir / scraped_file.with_suffix('.py').name
+        print("Parsing: ",out_file)
         try:
             midl = parse_idl(scraped_file)
         except:
