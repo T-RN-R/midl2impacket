@@ -69,11 +69,9 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
     def __init__(self, name: str, union_entries: PythonDictEntryList, tag=None):
         prop_list = []
         if tag:
-            commonHdr =  PythonAssignment(
-                PythonName('commonHdr'),
-                PythonTuple(
-                    [PythonTuple([PythonValue("'tag'"), PythonValue(tag)])]
-                ),
+            commonHdr = PythonAssignment(
+                PythonName("commonHdr"),
+                PythonTuple([PythonTuple([PythonValue("'tag'"), PythonValue(tag)])]),
             )
             prop_list.append(commonHdr)
         structure = PythonAssignment(PythonValue("union"), PythonDict(union_entries))
@@ -137,10 +135,10 @@ class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
         align = PythonAssignment(PythonValue("align"), PythonValue("1"))
         prop_list = [align]
         props = PythonAssignmentList(*prop_list)
-        getDataLen = PythonFunction(
-            "getDataLen", args="self,data,offset=0", body=f"return {length}"
+        get_data_len = PythonFunction(
+            "getDataLen", args="self,data,offset=0", body=[f"return {length}"]
         )
-        func_list = [getDataLen]
+        func_list = [get_data_len]
         funcs = PythonFunctionList(*func_list)
         self.clazz = PythonClass(
             name=PythonName(name),
