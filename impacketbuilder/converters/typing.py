@@ -1,3 +1,7 @@
+from midlparser.parsers import attributes
+from midltypes import MidlAttribute, MidlVarDef
+import enum
+
 IDL_TYPES = [
     "unsigned short",
     "unsigned char",
@@ -23,6 +27,9 @@ IDL_TYPES = [
     "hyper",
     "dwordlong",
     "long ptr",
+    "char",
+    "int",
+    "long"
 ]
 
 IDL_TO_NDR = {
@@ -51,6 +58,10 @@ IDL_TO_NDR = {
     "dwordlong": "NDRUHYPER",
     "long ptr": "NDRHYPER",
     "ulong ptr": "NDRUHYPER",
+    "char" : "NDRCHAR",
+    "int" : "NDRLONG",
+    "long": "NDRLONG",
+    "LARGE_INTEGER" : "LARGE_INTEGER"
 }
 
 SIZEOF_LOOKUP = {
@@ -82,17 +93,18 @@ class PythonTypeAssociation:
         return self.raw_names
 
 
+
 class IDLTypeToPythonType:
     """A class that maps an IDL type name to a PythonTypeAssociation"""
 
     def __init__(self):
         self._type_lookup = {}
 
-    def get_python_type_name(self, type_name: str):
+    def get_python_type_name(self, type_name: str) -> str:
         if type(type_name) is not str:
             print(type_name)
             raise TypeError(f"Expecting str, got {type(type_name)} instead")
-        type_name = type_name.replace("*", "")
+        type_name = type_name.strip()
         if type_name not in self._type_lookup:
             return None
         return self._type_lookup[type_name].raw()[0]
@@ -106,6 +118,9 @@ class IDLTypeToPythonType:
             assoc.add_mapping(python_name)
         self._type_lookup[idl_name] = assoc
 
+    def exists(self, idl_name):
+        return idl_name in self._type_lookup.keys()
+
     def set_defaults(self, words):
         for word in words:
             self.add_entry(word, "_".join(word.split(" ")).upper())
@@ -118,11 +133,15 @@ class TypeMapper:
 
     def canonicalize(self, name: str) -> str:
         """canonicalizes an IDL typename into the Python typename format"""
+        # TODO handle const gracefully
+        name = name.replace("const", "")
+        name = name.strip()
         type_name = self.idl2python.get_python_type_name(name)
         if type_name != None:
             return type_name
-        name = name.replace("const", "")
-        return name.replace("*", "").upper()
+        else:
+            pass
+            #raise TypeMappingException(f"Could not convert: {name} to a type.")
 
     def calculate_sizeof(self, rhs):
         if "sizeof" not in rhs:
