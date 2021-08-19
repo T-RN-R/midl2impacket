@@ -116,10 +116,10 @@ class VarDefConverter(Converter):
         for attr in var_def.attributes:
             assert attr not in [
                 "first_is",
-                "max_is",
+                "last_is",
                 "length_is",
             ], f"Invalid MIDL, attributes `string` and `{attr}` are mutually exclusive"
-            if attr == "size_is":
+            if attr == "size_is" or attr == "max_is":
                 is_variable = True
 
         if is_variable:
@@ -133,10 +133,24 @@ class VarDefConverter(Converter):
             return self.handle_constant_sized_string(var_def)
 
     def handle_variable_sized_string(self, var_def: MidlVarDef):
-        raise Exception("Unhandled")
+        size_is = None
+        max_is = None
+        for attr in var_def.attributes:
+            if attr == "size_is":
+                size_is = var_def.attributes[attr]
+        assert(size_is != None or max_is != None), "Calling handle_variable_sized_string with no size_is!"
+
+        number_of_ptrs = 0
+        for c in var_def.type:
+            if c == "*":
+                number_of_ptrs +=1 
+        # TODO properly handle these cases
+        return self.python_vardef(var_name=var_def.name, type_name=self.mapper.canonicalize(var_def.type))
 
     def handle_constant_sized_string(self, var_def: MidlVarDef):
-        raise Exception("Unhandled")
+        # TODO properly handle these cases
+        return self.python_vardef(var_name=var_def.name, type_name=self.mapper.canonicalize(var_def.type))
+
 
 
     def handle_arr(self, var_def: MidlVarDef):
