@@ -52,8 +52,10 @@ class Dimensionality(enum.Enum):
 
 
 class VarDefConverter(Converter):
-    def convert(self, var_def: MidlVarDef):
-        # detect the appropriate handler function
+    """Converts MidlVarDef objects into Python definitions
+    """
+    def convert(self, var_def: MidlVarDef) -> PythonTuple:
+        """Delegate handling depending upon attributes"""
         is_string = False
         is_arr = False
         for attr in var_def.attributes:
@@ -66,28 +68,28 @@ class VarDefConverter(Converter):
                 is_arr = True
             else:
                 raise Exception(f"Unhandled attr {attr}")
-
+        if len(var_def.array_info) > 0:
+            is_arr = True
         if is_string:
             return self.handle_string(var_def)
         elif is_arr:
             return self.handle_arr(var_def)
         else:
             return self.handle_scalar(var_def)
-    def python_vardef(self, var_name, type_name):
-        return PythonTuple(
-            [
-                PythonValue(f"'{var_name}'"),
-                PythonValue(type_name)
-            ]
-        )
-    def handle_scalar(self, var_def: MidlVarDef):
+
+    def python_vardef(self, var_name, type_name) -> PythonTuple:
+        """Helper function to generate PythonDef"""
+        return PythonTuple([PythonValue(f"'{var_name}'"), PythonValue(type_name)])
+
+    def handle_scalar(self, var_def: MidlVarDef) -> PythonTuple:
+        """Handles the scalar case"""
         if len(var_def.array_info) > 0:
             # This array handling should never be hit, it is old code TODO
             raise Exception("Unreachable")
             if len(var_def.array_info) == 1:
                 arr_inf = var_def.array_info[0]
-                if arr_inf.min != -1  and arr_inf.max == -1:
-                    #NDRUniFixedArrays
+                if arr_inf.min != -1 and arr_inf.max == -1:
+                    # NDRUniFixedArrays
                     if type(arr_inf.min) == str:
                         size = self.mapper.calculate_sizeof(arr_inf.min)
                     else:
@@ -102,15 +104,17 @@ class VarDefConverter(Converter):
                     else:
                         size = arr_inf.max
                     type_name = f"{self.mapper.canonicalize(array_item_name)}_ARRAY"
-                    arr = PythonNdrUniConformantArray(type_name, f"{self.mapper.canonicalize(array_item_name)}", size)
+                    arr = PythonNdrUniConformantArray(
+                        type_name, f"{self.mapper.canonicalize(array_item_name)}", size
+                    )
                     self.write(arr.to_string())
             else:
-                #TODO handle multidimensional arrays here
+                # TODO handle multidimensional arrays here
                 raise Exception("Multi-dimensional arrays are unhandled")
         return self.python_vardef(var_def.name, self.mapper.canonicalize(var_def.type))
-    
 
-    def handle_string(self, var_def: MidlVarDef):
+    def handle_string(self, var_def: MidlVarDef) -> PythonTuple:
+        """Handles the string case"""
         # determine if the string is variable or const sized
         is_variable = False
         for attr in var_def.attributes:
@@ -125,68 +129,66 @@ class VarDefConverter(Converter):
         if is_variable:
             return self.handle_variable_sized_string(var_def)
         else:
-            if(len(var_def.array_info) == 0):
-                # This case is beyond our skill and knowledge. Fallback to the impacket NDR type (WSTR)
-                type_name = self.mapper.canonicalize(var_def.type.replace("*",''))
+            if len(var_def.array_info) == 0:
+                # This case is beyond our ability. Fallback to the impacket NDR type (WSTR)
+                type_name = self.mapper.canonicalize(var_def.type.replace("*", ""))
                 return self.python_vardef(var_name=var_def.name, type_name=type_name)
 
             return self.handle_constant_sized_string(var_def)
 
-    def handle_variable_sized_string(self, var_def: MidlVarDef):
+    def handle_variable_sized_string(self, var_def: MidlVarDef) -> PythonTuple:
+        """Creates a PythonDef for string attributed MidlVarDefs that have a valid size_is"""
         size_is = None
         max_is = None
         for attr in var_def.attributes:
             if attr == "size_is":
                 size_is = var_def.attributes[attr]
-        assert(size_is != None or max_is != None), "Calling handle_variable_sized_string with no size_is!"
+        assert (
+            size_is != None or max_is != None
+        ), "Calling handle_variable_sized_string with no size_is!"
 
         number_of_ptrs = 0
         for c in var_def.type:
             if c == "*":
-                number_of_ptrs +=1 
-        # TODO properly handle these cases
-        return self.python_vardef(var_name=var_def.name, type_name=self.mapper.canonicalize(var_def.type))
+                number_of_ptrs += 1
 
-    def handle_constant_sized_string(self, var_def: MidlVarDef):
-        # TODO properly handle these cases
-        return self.python_vardef(var_name=var_def.name, type_name=self.mapper.canonicalize(var_def.type))
+        # Continue implementation ========================================================
+        # TODO properly handle these cases. There can be multidimensional arrays of these!
+        return self.python_vardef(
+            var_name=var_def.name, type_name=self.mapper.canonicalize(var_def.type)
+        )
 
+    def handle_constant_sized_string(self, var_def: MidlVarDef) -> PythonTuple:
+        """Creates a PythonDef for string attributed MidlVarDefs that have a constant size"""
 
+        # Continue implementation ========================================================
+        # TODO properly handle these cases. There can be multidimensional arrays of these!
+        return self.python_vardef(
+            var_name=var_def.name, type_name=self.mapper.canonicalize(var_def.type)
+        )
 
-    def handle_arr(self, var_def: MidlVarDef):
-        raise Exception("Unhandled")
+    def handle_arr(self, var_def: MidlVarDef) -> PythonTuple:
+        """Delegates array creation depending on the case"""
+        dimensionality = len(var_def.array_info)
+        if dimensionality > 0:
+            # C-style array definiton
+            return self.handle_square_array(var_def)
+        else:
+            # Pointer style arrays
+            size_is = var_def.attributes["size_is"]
+            dimensionality = len(size_is.params)
+            return self.handle_pointer_array(var_def)
 
+    def handle_square_array(self, var_def: MidlVarDef) -> PythonTuple:
+        """Handles the following cases:
+        [size_is(m)] short a[]);
+        [size_is(m)] short b[][20]);
+        """
 
-    def detect_dimensionality(self, var_def: MidlVarDef) -> str:
-        type_name = var_def.type
-        attributes = var_def.attributes
-        is_scalar = False
-        is_string = False
-        has_size_is = False
-        size_attr = None
-        # Detect if there are any 'size_is'
-        for attr in attributes:
-            if attr is str:
-                if attr == "string":
-                    is_string = True
-            if attr == "size_is":
-                has_size_is = True
-                size_attr = attr
-                break
-        # Detect if it is a simple scalar
-        if "*" not in type_name:
-            is_scalar = True
-
-        # If it is a scalar string, we probably stuffed away the dimensions
-        if is_scalar and is_string:
-            if len(var_def.array_info) > 0:
-                pass
-            else:
-                raise Exception(
-                    "Probable invalid MIDL, got string definition without dimenstionality"
-                )
-
-        if is_scalar and not has_size_is and not is_string:
-            return Dimensionality.SCALAR
-
-        raise Exception("Couldn't detect dimensionality")
+    def handle_pointer_array(self, var_def: MidlVarDef) -> PythonTuple:
+        """Handles the following cases:
+        [size_is( , m)] short ** ppshort);
+        [size_is(m ,)] short ** ppshort);
+        [size_is(m,n)] short ** ppshort);
+        [size_is( , *pSize)] my_type ** ppMyType);
+        """
