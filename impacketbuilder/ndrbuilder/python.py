@@ -117,16 +117,18 @@ class PythonAssignmentList(PythonDefList):
 class PythonFunction(PythonDef):
     """Represents a Python function"""
 
-    def __init__(self, name: str, args: str, body: str):
+    def __init__(self, name: str, args: str, body: list[str]):
         self.name = name
         self.args = args
         self.body = body
 
     def to_python_string(self, tab_level=0) -> str:
         out = ""
-        out += "\t"*tab_level + f"def {self.name}({self.args}):\n"
+        out += "\t"*tab_level + f"def {self.name}({self.args}):"
         tab_level+=1
-        out += "\t"*tab_level + self.body
+        for line in self.body:
+            out += '\n' + "\t"*tab_level + line
+        out += '\n'
         return out
 
 
