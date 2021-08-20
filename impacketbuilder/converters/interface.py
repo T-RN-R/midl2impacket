@@ -27,14 +27,16 @@ from impacketbuilder.ndrbuilder.ndr import PythonNdrStruct, PythonNdrPointer
 class MidlInterfaceConverter(Converter):
     def convert(self, interface, import_dir, import_converter):
         if interface.imports:
-            MidlImportsConverter(self.io, self.tab_level, mapper=self.mapper).convert(interface.imports, import_dir, import_converter)
+            MidlImportsConverter(self.io, self.tab_level, mapper=self.mapper).convert(
+                interface.imports, import_dir, import_converter
+            )
         # write uuid def
         self.uuid(interface)
         for vd in interface.vardefs:
             self.handle_vardef(vd)
         for td in interface.typedefs:
             self.handle_typedef(td)
-        
+
         count = 0
         mapping = {}
         for proc in interface.procedures:
@@ -76,13 +78,13 @@ class MidlInterfaceConverter(Converter):
         )
 
     def handle_typedef(self, td):
-        if type(td) is MidlTypeDef:
+        if isinstance(td, MidlTypeDef):
             self.handle_midl_td(td)
-        elif type(td) in [MidlStructDef, MidlUnionDef]:
+        elif isinstance(td, (MidlStructDef, MidlUnionDef)):
             self.handle_midl_struct(td)
-        elif type(td) is MidlEnumDef:
+        elif isinstance(td, MidlEnumDef):
             self.handle_midl_enum(td)
-        elif type(td) is MidlSimpleTypedef:
+        elif isinstance(td, MidlSimpleTypedef):
             self.handle_midl_td(td)
         else:
             raise Exception(
@@ -93,11 +95,11 @@ class MidlInterfaceConverter(Converter):
         self.write(f"{vd.name} = {self.mapper.canonicalize(vd.type)}")
 
     def handle_midl_td(self, td: MidlTypeDef):
-        if type(td) is MidlTypeDef:
+        if isinstance(td, MidlTypeDef):
             attr_names = [td.attributes[k].name for k in td.attributes]
             if "context_handle" in attr_names:
                 self.handle_context_handle(td)
-        elif type(td) is MidlSimpleTypedef:
+        elif isinstance(td, MidlSimpleTypedef):
             self.write(
                 PythonAssignment(
                     PythonValue(self.mapper.canonicalize(td.name)),
@@ -138,7 +140,8 @@ class MidlInterfaceConverter(Converter):
                 # If it has a public name, the enum may be used inside of an interface definition, so create a typdef for it to "DWORD__ENUM"
                 self.write(
                     PythonAssignment(
-                        PythonName(td.public_names[0].upper()), PythonValue("DWORD__ENUM")
+                        PythonName(td.public_names[0].upper()),
+                        PythonValue("DWORD__ENUM"),
                     )
                 )
         else:

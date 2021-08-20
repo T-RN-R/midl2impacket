@@ -31,7 +31,7 @@ class PythonDefList(PythonDef):
     def __init__(self, *args):
         assert self.CONTAINED_CLASS != None  # enforce the setting of CONTAINED_CLASS
         for arg in args:
-            if type(arg) != self.CONTAINED_CLASS:
+            if not isinstance(arg,self.CONTAINED_CLASS):
                 # Make sure all entries are the appropriate type
                 raise PythonTypingException(
                     f"{self.__class__} expects type {self.CONTAINED_CLASS}, got {type(arg)}"

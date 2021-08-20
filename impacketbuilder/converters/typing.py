@@ -105,7 +105,7 @@ class IDLTypeToPythonType:
         self._type_lookup = {}
 
     def get_python_type_name(self, type_name: str) -> str:
-        if type(type_name) is not str:
+        if not isinstance(type_name, str):
             raise TypeError(f"Expecting str, got {type(type_name)} instead")
         type_name = type_name.strip()
         if type_name not in self._type_lookup:

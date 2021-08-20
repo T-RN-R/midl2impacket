@@ -25,7 +25,7 @@ class Converter(Writer):
         raise UnreachableException(f"Class {__class__} must implement `convert()`")
 
     def write(self, data: str):
-        if type(data) is not str:
+        if not isinstance(data,str):
             data = data.to_python_string()
         for line in data.split("\n"):
             self.single_line_write(line)

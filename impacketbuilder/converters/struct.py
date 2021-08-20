@@ -50,25 +50,25 @@ class MidlStructConverter(Converter):
         else:
             name = self.get_anonymous_name()
 
-        tag:MidlAttribute
-        if tag := struct.attributes.get('switch_type'):
+        tag: MidlAttribute
+        if tag := struct.attributes.get("switch_type"):
             tag = tag.params[0].upper()
 
         count = 1
         entries = []
         for m in struct.members:
-            #VarDefConverter(self.io,self.tab_level,self.mapper).convert(m)
+            # VarDefConverter(self.io,self.tab_level,self.mapper).convert(m)
             key = None
             if m.attributes:
                 if "case" in m.attributes:
                     key = m.attributes["case"].params[0]
             type_name = None
-            if type(m.type) is str:
+            if isinstance(m.type, str):
                 type_name = m.type
-            elif type(m.type) is MidlStructDef:
+            elif isinstance(m.type, MidlStructDef):
                 type_name = m.type.public_names[0]
                 self.convert(m.type)
-            elif type(m.type) is MidlUnionDef:
+            elif isinstance(m.type, MidlUnionDef):
                 type_name = m.type.public_names[0]
                 self.convert(m.type)
             elif m.type is None:
@@ -104,32 +104,39 @@ class MidlStructConverter(Converter):
                     )
                     self.write(ndr_ptr.to_string())
                 elif star_count == 0:
-                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(pn)), PythonValue(base_name)))
+                    self.write(
+                        PythonAssignment(
+                            PythonName(self.mapper.canonicalize(pn)),
+                            PythonValue(base_name),
+                        )
+                    )
                 else:
                     raise ConversionException(
                         "Multiple asterisks encountered in name: {pn}"
                     )
         return name
+
     def create_ndr_uni_fixed_array_class(self, name, length):
-        uni_arr = PythonNdrUniFixedArray(name=name,length=length)
+        uni_arr = PythonNdrUniFixedArray(name=name, length=length)
         self.write(uni_arr.to_string())
 
     def handle_ndr_struct(self, struct):
         struct_entries = []
         for var_def in struct.members:
             type_name = None
-            if type(var_def.type) is MidlUnionDef or type(var_def.type) is MidlStructDef:
+            if isinstance(var_def.type, (MidlUnionDef, MidlStructDef)):
                 # handle nested unions/structs
                 if type_name is None:
                     type_name = self.convert(var_def.type)
                 var_def.type = type_name
-            elif type(var_def.type) is str:
+            elif isinstance(var_def.type, str):
                 if type_name is None:
                     type_name = var_def.type
-                    
-            p_vd = VarDefConverter(self.io,self.tab_level,self.mapper).convert(var_def)
-            struct_entries.append(p_vd)
 
+            p_vd = VarDefConverter(self.io, self.tab_level, self.mapper).convert(
+                var_def
+            )
+            struct_entries.append(p_vd)
 
         struct_tuple = PythonTuple(struct_entries)
 
@@ -151,7 +158,12 @@ class MidlStructConverter(Converter):
                     )
                     self.write(ndr_ptr.to_string())
                 elif star_count == 0:
-                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(pn)), PythonValue(base_name)))
+                    self.write(
+                        PythonAssignment(
+                            PythonName(self.mapper.canonicalize(pn)),
+                            PythonValue(base_name),
+                        )
+                    )
                 else:
                     raise ConversionException(
                         "Multiple asterisks encountered in name: {pn}"
@@ -171,15 +183,29 @@ class MidlStructConverter(Converter):
         struct_entries = []
         for vd in struct.members:
             if vd is arr_var:
-                struct_entries.append(PythonTuple([PythonValue(f"'{arr_var.name}'"),PythonValue(f"PTR_{self.mapper.canonicalize(main_name)}")]))
+                struct_entries.append(
+                    PythonTuple(
+                        [
+                            PythonValue(f"'{arr_var.name}'"),
+                            PythonValue(f"PTR_{self.mapper.canonicalize(main_name)}"),
+                        ]
+                    )
+                )
             else:
                 name = None
-                if type(vd.type) is str:
+                if isinstance(vd.type, str):
                     name = vd.type
                 else:
                     name = vd.type.public_names[0]
 
-                struct_entries.append(PythonTuple([PythonValue(f"'{vd.name}'"),PythonValue(f"{self.mapper.canonicalize(name)}")]))
+                struct_entries.append(
+                    PythonTuple(
+                        [
+                            PythonValue(f"'{vd.name}'"),
+                            PythonValue(f"{self.mapper.canonicalize(name)}"),
+                        ]
+                    )
+                )
 
         underlying_type = arr_var.type.replace("*", "")
         main_name = self.mapper.canonicalize(main_name)
@@ -189,8 +215,10 @@ class MidlStructConverter(Converter):
             name=f"DATA_{main_name}",
             underlying_type_name=self.mapper.canonicalize(underlying_type),
         )
-        ndr_ptr = PythonNdrPointer(name=f"PTR_{main_name}", referent_name=f"DATA_{main_name}")
-        ndr_struct = PythonNdrStruct(name = main_name, structure=struct_tuple)
+        ndr_ptr = PythonNdrPointer(
+            name=f"PTR_{main_name}", referent_name=f"DATA_{main_name}"
+        )
+        ndr_struct = PythonNdrStruct(name=main_name, structure=struct_tuple)
 
         self.write(ndr_array.to_string())
         self.write(ndr_ptr.to_string())
@@ -206,7 +234,12 @@ class MidlStructConverter(Converter):
                     )
                     self.write(ndr_ptr.to_string())
                 elif star_count == 0:
-                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(pn)), PythonValue(base_name)))
+                    self.write(
+                        PythonAssignment(
+                            PythonName(self.mapper.canonicalize(pn)),
+                            PythonValue(base_name),
+                        )
+                    )
                 else:
                     raise ConversionException(
                         "Multiple asterisks encountered in name: {pn}"
@@ -214,11 +247,11 @@ class MidlStructConverter(Converter):
         return name
 
     def detect_ndr_type(self, struct):
-        if type(struct) is MidlUnionDef:
+        if isinstance(struct, MidlUnionDef):
             return MidlStructConverter.NDR_UNION
         for vd in struct.members:
             t = vd.type
-            if type(t) is str:  # We can have MidlUnionDefs here!!!
+            if isinstance(t, str):  # We can have MidlUnionDefs here!!!
                 if (
                     "*" in t and "size_is" in vd.attributes
                 ):  # if there is a pointer, assume its an array
