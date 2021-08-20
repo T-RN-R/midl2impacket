@@ -1,6 +1,6 @@
 import enum
 
-from midltypes import MidlAttribute
+from midltypes import MidlAttribute, SizeIsAttribute
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
 from midlparser.parsers.util import SkipClosureParser
 from midlparser.tokenizer import Token
@@ -25,6 +25,9 @@ class MidlAttributesParser(MidlBaseParser):
         self.cur_attr_param = ""
         self.cur_attr_params = []
         self.attributes = {}
+        self.attr_handlers = {
+            'size_is': self.size_is,
+        }
 
     def add_to_cur_param(self, token: Token):
         if self.state != AttributeState.PARAMETERS:
@@ -107,7 +110,16 @@ class MidlAttributesParser(MidlBaseParser):
         else:
             self.invalid(token)
 
-    def finished(self) -> list[MidlAttribute]:
+    def size_is(self, attribute: MidlAttribute):
+        return SizeIsAttribute(attribute.name, attribute.params)
+
+    def default(self, attribute: MidlAttribute):
+        return attribute
+
+    def finished(self) -> dict[str:MidlAttribute]:
         if len(self.attributes) == 0:
             raise MidlParserException("No attributes were parsed")
+        # Post-process attributes
+        for name, attr in self.attributes.items():
+            self.attributes[name] = self.attr_handlers.get(name, self.default)(attr)
         return self.attributes

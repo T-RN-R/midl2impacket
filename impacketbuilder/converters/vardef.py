@@ -56,20 +56,8 @@ class VarDefConverter(Converter):
 
     def convert(self, var_def: MidlVarDef) -> PythonTuple:
         """Delegate handling depending upon attributes"""
-        is_string = False
-        is_arr = False
-        for attr in var_def.attributes:
-            if attr in ["switch_is","unique","range", "switch_type", "ref"]:
-                continue
-            elif attr == "string":
-                is_string = True
-                break
-            elif attr == "size_is":
-                is_arr = True
-            else:
-                raise Exception(f"Unhandled attr {attr}")
-        if len(var_def.array_info) > 0:
-            is_arr = True
+        is_string = "string" in var_def.attributes
+        is_arr = "size_is" in var_def.attributes or var_def.array_info
         if is_string:
             return self.handle_string(var_def)
         elif is_arr:
@@ -199,13 +187,11 @@ class VarDefConverter(Converter):
         POINTER_TO_SIZED_POINTER_TO_SCALAR          : [size_is( , *pSize)] my_type ** ppMyType);
         """
         # TODO handle more than the 1 and 2 dimensional cases
-        dimensionality = len(var_def.attributes["size_is"].params)
-        if dimensionality == 1:
-            """POINTER_TO_SCALAR_ARRAY case"""
+        dimensionality = var_def.attributes['size_is'].type
+        if dimensionality == SizeIsType.POINTER_TO_SCALAR_ARRAY:
             size_var = var_def.attributes["size_is"].params[0]
             # size_var can be either a numeric,  or variable name or an expression.
-            
-            if isinstance(size_var,str):
+            if isinstance(size_var, str):
                 #Handle expression and variable case
                 size = self.mapper.calculate_sizeof(size_var)
             elif size_var.isnumeric():
@@ -213,6 +199,7 @@ class VarDefConverter(Converter):
 
             # TODO Create better typenames
             type_name = f"ARR_{self.mapper.canonicalize(var_def.type)}"
+             
             arr = PythonNdrUniConformantArray(
                     type_name, f"{self.mapper.canonicalize(var_def.type)}", size
                 )
@@ -220,6 +207,13 @@ class VarDefConverter(Converter):
             return self.python_vardef(
                 var_name=var_def.name, type_name=self.mapper.canonicalize(type_name)
             )
-        else:
-            raise Exception("Unhandled")
-
+        elif dimensionality == SizeIsType.POINTER_TO_POINTER_TO_SCALAR_ARRAY:
+            raise NotImplementedError(f"Unhandled dimensionality {dimensionality}")
+        elif dimensionality == SizeIsType.ARRAY_OF_POINTERS_TO_SCALARS:
+            raise NotImplementedError(f"Unhandled dimensionality {dimensionality}")
+        elif dimensionality == SizeIsType.POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY:
+            raise NotImplementedError(f"Unhandled dimensionality {dimensionality}")
+        elif dimensionality == SizeIsType.POINTER_TO_SIZED_POINTER_TO_SCALAR:
+            raise NotImplementedError(f"Unhandled dimensionality {dimensionality}")
+        
+        raise Exception(f"Unrecognized dimensionality {dimensionality}")

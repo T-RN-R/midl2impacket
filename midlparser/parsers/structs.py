@@ -42,6 +42,7 @@ class MidlStructParser(MidlBaseParser):
         self.embedded_struct_count = 0
         self.embedded_union_count = 0
         self.simple_td = False
+        self.attributes = {}
 
     def add_current_member(self):
         """Add the currently tracked member to the structure"""

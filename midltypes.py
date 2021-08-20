@@ -1,5 +1,5 @@
 from base import Visitable
-
+import enum
 
 class MidlImport:
     """Represents a MIDL import statement
@@ -245,6 +245,46 @@ class MidlAttribute(Visitable):
         return f"MidlAttribute[{self.__str__()}"
 
 
+class SizeIsType(enum.Enum):
+    """
+    ### Pointer Types
+    POINTER_TO_SCALAR_ARRAY                     : [size_is(m)] short * pshort);
+    POINTER_TO_POINTER_TO_SCALAR_ARRAY          : [size_is( , m)] short ** ppshort);
+    ARRAY_OF_POINTERS_TO_SCALARS                : [size_is(m ,)] short ** ppshort);
+    POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY : [size_is(m,n)] short ** ppshort);
+    POINTER_TO_SIZED_POINTER_TO_SCALAR          : [size_is( , *pSize)] my_type ** ppMyType);
+    """
+     
+    POINTER_TO_SCALAR_ARRAY = enum.auto()
+    POINTER_TO_POINTER_TO_SCALAR_ARRAY = enum.auto()
+    ARRAY_OF_POINTERS_TO_SCALARS = enum.auto()
+    POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY = enum.auto()
+    POINTER_TO_SIZED_POINTER_TO_SCALAR = enum.auto()
+
+class SizeIsAttribute(MidlAttribute):
+
+    def __init__(self, name, params=None):
+        super().__init__(name, params)
+        if len(params) == 1:
+            self.type = SizeIsType.POINTER_TO_SCALAR_ARRAY
+        elif len(params) == 2:
+            p_x = params
+            p_y = params
+            if not p_x:
+                if not p_y:
+                    raise Exception("No size_is parameters supplied")
+                elif '*' in p_y:
+                    self.type = SizeIsType.POINTER_TO_SIZED_POINTER_TO_SCALAR
+                else:
+                    self.type = SizeIsType.POINTER_TO_POINTER_TO_SCALAR_ARRAY
+            else:
+                if not p_y:
+                    self.type = SizeIsType.ARRAY_OF_POINTERS_TO_SCALARS
+                else:
+                    self.type = SizeIsType.POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY
+        else:
+            raise Exception("Invalid number of parameters for size_is")
+
 class MidlVarDef(Visitable):
     """Struct member or function parameter
     Example:
@@ -330,10 +370,10 @@ class MidlUnionDef(Visitable):
 
 
 class MidlSimpleTypedef(Visitable):
-    def __init__(self, name, simple_type):
+    def __init__(self, name, simple_type, attributes):
         self.name = name
         self.type = simple_type
-        self.attributes = {}
+        self.attributes = attributes
 
     def __str__(self):
         out = ""
@@ -396,7 +436,7 @@ class MidlProcedure(Visitable):
         `
     """
 
-    def __init__(self, name, attributes, params):
+    def __init__(self, name, attributes, params:list[MidlVarDef]=None):
         self.name = name
         self.attributes = attributes or {}
         self.params = params
@@ -417,11 +457,11 @@ class MidlProcedure(Visitable):
 
 class MidlParameter(Visitable):
     def __init__(
-        self, name=None, data_type=None, attributes: list[MidlAttribute] = None
+        self, name=None, data_type=None, attributes: dict[str:MidlAttribute]=None
     ):
         self.name = name
         self.type = data_type
-        self.attributes = attributes or {}
+        self.attributes = attributes
 
     def __str__(self):
         out = ""

@@ -60,7 +60,7 @@ class MidlInterfaceConverter(Converter):
 
     def uuid(self, interface: MidlInterface):
         int_name = f"MSRPC_UUID_{interface.name.upper()}"
-        if "uuid" in interface.attributes.keys():
+        if "uuid" in interface.attributes:
             self.write(
                 PythonAssignment(
                     PythonValue(int_name),
@@ -94,7 +94,7 @@ class MidlInterfaceConverter(Converter):
 
     def handle_midl_td(self, td: MidlTypeDef):
         if type(td) is MidlTypeDef:
-            attr_names = [td.attributes[k].name for k in td.attributes.keys()]
+            attr_names = [td.attributes[k].name for k in td.attributes]
             if "context_handle" in attr_names:
                 self.handle_context_handle(td)
         elif type(td) is MidlSimpleTypedef:

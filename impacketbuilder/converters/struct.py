@@ -60,7 +60,7 @@ class MidlStructConverter(Converter):
             #VarDefConverter(self.io,self.tab_level,self.mapper).convert(m)
             key = None
             if m.attributes:
-                if "case" in m.attributes.keys():
+                if "case" in m.attributes:
                     key = m.attributes["case"].params[0]
             type_name = None
             if type(m.type) is str:
