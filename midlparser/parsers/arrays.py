@@ -26,7 +26,7 @@ class MidlArrayParser(MidlBaseParser):
             end_state=ArrayState.END,
             tokenizer=tokenizer,
         )
-        self.dimensions = [-1, -1]  # min, max
+        self.dimensions = ["", ""]  # min, max
         self.cur_dim = ""
         self.rbracket_level = 0
         self.defined_max = False
@@ -92,10 +92,5 @@ class MidlArrayParser(MidlBaseParser):
             self.invalid(token)
 
     def finished(self) -> MidlArrayDimensions:
-        if not self.defined_max:
-            # e.g. array_type[2] - treat as max 2 with no defined min?
-            self.dimensions[1] = self.dimensions[0]
-            self.dimensions[0] = 0
-            
         dims = MidlArrayDimensions(self.dimensions[0], self.dimensions[1])
         return dims

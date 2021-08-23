@@ -4,7 +4,7 @@ from impacketbuilder.ndrbuilder.io import PythonWriter
 from midltypes import MidlDefinition
 from .converters.definition import MidlDefinitionConverter
 from .converters.static import MidlStaticConverter
-from .converters.typing import TypeMapper, IDL_TYPES
+from .converters.typing import TypeMapper, IDL_TO_NDR
 
 
 class ImpacketBuilder:
@@ -22,13 +22,13 @@ class ImpacketBuilder:
 
     def build(self):
         assert self.__midl_def != None
-        io = PythonWriter()
-        tm = TypeMapper(IDL_TYPES)
+        python_writer = PythonWriter()
+        type_mapper = TypeMapper(python_writer)
         tabs = 0
-        static_converter = MidlStaticConverter(io, tabs, mapper=tm)
+        static_converter = MidlStaticConverter(python_writer, tabs, mapper=type_mapper)
         static_converter.convert()
 
-        python_code = MidlDefinitionConverter(io, tabs, mapper=tm).convert(
+        python_code = MidlDefinitionConverter(python_writer, tabs, mapper=type_mapper).convert(
             self.__midl_def, self.__import_dir
         )
         return python_code

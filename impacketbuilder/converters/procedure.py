@@ -15,6 +15,7 @@ from impacketbuilder.ndrbuilder.ndr import PythonNdrCall
 
 
 class MidlProcedureConverter(Converter):
+    """Convert MIDL procedures to python"""
 
     def convert(self, procedure: MidlProcedure, count):
         proc_inputs, proc_outputs = self.get_io(procedure)
@@ -22,11 +23,11 @@ class MidlProcedureConverter(Converter):
         python_inputs = PythonTuple(proc_inputs)
         ndr_request = PythonNdrCall(procedure.name, python_inputs, opnum=count)
         self.write(ndr_request.to_string())
-        
+
         # Create response
         python_outputs = PythonTuple(proc_outputs)
         ndr_response = PythonNdrCall(procedure.name + "Response", python_outputs, opnum=None)
-        self.write(ndr_response.to_string())       
+        self.write(ndr_response.to_string())
 
     def get_io(self, procedure: MidlProcedure):
         """ Get inputs and outputs from a procedure """
@@ -39,4 +40,6 @@ class MidlProcedureConverter(Converter):
                 inputs.append(python_vardef)
             if "out" in param.attributes:
                 outputs.append(python_vardef)
+        # Outputs always has ErrorCode
+        outputs.append(converter.python_vardef(var_name="ErrorCode", type_name="ULONG"))
         return inputs, outputs

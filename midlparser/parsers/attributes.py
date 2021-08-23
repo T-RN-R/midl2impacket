@@ -1,4 +1,5 @@
 import enum
+from midlparser.parsers.expression import MidlExpressionParser
 
 from midltypes import MidlAttribute, SizeIsAttribute
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
@@ -66,9 +67,8 @@ class MidlAttributesParser(MidlBaseParser):
                 self.state = AttributeState.PARAMETERS
             elif self.state == AttributeState.PARAMETERS:
                 # Just grab the whole blob and add it to the current member
-                self.cur_attr_param += SkipClosureParser(
-                    self.tokens, self.tokenizer, closure_open="(", closure_close=")"
-                ).parse(token)
+                self.cur_attr_param += MidlExpressionParser(
+                    self.tokens, self.tokenizer).parse(token)
             else:
                 self.invalid(token)
         elif token.data == ")" and self.state == AttributeState.PARAMETERS:
