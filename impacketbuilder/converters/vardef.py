@@ -88,9 +88,9 @@ class VarDefConverter(Converter):
             return self.handle_variable_sized_string(var_def)
         else:
             if len(var_def.array_info) == 0:
-                # This is already be handled by impacket
+                # This is already handled by impacket
                 type_name, type_exists = self.mapper.get_python_type(
-                    var_def.type.replace("*", "")
+                    var_def.type
                 )
                 if not type_exists:
                     raise Exception(
