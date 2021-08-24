@@ -209,7 +209,17 @@ class VarDefConverter(Converter):
                 )
                 self.write(arr.to_string())
                 self.mapper.add_type(array_type_name)
-            return self.python_vardef(var_name=var_def.name, type_name=array_type_name)
+            # Create the pointer to the array type:
+            pointer_type_name = f"P{array_type_name}"
+            pointee_type_name = array_type_name
+            if not self.mapper.exists(pointer_type_name):
+                ndr_ptr = PythonNdrPointer(
+                    name=pointer_type_name,
+                    referent_name=pointee_type_name
+                )
+                self.write(ndr_ptr.to_string())
+                self.mapper.add_type(pointer_type_name)
+            return self.python_vardef(var_name=var_def.name, type_name=pointer_type_name)
         elif dimensionality == SizeIsType.POINTER_TO_POINTER_TO_SCALAR_ARRAY:
             raise NotImplementedError(
                 f"Unhandled dimensionality {dimensionality} for {var_def}"
