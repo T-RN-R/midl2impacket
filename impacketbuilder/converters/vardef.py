@@ -72,10 +72,11 @@ class VarDefConverter(Converter):
 
     def handle_scalar(self, var_def: MidlVarDef) -> PythonTuple:
         """Handles the scalar case"""
-        if len(var_def.array_info) > 0:
+        if len(var_def.array_info):
             # This array handling should never be hit, it is old code TODO
-            raise Exception("Unreachable")
-        assert(isinstance(var_def.type,str))
+            raise Exception(f"Invalid scalar (has array information): {var_def}")
+        elif not isinstance(var_def.type, str):
+            raise Exception(f"Invalid scalar - is non-string type: {var_def}")
         type_name = self.mapper.get_python_type(var_def.type)[0]
         return self.python_vardef(var_def.name, type_name)
 
@@ -87,9 +88,9 @@ class VarDefConverter(Converter):
             return self.handle_variable_sized_string(var_def)
         else:
             if len(var_def.array_info) == 0:
-                # This is already be handled by impacket
+                # This is already handled by impacket
                 type_name, type_exists = self.mapper.get_python_type(
-                    var_def.type.replace("*", "")
+                    var_def.type
                 )
                 if not type_exists:
                     raise Exception(

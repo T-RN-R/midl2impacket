@@ -141,8 +141,13 @@ class TypeMapper:
     def canonicalize(self, name: str, array_size: str = None) -> tuple[str, str]:
         """Canonicalizes an IDL typename into the Python typename format"""
 
-        # Default fixup: remove const and spaces then uppercase the name
-        py_name = name.replace("const", "").strip().replace(" ", "_").upper()
+        py_name = name
+        # Default fixup: remove first level of indirection
+        if py_name.endswith('*'):
+            py_name = py_name[:-1]
+        # Now remove const and spaces then uppercase the name
+        py_name = py_name.replace("const", "").strip().replace(" ", "_").upper()
+        
         py_member_name = None
         # Check array information:
         # Pointers to arrays e.g. DWORD* become DWORD_ARRAY
