@@ -38,8 +38,9 @@ IDL_TO_NDR = {
     "LPCSTR": "LPSTR",  # impacket type
     "LPCWSTR": "LPWSTR",  # impacket type
     "LMSTR": "LPWSTR",  # impacket type
-    "PWSTR" : "LPWSTR", # TODO validate that this is correct
+    "PWSTR": "LPWSTR",  # TODO validate that this is correct
     "WCHAR": "WSTR",  # impacket type
+    "PBYTE": "PBYTE",  # impacket type
 }
 
 SIZEOF_LOOKUP = {
