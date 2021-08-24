@@ -27,6 +27,9 @@ from impacket import nt_errors
 from impacket.uuid import uuidtup_to_bin
 from impacket.dcerpc.v5.rpcrt import DCERPCException
 
+class DCERPCSessionError(DCERPCException):
+    pass
+
 DWORD64 = NDRUHYPER
 __INT64 = NDRHYPER
 DWORD__ENUM = DWORD

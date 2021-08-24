@@ -1,11 +1,9 @@
-from impacketbuilder.converters.typing import TypeMapper
 from impacketbuilder.converters.constants import MidlConstantConverter
 from impacketbuilder.converters.imports import MidlImportsConverter
 from .base import Converter
 from .struct import MidlStructConverter
 from .procedure import MidlProcedureConverter
 from midltypes import (
-    MidlAttribute,
     MidlInterface,
     MidlTypeDef,
     MidlSimpleTypedef,
