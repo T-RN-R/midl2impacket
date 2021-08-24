@@ -32,7 +32,13 @@ IDL_TO_NDR = {
     "long ptr": "NDRHYPER",
     "ulong ptr": "NDRUHYPER",
     "char" : "NDRCHAR",
-    "LARGE_INTEGER" : "LARGE_INTEGER"
+    "LARGE_INTEGER" : "LARGE_INTEGER", #impacket type
+    "LPSTR" : "LPSTR", # impacket type
+    "LPWSTR" : "LPWSTR", # impacket type
+    "LPCSTR" : "LPSTR", # impacket type
+    "LPCWSTR" : "LPWSTR", # impacket type
+    "WCHAR" : "WSTR", # impacket type
+
 }
 
 SIZEOF_LOOKUP = {
