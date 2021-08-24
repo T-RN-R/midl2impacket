@@ -31,14 +31,15 @@ IDL_TO_NDR = {
     "dwordlong": "NDRUHYPER",
     "long ptr": "NDRHYPER",
     "ulong ptr": "NDRUHYPER",
-    "char" : "NDRCHAR",
-    "LARGE_INTEGER" : "LARGE_INTEGER", #impacket type
-    "LPSTR" : "LPSTR", # impacket type
-    "LPWSTR" : "LPWSTR", # impacket type
-    "LPCSTR" : "LPSTR", # impacket type
-    "LPCWSTR" : "LPWSTR", # impacket type
-    "WCHAR" : "WSTR", # impacket type
-
+    "char": "NDRCHAR",
+    "LARGE_INTEGER": "LARGE_INTEGER",  # impacket type
+    "LPSTR": "LPSTR",  # impacket type
+    "LPWSTR": "LPWSTR",  # impacket type
+    "LPCSTR": "LPSTR",  # impacket type
+    "LPCWSTR": "LPWSTR",  # impacket type
+    "LMSTR": "LPWSTR",  # impacket type
+    "PWSTR" : "LPWSTR", # TODO validate that this is correct
+    "WCHAR": "WSTR",  # impacket type
 }
 
 SIZEOF_LOOKUP = {
@@ -68,7 +69,6 @@ class PythonTypeAssociation:
 
     def raw(self):
         return self.raw_names
-
 
 
 class IDLTypeToPythonType:
@@ -103,12 +103,12 @@ class IDLTypeToPythonType:
 
 
 class TypeMapper:
-    def __init__(self, writer:PythonWriter=None):
+    def __init__(self, writer: PythonWriter = None):
         self.writer = writer
         self.types = {}
 
-    def pointerize(self, pointer_type:str) -> str:
-        """ Replaces asterisks in pointer names, creating intermediate types if they don't exist
+    def pointerize(self, pointer_type: str) -> str:
+        """Replaces asterisks in pointer names, creating intermediate types if they don't exist
             e.g. DWORD* becomes PDWORD and DWORD** becomes PPDWORD
         Args:
             name (str): The name, which may contain pointers
@@ -117,16 +117,15 @@ class TypeMapper:
             [str]: python-friendly pointer name
         """
         pointer_type = pointer_type.upper()
-        pointer_count = pointer_type.count('*')
-        root_type = pointer_type.rstrip('*')
-        pointer_type = 'P'*pointer_count + root_type
+        pointer_count = pointer_type.count("*")
+        root_type = pointer_type.rstrip("*")
+        pointer_type = "P" * pointer_count + root_type
         pointers_to_create = []
         while pointer_count > 0:
-            pointer_name = 'P'*pointer_count + root_type
-            pointee_name = 'P'*(pointer_count-1) + root_type
+            pointer_name = "P" * pointer_count + root_type
+            pointee_name = "P" * (pointer_count - 1) + root_type
             pointers_to_create.append((pointer_name, pointee_name))
             pointer_count -= 1
-        
 
         if pointers_to_create and self.writer:
             for pointer_to_create, pointee_to_create in pointers_to_create[::-1]:
@@ -138,11 +137,11 @@ class TypeMapper:
                     self.add_type(pointer_to_create)
         return pointer_type
 
-    def canonicalize(self, name: str, array_size:str=None) -> tuple[str,str]:
+    def canonicalize(self, name: str, array_size: str = None) -> tuple[str, str]:
         """Canonicalizes an IDL typename into the Python typename format"""
-        
+
         # Default fixup: remove const and spaces then uppercase the name
-        py_name = name.replace("const", "").strip().replace(' ', '_').upper()
+        py_name = name.replace("const", "").strip().replace(" ", "_").upper()
         py_member_name = None
         # Check array information:
         # Pointers to arrays e.g. DWORD* become DWORD_ARRAY
@@ -150,7 +149,7 @@ class TypeMapper:
         # For a pointer to a pointer array, e.g. [size(5)] DWORD** ppDwords becomes PDWORD_ARRAY_5
         # Similarly, PDWORD* ppDwords would result in the same name, PDWORD_ARRAY_5
         if array_size is not None:
-            if py_name.endswith('*'):
+            if py_name.endswith("*"):
                 py_name = py_name[:-1]
             py_member_name = self.pointerize(py_name)
             suffix = ""
@@ -159,10 +158,12 @@ class TypeMapper:
             py_name = f"{py_member_name}_ARRAY{suffix}"
         else:
             py_name = self.pointerize(py_name)
-        
+
         return py_name, py_member_name
 
-    def get_python_array_type(self, idl_type:str, array_size:str) -> tuple[str, str, bool]:
+    def get_python_array_type(
+        self, idl_type: str, array_size: str
+    ) -> tuple[str, str, bool]:
         """Returns the array type name, the member name, and whether the type exists
 
         Args:
@@ -174,11 +175,12 @@ class TypeMapper:
                 Tuple containing the array name, the member name, and whether the array type exists,
         """
         # Convert to python-friendly names
-        py_array_name, py_member_name = self.canonicalize(idl_type, array_size=array_size)
+        py_array_name, py_member_name = self.canonicalize(
+            idl_type, array_size=array_size
+        )
         return py_array_name, py_member_name, py_array_name in self.types
 
-
-    def get_python_type(self, idl_type:str) -> tuple[str, bool]:
+    def get_python_type(self, idl_type: str) -> tuple[str, bool]:
         """Returns python-friendly names for IDL names, along with a boolean indicating whether the
            data structure for the type exists or not.
 
@@ -192,7 +194,7 @@ class TypeMapper:
         py_name, _ = self.canonicalize(idl_type)
         return py_name, py_name in self.types
 
-    def add_type(self, py_name:str):
+    def add_type(self, py_name: str):
         """Adds a type to the dict of known types.
         Args:
             py_name (str): The python-friendly name of the class or variable
@@ -206,6 +208,7 @@ class TypeMapper:
 
     def exists(self, type_name):
         return type_name in self.types
+
 
 class SizeofCalculator:
     OPERATORS = ["+", "-", "*", "/"]
