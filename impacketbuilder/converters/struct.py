@@ -129,15 +129,9 @@ class MidlStructConverter(Converter):
     def handle_ndr_struct(self, struct):
         struct_entries = []
         for var_def in struct.members:
-            type_name = None
             if isinstance(var_def.type, (MidlUnionDef, MidlStructDef)):
                 # handle nested unions/structs
-                if type_name is None:
-                    type_name = self.convert(var_def.type)
-                var_def.type = type_name
-            elif isinstance(var_def.type, str):
-                if type_name is None:
-                    type_name = var_def.type
+                var_def.type = self.convert(var_def.type)
 
             p_vd = VarDefConverter(self.io, self.tab_level, self.mapper).convert(
                 var_def
@@ -181,7 +175,7 @@ class MidlStructConverter(Converter):
 
         return base_name
 
-    def handle_ndr_array(self, struct):
+    def handle_ndr_array(self, struct: MidlStructDef):
         # First step: Find the count and the array variables
         arr_var = None
         main_name = struct.public_names[0]
@@ -192,6 +186,9 @@ class MidlStructConverter(Converter):
 
         struct_entries = []
         for var_def in struct.members:
+            if isinstance(var_def.type, (MidlStructDef, MidlUnionDef)):
+                # nested unions/structs
+                var_def.type = self.convert(var_def.type)
             p_vd = VarDefConverter(self.io, self.tab_level, self.mapper).convert(
                 var_def
             )
@@ -204,7 +201,7 @@ class MidlStructConverter(Converter):
         array_name = f"{main_name}_ARRAY"
         array_member_name = self.mapper.get_python_type(underlying_type)[0]
         array_pointer_name = f"P{array_name}"
-        
+
         ndr_array = PythonNdrUniConformantArray(
             name=array_name,
             underlying_type_name=array_member_name,
