@@ -1,45 +1,58 @@
 from impacketbuilder.converters.vardef import VarDefConverter
-from .base import Converter
-from midltypes import MidlProcedure
-from impacketbuilder.ndrbuilder.python import (
-    PythonAssignment,
-    PythonAssignmentList,
-    PythonNameList,
-    PythonValue,
-    PythonName,
-    PythonTuple,
-    PythonClass,
-    PythonAssignmentList,
-)
 from impacketbuilder.ndrbuilder.ndr import PythonNdrCall
+from impacketbuilder.ndrbuilder.python import PythonFunction, PythonTuple
+from midltypes import MidlProcedure, MidlVarDef
+
+from .base import Converter
 
 
 class MidlProcedureConverter(Converter):
     """Convert MIDL procedures to python"""
 
     def convert(self, procedure: MidlProcedure, count):
-        proc_inputs, proc_outputs = self.get_io(procedure)
-        # Create request
-        python_inputs = PythonTuple(proc_inputs)
+        # Get all "in" and "out" parameters
+        in_params, out_params = self.get_io(procedure)
+        
+        # Generate vardefs for input/outputss
+        converter = VarDefConverter(
+            io=self.io, tab_level=self.tab_level, mapper=self.mapper
+        )
+        vardef_inputs = [converter.convert(in_param) for in_param in in_params]
+        vardef_outputs = [converter.convert(out_param) for out_param in out_params]
+        # Outputs always has ErrorCode
+        vardef_outputs.append(converter.python_vardef(var_name="ErrorCode", type_name="ULONG"))
+
+        # Generate the request
+        python_inputs = PythonTuple(vardef_inputs)
         ndr_request = PythonNdrCall(procedure.name, python_inputs, opnum=count)
         self.write(ndr_request.to_string())
 
         # Create response
-        python_outputs = PythonTuple(proc_outputs)
-        ndr_response = PythonNdrCall(procedure.name + "Response", python_outputs, opnum=None)
+        python_outputs = PythonTuple(vardef_outputs)
+        ndr_response = PythonNdrCall(
+            procedure.name + "Response", python_outputs, opnum=None
+        )
         self.write(ndr_response.to_string())
+        self.generate_helper(procedure, in_params)
 
     def get_io(self, procedure: MidlProcedure):
-        """ Get inputs and outputs from a procedure """
+        """Get inputs and outputs from a procedure"""
         inputs = []
         outputs = []
-        converter = VarDefConverter(io=self.io, tab_level=self.tab_level, mapper=self.mapper)
         for param in procedure.params:
-            python_vardef = converter.convert(param)
             if "in" in param.attributes:
-                inputs.append(python_vardef)
+                inputs.append(param)
             if "out" in param.attributes:
-                outputs.append(python_vardef)
-        # Outputs always has ErrorCode
-        outputs.append(converter.python_vardef(var_name="ErrorCode", type_name="ULONG"))
+                outputs.append(param)
         return inputs, outputs
+
+    def generate_helper(self, procedure: MidlProcedure, input_list: list[MidlVarDef]):
+        arguments = ", ".join(["dce"] + [arg.name for arg in input_list])
+        function_body_parts = [f"request = {procedure.name}()"]
+        assignments = [f'request["{arg.name}"] = {arg.name}' for arg in input_list]
+        function_body_parts.extend(assignments)
+        function_body_parts.append("return dce.request(request)")
+        helper = PythonFunction(
+            name=f"h{procedure.name}", args=arguments, body=function_body_parts
+        )
+        self.write(helper.to_python_string())
