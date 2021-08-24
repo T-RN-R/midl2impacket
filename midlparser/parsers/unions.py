@@ -44,6 +44,7 @@ class MidlUnionParser(MidlBaseParser):
         self.switch_param = None
         self.struct_private_name = None
         self.prev_member = None
+        self.attributes = {}
 
     def add_current_member(self):
         """Add the currently tracked member to the union"""

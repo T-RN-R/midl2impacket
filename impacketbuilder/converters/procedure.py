@@ -1,3 +1,4 @@
+from impacketbuilder.converters.vardef import VarDefConverter
 from .base import Converter
 from midltypes import MidlProcedure
 from impacketbuilder.ndrbuilder.python import (
@@ -14,55 +15,31 @@ from impacketbuilder.ndrbuilder.ndr import PythonNdrCall
 
 
 class MidlProcedureConverter(Converter):
+    """Convert MIDL procedures to python"""
+
     def convert(self, procedure: MidlProcedure, count):
-        input = self.get_input(procedure)
-        output = self.get_output(procedure)
-
-        input_list = []
-        for i in input:
-            input_list.append(
-                PythonTuple(
-                    [
-                        PythonValue(f"'{i.name}'"),
-                        PythonValue(self.mapper.canonicalize(i.type)),
-                    ]
-                )
-            )
-        inputs = PythonTuple(input_list)
-
-        ndr_request = PythonNdrCall(procedure.name, inputs, opnum=count)
-
-        output_list = []
-        for i in output:
-            output_list.append(
-                PythonTuple(
-                    [
-                        PythonValue(f"'{i.name}'"),
-                        PythonValue(self.mapper.canonicalize(i.type)),
-                    ]
-                )
-            )
-        outputs = PythonTuple(output_list)
-
-        ndr_response = PythonNdrCall(procedure.name + "Response", outputs, opnum=None)
-
+        proc_inputs, proc_outputs = self.get_io(procedure)
+        # Create request
+        python_inputs = PythonTuple(proc_inputs)
+        ndr_request = PythonNdrCall(procedure.name, python_inputs, opnum=count)
         self.write(ndr_request.to_string())
+
+        # Create response
+        python_outputs = PythonTuple(proc_outputs)
+        ndr_response = PythonNdrCall(procedure.name + "Response", python_outputs, opnum=None)
         self.write(ndr_response.to_string())
 
-    def get_input(self, procedure: MidlProcedure):
-        inp = []
+    def get_io(self, procedure: MidlProcedure):
+        """ Get inputs and outputs from a procedure """
+        inputs = []
+        outputs = []
+        converter = VarDefConverter(io=self.io, tab_level=self.tab_level, mapper=self.mapper)
         for param in procedure.params:
-            if "in" in param.attributes.keys():
-                if param.type == "void**":  # TODO Stop cheating here
-                    param.type = "CONTEXT_HANDLE"
-                inp.append(param)
-        return inp
-
-    def get_output(self, procedure: MidlProcedure):
-        outp = []
-        for param in procedure.params:
-            if "out" in param.attributes.keys():
-                if param.type == "void**":  # TODO Stop cheating here
-                    param.type = "CONTEXT_HANDLE"
-                outp.append(param)
-        return outp
+            python_vardef = converter.convert(param)
+            if "in" in param.attributes:
+                inputs.append(python_vardef)
+            if "out" in param.attributes:
+                outputs.append(python_vardef)
+        # Outputs always has ErrorCode
+        outputs.append(converter.python_vardef(var_name="ErrorCode", type_name="ULONG"))
+        return inputs, outputs

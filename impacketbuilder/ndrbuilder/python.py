@@ -31,7 +31,7 @@ class PythonTuple(PythonValue):
     """Python tuple implementation"""
 
     def __init__(self, values: list[PythonValue]):
-        if type(values) != list:
+        if not isinstance(values, list):
             assert isinstance(values, PythonValue)
             values = [values]
         self.values = values
@@ -124,9 +124,9 @@ class PythonFunction(PythonDef):
 
     def to_python_string(self, tab_level=0) -> str:
         out = ""
-        out += "\t"*tab_level + f"def {self.name}({self.args}):\n"
-        tab_level+=1
-        out += "\t"*tab_level + self.body
+        out += "\t" * tab_level + f"def {self.name}({self.args}):\n"
+        tab_level += 1
+        out += "\t" * tab_level + self.body
         return out
 
 

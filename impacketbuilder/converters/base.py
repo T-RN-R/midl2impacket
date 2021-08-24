@@ -2,7 +2,7 @@ from impacketbuilder.ndrbuilder.io import PythonWriter
 from io import StringIO
 from impacketbuilder.base import Writer
 from impacketbuilder.ndrbuilder.io import PythonWriter
-from .typing import IDLTypeToPythonType
+from .typing import TypeMapper
 
 
 class ConversionException(Exception):
@@ -14,7 +14,7 @@ class UnreachableException(Exception):
 
 
 class Converter(Writer):
-    def __init__(self, io=None, tab_level=0, mapper: IDLTypeToPythonType = None):
+    def __init__(self, io=None, tab_level=0, mapper: TypeMapper = None):
         self.tab_level = tab_level
         self.io = io or StringIO()
         self.python_writer = PythonWriter(strIO=self.io)
@@ -25,7 +25,7 @@ class Converter(Writer):
         raise UnreachableException(f"Class {__class__} must implement `convert()`")
 
     def write(self, data: str):
-        if type(data) is not str:
+        if not isinstance(data,str):
             data = data.to_python_string()
         for line in data.split("\n"):
             self.single_line_write(line)

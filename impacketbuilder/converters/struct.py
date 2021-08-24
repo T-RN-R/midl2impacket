@@ -1,6 +1,6 @@
 from .base import ConversionException, Converter
 from midltypes import *
-
+from .vardef import VarDefConverter
 from impacketbuilder.ndrbuilder.python import (
     PythonAssignment,
     PythonDictEntry,
@@ -50,119 +50,98 @@ class MidlStructConverter(Converter):
         else:
             name = self.get_anonymous_name()
 
-        tag:MidlAttribute
-        if tag := struct.attributes.get('switch_type'):
+        tag: MidlAttribute
+        if tag := struct.attributes.get("switch_type"):
             tag = tag.params[0].upper()
 
         count = 1
         entries = []
-        for m in struct.members:
+        for struct_member in struct.members:
+            # VarDefConverter(self.io,self.tab_level,self.mapper).convert(m)
             key = None
-            if m.attributes:
-                if "case" in m.attributes.keys():
-                    key = m.attributes["case"].params[0]
+            if struct_member.attributes:
+                if "case" in struct_member.attributes:
+                    key = struct_member.attributes["case"].params[0]
             type_name = None
-            if type(m.type) is str:
-                type_name = m.type
-            elif type(m.type) is MidlStructDef:
-                type_name = m.type.public_names[0]
-                self.convert(m.type)
-            elif type(m.type) is MidlUnionDef:
-                type_name = m.type.public_names[0]
-                self.convert(m.type)
-            elif m.type is None:
+            if isinstance(struct_member.type, str):
+                type_name = struct_member.type
+            elif isinstance(struct_member.type, MidlStructDef):
+                type_name = struct_member.type.public_names[0]
+                self.convert(struct_member.type)
+            elif isinstance(struct_member.type, MidlUnionDef):
+                type_name = struct_member.type.public_names[0]
+                self.convert(struct_member.type)
+            elif struct_member.type is None:
                 continue
             else:
-                raise Exception(f"Unexpected type: {type(m.type)}")
+                raise Exception(f"Unexpected type: {type(struct_member.type)}")
             if key is None:
                 key = count
+            type_name = self.mapper.get_python_type(type_name)[0]
             entries.append(
                 PythonDictEntry(
                     key=PythonValue(key),
                     value=PythonTuple(
                         [
-                            PythonValue(f"'{m.name}'"),
-                            PythonValue(self.mapper.canonicalize(type_name)),
+                            PythonValue(f"'{struct_member.name}'"),
+                            PythonValue(type_name),
                         ]
                     ),
                 )
             )
             count += 1
-        base_name = self.mapper.canonicalize(name)
+        base_name, base_exists = self.mapper.get_python_type(name)
         dentries = PythonDictEntryList(*entries)
-        union_def = PythonNdrUnion(name=base_name, union_entries=dentries, tag=tag)
-        self.write(union_def.to_string())
+        if not base_exists:
+            union_def = PythonNdrUnion(name=base_name, union_entries=dentries, tag=tag)
+            self.write(union_def.to_string())
 
         # Now handle the cases where there are multiple public names, including pointers
         if len(struct.public_names) > 1:
-            for pn in struct.public_names[1:]:
-                star_count = pn.count("*")
+            for public_name in struct.public_names[1:]:
+                star_count = public_name.count("*")
                 if star_count == 1:
+                    pointer_name = self.mapper.get_python_type(public_name[1:])[0]
                     ndr_ptr = PythonNdrPointer(
-                        name=self.mapper.canonicalize(pn), referent_name=base_name
+                        name=pointer_name, referent_name=base_name
                     )
                     self.write(ndr_ptr.to_string())
+                    self.mapper.add_type(pointer_name)
                 elif star_count == 0:
-                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(pn)), PythonValue(base_name)))
+                    alias_name = self.mapper.get_python_type(public_name)[0]
+                    self.write(
+                        PythonAssignment(
+                            PythonName(alias_name),
+                            PythonValue(base_name),
+                        )
+                    )
+                    self.mapper.add_type(alias_name)
                 else:
                     raise ConversionException(
-                        "Multiple asterisks encountered in name: {pn}"
+                        f"Multiple asterisks encountered in name: {public_name}"
                     )
         return name
+
     def create_ndr_uni_fixed_array_class(self, name, length):
-        uni_arr = PythonNdrUniFixedArray(name=name,length=length)
+        uni_arr = PythonNdrUniFixedArray(name=name, length=length)
         self.write(uni_arr.to_string())
 
     def handle_ndr_struct(self, struct):
         struct_entries = []
-        for vd in struct.members:
-            type_name = None
-            if type(vd.type) is MidlUnionDef or type(vd.type) is MidlStructDef:
+        for var_def in struct.members:
+            if isinstance(var_def.type, (MidlUnionDef, MidlStructDef)):
                 # handle nested unions/structs
-                if type_name is None:
-                    type_name = self.convert(vd.type)
-                vd.name = type_name
-            elif type(vd.type) is str:
-                if type_name is None:
-                    type_name = vd.type
-            if len(vd.array_info) > 0:
-                if len(vd.array_info) == 1:
-                    arr_inf = vd.array_info[0]
-                    if arr_inf.min != -1  and arr_inf.max == -1:
-                        #NDRUniFixedArrays
-                        if type(arr_inf.min) == str:
-                            size = self.mapper.calculate_sizeof(arr_inf.min)
-                        else:
-                            size = arr_inf.min
-                        type_name = f"ARR_{self.mapper.canonicalize(type_name)}"
-                        self.create_ndr_uni_fixed_array_class(type_name, size)
-                    else:
-                        # NDRUniConformantArrays
-                        array_item_name = type_name
-                        if type(arr_inf.max) == str:
-                            size = self.mapper.calculate_sizeof(arr_inf.max)
-                        else:
-                            size = arr_inf.max
-                        type_name = f"{self.mapper.canonicalize(array_item_name)}_ARRAY"
-                        arr = PythonNdrUniConformantArray(type_name, f"{self.mapper.canonicalize(array_item_name)}", size)
-                        self.write(arr.to_string())
-                else:
-                    #TODO handle multidimensional arrays here
-                    raise Exception("Multi-dimensional arrays are unhandled")
+                var_def.type = self.convert(var_def.type)
 
-            struct_entries.append(
-                PythonTuple(
-                    [
-                        PythonValue(f"'{vd.name}'"),
-                        PythonValue(self.mapper.canonicalize(type_name)),
-                    ]
-                )
+            p_vd = VarDefConverter(self.io, self.tab_level, self.mapper).convert(
+                var_def
             )
+            struct_entries.append(p_vd)
 
         struct_tuple = PythonTuple(struct_entries)
 
         if len(struct.public_names) > 0:
-            base_name = self.mapper.canonicalize(struct.public_names[0])
+            base_name = self.mapper.get_python_type(struct.public_names[0])[0]
         else:
             base_name = self.get_anonymous_name()
 
@@ -171,84 +150,104 @@ class MidlStructConverter(Converter):
 
         # Now handle the cases where there are multiple public names, including pointers
         if len(struct.public_names) > 1:
-            for pn in struct.public_names[1:]:
-                star_count = pn.count("*")
+            for public_name in struct.public_names[1:]:
+                star_count = public_name.count("*")
                 if star_count == 1:
+                    pointer_name = self.mapper.get_python_type(public_name[1:])[0]
                     ndr_ptr = PythonNdrPointer(
-                        name=self.mapper.canonicalize(pn), referent_name=base_name
+                        name=pointer_name, referent_name=base_name
                     )
                     self.write(ndr_ptr.to_string())
+                    self.mapper.add_type(pointer_name)
                 elif star_count == 0:
-                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(pn)), PythonValue(base_name)))
+                    alias_name = self.mapper.get_python_type(public_name)[0]
+                    self.write(
+                        PythonAssignment(
+                            PythonName(alias_name),
+                            PythonValue(base_name),
+                        )
+                    )
+                    self.mapper.add_type(alias_name)
                 else:
                     raise ConversionException(
-                        "Multiple asterisks encountered in name: {pn}"
+                        f"Multiple asterisks encountered in name: {public_name}"
                     )
 
         return base_name
 
-    def handle_ndr_array(self, struct):
+    def handle_ndr_array(self, struct: MidlStructDef):
         # First step: Find the count and the array variables
         arr_var = None
         main_name = struct.public_names[0]
-        for vd in struct.members:
-            for attr_name in vd.attributes:
+        for var_def in struct.members:
+            for attr_name in var_def.attributes:
                 if attr_name == "size_is":
-                    arr_var = vd
+                    arr_var = var_def
 
         struct_entries = []
-        for vd in struct.members:
-            if vd is arr_var:
-                struct_entries.append(PythonTuple([PythonValue(f"'{arr_var.name}'"),PythonValue(f"PTR_{self.mapper.canonicalize(main_name)}")]))
-            else:
-                name = None
-                if type(vd.type) is str:
-                    name = vd.type
-                else:
-                    name = vd.type.public_names[0]
-
-                struct_entries.append(PythonTuple([PythonValue(f"'{vd.name}'"),PythonValue(f"{self.mapper.canonicalize(name)}")]))
+        for var_def in struct.members:
+            if isinstance(var_def.type, (MidlStructDef, MidlUnionDef)):
+                # nested unions/structs
+                var_def.type = self.convert(var_def.type)
+            p_vd = VarDefConverter(self.io, self.tab_level, self.mapper).convert(
+                var_def
+            )
+            struct_entries.append(p_vd)
 
         underlying_type = arr_var.type.replace("*", "")
-        main_name = self.mapper.canonicalize(main_name)
+        main_name = self.mapper.get_python_type(main_name)[0]
 
         struct_tuple = PythonTuple(struct_entries)
+        array_name = f"{main_name}_ARRAY"
+        array_member_name = self.mapper.get_python_type(underlying_type)[0]
+        array_pointer_name = f"P{array_name}"
+
         ndr_array = PythonNdrUniConformantArray(
-            name=f"DATA_{main_name}",
-            underlying_type_name=self.mapper.canonicalize(underlying_type),
+            name=array_name,
+            underlying_type_name=array_member_name,
         )
-        ndr_ptr = PythonNdrPointer(name=f"PTR_{main_name}", referent_name=f"DATA_{main_name}")
-        ndr_struct = PythonNdrStruct(name = main_name, structure=struct_tuple)
+        ndr_ptr = PythonNdrPointer(
+            name=array_pointer_name, referent_name=array_name
+        )
+        ndr_struct = PythonNdrStruct(name=main_name, structure=struct_tuple)
 
         self.write(ndr_array.to_string())
         self.write(ndr_ptr.to_string())
         self.write(ndr_struct.to_string())
         # Now handle the cases where there are multiple public names, including pointers
-        base_name = main_name
         if len(struct.public_names) > 1:
-            for pn in struct.public_names[1:]:
-                star_count = pn.count("*")
+            for public_name in struct.public_names[1:]:
+                star_count = public_name.count("*")
                 if star_count == 1:
+                    pointer_name = self.mapper.get_python_type(public_name[1:])[0]
                     ndr_ptr = PythonNdrPointer(
-                        name=self.mapper.canonicalize(pn), referent_name=base_name
+                        name=pointer_name, referent_name=main_name
                     )
                     self.write(ndr_ptr.to_string())
+                    self.mapper.add_type(pointer_name)
                 elif star_count == 0:
-                    self.write(PythonAssignment(PythonName(self.mapper.canonicalize(pn)), PythonValue(base_name)))
+                    alias_name = self.mapper.get_python_type(public_name)[0]
+                    self.write(
+                        PythonAssignment(
+                            PythonName(alias_name),
+                            PythonValue(main_name),
+                        )
+                    )
+                    self.mapper.add_type(alias_name)
                 else:
                     raise ConversionException(
-                        "Multiple asterisks encountered in name: {pn}"
+                        f"Multiple asterisks encountered in name: {public_name}"
                     )
-        return name
+        return main_name
 
     def detect_ndr_type(self, struct):
-        if type(struct) is MidlUnionDef:
+        if isinstance(struct, MidlUnionDef):
             return MidlStructConverter.NDR_UNION
-        for vd in struct.members:
-            t = vd.type
-            if type(t) is str:  # We can have MidlUnionDefs here!!!
+        for var_def in struct.members:
+            var_type = var_def.type
+            if isinstance(var_type, str):  # We can have MidlUnionDefs here!!!
                 if (
-                    "*" in t and "size_is" in vd.attributes
+                    "*" in var_type and "size_is" in var_def.attributes
                 ):  # if there is a pointer, assume its an array
                     # TODO This may not actually be that case, find a better way to detect this!
                     return MidlStructConverter.NDR_ARRAY

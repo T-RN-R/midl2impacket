@@ -111,16 +111,23 @@ class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
 
     def __init__(self, name: str, underlying_type_name: str, maximum_length=None):
         item = PythonAssignment(PythonValue("item"), PythonName(underlying_type_name))
+        # TODO: Sort out whether we can safely use maximum length?
+        # class CHAR_ARRAY(NDRUniConformantArray):
+	    #   item = CHAR
+	    #   structure = (
+		#       'MaximumCount',
+		#       MaximumLength,
+		#   )
         structure = PythonAssignment(
             PythonValue("structure"),
             PythonTuple(
                 [PythonName("'MaximumCount'"), PythonValue(str(maximum_length))]
             ),
         )
-        if maximum_length != None:
-            prop_list = [item, structure]
-        else:
-            prop_list = [item]
+        # if maximum_length != None:
+        #     prop_list = [item, structure]
+        # else:
+        prop_list = [item]
         props = PythonAssignmentList(*prop_list)
         self.clazz = PythonClass(
             name=PythonName(name),

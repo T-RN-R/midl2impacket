@@ -113,9 +113,9 @@ class MidlTypedefParser(MidlBaseParser):
         if not self.tds:
             td_name = self.td_parts[-1]
             td_type = " ".join(self.td_parts[:-1])
-            self.tds.append(MidlSimpleTypedef(td_name, td_type))
+            self.tds.append(MidlSimpleTypedef(td_name, td_type, self.attributes))
             for additional_name in self.additional_names:
-                self.tds.append(MidlSimpleTypedef(additional_name, td_type))
+                self.tds.append(MidlSimpleTypedef(additional_name, td_type, self.attributes))
 
     def finished(self) -> list[MidlTypeDef]:
         """parsing loop"""

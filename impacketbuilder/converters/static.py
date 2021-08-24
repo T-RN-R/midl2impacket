@@ -1,12 +1,12 @@
 from .base import Converter
-from .typing import IDL_TYPES, IDL_TO_NDR
+from .typing import IDL_TO_NDR
 from .comments import MidlCommentWriter
 
 
 class MidlStaticConverter(Converter):
     def __init__(self, *args, **kwargs):
         super().__init__( *args, **kwargs)
-        self.HAS_RUN=False
+        self.HAS_RUN = False
     def convert(self):
         if not self.HAS_RUN:
             comment_writer = MidlCommentWriter(self.io, self.tab_level)
@@ -70,6 +70,10 @@ class PRPC_STRING(NDRPOINTER):
 
     def type_mapping(self):
         mapping = ""
-        for t in IDL_TYPES:
-            mapping += f"{self.mapper.canonicalize(t)} = {IDL_TO_NDR[t]}\n"
+        for idl_name, py_name in IDL_TO_NDR.items():
+            canonicalized_name, _ = self.mapper.canonicalize(idl_name)
+            if canonicalized_name != py_name:
+                mapping += f"{canonicalized_name} = {py_name}\n"
+            self.mapper.add_type(canonicalized_name)
         self.write(mapping)
+        

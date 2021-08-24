@@ -14,7 +14,9 @@ class MidlConstantConverter(Converter):
         rhs = constant.rhs
         while "sizeof" in rhs: # eliminate all sizeofs!
             rhs = self.calculate_sizeof(rhs)
-        const = PythonAssignment(PythonName(self.mapper.canonicalize(constant.name)), PythonValue(rhs))
+        type_name, type_exists = self.mapper.get_python_type(constant.name)
+        if not type_exists:
+            const = PythonAssignment(PythonName(type_name), PythonValue(rhs))
         self.write(const)
 
     def calculate_sizeof(self,rhs):

@@ -1,3 +1,5 @@
+from impacketbuilder.converters.typing import TypeMapper
+from impacketbuilder.converters.constants import MidlConstantConverter
 from impacketbuilder.converters.imports import MidlImportsConverter
 from .base import Converter
 from .struct import MidlStructConverter
@@ -25,16 +27,25 @@ from impacketbuilder.ndrbuilder.ndr import PythonNdrStruct, PythonNdrPointer
 
 
 class MidlInterfaceConverter(Converter):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.const_converter = MidlConstantConverter(self.io, self.tab_level, self.mapper)
+        self.imports_converter = MidlImportsConverter(self.io, self.tab_level, mapper=self.mapper)
+        self.proc_converter = MidlProcedureConverter(self.io, self.tab_level, mapper=self.mapper)
+
+
     def convert(self, interface, import_dir, import_converter):
         if interface.imports:
-            MidlImportsConverter(self.io, self.tab_level, mapper=self.mapper).convert(interface.imports, import_dir, import_converter)
+            self.imports_converter.convert(
+                interface.imports, import_dir, import_converter
+            )
         # write uuid def
         self.uuid(interface)
         for vd in interface.vardefs:
             self.handle_vardef(vd)
         for td in interface.typedefs:
             self.handle_typedef(td)
-        
+
         count = 0
         mapping = {}
         for proc in interface.procedures:
@@ -60,7 +71,7 @@ class MidlInterfaceConverter(Converter):
 
     def uuid(self, interface: MidlInterface):
         int_name = f"MSRPC_UUID_{interface.name.upper()}"
-        if "uuid" in interface.attributes.keys():
+        if "uuid" in interface.attributes:
             self.write(
                 PythonAssignment(
                     PythonValue(int_name),
@@ -71,18 +82,18 @@ class MidlInterfaceConverter(Converter):
             )
 
     def handle_procedure(self, proc, count):
-        MidlProcedureConverter(self.io, self.tab_level, mapper=self.mapper).convert(
+        self.proc_converter.convert(
             proc, count
         )
 
     def handle_typedef(self, td):
-        if type(td) is MidlTypeDef:
+        if isinstance(td, MidlTypeDef):
             self.handle_midl_td(td)
-        elif type(td) in [MidlStructDef, MidlUnionDef]:
+        elif isinstance(td, (MidlStructDef, MidlUnionDef)):
             self.handle_midl_struct(td)
-        elif type(td) is MidlEnumDef:
+        elif isinstance(td, MidlEnumDef):
             self.handle_midl_enum(td)
-        elif type(td) is MidlSimpleTypedef:
+        elif isinstance(td, MidlSimpleTypedef):
             self.handle_midl_td(td)
         else:
             raise Exception(
@@ -90,20 +101,37 @@ class MidlInterfaceConverter(Converter):
             )
 
     def handle_vardef(self, vd: MidlVarDef):
-        self.write(f"{vd.name} = {self.mapper.canonicalize(vd.type)}")
+        self.const_converter.convert(vd)
 
     def handle_midl_td(self, td: MidlTypeDef):
-        if type(td) is MidlTypeDef:
-            attr_names = [td.attributes[k].name for k in td.attributes.keys()]
-            if "context_handle" in attr_names:
+        py_td_type, _ = self.mapper.get_python_type(td.type)
+        if isinstance(td, MidlTypeDef):
+            if "context_handle" in td.attributes:
                 self.handle_context_handle(td)
-        elif type(td) is MidlSimpleTypedef:
-            self.write(
-                PythonAssignment(
-                    PythonValue(self.mapper.canonicalize(td.name)),
-                    PythonValue(self.mapper.canonicalize(td.type)),
-                )
-            )
+            else:
+                print("skipping??")
+        elif isinstance(td, MidlSimpleTypedef):
+            if td.name.startswith('*'):
+                # e.g. typedef RPC_UNICODE_STRING LSA_UNICODE_STRING, *PLSA_UNICODE_STRING
+                py_td_name, py_td_name_exists = self.mapper.get_python_type(td.name[1:])
+                if not py_td_name_exists:
+                    ndr_ptr = PythonNdrPointer(
+                        name=py_td_name,
+                        referent_name=py_td_type
+                    )
+                    self.write(ndr_ptr.to_string())
+            else:
+                py_td_name, py_td_name_exists = self.mapper.get_python_type(td.name)
+
+                if not py_td_name_exists:
+                    self.write(
+                        PythonAssignment(
+                            PythonValue(py_td_name),
+                            PythonValue(py_td_type),
+                        )
+                    )
+
+            self.mapper.add_type(py_td_name)
 
     def handle_context_handle(self, td):
         pointer_name = td.name
@@ -138,7 +166,8 @@ class MidlInterfaceConverter(Converter):
                 # If it has a public name, the enum may be used inside of an interface definition, so create a typdef for it to "DWORD__ENUM"
                 self.write(
                     PythonAssignment(
-                        PythonName(td.public_names[0].upper()), PythonValue("DWORD__ENUM")
+                        PythonName(td.public_names[0].upper()),
+                        PythonValue("DWORD__ENUM"),
                     )
                 )
         else:
