@@ -87,9 +87,13 @@ class VarDefConverter(Converter):
         else:
             if len(var_def.array_info) == 0:
                 # This is already be handled by impacket
-                type_name, type_exists = self.mapper.get_python_type(var_def.type.replace("*", ""))
+                type_name, type_exists = self.mapper.get_python_type(
+                    var_def.type.replace("*", "")
+                )
                 if not type_exists:
-                    raise Exception(f"Type {type_name} doesn't have an impacket mapping?")
+                    raise Exception(
+                        f"Type {type_name} doesn't have an impacket mapping?"
+                    )
                 return self.python_vardef(var_name=var_def.name, type_name=type_name)
 
             return self.handle_constant_sized_string(var_def)
@@ -98,25 +102,25 @@ class VarDefConverter(Converter):
         """Creates a PythonDef for string attributed MidlVarDefs that have a valid size_is"""
         size_is = var_def.attributes.get("size_is")
         max_is = var_def.attributes.get("max_is")
-        if not size_is or max_is:
+        if not size_is and not max_is:
             raise Exception(f"Calling handle_variable_sized_string with no size_is!")
         array_size = size_is.params[0] if size_is else max_is.params[0]
 
         # Refs:
-        # https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-tsch/77f2250d-500a-40ee-be18-c82f7079c4f0        
+        # https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-tsch/77f2250d-500a-40ee-be18-c82f7079c4f0
         # https://github.com/SecureAuthCorp/impacket/blob/cd4fe47cfcb72d7d35237a99e3df95cedf96e94f/impacket/dcerpc/v5/tsch.py#L505
-        array_type_name, array_member_name, array_type_exists = (
-            self.mapper.get_python_array_type(var_def.type, array_size=array_size)
-        )
+        (
+            array_type_name,
+            array_member_name,
+            array_type_exists,
+        ) = self.mapper.get_python_array_type(var_def.type, array_size=array_size)
         if not array_type_exists:
             arr = PythonNdrUniConformantArray(
                 array_type_name, array_member_name, array_size
             )
             self.write(arr.to_string())
             self.mapper.add_type(array_type_name)
-        return self.python_vardef(
-            var_name=var_def.name, type_name=array_type_name
-        )
+        return self.python_vardef(var_name=var_def.name, type_name=array_type_name)
 
     def handle_constant_sized_string(self, var_def: MidlVarDef) -> PythonTuple:
         """Creates a PythonDef for string attributed MidlVarDefs that have a constant size"""
@@ -124,9 +128,7 @@ class VarDefConverter(Converter):
         # Continue implementation ========================================================
         # TODO properly handle these cases. There can be multidimensional arrays of these!
         type_name, type_exists = self.mapper.get_python_type(var_def.type)
-        return self.python_vardef(
-            var_name=var_def.name, type_name=type_name
-        )
+        return self.python_vardef(var_name=var_def.name, type_name=type_name)
 
     def handle_arr(self, var_def: MidlVarDef) -> PythonTuple:
         """Delegates array creation depending on the case"""
@@ -150,26 +152,28 @@ class VarDefConverter(Converter):
             arr_inf = var_def.array_info[0]
             if arr_inf.min and not arr_inf.max:
                 # NDRUniFixedArrays
-                size = self.mapper.calculate_sizeof(arr_inf.min)                
-                array_type_name , array_member_name, array_type_exists = (
-                    self.mapper.get_python_array_type(var_def.type, array_size=size)
-                )
+                size = self.mapper.calculate_sizeof(arr_inf.min)
+                (
+                    array_type_name,
+                    array_member_name,
+                    array_type_exists,
+                ) = self.mapper.get_python_array_type(var_def.type, array_size=size)
                 arr = PythonNdrUniFixedArray(array_type_name, size)
             else:
                 # NDRUniConformantArrays
                 size = self.mapper.calculate_sizeof(arr_inf.max)
-                array_type_name, array_member_name, array_type_exists = (
-                    self.mapper.get_python_array_type(var_def.type, array_size=size)
-                )
+                (
+                    array_type_name,
+                    array_member_name,
+                    array_type_exists,
+                ) = self.mapper.get_python_array_type(var_def.type, array_size=size)
                 arr = PythonNdrUniConformantArray(
                     array_type_name, array_member_name, size
                 )
             if not array_type_exists:
                 self.write(arr.to_string())
                 self.mapper.add_type(array_type_name)
-            return self.python_vardef(
-                var_name=var_def.name, type_name=array_type_name
-            )
+            return self.python_vardef(var_name=var_def.name, type_name=array_type_name)
         else:
             raise Exception("Multidimensional arrays are unimplemented")
 
@@ -182,55 +186,60 @@ class VarDefConverter(Converter):
         POINTER_TO_SIZED_POINTER_TO_SCALAR          : [size_is( , *pSize)] my_type ** ppMyType);
         """
         # TODO handle more than the 1 and 2 dimensional cases
-        dimensionality = var_def.attributes['size_is'].type
+        dimensionality = var_def.attributes["size_is"].type
         if dimensionality == SizeIsType.POINTER_TO_SCALAR_ARRAY:
             size_var = var_def.attributes["size_is"].params[0]
             # size_var can be either a numeric,  or variable name or an expression.
             if isinstance(size_var, str):
-                #Handle expression and variable case
+                # Handle expression and variable case
                 size = self.mapper.calculate_sizeof(size_var)
             elif size_var.isnumeric():
                 size = size_var
 
             # Get the python type
-            array_type_name, array_member_name, array_type_exists = (
-                self.mapper.get_python_array_type(var_def.type, array_size=size)
-            )
+            (
+                array_type_name,
+                array_member_name,
+                array_type_exists,
+            ) = self.mapper.get_python_array_type(var_def.type, array_size=size)
             if not array_type_exists:
                 arr = PythonNdrUniConformantArray(
                     array_type_name, array_member_name, size
                 )
                 self.write(arr.to_string())
                 self.mapper.add_type(array_type_name)
-            return self.python_vardef(
-                var_name=var_def.name, type_name=array_type_name
-            )
+            return self.python_vardef(var_name=var_def.name, type_name=array_type_name)
         elif dimensionality == SizeIsType.POINTER_TO_POINTER_TO_SCALAR_ARRAY:
-            raise NotImplementedError(f"Unhandled dimensionality {dimensionality} for {var_def}")
+            raise NotImplementedError(
+                f"Unhandled dimensionality {dimensionality} for {var_def}"
+            )
         elif dimensionality == SizeIsType.ARRAY_OF_POINTERS_TO_SCALARS:
-            raise NotImplementedError(f"Unhandled dimensionality {dimensionality} for {var_def}")
+            raise NotImplementedError(
+                f"Unhandled dimensionality {dimensionality} for {var_def}"
+            )
         elif dimensionality == SizeIsType.POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY:
             size_var = var_def.attributes["size_is"].params[1]
             if isinstance(size_var, str):
-                #Handle expression and variable case
+                # Handle expression and variable case
                 size = self.mapper.calculate_sizeof(size_var)
             elif size_var.isnumeric():
                 size = size_var
-            array_type_name, array_member_name, array_type_exists = (
-                self.mapper.get_python_array_type(var_def.type, array_size=size)
-            )
+            (
+                array_type_name,
+                array_member_name,
+                array_type_exists,
+            ) = self.mapper.get_python_array_type(var_def.type, array_size=size)
             if not array_type_exists:
                 arr = PythonNdrUniConformantArray(
-                        array_type_name, array_member_name, size
-                    )
+                    array_type_name, array_member_name, size
+                )
                 self.write(arr.to_string())
                 self.mapper.add_type(array_type_name)
             pointer_type_name = f"P{array_type_name}"
             pointee_type_name = array_type_name
             if not self.mapper.exists(pointer_type_name):
                 ndr_ptr = PythonNdrPointer(
-                    name=pointer_type_name,
-                    referent_name=pointee_type_name
+                    name=pointer_type_name, referent_name=pointee_type_name
                 )
                 self.write(ndr_ptr.to_string())
                 self.mapper.add_type(pointer_type_name)
@@ -239,6 +248,8 @@ class VarDefConverter(Converter):
             )
 
         elif dimensionality == SizeIsType.POINTER_TO_SIZED_POINTER_TO_SCALAR:
-            raise NotImplementedError(f"Unhandled dimensionality {dimensionality} for {var_def}")
-        
+            raise NotImplementedError(
+                f"Unhandled dimensionality {dimensionality} for {var_def}"
+            )
+
         raise Exception(f"Unrecognized dimensionality {dimensionality}")
