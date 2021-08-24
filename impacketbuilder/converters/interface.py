@@ -5,6 +5,7 @@ from .base import Converter
 from .struct import MidlStructConverter
 from .procedure import MidlProcedureConverter
 from midltypes import (
+    MidlAttribute,
     MidlInterface,
     MidlTypeDef,
     MidlSimpleTypedef,
@@ -71,15 +72,22 @@ class MidlInterfaceConverter(Converter):
 
     def uuid(self, interface: MidlInterface):
         int_name = f"MSRPC_UUID_{interface.name.upper()}"
+        # TODO: Prune forward declarations so they don't end up here
         if "uuid" in interface.attributes:
+            iface_uuid = interface.attributes['uuid'].params[0]
+            if iface_ver := interface.attributes.get('version'):
+                iface_ver = iface_ver.params[0]
+            else:
+                iface_ver = "0.0"
             self.write(
                 PythonAssignment(
                     PythonValue(int_name),
                     PythonValue(
-                        f"uuidtup_to_bin(('{interface.attributes['uuid'].params[0]}','0.0'))"
+                        f"uuidtup_to_bin(('{iface_uuid}','{iface_ver}'))"
                     ),
                 )
             )
+        
 
     def handle_procedure(self, proc, count):
         self.proc_converter.convert(

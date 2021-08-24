@@ -193,7 +193,7 @@ class MidlTokenizer:
                 is_octal = True
 
         while not self.iswspace(cur_char):
-            if cur_char in Token.operators:
+            if cur_char in Token.operators or cur_char == ".":
                 if cur_char == ".":
                     if (
                         not has_decimal
