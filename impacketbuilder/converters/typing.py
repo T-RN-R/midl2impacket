@@ -118,7 +118,7 @@ class TypeMapper:
         """
         pointer_type = pointer_type.upper()
         pointer_count = pointer_type.count("*")
-        root_type = pointer_type.rstrip("*")
+        root_type = pointer_type.rstrip("*").lstrip("*")
         pointer_type = "P" * pointer_count + root_type
         pointers_to_create = []
         while pointer_count > 0:

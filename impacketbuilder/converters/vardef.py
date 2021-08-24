@@ -75,6 +75,7 @@ class VarDefConverter(Converter):
         if len(var_def.array_info) > 0:
             # This array handling should never be hit, it is old code TODO
             raise Exception("Unreachable")
+        assert(isinstance(var_def.type,str))
         type_name = self.mapper.get_python_type(var_def.type)[0]
         return self.python_vardef(var_def.name, type_name)
 
