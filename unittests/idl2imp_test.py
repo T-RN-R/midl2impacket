@@ -8,6 +8,7 @@ def generate_impacket(midl_def, import_dir:str):
 
 def test_full():
     generated_dir = pathlib.Path('generated')
+    generated_dir.mkdir(exist_ok=True)
     scraped_files = pathlib.Path('preprocessed').glob("*.idl")
     #scraped_files = [pathlib.Path('preprocessed/ms-rprn.idl')]
     for scraped_file in scraped_files:
