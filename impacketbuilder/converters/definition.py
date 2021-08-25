@@ -17,8 +17,8 @@ class MidlDefinitionConverter(Converter):
         # Do all of the conversion and writing
         imports_converter.convert(definition.imports, import_dir, self)
         comment_writer.banner_comment("TYPEDEFS")
-        for td in definition.typedefs:
-            interface_converter.handle_typedef(td)
+        for typedef in definition.typedefs:
+            interface_converter.handle_typedef(typedef)
         if len(definition.instantiation) > 0:
             comment_writer.banner_comment("CONSTANTS")
         for const in definition.instantiation:

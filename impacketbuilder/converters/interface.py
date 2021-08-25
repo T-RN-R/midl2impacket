@@ -115,8 +115,14 @@ class MidlInterfaceConverter(Converter):
             if "context_handle" in td.attributes:
                 self.handle_context_handle(td)
             else:
-                print("skipping??")
+                raise Exception(f"Unrecognized type: {td}")
         elif isinstance(td, MidlSimpleTypedef):
+
+            # Context handles are special cases
+            if "context_handle" in td.attributes:
+                return self.handle_context_handle(td)
+
+            # Otherwise just create the typedef here
             if td.name.startswith('*'):
                 # e.g. typedef RPC_UNICODE_STRING LSA_UNICODE_STRING, *PLSA_UNICODE_STRING
                 py_td_name, py_td_name_exists = self.mapper.get_python_type(td.name[1:])
@@ -136,23 +142,22 @@ class MidlInterfaceConverter(Converter):
                             PythonValue(py_td_type),
                         )
                     )
-
             self.mapper.add_type(py_td_name)
 
-    def handle_context_handle(self, td):
-        pointer_name = td.name
-        real_name = td.name
-        if td.name[0] == "P":
-            real_name = td.name[1:]
-
-        structure = PythonTuple(
-            PythonTuple([PythonValue("'Data'"), PythonValue("'20s=\"\"'")])
-        )
-        ndr_struct = PythonNdrStruct(name=real_name, structure=structure)
-        self.write(ndr_struct.to_string())
-
-        ndr_pointer = PythonNdrPointer(name=pointer_name, referent_name=real_name)
-        self.write(ndr_pointer.to_string())
+    def handle_context_handle(self, td):   
+        td_name, td_exists = self.mapper.get_python_type(td.name)
+        td_ptr_name = f"P{td_name}"
+        if not td_exists:
+            structure = PythonTuple(
+                PythonTuple([PythonValue("'Data'"), PythonValue("'20s=\"\"'")])
+            )
+            ndr_struct = PythonNdrStruct(name=td_name, structure=structure)
+            self.write(ndr_struct.to_string())
+            self.mapper.add_type(td_name)
+        if not self.mapper.exists(td_ptr_name):
+            ndr_pointer = PythonNdrPointer(name=td_ptr_name, referent_name=td_name)
+            self.write(ndr_pointer.to_string())
+            self.mapper.add_type(td_ptr_name)
 
     def handle_midl_struct(self, td: MidlStructDef):
         struct_converter = MidlStructConverter(

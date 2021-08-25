@@ -1,9 +1,5 @@
 from impacketbuilder.ndrbuilder.ndr import PythonNdrPointer
 from impacketbuilder.ndrbuilder.io import PythonWriter
-from typing import NamedTuple
-from midlparser.parsers import attributes
-from midltypes import MidlAttribute, MidlVarDef
-import enum
 
 IDL_TO_NDR = {
     "unsigned short": "NDRUSHORT",
@@ -22,16 +18,13 @@ IDL_TO_NDR = {
     "int": "NDRLONG",
     "void": "CONTEXT_HANDLE",
     "long": "NDRLONG",
-    "void": "CONTEXT_HANDLE",
     "__int3264": "NDRHYPER",
     "unsigned __int3264": "NDRUHYPER",
-    "unsigned long": "NDRULONG",
     "unsigned hyper": "NDRUHYPER",
     "hyper": "NDRHYPER",
     "dwordlong": "NDRUHYPER",
     "long ptr": "NDRHYPER",
     "ulong ptr": "NDRUHYPER",
-    "char": "NDRCHAR",
     "LARGE_INTEGER": "LARGE_INTEGER",  # impacket type
     "LPSTR": "LPSTR",  # impacket type
     "LPWSTR": "LPWSTR",  # impacket type
@@ -138,13 +131,16 @@ class TypeMapper:
                     self.add_type(pointer_to_create)
         return pointer_type
 
-    def canonicalize(self, name: str, array_size: str = None) -> tuple[str, str]:
+    def canonicalize(self, name: str, array_size: str = None, is_func_param=False) -> tuple[str, str]:
         """Canonicalizes an IDL typename into the Python typename format"""
 
         py_name = name
-        # Default fixup: remove first level of indirection
-        if py_name.endswith('*'):
-            py_name = py_name[:-1]
+        # Default fixup for function calls: remove first level of indirection
+        if is_func_param:
+            # TODO: this should really get the actual type and read the referent
+            if py_name.endswith('*'):
+                py_name = py_name[:-1]
+
         # Now remove const and spaces then uppercase the name
         py_name = py_name.replace("const", "").strip().replace(" ", "_").upper()
         
@@ -168,7 +164,7 @@ class TypeMapper:
         return py_name, py_member_name
 
     def get_python_array_type(
-        self, idl_type: str, array_size: str
+        self, idl_type: str, array_size: str, is_func_param=False
     ) -> tuple[str, str, bool]:
         """Returns the array type name, the member name, and whether the type exists
 
@@ -182,11 +178,11 @@ class TypeMapper:
         """
         # Convert to python-friendly names
         py_array_name, py_member_name = self.canonicalize(
-            idl_type, array_size=array_size
+            idl_type, array_size=array_size, is_func_param=is_func_param
         )
         return py_array_name, py_member_name, py_array_name in self.types
 
-    def get_python_type(self, idl_type: str) -> tuple[str, bool]:
+    def get_python_type(self, idl_type: str, is_func_param=False) -> tuple[str, bool]:
         """Returns python-friendly names for IDL names, along with a boolean indicating whether the
            data structure for the type exists or not.
 
@@ -197,7 +193,7 @@ class TypeMapper:
             tuple[str, bool]: tuple containing the python-friendly name, and whether the type exists
         """
         # Convert this to a python name and see if we know about it
-        py_name, _ = self.canonicalize(idl_type)
+        py_name, _ = self.canonicalize(idl_type, is_func_param=is_func_param)
         return py_name, py_name in self.types
 
     def add_type(self, py_name: str):

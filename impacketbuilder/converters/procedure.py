@@ -12,10 +12,10 @@ class MidlProcedureConverter(Converter):
     def convert(self, procedure: MidlProcedure, count):
         # Get all "in" and "out" parameters
         in_params, out_params = self.get_io(procedure)
-        
-        # Generate vardefs for input/outputss
+
+        # Generate vardefs for input/outputs
         converter = VarDefConverter(
-            io=self.io, tab_level=self.tab_level, mapper=self.mapper
+            io=self.io, tab_level=self.tab_level, mapper=self.mapper, func_params=True
         )
         vardef_inputs = [converter.convert(in_param) for in_param in in_params]
         vardef_outputs = [converter.convert(out_param) for out_param in out_params]
