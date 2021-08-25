@@ -34,13 +34,36 @@ class PythonNdrStruct(PythonNdrClassDefiniton):
         align = PythonAssignment(PythonName("align"), PythonValue(align))
         structure = PythonAssignment(PythonValue("structure"), structure)
         prop_list = [align, structure]
+        prop_functions = self.generate_prop_functions(structure)
         props = PythonAssignmentList(*prop_list)
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRSTRUCT")),
             class_props=props,
-            functions=PythonFunctionList(),
+            functions=prop_functions,
         )
+
+    def generate_prop_functions(self, structure: PythonTuple) -> PythonFunctionList:
+        prop_functions = []
+        for struct_member in structure.rhs.values:
+            prop_name = struct_member.values[0].value[1:-1]
+            prop_type = struct_member.values[1].value
+            prop_get_fn = PythonFunction(
+                name=prop_name,
+                args="self",
+                body=[f"return self['{prop_name}']"],
+                decorator="@property",
+                return_type=prop_type
+            )
+            prop_functions.append(prop_get_fn)
+            prop_set_fn = PythonFunction(
+                name=prop_name,
+                args="self, prop",
+                body=[f"self['{prop_name}'] = prop"],
+                decorator=f"@{prop_name}.setter",
+            )
+            prop_functions.append(prop_set_fn)
+        return PythonFunctionList(*prop_functions)
 
 
 class PythonNdrPointer(PythonNdrClassDefiniton):
@@ -55,12 +78,29 @@ class PythonNdrPointer(PythonNdrClassDefiniton):
         )
         prop_list = [referent]
         props = PythonAssignmentList(*prop_list)
+        prop_functions = self.generate_prop_functions(referent_name)
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRPOINTER")),
             class_props=props,
-            functions=PythonFunctionList(),
+            functions=prop_functions,
         )
+
+    def generate_prop_functions(self, referent_type:str):
+        prop_setter = PythonFunction(
+            name="Data",
+            args="self, prop",
+            body=["self['Data'] = prop"],
+            decorator="@Data.setter",
+        )
+        prop_getter = PythonFunction(
+            name="Data",
+            args="self",
+            body=["return self['Data']"],
+            decorator="@property",
+            return_type=referent_type
+        )
+        return PythonFunctionList(prop_getter, prop_setter)
 
 
 class PythonNdrUnion(PythonNdrClassDefiniton):
@@ -69,23 +109,43 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
     def __init__(self, name: str, union_entries: PythonDictEntryList, tag=None):
         prop_list = []
         if tag:
-            commonHdr =  PythonAssignment(
-                PythonName('commonHdr'),
-                PythonTuple(
-                    [PythonTuple([PythonValue("'tag'"), PythonValue(tag)])]
-                ),
+            commonHdr = PythonAssignment(
+                PythonName("commonHdr"),
+                PythonTuple([PythonTuple([PythonValue("'tag'"), PythonValue(tag)])]),
             )
             prop_list.append(commonHdr)
         structure = PythonAssignment(PythonValue("union"), PythonDict(union_entries))
         prop_list.append(structure)
         props = PythonAssignmentList(*prop_list)
+        prop_functions = self.generate_prop_functions(structure)
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRUNION")),
             class_props=props,
-            functions=PythonFunctionList(),
+            functions=prop_functions,
         )
 
+    def generate_prop_functions(self, union_entries: PythonDictEntryList) -> PythonFunctionList:
+        prop_functions = []
+        for union_member in union_entries.rhs.entries.obj_list:
+            prop_name = union_member.value.values[0].value[1:-1]
+            prop_type = union_member.value.values[1].value
+            prop_get_fn = PythonFunction(
+                name=prop_name,
+                args="self",
+                body=[f"return self['{prop_name}']"],
+                decorator="@property",
+                return_type=prop_type
+            )
+            prop_functions.append(prop_get_fn)
+            prop_set_fn = PythonFunction(
+                name=prop_name,
+                args="self, prop",
+                body=[f"self['{prop_name}'] = prop"],
+                decorator=f"@{prop_name}.setter",
+            )
+            prop_functions.append(prop_set_fn)
+        return PythonFunctionList(*prop_functions)
 
 class PythonNdrCall(PythonNdrClassDefiniton):
     """Creates a simple NDRCALL"""
@@ -113,11 +173,11 @@ class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
         item = PythonAssignment(PythonValue("item"), PythonName(underlying_type_name))
         # TODO: Sort out whether we can safely use maximum length?
         # class CHAR_ARRAY(NDRUniConformantArray):
-	    #   item = CHAR
-	    #   structure = (
-		#       'MaximumCount',
-		#       MaximumLength,
-		#   )
+        #   item = CHAR
+        #   structure = (
+        #       'MaximumCount',
+        #       MaximumLength,
+        #   )
         structure = PythonAssignment(
             PythonValue("structure"),
             PythonTuple(
