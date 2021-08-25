@@ -1,3 +1,4 @@
+from midlparser.parsers import attributes
 from .base import ConversionException, Converter
 from midltypes import *
 from .vardef import VarDefConverter
@@ -51,7 +52,9 @@ class MidlStructConverter(Converter):
             name = self.get_anonymous_name()
 
         tag: MidlAttribute
-        if tag := struct.attributes.get("switch_type"):
+        if tag := struct.attributes.get("switch_type"): 
+            tag = tag.params[0].upper()
+        elif  tag := struct.attributes.get("switch_is"):
             tag = tag.params[0].upper()
 
         count = 1
