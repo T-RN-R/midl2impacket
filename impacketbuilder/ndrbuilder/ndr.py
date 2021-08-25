@@ -111,7 +111,7 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
         if tag:
             commonHdr = PythonAssignment(
                 PythonName("commonHdr"),
-                PythonTuple([PythonTuple([PythonValue("'tag'"), PythonValue(tag)])]),
+                PythonTuple([PythonTuple([PythonValue(f"'{tag}'"), PythonValue("DWORD")])]),
             )
             prop_list.append(commonHdr)
         structure = PythonAssignment(PythonValue("union"), PythonDict(union_entries))
