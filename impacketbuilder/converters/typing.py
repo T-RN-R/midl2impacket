@@ -42,6 +42,7 @@ SIZEOF_LOOKUP = {
     "CHAR": 1,
     "BOOL": 1,
     "UINT32": 4,
+    "DWORD": 4,
     "UINT64": 8,
     "UNSIGNEDLONG": 4,
     "GUID": 16,
