@@ -71,6 +71,7 @@ class MidlStructConverter(Converter):
                     assert(isinstance(tag,str)), "Handle cases where the union tag object is non-str(most likely VarDef)"
                     break
             if new_tag != None: tag = new_tag
+            else: tag = "DWORD" #default to DWORD type
             
         count = 1
         entries = []
