@@ -31,18 +31,18 @@ class MidlStructConverter(Converter):
         __class__.Anonymous_Count += 1
         return "Anonymous" + str(__class__.Anonymous_Count)
 
-    def convert(self, struct):
+    def convert(self, struct, parent_struct=None):
         ndr_type = self.detect_ndr_type(struct)
         if ndr_type is MidlStructConverter.NDR_ARRAY:
             return self.handle_ndr_array(struct)
         elif ndr_type is MidlStructConverter.NDR_STRUCT:
             return self.handle_ndr_struct(struct)
         elif ndr_type is MidlStructConverter.NDR_UNION:
-            return self.handle_ndr_union(struct)
+            return self.handle_ndr_union(struct, parent_struct)
         else:
             raise Exception("NDR_POINTER unimplemented")
 
-    def handle_ndr_union(self, struct):
+    def handle_ndr_union(self, struct, parent_struct):
         """Create the Python definition for an NDRUnion
         """
         if len(struct.public_names) > 0:
@@ -60,9 +60,18 @@ class MidlStructConverter(Converter):
         elif  tag := struct.attributes.get("switch_is"):
             tag = tag.params[0].upper() 
             #tag is now the switch_is parameter
-            ##TODO lookup the variable name in the struct creating this union, and make that variable's type the tag name
-
-
+            
+            #lookup the variable name in the struct creating this union, and make that variable's type the tag name
+            assert(parent_struct!=None), "Must pass in parent_struct!"
+            new_tag = None
+            for member in parent_struct.members:
+                name = member.name
+                if name == tag:
+                    new_tag = member.type
+                    assert(isinstance(tag,str)), "Handle cases where the union tag object is non-str(most likely VarDef)"
+                    break
+            if new_tag != None: tag = new_tag
+            
         count = 1
         entries = []
         for struct_member in struct.members:
@@ -76,10 +85,10 @@ class MidlStructConverter(Converter):
                 type_name = struct_member.type
             elif isinstance(struct_member.type, MidlStructDef):
                 type_name = struct_member.type.public_names[0]
-                self.convert(struct_member.type)
+                self.convert(struct_member.type, struct)
             elif isinstance(struct_member.type, MidlUnionDef):
                 type_name = struct_member.type.public_names[0]
-                self.convert(struct_member.type)
+                self.convert(struct_member.type, struct)
             elif struct_member.type is None:
                 continue
             else:
@@ -141,7 +150,7 @@ class MidlStructConverter(Converter):
         for var_def in struct.members:
             if isinstance(var_def.type, (MidlUnionDef, MidlStructDef)):
                 # handle nested unions/structs
-                var_def.type = self.convert(var_def.type)
+                var_def.type = self.convert(var_def.type,struct)
 
             p_vd = VarDefConverter(self.io, self.tab_level, self.mapper).convert(
                 var_def
@@ -199,7 +208,7 @@ class MidlStructConverter(Converter):
         for var_def in struct.members:
             if isinstance(var_def.type, (MidlStructDef, MidlUnionDef)):
                 # nested unions/structs
-                var_def.type = self.convert(var_def.type)
+                var_def.type = self.convert(var_def.type,struct)
             p_vd = VarDefConverter(self.io, self.tab_level, self.mapper).convert(
                 var_def
             )
