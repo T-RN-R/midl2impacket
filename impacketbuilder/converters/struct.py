@@ -43,6 +43,8 @@ class MidlStructConverter(Converter):
             raise Exception("NDR_POINTER unimplemented")
 
     def handle_ndr_union(self, struct):
+        """Create the Python definition for an NDRUnion
+        """
         if len(struct.public_names) > 0:
             if struct.public_names[0] == "":
                 name = self.get_anonymous_name()
@@ -54,8 +56,12 @@ class MidlStructConverter(Converter):
         tag: MidlAttribute
         if tag := struct.attributes.get("switch_type"): 
             tag = tag.params[0].upper()
+            #TODO  switch_type can be an expression
         elif  tag := struct.attributes.get("switch_is"):
-            tag = tag.params[0].upper()
+            tag = tag.params[0].upper() 
+            #tag is now the switch_is parameter
+            ##TODO lookup the variable name in the struct creating this union, and make that variable's type the tag name
+
 
         count = 1
         entries = []
@@ -130,6 +136,7 @@ class MidlStructConverter(Converter):
         self.write(uni_arr.to_string())
 
     def handle_ndr_struct(self, struct):
+        """Create the Python definition for an NDRUnion"""
         struct_entries = []
         for var_def in struct.members:
             if isinstance(var_def.type, (MidlUnionDef, MidlStructDef)):
@@ -179,6 +186,7 @@ class MidlStructConverter(Converter):
         return base_name
 
     def handle_ndr_array(self, struct: MidlStructDef):
+        """Create the Python defintion for an NDR Array"""
         # First step: Find the count and the array variables
         arr_var = None
         main_name = struct.public_names[0]
