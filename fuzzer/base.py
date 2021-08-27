@@ -1,2 +1,3 @@
 class Fuzzable:
-    pass
+    def output(self):
+        pass
