@@ -58,7 +58,7 @@ class PythonNdrStruct(PythonNdrClassDefiniton):
             prop_functions.append(prop_get_fn)
             prop_set_fn = PythonFunction(
                 name=prop_name,
-                args="self, prop",
+                args=f"self, prop:{prop_type}",
                 body=[f"self['{prop_name}'] = prop"],
                 decorator=f"@{prop_name}.setter",
             )
@@ -89,7 +89,7 @@ class PythonNdrPointer(PythonNdrClassDefiniton):
     def generate_prop_functions(self, referent_type:str):
         prop_setter = PythonFunction(
             name="Data",
-            args="self, prop",
+            args=f"self, prop:{referent_type}",
             body=["self['Data'] = prop"],
             decorator="@Data.setter",
         )
@@ -141,7 +141,7 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
             prop_functions.append(prop_get_fn)
             prop_set_fn = PythonFunction(
                 name=prop_name,
-                args="self, prop",
+                args=f"self, prop:{prop_type}",
                 body=[f"self['{prop_name}'] = prop"],
                 decorator=f"@{prop_name}.setter",
             )
@@ -201,12 +201,12 @@ class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
 class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
     """Creates a simple NDRUniFixedArray"""
 
-    def __init__(self, name: str, length: str):
+    def __init__(self, name: str, length: str, underlying_type_size:int=1):
         align = PythonAssignment(PythonValue("align"), PythonValue("1"))
         prop_list = [align]
         props = PythonAssignmentList(*prop_list)
         get_data_len = PythonFunction(
-            "getDataLen", args="self,data,offset=0", body=[f"return {length}"]
+            "getDataLen", args="self,data,offset=0", body=[f"return {length} * {str(underlying_type_size)}"]
         )
         func_list = [get_data_len]
         funcs = PythonFunctionList(*func_list)
