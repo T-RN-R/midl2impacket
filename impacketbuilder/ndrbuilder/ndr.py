@@ -111,8 +111,8 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
         if tag:
             commonHdr = PythonAssignment(
                 PythonName("commonHdr"),
-                # TODO Ideally, the lhs of the tuple would be f"{tag}" rather than f"tag", but impacket expects it to be the latter
-                PythonTuple([PythonTuple([PythonValue(f"'tag'"), PythonValue("DWORD")])]),
+
+                PythonTuple([PythonTuple([PythonValue(f"'tag'"), PythonValue(f"{tag}")])]),
             )
             prop_list.append(commonHdr)
         structure = PythonAssignment(PythonValue("union"), PythonDict(union_entries))
