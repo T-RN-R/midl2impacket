@@ -84,11 +84,9 @@ class PRPC_STRING(NDRPOINTER):
         self.write(imports)
 
     def type_mapping(self):
-        mapping = ""
         for idl_name, py_name in IDL_TO_NDR.items():
             canonicalized_name, _ = self.mapper.canonicalize(idl_name)
             if canonicalized_name != py_name:
-                mapping += f"{canonicalized_name} = {py_name}\n"
+                self.write(f"{canonicalized_name} = {py_name}")
             self.mapper.add_type(canonicalized_name)
-        self.write(mapping)
-        
+
