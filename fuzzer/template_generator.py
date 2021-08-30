@@ -105,6 +105,10 @@ class {self.mapper.canonicalize(name)[0]}(NdrUnion):
     
 """
         self.io.write(class_def)
+        for n in union.public_names:
+            if n != name:
+                n = n.replace("*","")
+                self.io.write(f"{self.mapper.canonicalize(n)[0]} = {self.mapper.canonicalize(name)[0]}")
 
     def generate_struct(self, struct):
         output = ""
@@ -139,6 +143,11 @@ class {self.mapper.canonicalize(name)[0]}(NdrStructure):
     
 """
         self.io.write(class_def)
+        for n in struct.public_names:
+            if n != name:
+                n = n.replace("*","")
+                self.io.write(f"{self.mapper.canonicalize(n)[0]} = {self.mapper.canonicalize(name)[0]}")
+
 
     def generate_enum(self, enum):
         output = ""

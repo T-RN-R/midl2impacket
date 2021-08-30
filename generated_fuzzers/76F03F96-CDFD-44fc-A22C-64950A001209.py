@@ -1,8 +1,17 @@
 
 from fuzzer.midl import *
 from fuzzer.core import *
+BYTE = NdrByte
+USHORT = NdrShort
+UCHAR = NdrByte
+ULONG = NdrLong
+ULONG64 = NdrHyper
 DWORD64 = NdrHyper
 DWORD = NdrLong
+UINT64 = NdrHyper
+WORD = NdrByte
+PWCHAR_T = NdrByte
+BOOLEAN = NdrBoolean
 __INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte

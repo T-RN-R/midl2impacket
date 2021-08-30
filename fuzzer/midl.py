@@ -33,7 +33,8 @@ class Out(InOutParameter):
 class NdrType(FuzzableMidl):
     pass
 
-
+class NdrBoolean(NdrType):
+    pass
 class NdrByte(NdrType):
     @classmethod
     def generate(cls, ctx, range_min, range_max):
