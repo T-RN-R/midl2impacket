@@ -82,7 +82,9 @@ class VarDefConverter(Converter):
             raise Exception(f"Invalid scalar (has array information): {var_def}")
         elif not isinstance(var_def.type, str):
             raise Exception(f"Invalid scalar - is non-string type: {var_def}")
-        type_name = self.mapper.get_python_type(var_def.type, is_func_param=self.func_params)[0]
+        type_name = self.mapper.get_python_type(
+            var_def.type, is_func_param=self.func_params
+        )[0]
         return self.python_vardef(var_def.name, type_name)
 
     def handle_string(self, var_def: MidlVarDef) -> PythonTuple:
@@ -95,8 +97,7 @@ class VarDefConverter(Converter):
             if len(var_def.array_info) == 0:
                 # This is already handled by impacket
                 type_name, type_exists = self.mapper.get_python_type(
-                    var_def.type,
-                    is_func_param=self.func_params
+                    var_def.type, is_func_param=self.func_params
                 )
                 if not type_exists:
                     raise Exception(
@@ -121,7 +122,9 @@ class VarDefConverter(Converter):
             array_type_name,
             array_member_name,
             array_type_exists,
-        ) = self.mapper.get_python_array_type(var_def.type, array_size=array_size, is_func_param=self.func_params)
+        ) = self.mapper.get_python_array_type(
+            var_def.type, array_size=array_size, is_func_param=self.func_params
+        )
         if not array_type_exists:
             arr = PythonNdrUniConformantArray(
                 array_type_name, array_member_name, array_size
@@ -135,7 +138,9 @@ class VarDefConverter(Converter):
 
         # Continue implementation ========================================================
         # TODO properly handle these cases. There can be multidimensional arrays of these!
-        type_name, _ = self.mapper.get_python_type(var_def.type, is_func_param=self.func_params)
+        type_name, _ = self.mapper.get_python_type(
+            var_def.type, is_func_param=self.func_params
+        )
         return self.python_vardef(var_name=var_def.name, type_name=type_name)
 
     def handle_arr(self, var_def: MidlVarDef) -> PythonTuple:
@@ -165,7 +170,9 @@ class VarDefConverter(Converter):
                     array_type_name,
                     array_member_name,
                     array_type_exists,
-                ) = self.mapper.get_python_array_type(var_def.type, array_size=size, is_func_param=self.func_params)
+                ) = self.mapper.get_python_array_type(
+                    var_def.type, array_size=size, is_func_param=self.func_params
+                )
                 arr = PythonNdrUniFixedArray(array_type_name, size)
             else:
                 # NDRUniConformantArrays
@@ -174,7 +181,9 @@ class VarDefConverter(Converter):
                     array_type_name,
                     array_member_name,
                     array_type_exists,
-                ) = self.mapper.get_python_array_type(var_def.type, array_size=size, is_func_param=self.func_params)
+                ) = self.mapper.get_python_array_type(
+                    var_def.type, array_size=size, is_func_param=self.func_params
+                )
                 arr = PythonNdrUniConformantArray(
                     array_type_name, array_member_name, size
                 )
@@ -209,7 +218,9 @@ class VarDefConverter(Converter):
                 array_type_name,
                 array_member_name,
                 array_type_exists,
-            ) = self.mapper.get_python_array_type(var_def.type, array_size=size, is_func_param=self.func_params)
+            ) = self.mapper.get_python_array_type(
+                var_def.type, array_size=size, is_func_param=self.func_params
+            )
             if not array_type_exists:
                 arr = PythonNdrUniConformantArray(
                     array_type_name, array_member_name, size
@@ -221,12 +232,13 @@ class VarDefConverter(Converter):
             pointee_type_name = array_type_name
             if not self.mapper.exists(pointer_type_name):
                 ndr_ptr = PythonNdrPointer(
-                    name=pointer_type_name,
-                    referent_name=pointee_type_name
+                    name=pointer_type_name, referent_name=pointee_type_name
                 )
                 self.write(ndr_ptr.to_string())
                 self.mapper.add_type(pointer_type_name)
-            return_type_name = array_type_name if self.func_params else pointer_type_name
+            return_type_name = (
+                array_type_name if self.func_params else pointer_type_name
+            )
             return self.python_vardef(var_name=var_def.name, type_name=return_type_name)
         elif dimensionality == SizeIsType.POINTER_TO_POINTER_TO_SCALAR_ARRAY:
             raise NotImplementedError(
@@ -247,7 +259,9 @@ class VarDefConverter(Converter):
                 array_type_name,
                 array_member_name,
                 array_type_exists,
-            ) = self.mapper.get_python_array_type(var_def.type, array_size=size, is_func_param=self.func_params)
+            ) = self.mapper.get_python_array_type(
+                var_def.type, array_size=size, is_func_param=self.func_params
+            )
             if not array_type_exists:
                 arr = PythonNdrUniConformantArray(
                     array_type_name, array_member_name, size
@@ -262,7 +276,9 @@ class VarDefConverter(Converter):
                 )
                 self.write(ndr_ptr.to_string())
                 self.mapper.add_type(pointer_type_name)
-            return_type_name = array_type_name if self.func_params else pointer_type_name
+            return_type_name = (
+                array_type_name if self.func_params else pointer_type_name
+            )
             return self.python_vardef(var_name=var_def.name, type_name=return_type_name)
         elif dimensionality == SizeIsType.POINTER_TO_SIZED_POINTER_TO_SCALAR:
             raise NotImplementedError(

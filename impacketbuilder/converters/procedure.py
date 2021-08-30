@@ -20,7 +20,9 @@ class MidlProcedureConverter(Converter):
         vardef_inputs = [converter.convert(in_param) for in_param in in_params]
         vardef_outputs = [converter.convert(out_param) for out_param in out_params]
         # Outputs always has ErrorCode
-        vardef_outputs.append(converter.python_vardef(var_name="ErrorCode", type_name="ULONG"))
+        vardef_outputs.append(
+            converter.python_vardef(var_name="ErrorCode", type_name="ULONG")
+        )
 
         # Generate the request
         python_inputs = PythonTuple(vardef_inputs)

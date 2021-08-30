@@ -28,10 +28,15 @@ from impacketbuilder.ndrbuilder.ndr import PythonNdrStruct, PythonNdrPointer
 class MidlInterfaceConverter(Converter):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.const_converter = MidlConstantConverter(self.io, self.tab_level, self.mapper)
-        self.imports_converter = MidlImportsConverter(self.io, self.tab_level, mapper=self.mapper)
-        self.proc_converter = MidlProcedureConverter(self.io, self.tab_level, mapper=self.mapper)
-
+        self.const_converter = MidlConstantConverter(
+            self.io, self.tab_level, self.mapper
+        )
+        self.imports_converter = MidlImportsConverter(
+            self.io, self.tab_level, mapper=self.mapper
+        )
+        self.proc_converter = MidlProcedureConverter(
+            self.io, self.tab_level, mapper=self.mapper
+        )
 
     def convert(self, interface, import_dir, import_converter):
         if interface.imports:
@@ -72,25 +77,20 @@ class MidlInterfaceConverter(Converter):
         int_name = f"MSRPC_UUID_{interface.name.upper()}"
         # TODO: Prune forward declarations so they don't end up here
         if "uuid" in interface.attributes:
-            iface_uuid = interface.attributes['uuid'].params[0]
-            if iface_ver := interface.attributes.get('version'):
+            iface_uuid = interface.attributes["uuid"].params[0]
+            if iface_ver := interface.attributes.get("version"):
                 iface_ver = iface_ver.params[0]
             else:
                 iface_ver = "0.0"
             self.write(
                 PythonAssignment(
                     PythonValue(int_name),
-                    PythonValue(
-                        f"uuidtup_to_bin(('{iface_uuid}','{iface_ver}'))"
-                    ),
+                    PythonValue(f"uuidtup_to_bin(('{iface_uuid}','{iface_ver}'))"),
                 )
             )
-        
 
     def handle_procedure(self, proc, count):
-        self.proc_converter.convert(
-            proc, count
-        )
+        self.proc_converter.convert(proc, count)
 
     def handle_typedef(self, td):
         if isinstance(td, MidlTypeDef):
@@ -123,13 +123,12 @@ class MidlInterfaceConverter(Converter):
                 return self.handle_context_handle(td)
 
             # Otherwise just create the typedef here
-            if td.name.startswith('*'):
+            if td.name.startswith("*"):
                 # e.g. typedef RPC_UNICODE_STRING LSA_UNICODE_STRING, *PLSA_UNICODE_STRING
                 py_td_name, py_td_name_exists = self.mapper.get_python_type(td.name[1:])
                 if not py_td_name_exists:
                     ndr_ptr = PythonNdrPointer(
-                        name=py_td_name,
-                        referent_name=py_td_type
+                        name=py_td_name, referent_name=py_td_type
                     )
                     self.write(ndr_ptr.to_string())
             else:
@@ -144,7 +143,7 @@ class MidlInterfaceConverter(Converter):
                     )
             self.mapper.add_type(py_td_name)
 
-    def handle_context_handle(self, td):   
+    def handle_context_handle(self, td):
         td_name, td_exists = self.mapper.get_python_type(td.name)
         td_ptr_name = f"P{td_name}"
         if not td_exists:

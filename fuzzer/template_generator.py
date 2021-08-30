@@ -1,8 +1,15 @@
-from midltypes import MidlDefinition, MidlEnumDef, MidlSimpleTypedef, MidlStructDef, MidlUnionDef
+from midltypes import (
+    MidlDefinition,
+    MidlEnumDef,
+    MidlSimpleTypedef,
+    MidlStructDef,
+    MidlUnionDef,
+)
 from impacketbuilder.converters.typing import TypeMapper
 from io import StringIO
 import pathlib
 from midlparser import parse_idl
+
 
 class FuzzerTemplateGenerator:
     """A class that generates fuzzing templates"""
@@ -47,21 +54,21 @@ from fuzzer.core import *
         elif isinstance(typedef, MidlEnumDef):
             self.generate_enum(typedef)
         elif isinstance(typedef, MidlSimpleTypedef):
-            #TODO Add this typedef mapping to a type hierarchy lookup mapper
+            # TODO Add this typedef mapping to a type hierarchy lookup mapper
             return ""
         elif typedef is None:
             return ""
         else:
             raise Exception(f"Unhandled typedef {type(typedef)}")
 
-    def generate_union(self, union:MidlUnionDef):
+    def generate_union(self, union: MidlUnionDef):
         output = ""
-        #TODO add typedef mapping for all public names of this struct
+        # TODO add typedef mapping for all public names of this struct
         if len(union.public_names) > 0:
             name = union.public_names[0]
         else:
             name = union.private_name
-        #TODO do a proper switch_type lookup
+        # TODO do a proper switch_type lookup
         switch_type = "DWORD"
         members = ""
         member_cnt = 1
@@ -76,11 +83,11 @@ from fuzzer.core import *
                     type_name = member.type.private_name
 
             if isinstance(type_name, str):
-                members += f"{member_cnt} : ({self.mapper.canonicalize(type_name)}, {member.name}),"
-            member_cnt +=1
+                members += f'{member_cnt} : ({self.mapper.canonicalize(type_name)[0]}, "{member.name}"),'
+            member_cnt += 1
 
         class_def = f"""
-class {self.mapper.canonicalize(name)}(NdrUnion):
+class {self.mapper.canonicalize(name)[0]}(NdrUnion):
     SWITCHTYPE = {switch_type}
     MEMBERS = {{{members}}}
 
@@ -90,7 +97,7 @@ class {self.mapper.canonicalize(name)}(NdrUnion):
 
     def generate_struct(self, struct):
         output = ""
-        #TODO add typedef mapping for all public names of this struct
+        # TODO add typedef mapping for all public names of this struct
         if len(struct.public_names) > 0:
             name = struct.public_names[0]
         else:
@@ -108,13 +115,14 @@ class {self.mapper.canonicalize(name)}(NdrUnion):
                 else:
                     type_name = member.type.private_name
 
-
             if isinstance(type_name, str):
-                members += f"({self.mapper.canonicalize(type_name)}, \"{member.name}\"),"
-            member_cnt +=1
+                members += (
+                    f'({self.mapper.canonicalize(type_name)[0]}, "{member.name}"),'
+                )
+            member_cnt += 1
 
         class_def = f"""
-class {self.mapper.canonicalize(name)}(NdrStructure):
+class {self.mapper.canonicalize(name)[0]}(NdrStructure):
     MEMBERS = [{members}]
 
     
@@ -123,8 +131,7 @@ class {self.mapper.canonicalize(name)}(NdrStructure):
 
     def generate_enum(self, enum):
         output = ""
-        #TODO add typedef mapping for all public names of this struct
-
+        # TODO add typedef mapping for all public names of this struct
 
     def generate_interface(self, midl_interface):
         output = ""

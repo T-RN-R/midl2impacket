@@ -5,8 +5,9 @@ from .comments import MidlCommentWriter
 
 class MidlStaticConverter(Converter):
     def __init__(self, *args, **kwargs):
-        super().__init__( *args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.HAS_RUN = False
+
     def convert(self):
         if not self.HAS_RUN:
             comment_writer = MidlCommentWriter(self.io, self.tab_level)
@@ -91,4 +92,3 @@ class PRPC_STRING(NDRPOINTER):
                 mapping += f"{canonicalized_name} = {py_name}\n"
             self.mapper.add_type(canonicalized_name)
         self.write(mapping)
-        

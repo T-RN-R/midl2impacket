@@ -1,575 +1,873 @@
-
 from fuzzer.midl import *
 from fuzzer.core import *
 
-class ('FILETIME', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwLowDateTime"),(('DWORD', None), "dwHighDateTime"),]
 
-    
+class FILETIME(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwLowDateTime"),
+        (DWORD, "dwHighDateTime"),
+    ]
 
-class ('GUID', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "Data1"),(('UNSIGNED_SHORT', None), "Data2"),(('UNSIGNED_SHORT', None), "Data3"),(('BYTE', None), "Data4"),]
 
-    
+class GUID(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "Data1"),
+        (UNSIGNED_SHORT, "Data2"),
+        (UNSIGNED_SHORT, "Data3"),
+        (BYTE, "Data4"),
+    ]
 
-class ('LARGE_INTEGER', None)(NdrStructure):
-    MEMBERS = [(('SIGNED___INT64', None), "QuadPart"),]
 
-    
+class LARGE_INTEGER(NdrStructure):
+    MEMBERS = [
+        (SIGNED___INT64, "QuadPart"),
+    ]
 
-class ('EVENT_DESCRIPTOR', None)(NdrStructure):
-    MEMBERS = [(('USHORT', None), "Id"),(('UCHAR', None), "Version"),(('UCHAR', None), "Channel"),(('UCHAR', None), "Level"),(('UCHAR', None), "Opcode"),(('USHORT', None), "Task"),(('ULONGLONG', None), "Keyword"),]
 
-    
+class EVENT_DESCRIPTOR(NdrStructure):
+    MEMBERS = [
+        (USHORT, "Id"),
+        (UCHAR, "Version"),
+        (UCHAR, "Channel"),
+        (UCHAR, "Level"),
+        (UCHAR, "Opcode"),
+        (USHORT, "Task"),
+        (ULONGLONG, "Keyword"),
+    ]
 
-class ('S0', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "KernelTime"),(('ULONG', None), "UserTime"),]
 
-    
+class S0(NdrStructure):
+    MEMBERS = [
+        (ULONG, "KernelTime"),
+        (ULONG, "UserTime"),
+    ]
 
-class ('U0', None)(NdrUnion):
+
+class U0(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('S0', None), s0),2 : (('ULONG64', None), ProcessorTime),}
+    MEMBERS = {
+        1: (S0, "s0"),
+        2: (ULONG64, "ProcessorTime"),
+    }
 
-    
 
-class ('EVENT_HEADER', None)(NdrStructure):
-    MEMBERS = [(('USHORT', None), "Size"),(('USHORT', None), "HeaderType"),(('USHORT', None), "Flags"),(('USHORT', None), "EventProperty"),(('ULONG', None), "ThreadId"),(('ULONG', None), "ProcessId"),(('LARGE_INTEGER', None), "TimeStamp"),(('GUID', None), "ProviderId"),(('EVENT_DESCRIPTOR', None), "EventDescriptor"),(('U0', None), "u0"),(('GUID', None), "ActivityId"),]
+class EVENT_HEADER(NdrStructure):
+    MEMBERS = [
+        (USHORT, "Size"),
+        (USHORT, "HeaderType"),
+        (USHORT, "Flags"),
+        (USHORT, "EventProperty"),
+        (ULONG, "ThreadId"),
+        (ULONG, "ProcessId"),
+        (LARGE_INTEGER, "TimeStamp"),
+        (GUID, "ProviderId"),
+        (EVENT_DESCRIPTOR, "EventDescriptor"),
+        (U0, "u0"),
+        (GUID, "ActivityId"),
+    ]
 
-    
 
-class ('LUID', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "LowPart"),(('LONG', None), "HighPart"),]
+class LUID(NdrStructure):
+    MEMBERS = [
+        (DWORD, "LowPart"),
+        (LONG, "HighPart"),
+    ]
 
-    
 
-class ('MULTI_SZ', None)(NdrStructure):
-    MEMBERS = [(('PWCHAR_T', None), "Value"),(('DWORD', None), "nChar"),]
+class MULTI_SZ(NdrStructure):
+    MEMBERS = [
+        (PWCHAR_T, "Value"),
+        (DWORD, "nChar"),
+    ]
 
-    
 
-class ('RPC_UNICODE_STRING', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_SHORT', None), "Length"),(('UNSIGNED_SHORT', None), "MaximumLength"),(('PWCHAR', None), "Buffer"),]
+class RPC_UNICODE_STRING(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_SHORT, "Length"),
+        (UNSIGNED_SHORT, "MaximumLength"),
+        (PWCHAR, "Buffer"),
+    ]
 
-    
 
-class ('SERVER_INFO_100', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "sv100_platform_id"),(('PWCHAR_T', None), "sv100_name"),]
+class SERVER_INFO_100(NdrStructure):
+    MEMBERS = [
+        (DWORD, "sv100_platform_id"),
+        (PWCHAR_T, "sv100_name"),
+    ]
 
-    
 
-class ('SERVER_INFO_101', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "sv101_platform_id"),(('PWCHAR_T', None), "sv101_name"),(('DWORD', None), "sv101_version_major"),(('DWORD', None), "sv101_version_minor"),(('DWORD', None), "sv101_version_type"),(('PWCHAR_T', None), "sv101_comment"),]
+class SERVER_INFO_101(NdrStructure):
+    MEMBERS = [
+        (DWORD, "sv101_platform_id"),
+        (PWCHAR_T, "sv101_name"),
+        (DWORD, "sv101_version_major"),
+        (DWORD, "sv101_version_minor"),
+        (DWORD, "sv101_version_type"),
+        (PWCHAR_T, "sv101_comment"),
+    ]
 
-    
 
-class ('SYSTEMTIME', None)(NdrStructure):
-    MEMBERS = [(('WORD', None), "wYear"),(('WORD', None), "wMonth"),(('WORD', None), "wDayOfWeek"),(('WORD', None), "wDay"),(('WORD', None), "wHour"),(('WORD', None), "wMinute"),(('WORD', None), "wSecond"),(('WORD', None), "wMilliseconds"),]
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [
+        (WORD, "wYear"),
+        (WORD, "wMonth"),
+        (WORD, "wDayOfWeek"),
+        (WORD, "wDay"),
+        (WORD, "wHour"),
+        (WORD, "wMinute"),
+        (WORD, "wSecond"),
+        (WORD, "wMilliseconds"),
+    ]
 
-    
 
-class ('UINT128', None)(NdrStructure):
-    MEMBERS = [(('UINT64', None), "lower"),(('UINT64', None), "upper"),]
+class UINT128(NdrStructure):
+    MEMBERS = [
+        (UINT64, "lower"),
+        (UINT64, "upper"),
+    ]
 
-    
 
-class ('ULARGE_INTEGER', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED___INT64', None), "QuadPart"),]
+class ULARGE_INTEGER(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED___INT64, "QuadPart"),
+    ]
 
-    
 
-class ('RPC_SID_IDENTIFIER_AUTHORITY', None)(NdrStructure):
-    MEMBERS = [(('BYTE', None), "Value"),]
+class RPC_SID_IDENTIFIER_AUTHORITY(NdrStructure):
+    MEMBERS = [
+        (BYTE, "Value"),
+    ]
 
-    
 
-class ('OBJECT_TYPE_LIST', None)(NdrStructure):
-    MEMBERS = [(('WORD', None), "Level"),(('ACCESS_MASK', None), "Remaining"),(('PGUID', None), "ObjectType"),]
+class OBJECT_TYPE_LIST(NdrStructure):
+    MEMBERS = [
+        (WORD, "Level"),
+        (ACCESS_MASK, "Remaining"),
+        (PGUID, "ObjectType"),
+    ]
 
-    
 
-class ('ACE_HEADER', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "AceType"),(('UCHAR', None), "AceFlags"),(('USHORT', None), "AceSize"),]
+class ACE_HEADER(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "AceType"),
+        (UCHAR, "AceFlags"),
+        (USHORT, "AceSize"),
+    ]
 
-    
 
-class ('SYSTEM_MANDATORY_LABEL_ACE', None)(NdrStructure):
-    MEMBERS = [(('ACE_HEADER', None), "Header"),(('ACCESS_MASK', None), "Mask"),(('DWORD', None), "SidStart"),]
+class SYSTEM_MANDATORY_LABEL_ACE(NdrStructure):
+    MEMBERS = [
+        (ACE_HEADER, "Header"),
+        (ACCESS_MASK, "Mask"),
+        (DWORD, "SidStart"),
+    ]
 
-    
 
-class ('TOKEN_MANDATORY_POLICY', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Policy"),]
+class TOKEN_MANDATORY_POLICY(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Policy"),
+    ]
 
-    
 
-class ('MANDATORY_INFORMATION', None)(NdrStructure):
-    MEMBERS = [(('ACCESS_MASK', None), "AllowedAccess"),(('BOOLEAN', None), "WriteAllowed"),(('BOOLEAN', None), "ReadAllowed"),(('BOOLEAN', None), "ExecuteAllowed"),(('TOKEN_MANDATORY_POLICY', None), "MandatoryPolicy"),]
+class MANDATORY_INFORMATION(NdrStructure):
+    MEMBERS = [
+        (ACCESS_MASK, "AllowedAccess"),
+        (BOOLEAN, "WriteAllowed"),
+        (BOOLEAN, "ReadAllowed"),
+        (BOOLEAN, "ExecuteAllowed"),
+        (TOKEN_MANDATORY_POLICY, "MandatoryPolicy"),
+    ]
 
-    
 
-class ('CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Length"),(('BYTE', None), "OctetString"),]
+class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Length"),
+        (BYTE, "OctetString"),
+    ]
 
-    
 
-class ('VALUES', None)(NdrUnion):
+class VALUES(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('PLONG64', None), pInt64),2 : (('PDWORD64', None), pUint64),3 : (('PWSTR', None), ppString),4 : (('PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None), pOctetString),}
+    MEMBERS = {
+        1: (PLONG64, "pInt64"),
+        2: (PDWORD64, "pUint64"),
+        3: (PWSTR, "ppString"),
+        4: (PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE, "pOctetString"),
+    }
 
-    
 
-class ('CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Name"),(('WORD', None), "ValueType"),(('WORD', None), "Reserved"),(('DWORD', None), "Flags"),(('DWORD', None), "ValueCount"),(('VALUES', None), "Values"),]
+class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Name"),
+        (WORD, "ValueType"),
+        (WORD, "Reserved"),
+        (DWORD, "Flags"),
+        (DWORD, "ValueCount"),
+        (VALUES, "Values"),
+    ]
 
-    
 
-class ('RPC_SID', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_CHAR', None), "Revision"),(('UNSIGNED_CHAR', None), "SubAuthorityCount"),(('RPC_SID_IDENTIFIER_AUTHORITY', None), "IdentifierAuthority"),(('UNSIGNED_LONG', None), "SubAuthority"),]
+class RPC_SID(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_CHAR, "Revision"),
+        (UNSIGNED_CHAR, "SubAuthorityCount"),
+        (RPC_SID_IDENTIFIER_AUTHORITY, "IdentifierAuthority"),
+        (UNSIGNED_LONG, "SubAuthority"),
+    ]
 
-    
 
-class ('ACL', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_CHAR', None), "AclRevision"),(('UNSIGNED_CHAR', None), "Sbz1"),(('UNSIGNED_SHORT', None), "AclSize"),(('UNSIGNED_SHORT', None), "AceCount"),(('UNSIGNED_SHORT', None), "Sbz2"),]
+class ACL(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_CHAR, "AclRevision"),
+        (UNSIGNED_CHAR, "Sbz1"),
+        (UNSIGNED_SHORT, "AclSize"),
+        (UNSIGNED_SHORT, "AceCount"),
+        (UNSIGNED_SHORT, "Sbz2"),
+    ]
 
-    
 
-class ('SECURITY_DESCRIPTOR', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "Revision"),(('UCHAR', None), "Sbz1"),(('USHORT', None), "Control"),(('PSID', None), "Owner"),(('PSID', None), "Group"),(('PACL', None), "Sacl"),(('PACL', None), "Dacl"),]
+class SECURITY_DESCRIPTOR(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "Revision"),
+        (UCHAR, "Sbz1"),
+        (USHORT, "Control"),
+        (PSID, "Owner"),
+        (PSID, "Group"),
+        (PACL, "Sacl"),
+        (PACL, "Dacl"),
+    ]
 
-    
 
-class ('FILETIME', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwLowDateTime"),(('DWORD', None), "dwHighDateTime"),]
+class FILETIME(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwLowDateTime"),
+        (DWORD, "dwHighDateTime"),
+    ]
 
-    
 
-class ('GUID', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "Data1"),(('UNSIGNED_SHORT', None), "Data2"),(('UNSIGNED_SHORT', None), "Data3"),(('BYTE', None), "Data4"),]
+class GUID(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "Data1"),
+        (UNSIGNED_SHORT, "Data2"),
+        (UNSIGNED_SHORT, "Data3"),
+        (BYTE, "Data4"),
+    ]
 
-    
 
-class ('LARGE_INTEGER', None)(NdrStructure):
-    MEMBERS = [(('SIGNED___INT64', None), "QuadPart"),]
+class LARGE_INTEGER(NdrStructure):
+    MEMBERS = [
+        (SIGNED___INT64, "QuadPart"),
+    ]
 
-    
 
-class ('EVENT_DESCRIPTOR', None)(NdrStructure):
-    MEMBERS = [(('USHORT', None), "Id"),(('UCHAR', None), "Version"),(('UCHAR', None), "Channel"),(('UCHAR', None), "Level"),(('UCHAR', None), "Opcode"),(('USHORT', None), "Task"),(('ULONGLONG', None), "Keyword"),]
+class EVENT_DESCRIPTOR(NdrStructure):
+    MEMBERS = [
+        (USHORT, "Id"),
+        (UCHAR, "Version"),
+        (UCHAR, "Channel"),
+        (UCHAR, "Level"),
+        (UCHAR, "Opcode"),
+        (USHORT, "Task"),
+        (ULONGLONG, "Keyword"),
+    ]
 
-    
 
-class ('S0', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "KernelTime"),(('ULONG', None), "UserTime"),]
+class S0(NdrStructure):
+    MEMBERS = [
+        (ULONG, "KernelTime"),
+        (ULONG, "UserTime"),
+    ]
 
-    
 
-class ('U0', None)(NdrUnion):
+class U0(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('S0', None), s0),2 : (('ULONG64', None), ProcessorTime),}
+    MEMBERS = {
+        1: (S0, "s0"),
+        2: (ULONG64, "ProcessorTime"),
+    }
 
-    
 
-class ('EVENT_HEADER', None)(NdrStructure):
-    MEMBERS = [(('USHORT', None), "Size"),(('USHORT', None), "HeaderType"),(('USHORT', None), "Flags"),(('USHORT', None), "EventProperty"),(('ULONG', None), "ThreadId"),(('ULONG', None), "ProcessId"),(('LARGE_INTEGER', None), "TimeStamp"),(('GUID', None), "ProviderId"),(('EVENT_DESCRIPTOR', None), "EventDescriptor"),(('U0', None), "u0"),(('GUID', None), "ActivityId"),]
+class EVENT_HEADER(NdrStructure):
+    MEMBERS = [
+        (USHORT, "Size"),
+        (USHORT, "HeaderType"),
+        (USHORT, "Flags"),
+        (USHORT, "EventProperty"),
+        (ULONG, "ThreadId"),
+        (ULONG, "ProcessId"),
+        (LARGE_INTEGER, "TimeStamp"),
+        (GUID, "ProviderId"),
+        (EVENT_DESCRIPTOR, "EventDescriptor"),
+        (U0, "u0"),
+        (GUID, "ActivityId"),
+    ]
 
-    
 
-class ('LUID', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "LowPart"),(('LONG', None), "HighPart"),]
+class LUID(NdrStructure):
+    MEMBERS = [
+        (DWORD, "LowPart"),
+        (LONG, "HighPart"),
+    ]
 
-    
 
-class ('MULTI_SZ', None)(NdrStructure):
-    MEMBERS = [(('PWCHAR_T', None), "Value"),(('DWORD', None), "nChar"),]
+class MULTI_SZ(NdrStructure):
+    MEMBERS = [
+        (PWCHAR_T, "Value"),
+        (DWORD, "nChar"),
+    ]
 
-    
 
-class ('RPC_UNICODE_STRING', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_SHORT', None), "Length"),(('UNSIGNED_SHORT', None), "MaximumLength"),(('PWCHAR', None), "Buffer"),]
+class RPC_UNICODE_STRING(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_SHORT, "Length"),
+        (UNSIGNED_SHORT, "MaximumLength"),
+        (PWCHAR, "Buffer"),
+    ]
 
-    
 
-class ('SERVER_INFO_100', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "sv100_platform_id"),(('PWCHAR_T', None), "sv100_name"),]
+class SERVER_INFO_100(NdrStructure):
+    MEMBERS = [
+        (DWORD, "sv100_platform_id"),
+        (PWCHAR_T, "sv100_name"),
+    ]
 
-    
 
-class ('SERVER_INFO_101', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "sv101_platform_id"),(('PWCHAR_T', None), "sv101_name"),(('DWORD', None), "sv101_version_major"),(('DWORD', None), "sv101_version_minor"),(('DWORD', None), "sv101_version_type"),(('PWCHAR_T', None), "sv101_comment"),]
+class SERVER_INFO_101(NdrStructure):
+    MEMBERS = [
+        (DWORD, "sv101_platform_id"),
+        (PWCHAR_T, "sv101_name"),
+        (DWORD, "sv101_version_major"),
+        (DWORD, "sv101_version_minor"),
+        (DWORD, "sv101_version_type"),
+        (PWCHAR_T, "sv101_comment"),
+    ]
 
-    
 
-class ('SYSTEMTIME', None)(NdrStructure):
-    MEMBERS = [(('WORD', None), "wYear"),(('WORD', None), "wMonth"),(('WORD', None), "wDayOfWeek"),(('WORD', None), "wDay"),(('WORD', None), "wHour"),(('WORD', None), "wMinute"),(('WORD', None), "wSecond"),(('WORD', None), "wMilliseconds"),]
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [
+        (WORD, "wYear"),
+        (WORD, "wMonth"),
+        (WORD, "wDayOfWeek"),
+        (WORD, "wDay"),
+        (WORD, "wHour"),
+        (WORD, "wMinute"),
+        (WORD, "wSecond"),
+        (WORD, "wMilliseconds"),
+    ]
 
-    
 
-class ('UINT128', None)(NdrStructure):
-    MEMBERS = [(('UINT64', None), "lower"),(('UINT64', None), "upper"),]
+class UINT128(NdrStructure):
+    MEMBERS = [
+        (UINT64, "lower"),
+        (UINT64, "upper"),
+    ]
 
-    
 
-class ('ULARGE_INTEGER', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED___INT64', None), "QuadPart"),]
+class ULARGE_INTEGER(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED___INT64, "QuadPart"),
+    ]
 
-    
 
-class ('RPC_SID_IDENTIFIER_AUTHORITY', None)(NdrStructure):
-    MEMBERS = [(('BYTE', None), "Value"),]
+class RPC_SID_IDENTIFIER_AUTHORITY(NdrStructure):
+    MEMBERS = [
+        (BYTE, "Value"),
+    ]
 
-    
 
-class ('OBJECT_TYPE_LIST', None)(NdrStructure):
-    MEMBERS = [(('WORD', None), "Level"),(('ACCESS_MASK', None), "Remaining"),(('PGUID', None), "ObjectType"),]
+class OBJECT_TYPE_LIST(NdrStructure):
+    MEMBERS = [
+        (WORD, "Level"),
+        (ACCESS_MASK, "Remaining"),
+        (PGUID, "ObjectType"),
+    ]
 
-    
 
-class ('ACE_HEADER', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "AceType"),(('UCHAR', None), "AceFlags"),(('USHORT', None), "AceSize"),]
+class ACE_HEADER(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "AceType"),
+        (UCHAR, "AceFlags"),
+        (USHORT, "AceSize"),
+    ]
 
-    
 
-class ('SYSTEM_MANDATORY_LABEL_ACE', None)(NdrStructure):
-    MEMBERS = [(('ACE_HEADER', None), "Header"),(('ACCESS_MASK', None), "Mask"),(('DWORD', None), "SidStart"),]
+class SYSTEM_MANDATORY_LABEL_ACE(NdrStructure):
+    MEMBERS = [
+        (ACE_HEADER, "Header"),
+        (ACCESS_MASK, "Mask"),
+        (DWORD, "SidStart"),
+    ]
 
-    
 
-class ('TOKEN_MANDATORY_POLICY', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Policy"),]
+class TOKEN_MANDATORY_POLICY(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Policy"),
+    ]
 
-    
 
-class ('MANDATORY_INFORMATION', None)(NdrStructure):
-    MEMBERS = [(('ACCESS_MASK', None), "AllowedAccess"),(('BOOLEAN', None), "WriteAllowed"),(('BOOLEAN', None), "ReadAllowed"),(('BOOLEAN', None), "ExecuteAllowed"),(('TOKEN_MANDATORY_POLICY', None), "MandatoryPolicy"),]
+class MANDATORY_INFORMATION(NdrStructure):
+    MEMBERS = [
+        (ACCESS_MASK, "AllowedAccess"),
+        (BOOLEAN, "WriteAllowed"),
+        (BOOLEAN, "ReadAllowed"),
+        (BOOLEAN, "ExecuteAllowed"),
+        (TOKEN_MANDATORY_POLICY, "MandatoryPolicy"),
+    ]
 
-    
 
-class ('CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Length"),(('BYTE', None), "OctetString"),]
+class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Length"),
+        (BYTE, "OctetString"),
+    ]
 
-    
 
-class ('VALUES', None)(NdrUnion):
+class VALUES(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('PLONG64', None), pInt64),2 : (('PDWORD64', None), pUint64),3 : (('PWSTR', None), ppString),4 : (('PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None), pOctetString),}
+    MEMBERS = {
+        1: (PLONG64, "pInt64"),
+        2: (PDWORD64, "pUint64"),
+        3: (PWSTR, "ppString"),
+        4: (PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE, "pOctetString"),
+    }
 
-    
 
-class ('CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Name"),(('WORD', None), "ValueType"),(('WORD', None), "Reserved"),(('DWORD', None), "Flags"),(('DWORD', None), "ValueCount"),(('VALUES', None), "Values"),]
+class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Name"),
+        (WORD, "ValueType"),
+        (WORD, "Reserved"),
+        (DWORD, "Flags"),
+        (DWORD, "ValueCount"),
+        (VALUES, "Values"),
+    ]
 
-    
 
-class ('RPC_SID', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_CHAR', None), "Revision"),(('UNSIGNED_CHAR', None), "SubAuthorityCount"),(('RPC_SID_IDENTIFIER_AUTHORITY', None), "IdentifierAuthority"),(('UNSIGNED_LONG', None), "SubAuthority"),]
+class RPC_SID(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_CHAR, "Revision"),
+        (UNSIGNED_CHAR, "SubAuthorityCount"),
+        (RPC_SID_IDENTIFIER_AUTHORITY, "IdentifierAuthority"),
+        (UNSIGNED_LONG, "SubAuthority"),
+    ]
 
-    
 
-class ('ACL', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_CHAR', None), "AclRevision"),(('UNSIGNED_CHAR', None), "Sbz1"),(('UNSIGNED_SHORT', None), "AclSize"),(('UNSIGNED_SHORT', None), "AceCount"),(('UNSIGNED_SHORT', None), "Sbz2"),]
+class ACL(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_CHAR, "AclRevision"),
+        (UNSIGNED_CHAR, "Sbz1"),
+        (UNSIGNED_SHORT, "AclSize"),
+        (UNSIGNED_SHORT, "AceCount"),
+        (UNSIGNED_SHORT, "Sbz2"),
+    ]
 
-    
 
-class ('SECURITY_DESCRIPTOR', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "Revision"),(('UCHAR', None), "Sbz1"),(('USHORT', None), "Control"),(('PSID', None), "Owner"),(('PSID', None), "Group"),(('PACL', None), "Sacl"),(('PACL', None), "Dacl"),]
+class SECURITY_DESCRIPTOR(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "Revision"),
+        (UCHAR, "Sbz1"),
+        (USHORT, "Control"),
+        (PSID, "Owner"),
+        (PSID, "Group"),
+        (PACL, "Sacl"),
+        (PACL, "Dacl"),
+    ]
 
-    
 
-class ('XACTUOW', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_CHAR', None), "rgb"),]
+class XACTUOW(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_CHAR, "rgb"),
+    ]
 
-    
 
-class ('BLOB', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cbSize"),(('PUNSIGNED_CHAR', None), "pBlobData"),]
+class BLOB(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cbSize"),
+        (PUNSIGNED_CHAR, "pBlobData"),
+    ]
 
-    
 
-class ('CAUB', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cElems"),(('PUNSIGNED_CHAR', None), "pElems"),]
+class CAUB(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cElems"),
+        (PUNSIGNED_CHAR, "pElems"),
+    ]
 
-    
 
-class ('CAUI', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cElems"),(('PUNSIGNED_SHORT', None), "pElems"),]
+class CAUI(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cElems"),
+        (PUNSIGNED_SHORT, "pElems"),
+    ]
 
-    
 
-class ('CAL', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cElems"),(('PLONG', None), "pElems"),]
+class CAL(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cElems"),
+        (PLONG, "pElems"),
+    ]
 
-    
 
-class ('CAUL', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cElems"),(('PUNSIGNED_LONG', None), "pElems"),]
+class CAUL(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cElems"),
+        (PUNSIGNED_LONG, "pElems"),
+    ]
 
-    
 
-class ('CAUH', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cElems"),(('PULARGE_INTEGER', None), "pElems"),]
+class CAUH(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cElems"),
+        (PULARGE_INTEGER, "pElems"),
+    ]
 
-    
 
-class ('CACLSID', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cElems"),(('PGUID', None), "pElems"),]
+class CACLSID(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cElems"),
+        (PGUID, "pElems"),
+    ]
 
-    
 
-class ('CALPWSTR', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cElems"),(('PPWCHAR_T', None), "pElems"),]
+class CALPWSTR(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cElems"),
+        (PPWCHAR_T, "pElems"),
+    ]
 
-    
 
-class ('CAPROPVARIANT', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cElems"),(('PPROPVARIANT', None), "pElems"),]
+class CAPROPVARIANT(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cElems"),
+        (PPROPVARIANT, "pElems"),
+    ]
 
-    
 
-class ('_VARUNION', None)(NdrUnion):
+class _VARUNION(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {2 : (('CHAR', None), cVal),3 : (('UCHAR', None), bVal),4 : (('SHORT', None), iVal),5 : (('USHORT', None), uiVal),6 : (('LONG', None), lVal),7 : (('ULONG', None), ulVal),8 : (('LARGE_INTEGER', None), hVal),9 : (('ULARGE_INTEGER', None), uhVal),10 : (('VARIANT_BOOL', None), boolVal),11 : (('PGUID', None), puuid),12 : (('BLOB', None), blob),13 : (('PWCHAR_T', None), pwszVal),14 : (('CAUB', None), caub),15 : (('CAUI', None), caui),16 : (('CAL', None), cal),17 : (('CAUL', None), caul),18 : (('CAUH', None), cauh),19 : (('CACLSID', None), cauuid),20 : (('CALPWSTR', None), calpwstr),21 : (('CAPROPVARIANT', None), capropvar),}
+    MEMBERS = {
+        2: (CHAR, "cVal"),
+        3: (UCHAR, "bVal"),
+        4: (SHORT, "iVal"),
+        5: (USHORT, "uiVal"),
+        6: (LONG, "lVal"),
+        7: (ULONG, "ulVal"),
+        8: (LARGE_INTEGER, "hVal"),
+        9: (ULARGE_INTEGER, "uhVal"),
+        10: (VARIANT_BOOL, "boolVal"),
+        11: (PGUID, "puuid"),
+        12: (BLOB, "blob"),
+        13: (PWCHAR_T, "pwszVal"),
+        14: (CAUB, "caub"),
+        15: (CAUI, "caui"),
+        16: (CAL, "cal"),
+        17: (CAUL, "caul"),
+        18: (CAUH, "cauh"),
+        19: (CACLSID, "cauuid"),
+        20: (CALPWSTR, "calpwstr"),
+        21: (CAPROPVARIANT, "capropvar"),
+    }
 
-    
 
-class ('TAG_INNER_PROPVARIANT', None)(NdrStructure):
-    MEMBERS = [(('VARTYPE', None), "vt"),(('UCHAR', None), "wReserved1"),(('UCHAR', None), "wReserved2"),(('ULONG', None), "wReserved3"),(('_VARUNION', None), "_varUnion"),]
+class TAG_INNER_PROPVARIANT(NdrStructure):
+    MEMBERS = [
+        (VARTYPE, "vt"),
+        (UCHAR, "wReserved1"),
+        (UCHAR, "wReserved2"),
+        (ULONG, "wReserved3"),
+        (_VARUNION, "_varUnion"),
+    ]
 
-    
 
-class ('DL_ID', None)(NdrStructure):
-    MEMBERS = [(('GUID', None), "m_DlGuid"),(('PWCHAR_T', None), "m_pwzDomain"),]
+class DL_ID(NdrStructure):
+    MEMBERS = [
+        (GUID, "m_DlGuid"),
+        (PWCHAR_T, "m_pwzDomain"),
+    ]
 
-    
 
-class ('MULTICAST_ID', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "m_address"),(('ULONG', None), "m_port"),]
+class MULTICAST_ID(NdrStructure):
+    MEMBERS = [
+        (ULONG, "m_address"),
+        (ULONG, "m_port"),
+    ]
 
-    
 
-class ('OBJECTID', None)(NdrStructure):
-    MEMBERS = [(('GUID', None), "Lineage"),(('DWORD', None), "Uniquifier"),]
+class OBJECTID(NdrStructure):
+    MEMBERS = [
+        (GUID, "Lineage"),
+        (DWORD, "Uniquifier"),
+    ]
 
-    
 
-class ('U0', None)(NdrUnion):
+class U0(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {2 : (('GUID', None), m_gPublicID),3 : (('OBJECTID', None), m_oPrivateID),4 : (('PWCHAR_T', None), m_pDirectID),5 : (('GUID', None), m_gMachineID),6 : (('GUID', None), m_GConnectorID),7 : (('DL_ID', None), m_DlID),8 : (('MULTICAST_ID', None), m_MulticastID),9 : (('PWCHAR_T', None), m_pDirectSubqueueID),}
+    MEMBERS = {
+        2: (GUID, "m_gPublicID"),
+        3: (OBJECTID, "m_oPrivateID"),
+        4: (PWCHAR_T, "m_pDirectID"),
+        5: (GUID, "m_gMachineID"),
+        6: (GUID, "m_GConnectorID"),
+        7: (DL_ID, "m_DlID"),
+        8: (MULTICAST_ID, "m_MulticastID"),
+        9: (PWCHAR_T, "m_pDirectSubqueueID"),
+    }
 
-    
 
-class ('QUEUE_FORMAT', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_CHAR', None), "m_qft"),(('UNSIGNED_CHAR', None), "m_SuffixAndFlags"),(('UNSIGNED_SHORT', None), "m_reserved"),(('U0', None), "u0"),]
+class QUEUE_FORMAT(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_CHAR, "m_qft"),
+        (UNSIGNED_CHAR, "m_SuffixAndFlags"),
+        (UNSIGNED_SHORT, "m_reserved"),
+        (U0, "u0"),
+    ]
 
-    
 
-class ('MQPROPERTYRESTRICTION', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "rel"),(('UNSIGNED_LONG', None), "prop"),(('PROPVARIANT', None), "prval"),]
+class MQPROPERTYRESTRICTION(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "rel"),
+        (UNSIGNED_LONG, "prop"),
+        (PROPVARIANT, "prval"),
+    ]
 
-    
 
-class ('MQRESTRICTION', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cRes"),(('PMQPROPERTYRESTRICTION', None), "paPropRes"),]
+class MQRESTRICTION(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cRes"),
+        (PMQPROPERTYRESTRICTION, "paPropRes"),
+    ]
 
-    
 
-class ('MQCOLUMNSET', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cCol"),(('PPROPID', None), "aCol"),]
+class MQCOLUMNSET(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cCol"),
+        (PPROPID, "aCol"),
+    ]
 
-    
 
-class ('MQSORTKEY', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "propColumn"),(('UNSIGNED_LONG', None), "dwOrder"),]
+class MQSORTKEY(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "propColumn"),
+        (UNSIGNED_LONG, "dwOrder"),
+    ]
 
-    
 
-class ('MQSORTSET', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cCol"),(('PMQSORTKEY', None), "aCol"),]
+class MQSORTSET(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cCol"),
+        (PMQSORTKEY, "aCol"),
+    ]
 
-    
-Method("S_DSCreateObject",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-In(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PROPVARIANT),
-InOut(PGUID),
-),Method("S_DSDeleteObject",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
-),Method("S_DSGetProps",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-InOut(PROPVARIANT),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
-),Method("S_DSSetProps",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PROPVARIANT),
-),Method("S_DSGetObjectSecurity",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
-),Method("S_DSSetObjectSecurity",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-In(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-),Method("S_DSLookupBegin",
-In(HANDLE_T),
-Out(PPCONTEXT_HANDLE_TYPE),
-In(PWCHAR_T),
-In(PMQRESTRICTION),
-In(PMQCOLUMNSET),
-In(PMQSORTSET),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-),Method("S_DSLookupNext",
-In(HANDLE_T),
-In(PCONTEXT_HANDLE_TYPE),
-In(LPBOUNDED_PROPERTIES),
-Out(PUNSIGNED_LONG),
-Out(PROPVARIANT),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
-),Method("S_DSLookupEnd",
-In(HANDLE_T),
-InOut(PPCONTEXT_HANDLE_TYPE),
-),Method("Opnum9NotUsedOnWire",
-In(),
-),Method("S_DSDeleteObjectGuid",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
-),Method("S_DSGetPropsGuid",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-InOut(PROPVARIANT),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
-),Method("S_DSSetPropsGuid",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PROPVARIANT),
-),Method("S_DSGetObjectSecurityGuid",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
-),Method("S_DSSetObjectSecurityGuid",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
-In(UNSIGNED_LONG),
-In(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-),Method("Opnum15NotUsedOnWire",
-In(),
-),Method("Opnum16NotUsedOnWire",
-In(),
-),Method("Opnum17NotUsedOnWire",
-In(),
-),Method("Opnum18NotUsedOnWire",
-In(),
-),Method("S_DSQMSetMachineProperties",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PROPVARIANT),
-In(UNSIGNED_LONG),
-),Method("S_DSCreateServersCache",
-In(HANDLE_T),
-InOut(PUNSIGNED_LONG),
-InOut(PPWCHAR_T),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
-),Method("S_DSQMSetMachinePropertiesSignProc",
-In(PBYTE),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-InOut(PBYTE),
-InOut(PUNSIGNED_LONG),
-In(UNSIGNED_LONG),
-),Method("S_DSQMGetObjectSecurity",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
-),Method("S_DSQMGetObjectSecurityChallengeResponceProc",
-In(PBYTE),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-InOut(PBYTE),
-InOut(PUNSIGNED_LONG),
-In(UNSIGNED_LONG),
-),Method("S_InitSecCtx",
-In(UNSIGNED_LONG),
-In(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_CHAR),
-Out(PUNSIGNED_LONG),
-),Method("S_DSValidateServer",
-In(HANDLE_T),
-In(PGUID),
-In(BOOL),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-Out(PPCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-),Method("S_DSCloseServerHandle",
-InOut(PPCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-),Method("Opnum24NotUsedOnWire",
-In(),
-),Method("Opnum25NotUsedOnWire",
-In(),
-),Method("Opnum26NotUsedOnWire",
-In(),
-),Method("S_DSGetServerPort",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
+
+Method(
+    "S_DSCreateObject",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
+    In(PWCHAR_T),
+    In(UNSIGNED_LONG),
+    In(PUNSIGNED_CHAR),
+    In(UNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+    In(PROPVARIANT),
+    InOut(PGUID),
+), Method("S_DSDeleteObject", In(HANDLE_T), In(UNSIGNED_LONG), In(PWCHAR_T),), Method(
+    "S_DSGetProps",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
+    In(PWCHAR_T),
+    In(UNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+    InOut(PROPVARIANT),
+    In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    Out(PUNSIGNED_CHAR),
+    InOut(LPBOUNDED_SIGNATURE_SIZE),
+), Method(
+    "S_DSSetProps",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
+    In(PWCHAR_T),
+    In(UNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+    In(PROPVARIANT),
+), Method(
+    "S_DSGetObjectSecurity",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
+    In(PWCHAR_T),
+    In(UNSIGNED_LONG),
+    Out(PUNSIGNED_CHAR),
+    In(UNSIGNED_LONG),
+    Out(PUNSIGNED_LONG),
+    In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    Out(PUNSIGNED_CHAR),
+    InOut(LPBOUNDED_SIGNATURE_SIZE),
+), Method(
+    "S_DSSetObjectSecurity",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
+    In(PWCHAR_T),
+    In(UNSIGNED_LONG),
+    In(PUNSIGNED_CHAR),
+    In(UNSIGNED_LONG),
+), Method(
+    "S_DSLookupBegin",
+    In(HANDLE_T),
+    Out(PPCONTEXT_HANDLE_TYPE),
+    In(PWCHAR_T),
+    In(PMQRESTRICTION),
+    In(PMQCOLUMNSET),
+    In(PMQSORTSET),
+    In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+), Method(
+    "S_DSLookupNext",
+    In(HANDLE_T),
+    In(PCONTEXT_HANDLE_TYPE),
+    In(LPBOUNDED_PROPERTIES),
+    Out(PUNSIGNED_LONG),
+    Out(PROPVARIANT),
+    In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    Out(PUNSIGNED_CHAR),
+    InOut(LPBOUNDED_SIGNATURE_SIZE),
+), Method(
+    "S_DSLookupEnd",
+    In(HANDLE_T),
+    InOut(PPCONTEXT_HANDLE_TYPE),
+), Method(
+    "Opnum9NotUsedOnWire",
+    In(),
+), Method(
+    "S_DSDeleteObjectGuid",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
+    In(PGUID),
+), Method(
+    "S_DSGetPropsGuid",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
+    In(PGUID),
+    In(UNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+    InOut(PROPVARIANT),
+    In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    Out(PUNSIGNED_CHAR),
+    InOut(LPBOUNDED_SIGNATURE_SIZE),
+), Method(
+    "S_DSSetPropsGuid",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
+    In(PGUID),
+    In(UNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+    In(PROPVARIANT),
+), Method(
+    "S_DSGetObjectSecurityGuid",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
+    In(PGUID),
+    In(UNSIGNED_LONG),
+    Out(PUNSIGNED_CHAR),
+    In(UNSIGNED_LONG),
+    Out(PUNSIGNED_LONG),
+    In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    Out(PUNSIGNED_CHAR),
+    InOut(LPBOUNDED_SIGNATURE_SIZE),
+), Method(
+    "S_DSSetObjectSecurityGuid",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
+    In(PGUID),
+    In(UNSIGNED_LONG),
+    In(PUNSIGNED_CHAR),
+    In(UNSIGNED_LONG),
+), Method(
+    "Opnum15NotUsedOnWire",
+    In(),
+), Method(
+    "Opnum16NotUsedOnWire",
+    In(),
+), Method(
+    "Opnum17NotUsedOnWire",
+    In(),
+), Method(
+    "Opnum18NotUsedOnWire",
+    In(),
+), Method(
+    "S_DSQMSetMachineProperties",
+    In(HANDLE_T),
+    In(PWCHAR_T),
+    In(UNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+    In(PROPVARIANT),
+    In(UNSIGNED_LONG),
+), Method(
+    "S_DSCreateServersCache",
+    In(HANDLE_T),
+    InOut(PUNSIGNED_LONG),
+    InOut(PPWCHAR_T),
+    In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    Out(PUNSIGNED_CHAR),
+    InOut(LPBOUNDED_SIGNATURE_SIZE),
+), Method(
+    "S_DSQMSetMachinePropertiesSignProc",
+    In(PBYTE),
+    In(UNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+    InOut(PBYTE),
+    InOut(PUNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+), Method(
+    "S_DSQMGetObjectSecurity",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
+    In(PGUID),
+    In(UNSIGNED_LONG),
+    Out(PUNSIGNED_CHAR),
+    In(UNSIGNED_LONG),
+    Out(PUNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+    In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+    Out(PUNSIGNED_CHAR),
+    InOut(LPBOUNDED_SIGNATURE_SIZE),
+), Method(
+    "S_DSQMGetObjectSecurityChallengeResponceProc",
+    In(PBYTE),
+    In(UNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+    InOut(PBYTE),
+    InOut(PUNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+), Method(
+    "S_InitSecCtx",
+    In(UNSIGNED_LONG),
+    In(PUNSIGNED_CHAR),
+    In(UNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+    Out(PUNSIGNED_CHAR),
+    Out(PUNSIGNED_LONG),
+), Method(
+    "S_DSValidateServer",
+    In(HANDLE_T),
+    In(PGUID),
+    In(BOOL),
+    In(UNSIGNED_LONG),
+    In(UNSIGNED_LONG),
+    In(PUNSIGNED_CHAR),
+    In(UNSIGNED_LONG),
+    Out(PPCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+), Method(
+    "S_DSCloseServerHandle",
+    InOut(PPCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+), Method(
+    "Opnum24NotUsedOnWire",
+    In(),
+), Method(
+    "Opnum25NotUsedOnWire",
+    In(),
+), Method(
+    "Opnum26NotUsedOnWire",
+    In(),
+), Method(
+    "S_DSGetServerPort",
+    In(HANDLE_T),
+    In(UNSIGNED_LONG),
 ),

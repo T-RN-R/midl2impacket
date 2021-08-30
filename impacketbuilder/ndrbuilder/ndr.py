@@ -53,7 +53,7 @@ class PythonNdrStruct(PythonNdrClassDefiniton):
                 args="self",
                 body=[f"return self['{prop_name}']"],
                 decorator="@property",
-                return_type=prop_type
+                return_type=prop_type,
             )
             prop_functions.append(prop_get_fn)
             prop_set_fn = PythonFunction(
@@ -86,7 +86,7 @@ class PythonNdrPointer(PythonNdrClassDefiniton):
             functions=prop_functions,
         )
 
-    def generate_prop_functions(self, referent_type:str):
+    def generate_prop_functions(self, referent_type: str):
         prop_setter = PythonFunction(
             name="Data",
             args=f"self, prop:{referent_type}",
@@ -98,7 +98,7 @@ class PythonNdrPointer(PythonNdrClassDefiniton):
             args="self",
             body=["return self['Data']"],
             decorator="@property",
-            return_type=referent_type
+            return_type=referent_type,
         )
         return PythonFunctionList(prop_getter, prop_setter)
 
@@ -111,8 +111,9 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
         if tag:
             commonHdr = PythonAssignment(
                 PythonName("commonHdr"),
-
-                PythonTuple([PythonTuple([PythonValue(f"'tag'"), PythonValue(f"{tag}")])]),
+                PythonTuple(
+                    [PythonTuple([PythonValue(f"'tag'"), PythonValue(f"{tag}")])]
+                ),
             )
             prop_list.append(commonHdr)
         structure = PythonAssignment(PythonValue("union"), PythonDict(union_entries))
@@ -126,7 +127,9 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
             functions=prop_functions,
         )
 
-    def generate_prop_functions(self, union_entries: PythonDictEntryList) -> PythonFunctionList:
+    def generate_prop_functions(
+        self, union_entries: PythonDictEntryList
+    ) -> PythonFunctionList:
         prop_functions = []
         for union_member in union_entries.rhs.entries.obj_list:
             prop_name = union_member.value.values[0].value[1:-1]
@@ -136,7 +139,7 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
                 args="self",
                 body=[f"return self['{prop_name}']"],
                 decorator="@property",
-                return_type=prop_type
+                return_type=prop_type,
             )
             prop_functions.append(prop_get_fn)
             prop_set_fn = PythonFunction(
@@ -147,6 +150,7 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
             )
             prop_functions.append(prop_set_fn)
         return PythonFunctionList(*prop_functions)
+
 
 class PythonNdrCall(PythonNdrClassDefiniton):
     """Creates a simple NDRCALL"""
@@ -201,12 +205,14 @@ class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
 class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
     """Creates a simple NDRUniFixedArray"""
 
-    def __init__(self, name: str, length: str, underlying_type_size:int=1):
+    def __init__(self, name: str, length: str, underlying_type_size: int = 1):
         align = PythonAssignment(PythonValue("align"), PythonValue("1"))
         prop_list = [align]
         props = PythonAssignmentList(*prop_list)
         get_data_len = PythonFunction(
-            "getDataLen", args="self,data,offset=0", body=[f"return {length} * {str(underlying_type_size)}"]
+            "getDataLen",
+            args="self,data,offset=0",
+            body=[f"return {length} * {str(underlying_type_size)}"],
         )
         func_list = [get_data_len]
         funcs = PythonFunctionList(*func_list)

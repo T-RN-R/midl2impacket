@@ -4,6 +4,7 @@ from fuzzer.datatype import DataTypeLookup
 """Base classes for fuzzer generator generation code
 """
 
+
 class Fuzzable(abc.ABC):
     "Class that acts as a registry for mapping types to generators"
     __REGISTRY = DataTypeLookup()
@@ -24,5 +25,7 @@ class Fuzzable(abc.ABC):
         # TODO: Add a coinflip here to decided whether to generate a new isntance of the given type,
         #  or to do a lookup through previous defined variables and objects to find and instance
         pass
+
+
 class FuzzableMidl(Fuzzable):
     """Fuzzable MIDL concepts"""

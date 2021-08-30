@@ -1,4 +1,3 @@
-
-class ImpacketDefinition():
+class ImpacketDefinition:
     def __init__(self):
         pass

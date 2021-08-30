@@ -95,12 +95,13 @@ class MidlStructParser(MidlBaseParser):
                 self.cur_member_attrs = {}
             elif token.data == "union":
                 from .unions import MidlUnionParser
+
                 union_type = MidlUnionParser(self.tokens, self.tokenizer).parse(token)
                 union_type.attributes = self.cur_member_attrs
                 if not union_type.public_names:
                     union_type.public_names.append(f"u{self.embedded_union_count}")
                     self.embedded_union_count += 1
-                    
+
                 var_def = MidlVarDef(
                     union_type, union_type.public_names[0], self.cur_member_attrs
                 )

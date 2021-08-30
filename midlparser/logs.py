@@ -7,11 +7,13 @@ LOG_DIR = pathlib.Path(__file__).parent / "logs"
 INITIALIZED = False
 DEFAULT_LEVEL = logging.ERROR
 
- 
+
 class ColorFormatter(logging.Formatter):
 
     # Format
-    log_format = "[%(name)s:%(funcName)s(%(filename)s:%(lineno)s) %(levelname)+9s]: %(message)s"
+    log_format = (
+        "[%(name)s:%(funcName)s(%(filename)s:%(lineno)s) %(levelname)+9s]: %(message)s"
+    )
 
     # Colors
     grey = "\x1b[38;21m"
@@ -19,7 +21,7 @@ class ColorFormatter(logging.Formatter):
     red = "\x1b[31;21m"
     bold_red = "\x1b[31;1m"
     reset = "\x1b[0m"
-    
+
     COLORS = {
         logging.DEBUG: grey,
         logging.INFO: grey,
@@ -28,8 +30,10 @@ class ColorFormatter(logging.Formatter):
         logging.CRITICAL: bold_red,
     }
 
-    def __init__(self, fmt=None, datefmt=None, style='%', validate=True) -> None:
-        super().__init__(fmt=fmt or self.log_format, datefmt=datefmt, style=style, validate=validate)
+    def __init__(self, fmt=None, datefmt=None, style="%", validate=True) -> None:
+        super().__init__(
+            fmt=fmt or self.log_format, datefmt=datefmt, style=style, validate=validate
+        )
 
     def formatMessage(self, record: logging.LogRecord) -> str:
         if record.exc_info:
@@ -45,7 +49,9 @@ class ColorFormatter(logging.Formatter):
         return ""
 
 
-def init_logging(level=DEFAULT_LEVEL, log_dir: pathlib.Path = LOG_DIR, log_to_file=False):
+def init_logging(
+    level=DEFAULT_LEVEL, log_dir: pathlib.Path = LOG_DIR, log_to_file=False
+):
 
     formatter = ColorFormatter()
     root_logger = logging.getLogger()
@@ -63,6 +69,7 @@ def init_logging(level=DEFAULT_LEVEL, log_dir: pathlib.Path = LOG_DIR, log_to_fi
         file_handler.setFormatter(formatter)
         file_handler.setLevel(level)
         root_logger.addHandler(file_handler)
+
 
 def get_logger(logger_name: str, level=DEFAULT_LEVEL):
     global INITIALIZED

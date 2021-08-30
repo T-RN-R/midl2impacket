@@ -1,2238 +1,4255 @@
-
 from fuzzer.midl import *
 from fuzzer.core import *
 
-class ('FILETIME', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwLowDateTime"),(('DWORD', None), "dwHighDateTime"),]
 
-    
+class FILETIME(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwLowDateTime"),
+        (DWORD, "dwHighDateTime"),
+    ]
 
-class ('GUID', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "Data1"),(('UNSIGNED_SHORT', None), "Data2"),(('UNSIGNED_SHORT', None), "Data3"),(('BYTE', None), "Data4"),]
 
-    
+class GUID(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "Data1"),
+        (UNSIGNED_SHORT, "Data2"),
+        (UNSIGNED_SHORT, "Data3"),
+        (BYTE, "Data4"),
+    ]
 
-class ('LARGE_INTEGER', None)(NdrStructure):
-    MEMBERS = [(('SIGNED___INT64', None), "QuadPart"),]
 
-    
+class LARGE_INTEGER(NdrStructure):
+    MEMBERS = [
+        (SIGNED___INT64, "QuadPart"),
+    ]
 
-class ('EVENT_DESCRIPTOR', None)(NdrStructure):
-    MEMBERS = [(('USHORT', None), "Id"),(('UCHAR', None), "Version"),(('UCHAR', None), "Channel"),(('UCHAR', None), "Level"),(('UCHAR', None), "Opcode"),(('USHORT', None), "Task"),(('ULONGLONG', None), "Keyword"),]
 
-    
+class EVENT_DESCRIPTOR(NdrStructure):
+    MEMBERS = [
+        (USHORT, "Id"),
+        (UCHAR, "Version"),
+        (UCHAR, "Channel"),
+        (UCHAR, "Level"),
+        (UCHAR, "Opcode"),
+        (USHORT, "Task"),
+        (ULONGLONG, "Keyword"),
+    ]
 
-class ('S0', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "KernelTime"),(('ULONG', None), "UserTime"),]
 
-    
+class S0(NdrStructure):
+    MEMBERS = [
+        (ULONG, "KernelTime"),
+        (ULONG, "UserTime"),
+    ]
 
-class ('U0', None)(NdrUnion):
+
+class U0(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('S0', None), s0),2 : (('ULONG64', None), ProcessorTime),}
+    MEMBERS = {
+        1: (S0, "s0"),
+        2: (ULONG64, "ProcessorTime"),
+    }
 
-    
 
-class ('EVENT_HEADER', None)(NdrStructure):
-    MEMBERS = [(('USHORT', None), "Size"),(('USHORT', None), "HeaderType"),(('USHORT', None), "Flags"),(('USHORT', None), "EventProperty"),(('ULONG', None), "ThreadId"),(('ULONG', None), "ProcessId"),(('LARGE_INTEGER', None), "TimeStamp"),(('GUID', None), "ProviderId"),(('EVENT_DESCRIPTOR', None), "EventDescriptor"),(('U0', None), "u0"),(('GUID', None), "ActivityId"),]
+class EVENT_HEADER(NdrStructure):
+    MEMBERS = [
+        (USHORT, "Size"),
+        (USHORT, "HeaderType"),
+        (USHORT, "Flags"),
+        (USHORT, "EventProperty"),
+        (ULONG, "ThreadId"),
+        (ULONG, "ProcessId"),
+        (LARGE_INTEGER, "TimeStamp"),
+        (GUID, "ProviderId"),
+        (EVENT_DESCRIPTOR, "EventDescriptor"),
+        (U0, "u0"),
+        (GUID, "ActivityId"),
+    ]
 
-    
 
-class ('LUID', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "LowPart"),(('LONG', None), "HighPart"),]
+class LUID(NdrStructure):
+    MEMBERS = [
+        (DWORD, "LowPart"),
+        (LONG, "HighPart"),
+    ]
 
-    
 
-class ('MULTI_SZ', None)(NdrStructure):
-    MEMBERS = [(('PWCHAR_T', None), "Value"),(('DWORD', None), "nChar"),]
+class MULTI_SZ(NdrStructure):
+    MEMBERS = [
+        (PWCHAR_T, "Value"),
+        (DWORD, "nChar"),
+    ]
 
-    
 
-class ('RPC_UNICODE_STRING', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_SHORT', None), "Length"),(('UNSIGNED_SHORT', None), "MaximumLength"),(('PWCHAR', None), "Buffer"),]
+class RPC_UNICODE_STRING(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_SHORT, "Length"),
+        (UNSIGNED_SHORT, "MaximumLength"),
+        (PWCHAR, "Buffer"),
+    ]
 
-    
 
-class ('SERVER_INFO_100', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "sv100_platform_id"),(('PWCHAR_T', None), "sv100_name"),]
+class SERVER_INFO_100(NdrStructure):
+    MEMBERS = [
+        (DWORD, "sv100_platform_id"),
+        (PWCHAR_T, "sv100_name"),
+    ]
 
-    
 
-class ('SERVER_INFO_101', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "sv101_platform_id"),(('PWCHAR_T', None), "sv101_name"),(('DWORD', None), "sv101_version_major"),(('DWORD', None), "sv101_version_minor"),(('DWORD', None), "sv101_version_type"),(('PWCHAR_T', None), "sv101_comment"),]
+class SERVER_INFO_101(NdrStructure):
+    MEMBERS = [
+        (DWORD, "sv101_platform_id"),
+        (PWCHAR_T, "sv101_name"),
+        (DWORD, "sv101_version_major"),
+        (DWORD, "sv101_version_minor"),
+        (DWORD, "sv101_version_type"),
+        (PWCHAR_T, "sv101_comment"),
+    ]
 
-    
 
-class ('SYSTEMTIME', None)(NdrStructure):
-    MEMBERS = [(('WORD', None), "wYear"),(('WORD', None), "wMonth"),(('WORD', None), "wDayOfWeek"),(('WORD', None), "wDay"),(('WORD', None), "wHour"),(('WORD', None), "wMinute"),(('WORD', None), "wSecond"),(('WORD', None), "wMilliseconds"),]
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [
+        (WORD, "wYear"),
+        (WORD, "wMonth"),
+        (WORD, "wDayOfWeek"),
+        (WORD, "wDay"),
+        (WORD, "wHour"),
+        (WORD, "wMinute"),
+        (WORD, "wSecond"),
+        (WORD, "wMilliseconds"),
+    ]
 
-    
 
-class ('UINT128', None)(NdrStructure):
-    MEMBERS = [(('UINT64', None), "lower"),(('UINT64', None), "upper"),]
+class UINT128(NdrStructure):
+    MEMBERS = [
+        (UINT64, "lower"),
+        (UINT64, "upper"),
+    ]
 
-    
 
-class ('ULARGE_INTEGER', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED___INT64', None), "QuadPart"),]
+class ULARGE_INTEGER(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED___INT64, "QuadPart"),
+    ]
 
-    
 
-class ('RPC_SID_IDENTIFIER_AUTHORITY', None)(NdrStructure):
-    MEMBERS = [(('BYTE', None), "Value"),]
+class RPC_SID_IDENTIFIER_AUTHORITY(NdrStructure):
+    MEMBERS = [
+        (BYTE, "Value"),
+    ]
 
-    
 
-class ('OBJECT_TYPE_LIST', None)(NdrStructure):
-    MEMBERS = [(('WORD', None), "Level"),(('ACCESS_MASK', None), "Remaining"),(('PGUID', None), "ObjectType"),]
+class OBJECT_TYPE_LIST(NdrStructure):
+    MEMBERS = [
+        (WORD, "Level"),
+        (ACCESS_MASK, "Remaining"),
+        (PGUID, "ObjectType"),
+    ]
 
-    
 
-class ('ACE_HEADER', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "AceType"),(('UCHAR', None), "AceFlags"),(('USHORT', None), "AceSize"),]
+class ACE_HEADER(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "AceType"),
+        (UCHAR, "AceFlags"),
+        (USHORT, "AceSize"),
+    ]
 
-    
 
-class ('SYSTEM_MANDATORY_LABEL_ACE', None)(NdrStructure):
-    MEMBERS = [(('ACE_HEADER', None), "Header"),(('ACCESS_MASK', None), "Mask"),(('DWORD', None), "SidStart"),]
+class SYSTEM_MANDATORY_LABEL_ACE(NdrStructure):
+    MEMBERS = [
+        (ACE_HEADER, "Header"),
+        (ACCESS_MASK, "Mask"),
+        (DWORD, "SidStart"),
+    ]
 
-    
 
-class ('TOKEN_MANDATORY_POLICY', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Policy"),]
+class TOKEN_MANDATORY_POLICY(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Policy"),
+    ]
 
-    
 
-class ('MANDATORY_INFORMATION', None)(NdrStructure):
-    MEMBERS = [(('ACCESS_MASK', None), "AllowedAccess"),(('BOOLEAN', None), "WriteAllowed"),(('BOOLEAN', None), "ReadAllowed"),(('BOOLEAN', None), "ExecuteAllowed"),(('TOKEN_MANDATORY_POLICY', None), "MandatoryPolicy"),]
+class MANDATORY_INFORMATION(NdrStructure):
+    MEMBERS = [
+        (ACCESS_MASK, "AllowedAccess"),
+        (BOOLEAN, "WriteAllowed"),
+        (BOOLEAN, "ReadAllowed"),
+        (BOOLEAN, "ExecuteAllowed"),
+        (TOKEN_MANDATORY_POLICY, "MandatoryPolicy"),
+    ]
 
-    
 
-class ('CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Length"),(('BYTE', None), "OctetString"),]
+class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Length"),
+        (BYTE, "OctetString"),
+    ]
 
-    
 
-class ('VALUES', None)(NdrUnion):
+class VALUES(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('PLONG64', None), pInt64),2 : (('PDWORD64', None), pUint64),3 : (('PWSTR', None), ppString),4 : (('PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None), pOctetString),}
+    MEMBERS = {
+        1: (PLONG64, "pInt64"),
+        2: (PDWORD64, "pUint64"),
+        3: (PWSTR, "ppString"),
+        4: (PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE, "pOctetString"),
+    }
 
-    
 
-class ('CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Name"),(('WORD', None), "ValueType"),(('WORD', None), "Reserved"),(('DWORD', None), "Flags"),(('DWORD', None), "ValueCount"),(('VALUES', None), "Values"),]
+class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Name"),
+        (WORD, "ValueType"),
+        (WORD, "Reserved"),
+        (DWORD, "Flags"),
+        (DWORD, "ValueCount"),
+        (VALUES, "Values"),
+    ]
 
-    
 
-class ('RPC_SID', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_CHAR', None), "Revision"),(('UNSIGNED_CHAR', None), "SubAuthorityCount"),(('RPC_SID_IDENTIFIER_AUTHORITY', None), "IdentifierAuthority"),(('UNSIGNED_LONG', None), "SubAuthority"),]
+class RPC_SID(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_CHAR, "Revision"),
+        (UNSIGNED_CHAR, "SubAuthorityCount"),
+        (RPC_SID_IDENTIFIER_AUTHORITY, "IdentifierAuthority"),
+        (UNSIGNED_LONG, "SubAuthority"),
+    ]
 
-    
 
-class ('ACL', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_CHAR', None), "AclRevision"),(('UNSIGNED_CHAR', None), "Sbz1"),(('UNSIGNED_SHORT', None), "AclSize"),(('UNSIGNED_SHORT', None), "AceCount"),(('UNSIGNED_SHORT', None), "Sbz2"),]
+class ACL(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_CHAR, "AclRevision"),
+        (UNSIGNED_CHAR, "Sbz1"),
+        (UNSIGNED_SHORT, "AclSize"),
+        (UNSIGNED_SHORT, "AceCount"),
+        (UNSIGNED_SHORT, "Sbz2"),
+    ]
 
-    
 
-class ('SECURITY_DESCRIPTOR', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "Revision"),(('UCHAR', None), "Sbz1"),(('USHORT', None), "Control"),(('PSID', None), "Owner"),(('PSID', None), "Group"),(('PACL', None), "Sacl"),(('PACL', None), "Dacl"),]
+class SECURITY_DESCRIPTOR(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "Revision"),
+        (UCHAR, "Sbz1"),
+        (USHORT, "Control"),
+        (PSID, "Owner"),
+        (PSID, "Group"),
+        (PACL, "Sacl"),
+        (PACL, "Dacl"),
+    ]
 
-    
 
-class ('FILETIME', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwLowDateTime"),(('DWORD', None), "dwHighDateTime"),]
+class FILETIME(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwLowDateTime"),
+        (DWORD, "dwHighDateTime"),
+    ]
 
-    
 
-class ('GUID', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "Data1"),(('UNSIGNED_SHORT', None), "Data2"),(('UNSIGNED_SHORT', None), "Data3"),(('BYTE', None), "Data4"),]
+class GUID(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "Data1"),
+        (UNSIGNED_SHORT, "Data2"),
+        (UNSIGNED_SHORT, "Data3"),
+        (BYTE, "Data4"),
+    ]
 
-    
 
-class ('LARGE_INTEGER', None)(NdrStructure):
-    MEMBERS = [(('SIGNED___INT64', None), "QuadPart"),]
+class LARGE_INTEGER(NdrStructure):
+    MEMBERS = [
+        (SIGNED___INT64, "QuadPart"),
+    ]
 
-    
 
-class ('EVENT_DESCRIPTOR', None)(NdrStructure):
-    MEMBERS = [(('USHORT', None), "Id"),(('UCHAR', None), "Version"),(('UCHAR', None), "Channel"),(('UCHAR', None), "Level"),(('UCHAR', None), "Opcode"),(('USHORT', None), "Task"),(('ULONGLONG', None), "Keyword"),]
+class EVENT_DESCRIPTOR(NdrStructure):
+    MEMBERS = [
+        (USHORT, "Id"),
+        (UCHAR, "Version"),
+        (UCHAR, "Channel"),
+        (UCHAR, "Level"),
+        (UCHAR, "Opcode"),
+        (USHORT, "Task"),
+        (ULONGLONG, "Keyword"),
+    ]
 
-    
 
-class ('S0', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "KernelTime"),(('ULONG', None), "UserTime"),]
+class S0(NdrStructure):
+    MEMBERS = [
+        (ULONG, "KernelTime"),
+        (ULONG, "UserTime"),
+    ]
 
-    
 
-class ('U0', None)(NdrUnion):
+class U0(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('S0', None), s0),2 : (('ULONG64', None), ProcessorTime),}
+    MEMBERS = {
+        1: (S0, "s0"),
+        2: (ULONG64, "ProcessorTime"),
+    }
 
-    
 
-class ('EVENT_HEADER', None)(NdrStructure):
-    MEMBERS = [(('USHORT', None), "Size"),(('USHORT', None), "HeaderType"),(('USHORT', None), "Flags"),(('USHORT', None), "EventProperty"),(('ULONG', None), "ThreadId"),(('ULONG', None), "ProcessId"),(('LARGE_INTEGER', None), "TimeStamp"),(('GUID', None), "ProviderId"),(('EVENT_DESCRIPTOR', None), "EventDescriptor"),(('U0', None), "u0"),(('GUID', None), "ActivityId"),]
+class EVENT_HEADER(NdrStructure):
+    MEMBERS = [
+        (USHORT, "Size"),
+        (USHORT, "HeaderType"),
+        (USHORT, "Flags"),
+        (USHORT, "EventProperty"),
+        (ULONG, "ThreadId"),
+        (ULONG, "ProcessId"),
+        (LARGE_INTEGER, "TimeStamp"),
+        (GUID, "ProviderId"),
+        (EVENT_DESCRIPTOR, "EventDescriptor"),
+        (U0, "u0"),
+        (GUID, "ActivityId"),
+    ]
 
-    
 
-class ('LUID', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "LowPart"),(('LONG', None), "HighPart"),]
+class LUID(NdrStructure):
+    MEMBERS = [
+        (DWORD, "LowPart"),
+        (LONG, "HighPart"),
+    ]
 
-    
 
-class ('MULTI_SZ', None)(NdrStructure):
-    MEMBERS = [(('PWCHAR_T', None), "Value"),(('DWORD', None), "nChar"),]
+class MULTI_SZ(NdrStructure):
+    MEMBERS = [
+        (PWCHAR_T, "Value"),
+        (DWORD, "nChar"),
+    ]
 
-    
 
-class ('RPC_UNICODE_STRING', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_SHORT', None), "Length"),(('UNSIGNED_SHORT', None), "MaximumLength"),(('PWCHAR', None), "Buffer"),]
+class RPC_UNICODE_STRING(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_SHORT, "Length"),
+        (UNSIGNED_SHORT, "MaximumLength"),
+        (PWCHAR, "Buffer"),
+    ]
 
-    
 
-class ('SERVER_INFO_100', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "sv100_platform_id"),(('PWCHAR_T', None), "sv100_name"),]
+class SERVER_INFO_100(NdrStructure):
+    MEMBERS = [
+        (DWORD, "sv100_platform_id"),
+        (PWCHAR_T, "sv100_name"),
+    ]
 
-    
 
-class ('SERVER_INFO_101', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "sv101_platform_id"),(('PWCHAR_T', None), "sv101_name"),(('DWORD', None), "sv101_version_major"),(('DWORD', None), "sv101_version_minor"),(('DWORD', None), "sv101_version_type"),(('PWCHAR_T', None), "sv101_comment"),]
+class SERVER_INFO_101(NdrStructure):
+    MEMBERS = [
+        (DWORD, "sv101_platform_id"),
+        (PWCHAR_T, "sv101_name"),
+        (DWORD, "sv101_version_major"),
+        (DWORD, "sv101_version_minor"),
+        (DWORD, "sv101_version_type"),
+        (PWCHAR_T, "sv101_comment"),
+    ]
 
-    
 
-class ('SYSTEMTIME', None)(NdrStructure):
-    MEMBERS = [(('WORD', None), "wYear"),(('WORD', None), "wMonth"),(('WORD', None), "wDayOfWeek"),(('WORD', None), "wDay"),(('WORD', None), "wHour"),(('WORD', None), "wMinute"),(('WORD', None), "wSecond"),(('WORD', None), "wMilliseconds"),]
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [
+        (WORD, "wYear"),
+        (WORD, "wMonth"),
+        (WORD, "wDayOfWeek"),
+        (WORD, "wDay"),
+        (WORD, "wHour"),
+        (WORD, "wMinute"),
+        (WORD, "wSecond"),
+        (WORD, "wMilliseconds"),
+    ]
 
-    
 
-class ('UINT128', None)(NdrStructure):
-    MEMBERS = [(('UINT64', None), "lower"),(('UINT64', None), "upper"),]
+class UINT128(NdrStructure):
+    MEMBERS = [
+        (UINT64, "lower"),
+        (UINT64, "upper"),
+    ]
 
-    
 
-class ('ULARGE_INTEGER', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED___INT64', None), "QuadPart"),]
+class ULARGE_INTEGER(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED___INT64, "QuadPart"),
+    ]
 
-    
 
-class ('RPC_SID_IDENTIFIER_AUTHORITY', None)(NdrStructure):
-    MEMBERS = [(('BYTE', None), "Value"),]
+class RPC_SID_IDENTIFIER_AUTHORITY(NdrStructure):
+    MEMBERS = [
+        (BYTE, "Value"),
+    ]
 
-    
 
-class ('OBJECT_TYPE_LIST', None)(NdrStructure):
-    MEMBERS = [(('WORD', None), "Level"),(('ACCESS_MASK', None), "Remaining"),(('PGUID', None), "ObjectType"),]
+class OBJECT_TYPE_LIST(NdrStructure):
+    MEMBERS = [
+        (WORD, "Level"),
+        (ACCESS_MASK, "Remaining"),
+        (PGUID, "ObjectType"),
+    ]
 
-    
 
-class ('ACE_HEADER', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "AceType"),(('UCHAR', None), "AceFlags"),(('USHORT', None), "AceSize"),]
+class ACE_HEADER(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "AceType"),
+        (UCHAR, "AceFlags"),
+        (USHORT, "AceSize"),
+    ]
 
-    
 
-class ('SYSTEM_MANDATORY_LABEL_ACE', None)(NdrStructure):
-    MEMBERS = [(('ACE_HEADER', None), "Header"),(('ACCESS_MASK', None), "Mask"),(('DWORD', None), "SidStart"),]
+class SYSTEM_MANDATORY_LABEL_ACE(NdrStructure):
+    MEMBERS = [
+        (ACE_HEADER, "Header"),
+        (ACCESS_MASK, "Mask"),
+        (DWORD, "SidStart"),
+    ]
 
-    
 
-class ('TOKEN_MANDATORY_POLICY', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Policy"),]
+class TOKEN_MANDATORY_POLICY(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Policy"),
+    ]
 
-    
 
-class ('MANDATORY_INFORMATION', None)(NdrStructure):
-    MEMBERS = [(('ACCESS_MASK', None), "AllowedAccess"),(('BOOLEAN', None), "WriteAllowed"),(('BOOLEAN', None), "ReadAllowed"),(('BOOLEAN', None), "ExecuteAllowed"),(('TOKEN_MANDATORY_POLICY', None), "MandatoryPolicy"),]
+class MANDATORY_INFORMATION(NdrStructure):
+    MEMBERS = [
+        (ACCESS_MASK, "AllowedAccess"),
+        (BOOLEAN, "WriteAllowed"),
+        (BOOLEAN, "ReadAllowed"),
+        (BOOLEAN, "ExecuteAllowed"),
+        (TOKEN_MANDATORY_POLICY, "MandatoryPolicy"),
+    ]
 
-    
 
-class ('CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Length"),(('BYTE', None), "OctetString"),]
+class CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Length"),
+        (BYTE, "OctetString"),
+    ]
 
-    
 
-class ('VALUES', None)(NdrUnion):
+class VALUES(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('PLONG64', None), pInt64),2 : (('PDWORD64', None), pUint64),3 : (('PWSTR', None), ppString),4 : (('PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None), pOctetString),}
+    MEMBERS = {
+        1: (PLONG64, "pInt64"),
+        2: (PDWORD64, "pUint64"),
+        3: (PWSTR, "ppString"),
+        4: (PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE, "pOctetString"),
+    }
 
-    
 
-class ('CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Name"),(('WORD', None), "ValueType"),(('WORD', None), "Reserved"),(('DWORD', None), "Flags"),(('DWORD', None), "ValueCount"),(('VALUES', None), "Values"),]
+class CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Name"),
+        (WORD, "ValueType"),
+        (WORD, "Reserved"),
+        (DWORD, "Flags"),
+        (DWORD, "ValueCount"),
+        (VALUES, "Values"),
+    ]
 
-    
 
-class ('RPC_SID', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_CHAR', None), "Revision"),(('UNSIGNED_CHAR', None), "SubAuthorityCount"),(('RPC_SID_IDENTIFIER_AUTHORITY', None), "IdentifierAuthority"),(('UNSIGNED_LONG', None), "SubAuthority"),]
+class RPC_SID(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_CHAR, "Revision"),
+        (UNSIGNED_CHAR, "SubAuthorityCount"),
+        (RPC_SID_IDENTIFIER_AUTHORITY, "IdentifierAuthority"),
+        (UNSIGNED_LONG, "SubAuthority"),
+    ]
 
-    
 
-class ('ACL', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_CHAR', None), "AclRevision"),(('UNSIGNED_CHAR', None), "Sbz1"),(('UNSIGNED_SHORT', None), "AclSize"),(('UNSIGNED_SHORT', None), "AceCount"),(('UNSIGNED_SHORT', None), "Sbz2"),]
+class ACL(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_CHAR, "AclRevision"),
+        (UNSIGNED_CHAR, "Sbz1"),
+        (UNSIGNED_SHORT, "AclSize"),
+        (UNSIGNED_SHORT, "AceCount"),
+        (UNSIGNED_SHORT, "Sbz2"),
+    ]
 
-    
 
-class ('SECURITY_DESCRIPTOR', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "Revision"),(('UCHAR', None), "Sbz1"),(('USHORT', None), "Control"),(('PSID', None), "Owner"),(('PSID', None), "Group"),(('PACL', None), "Sacl"),(('PACL', None), "Dacl"),]
+class SECURITY_DESCRIPTOR(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "Revision"),
+        (UCHAR, "Sbz1"),
+        (USHORT, "Control"),
+        (PSID, "Owner"),
+        (PSID, "Group"),
+        (PACL, "Sacl"),
+        (PACL, "Dacl"),
+    ]
 
-    
 
-class ('COMVERSION', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_SHORT', None), "MajorVersion"),(('UNSIGNED_SHORT', None), "MinorVersion"),]
+class COMVERSION(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_SHORT, "MajorVersion"),
+        (UNSIGNED_SHORT, "MinorVersion"),
+    ]
 
-    
 
-class ('ORPC_EXTENT', None)(NdrStructure):
-    MEMBERS = [(('GUID', None), "id"),(('UNSIGNED_LONG', None), "size"),(('BYTE', None), "data"),]
+class ORPC_EXTENT(NdrStructure):
+    MEMBERS = [
+        (GUID, "id"),
+        (UNSIGNED_LONG, "size"),
+        (BYTE, "data"),
+    ]
 
-    
 
-class ('ORPC_EXTENT_ARRAY', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "size"),(('UNSIGNED_LONG', None), "reserved"),(('PPORPC_EXTENT', None), "extent"),]
+class ORPC_EXTENT_ARRAY(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "size"),
+        (UNSIGNED_LONG, "reserved"),
+        (PPORPC_EXTENT, "extent"),
+    ]
 
-    
 
-class ('ORPCTHIS', None)(NdrStructure):
-    MEMBERS = [(('COMVERSION', None), "version"),(('UNSIGNED_LONG', None), "flags"),(('UNSIGNED_LONG', None), "reserved1"),(('CID', None), "cid"),(('PORPC_EXTENT_ARRAY', None), "extensions"),]
+class ORPCTHIS(NdrStructure):
+    MEMBERS = [
+        (COMVERSION, "version"),
+        (UNSIGNED_LONG, "flags"),
+        (UNSIGNED_LONG, "reserved1"),
+        (CID, "cid"),
+        (PORPC_EXTENT_ARRAY, "extensions"),
+    ]
 
-    
 
-class ('ORPCTHAT', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "flags"),(('PORPC_EXTENT_ARRAY', None), "extensions"),]
+class ORPCTHAT(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "flags"),
+        (PORPC_EXTENT_ARRAY, "extensions"),
+    ]
 
-    
 
-class ('DUALSTRINGARRAY', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_SHORT', None), "wNumEntries"),(('UNSIGNED_SHORT', None), "wSecurityOffset"),(('UNSIGNED_SHORT', None), "aStringArray"),]
+class DUALSTRINGARRAY(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_SHORT, "wNumEntries"),
+        (UNSIGNED_SHORT, "wSecurityOffset"),
+        (UNSIGNED_SHORT, "aStringArray"),
+    ]
 
-    
 
-class ('MINTERFACEPOINTER', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "ulCntData"),(('BYTE', None), "abData"),]
+class MINTERFACEPOINTER(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "ulCntData"),
+        (BYTE, "abData"),
+    ]
 
-    
 
-class ('ERROROBJECTDATA', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwVersion"),(('DWORD', None), "dwHelpContext"),(('IID', None), "iid"),(('PWCHAR_T', None), "pszSource"),(('PWCHAR_T', None), "pszDescription"),(('PWCHAR_T', None), "pszHelpFile"),]
+class ERROROBJECTDATA(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwVersion"),
+        (DWORD, "dwHelpContext"),
+        (IID, "iid"),
+        (PWCHAR_T, "pszSource"),
+        (PWCHAR_T, "pszDescription"),
+        (PWCHAR_T, "pszHelpFile"),
+    ]
 
-    
 
-class ('STDOBJREF', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "flags"),(('UNSIGNED_LONG', None), "cPublicRefs"),(('OXID', None), "oxid"),(('OID', None), "oid"),(('IPID', None), "ipid"),]
+class STDOBJREF(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "flags"),
+        (UNSIGNED_LONG, "cPublicRefs"),
+        (OXID, "oxid"),
+        (OID, "oid"),
+        (IPID, "ipid"),
+    ]
 
-    
 
-class ('REMQIRESULT', None)(NdrStructure):
-    MEMBERS = [(('HRESULT', None), "hResult"),(('STDOBJREF', None), "std"),]
+class REMQIRESULT(NdrStructure):
+    MEMBERS = [
+        (HRESULT, "hResult"),
+        (STDOBJREF, "std"),
+    ]
 
-    
 
-class ('REMINTERFACEREF', None)(NdrStructure):
-    MEMBERS = [(('IPID', None), "ipid"),(('UNSIGNED_LONG', None), "cPublicRefs"),(('UNSIGNED_LONG', None), "cPrivateRefs"),]
+class REMINTERFACEREF(NdrStructure):
+    MEMBERS = [
+        (IPID, "ipid"),
+        (UNSIGNED_LONG, "cPublicRefs"),
+        (UNSIGNED_LONG, "cPrivateRefs"),
+    ]
 
-    
 
-class ('COSERVERINFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwReserved1"),(('PWCHAR_T', None), "pwszName"),(('PDWORD', None), "pdwReserved"),(('DWORD', None), "dwReserved2"),]
+class COSERVERINFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwReserved1"),
+        (PWCHAR_T, "pwszName"),
+        (PDWORD, "pdwReserved"),
+        (DWORD, "dwReserved2"),
+    ]
 
-    
 
-class ('CUSTOMREMOTE_REQUEST_SCM_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "ClientImpLevel"),(('UNSIGNED_SHORT', None), "cRequestedProtseqs"),(('PUNSIGNED_SHORT', None), "pRequestedProtseqs"),]
+class CUSTOMREMOTE_REQUEST_SCM_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "ClientImpLevel"),
+        (UNSIGNED_SHORT, "cRequestedProtseqs"),
+        (PUNSIGNED_SHORT, "pRequestedProtseqs"),
+    ]
 
-    
 
-class ('CUSTOMREMOTE_REPLY_SCM_INFO', None)(NdrStructure):
-    MEMBERS = [(('OXID', None), "Oxid"),(('PDUALSTRINGARRAY', None), "pdsaOxidBindings"),(('IPID', None), "ipidRemUnknown"),(('DWORD', None), "authnHint"),(('COMVERSION', None), "serverVersion"),]
+class CUSTOMREMOTE_REPLY_SCM_INFO(NdrStructure):
+    MEMBERS = [
+        (OXID, "Oxid"),
+        (PDUALSTRINGARRAY, "pdsaOxidBindings"),
+        (IPID, "ipidRemUnknown"),
+        (DWORD, "authnHint"),
+        (COMVERSION, "serverVersion"),
+    ]
 
-    
 
-class ('INSTANTIATIONINFODATA', None)(NdrStructure):
-    MEMBERS = [(('CLSID', None), "classId"),(('DWORD', None), "classCtx"),(('DWORD', None), "actvflags"),(('LONG', None), "fIsSurrogate"),(('DWORD', None), "cIID"),(('DWORD', None), "instFlag"),(('PIID', None), "pIID"),(('DWORD', None), "thisSize"),(('COMVERSION', None), "clientCOMVersion"),]
+class INSTANTIATIONINFODATA(NdrStructure):
+    MEMBERS = [
+        (CLSID, "classId"),
+        (DWORD, "classCtx"),
+        (DWORD, "actvflags"),
+        (LONG, "fIsSurrogate"),
+        (DWORD, "cIID"),
+        (DWORD, "instFlag"),
+        (PIID, "pIID"),
+        (DWORD, "thisSize"),
+        (COMVERSION, "clientCOMVersion"),
+    ]
 
-    
 
-class ('LOCATIONINFODATA', None)(NdrStructure):
-    MEMBERS = [(('PWCHAR_T', None), "machineName"),(('DWORD', None), "processId"),(('DWORD', None), "apartmentId"),(('DWORD', None), "contextId"),]
+class LOCATIONINFODATA(NdrStructure):
+    MEMBERS = [
+        (PWCHAR_T, "machineName"),
+        (DWORD, "processId"),
+        (DWORD, "apartmentId"),
+        (DWORD, "contextId"),
+    ]
 
-    
 
-class ('ACTIVATIONCONTEXTINFODATA', None)(NdrStructure):
-    MEMBERS = [(('LONG', None), "clientOK"),(('LONG', None), "bReserved1"),(('DWORD', None), "dwReserved1"),(('DWORD', None), "dwReserved2"),(('PMINTERFACEPOINTER', None), "pIFDClientCtx"),(('PMINTERFACEPOINTER', None), "pIFDPrototypeCtx"),]
+class ACTIVATIONCONTEXTINFODATA(NdrStructure):
+    MEMBERS = [
+        (LONG, "clientOK"),
+        (LONG, "bReserved1"),
+        (DWORD, "dwReserved1"),
+        (DWORD, "dwReserved2"),
+        (PMINTERFACEPOINTER, "pIFDClientCtx"),
+        (PMINTERFACEPOINTER, "pIFDPrototypeCtx"),
+    ]
 
-    
 
-class ('CUSTOMHEADER', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "totalSize"),(('DWORD', None), "headerSize"),(('DWORD', None), "dwReserved"),(('DWORD', None), "destCtx"),(('DWORD', None), "cIfs"),(('CLSID', None), "classInfoClsid"),(('PCLSID', None), "pclsid"),(('PDWORD', None), "pSizes"),(('PDWORD', None), "pdwReserved"),]
+class CUSTOMHEADER(NdrStructure):
+    MEMBERS = [
+        (DWORD, "totalSize"),
+        (DWORD, "headerSize"),
+        (DWORD, "dwReserved"),
+        (DWORD, "destCtx"),
+        (DWORD, "cIfs"),
+        (CLSID, "classInfoClsid"),
+        (PCLSID, "pclsid"),
+        (PDWORD, "pSizes"),
+        (PDWORD, "pdwReserved"),
+    ]
 
-    
 
-class ('PROPSOUTINFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "cIfs"),(('PIID', None), "piid"),(('PHRESULT', None), "phresults"),(('PPMINTERFACEPOINTER', None), "ppIntfData"),]
+class PROPSOUTINFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "cIfs"),
+        (PIID, "piid"),
+        (PHRESULT, "phresults"),
+        (PPMINTERFACEPOINTER, "ppIntfData"),
+    ]
 
-    
 
-class ('SECURITYINFODATA', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwAuthnFlags"),(('PCOSERVERINFO', None), "pServerInfo"),(('PDWORD', None), "pdwReserved"),]
+class SECURITYINFODATA(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwAuthnFlags"),
+        (PCOSERVERINFO, "pServerInfo"),
+        (PDWORD, "pdwReserved"),
+    ]
 
-    
 
-class ('SCMREQUESTINFODATA', None)(NdrStructure):
-    MEMBERS = [(('PDWORD', None), "pdwReserved"),(('PCUSTOMREMOTE_REQUEST_SCM_INFO', None), "remoteRequest"),]
+class SCMREQUESTINFODATA(NdrStructure):
+    MEMBERS = [
+        (PDWORD, "pdwReserved"),
+        (PCUSTOMREMOTE_REQUEST_SCM_INFO, "remoteRequest"),
+    ]
 
-    
 
-class ('SCMREPLYINFODATA', None)(NdrStructure):
-    MEMBERS = [(('PDWORD', None), "pdwReserved"),(('PCUSTOMREMOTE_REPLY_SCM_INFO', None), "remoteReply"),]
+class SCMREPLYINFODATA(NdrStructure):
+    MEMBERS = [
+        (PDWORD, "pdwReserved"),
+        (PCUSTOMREMOTE_REPLY_SCM_INFO, "remoteReply"),
+    ]
 
-    
 
-class ('INSTANCEINFODATA', None)(NdrStructure):
-    MEMBERS = [(('PWCHAR_T', None), "fileName"),(('DWORD', None), "mode"),(('PMINTERFACEPOINTER', None), "ifdROT"),(('PMINTERFACEPOINTER', None), "ifdStg"),]
+class INSTANCEINFODATA(NdrStructure):
+    MEMBERS = [
+        (PWCHAR_T, "fileName"),
+        (DWORD, "mode"),
+        (PMINTERFACEPOINTER, "ifdROT"),
+        (PMINTERFACEPOINTER, "ifdStg"),
+    ]
 
-    
 
-class ('SPECIALPROPERTIESDATA', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "dwSessionId"),(('LONG', None), "fRemoteThisSessionId"),(('LONG', None), "fClientImpersonating"),(('LONG', None), "fPartitionIDPresent"),(('DWORD', None), "dwDefaultAuthnLvl"),(('GUID', None), "guidPartition"),(('DWORD', None), "dwPRTFlags"),(('DWORD', None), "dwOrigClsctx"),(('DWORD', None), "dwFlags"),(('DWORD', None), "Reserved1"),(('UNSIGNED___INT64', None), "Reserved2"),(('DWORD', None), "Reserved3"),]
+class SPECIALPROPERTIESDATA(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "dwSessionId"),
+        (LONG, "fRemoteThisSessionId"),
+        (LONG, "fClientImpersonating"),
+        (LONG, "fPartitionIDPresent"),
+        (DWORD, "dwDefaultAuthnLvl"),
+        (GUID, "guidPartition"),
+        (DWORD, "dwPRTFlags"),
+        (DWORD, "dwOrigClsctx"),
+        (DWORD, "dwFlags"),
+        (DWORD, "Reserved1"),
+        (UNSIGNED___INT64, "Reserved2"),
+        (DWORD, "Reserved3"),
+    ]
 
-    
 
-class ('SPECIALPROPERTIESDATA_ALTERNATE', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "dwSessionId"),(('LONG', None), "fRemoteThisSessionId"),(('LONG', None), "fClientImpersonating"),(('LONG', None), "fPartitionIDPresent"),(('DWORD', None), "dwDefaultAuthnLvl"),(('GUID', None), "guidPartition"),(('DWORD', None), "dwPRTFlags"),(('DWORD', None), "dwOrigClsctx"),(('DWORD', None), "dwFlags"),(('DWORD', None), "Reserved3"),]
+class SPECIALPROPERTIESDATA_ALTERNATE(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "dwSessionId"),
+        (LONG, "fRemoteThisSessionId"),
+        (LONG, "fClientImpersonating"),
+        (LONG, "fPartitionIDPresent"),
+        (DWORD, "dwDefaultAuthnLvl"),
+        (GUID, "guidPartition"),
+        (DWORD, "dwPRTFlags"),
+        (DWORD, "dwOrigClsctx"),
+        (DWORD, "dwFlags"),
+        (DWORD, "Reserved3"),
+    ]
 
-    
-Method("RemoteActivation",
-In(HANDLE_T),
-In(PORPCTHIS),
-Out(PORPCTHAT),
-In(PGUID),
-In(PWCHAR_T),
-In(PMINTERFACEPOINTER),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(PIID),
-In(UNSIGNED_SHORT),
-In(UNSIGNED_SHORT),
-Out(POXID),
-Out(PPDUALSTRINGARRAY),
-Out(PIPID),
-Out(PDWORD),
-Out(PCOMVERSION),
-Out(PHRESULT),
-Out(PPMINTERFACEPOINTER),
-Out(PHRESULT),
+
+Method(
+    "RemoteActivation",
+    In(HANDLE_T),
+    In(PORPCTHIS),
+    Out(PORPCTHAT),
+    In(PGUID),
+    In(PWCHAR_T),
+    In(PMINTERFACEPOINTER),
+    In(DWORD),
+    In(DWORD),
+    In(DWORD),
+    In(PIID),
+    In(UNSIGNED_SHORT),
+    In(UNSIGNED_SHORT),
+    Out(POXID),
+    Out(PPDUALSTRINGARRAY),
+    Out(PIPID),
+    Out(PDWORD),
+    Out(PCOMVERSION),
+    Out(PHRESULT),
+    Out(PPMINTERFACEPOINTER),
+    Out(PHRESULT),
 ),
-class ('PVARIANT', None)(NdrStructure):
+
+
+class PVARIANT(NdrStructure):
     MEMBERS = []
 
-    
 
-class ('FLAGGED_WORD_BLOB', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "cBytes"),(('UNSIGNED_LONG', None), "clSize"),(('UNSIGNED_SHORT', None), "asData"),]
+class FLAGGED_WORD_BLOB(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "cBytes"),
+        (UNSIGNED_LONG, "clSize"),
+        (UNSIGNED_SHORT, "asData"),
+    ]
 
-    
 
-class ('CURRENCY', None)(NdrStructure):
-    MEMBERS = [(('__INT64', None), "int64"),]
+class CURRENCY(NdrStructure):
+    MEMBERS = [
+        (__INT64, "int64"),
+    ]
 
-    
 
-class ('DECIMAL', None)(NdrStructure):
-    MEMBERS = [(('WORD', None), "wReserved"),(('BYTE', None), "scale"),(('BYTE', None), "sign"),(('ULONG', None), "Hi32"),(('ULONGLONG', None), "Lo64"),]
+class DECIMAL(NdrStructure):
+    MEMBERS = [
+        (WORD, "wReserved"),
+        (BYTE, "scale"),
+        (BYTE, "sign"),
+        (ULONG, "Hi32"),
+        (ULONGLONG, "Lo64"),
+    ]
 
-    
 
-class ('WIREBRECORDSTR', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "fFlags"),(('ULONG', None), "clSize"),(('PMINTERFACEPOINTER', None), "pRecInfo"),(('PBYTE', None), "pRecord"),]
+class WIREBRECORDSTR(NdrStructure):
+    MEMBERS = [
+        (ULONG, "fFlags"),
+        (ULONG, "clSize"),
+        (PMINTERFACEPOINTER, "pRecInfo"),
+        (PBYTE, "pRecord"),
+    ]
 
-    
 
-class ('PBRECORD', None)(NdrStructure):
+class PBRECORD(NdrStructure):
     MEMBERS = []
 
-    
 
-class ('_VARUNION', None)(NdrUnion):
+class _VARUNION(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('LONGLONG', None), llVal),2 : (('LONG', None), lVal),3 : (('BYTE', None), bVal),4 : (('SHORT', None), iVal),5 : (('FLOAT', None), fltVal),6 : (('DOUBLE', None), dblVal),7 : (('VARIANT_BOOL', None), boolVal),8 : (('HRESULT', None), scode),9 : (('CURRENCY', None), cyVal),10 : (('DATE', None), date),11 : (('BSTR', None), bstrVal),12 : (('PIUNKNOWN', None), punkVal),13 : (('PIDISPATCH', None), pdispVal),14 : (('PSAFEARRAY', None), parray),15 : (('BRECORD', None), brecVal),16 : (('PBYTE', None), pbVal),17 : (('PSHORT', None), piVal),18 : (('PLONG', None), plVal),19 : (('PLONGLONG', None), pllVal),20 : (('PFLOAT', None), pfltVal),21 : (('PDOUBLE', None), pdblVal),22 : (('PVARIANT_BOOL', None), pboolVal),23 : (('PHRESULT', None), pscode),24 : (('PCURRENCY', None), pcyVal),25 : (('PDATE', None), pdate),26 : (('PBSTR', None), pbstrVal),27 : (('PPIUNKNOWN', None), ppunkVal),28 : (('PPIDISPATCH', None), ppdispVal),29 : (('PPSAFEARRAY', None), pparray),30 : (('PVARIANT', None), pvarVal),31 : (('CHAR', None), cVal),32 : (('USHORT', None), uiVal),33 : (('ULONG', None), ulVal),34 : (('ULONGLONG', None), ullVal),35 : (('INT', None), intVal),36 : (('UINT', None), uintVal),37 : (('DECIMAL', None), decVal),38 : (('PCHAR', None), pcVal),39 : (('PUSHORT', None), puiVal),40 : (('PULONG', None), pulVal),41 : (('PULONGLONG', None), pullVal),42 : (('PINT', None), pintVal),43 : (('PUINT', None), puintVal),44 : (('PDECIMAL', None), pdecVal),}
+    MEMBERS = {
+        1: (LONGLONG, "llVal"),
+        2: (LONG, "lVal"),
+        3: (BYTE, "bVal"),
+        4: (SHORT, "iVal"),
+        5: (FLOAT, "fltVal"),
+        6: (DOUBLE, "dblVal"),
+        7: (VARIANT_BOOL, "boolVal"),
+        8: (HRESULT, "scode"),
+        9: (CURRENCY, "cyVal"),
+        10: (DATE, "date"),
+        11: (BSTR, "bstrVal"),
+        12: (PIUNKNOWN, "punkVal"),
+        13: (PIDISPATCH, "pdispVal"),
+        14: (PSAFEARRAY, "parray"),
+        15: (BRECORD, "brecVal"),
+        16: (PBYTE, "pbVal"),
+        17: (PSHORT, "piVal"),
+        18: (PLONG, "plVal"),
+        19: (PLONGLONG, "pllVal"),
+        20: (PFLOAT, "pfltVal"),
+        21: (PDOUBLE, "pdblVal"),
+        22: (PVARIANT_BOOL, "pboolVal"),
+        23: (PHRESULT, "pscode"),
+        24: (PCURRENCY, "pcyVal"),
+        25: (PDATE, "pdate"),
+        26: (PBSTR, "pbstrVal"),
+        27: (PPIUNKNOWN, "ppunkVal"),
+        28: (PPIDISPATCH, "ppdispVal"),
+        29: (PPSAFEARRAY, "pparray"),
+        30: (PVARIANT, "pvarVal"),
+        31: (CHAR, "cVal"),
+        32: (USHORT, "uiVal"),
+        33: (ULONG, "ulVal"),
+        34: (ULONGLONG, "ullVal"),
+        35: (INT, "intVal"),
+        36: (UINT, "uintVal"),
+        37: (DECIMAL, "decVal"),
+        38: (PCHAR, "pcVal"),
+        39: (PUSHORT, "puiVal"),
+        40: (PULONG, "pulVal"),
+        41: (PULONGLONG, "pullVal"),
+        42: (PINT, "pintVal"),
+        43: (PUINT, "puintVal"),
+        44: (PDECIMAL, "pdecVal"),
+    }
 
-    
 
-class ('WIREVARIANTSTR', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "clSize"),(('DWORD', None), "rpcReserved"),(('USHORT', None), "vt"),(('USHORT', None), "wReserved1"),(('USHORT', None), "wReserved2"),(('USHORT', None), "wReserved3"),(('_VARUNION', None), "_varUnion"),]
+class WIREVARIANTSTR(NdrStructure):
+    MEMBERS = [
+        (DWORD, "clSize"),
+        (DWORD, "rpcReserved"),
+        (USHORT, "vt"),
+        (USHORT, "wReserved1"),
+        (USHORT, "wReserved2"),
+        (USHORT, "wReserved3"),
+        (_VARUNION, "_varUnion"),
+    ]
 
-    
 
-class ('SAFEARRAYBOUND', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "cElements"),(('LONG', None), "lLbound"),]
+class SAFEARRAYBOUND(NdrStructure):
+    MEMBERS = [
+        (ULONG, "cElements"),
+        (LONG, "lLbound"),
+    ]
 
-    
 
-class ('SAFEARR_BSTR', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Size"),(('PBSTR', None), "aBstr"),]
+class SAFEARR_BSTR(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Size"),
+        (PBSTR, "aBstr"),
+    ]
 
-    
 
-class ('SAFEARR_UNKNOWN', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Size"),(('PPIUNKNOWN', None), "apUnknown"),]
+class SAFEARR_UNKNOWN(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Size"),
+        (PPIUNKNOWN, "apUnknown"),
+    ]
 
-    
 
-class ('SAFEARR_DISPATCH', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Size"),(('PPIDISPATCH', None), "apDispatch"),]
+class SAFEARR_DISPATCH(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Size"),
+        (PPIDISPATCH, "apDispatch"),
+    ]
 
-    
 
-class ('SAFEARR_VARIANT', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Size"),(('PVARIANT', None), "aVariant"),]
+class SAFEARR_VARIANT(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Size"),
+        (PVARIANT, "aVariant"),
+    ]
 
-    
 
-class ('SAFEARR_BRECORD', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Size"),(('PBRECORD', None), "aRecord"),]
+class SAFEARR_BRECORD(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Size"),
+        (PBRECORD, "aRecord"),
+    ]
 
-    
 
-class ('SAFEARR_HAVEIID', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Size"),(('PPIUNKNOWN', None), "apUnknown"),(('IID', None), "iid"),]
+class SAFEARR_HAVEIID(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Size"),
+        (PPIUNKNOWN, "apUnknown"),
+        (IID, "iid"),
+    ]
 
-    
 
-class ('BYTE_SIZEDARR', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "clSize"),(('PBYTE', None), "pData"),]
+class BYTE_SIZEDARR(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "clSize"),
+        (PBYTE, "pData"),
+    ]
 
-    
 
-class ('WORD_SIZEDARR', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "clSize"),(('PUNSIGNED_SHORT', None), "pData"),]
+class WORD_SIZEDARR(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "clSize"),
+        (PUNSIGNED_SHORT, "pData"),
+    ]
 
-    
 
-class ('DWORD_SIZEDARR', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "clSize"),(('PUNSIGNED_LONG', None), "pData"),]
+class DWORD_SIZEDARR(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "clSize"),
+        (PUNSIGNED_LONG, "pData"),
+    ]
 
-    
 
-class ('HYPER_SIZEDARR', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "clSize"),(('PHYPER', None), "pData"),]
+class HYPER_SIZEDARR(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "clSize"),
+        (PHYPER, "pData"),
+    ]
 
-    
 
-class ('U', None)(NdrUnion):
+class U(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('SAFEARR_BSTR', None), BstrStr),2 : (('SAFEARR_UNKNOWN', None), UnknownStr),3 : (('SAFEARR_DISPATCH', None), DispatchStr),4 : (('SAFEARR_VARIANT', None), VariantStr),5 : (('SAFEARR_BRECORD', None), RecordStr),6 : (('SAFEARR_HAVEIID', None), HaveIidStr),7 : (('BYTE_SIZEDARR', None), ByteStr),8 : (('WORD_SIZEDARR', None), WordStr),9 : (('DWORD_SIZEDARR', None), LongStr),10 : (('HYPER_SIZEDARR', None), HyperStr),}
+    MEMBERS = {
+        1: (SAFEARR_BSTR, "BstrStr"),
+        2: (SAFEARR_UNKNOWN, "UnknownStr"),
+        3: (SAFEARR_DISPATCH, "DispatchStr"),
+        4: (SAFEARR_VARIANT, "VariantStr"),
+        5: (SAFEARR_BRECORD, "RecordStr"),
+        6: (SAFEARR_HAVEIID, "HaveIidStr"),
+        7: (BYTE_SIZEDARR, "ByteStr"),
+        8: (WORD_SIZEDARR, "WordStr"),
+        9: (DWORD_SIZEDARR, "LongStr"),
+        10: (HYPER_SIZEDARR, "HyperStr"),
+    }
 
-    
 
-class ('SAFEARRAYUNION', None)(NdrStructure):
-    MEMBERS = [(('UNSIGNED_LONG', None), "sfType"),(('U', None), "u"),]
+class SAFEARRAYUNION(NdrStructure):
+    MEMBERS = [
+        (UNSIGNED_LONG, "sfType"),
+        (U, "u"),
+    ]
 
-    
 
-class ('PSAFEARRAY', None)(NdrStructure):
-    MEMBERS = [(('USHORT', None), "cDims"),(('USHORT', None), "fFeatures"),(('ULONG', None), "cbElements"),(('ULONG', None), "cLocks"),(('SAFEARRAYUNION', None), "uArrayStructs"),(('SAFEARRAYBOUND', None), "rgsabound"),]
+class PSAFEARRAY(NdrStructure):
+    MEMBERS = [
+        (USHORT, "cDims"),
+        (USHORT, "fFeatures"),
+        (ULONG, "cbElements"),
+        (ULONG, "cLocks"),
+        (SAFEARRAYUNION, "uArrayStructs"),
+        (SAFEARRAYBOUND, "rgsabound"),
+    ]
 
-    
 
-class ('RECORDINFO', None)(NdrStructure):
-    MEMBERS = [(('GUID', None), "libraryGuid"),(('DWORD', None), "verMajor"),(('GUID', None), "recGuid"),(('DWORD', None), "verMinor"),(('DWORD', None), "Lcid"),]
+class RECORDINFO(NdrStructure):
+    MEMBERS = [
+        (GUID, "libraryGuid"),
+        (DWORD, "verMajor"),
+        (GUID, "recGuid"),
+        (DWORD, "verMinor"),
+        (DWORD, "Lcid"),
+    ]
 
-    
 
-class ('DISPPARAMS', None)(NdrStructure):
-    MEMBERS = [(('PVARIANT', None), "rgvarg"),(('PDISPID', None), "rgdispidNamedArgs"),(('UINT', None), "cArgs"),(('UINT', None), "cNamedArgs"),]
+class DISPPARAMS(NdrStructure):
+    MEMBERS = [
+        (PVARIANT, "rgvarg"),
+        (PDISPID, "rgdispidNamedArgs"),
+        (UINT, "cArgs"),
+        (UINT, "cNamedArgs"),
+    ]
 
-    
 
-class ('EXCEPINFO', None)(NdrStructure):
-    MEMBERS = [(('WORD', None), "wCode"),(('WORD', None), "wReserved"),(('BSTR', None), "bstrSource"),(('BSTR', None), "bstrDescription"),(('BSTR', None), "bstrHelpFile"),(('DWORD', None), "dwHelpContext"),(('ULONG_PTR', None), "pvReserved"),(('ULONG_PTR', None), "pfnDeferredFillIn"),(('HRESULT', None), "scode"),]
+class EXCEPINFO(NdrStructure):
+    MEMBERS = [
+        (WORD, "wCode"),
+        (WORD, "wReserved"),
+        (BSTR, "bstrSource"),
+        (BSTR, "bstrDescription"),
+        (BSTR, "bstrHelpFile"),
+        (DWORD, "dwHelpContext"),
+        (ULONG_PTR, "pvReserved"),
+        (ULONG_PTR, "pfnDeferredFillIn"),
+        (HRESULT, "scode"),
+    ]
 
-    
 
-class ('PLPTDESC', None)(NdrStructure):
+class PLPTDESC(NdrStructure):
     MEMBERS = []
 
-    
 
-class ('PLPADESC', None)(NdrStructure):
+class PLPADESC(NdrStructure):
     MEMBERS = []
 
-    
 
-class ('_TDUNION', None)(NdrUnion):
+class _TDUNION(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('PLPTDESC', None), *lptdesc),2 : (('PLPADESC', None), *lpadesc),3 : (('HREFTYPE', None), hreftype),}
+    MEMBERS = {
+        1: (PLPTDESC, "*lptdesc"),
+        2: (PLPADESC, "*lpadesc"),
+        3: (HREFTYPE, "hreftype"),
+    }
 
-    
 
-class ('TYPEDESC', None)(NdrStructure):
-    MEMBERS = [(('_TDUNION', None), "_tdUnion"),(('USHORT', None), "vt"),]
+class TYPEDESC(NdrStructure):
+    MEMBERS = [
+        (_TDUNION, "_tdUnion"),
+        (USHORT, "vt"),
+    ]
 
-    
 
-class ('ARRAYDESC', None)(NdrStructure):
-    MEMBERS = [(('TYPEDESC', None), "tdescElem"),(('USHORT', None), "cDims"),(('SAFEARRAYBOUND', None), "rgbounds"),]
+class ARRAYDESC(NdrStructure):
+    MEMBERS = [
+        (TYPEDESC, "tdescElem"),
+        (USHORT, "cDims"),
+        (SAFEARRAYBOUND, "rgbounds"),
+    ]
 
-    
 
-class ('PARAMDESCEX', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "cBytes"),(('VARIANT', None), "varDefaultValue"),]
+class PARAMDESCEX(NdrStructure):
+    MEMBERS = [
+        (ULONG, "cBytes"),
+        (VARIANT, "varDefaultValue"),
+    ]
 
-    
 
-class ('PARAMDESC', None)(NdrStructure):
-    MEMBERS = [(('PPARAMDESCEX', None), "pparamdescex"),(('USHORT', None), "wParamFlags"),]
+class PARAMDESC(NdrStructure):
+    MEMBERS = [
+        (PPARAMDESCEX, "pparamdescex"),
+        (USHORT, "wParamFlags"),
+    ]
 
-    
 
-class ('ELEMDESC', None)(NdrStructure):
-    MEMBERS = [(('TYPEDESC', None), "tdesc"),(('PARAMDESC', None), "paramdesc"),]
+class ELEMDESC(NdrStructure):
+    MEMBERS = [
+        (TYPEDESC, "tdesc"),
+        (PARAMDESC, "paramdesc"),
+    ]
 
-    
 
-class ('FUNCDESC', None)(NdrStructure):
-    MEMBERS = [(('MEMBERID', None), "memid"),(('PSCODE', None), "lReserved1"),(('PELEMDESC', None), "lprgelemdescParam"),(('FUNCKIND', None), "funckind"),(('INVOKEKIND', None), "invkind"),(('CALLCONV', None), "callconv"),(('SHORT', None), "cParams"),(('SHORT', None), "cParamsOpt"),(('SHORT', None), "oVft"),(('SHORT', None), "cReserved2"),(('ELEMDESC', None), "elemdescFunc"),(('WORD', None), "wFuncFlags"),]
+class FUNCDESC(NdrStructure):
+    MEMBERS = [
+        (MEMBERID, "memid"),
+        (PSCODE, "lReserved1"),
+        (PELEMDESC, "lprgelemdescParam"),
+        (FUNCKIND, "funckind"),
+        (INVOKEKIND, "invkind"),
+        (CALLCONV, "callconv"),
+        (SHORT, "cParams"),
+        (SHORT, "cParamsOpt"),
+        (SHORT, "oVft"),
+        (SHORT, "cReserved2"),
+        (ELEMDESC, "elemdescFunc"),
+        (WORD, "wFuncFlags"),
+    ]
 
-    
 
-class ('_VDUNION', None)(NdrUnion):
+class _VDUNION(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('ULONG', None), oInst),2 : (('PVARIANT', None), lpvarValue),}
+    MEMBERS = {
+        1: (ULONG, "oInst"),
+        2: (PVARIANT, "lpvarValue"),
+    }
 
-    
 
-class ('VARDESC', None)(NdrStructure):
-    MEMBERS = [(('MEMBERID', None), "memid"),(('LPOLESTR', None), "lpstrReserved"),(('_VDUNION', None), "_vdUnion"),(('ELEMDESC', None), "elemdescVar"),(('WORD', None), "wVarFlags"),(('VARKIND', None), "varkind"),]
+class VARDESC(NdrStructure):
+    MEMBERS = [
+        (MEMBERID, "memid"),
+        (LPOLESTR, "lpstrReserved"),
+        (_VDUNION, "_vdUnion"),
+        (ELEMDESC, "elemdescVar"),
+        (WORD, "wVarFlags"),
+        (VARKIND, "varkind"),
+    ]
 
-    
 
-class ('TYPEATTR', None)(NdrStructure):
-    MEMBERS = [(('GUID', None), "guid"),(('LCID', None), "lcid"),(('DWORD', None), "dwReserved1"),(('DWORD', None), "dwReserved2"),(('DWORD', None), "dwReserved3"),(('LPOLESTR', None), "lpstrReserved4"),(('ULONG', None), "cbSizeInstance"),(('TYPEKIND', None), "typekind"),(('WORD', None), "cFuncs"),(('WORD', None), "cVars"),(('WORD', None), "cImplTypes"),(('WORD', None), "cbSizeVft"),(('WORD', None), "cbAlignment"),(('WORD', None), "wTypeFlags"),(('WORD', None), "wMajorVerNum"),(('WORD', None), "wMinorVerNum"),(('TYPEDESC', None), "tdescAlias"),(('DWORD', None), "dwReserved5"),(('WORD', None), "wReserved6"),]
+class TYPEATTR(NdrStructure):
+    MEMBERS = [
+        (GUID, "guid"),
+        (LCID, "lcid"),
+        (DWORD, "dwReserved1"),
+        (DWORD, "dwReserved2"),
+        (DWORD, "dwReserved3"),
+        (LPOLESTR, "lpstrReserved4"),
+        (ULONG, "cbSizeInstance"),
+        (TYPEKIND, "typekind"),
+        (WORD, "cFuncs"),
+        (WORD, "cVars"),
+        (WORD, "cImplTypes"),
+        (WORD, "cbSizeVft"),
+        (WORD, "cbAlignment"),
+        (WORD, "wTypeFlags"),
+        (WORD, "wMajorVerNum"),
+        (WORD, "wMinorVerNum"),
+        (TYPEDESC, "tdescAlias"),
+        (DWORD, "dwReserved5"),
+        (WORD, "wReserved6"),
+    ]
 
-    
 
-class ('TLIBATTR', None)(NdrStructure):
-    MEMBERS = [(('GUID', None), "guid"),(('LCID', None), "lcid"),(('SYSKIND', None), "syskind"),(('UNSIGNED_SHORT', None), "wMajorVerNum"),(('UNSIGNED_SHORT', None), "wMinorVerNum"),(('UNSIGNED_SHORT', None), "wLibFlags"),]
+class TLIBATTR(NdrStructure):
+    MEMBERS = [
+        (GUID, "guid"),
+        (LCID, "lcid"),
+        (SYSKIND, "syskind"),
+        (UNSIGNED_SHORT, "wMajorVerNum"),
+        (UNSIGNED_SHORT, "wMinorVerNum"),
+        (UNSIGNED_SHORT, "wLibFlags"),
+    ]
 
-    
 
-class ('CUSTDATAITEM', None)(NdrStructure):
-    MEMBERS = [(('GUID', None), "guid"),(('VARIANT', None), "varValue"),]
+class CUSTDATAITEM(NdrStructure):
+    MEMBERS = [
+        (GUID, "guid"),
+        (VARIANT, "varValue"),
+    ]
 
-    
 
-class ('CUSTDATA', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "cCustData"),(('PCUSTDATAITEM', None), "prgCustData"),]
+class CUSTDATA(NdrStructure):
+    MEMBERS = [
+        (DWORD, "cCustData"),
+        (PCUSTDATAITEM, "prgCustData"),
+    ]
 
-    
-Method("GetTypeInfoCount",
-Out(PUINT),
-),Method("GetTypeInfo",
-In(UINT),
-In(LCID),
-Out(PPITYPEINFO),
-),Method("GetIDsOfNames",
-In(REFIID),
-In(PLPOLESTR),
-In(UINT),
-In(LCID),
-Out(PDISPID),
-),Method("Invoke",
-In(DISPID),
-In(REFIID),
-In(LCID),
-In(DWORD),
-In(PDISPPARAMS),
-Out(PVARIANT),
-Out(PEXCEPINFO),
-Out(PUINT),
-In(UINT),
-In(PUINT),
-InOut(PVARIANT),
+
+Method("GetTypeInfoCount", Out(PUINT),), Method(
+    "GetTypeInfo",
+    In(UINT),
+    In(LCID),
+    Out(PPITYPEINFO),
+), Method(
+    "GetIDsOfNames",
+    In(REFIID),
+    In(PLPOLESTR),
+    In(UINT),
+    In(LCID),
+    Out(PDISPID),
+), Method(
+    "Invoke",
+    In(DISPID),
+    In(REFIID),
+    In(LCID),
+    In(DWORD),
+    In(PDISPPARAMS),
+    Out(PVARIANT),
+    Out(PEXCEPINFO),
+    Out(PUINT),
+    In(UINT),
+    In(PUINT),
+    InOut(PVARIANT),
 ),
-class ('IN6_ADDR', None)(NdrStructure):
-    MEMBERS = [(('U', None), "u"),]
 
-    
 
-class ('DIM_INFORMATION_CONTAINER', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwBufferSize"),(('LPBYTE', None), "pBuffer"),]
+class IN6_ADDR(NdrStructure):
+    MEMBERS = [
+        (U, "u"),
+    ]
 
-    
 
-class ('MPRAPI_OBJECT_HEADER_IDL', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "revision"),(('UCHAR', None), "type"),(('USHORT', None), "size"),]
+class DIM_INFORMATION_CONTAINER(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwBufferSize"),
+        (LPBYTE, "pBuffer"),
+    ]
 
-    
 
-class ('PPP_PROJECTION_INFO_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIPv4NegotiationError"),(('WCHAR', None), "wszAddress"),(('WCHAR', None), "wszRemoteAddress"),(('DWORD', None), "dwIPv4Options"),(('DWORD', None), "dwIPv4RemoteOptions"),(('ULONG64', None), "IPv4SubInterfaceIndex"),(('DWORD', None), "dwIPv6NegotiationError"),(('UCHAR', None), "bInterfaceIdentifier"),(('UCHAR', None), "bRemoteInterfaceIdentifier"),(('UCHAR', None), "bPrefix"),(('DWORD', None), "dwPrefixLength"),(('ULONG64', None), "IPv6SubInterfaceIndex"),(('DWORD', None), "dwLcpError"),(('DWORD', None), "dwAuthenticationProtocol"),(('DWORD', None), "dwAuthenticationData"),(('DWORD', None), "dwRemoteAuthenticationProtocol"),(('DWORD', None), "dwRemoteAuthenticationData"),(('DWORD', None), "dwLcpTerminateReason"),(('DWORD', None), "dwLcpRemoteTerminateReason"),(('DWORD', None), "dwLcpOptions"),(('DWORD', None), "dwLcpRemoteOptions"),(('DWORD', None), "dwEapTypeId"),(('DWORD', None), "dwRemoteEapTypeId"),(('DWORD', None), "dwCcpError"),(('DWORD', None), "dwCompressionAlgorithm"),(('DWORD', None), "dwCcpOptions"),(('DWORD', None), "dwRemoteCompressionAlgorithm"),(('DWORD', None), "dwCcpRemoteOptions"),]
+class MPRAPI_OBJECT_HEADER_IDL(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "revision"),
+        (UCHAR, "type"),
+        (USHORT, "size"),
+    ]
 
-    
 
-class ('PPP_PROJECTION_INFO_2', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIPv4NegotiationError"),(('WCHAR', None), "wszAddress"),(('WCHAR', None), "wszRemoteAddress"),(('DWORD', None), "dwIPv4Options"),(('DWORD', None), "dwIPv4RemoteOptions"),(('ULONG64', None), "IPv4SubInterfaceIndex"),(('DWORD', None), "dwIPv6NegotiationError"),(('UCHAR', None), "bInterfaceIdentifier"),(('UCHAR', None), "bRemoteInterfaceIdentifier"),(('UCHAR', None), "bPrefix"),(('DWORD', None), "dwPrefixLength"),(('ULONG64', None), "IPv6SubInterfaceIndex"),(('DWORD', None), "dwLcpError"),(('DWORD', None), "dwAuthenticationProtocol"),(('DWORD', None), "dwAuthenticationData"),(('DWORD', None), "dwRemoteAuthenticationProtocol"),(('DWORD', None), "dwRemoteAuthenticationData"),(('DWORD', None), "dwLcpTerminateReason"),(('DWORD', None), "dwLcpRemoteTerminateReason"),(('DWORD', None), "dwLcpOptions"),(('DWORD', None), "dwLcpRemoteOptions"),(('DWORD', None), "dwEapTypeId"),(('DWORD', None), "dwEmbeddedEAPTypeId"),(('DWORD', None), "dwRemoteEapTypeId"),(('DWORD', None), "dwCcpError"),(('DWORD', None), "dwCompressionAlgorithm"),(('DWORD', None), "dwCcpOptions"),(('DWORD', None), "dwRemoteCompressionAlgorithm"),(('DWORD', None), "dwCcpRemoteOptions"),]
+class PPP_PROJECTION_INFO_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIPv4NegotiationError"),
+        (WCHAR, "wszAddress"),
+        (WCHAR, "wszRemoteAddress"),
+        (DWORD, "dwIPv4Options"),
+        (DWORD, "dwIPv4RemoteOptions"),
+        (ULONG64, "IPv4SubInterfaceIndex"),
+        (DWORD, "dwIPv6NegotiationError"),
+        (UCHAR, "bInterfaceIdentifier"),
+        (UCHAR, "bRemoteInterfaceIdentifier"),
+        (UCHAR, "bPrefix"),
+        (DWORD, "dwPrefixLength"),
+        (ULONG64, "IPv6SubInterfaceIndex"),
+        (DWORD, "dwLcpError"),
+        (DWORD, "dwAuthenticationProtocol"),
+        (DWORD, "dwAuthenticationData"),
+        (DWORD, "dwRemoteAuthenticationProtocol"),
+        (DWORD, "dwRemoteAuthenticationData"),
+        (DWORD, "dwLcpTerminateReason"),
+        (DWORD, "dwLcpRemoteTerminateReason"),
+        (DWORD, "dwLcpOptions"),
+        (DWORD, "dwLcpRemoteOptions"),
+        (DWORD, "dwEapTypeId"),
+        (DWORD, "dwRemoteEapTypeId"),
+        (DWORD, "dwCcpError"),
+        (DWORD, "dwCompressionAlgorithm"),
+        (DWORD, "dwCcpOptions"),
+        (DWORD, "dwRemoteCompressionAlgorithm"),
+        (DWORD, "dwCcpRemoteOptions"),
+    ]
 
-    
 
-class ('IKEV2_PROJECTION_INFO_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIPv4NegotiationError"),(('WCHAR', None), "wszAddress"),(('WCHAR', None), "wszRemoteAddress"),(('ULONG64', None), "IPv4SubInterfaceIndex"),(('DWORD', None), "dwIPv6NegotiationError"),(('UCHAR', None), "bInterfaceIdentifier"),(('UCHAR', None), "bRemoteInterfaceIdentifier"),(('UCHAR', None), "bPrefix"),(('DWORD', None), "dwPrefixLength"),(('ULONG64', None), "IPv6SubInterfaceIndex"),(('DWORD', None), "dwOptions"),(('DWORD', None), "dwAuthenticationProtocol"),(('DWORD', None), "dwEapTypeId"),(('DWORD', None), "dwCompressionAlgorithm"),(('DWORD', None), "dwEncryptionMethod"),]
+class PPP_PROJECTION_INFO_2(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIPv4NegotiationError"),
+        (WCHAR, "wszAddress"),
+        (WCHAR, "wszRemoteAddress"),
+        (DWORD, "dwIPv4Options"),
+        (DWORD, "dwIPv4RemoteOptions"),
+        (ULONG64, "IPv4SubInterfaceIndex"),
+        (DWORD, "dwIPv6NegotiationError"),
+        (UCHAR, "bInterfaceIdentifier"),
+        (UCHAR, "bRemoteInterfaceIdentifier"),
+        (UCHAR, "bPrefix"),
+        (DWORD, "dwPrefixLength"),
+        (ULONG64, "IPv6SubInterfaceIndex"),
+        (DWORD, "dwLcpError"),
+        (DWORD, "dwAuthenticationProtocol"),
+        (DWORD, "dwAuthenticationData"),
+        (DWORD, "dwRemoteAuthenticationProtocol"),
+        (DWORD, "dwRemoteAuthenticationData"),
+        (DWORD, "dwLcpTerminateReason"),
+        (DWORD, "dwLcpRemoteTerminateReason"),
+        (DWORD, "dwLcpOptions"),
+        (DWORD, "dwLcpRemoteOptions"),
+        (DWORD, "dwEapTypeId"),
+        (DWORD, "dwEmbeddedEAPTypeId"),
+        (DWORD, "dwRemoteEapTypeId"),
+        (DWORD, "dwCcpError"),
+        (DWORD, "dwCompressionAlgorithm"),
+        (DWORD, "dwCcpOptions"),
+        (DWORD, "dwRemoteCompressionAlgorithm"),
+        (DWORD, "dwCcpRemoteOptions"),
+    ]
 
-    
 
-class ('IKEV2_PROJECTION_INFO_2', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIPv4NegotiationError"),(('WCHAR', None), "wszAddress"),(('WCHAR', None), "wszRemoteAddress"),(('ULONG64', None), "IPv4SubInterfaceIndex"),(('DWORD', None), "dwIPv6NegotiationError"),(('UCHAR', None), "bInterfaceIdentifier"),(('UCHAR', None), "bRemoteInterfaceIdentifier"),(('UCHAR', None), "bPrefix"),(('DWORD', None), "dwPrefixLength"),(('ULONG64', None), "IPv6SubInterfaceIndex"),(('DWORD', None), "dwOptions"),(('DWORD', None), "dwAuthenticationProtocol"),(('DWORD', None), "dwEapTypeId"),(('DWORD', None), "dwEmbeddedEAPTypeId"),(('DWORD', None), "dwCompressionAlgorithm"),(('DWORD', None), "dwEncryptionMethod"),]
+class IKEV2_PROJECTION_INFO_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIPv4NegotiationError"),
+        (WCHAR, "wszAddress"),
+        (WCHAR, "wszRemoteAddress"),
+        (ULONG64, "IPv4SubInterfaceIndex"),
+        (DWORD, "dwIPv6NegotiationError"),
+        (UCHAR, "bInterfaceIdentifier"),
+        (UCHAR, "bRemoteInterfaceIdentifier"),
+        (UCHAR, "bPrefix"),
+        (DWORD, "dwPrefixLength"),
+        (ULONG64, "IPv6SubInterfaceIndex"),
+        (DWORD, "dwOptions"),
+        (DWORD, "dwAuthenticationProtocol"),
+        (DWORD, "dwEapTypeId"),
+        (DWORD, "dwCompressionAlgorithm"),
+        (DWORD, "dwEncryptionMethod"),
+    ]
 
-    
 
-class ('PROJECTION_INFO_IDL_1', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "projectionInfoType"),(('ANONYMOUS22', None), "ProjectionInfoObject"),]
+class IKEV2_PROJECTION_INFO_2(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIPv4NegotiationError"),
+        (WCHAR, "wszAddress"),
+        (WCHAR, "wszRemoteAddress"),
+        (ULONG64, "IPv4SubInterfaceIndex"),
+        (DWORD, "dwIPv6NegotiationError"),
+        (UCHAR, "bInterfaceIdentifier"),
+        (UCHAR, "bRemoteInterfaceIdentifier"),
+        (UCHAR, "bPrefix"),
+        (DWORD, "dwPrefixLength"),
+        (ULONG64, "IPv6SubInterfaceIndex"),
+        (DWORD, "dwOptions"),
+        (DWORD, "dwAuthenticationProtocol"),
+        (DWORD, "dwEapTypeId"),
+        (DWORD, "dwEmbeddedEAPTypeId"),
+        (DWORD, "dwCompressionAlgorithm"),
+        (DWORD, "dwEncryptionMethod"),
+    ]
 
-    
 
-class ('PPPROJECTION_INFO_IDL_1', None)(NdrStructure):
+class PROJECTION_INFO_IDL_1(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "projectionInfoType"),
+        (ANONYMOUS22, "ProjectionInfoObject"),
+    ]
+
+
+class PPPROJECTION_INFO_IDL_1(NdrStructure):
     MEMBERS = []
 
-    
 
-class ('PROJECTION_INFO_IDL_2', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "projectionInfoType"),(('ANONYMOUS23', None), "ProjectionInfoObject"),]
+class PROJECTION_INFO_IDL_2(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "projectionInfoType"),
+        (ANONYMOUS23, "ProjectionInfoObject"),
+    ]
 
-    
 
-class ('RAS_CONNECTION_EX_1_IDL', None)(NdrStructure):
-    MEMBERS = [(('MPRAPI_OBJECT_HEADER_IDL', None), "Header"),(('DWORD', None), "dwConnectDuration"),(('ROUTER_INTERFACE_TYPE', None), "dwInterfaceType"),(('DWORD', None), "dwConnectionFlags"),(('WCHAR', None), "wszInterfaceName"),(('WCHAR', None), "wszUserName"),(('WCHAR', None), "wszLogonDomain"),(('WCHAR', None), "wszRemoteComputer"),(('GUID', None), "guid"),(('RAS_QUARANTINE_STATE', None), "rasQuarState"),(('FILETIME', None), "probationTime"),(('DWORD', None), "dwBytesXmited"),(('DWORD', None), "dwBytesRcved"),(('DWORD', None), "dwFramesXmited"),(('DWORD', None), "dwFramesRcved"),(('DWORD', None), "dwCrcErr"),(('DWORD', None), "dwTimeoutErr"),(('DWORD', None), "dwAlignmentErr"),(('DWORD', None), "dwHardwareOverrunErr"),(('DWORD', None), "dwFramingErr"),(('DWORD', None), "dwBufferOverrunErr"),(('DWORD', None), "dwCompressionRatioIn"),(('DWORD', None), "dwCompressionRatioOut"),(('DWORD', None), "dwNumSwitchOvers"),(('WCHAR', None), "wszRemoteEndpointAddress"),(('WCHAR', None), "wszLocalEndpointAddress"),(('PROJECTION_INFO_IDL_1', None), "ProjectionInfo"),(('ULONG', None), "hConnection"),(('ULONG', None), "hInterface"),]
+class RAS_CONNECTION_EX_1_IDL(NdrStructure):
+    MEMBERS = [
+        (MPRAPI_OBJECT_HEADER_IDL, "Header"),
+        (DWORD, "dwConnectDuration"),
+        (ROUTER_INTERFACE_TYPE, "dwInterfaceType"),
+        (DWORD, "dwConnectionFlags"),
+        (WCHAR, "wszInterfaceName"),
+        (WCHAR, "wszUserName"),
+        (WCHAR, "wszLogonDomain"),
+        (WCHAR, "wszRemoteComputer"),
+        (GUID, "guid"),
+        (RAS_QUARANTINE_STATE, "rasQuarState"),
+        (FILETIME, "probationTime"),
+        (DWORD, "dwBytesXmited"),
+        (DWORD, "dwBytesRcved"),
+        (DWORD, "dwFramesXmited"),
+        (DWORD, "dwFramesRcved"),
+        (DWORD, "dwCrcErr"),
+        (DWORD, "dwTimeoutErr"),
+        (DWORD, "dwAlignmentErr"),
+        (DWORD, "dwHardwareOverrunErr"),
+        (DWORD, "dwFramingErr"),
+        (DWORD, "dwBufferOverrunErr"),
+        (DWORD, "dwCompressionRatioIn"),
+        (DWORD, "dwCompressionRatioOut"),
+        (DWORD, "dwNumSwitchOvers"),
+        (WCHAR, "wszRemoteEndpointAddress"),
+        (WCHAR, "wszLocalEndpointAddress"),
+        (PROJECTION_INFO_IDL_1, "ProjectionInfo"),
+        (ULONG, "hConnection"),
+        (ULONG, "hInterface"),
+    ]
 
-    
 
-class ('RAS_CONNECTION_EX_IDL', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "revision"),(('ANONYMOUS24', None), "ConnObject"),]
+class RAS_CONNECTION_EX_IDL(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "revision"),
+        (ANONYMOUS24, "ConnObject"),
+    ]
 
-    
 
-class ('PPRAS_CONNECTION_EX_IDL', None)(NdrStructure):
+class PPRAS_CONNECTION_EX_IDL(NdrStructure):
     MEMBERS = []
 
-    
 
-class ('RAS_CONNECTION_4_IDL', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwConnectDuration"),(('ROUTER_INTERFACE_TYPE', None), "dwInterfaceType"),(('DWORD', None), "dwConnectionFlags"),(('WCHAR', None), "wszInterfaceName"),(('WCHAR', None), "wszUserName"),(('WCHAR', None), "wszLogonDomain"),(('WCHAR', None), "wszRemoteComputer"),(('GUID', None), "guid"),(('RAS_QUARANTINE_STATE', None), "rasQuarState"),(('FILETIME', None), "probationTime"),(('FILETIME', None), "connectionStartTime"),(('DWORD', None), "dwBytesXmited"),(('DWORD', None), "dwBytesRcved"),(('DWORD', None), "dwFramesXmited"),(('DWORD', None), "dwFramesRcved"),(('DWORD', None), "dwCrcErr"),(('DWORD', None), "dwTimeoutErr"),(('DWORD', None), "dwAlignmentErr"),(('DWORD', None), "dwHardwareOverrunErr"),(('DWORD', None), "dwFramingErr"),(('DWORD', None), "dwBufferOverrunErr"),(('DWORD', None), "dwCompressionRatioIn"),(('DWORD', None), "dwCompressionRatioOut"),(('DWORD', None), "dwNumSwitchOvers"),(('WCHAR', None), "wszRemoteEndpointAddress"),(('WCHAR', None), "wszLocalEndpointAddress"),(('PROJECTION_INFO_IDL_2', None), "ProjectionInfo"),(('ULONG', None), "hConnection"),(('ULONG', None), "hInterface"),(('DWORD', None), "dwDeviceType"),]
+class RAS_CONNECTION_4_IDL(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwConnectDuration"),
+        (ROUTER_INTERFACE_TYPE, "dwInterfaceType"),
+        (DWORD, "dwConnectionFlags"),
+        (WCHAR, "wszInterfaceName"),
+        (WCHAR, "wszUserName"),
+        (WCHAR, "wszLogonDomain"),
+        (WCHAR, "wszRemoteComputer"),
+        (GUID, "guid"),
+        (RAS_QUARANTINE_STATE, "rasQuarState"),
+        (FILETIME, "probationTime"),
+        (FILETIME, "connectionStartTime"),
+        (DWORD, "dwBytesXmited"),
+        (DWORD, "dwBytesRcved"),
+        (DWORD, "dwFramesXmited"),
+        (DWORD, "dwFramesRcved"),
+        (DWORD, "dwCrcErr"),
+        (DWORD, "dwTimeoutErr"),
+        (DWORD, "dwAlignmentErr"),
+        (DWORD, "dwHardwareOverrunErr"),
+        (DWORD, "dwFramingErr"),
+        (DWORD, "dwBufferOverrunErr"),
+        (DWORD, "dwCompressionRatioIn"),
+        (DWORD, "dwCompressionRatioOut"),
+        (DWORD, "dwNumSwitchOvers"),
+        (WCHAR, "wszRemoteEndpointAddress"),
+        (WCHAR, "wszLocalEndpointAddress"),
+        (PROJECTION_INFO_IDL_2, "ProjectionInfo"),
+        (ULONG, "hConnection"),
+        (ULONG, "hInterface"),
+        (DWORD, "dwDeviceType"),
+    ]
 
-    
 
-class ('CERT_BLOB_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "cbData"),(('PBYTE', None), "pbData"),]
+class CERT_BLOB_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "cbData"),
+        (PBYTE, "pbData"),
+    ]
 
-    
 
-class ('CERT_EKU_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwSize"),(('BOOL', None), "IsEKUOID"),(('PWCHAR', None), "pwszEKU"),]
+class CERT_EKU_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwSize"),
+        (BOOL, "IsEKUOID"),
+        (PWCHAR, "pwszEKU"),
+    ]
 
-    
 
-class ('IKEV2_TUNNEL_CONFIG_PARAMS_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIdleTimeout"),(('DWORD', None), "dwNetworkBlackoutTime"),(('DWORD', None), "dwSaLifeTime"),(('DWORD', None), "dwSaDataSizeForRenegotiation"),(('DWORD', None), "dwConfigOptions"),(('DWORD', None), "dwTotalCertificates"),(('PCERT_BLOB_1', None), "certificateNames"),]
+class IKEV2_TUNNEL_CONFIG_PARAMS_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIdleTimeout"),
+        (DWORD, "dwNetworkBlackoutTime"),
+        (DWORD, "dwSaLifeTime"),
+        (DWORD, "dwSaDataSizeForRenegotiation"),
+        (DWORD, "dwConfigOptions"),
+        (DWORD, "dwTotalCertificates"),
+        (PCERT_BLOB_1, "certificateNames"),
+    ]
 
-    
 
-class ('ROUTER_CUSTOM_IKEV2_POLICY_0', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIntegrityMethod"),(('DWORD', None), "dwEncryptionMethod"),(('DWORD', None), "dwCipherTransformConstant"),(('DWORD', None), "dwAuthTransformConstant"),(('DWORD', None), "dwPfsGroup"),(('DWORD', None), "dwDhGroup"),]
+class ROUTER_CUSTOM_IKEV2_POLICY_0(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIntegrityMethod"),
+        (DWORD, "dwEncryptionMethod"),
+        (DWORD, "dwCipherTransformConstant"),
+        (DWORD, "dwAuthTransformConstant"),
+        (DWORD, "dwPfsGroup"),
+        (DWORD, "dwDhGroup"),
+    ]
 
-    
 
-class ('ROUTER_IKEV2_IF_CUSTOM_CONFIG_0', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwSaLifeTime"),(('DWORD', None), "dwSaDataSize"),(('CERT_BLOB_1', None), "certificateName"),(('PROUTER_CUSTOM_IKEV2_POLICY_0', None), "customPolicy"),]
+class ROUTER_IKEV2_IF_CUSTOM_CONFIG_0(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwSaLifeTime"),
+        (DWORD, "dwSaDataSize"),
+        (CERT_BLOB_1, "certificateName"),
+        (PROUTER_CUSTOM_IKEV2_POLICY_0, "customPolicy"),
+    ]
 
-    
 
-class ('ROUTER_IKEV2_IF_CUSTOM_CONFIG_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwSaLifeTime"),(('DWORD', None), "dwSaDataSize"),(('CERT_BLOB_1', None), "certificateName"),(('PROUTER_CUSTOM_IKEV2_POLICY_0', None), "customPolicy"),(('CERT_BLOB_1', None), "certificateHash"),]
+class ROUTER_IKEV2_IF_CUSTOM_CONFIG_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwSaLifeTime"),
+        (DWORD, "dwSaDataSize"),
+        (CERT_BLOB_1, "certificateName"),
+        (PROUTER_CUSTOM_IKEV2_POLICY_0, "customPolicy"),
+        (CERT_BLOB_1, "certificateHash"),
+    ]
 
-    
 
-class ('MPR_IF_CUSTOMINFOEX_0', None)(NdrStructure):
-    MEMBERS = [(('MPRAPI_OBJECT_HEADER_IDL', None), "Header"),(('DWORD', None), "dwFlags"),(('ROUTER_IKEV2_IF_CUSTOM_CONFIG_0', None), "customIkev2Config"),]
+class MPR_IF_CUSTOMINFOEX_0(NdrStructure):
+    MEMBERS = [
+        (MPRAPI_OBJECT_HEADER_IDL, "Header"),
+        (DWORD, "dwFlags"),
+        (ROUTER_IKEV2_IF_CUSTOM_CONFIG_0, "customIkev2Config"),
+    ]
 
-    
 
-class ('MPR_IF_CUSTOMINFOEX_1', None)(NdrStructure):
-    MEMBERS = [(('MPRAPI_OBJECT_HEADER_IDL', None), "Header"),(('DWORD', None), "dwFlags"),(('ROUTER_IKEV2_IF_CUSTOM_CONFIG_1', None), "customIkev2Config"),]
+class MPR_IF_CUSTOMINFOEX_1(NdrStructure):
+    MEMBERS = [
+        (MPRAPI_OBJECT_HEADER_IDL, "Header"),
+        (DWORD, "dwFlags"),
+        (ROUTER_IKEV2_IF_CUSTOM_CONFIG_1, "customIkev2Config"),
+    ]
 
-    
 
-class ('MPR_IF_CUSTOMINFOEX_IDL', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "revision"),(('ANONYMOUS25', None), "IfCustomConfigObject"),]
+class MPR_IF_CUSTOMINFOEX_IDL(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "revision"),
+        (ANONYMOUS25, "IfCustomConfigObject"),
+    ]
 
-    
 
-class ('IKEV2_TUNNEL_CONFIG_PARAMS_2', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIdleTimeout"),(('DWORD', None), "dwNetworkBlackoutTime"),(('DWORD', None), "dwSaLifeTime"),(('DWORD', None), "dwSaDataSizeForRenegotiation"),(('DWORD', None), "dwConfigOptions"),(('DWORD', None), "dwTotalCertificates"),(('PCERT_BLOB_1', None), "certificateNames"),(('CERT_BLOB_1', None), "machineCertificateName"),(('DWORD', None), "dwEncryptionType"),(('PROUTER_CUSTOM_IKEV2_POLICY_0', None), "customPolicy"),]
+class IKEV2_TUNNEL_CONFIG_PARAMS_2(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIdleTimeout"),
+        (DWORD, "dwNetworkBlackoutTime"),
+        (DWORD, "dwSaLifeTime"),
+        (DWORD, "dwSaDataSizeForRenegotiation"),
+        (DWORD, "dwConfigOptions"),
+        (DWORD, "dwTotalCertificates"),
+        (PCERT_BLOB_1, "certificateNames"),
+        (CERT_BLOB_1, "machineCertificateName"),
+        (DWORD, "dwEncryptionType"),
+        (PROUTER_CUSTOM_IKEV2_POLICY_0, "customPolicy"),
+    ]
 
-    
 
-class ('IKEV2_TUNNEL_CONFIG_PARAMS_3', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIdleTimeout"),(('DWORD', None), "dwNetworkBlackoutTime"),(('DWORD', None), "dwSaLifeTime"),(('DWORD', None), "dwSaDataSizeForRenegotiation"),(('DWORD', None), "dwConfigOptions"),(('DWORD', None), "dwTotalCertificates"),(('PCERT_BLOB_1', None), "certificateNames"),(('CERT_BLOB_1', None), "machineCertificateName"),(('DWORD', None), "dwEncryptionType"),(('PROUTER_CUSTOM_IKEV2_POLICY_0', None), "customPolicy"),(('DWORD', None), "dwTotalEkus"),(('PCERT_EKU_1', None), "certificateEKUs"),(('CERT_BLOB_1', None), "machineCertificateHash"),]
+class IKEV2_TUNNEL_CONFIG_PARAMS_3(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIdleTimeout"),
+        (DWORD, "dwNetworkBlackoutTime"),
+        (DWORD, "dwSaLifeTime"),
+        (DWORD, "dwSaDataSizeForRenegotiation"),
+        (DWORD, "dwConfigOptions"),
+        (DWORD, "dwTotalCertificates"),
+        (PCERT_BLOB_1, "certificateNames"),
+        (CERT_BLOB_1, "machineCertificateName"),
+        (DWORD, "dwEncryptionType"),
+        (PROUTER_CUSTOM_IKEV2_POLICY_0, "customPolicy"),
+        (DWORD, "dwTotalEkus"),
+        (PCERT_EKU_1, "certificateEKUs"),
+        (CERT_BLOB_1, "machineCertificateHash"),
+    ]
 
-    
 
-class ('L2TP_TUNNEL_CONFIG_PARAMS_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIdleTimeout"),(('DWORD', None), "dwEncryptionType"),(('DWORD', None), "dwSaLifeTime"),(('DWORD', None), "dwSaDataSizeForRenegotiation"),(('PROUTER_CUSTOM_L2TP_POLICY_0', None), "customPolicy"),]
+class L2TP_TUNNEL_CONFIG_PARAMS_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIdleTimeout"),
+        (DWORD, "dwEncryptionType"),
+        (DWORD, "dwSaLifeTime"),
+        (DWORD, "dwSaDataSizeForRenegotiation"),
+        (PROUTER_CUSTOM_L2TP_POLICY_0, "customPolicy"),
+    ]
 
-    
 
-class ('IKEV2_CONFIG_PARAMS_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumPorts"),(('DWORD', None), "dwPortFlags"),(('DWORD', None), "dwTunnelConfigParamFlags"),(('IKEV2_TUNNEL_CONFIG_PARAMS_1', None), "TunnelConfigParams"),]
+class IKEV2_CONFIG_PARAMS_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumPorts"),
+        (DWORD, "dwPortFlags"),
+        (DWORD, "dwTunnelConfigParamFlags"),
+        (IKEV2_TUNNEL_CONFIG_PARAMS_1, "TunnelConfigParams"),
+    ]
 
-    
 
-class ('IKEV2_CONFIG_PARAMS_2', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumPorts"),(('DWORD', None), "dwPortFlags"),(('DWORD', None), "dwTunnelConfigParamFlags"),(('IKEV2_TUNNEL_CONFIG_PARAMS_2', None), "TunnelConfigParams"),]
+class IKEV2_CONFIG_PARAMS_2(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumPorts"),
+        (DWORD, "dwPortFlags"),
+        (DWORD, "dwTunnelConfigParamFlags"),
+        (IKEV2_TUNNEL_CONFIG_PARAMS_2, "TunnelConfigParams"),
+    ]
 
-    
 
-class ('IKEV2_CONFIG_PARAMS_3', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumPorts"),(('DWORD', None), "dwPortFlags"),(('DWORD', None), "dwTunnelConfigParamFlags"),(('IKEV2_TUNNEL_CONFIG_PARAMS_3', None), "TunnelConfigParams"),]
+class IKEV2_CONFIG_PARAMS_3(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumPorts"),
+        (DWORD, "dwPortFlags"),
+        (DWORD, "dwTunnelConfigParamFlags"),
+        (IKEV2_TUNNEL_CONFIG_PARAMS_3, "TunnelConfigParams"),
+    ]
 
-    
 
-class ('PPTP_CONFIG_PARAMS_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumPorts"),(('DWORD', None), "dwPortFlags"),]
+class PPTP_CONFIG_PARAMS_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumPorts"),
+        (DWORD, "dwPortFlags"),
+    ]
 
-    
 
-class ('L2TP_CONFIG_PARAMS_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumPorts"),(('DWORD', None), "dwPortFlags"),]
+class L2TP_CONFIG_PARAMS_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumPorts"),
+        (DWORD, "dwPortFlags"),
+    ]
 
-    
 
-class ('L2TP_CONFIG_PARAMS_2', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumPorts"),(('DWORD', None), "dwPortFlags"),(('DWORD', None), "dwTunnelConfigParamFlags"),(('L2TP_TUNNEL_CONFIG_PARAMS_1', None), "TunnelConfigParams"),]
+class L2TP_CONFIG_PARAMS_2(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumPorts"),
+        (DWORD, "dwPortFlags"),
+        (DWORD, "dwTunnelConfigParamFlags"),
+        (L2TP_TUNNEL_CONFIG_PARAMS_1, "TunnelConfigParams"),
+    ]
 
-    
 
-class ('SSTP_CERT_INFO_1', None)(NdrStructure):
-    MEMBERS = [(('BOOL', None), "isDefault"),(('CERT_BLOB_1', None), "certBlob"),]
+class SSTP_CERT_INFO_1(NdrStructure):
+    MEMBERS = [
+        (BOOL, "isDefault"),
+        (CERT_BLOB_1, "certBlob"),
+    ]
 
-    
 
-class ('SSTP_CONFIG_PARAMS_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumPorts"),(('DWORD', None), "dwPortFlags"),(('BOOL', None), "isUseHttps"),(('DWORD', None), "certAlgorithm"),(('SSTP_CERT_INFO_1', None), "sstpCertDetails"),]
+class SSTP_CONFIG_PARAMS_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumPorts"),
+        (DWORD, "dwPortFlags"),
+        (BOOL, "isUseHttps"),
+        (DWORD, "certAlgorithm"),
+        (SSTP_CERT_INFO_1, "sstpCertDetails"),
+    ]
 
-    
 
-class ('MPRAPI_TUNNEL_CONFIG_PARAMS_1', None)(NdrStructure):
-    MEMBERS = [(('IKEV2_CONFIG_PARAMS_1', None), "IkeConfigParams"),(('PPTP_CONFIG_PARAMS_1', None), "PptpConfigParams"),(('L2TP_CONFIG_PARAMS_1', None), "L2tpConfigParams"),(('SSTP_CONFIG_PARAMS_1', None), "SstpConfigParams"),]
+class MPRAPI_TUNNEL_CONFIG_PARAMS_1(NdrStructure):
+    MEMBERS = [
+        (IKEV2_CONFIG_PARAMS_1, "IkeConfigParams"),
+        (PPTP_CONFIG_PARAMS_1, "PptpConfigParams"),
+        (L2TP_CONFIG_PARAMS_1, "L2tpConfigParams"),
+        (SSTP_CONFIG_PARAMS_1, "SstpConfigParams"),
+    ]
 
-    
 
-class ('MPRAPI_TUNNEL_CONFIG_PARAMS_2', None)(NdrStructure):
-    MEMBERS = [(('IKEV2_CONFIG_PARAMS_2', None), "IkeConfigParams"),(('PPTP_CONFIG_PARAMS_1', None), "PptpConfigParams"),(('L2TP_CONFIG_PARAMS_1', None), "L2tpConfigParams"),(('SSTP_CONFIG_PARAMS_1', None), "SstpConfigParams"),]
+class MPRAPI_TUNNEL_CONFIG_PARAMS_2(NdrStructure):
+    MEMBERS = [
+        (IKEV2_CONFIG_PARAMS_2, "IkeConfigParams"),
+        (PPTP_CONFIG_PARAMS_1, "PptpConfigParams"),
+        (L2TP_CONFIG_PARAMS_1, "L2tpConfigParams"),
+        (SSTP_CONFIG_PARAMS_1, "SstpConfigParams"),
+    ]
 
-    
 
-class ('MPRAPI_TUNNEL_CONFIG_PARAMS_3', None)(NdrStructure):
-    MEMBERS = [(('IKEV2_CONFIG_PARAMS_3', None), "IkeConfigParams"),(('PPTP_CONFIG_PARAMS_1', None), "PptpConfigParams"),(('L2TP_CONFIG_PARAMS_2', None), "L2tpConfigParams"),(('SSTP_CONFIG_PARAMS_1', None), "SstpConfigParams"),]
+class MPRAPI_TUNNEL_CONFIG_PARAMS_3(NdrStructure):
+    MEMBERS = [
+        (IKEV2_CONFIG_PARAMS_3, "IkeConfigParams"),
+        (PPTP_CONFIG_PARAMS_1, "PptpConfigParams"),
+        (L2TP_CONFIG_PARAMS_2, "L2tpConfigParams"),
+        (SSTP_CONFIG_PARAMS_1, "SstpConfigParams"),
+    ]
 
-    
 
-class ('MPR_SERVER_EX_1', None)(NdrStructure):
-    MEMBERS = [(('MPRAPI_OBJECT_HEADER_IDL', None), "Header"),(('BOOL', None), "fLanOnlyMode"),(('DWORD', None), "dwUpTime"),(('DWORD', None), "dwTotalPorts"),(('DWORD', None), "dwPortsInUse"),(('DWORD', None), "Reserved"),(('MPRAPI_TUNNEL_CONFIG_PARAMS_1', None), "ConfigParams"),]
+class MPR_SERVER_EX_1(NdrStructure):
+    MEMBERS = [
+        (MPRAPI_OBJECT_HEADER_IDL, "Header"),
+        (BOOL, "fLanOnlyMode"),
+        (DWORD, "dwUpTime"),
+        (DWORD, "dwTotalPorts"),
+        (DWORD, "dwPortsInUse"),
+        (DWORD, "Reserved"),
+        (MPRAPI_TUNNEL_CONFIG_PARAMS_1, "ConfigParams"),
+    ]
 
-    
 
-class ('MPR_SERVER_EX_2', None)(NdrStructure):
-    MEMBERS = [(('MPRAPI_OBJECT_HEADER_IDL', None), "Header"),(('BOOL', None), "fLanOnlyMode"),(('DWORD', None), "dwUpTime"),(('DWORD', None), "dwTotalPorts"),(('DWORD', None), "dwPortsInUse"),(('DWORD', None), "Reserved"),(('MPRAPI_TUNNEL_CONFIG_PARAMS_2', None), "ConfigParams"),]
+class MPR_SERVER_EX_2(NdrStructure):
+    MEMBERS = [
+        (MPRAPI_OBJECT_HEADER_IDL, "Header"),
+        (BOOL, "fLanOnlyMode"),
+        (DWORD, "dwUpTime"),
+        (DWORD, "dwTotalPorts"),
+        (DWORD, "dwPortsInUse"),
+        (DWORD, "Reserved"),
+        (MPRAPI_TUNNEL_CONFIG_PARAMS_2, "ConfigParams"),
+    ]
 
-    
 
-class ('MPR_SERVER_EX_3', None)(NdrStructure):
-    MEMBERS = [(('MPRAPI_OBJECT_HEADER_IDL', None), "Header"),(('BOOL', None), "fLanOnlyMode"),(('DWORD', None), "dwUpTime"),(('DWORD', None), "dwTotalPorts"),(('DWORD', None), "dwPortsInUse"),(('DWORD', None), "Reserved"),(('MPRAPI_TUNNEL_CONFIG_PARAMS_3', None), "ConfigParams"),]
+class MPR_SERVER_EX_3(NdrStructure):
+    MEMBERS = [
+        (MPRAPI_OBJECT_HEADER_IDL, "Header"),
+        (BOOL, "fLanOnlyMode"),
+        (DWORD, "dwUpTime"),
+        (DWORD, "dwTotalPorts"),
+        (DWORD, "dwPortsInUse"),
+        (DWORD, "Reserved"),
+        (MPRAPI_TUNNEL_CONFIG_PARAMS_3, "ConfigParams"),
+    ]
 
-    
 
-class ('MPR_SERVER_EX_IDL', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "revision"),(('ANONYMOUS26', None), "ServerConfigObject"),]
+class MPR_SERVER_EX_IDL(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "revision"),
+        (ANONYMOUS26, "ServerConfigObject"),
+    ]
 
-    
 
-class ('PPMPR_SERVER_EX_IDL', None)(NdrStructure):
+class PPMPR_SERVER_EX_IDL(NdrStructure):
     MEMBERS = []
 
-    
 
-class ('MPR_SERVER_SET_CONFIG_EX_1', None)(NdrStructure):
-    MEMBERS = [(('MPRAPI_OBJECT_HEADER_IDL', None), "Header"),(('DWORD', None), "setConfigForProtocols"),(('MPRAPI_TUNNEL_CONFIG_PARAMS_1', None), "ConfigParams"),]
+class MPR_SERVER_SET_CONFIG_EX_1(NdrStructure):
+    MEMBERS = [
+        (MPRAPI_OBJECT_HEADER_IDL, "Header"),
+        (DWORD, "setConfigForProtocols"),
+        (MPRAPI_TUNNEL_CONFIG_PARAMS_1, "ConfigParams"),
+    ]
 
-    
 
-class ('MPR_SERVER_SET_CONFIG_EX_2', None)(NdrStructure):
-    MEMBERS = [(('MPRAPI_OBJECT_HEADER_IDL', None), "Header"),(('DWORD', None), "setConfigForProtocols"),(('MPRAPI_TUNNEL_CONFIG_PARAMS_2', None), "ConfigParams"),]
+class MPR_SERVER_SET_CONFIG_EX_2(NdrStructure):
+    MEMBERS = [
+        (MPRAPI_OBJECT_HEADER_IDL, "Header"),
+        (DWORD, "setConfigForProtocols"),
+        (MPRAPI_TUNNEL_CONFIG_PARAMS_2, "ConfigParams"),
+    ]
 
-    
 
-class ('MPR_SERVER_SET_CONFIG_EX_3', None)(NdrStructure):
-    MEMBERS = [(('MPRAPI_OBJECT_HEADER_IDL', None), "Header"),(('DWORD', None), "setConfigForProtocols"),(('MPRAPI_TUNNEL_CONFIG_PARAMS_3', None), "ConfigParams"),]
+class MPR_SERVER_SET_CONFIG_EX_3(NdrStructure):
+    MEMBERS = [
+        (MPRAPI_OBJECT_HEADER_IDL, "Header"),
+        (DWORD, "setConfigForProtocols"),
+        (MPRAPI_TUNNEL_CONFIG_PARAMS_3, "ConfigParams"),
+    ]
 
-    
 
-class ('MPR_SERVER_SET_CONFIG_EX_IDL', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "revision"),(('ANONYMOUS27', None), "ServerSetConfigObject"),]
+class MPR_SERVER_SET_CONFIG_EX_IDL(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "revision"),
+        (ANONYMOUS27, "ServerSetConfigObject"),
+    ]
 
-    
 
-class ('PPMPR_SERVER_SET_CONFIG_EX_IDL', None)(NdrStructure):
+class PPMPR_SERVER_SET_CONFIG_EX_IDL(NdrStructure):
     MEMBERS = []
 
-    
 
-class ('RAS_UPDATE_CONNECTION_1_IDL', None)(NdrStructure):
-    MEMBERS = [(('MPRAPI_OBJECT_HEADER_IDL', None), "Header"),(('DWORD', None), "dwIfIndex"),(('WCHAR', None), "wszRemoteEndpointAddress"),]
+class RAS_UPDATE_CONNECTION_1_IDL(NdrStructure):
+    MEMBERS = [
+        (MPRAPI_OBJECT_HEADER_IDL, "Header"),
+        (DWORD, "dwIfIndex"),
+        (WCHAR, "wszRemoteEndpointAddress"),
+    ]
 
-    
 
-class ('PPRAS_UPDATE_CONNECTION_1_IDL', None)(NdrStructure):
+class PPRAS_UPDATE_CONNECTION_1_IDL(NdrStructure):
     MEMBERS = []
 
-    
 
-class ('RAS_UPDATE_CONNECTION_IDL', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "revision"),(('ANONYMOUS28', None), "UpdateConnection"),]
+class RAS_UPDATE_CONNECTION_IDL(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "revision"),
+        (ANONYMOUS28, "UpdateConnection"),
+    ]
 
-    
 
-class ('PPRAS_UPDATE_CONNECTION_IDL', None)(NdrStructure):
+class PPRAS_UPDATE_CONNECTION_IDL(NdrStructure):
     MEMBERS = []
 
-    
 
-class ('DIM_INTERFACE_CONTAINER', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "fGetInterfaceInfo"),(('DWORD', None), "dwInterfaceInfoSize"),(('LPBYTE', None), "pInterfaceInfo"),(('DWORD', None), "fGetGlobalInfo"),(('DWORD', None), "dwGlobalInfoSize"),(('LPBYTE', None), "pGlobalInfo"),]
-
-    
-
-class ('RTR_TOC_ENTRY', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "InfoType"),(('ULONG', None), "InfoSize"),(('ULONG', None), "Count"),(('ULONG', None), "Offset"),]
-
-    
-
-class ('RTR_INFO_BLOCK_HEADER', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Version"),(('ULONG', None), "Size"),(('ULONG', None), "TocEntriesCount"),(('RTR_TOC_ENTRY', None), "TocEntry"),]
-
-    
-
-class ('FILTER_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwSrcAddr"),(('DWORD', None), "dwSrcMask"),(('DWORD', None), "dwDstAddr"),(('DWORD', None), "dwDstMask"),(('DWORD', None), "dwProtocol"),(('DWORD', None), "fLateBound"),(('WORD', None), "wSrcPort"),(('WORD', None), "wDstPort"),]
-
-    
-
-class ('FILTER_DESCRIPTOR', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwVersion"),(('DWORD', None), "dwNumFilters"),(('FORWARD_ACTION', None), "faDefaultAction"),(('FILTER_INFO', None), "fiFilter"),]
-
-    
-
-class ('FILTER_INFO_V6', None)(NdrStructure):
-    MEMBERS = [(('BYTE', None), "ipv6SrcAddr"),(('DWORD', None), "dwSrcPrefixLength"),(('BYTE', None), "ipv6DstAddr"),(('DWORD', None), "dwDstPrefixLength"),(('DWORD', None), "dwProtocol"),(('DWORD', None), "fLateBound"),(('WORD', None), "wSrcPort"),(('WORD', None), "wDstPort"),]
-
-    
-
-class ('FILTER_DESCRIPTOR_V6', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwVersion"),(('DWORD', None), "dwNumFilters"),(('FORWARD_ACTION', None), "faDefaultAction"),(('FILTER_INFO_V6', None), "fiFilter"),]
-
-    
-
-class ('GLOBAL_INFO', None)(NdrStructure):
-    MEMBERS = [(('BOOL', None), "bFilteringOn"),(('DWORD', None), "dwLoggingLevel"),]
-
-    
-
-class ('INTERFACE_ROUTE_INFO', None)(NdrStructure):
-    MEMBERS = [(('U0', None), "u0"),(('DWORD', None), "dwRtInfoIfIndex"),(('DWORD', None), "dwRtInfoType"),(('DWORD', None), "dwRtInfoProto"),(('DWORD', None), "dwRtInfoPreference"),(('DWORD', None), "dwRtInfoViewSet"),(('BOOL', None), "bV4"),]
-
-    
-
-class ('PROTOCOL_METRIC', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwProtocolId"),(('DWORD', None), "dwMetric"),]
-
-    
-
-class ('PRIORITY_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumProtocols"),(('PROTOCOL_METRIC', None), "ppmProtocolMetric"),]
-
-    
-
-class ('PROTOCOL_METRIC_EX', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwProtocolId"),(('DWORD', None), "dwSubProtocolId"),(('DWORD', None), "dwMetric"),]
-
-    
-
-class ('PRIORITY_INFO_EX', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumProtocols"),(('PROTOCOL_METRIC_EX', None), "ppmProtocolMetric"),]
-
-    
-
-class ('RTR_DISC_INFO', None)(NdrStructure):
-    MEMBERS = [(('WORD', None), "wMaxAdvtInterval"),(('WORD', None), "wMinAdvtInterval"),(('WORD', None), "wAdvtLifetime"),(('BOOL', None), "bAdvertise"),(('LONG', None), "lPrefLevel"),]
-
-    
-
-class ('MCAST_HBEAT_INFO', None)(NdrStructure):
-    MEMBERS = [(('WCHAR', None), "pwszGroup"),(('BOOL', None), "bActive"),(('ULONG', None), "ulDeadInterval"),(('BYTE', None), "byProtocol"),(('WORD', None), "wPort"),]
-
-    
-
-class ('MIB_MCAST_LIMIT_ROW', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwTtl"),(('DWORD', None), "dwRateLimit"),]
-
-    
-
-class ('IPINIP_CONFIG_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwRemoteAddress"),(('DWORD', None), "dwLocalAddress"),(('BYTE', None), "byTtl"),]
-
-    
-
-class ('INTERFACE_STATUS_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwAdminStatus"),]
-
-    
-
-class ('DIM_MIB_ENTRY_CONTAINER', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwMibInEntrySize"),(('LPBYTE', None), "pMibInEntry"),(('DWORD', None), "dwMibOutEntrySize"),(('LPBYTE', None), "pMibOutEntry"),]
-
-    
-
-class ('MIB_IPFORWARDROW', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwForwardDest"),(('DWORD', None), "dwForwardMask"),(('DWORD', None), "dwForwardPolicy"),(('DWORD', None), "dwForwardNextHop"),(('DWORD', None), "dwForwardIfIndex"),(('U0', None), "u0"),(('U1', None), "u1"),(('DWORD', None), "dwForwardAge"),(('DWORD', None), "dwForwardNextHopAS"),(('DWORD', None), "dwForwardMetric1"),(('DWORD', None), "dwForwardMetric2"),(('DWORD', None), "dwForwardMetric3"),(('DWORD', None), "dwForwardMetric4"),(('DWORD', None), "dwForwardMetric5"),]
-
-    
-
-class ('MIB_IPDESTROW', None)(NdrStructure):
-    MEMBERS = [(('MIB_IPFORWARDROW', None), "ForwardRow"),(('DWORD', None), "dwForwardPreference"),(('DWORD', None), "dwForwardViewSet"),]
-
-    
-
-class ('MIB_IPDESTTABLE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumEntries"),(('MIB_IPDESTROW', None), "table"),]
-
-    
-
-class ('MIB_ROUTESTATE', None)(NdrStructure):
-    MEMBERS = [(('BOOL', None), "bRoutesSetToStack"),]
-
-    
-
-class ('MIB_BEST_IF', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwDestAddr"),(('DWORD', None), "dwIfIndex"),]
-
-    
-
-class ('MIB_BOUNDARYROW', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwGroupAddress"),(('DWORD', None), "dwGroupMask"),]
-
-    
-
-class ('MIBICMPSTATS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwMsgs"),(('DWORD', None), "dwErrors"),(('DWORD', None), "dwDestUnreachs"),(('DWORD', None), "dwTimeExcds"),(('DWORD', None), "dwParmProbs"),(('DWORD', None), "dwSrcQuenchs"),(('DWORD', None), "dwRedirects"),(('DWORD', None), "dwEchos"),(('DWORD', None), "dwEchoReps"),(('DWORD', None), "dwTimestamps"),(('DWORD', None), "dwTimestampReps"),(('DWORD', None), "dwAddrMasks"),(('DWORD', None), "dwAddrMaskReps"),]
-
-    
-
-class ('MIBICMPINFO', None)(NdrStructure):
-    MEMBERS = [(('MIBICMPSTATS', None), "icmpInStats"),(('MIBICMPSTATS', None), "icmpOutStats"),]
-
-    
-
-class ('MIB_ICMP', None)(NdrStructure):
-    MEMBERS = [(('MIBICMPINFO', None), "stats"),]
-
-    
-
-class ('MIB_IFNUMBER', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwValue"),]
-
-    
-
-class ('MIB_IFROW', None)(NdrStructure):
-    MEMBERS = [(('WCHAR', None), "wszName"),(('DWORD', None), "dwIndex"),(('DWORD', None), "dwType"),(('DWORD', None), "dwMtu"),(('DWORD', None), "dwSpeed"),(('DWORD', None), "dwPhysAddrLen"),(('BYTE', None), "bPhysAddr"),(('DWORD', None), "dwAdminStatus"),(('DWORD', None), "dwOperStatus"),(('DWORD', None), "dwLastChange"),(('DWORD', None), "dwInOctets"),(('DWORD', None), "dwInUcastPkts"),(('DWORD', None), "dwInNUcastPkts"),(('DWORD', None), "dwInDiscards"),(('DWORD', None), "dwInErrors"),(('DWORD', None), "dwInUnknownProtos"),(('DWORD', None), "dwOutOctets"),(('DWORD', None), "dwOutUcastPkts"),(('DWORD', None), "dwOutNUcastPkts"),(('DWORD', None), "dwOutDiscards"),(('DWORD', None), "dwOutErrors"),(('DWORD', None), "dwOutQLen"),(('DWORD', None), "dwDescrLen"),(('BYTE', None), "bDescr"),]
-
-    
-
-class ('MIB_IFSTATUS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIfIndex"),(('DWORD', None), "dwAdminStatus"),(('DWORD', None), "dwOperationalStatus"),(('BOOL', None), "bMHbeatActive"),(('BOOL', None), "bMHbeatAlive"),]
-
-    
-
-class ('MIB_IFTABLE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumEntries"),(('MIB_IFROW', None), "table"),]
-
-    
-
-class ('MIB_IPADDRROW', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwAddr"),(('DWORD', None), "dwIndex"),(('DWORD', None), "dwMask"),(('DWORD', None), "dwBCastAddr"),(('DWORD', None), "dwReasmSize"),(('UNSIGNED_SHORT', None), "unused1"),(('UNSIGNED_SHORT', None), "wType"),]
-
-    
-
-class ('MIB_IPADDRTABLE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumEntries"),(('MIB_IPADDRROW', None), "table"),]
-
-    
-
-class ('MIB_IPFORWARDNUMBER', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwValue"),]
-
-    
-
-class ('MIB_IPFORWARDTABLE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumEntries"),(('MIB_IPFORWARDROW', None), "table"),(('BYTE', None), "reserved"),]
-
-    
-
-class ('MIB_IPMCAST_BOUNDARY', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIfIndex"),(('DWORD', None), "dwGroupAddress"),(('DWORD', None), "dwGroupMask"),(('DWORD', None), "dwStatus"),]
-
-    
-
-class ('MIB_IPMCAST_BOUNDARY_TABLE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumEntries"),(('MIB_IPMCAST_BOUNDARY', None), "table"),]
-
-    
-
-class ('MIB_IPMCAST_GLOBAL', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwEnable"),]
-
-    
-
-class ('MIB_IPMCAST_IF_ENTRY', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIfIndex"),(('DWORD', None), "dwTtl"),(('DWORD', None), "dwProtocol"),(('DWORD', None), "dwRateLimit"),(('ULONG', None), "ulInMcastOctets"),(('ULONG', None), "ulOutMcastOctets"),]
-
-    
-
-class ('MIB_IPMCAST_IF_TABLE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumEntries"),(('MIB_IPMCAST_IF_ENTRY', None), "table"),]
-
-    
-
-class ('MIB_IPMCAST_OIF', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwOutIfIndex"),(('DWORD', None), "dwNextHopAddr"),(('PVOID', None), "pvReserved"),(('DWORD', None), "dwReserved"),]
-
-    
-
-class ('MIB_IPMCAST_MFE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwGroup"),(('DWORD', None), "dwSource"),(('DWORD', None), "dwSrcMask"),(('DWORD', None), "dwUpStrmNgbr"),(('DWORD', None), "dwInIfIndex"),(('DWORD', None), "dwInIfProtocol"),(('DWORD', None), "dwRouteProtocol"),(('DWORD', None), "dwRouteNetwork"),(('DWORD', None), "dwRouteMask"),(('ULONG', None), "ulUpTime"),(('ULONG', None), "ulExpiryTime"),(('ULONG', None), "ulTimeOut"),(('ULONG', None), "ulNumOutIf"),(('DWORD', None), "fFlags"),(('DWORD', None), "dwReserved"),(('MIB_IPMCAST_OIF', None), "rgmioOutInfo"),]
-
-    
-
-class ('MIB_IPMCAST_OIF_STATS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwOutIfIndex"),(('DWORD', None), "dwNextHopAddr"),(('PVOID', None), "pvDialContext"),(('ULONG', None), "ulTtlTooLow"),(('ULONG', None), "ulFragNeeded"),(('ULONG', None), "ulOutPackets"),(('ULONG', None), "ulOutDiscards"),]
-
-    
-
-class ('MIB_IPMCAST_MFE_STATS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwGroup"),(('DWORD', None), "dwSource"),(('DWORD', None), "dwSrcMask"),(('DWORD', None), "dwUpStrmNgbr"),(('DWORD', None), "dwInIfIndex"),(('DWORD', None), "dwInIfProtocol"),(('DWORD', None), "dwRouteProtocol"),(('DWORD', None), "dwRouteNetwork"),(('DWORD', None), "dwRouteMask"),(('ULONG', None), "ulUpTime"),(('ULONG', None), "ulExpiryTime"),(('ULONG', None), "ulNumOutIf"),(('ULONG', None), "ulInPkts"),(('ULONG', None), "ulInOctets"),(('ULONG', None), "ulPktsDifferentIf"),(('ULONG', None), "ulQueueOverflow"),(('MIB_IPMCAST_OIF_STATS', None), "rgmiosOutStats"),]
-
-    
-
-class ('MIB_IPMCAST_SCOPE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwGroupAddress"),(('DWORD', None), "dwGroupMask"),(('WCHAR', None), "snNameBuffer"),(('DWORD', None), "dwStatus"),(('BYTE', None), "reserved"),]
-
-    
-
-class ('MIB_IPNETROW', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIndex"),(('DWORD', None), "dwPhysAddrLen"),(('BYTE', None), "bPhysAddr"),(('DWORD', None), "dwAddr"),(('DWORD', None), "dwType"),]
-
-    
-
-class ('MIB_IPNETTABLE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumEntries"),(('MIB_IPNETROW', None), "table"),(('BYTE', None), "reserved"),]
-
-    
-
-class ('MIB_IPSTATS', None)(NdrStructure):
-    MEMBERS = [(('U0', None), "u0"),(('DWORD', None), "dwDefaultTTL"),(('DWORD', None), "dwInReceives"),(('DWORD', None), "dwInHdrErrors"),(('DWORD', None), "dwInAddrErrors"),(('DWORD', None), "dwForwDatagrams"),(('DWORD', None), "dwInUnknownProtos"),(('DWORD', None), "dwInDiscards"),(('DWORD', None), "dwInDelivers"),(('DWORD', None), "dwOutRequests"),(('DWORD', None), "dwRoutingDiscards"),(('DWORD', None), "dwOutDiscards"),(('DWORD', None), "dwOutNoRoutes"),(('DWORD', None), "dwReasmTimeout"),(('DWORD', None), "dwReasmReqds"),(('DWORD', None), "dwReasmOks"),(('DWORD', None), "dwReasmFails"),(('DWORD', None), "dwFragOks"),(('DWORD', None), "dwFragFails"),(('DWORD', None), "dwFragCreates"),(('DWORD', None), "dwNumIf"),(('DWORD', None), "dwNumAddr"),(('DWORD', None), "dwNumRoutes"),]
-
-    
-
-class ('MIB_MFE_STATS_TABLE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumEntries"),(('MIB_IPMCAST_MFE_STATS', None), "table"),]
-
-    
-
-class ('MIB_MFE_TABLE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumEntries"),(('MIB_IPMCAST_MFE', None), "table"),]
-
-    
-
-class ('MIB_OPAQUE_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwId"),(('U0', None), "u0"),]
-
-    
-
-class ('MIB_OPAQUE_QUERY', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwVarId"),(('DWORD', None), "rgdwVarIndex"),]
-
-    
-
-class ('MIB_PROXYARP', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwAddress"),(('DWORD', None), "dwMask"),(('DWORD', None), "dwIfIndex"),]
-
-    
-
-class ('MIB_TCPROW', None)(NdrStructure):
-    MEMBERS = [(('U0', None), "u0"),(('DWORD', None), "dwLocalAddr"),(('DWORD', None), "dwLocalPort"),(('DWORD', None), "dwRemoteAddr"),(('DWORD', None), "dwRemotePort"),]
-
-    
-
-class ('MIB_TCPSTATS', None)(NdrStructure):
-    MEMBERS = [(('U0', None), "u0"),(('DWORD', None), "dwRtoMin"),(('DWORD', None), "dwRtoMax"),(('DWORD', None), "dwMaxConn"),(('DWORD', None), "dwActiveOpens"),(('DWORD', None), "dwPassiveOpens"),(('DWORD', None), "dwAttemptFails"),(('DWORD', None), "dwEstabResets"),(('DWORD', None), "dwCurrEstab"),(('DWORD', None), "dwInSegs"),(('DWORD', None), "dwOutSegs"),(('DWORD', None), "dwRetransSegs"),(('DWORD', None), "dwInErrs"),(('DWORD', None), "dwOutRsts"),(('DWORD', None), "dwNumConns"),]
-
-    
-
-class ('MIB_TCPTABLE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumEntries"),(('MIB_TCPROW', None), "table"),(('BYTE', None), "reserved"),]
-
-    
-
-class ('MIB_UDPROW', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwLocalAddr"),(('DWORD', None), "dwLocalPort"),]
-
-    
-
-class ('MIB_UDPSTATS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwInDatagrams"),(('DWORD', None), "dwNoPorts"),(('DWORD', None), "dwInErrors"),(('DWORD', None), "dwOutDatagrams"),(('DWORD', None), "dwNumAddrs"),]
-
-    
-
-class ('MIB_UDPTABLE', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumEntries"),(('MIB_UDPROW', None), "table"),(('BYTE', None), "reserved"),]
-
-    
-
-class ('MPR_SERVER_0', None)(NdrStructure):
-    MEMBERS = [(('BOOL', None), "fLanOnlyMode"),(('DWORD', None), "dwUpTime"),(('DWORD', None), "dwTotalPorts"),(('DWORD', None), "dwPortsInUse"),]
-
-    
-
-class ('MPR_SERVER_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumPptpPorts"),(('DWORD', None), "dwPptpPortFlags"),(('DWORD', None), "dwNumL2tpPorts"),(('DWORD', None), "dwL2tpPortFlags"),]
-
-    
-
-class ('MPR_SERVER_2', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwNumPptpPorts"),(('DWORD', None), "dwPptpPortFlags"),(('DWORD', None), "dwNumL2tpPorts"),(('DWORD', None), "dwL2tpPortFlags"),(('DWORD', None), "dwNumSstpPorts"),(('DWORD', None), "dwSstpPortFlags"),]
-
-    
-
-class ('PPP_NBFCP_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwError"),(('WCHAR', None), "wszWksta"),]
-
-    
-
-class ('PPP_IPCP_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwError"),(('WCHAR', None), "wszAddress"),(('WCHAR', None), "wszRemoteAddress"),]
-
-    
-
-class ('PPP_IPCP_INFO2', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwError"),(('WCHAR', None), "wszAddress"),(('WCHAR', None), "wszRemoteAddress"),(('DWORD', None), "dwOptions"),(('DWORD', None), "dwRemoteOptons"),]
-
-    
-
-class ('PPP_IPXCP_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwError"),(('WCHAR', None), "wszAddress"),]
-
-    
-
-class ('PPP_IPV6_CP_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwVersion"),(('DWORD', None), "dwSize"),(('DWORD', None), "dwError"),(('BYTE', None), "bInterfaceIdentifier"),(('BYTE', None), "bRemoteInterfaceIdentifier"),(('DWORD', None), "dwOptions"),(('DWORD', None), "dwRemoteOptions"),(('BYTE', None), "bPrefix"),(('DWORD', None), "dwPrefixLength"),]
-
-    
-
-class ('PPP_ATCP_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwError"),(('WCHAR', None), "wszAddress"),]
-
-    
-
-class ('PPP_CCP_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwError"),(('DWORD', None), "dwCompressionAlgorithm"),(('DWORD', None), "dwOptions"),(('DWORD', None), "dwRemoteCompressionAlgorithm"),(('DWORD', None), "dwRemoteOptions"),]
-
-    
-
-class ('PPP_LCP_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwError"),(('DWORD', None), "dwAuthenticationProtocol"),(('DWORD', None), "dwAuthenticationData"),(('DWORD', None), "dwRemoteAuthenticationProtocol"),(('DWORD', None), "dwRemoteAuthenticationData"),(('DWORD', None), "dwTerminateReason"),(('DWORD', None), "dwRemoteTerminateReason"),(('DWORD', None), "dwOptions"),(('DWORD', None), "dwRemoteOptions"),(('DWORD', None), "dwEapTypeId"),(('DWORD', None), "dwRemoteEapTypeId"),]
-
-    
-
-class ('PPP_INFO', None)(NdrStructure):
-    MEMBERS = [(('PPP_NBFCP_INFO', None), "nbf"),(('PPP_IPCP_INFO', None), "ip"),(('PPP_IPXCP_INFO', None), "ipx"),(('PPP_ATCP_INFO', None), "at"),]
-
-    
-
-class ('PPP_INFO_2', None)(NdrStructure):
-    MEMBERS = [(('PPP_NBFCP_INFO', None), "nbf"),(('PPP_IPCP_INFO2', None), "ip"),(('PPP_IPXCP_INFO', None), "ipx"),(('PPP_ATCP_INFO', None), "at"),(('PPP_CCP_INFO', None), "ccp"),(('PPP_LCP_INFO', None), "lcp"),]
-
-    
-
-class ('PPP_INFO_3', None)(NdrStructure):
-    MEMBERS = [(('PPP_NBFCP_INFO', None), "nbf"),(('PPP_IPCP_INFO2', None), "ip"),(('PPP_IPV6_CP_INFO', None), "ipv6"),(('PPP_CCP_INFO', None), "ccp"),(('PPP_LCP_INFO', None), "lcp"),]
-
-    
-
-class ('RASI_PORT_0', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwPort"),(('DWORD', None), "dwConnection"),(('RAS_PORT_CONDITION', None), "dwPortCondition"),(('DWORD', None), "dwTotalNumberOfCalls"),(('DWORD', None), "dwConnectDuration"),(('WCHAR', None), "wszPortName"),(('WCHAR', None), "wszMediaName"),(('WCHAR', None), "wszDeviceName"),(('WCHAR', None), "wszDeviceType"),]
-
-    
-
-class ('RASI_PORT_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwPort"),(('DWORD', None), "dwConnection"),(('RAS_HARDWARE_CONDITION', None), "dwHardwareCondition"),(('DWORD', None), "dwLineSpeed"),(('DWORD', None), "dwBytesXmited"),(('DWORD', None), "dwBytesRcved"),(('DWORD', None), "dwFramesXmited"),(('DWORD', None), "dwFramesRcved"),(('DWORD', None), "dwCrcErr"),(('DWORD', None), "dwTimeoutErr"),(('DWORD', None), "dwAlignmentErr"),(('DWORD', None), "dwHardwareOverrunErr"),(('DWORD', None), "dwFramingErr"),(('DWORD', None), "dwBufferOverrunErr"),(('DWORD', None), "dwCompressionRatioIn"),(('DWORD', None), "dwCompressionRatioOut"),]
-
-    
-
-class ('RASI_CONNECTION_0', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwConnection"),(('DWORD', None), "dwInterface"),(('DWORD', None), "dwConnectDuration"),(('ROUTER_INTERFACE_TYPE', None), "dwInterfaceType"),(('DWORD', None), "dwConnectionFlags"),(('WCHAR', None), "wszInterfaceName"),(('WCHAR', None), "wszUserName"),(('WCHAR', None), "wszLogonDomain"),(('WCHAR', None), "wszRemoteComputer"),]
-
-    
-
-class ('RASI_CONNECTION_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwConnection"),(('DWORD', None), "dwInterface"),(('PPP_INFO', None), "PppInfo"),(('DWORD', None), "dwBytesXmited"),(('DWORD', None), "dwBytesRcved"),(('DWORD', None), "dwFramesXmited"),(('DWORD', None), "dwFramesRcved"),(('DWORD', None), "dwCrcErr"),(('DWORD', None), "dwTimeoutErr"),(('DWORD', None), "dwAlignmentErr"),(('DWORD', None), "dwHardwareOverrunErr"),(('DWORD', None), "dwFramingErr"),(('DWORD', None), "dwBufferOverrunErr"),(('DWORD', None), "dwCompressionRatioIn"),(('DWORD', None), "dwCompressionRatioOut"),]
-
-    
-
-class ('RASI_CONNECTION_2', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwConnection"),(('WCHAR', None), "wszUserName"),(('ROUTER_INTERFACE_TYPE', None), "dwInterfaceType"),(('GUID', None), "guid"),(('PPP_INFO_2', None), "PppInfo2"),]
-
-    
-
-class ('RASI_CONNECTION_3', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwVersion"),(('DWORD', None), "dwSize"),(('DWORD', None), "dwConnection"),(('WCHAR', None), "wszUserName"),(('ROUTER_INTERFACE_TYPE', None), "dwInterfaceType"),(('GUID', None), "guid"),(('PPP_INFO_3', None), "PppInfo3"),(('RAS_QUARANTINE_STATE', None), "rasQuarState"),(('FILETIME', None), "timer"),]
-
-    
-
-class ('MPRI_INTERFACE_0', None)(NdrStructure):
-    MEMBERS = [(('WCHAR', None), "wszInterfaceName"),(('DWORD', None), "dwInterface"),(('BOOL', None), "fEnabled"),(('ROUTER_INTERFACE_TYPE', None), "dwIfType"),(('ROUTER_CONNECTION_STATE', None), "dwConnectionState"),(('DWORD', None), "fUnReachabilityReasons"),(('DWORD', None), "dwLastError"),]
-
-    
-
-class ('MPRI_INTERFACE_1', None)(NdrStructure):
-    MEMBERS = [(('WCHAR', None), "wszInterfaceName"),(('DWORD', None), "dwInterface"),(('BOOL', None), "fEnabled"),(('ROUTER_INTERFACE_TYPE', None), "dwIfType"),(('ROUTER_CONNECTION_STATE', None), "dwConnectionState"),(('DWORD', None), "fUnReachabilityReasons"),(('DWORD', None), "dwLastError"),(('LPWSTR', None), "lpwsDialoutHoursRestriction"),]
-
-    
-
-class ('MPRI_INTERFACE_2', None)(NdrStructure):
-    MEMBERS = [(('WCHAR', None), "wszInterfaceName"),(('DWORD', None), "dwInterface"),(('BOOL', None), "fEnabled"),(('ROUTER_INTERFACE_TYPE', None), "dwIfType"),(('ROUTER_CONNECTION_STATE', None), "dwConnectionState"),(('DWORD', None), "fUnReachabilityReasons"),(('DWORD', None), "dwLastError"),(('DWORD', None), "dwfOptions"),(('WCHAR', None), "szLocalPhoneNumber"),(('PWCHAR', None), "szAlternates"),(('DWORD', None), "ipaddr"),(('DWORD', None), "ipaddrDns"),(('DWORD', None), "ipaddrDnsAlt"),(('DWORD', None), "ipaddrWins"),(('DWORD', None), "ipaddrWinsAlt"),(('DWORD', None), "dwfNetProtocols"),(('WCHAR', None), "szDeviceType"),(('WCHAR', None), "szDeviceName"),(('WCHAR', None), "szX25PadType"),(('WCHAR', None), "szX25Address"),(('WCHAR', None), "szX25Facilities"),(('WCHAR', None), "szX25UserData"),(('DWORD', None), "dwChannels"),(('DWORD', None), "dwSubEntries"),(('DWORD', None), "dwDialMode"),(('DWORD', None), "dwDialExtraPercent"),(('DWORD', None), "dwDialExtraSampleSeconds"),(('DWORD', None), "dwHangUpExtraPercent"),(('DWORD', None), "dwHangUpExtraSampleSeconds"),(('DWORD', None), "dwIdleDisconnectSeconds"),(('DWORD', None), "dwType"),(('DWORD', None), "dwEncryptionType"),(('DWORD', None), "dwCustomAuthKey"),(('DWORD', None), "dwCustomAuthDataSize"),(('LPBYTE', None), "lpbCustomAuthData"),(('GUID', None), "guidId"),(('DWORD', None), "dwVpnStrategy"),]
-
-    
-
-class ('MPRI_INTERFACE_3', None)(NdrStructure):
-    MEMBERS = [(('WCHAR', None), "wszInterfaceName"),(('DWORD', None), "dwInterface"),(('BOOL', None), "fEnabled"),(('ROUTER_INTERFACE_TYPE', None), "dwIfType"),(('ROUTER_CONNECTION_STATE', None), "dwConnectionState"),(('DWORD', None), "fUnReachabilityReasons"),(('DWORD', None), "dwLastError"),(('DWORD', None), "dwfOptions"),(('WCHAR', None), "szLocalPhoneNumber"),(('PWCHAR', None), "szAlternates"),(('DWORD', None), "ipaddr"),(('DWORD', None), "ipaddrDns"),(('DWORD', None), "ipaddrDnsAlt"),(('DWORD', None), "ipaddrWins"),(('DWORD', None), "ipaddrWinsAlt"),(('DWORD', None), "dwfNetProtocols"),(('WCHAR', None), "szDeviceType"),(('WCHAR', None), "szDeviceName"),(('WCHAR', None), "szX25PadType"),(('WCHAR', None), "szX25Address"),(('WCHAR', None), "szX25Facilities"),(('WCHAR', None), "szX25UserData"),(('DWORD', None), "dwChannels"),(('DWORD', None), "dwSubEntries"),(('DWORD', None), "dwDialMode"),(('DWORD', None), "dwDialExtraPercent"),(('DWORD', None), "dwDialExtraSampleSeconds"),(('DWORD', None), "dwHangUpExtraPercent"),(('DWORD', None), "dwHangUpExtraSampleSeconds"),(('DWORD', None), "dwIdleDisconnectSeconds"),(('DWORD', None), "dwType"),(('DWORD', None), "dwEncryptionType"),(('DWORD', None), "dwCustomAuthKey"),(('DWORD', None), "dwCustomAuthDataSize"),(('LPBYTE', None), "lpbCustomAuthData"),(('GUID', None), "guidId"),(('DWORD', None), "dwVpnStrategy"),(('ULONG', None), "AddressCount"),(('IN6_ADDR', None), "ipv6addrDns"),(('IN6_ADDR', None), "ipv6addrDnsAlt"),(('PIN6_ADDR', None), "ipv6addr"),]
-
-    
-
-class ('MPR_DEVICE_0', None)(NdrStructure):
-    MEMBERS = [(('WCHAR', None), "szDeviceType"),(('WCHAR', None), "szDeviceName"),]
-
-    
-
-class ('MPR_DEVICE_1', None)(NdrStructure):
-    MEMBERS = [(('WCHAR', None), "szDeviceType"),(('WCHAR', None), "szDeviceName"),(('WCHAR', None), "szLocalPhoneNumber"),(('PWCHAR', None), "szAlternates"),]
-
-    
-
-class ('MPR_CREDENTIALSEX_1', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwSize"),(('DWORD', None), "dwOffset"),(('BYTE', None), "bData"),]
-
-    
-
-class ('IFFILTER_INFO', None)(NdrStructure):
-    MEMBERS = [(('BOOL', None), "bEnableFragChk"),]
-
-    
-
-class ('MPR_FILTER_0', None)(NdrStructure):
-    MEMBERS = [(('BOOL', None), "fEnable"),]
-
-    
-
-class ('IPX_GLOBAL_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "RoutingTableHashSize"),(('ULONG', None), "EventLogMask"),]
-
-    
-
-class ('IPX_IF_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "AdministratorState"),(('ULONG', None), "NetbiosAccept"),(('ULONG', None), "NetbiosDeliver"),]
-
-    
-
-class ('IPXWAN_IF_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Adminstate"),]
-
-    
-
-class ('IPX_STATIC_ROUTE_INFO', None)(NdrStructure):
-    MEMBERS = [(('U0', None), "u0"),(('USHORT', None), "TickCount"),(('USHORT', None), "HopCount"),(('UCHAR', None), "NextHopMacAddress"),]
-
-    
-
-class ('IPX_SERVER_ENTRY', None)(NdrStructure):
-    MEMBERS = [(('USHORT', None), "Type"),(('UCHAR', None), "Name"),(('UCHAR', None), "Network"),(('UCHAR', None), "Node"),(('UCHAR', None), "Socket"),(('USHORT', None), "HopCount"),]
-
-    
-
-class ('IPX_STATIC_NETBIOS_NAME_INFO', None)(NdrStructure):
-    MEMBERS = [(('U0', None), "u0"),]
-
-    
-
-class ('IPX_ADAPTER_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "PacketType"),(('WCHAR', None), "AdapterName"),]
-
-    
-
-class ('IPX_TRAFFIC_FILTER_GLOBAL_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "FilterAction"),]
-
-    
-
-class ('IPX_TRAFFIC_FILTER_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "FilterDefinition"),(('UCHAR', None), "DestinationNetwork"),(('UCHAR', None), "DestinationNetworkMask"),(('UCHAR', None), "DestinationNode"),(('UCHAR', None), "DestinationSocket"),(('UCHAR', None), "SourceNetwork"),(('UCHAR', None), "SourceNetworkMask"),(('UCHAR', None), "SourceNode"),(('UCHAR', None), "SourceSocket"),(('UCHAR', None), "PacketType"),]
-
-    
-
-class ('IF_TABLE_INDEX', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "InterfaceIndex"),]
-
-    
-
-class ('ROUTING_TABLE_INDEX', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "Network"),]
-
-    
-
-class ('STATIC_ROUTES_TABLE_INDEX', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "InterfaceIndex"),(('UCHAR', None), "Network"),]
-
-    
-
-class ('SERVICES_TABLE_INDEX', None)(NdrStructure):
-    MEMBERS = [(('USHORT', None), "ServiceType"),(('UCHAR', None), "ServiceName"),]
-
-    
-
-class ('STATIC_SERVICES_TABLE_INDEX', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "InterfaceIndex"),(('USHORT', None), "ServiceType"),(('UCHAR', None), "ServiceName"),]
-
-    
-
-class ('IPX_MIB_INDEX', None)(NdrUnion):
+class DIM_INTERFACE_CONTAINER(NdrStructure):
+    MEMBERS = [
+        (DWORD, "fGetInterfaceInfo"),
+        (DWORD, "dwInterfaceInfoSize"),
+        (LPBYTE, "pInterfaceInfo"),
+        (DWORD, "fGetGlobalInfo"),
+        (DWORD, "dwGlobalInfoSize"),
+        (LPBYTE, "pGlobalInfo"),
+    ]
+
+
+class RTR_TOC_ENTRY(NdrStructure):
+    MEMBERS = [
+        (ULONG, "InfoType"),
+        (ULONG, "InfoSize"),
+        (ULONG, "Count"),
+        (ULONG, "Offset"),
+    ]
+
+
+class RTR_INFO_BLOCK_HEADER(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Version"),
+        (ULONG, "Size"),
+        (ULONG, "TocEntriesCount"),
+        (RTR_TOC_ENTRY, "TocEntry"),
+    ]
+
+
+class FILTER_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwSrcAddr"),
+        (DWORD, "dwSrcMask"),
+        (DWORD, "dwDstAddr"),
+        (DWORD, "dwDstMask"),
+        (DWORD, "dwProtocol"),
+        (DWORD, "fLateBound"),
+        (WORD, "wSrcPort"),
+        (WORD, "wDstPort"),
+    ]
+
+
+class FILTER_DESCRIPTOR(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwVersion"),
+        (DWORD, "dwNumFilters"),
+        (FORWARD_ACTION, "faDefaultAction"),
+        (FILTER_INFO, "fiFilter"),
+    ]
+
+
+class FILTER_INFO_V6(NdrStructure):
+    MEMBERS = [
+        (BYTE, "ipv6SrcAddr"),
+        (DWORD, "dwSrcPrefixLength"),
+        (BYTE, "ipv6DstAddr"),
+        (DWORD, "dwDstPrefixLength"),
+        (DWORD, "dwProtocol"),
+        (DWORD, "fLateBound"),
+        (WORD, "wSrcPort"),
+        (WORD, "wDstPort"),
+    ]
+
+
+class FILTER_DESCRIPTOR_V6(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwVersion"),
+        (DWORD, "dwNumFilters"),
+        (FORWARD_ACTION, "faDefaultAction"),
+        (FILTER_INFO_V6, "fiFilter"),
+    ]
+
+
+class GLOBAL_INFO(NdrStructure):
+    MEMBERS = [
+        (BOOL, "bFilteringOn"),
+        (DWORD, "dwLoggingLevel"),
+    ]
+
+
+class INTERFACE_ROUTE_INFO(NdrStructure):
+    MEMBERS = [
+        (U0, "u0"),
+        (DWORD, "dwRtInfoIfIndex"),
+        (DWORD, "dwRtInfoType"),
+        (DWORD, "dwRtInfoProto"),
+        (DWORD, "dwRtInfoPreference"),
+        (DWORD, "dwRtInfoViewSet"),
+        (BOOL, "bV4"),
+    ]
+
+
+class PROTOCOL_METRIC(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwProtocolId"),
+        (DWORD, "dwMetric"),
+    ]
+
+
+class PRIORITY_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumProtocols"),
+        (PROTOCOL_METRIC, "ppmProtocolMetric"),
+    ]
+
+
+class PROTOCOL_METRIC_EX(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwProtocolId"),
+        (DWORD, "dwSubProtocolId"),
+        (DWORD, "dwMetric"),
+    ]
+
+
+class PRIORITY_INFO_EX(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumProtocols"),
+        (PROTOCOL_METRIC_EX, "ppmProtocolMetric"),
+    ]
+
+
+class RTR_DISC_INFO(NdrStructure):
+    MEMBERS = [
+        (WORD, "wMaxAdvtInterval"),
+        (WORD, "wMinAdvtInterval"),
+        (WORD, "wAdvtLifetime"),
+        (BOOL, "bAdvertise"),
+        (LONG, "lPrefLevel"),
+    ]
+
+
+class MCAST_HBEAT_INFO(NdrStructure):
+    MEMBERS = [
+        (WCHAR, "pwszGroup"),
+        (BOOL, "bActive"),
+        (ULONG, "ulDeadInterval"),
+        (BYTE, "byProtocol"),
+        (WORD, "wPort"),
+    ]
+
+
+class MIB_MCAST_LIMIT_ROW(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwTtl"),
+        (DWORD, "dwRateLimit"),
+    ]
+
+
+class IPINIP_CONFIG_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwRemoteAddress"),
+        (DWORD, "dwLocalAddress"),
+        (BYTE, "byTtl"),
+    ]
+
+
+class INTERFACE_STATUS_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwAdminStatus"),
+    ]
+
+
+class DIM_MIB_ENTRY_CONTAINER(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwMibInEntrySize"),
+        (LPBYTE, "pMibInEntry"),
+        (DWORD, "dwMibOutEntrySize"),
+        (LPBYTE, "pMibOutEntry"),
+    ]
+
+
+class MIB_IPFORWARDROW(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwForwardDest"),
+        (DWORD, "dwForwardMask"),
+        (DWORD, "dwForwardPolicy"),
+        (DWORD, "dwForwardNextHop"),
+        (DWORD, "dwForwardIfIndex"),
+        (U0, "u0"),
+        (U1, "u1"),
+        (DWORD, "dwForwardAge"),
+        (DWORD, "dwForwardNextHopAS"),
+        (DWORD, "dwForwardMetric1"),
+        (DWORD, "dwForwardMetric2"),
+        (DWORD, "dwForwardMetric3"),
+        (DWORD, "dwForwardMetric4"),
+        (DWORD, "dwForwardMetric5"),
+    ]
+
+
+class MIB_IPDESTROW(NdrStructure):
+    MEMBERS = [
+        (MIB_IPFORWARDROW, "ForwardRow"),
+        (DWORD, "dwForwardPreference"),
+        (DWORD, "dwForwardViewSet"),
+    ]
+
+
+class MIB_IPDESTTABLE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumEntries"),
+        (MIB_IPDESTROW, "table"),
+    ]
+
+
+class MIB_ROUTESTATE(NdrStructure):
+    MEMBERS = [
+        (BOOL, "bRoutesSetToStack"),
+    ]
+
+
+class MIB_BEST_IF(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwDestAddr"),
+        (DWORD, "dwIfIndex"),
+    ]
+
+
+class MIB_BOUNDARYROW(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwGroupAddress"),
+        (DWORD, "dwGroupMask"),
+    ]
+
+
+class MIBICMPSTATS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwMsgs"),
+        (DWORD, "dwErrors"),
+        (DWORD, "dwDestUnreachs"),
+        (DWORD, "dwTimeExcds"),
+        (DWORD, "dwParmProbs"),
+        (DWORD, "dwSrcQuenchs"),
+        (DWORD, "dwRedirects"),
+        (DWORD, "dwEchos"),
+        (DWORD, "dwEchoReps"),
+        (DWORD, "dwTimestamps"),
+        (DWORD, "dwTimestampReps"),
+        (DWORD, "dwAddrMasks"),
+        (DWORD, "dwAddrMaskReps"),
+    ]
+
+
+class MIBICMPINFO(NdrStructure):
+    MEMBERS = [
+        (MIBICMPSTATS, "icmpInStats"),
+        (MIBICMPSTATS, "icmpOutStats"),
+    ]
+
+
+class MIB_ICMP(NdrStructure):
+    MEMBERS = [
+        (MIBICMPINFO, "stats"),
+    ]
+
+
+class MIB_IFNUMBER(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwValue"),
+    ]
+
+
+class MIB_IFROW(NdrStructure):
+    MEMBERS = [
+        (WCHAR, "wszName"),
+        (DWORD, "dwIndex"),
+        (DWORD, "dwType"),
+        (DWORD, "dwMtu"),
+        (DWORD, "dwSpeed"),
+        (DWORD, "dwPhysAddrLen"),
+        (BYTE, "bPhysAddr"),
+        (DWORD, "dwAdminStatus"),
+        (DWORD, "dwOperStatus"),
+        (DWORD, "dwLastChange"),
+        (DWORD, "dwInOctets"),
+        (DWORD, "dwInUcastPkts"),
+        (DWORD, "dwInNUcastPkts"),
+        (DWORD, "dwInDiscards"),
+        (DWORD, "dwInErrors"),
+        (DWORD, "dwInUnknownProtos"),
+        (DWORD, "dwOutOctets"),
+        (DWORD, "dwOutUcastPkts"),
+        (DWORD, "dwOutNUcastPkts"),
+        (DWORD, "dwOutDiscards"),
+        (DWORD, "dwOutErrors"),
+        (DWORD, "dwOutQLen"),
+        (DWORD, "dwDescrLen"),
+        (BYTE, "bDescr"),
+    ]
+
+
+class MIB_IFSTATUS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIfIndex"),
+        (DWORD, "dwAdminStatus"),
+        (DWORD, "dwOperationalStatus"),
+        (BOOL, "bMHbeatActive"),
+        (BOOL, "bMHbeatAlive"),
+    ]
+
+
+class MIB_IFTABLE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumEntries"),
+        (MIB_IFROW, "table"),
+    ]
+
+
+class MIB_IPADDRROW(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwAddr"),
+        (DWORD, "dwIndex"),
+        (DWORD, "dwMask"),
+        (DWORD, "dwBCastAddr"),
+        (DWORD, "dwReasmSize"),
+        (UNSIGNED_SHORT, "unused1"),
+        (UNSIGNED_SHORT, "wType"),
+    ]
+
+
+class MIB_IPADDRTABLE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumEntries"),
+        (MIB_IPADDRROW, "table"),
+    ]
+
+
+class MIB_IPFORWARDNUMBER(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwValue"),
+    ]
+
+
+class MIB_IPFORWARDTABLE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumEntries"),
+        (MIB_IPFORWARDROW, "table"),
+        (BYTE, "reserved"),
+    ]
+
+
+class MIB_IPMCAST_BOUNDARY(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIfIndex"),
+        (DWORD, "dwGroupAddress"),
+        (DWORD, "dwGroupMask"),
+        (DWORD, "dwStatus"),
+    ]
+
+
+class MIB_IPMCAST_BOUNDARY_TABLE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumEntries"),
+        (MIB_IPMCAST_BOUNDARY, "table"),
+    ]
+
+
+class MIB_IPMCAST_GLOBAL(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwEnable"),
+    ]
+
+
+class MIB_IPMCAST_IF_ENTRY(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIfIndex"),
+        (DWORD, "dwTtl"),
+        (DWORD, "dwProtocol"),
+        (DWORD, "dwRateLimit"),
+        (ULONG, "ulInMcastOctets"),
+        (ULONG, "ulOutMcastOctets"),
+    ]
+
+
+class MIB_IPMCAST_IF_TABLE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumEntries"),
+        (MIB_IPMCAST_IF_ENTRY, "table"),
+    ]
+
+
+class MIB_IPMCAST_OIF(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwOutIfIndex"),
+        (DWORD, "dwNextHopAddr"),
+        (PVOID, "pvReserved"),
+        (DWORD, "dwReserved"),
+    ]
+
+
+class MIB_IPMCAST_MFE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwGroup"),
+        (DWORD, "dwSource"),
+        (DWORD, "dwSrcMask"),
+        (DWORD, "dwUpStrmNgbr"),
+        (DWORD, "dwInIfIndex"),
+        (DWORD, "dwInIfProtocol"),
+        (DWORD, "dwRouteProtocol"),
+        (DWORD, "dwRouteNetwork"),
+        (DWORD, "dwRouteMask"),
+        (ULONG, "ulUpTime"),
+        (ULONG, "ulExpiryTime"),
+        (ULONG, "ulTimeOut"),
+        (ULONG, "ulNumOutIf"),
+        (DWORD, "fFlags"),
+        (DWORD, "dwReserved"),
+        (MIB_IPMCAST_OIF, "rgmioOutInfo"),
+    ]
+
+
+class MIB_IPMCAST_OIF_STATS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwOutIfIndex"),
+        (DWORD, "dwNextHopAddr"),
+        (PVOID, "pvDialContext"),
+        (ULONG, "ulTtlTooLow"),
+        (ULONG, "ulFragNeeded"),
+        (ULONG, "ulOutPackets"),
+        (ULONG, "ulOutDiscards"),
+    ]
+
+
+class MIB_IPMCAST_MFE_STATS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwGroup"),
+        (DWORD, "dwSource"),
+        (DWORD, "dwSrcMask"),
+        (DWORD, "dwUpStrmNgbr"),
+        (DWORD, "dwInIfIndex"),
+        (DWORD, "dwInIfProtocol"),
+        (DWORD, "dwRouteProtocol"),
+        (DWORD, "dwRouteNetwork"),
+        (DWORD, "dwRouteMask"),
+        (ULONG, "ulUpTime"),
+        (ULONG, "ulExpiryTime"),
+        (ULONG, "ulNumOutIf"),
+        (ULONG, "ulInPkts"),
+        (ULONG, "ulInOctets"),
+        (ULONG, "ulPktsDifferentIf"),
+        (ULONG, "ulQueueOverflow"),
+        (MIB_IPMCAST_OIF_STATS, "rgmiosOutStats"),
+    ]
+
+
+class MIB_IPMCAST_SCOPE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwGroupAddress"),
+        (DWORD, "dwGroupMask"),
+        (WCHAR, "snNameBuffer"),
+        (DWORD, "dwStatus"),
+        (BYTE, "reserved"),
+    ]
+
+
+class MIB_IPNETROW(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIndex"),
+        (DWORD, "dwPhysAddrLen"),
+        (BYTE, "bPhysAddr"),
+        (DWORD, "dwAddr"),
+        (DWORD, "dwType"),
+    ]
+
+
+class MIB_IPNETTABLE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumEntries"),
+        (MIB_IPNETROW, "table"),
+        (BYTE, "reserved"),
+    ]
+
+
+class MIB_IPSTATS(NdrStructure):
+    MEMBERS = [
+        (U0, "u0"),
+        (DWORD, "dwDefaultTTL"),
+        (DWORD, "dwInReceives"),
+        (DWORD, "dwInHdrErrors"),
+        (DWORD, "dwInAddrErrors"),
+        (DWORD, "dwForwDatagrams"),
+        (DWORD, "dwInUnknownProtos"),
+        (DWORD, "dwInDiscards"),
+        (DWORD, "dwInDelivers"),
+        (DWORD, "dwOutRequests"),
+        (DWORD, "dwRoutingDiscards"),
+        (DWORD, "dwOutDiscards"),
+        (DWORD, "dwOutNoRoutes"),
+        (DWORD, "dwReasmTimeout"),
+        (DWORD, "dwReasmReqds"),
+        (DWORD, "dwReasmOks"),
+        (DWORD, "dwReasmFails"),
+        (DWORD, "dwFragOks"),
+        (DWORD, "dwFragFails"),
+        (DWORD, "dwFragCreates"),
+        (DWORD, "dwNumIf"),
+        (DWORD, "dwNumAddr"),
+        (DWORD, "dwNumRoutes"),
+    ]
+
+
+class MIB_MFE_STATS_TABLE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumEntries"),
+        (MIB_IPMCAST_MFE_STATS, "table"),
+    ]
+
+
+class MIB_MFE_TABLE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumEntries"),
+        (MIB_IPMCAST_MFE, "table"),
+    ]
+
+
+class MIB_OPAQUE_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwId"),
+        (U0, "u0"),
+    ]
+
+
+class MIB_OPAQUE_QUERY(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwVarId"),
+        (DWORD, "rgdwVarIndex"),
+    ]
+
+
+class MIB_PROXYARP(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwAddress"),
+        (DWORD, "dwMask"),
+        (DWORD, "dwIfIndex"),
+    ]
+
+
+class MIB_TCPROW(NdrStructure):
+    MEMBERS = [
+        (U0, "u0"),
+        (DWORD, "dwLocalAddr"),
+        (DWORD, "dwLocalPort"),
+        (DWORD, "dwRemoteAddr"),
+        (DWORD, "dwRemotePort"),
+    ]
+
+
+class MIB_TCPSTATS(NdrStructure):
+    MEMBERS = [
+        (U0, "u0"),
+        (DWORD, "dwRtoMin"),
+        (DWORD, "dwRtoMax"),
+        (DWORD, "dwMaxConn"),
+        (DWORD, "dwActiveOpens"),
+        (DWORD, "dwPassiveOpens"),
+        (DWORD, "dwAttemptFails"),
+        (DWORD, "dwEstabResets"),
+        (DWORD, "dwCurrEstab"),
+        (DWORD, "dwInSegs"),
+        (DWORD, "dwOutSegs"),
+        (DWORD, "dwRetransSegs"),
+        (DWORD, "dwInErrs"),
+        (DWORD, "dwOutRsts"),
+        (DWORD, "dwNumConns"),
+    ]
+
+
+class MIB_TCPTABLE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumEntries"),
+        (MIB_TCPROW, "table"),
+        (BYTE, "reserved"),
+    ]
+
+
+class MIB_UDPROW(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwLocalAddr"),
+        (DWORD, "dwLocalPort"),
+    ]
+
+
+class MIB_UDPSTATS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwInDatagrams"),
+        (DWORD, "dwNoPorts"),
+        (DWORD, "dwInErrors"),
+        (DWORD, "dwOutDatagrams"),
+        (DWORD, "dwNumAddrs"),
+    ]
+
+
+class MIB_UDPTABLE(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumEntries"),
+        (MIB_UDPROW, "table"),
+        (BYTE, "reserved"),
+    ]
+
+
+class MPR_SERVER_0(NdrStructure):
+    MEMBERS = [
+        (BOOL, "fLanOnlyMode"),
+        (DWORD, "dwUpTime"),
+        (DWORD, "dwTotalPorts"),
+        (DWORD, "dwPortsInUse"),
+    ]
+
+
+class MPR_SERVER_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumPptpPorts"),
+        (DWORD, "dwPptpPortFlags"),
+        (DWORD, "dwNumL2tpPorts"),
+        (DWORD, "dwL2tpPortFlags"),
+    ]
+
+
+class MPR_SERVER_2(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwNumPptpPorts"),
+        (DWORD, "dwPptpPortFlags"),
+        (DWORD, "dwNumL2tpPorts"),
+        (DWORD, "dwL2tpPortFlags"),
+        (DWORD, "dwNumSstpPorts"),
+        (DWORD, "dwSstpPortFlags"),
+    ]
+
+
+class PPP_NBFCP_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwError"),
+        (WCHAR, "wszWksta"),
+    ]
+
+
+class PPP_IPCP_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwError"),
+        (WCHAR, "wszAddress"),
+        (WCHAR, "wszRemoteAddress"),
+    ]
+
+
+class PPP_IPCP_INFO2(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwError"),
+        (WCHAR, "wszAddress"),
+        (WCHAR, "wszRemoteAddress"),
+        (DWORD, "dwOptions"),
+        (DWORD, "dwRemoteOptons"),
+    ]
+
+
+class PPP_IPXCP_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwError"),
+        (WCHAR, "wszAddress"),
+    ]
+
+
+class PPP_IPV6_CP_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwVersion"),
+        (DWORD, "dwSize"),
+        (DWORD, "dwError"),
+        (BYTE, "bInterfaceIdentifier"),
+        (BYTE, "bRemoteInterfaceIdentifier"),
+        (DWORD, "dwOptions"),
+        (DWORD, "dwRemoteOptions"),
+        (BYTE, "bPrefix"),
+        (DWORD, "dwPrefixLength"),
+    ]
+
+
+class PPP_ATCP_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwError"),
+        (WCHAR, "wszAddress"),
+    ]
+
+
+class PPP_CCP_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwError"),
+        (DWORD, "dwCompressionAlgorithm"),
+        (DWORD, "dwOptions"),
+        (DWORD, "dwRemoteCompressionAlgorithm"),
+        (DWORD, "dwRemoteOptions"),
+    ]
+
+
+class PPP_LCP_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwError"),
+        (DWORD, "dwAuthenticationProtocol"),
+        (DWORD, "dwAuthenticationData"),
+        (DWORD, "dwRemoteAuthenticationProtocol"),
+        (DWORD, "dwRemoteAuthenticationData"),
+        (DWORD, "dwTerminateReason"),
+        (DWORD, "dwRemoteTerminateReason"),
+        (DWORD, "dwOptions"),
+        (DWORD, "dwRemoteOptions"),
+        (DWORD, "dwEapTypeId"),
+        (DWORD, "dwRemoteEapTypeId"),
+    ]
+
+
+class PPP_INFO(NdrStructure):
+    MEMBERS = [
+        (PPP_NBFCP_INFO, "nbf"),
+        (PPP_IPCP_INFO, "ip"),
+        (PPP_IPXCP_INFO, "ipx"),
+        (PPP_ATCP_INFO, "at"),
+    ]
+
+
+class PPP_INFO_2(NdrStructure):
+    MEMBERS = [
+        (PPP_NBFCP_INFO, "nbf"),
+        (PPP_IPCP_INFO2, "ip"),
+        (PPP_IPXCP_INFO, "ipx"),
+        (PPP_ATCP_INFO, "at"),
+        (PPP_CCP_INFO, "ccp"),
+        (PPP_LCP_INFO, "lcp"),
+    ]
+
+
+class PPP_INFO_3(NdrStructure):
+    MEMBERS = [
+        (PPP_NBFCP_INFO, "nbf"),
+        (PPP_IPCP_INFO2, "ip"),
+        (PPP_IPV6_CP_INFO, "ipv6"),
+        (PPP_CCP_INFO, "ccp"),
+        (PPP_LCP_INFO, "lcp"),
+    ]
+
+
+class RASI_PORT_0(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwPort"),
+        (DWORD, "dwConnection"),
+        (RAS_PORT_CONDITION, "dwPortCondition"),
+        (DWORD, "dwTotalNumberOfCalls"),
+        (DWORD, "dwConnectDuration"),
+        (WCHAR, "wszPortName"),
+        (WCHAR, "wszMediaName"),
+        (WCHAR, "wszDeviceName"),
+        (WCHAR, "wszDeviceType"),
+    ]
+
+
+class RASI_PORT_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwPort"),
+        (DWORD, "dwConnection"),
+        (RAS_HARDWARE_CONDITION, "dwHardwareCondition"),
+        (DWORD, "dwLineSpeed"),
+        (DWORD, "dwBytesXmited"),
+        (DWORD, "dwBytesRcved"),
+        (DWORD, "dwFramesXmited"),
+        (DWORD, "dwFramesRcved"),
+        (DWORD, "dwCrcErr"),
+        (DWORD, "dwTimeoutErr"),
+        (DWORD, "dwAlignmentErr"),
+        (DWORD, "dwHardwareOverrunErr"),
+        (DWORD, "dwFramingErr"),
+        (DWORD, "dwBufferOverrunErr"),
+        (DWORD, "dwCompressionRatioIn"),
+        (DWORD, "dwCompressionRatioOut"),
+    ]
+
+
+class RASI_CONNECTION_0(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwConnection"),
+        (DWORD, "dwInterface"),
+        (DWORD, "dwConnectDuration"),
+        (ROUTER_INTERFACE_TYPE, "dwInterfaceType"),
+        (DWORD, "dwConnectionFlags"),
+        (WCHAR, "wszInterfaceName"),
+        (WCHAR, "wszUserName"),
+        (WCHAR, "wszLogonDomain"),
+        (WCHAR, "wszRemoteComputer"),
+    ]
+
+
+class RASI_CONNECTION_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwConnection"),
+        (DWORD, "dwInterface"),
+        (PPP_INFO, "PppInfo"),
+        (DWORD, "dwBytesXmited"),
+        (DWORD, "dwBytesRcved"),
+        (DWORD, "dwFramesXmited"),
+        (DWORD, "dwFramesRcved"),
+        (DWORD, "dwCrcErr"),
+        (DWORD, "dwTimeoutErr"),
+        (DWORD, "dwAlignmentErr"),
+        (DWORD, "dwHardwareOverrunErr"),
+        (DWORD, "dwFramingErr"),
+        (DWORD, "dwBufferOverrunErr"),
+        (DWORD, "dwCompressionRatioIn"),
+        (DWORD, "dwCompressionRatioOut"),
+    ]
+
+
+class RASI_CONNECTION_2(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwConnection"),
+        (WCHAR, "wszUserName"),
+        (ROUTER_INTERFACE_TYPE, "dwInterfaceType"),
+        (GUID, "guid"),
+        (PPP_INFO_2, "PppInfo2"),
+    ]
+
+
+class RASI_CONNECTION_3(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwVersion"),
+        (DWORD, "dwSize"),
+        (DWORD, "dwConnection"),
+        (WCHAR, "wszUserName"),
+        (ROUTER_INTERFACE_TYPE, "dwInterfaceType"),
+        (GUID, "guid"),
+        (PPP_INFO_3, "PppInfo3"),
+        (RAS_QUARANTINE_STATE, "rasQuarState"),
+        (FILETIME, "timer"),
+    ]
+
+
+class MPRI_INTERFACE_0(NdrStructure):
+    MEMBERS = [
+        (WCHAR, "wszInterfaceName"),
+        (DWORD, "dwInterface"),
+        (BOOL, "fEnabled"),
+        (ROUTER_INTERFACE_TYPE, "dwIfType"),
+        (ROUTER_CONNECTION_STATE, "dwConnectionState"),
+        (DWORD, "fUnReachabilityReasons"),
+        (DWORD, "dwLastError"),
+    ]
+
+
+class MPRI_INTERFACE_1(NdrStructure):
+    MEMBERS = [
+        (WCHAR, "wszInterfaceName"),
+        (DWORD, "dwInterface"),
+        (BOOL, "fEnabled"),
+        (ROUTER_INTERFACE_TYPE, "dwIfType"),
+        (ROUTER_CONNECTION_STATE, "dwConnectionState"),
+        (DWORD, "fUnReachabilityReasons"),
+        (DWORD, "dwLastError"),
+        (LPWSTR, "lpwsDialoutHoursRestriction"),
+    ]
+
+
+class MPRI_INTERFACE_2(NdrStructure):
+    MEMBERS = [
+        (WCHAR, "wszInterfaceName"),
+        (DWORD, "dwInterface"),
+        (BOOL, "fEnabled"),
+        (ROUTER_INTERFACE_TYPE, "dwIfType"),
+        (ROUTER_CONNECTION_STATE, "dwConnectionState"),
+        (DWORD, "fUnReachabilityReasons"),
+        (DWORD, "dwLastError"),
+        (DWORD, "dwfOptions"),
+        (WCHAR, "szLocalPhoneNumber"),
+        (PWCHAR, "szAlternates"),
+        (DWORD, "ipaddr"),
+        (DWORD, "ipaddrDns"),
+        (DWORD, "ipaddrDnsAlt"),
+        (DWORD, "ipaddrWins"),
+        (DWORD, "ipaddrWinsAlt"),
+        (DWORD, "dwfNetProtocols"),
+        (WCHAR, "szDeviceType"),
+        (WCHAR, "szDeviceName"),
+        (WCHAR, "szX25PadType"),
+        (WCHAR, "szX25Address"),
+        (WCHAR, "szX25Facilities"),
+        (WCHAR, "szX25UserData"),
+        (DWORD, "dwChannels"),
+        (DWORD, "dwSubEntries"),
+        (DWORD, "dwDialMode"),
+        (DWORD, "dwDialExtraPercent"),
+        (DWORD, "dwDialExtraSampleSeconds"),
+        (DWORD, "dwHangUpExtraPercent"),
+        (DWORD, "dwHangUpExtraSampleSeconds"),
+        (DWORD, "dwIdleDisconnectSeconds"),
+        (DWORD, "dwType"),
+        (DWORD, "dwEncryptionType"),
+        (DWORD, "dwCustomAuthKey"),
+        (DWORD, "dwCustomAuthDataSize"),
+        (LPBYTE, "lpbCustomAuthData"),
+        (GUID, "guidId"),
+        (DWORD, "dwVpnStrategy"),
+    ]
+
+
+class MPRI_INTERFACE_3(NdrStructure):
+    MEMBERS = [
+        (WCHAR, "wszInterfaceName"),
+        (DWORD, "dwInterface"),
+        (BOOL, "fEnabled"),
+        (ROUTER_INTERFACE_TYPE, "dwIfType"),
+        (ROUTER_CONNECTION_STATE, "dwConnectionState"),
+        (DWORD, "fUnReachabilityReasons"),
+        (DWORD, "dwLastError"),
+        (DWORD, "dwfOptions"),
+        (WCHAR, "szLocalPhoneNumber"),
+        (PWCHAR, "szAlternates"),
+        (DWORD, "ipaddr"),
+        (DWORD, "ipaddrDns"),
+        (DWORD, "ipaddrDnsAlt"),
+        (DWORD, "ipaddrWins"),
+        (DWORD, "ipaddrWinsAlt"),
+        (DWORD, "dwfNetProtocols"),
+        (WCHAR, "szDeviceType"),
+        (WCHAR, "szDeviceName"),
+        (WCHAR, "szX25PadType"),
+        (WCHAR, "szX25Address"),
+        (WCHAR, "szX25Facilities"),
+        (WCHAR, "szX25UserData"),
+        (DWORD, "dwChannels"),
+        (DWORD, "dwSubEntries"),
+        (DWORD, "dwDialMode"),
+        (DWORD, "dwDialExtraPercent"),
+        (DWORD, "dwDialExtraSampleSeconds"),
+        (DWORD, "dwHangUpExtraPercent"),
+        (DWORD, "dwHangUpExtraSampleSeconds"),
+        (DWORD, "dwIdleDisconnectSeconds"),
+        (DWORD, "dwType"),
+        (DWORD, "dwEncryptionType"),
+        (DWORD, "dwCustomAuthKey"),
+        (DWORD, "dwCustomAuthDataSize"),
+        (LPBYTE, "lpbCustomAuthData"),
+        (GUID, "guidId"),
+        (DWORD, "dwVpnStrategy"),
+        (ULONG, "AddressCount"),
+        (IN6_ADDR, "ipv6addrDns"),
+        (IN6_ADDR, "ipv6addrDnsAlt"),
+        (PIN6_ADDR, "ipv6addr"),
+    ]
+
+
+class MPR_DEVICE_0(NdrStructure):
+    MEMBERS = [
+        (WCHAR, "szDeviceType"),
+        (WCHAR, "szDeviceName"),
+    ]
+
+
+class MPR_DEVICE_1(NdrStructure):
+    MEMBERS = [
+        (WCHAR, "szDeviceType"),
+        (WCHAR, "szDeviceName"),
+        (WCHAR, "szLocalPhoneNumber"),
+        (PWCHAR, "szAlternates"),
+    ]
+
+
+class MPR_CREDENTIALSEX_1(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwSize"),
+        (DWORD, "dwOffset"),
+        (BYTE, "bData"),
+    ]
+
+
+class IFFILTER_INFO(NdrStructure):
+    MEMBERS = [
+        (BOOL, "bEnableFragChk"),
+    ]
+
+
+class MPR_FILTER_0(NdrStructure):
+    MEMBERS = [
+        (BOOL, "fEnable"),
+    ]
+
+
+class IPX_GLOBAL_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "RoutingTableHashSize"),
+        (ULONG, "EventLogMask"),
+    ]
+
+
+class IPX_IF_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "AdministratorState"),
+        (ULONG, "NetbiosAccept"),
+        (ULONG, "NetbiosDeliver"),
+    ]
+
+
+class IPXWAN_IF_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Adminstate"),
+    ]
+
+
+class IPX_STATIC_ROUTE_INFO(NdrStructure):
+    MEMBERS = [
+        (U0, "u0"),
+        (USHORT, "TickCount"),
+        (USHORT, "HopCount"),
+        (UCHAR, "NextHopMacAddress"),
+    ]
+
+
+class IPX_SERVER_ENTRY(NdrStructure):
+    MEMBERS = [
+        (USHORT, "Type"),
+        (UCHAR, "Name"),
+        (UCHAR, "Network"),
+        (UCHAR, "Node"),
+        (UCHAR, "Socket"),
+        (USHORT, "HopCount"),
+    ]
+
+
+class IPX_STATIC_NETBIOS_NAME_INFO(NdrStructure):
+    MEMBERS = [
+        (U0, "u0"),
+    ]
+
+
+class IPX_ADAPTER_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "PacketType"),
+        (WCHAR, "AdapterName"),
+    ]
+
+
+class IPX_TRAFFIC_FILTER_GLOBAL_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "FilterAction"),
+    ]
+
+
+class IPX_TRAFFIC_FILTER_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "FilterDefinition"),
+        (UCHAR, "DestinationNetwork"),
+        (UCHAR, "DestinationNetworkMask"),
+        (UCHAR, "DestinationNode"),
+        (UCHAR, "DestinationSocket"),
+        (UCHAR, "SourceNetwork"),
+        (UCHAR, "SourceNetworkMask"),
+        (UCHAR, "SourceNode"),
+        (UCHAR, "SourceSocket"),
+        (UCHAR, "PacketType"),
+    ]
+
+
+class IF_TABLE_INDEX(NdrStructure):
+    MEMBERS = [
+        (ULONG, "InterfaceIndex"),
+    ]
+
+
+class ROUTING_TABLE_INDEX(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "Network"),
+    ]
+
+
+class STATIC_ROUTES_TABLE_INDEX(NdrStructure):
+    MEMBERS = [
+        (ULONG, "InterfaceIndex"),
+        (UCHAR, "Network"),
+    ]
+
+
+class SERVICES_TABLE_INDEX(NdrStructure):
+    MEMBERS = [
+        (USHORT, "ServiceType"),
+        (UCHAR, "ServiceName"),
+    ]
+
+
+class STATIC_SERVICES_TABLE_INDEX(NdrStructure):
+    MEMBERS = [
+        (ULONG, "InterfaceIndex"),
+        (USHORT, "ServiceType"),
+        (UCHAR, "ServiceName"),
+    ]
+
+
+class IPX_MIB_INDEX(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('IF_TABLE_INDEX', None), InterfaceTableIndex),2 : (('ROUTING_TABLE_INDEX', None), RoutingTableIndex),3 : (('STATIC_ROUTES_TABLE_INDEX', None), StaticRoutesTableIndex),4 : (('SERVICES_TABLE_INDEX', None), ServicesTableIndex),5 : (('STATIC_SERVICES_TABLE_INDEX', None), StaticServicesTableIndex),}
+    MEMBERS = {
+        1: (IF_TABLE_INDEX, "InterfaceTableIndex"),
+        2: (ROUTING_TABLE_INDEX, "RoutingTableIndex"),
+        3: (STATIC_ROUTES_TABLE_INDEX, "StaticRoutesTableIndex"),
+        4: (SERVICES_TABLE_INDEX, "ServicesTableIndex"),
+        5: (STATIC_SERVICES_TABLE_INDEX, "StaticServicesTableIndex"),
+    }
 
-    
 
-class ('IPX_MIB_GET_INPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "TableId"),(('IPX_MIB_INDEX', None), "MibIndex"),]
+class IPX_MIB_GET_INPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (ULONG, "TableId"),
+        (IPX_MIB_INDEX, "MibIndex"),
+    ]
 
-    
 
-class ('IPXMIB_BASE', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "OperState"),(('UCHAR', None), "PrimaryNetNumber"),(('UCHAR', None), "Node"),(('UCHAR', None), "SysName"),(('ULONG', None), "MaxPathSplits"),(('ULONG', None), "IfCount"),(('ULONG', None), "DestCount"),(('ULONG', None), "ServCount"),]
+class IPXMIB_BASE(NdrStructure):
+    MEMBERS = [
+        (ULONG, "OperState"),
+        (UCHAR, "PrimaryNetNumber"),
+        (UCHAR, "Node"),
+        (UCHAR, "SysName"),
+        (ULONG, "MaxPathSplits"),
+        (ULONG, "IfCount"),
+        (ULONG, "DestCount"),
+        (ULONG, "ServCount"),
+    ]
 
-    
 
-class ('IPX_IF_STATS', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "IfOperState"),(('ULONG', None), "MaxPacketSize"),(('ULONG', None), "InHdrErrors"),(('ULONG', None), "InFiltered"),(('ULONG', None), "InNoRoutes"),(('ULONG', None), "InDiscards"),(('ULONG', None), "InDelivers"),(('ULONG', None), "OutFiltered"),(('ULONG', None), "OutDiscards"),(('ULONG', None), "OutDelivers"),(('ULONG', None), "NetbiosReceived"),(('ULONG', None), "NetbiosSent"),]
+class IPX_IF_STATS(NdrStructure):
+    MEMBERS = [
+        (ULONG, "IfOperState"),
+        (ULONG, "MaxPacketSize"),
+        (ULONG, "InHdrErrors"),
+        (ULONG, "InFiltered"),
+        (ULONG, "InNoRoutes"),
+        (ULONG, "InDiscards"),
+        (ULONG, "InDelivers"),
+        (ULONG, "OutFiltered"),
+        (ULONG, "OutDiscards"),
+        (ULONG, "OutDelivers"),
+        (ULONG, "NetbiosReceived"),
+        (ULONG, "NetbiosSent"),
+    ]
 
-    
 
-class ('IPX_INTERFACE', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "InterfaceIndex"),(('ULONG', None), "AdministratorState"),(('ULONG', None), "AdapterIndex"),(('UCHAR', None), "InterfaceName"),(('ULONG', None), "InterfaceType"),(('ULONG', None), "MediaType"),(('UCHAR', None), "NetNumber"),(('UCHAR', None), "MacAddress"),(('ULONG', None), "Delay"),(('ULONG', None), "Throughput"),(('ULONG', None), "NetbiosAccept"),(('ULONG', None), "NetbiosDeliver"),(('ULONG', None), "EnableIpxWanNegotiation"),(('IPX_IF_STATS', None), "IfStats"),]
+class IPX_INTERFACE(NdrStructure):
+    MEMBERS = [
+        (ULONG, "InterfaceIndex"),
+        (ULONG, "AdministratorState"),
+        (ULONG, "AdapterIndex"),
+        (UCHAR, "InterfaceName"),
+        (ULONG, "InterfaceType"),
+        (ULONG, "MediaType"),
+        (UCHAR, "NetNumber"),
+        (UCHAR, "MacAddress"),
+        (ULONG, "Delay"),
+        (ULONG, "Throughput"),
+        (ULONG, "NetbiosAccept"),
+        (ULONG, "NetbiosDeliver"),
+        (ULONG, "EnableIpxWanNegotiation"),
+        (IPX_IF_STATS, "IfStats"),
+    ]
 
-    
 
-class ('IPX_ROUTE', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "InterfaceIndex"),(('ULONG', None), "Protocol"),(('UCHAR', None), "Network"),(('USHORT', None), "TickCount"),(('USHORT', None), "HopCount"),(('UCHAR', None), "NextHopMacAddress"),(('ULONG', None), "Flags"),]
+class IPX_ROUTE(NdrStructure):
+    MEMBERS = [
+        (ULONG, "InterfaceIndex"),
+        (ULONG, "Protocol"),
+        (UCHAR, "Network"),
+        (USHORT, "TickCount"),
+        (USHORT, "HopCount"),
+        (UCHAR, "NextHopMacAddress"),
+        (ULONG, "Flags"),
+    ]
 
-    
 
-class ('IPX_SERVICE', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "InterfaceIndex"),(('ULONG', None), "Protocol"),(('IPX_SERVER_ENTRY', None), "Server"),]
+class IPX_SERVICE(NdrStructure):
+    MEMBERS = [
+        (ULONG, "InterfaceIndex"),
+        (ULONG, "Protocol"),
+        (IPX_SERVER_ENTRY, "Server"),
+    ]
 
-    
 
-class ('IPX_MIB_ROW', None)(NdrUnion):
+class IPX_MIB_ROW(NdrUnion):
     SWITCHTYPE = DWORD
-    MEMBERS = {1 : (('IPX_INTERFACE', None), Interface),2 : (('IPX_ROUTE', None), Route),3 : (('IPX_SERVICE', None), Service),}
+    MEMBERS = {
+        1: (IPX_INTERFACE, "Interface"),
+        2: (IPX_ROUTE, "Route"),
+        3: (IPX_SERVICE, "Service"),
+    }
+
+
+class IPX_MIB_SET_INPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (ULONG, "TableId"),
+        (IPX_MIB_ROW, "MibRow"),
+    ]
+
+
+class SAP_SERVICE_FILTER_INFO(NdrStructure):
+    MEMBERS = [
+        (U0, "u0"),
+        (UCHAR, "ServiceName"),
+    ]
+
+
+class SAP_IF_FILTERS(NdrStructure):
+    MEMBERS = [
+        (ULONG, "SupplyFilterAction"),
+        (ULONG, "SupplyFilterCount"),
+        (ULONG, "ListenFilterAction"),
+        (ULONG, "ListenFilterCount"),
+        (SAP_SERVICE_FILTER_INFO, "ServiceFilter"),
+    ]
+
+
+class SAP_IF_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "AdminState"),
+        (ULONG, "UpdateMode"),
+        (ULONG, "PacketType"),
+        (ULONG, "Supply"),
+        (ULONG, "Listen"),
+        (ULONG, "GetNearestServerReply"),
+        (ULONG, "PeriodicUpdateInterval"),
+        (ULONG, "AgeIntervalMultiplier"),
+    ]
 
-    
 
-class ('IPX_MIB_SET_INPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "TableId"),(('IPX_MIB_ROW', None), "MibRow"),]
-
-    
-
-class ('SAP_SERVICE_FILTER_INFO', None)(NdrStructure):
-    MEMBERS = [(('U0', None), "u0"),(('UCHAR', None), "ServiceName"),]
-
-    
-
-class ('SAP_IF_FILTERS', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "SupplyFilterAction"),(('ULONG', None), "SupplyFilterCount"),(('ULONG', None), "ListenFilterAction"),(('ULONG', None), "ListenFilterCount"),(('SAP_SERVICE_FILTER_INFO', None), "ServiceFilter"),]
-
-    
-
-class ('SAP_IF_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "AdminState"),(('ULONG', None), "UpdateMode"),(('ULONG', None), "PacketType"),(('ULONG', None), "Supply"),(('ULONG', None), "Listen"),(('ULONG', None), "GetNearestServerReply"),(('ULONG', None), "PeriodicUpdateInterval"),(('ULONG', None), "AgeIntervalMultiplier"),]
-
-    
-
-class ('SAP_IF_CONFIG', None)(NdrStructure):
-    MEMBERS = [(('SAP_IF_INFO', None), "SapIfInfo"),(('SAP_IF_FILTERS', None), "SapIfFilters"),]
-
-    
-
-class ('SAP_MIB_BASE', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "SapOperState"),]
-
-    
-
-class ('SAP_IF_STATS', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "SapIfOperState"),(('ULONG', None), "SapIfInputPackets"),(('ULONG', None), "SapIfOutputPackets"),]
-
-    
-
-class ('SAP_INTERFACE', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "InterfaceIndex"),(('SAP_IF_INFO', None), "SapIfInfo"),(('SAP_IF_STATS', None), "SapIfStats"),]
-
-    
-
-class ('SAP_MIB_GET_INPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "TableId"),(('ULONG', None), "InterfaceIndex"),]
-
-    
-
-class ('SAP_MIB_SET_INPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "TableId"),(('SAP_INTERFACE', None), "SapInterface"),]
-
-    
-
-class ('RIPMIB_BASE', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "RIPOperState"),]
-
-    
-
-class ('RIP_IF_STATS', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "RipIfOperState"),(('ULONG', None), "RipIfInputPackets"),(('ULONG', None), "RipIfOutputPackets"),]
-
-    
-
-class ('RIP_IF_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "AdminState"),(('ULONG', None), "UpdateMode"),(('ULONG', None), "PacketType"),(('ULONG', None), "Supply"),(('ULONG', None), "Listen"),(('ULONG', None), "PeriodicUpdateInterval"),(('ULONG', None), "AgeIntervalMultiplier"),]
-
-    
-
-class ('RIP_INTERFACE', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "InterfaceIndex"),(('RIP_IF_INFO', None), "RipIfInfo"),(('RIP_IF_STATS', None), "RipIfStats"),]
-
-    
-
-class ('RIP_MIB_GET_INPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "TableId"),(('ULONG', None), "InterfaceIndex"),]
-
-    
-
-class ('RIP_MIB_SET_INPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "TableId"),(('RIP_INTERFACE', None), "RipInterface"),]
-
-    
-
-class ('EAPTLS_HASH', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "cbHash"),(('BYTE', None), "pbHash"),]
-
-    
-
-class ('EAPTLS_USER_PROPERTIES', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "reserved"),(('DWORD', None), "dwVersion"),(('DWORD', None), "dwSize"),(('DWORD', None), "fFlags"),(('EAPTLS_HASH', None), "Hash"),(('PWCHAR', None), "pwszDiffUser"),(('DWORD', None), "dwPinOffset"),(('PWCHAR', None), "pwszPin"),(('USHORT', None), "usLength"),(('USHORT', None), "usMaximumLength"),(('UCHAR', None), "ucSeed"),(('WCHAR', None), "awszString"),]
-
-    
-
-class ('IPBOOTP_GLOBAL_CONFIG', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "GC_LoggingLevel"),(('DWORD', None), "GC_MaxRecvQueueSize"),(('DWORD', None), "GC_ServerCount"),]
-
-    
-
-class ('IPBOOTP_IF_CONFIG', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IC_State"),(('DWORD', None), "IC_RelayMode"),(('DWORD', None), "IC_MaxHopCount"),(('DWORD', None), "IC_MinSecondsSinceBoot"),]
-
-    
-
-class ('IPBOOTP_MIB_GET_INPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IMGID_TypeID"),(('DWORD', None), "IMGID_IfIndex"),]
-
-    
-
-class ('IPBOOTP_MIB_GET_OUTPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IMGOD_TypeID"),(('DWORD', None), "IMGOD_IfIndex"),(('BYTE', None), "IMGOD_Buffer"),]
-
-    
-
-class ('IPBOOTP_IF_STATS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IS_State"),(('DWORD', None), "IS_SendFailures"),(('DWORD', None), "IS_ReceiveFailures"),(('DWORD', None), "IS_ArpUpdateFailures"),(('DWORD', None), "IS_RequestsReceived"),(('DWORD', None), "IS_RequestsDiscarded"),(('DWORD', None), "IS_RepliesReceived"),(('DWORD', None), "IS_RepliesDiscarded"),]
-
-    
-
-class ('IPBOOTP_IF_BINDING', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IB_State"),(('DWORD', None), "IB_AddrCount"),]
-
-    
-
-class ('IPBOOTP_IP_ADDRESS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IA_Address"),(('DWORD', None), "IA_Netmask"),]
-
-    
-
-class ('DHCPV6R_MIB_GET_OUTPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IMGOD_TypeID"),(('DWORD', None), "IMGOD_IfIndex"),(('BYTE', None), "IMGOD_Buffer"),]
-
-    
-
-class ('DHCPV6R_IF_STATS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IS_State"),(('DWORD', None), "IS_SendFailures"),(('DWORD', None), "IS_ReceiveFailures"),(('DWORD', None), "IS_RequestsReceived"),(('DWORD', None), "IS_RequestsDiscarded"),(('DWORD', None), "IS_RepliesReceived"),(('DWORD', None), "IS_RepliesDiscarded"),]
-
-    
-
-class ('DHCPV6R_MIB_GET_INPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IMGID_TypeID"),(('DWORD', None), "IMGID_IfIndex"),]
-
-    
-
-class ('DHCPV6R_GLOBAL_CONFIG', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "GC_LoggingLevel"),(('DWORD', None), "GC_MaxRecvQueueSize"),(('DWORD', None), "GC_ServerCount"),]
-
-    
-
-class ('DHCPV6R_IF_CONFIG', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IC_State"),(('DWORD', None), "IC_RelayMode"),(('DWORD', None), "IC_MaxHopCount"),(('DWORD', None), "IC_MinElapsedTime"),]
-
-    
-
-class ('IPRIP_MIB_GET_INPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IMGID_TypeID"),(('U0', None), "u0"),]
-
-    
-
-class ('IPRIP_MIB_GET_OUTPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IMGOD_TypeID"),(('U0', None), "u0"),(('BYTE', None), "IMGOD_Buffer"),]
-
-    
-
-class ('IPRIP_GLOBAL_STATS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "GS_SystemRouteChanges"),(('DWORD', None), "GS_TotalResponsesSent"),]
-
-    
-
-class ('IPRIP_GLOBAL_CONFIG', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "GC_LoggingLevel"),(('DWORD', None), "GC_MaxRecvQueueSize"),(('DWORD', None), "GC_MaxSendQueueSize"),(('DWORD', None), "GC_MinTriggeredUpdateInterval"),(('DWORD', None), "GC_PeerFilterMode"),(('DWORD', None), "GC_PeerFilterCount"),]
-
-    
-
-class ('IPRIP_IF_STATS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IS_State"),(('DWORD', None), "IS_SendFailures"),(('DWORD', None), "IS_ReceiveFailures"),(('DWORD', None), "IS_RequestsSent"),(('DWORD', None), "IS_RequestsReceived"),(('DWORD', None), "IS_ResponsesSent"),(('DWORD', None), "IS_ResponsesReceived"),(('DWORD', None), "IS_BadResponsePacketsReceived"),(('DWORD', None), "IS_BadResponseEntriesReceived"),(('DWORD', None), "IS_TriggeredUpdatesSent"),]
-
-    
-
-class ('IPRIP_IF_CONFIG', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IC_State"),(('DWORD', None), "IC_Metric"),(('DWORD', None), "IC_UpdateMode"),(('DWORD', None), "IC_AcceptMode"),(('DWORD', None), "IC_AnnounceMode"),(('DWORD', None), "IC_ProtocolFlags"),(('DWORD', None), "IC_RouteExpirationInterval"),(('DWORD', None), "IC_RouteRemovalInterval"),(('DWORD', None), "IC_FullUpdateInterval"),(('DWORD', None), "IC_AuthenticationType"),(('BYTE', None), "IC_AuthenticationKey"),(('WORD', None), "IC_RouteTag"),(('DWORD', None), "IC_UnicastPeerMode"),(('DWORD', None), "IC_AcceptFilterMode"),(('DWORD', None), "IC_AnnounceFilterMode"),(('DWORD', None), "IC_UnicastPeerCount"),(('DWORD', None), "IC_AcceptFilterCount"),(('DWORD', None), "IC_AnnounceFilterCount"),]
-
-    
-
-class ('IPRIP_ROUTE_FILTER', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "RF_LoAddress"),(('DWORD', None), "RF_HiAddress"),]
-
-    
-
-class ('IPRIP_IF_BINDING', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IB_State"),(('DWORD', None), "IB_AddrCount"),]
-
-    
-
-class ('IPRIP_IP_ADDRESS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IA_Address"),(('DWORD', None), "IA_Netmask"),]
-
-    
-
-class ('IPRIP_PEER_STATS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "PS_LastPeerRouteTag"),(('DWORD', None), "PS_LastPeerUpdateTickCount"),(('DWORD', None), "PS_LastPeerUpdateVersion"),(('DWORD', None), "PS_BadResponsePacketsFromPeer"),(('DWORD', None), "PS_BadResponseEntriesFromPeer"),]
-
-    
-
-class ('IGMP_MIB_GET_INPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "TypeId"),(('USHORT', None), "Flags"),(('USHORT', None), "Signature"),(('DWORD', None), "IfIndex"),(('DWORD', None), "RasClientAddr"),(('DWORD', None), "GroupAddr"),(('DWORD', None), "Count"),]
-
-    
-
-class ('IGMP_MIB_GET_OUTPUT_DATA', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "TypeId"),(('DWORD', None), "Flags"),(('DWORD', None), "Count"),(('BYTE', None), "Buffer"),]
-
-    
-
-class ('IGMP_MIB_GLOBAL_CONFIG', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Version"),(('DWORD', None), "LoggingLevel"),(('DWORD', None), "RasClientStats"),]
-
-    
-
-class ('IGMP_MIB_GLOBAL_STATS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "CurrentGroupMemberships"),(('DWORD', None), "GroupMembershipsAdded"),]
-
-    
-
-class ('IGMP_MIB_IF_BINDING', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IfIndex"),(('DWORD', None), "IfType"),(('DWORD', None), "State"),(('DWORD', None), "AddrCount"),]
-
-    
-
-class ('IGMP_MIB_IF_CONFIG', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Version"),(('DWORD', None), "IfIndex"),(('DWORD', None), "IpAddr"),(('DWORD', None), "IfType"),(('DWORD', None), "Flags"),(('DWORD', None), "IgmpProtocolType"),(('DWORD', None), "RobustnessVariable"),(('DWORD', None), "StartupQueryInterval"),(('DWORD', None), "StartupQueryCount"),(('DWORD', None), "GenQueryInterval"),(('DWORD', None), "GenQueryMaxResponseTime"),(('DWORD', None), "LastMemQueryInterval"),(('DWORD', None), "LastMemQueryCount"),(('DWORD', None), "OtherQuerierPresentInterval"),(('DWORD', None), "GroupMembershipTimeout"),(('DWORD', None), "NumStaticGroups"),]
-
-    
-
-class ('IGMP_MIB_IF_GROUPS_LIST', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IfIndex"),(('DWORD', None), "IpAddr"),(('DWORD', None), "IfType"),(('DWORD', None), "NumGroups"),(('BYTE', None), "Buffer"),]
-
-    
-
-class ('IGMP_MIB_GROUP_INFO', None)(NdrStructure):
-    MEMBERS = [(('U0', None), "u0"),(('DWORD', None), "IpAddr"),(('DWORD', None), "GroupUpTime"),(('DWORD', None), "GroupExpiryTime"),(('DWORD', None), "LastReporter"),(('DWORD', None), "V1HostPresentTimeLeft"),(('DWORD', None), "Flags"),]
-
-    
-
-class ('IGMP_MIB_IF_STATS', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "IfIndex"),(('DWORD', None), "IpAddr"),(('DWORD', None), "IfType"),(('BYTE', None), "State"),(('BYTE', None), "QuerierState"),(('DWORD', None), "IgmpProtocolType"),(('DWORD', None), "QuerierIpAddr"),(('DWORD', None), "ProxyIfIndex"),(('DWORD', None), "QuerierPresentTimeLeft"),(('DWORD', None), "LastQuerierChangeTime"),(('DWORD', None), "V1QuerierPresentTimeLeft"),(('DWORD', None), "Uptime"),(('DWORD', None), "TotalIgmpPacketsReceived"),(('DWORD', None), "TotalIgmpPacketsForRouter"),(('DWORD', None), "GeneralQueriesReceived"),(('DWORD', None), "WrongVersionQueries"),(('DWORD', None), "JoinsReceived"),(('DWORD', None), "LeavesReceived"),(('DWORD', None), "CurrentGroupMemberships"),(('DWORD', None), "GroupMembershipsAdded"),(('DWORD', None), "WrongChecksumPackets"),(('DWORD', None), "ShortPacketsReceived"),(('DWORD', None), "LongPacketsReceived"),(('DWORD', None), "PacketsWithoutRtrAlert"),]
-
-    
-
-class ('IGMP_MIB_GROUP_IFS_LIST', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "GroupAddr"),(('DWORD', None), "NumInterfaces"),(('BYTE', None), "Buffer"),]
-
-    
-
-class ('IGMP_MIB_GROUP_SOURCE_INFO_V3', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "Source"),(('DWORD', None), "SourceExpiryTime"),(('DWORD', None), "SourceUpTime"),(('DWORD', None), "Flags"),]
-
-    
-
-class ('IGMP_MIB_GROUP_INFO_V3', None)(NdrStructure):
-    MEMBERS = [(('U0', None), "u0"),(('DWORD', None), "IpAddr"),(('DWORD', None), "GroupUpTime"),(('DWORD', None), "GroupExpiryTime"),(('DWORD', None), "LastReporter"),(('DWORD', None), "V1HostPresentTimeLeft"),(('DWORD', None), "Flags"),(('DWORD', None), "Version"),(('DWORD', None), "Size"),(('DWORD', None), "FilterType"),(('DWORD', None), "V2HostPresentTimeLeft"),(('DWORD', None), "NumSources"),]
-
-    
-
-class ('INTERFACE_ROUTE_ENTRY', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwIndex"),(('INTERFACE_ROUTE_INFO', None), "routeInfo"),]
-
-    
-
-class ('IP_NAT_MIB_QUERY', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Oid"),(('U0', None), "u0"),]
-
-    
-
-class ('IP_NAT_SESSION_MAPPING', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "Protocol"),(('ULONG', None), "PrivateAddress"),(('USHORT', None), "PrivatePort"),(('ULONG', None), "PublicAddress"),(('USHORT', None), "PublicPort"),(('ULONG', None), "RemoteAddress"),(('USHORT', None), "RemotePort"),(('IP_NAT_DIRECTION', None), "Direction"),(('ULONG', None), "IdleTime"),]
-
-    
-
-class ('IP_NAT_ENUMERATE_SESSION_MAPPINGS', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Index"),(('ULONG', None), "EnumerateContext"),(('ULONG', None), "EnumerateCount"),(('ULONG', None), "EnumerateTotalHint"),(('IP_NAT_SESSION_MAPPING', None), "EnumerateTable"),]
-
-    
-
-class ('IP_NAT_INTERFACE_STATISTICS', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "TotalMappings"),(('ULONG', None), "InboundMappings"),(('ULONG64', None), "BytesForward"),(('ULONG64', None), "BytesReverse"),(('ULONG64', None), "PacketsForward"),(('ULONG64', None), "PacketsReverse"),(('ULONG64', None), "RejectsForward"),(('ULONG64', None), "RejectsReverse"),]
-
-    
-
-class ('IP_DNS_PROXY_MIB_QUERY', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Oid"),(('U0', None), "u0"),]
-
-    
-
-class ('IP_DNS_PROXY_STATISTICS', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "MessagesIgnored"),(('ULONG', None), "QueriesReceived"),(('ULONG', None), "ResponsesReceived"),(('ULONG', None), "QueriesSent"),(('ULONG', None), "ResponsesSent"),]
-
-    
-
-class ('IP_AUTO_DHCP_MIB_QUERY', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Oid"),(('U0', None), "u0"),(('ULONG', None), "Reserved"),]
-
-    
-
-class ('IP_AUTO_DHCP_STATISTICS', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "MessagesIgnored"),(('ULONG', None), "BootpOffersSent"),(('ULONG', None), "DiscoversReceived"),(('ULONG', None), "InformsReceived"),(('ULONG', None), "OffersSent"),(('ULONG', None), "RequestsReceived"),(('ULONG', None), "AcksSent"),(('ULONG', None), "NaksSent"),(('ULONG', None), "DeclinesReceived"),(('ULONG', None), "ReleasesReceived"),]
-
-    
-
-class ('MIB_DA_MSG', None)(NdrStructure):
-    MEMBERS = [(('UINT32', None), "op_code"),(('UINT32', None), "ret_code"),(('UINT32', None), "in_snmp_id"),(('UINT32', None), "obj_id"),(('UINT32', None), "attr_id"),(('UINT32', None), "inst_id"),(('UINT32', None), "next_snmp_id"),(('UINT32', None), "creator"),(('UINT32', None), "attr_type"),(('UINT32', None), "inst_cnt"),(('UINT32', None), "map_flag"),(('ULONG_PTR', None), "data"),]
-
-    
-
-class ('IP_AUTO_DHCP_GLOBAL_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "LoggingLevel"),(('ULONG', None), "Flags"),(('ULONG', None), "LeaseTime"),(('ULONG', None), "ScopeNetwork"),(('ULONG', None), "ScopeMask"),(('ULONG', None), "ExclusionCount"),(('ULONG', None), "ExclusionArray"),]
-
-    
-
-class ('IP_AUTO_DHCP_INTERFACE_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Flags"),]
-
-    
-
-class ('IP_DNS_PROXY_GLOBAL_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "LoggingLevel"),(('ULONG', None), "Flags"),(('ULONG', None), "TimeoutSeconds"),]
-
-    
-
-class ('IP_DNS_PROXY_INTERFACE_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Flags"),]
-
-    
-
-class ('IP_NAT_GLOBAL_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "LoggingLevel"),(('ULONG', None), "Flags"),(('RTR_INFO_BLOCK_HEADER', None), "Header"),]
-
-    
-
-class ('IP_NAT_TIMEOUT', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "TCPTimeoutSeconds"),(('ULONG', None), "UDPTimeoutSeconds"),]
-
-    
-
-class ('IP_NAT_INTERFACE_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "Index"),(('ULONG', None), "Flags"),(('RTR_INFO_BLOCK_HEADER', None), "Header"),]
-
-    
-
-class ('IP_NAT_ADDRESS_RANGE', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "StartAddress"),(('ULONG', None), "EndAddress"),(('ULONG', None), "SubnetMask"),]
-
-    
-
-class ('IP_NAT_PORT_MAPPING', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "Protocol"),(('USHORT', None), "PublicPort"),(('ULONG', None), "PublicAddress"),(('USHORT', None), "PrivatePort"),(('ULONG', None), "PrivateAddress"),]
-
-    
-
-class ('IP_NAT_ADDRESS_MAPPING', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "PrivateAddress"),(('ULONG', None), "PublicAddress"),(('BOOLEAN', None), "AllowInboundSessions"),]
-
-    
-
-class ('IP_ALG_GLOBAL_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "LoggingLevel"),(('ULONG', None), "Flags"),]
-
-    
-
-class ('RIP_GLOBAL_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "EventLogMask"),]
-
-    
-
-class ('RIP_ROUTE_FILTER_INFO', None)(NdrStructure):
-    MEMBERS = [(('UCHAR', None), "Network"),(('UCHAR', None), "Mask"),]
-
-    
-
-class ('RIP_IF_FILTERS', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "SupplyFilterAction"),(('ULONG', None), "SupplyFilterCount"),(('ULONG', None), "ListenFilterAction"),(('ULONG', None), "ListenFilterCount"),(('RIP_ROUTE_FILTER_INFO', None), "RouteFilter"),]
-
-    
-
-class ('RIP_IF_CONFIG', None)(NdrStructure):
-    MEMBERS = [(('RIP_IF_INFO', None), "RipIfInfo"),(('RIP_IF_FILTERS', None), "RipIfFilters"),]
-
-    
-
-class ('SAP_GLOBAL_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "EventLogMask"),]
-
-    
-
-class ('OSPF_ROUTE_FILTER', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwAddress"),(('DWORD', None), "dwMask"),]
-
-    
-
-class ('OSPF_ROUTE_FILTER_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "type"),(('OSPF_FILTER_ACTION', None), "ofaActionOnMatch"),(('DWORD', None), "dwNumFilters"),(('OSPF_ROUTE_FILTER', None), "pFilters"),]
-
-    
-
-class ('OSPF_PROTO_FILTER_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "type"),(('OSPF_FILTER_ACTION', None), "ofaActionOnMatch"),(('DWORD', None), "dwNumProtoIds"),(('DWORD', None), "pdwProtoId"),]
-
-    
-
-class ('OSPF_GLOBAL_PARAM', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "type"),(('DWORD', None), "create"),(('DWORD', None), "enable"),(('DWORD', None), "routerId"),(('DWORD', None), "ASBrdrRtr"),(('DWORD', None), "logLevel"),]
-
-    
-
-class ('OSPF_AREA_PARAM', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "type"),(('DWORD', None), "create"),(('DWORD', None), "enable"),(('DWORD', None), "areaId"),(('DWORD', None), "authType"),(('DWORD', None), "importASExtern"),(('DWORD', None), "stubMetric"),(('DWORD', None), "importSumAdv"),]
-
-    
-
-class ('OSPF_AREA_RANGE_PARAM', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "type"),(('DWORD', None), "create"),(('DWORD', None), "enable"),(('DWORD', None), "areaId"),(('DWORD', None), "rangeNet"),(('DWORD', None), "rangeMask"),]
-
-    
-
-class ('OSPF_VIRT_INTERFACE_PARAM', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "type"),(('DWORD', None), "create"),(('DWORD', None), "enable"),(('DWORD', None), "transitAreaId"),(('DWORD', None), "virtNeighborRouterId"),(('DWORD', None), "transitDelay"),(('DWORD', None), "retransInterval"),(('DWORD', None), "helloInterval"),(('DWORD', None), "deadInterval"),(('BYTE', None), "password"),]
-
-    
-
-class ('OSPF_INTERFACE_PARAM', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "type"),(('DWORD', None), "create"),(('DWORD', None), "enable"),(('DWORD', None), "intfIpAddr"),(('DWORD', None), "intfSubnetMask"),(('DWORD', None), "areaId"),(('DWORD', None), "intfType"),(('DWORD', None), "routerPriority"),(('DWORD', None), "transitDelay"),(('DWORD', None), "retransInterval"),(('DWORD', None), "helloInterval"),(('DWORD', None), "deadInterval"),(('DWORD', None), "pollInterval"),(('DWORD', None), "metricCost"),(('BYTE', None), "password"),(('DWORD', None), "mtuSize"),]
-
-    
-
-class ('OSPF_NBMA_NEIGHBOR_PARAM', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "type"),(('DWORD', None), "create"),(('DWORD', None), "enable"),(('DWORD', None), "neighborIpAddr"),(('DWORD', None), "intfIpAddr"),(('DWORD', None), "neighborPriority"),]
-
-    
-
-class ('REQUESTBUFFER', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "RB_PCBIndex"),(('REQTYPES', None), "RB_Reqtype"),(('DWORD', None), "RB_Dummy"),(('DWORD', None), "RB_Done"),(('LONGLONG', None), "Alignment"),(('BYTE', None), "RB_Buffer"),]
-
-    
-
-class ('DEVICECONFIGINFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "retcode"),(('DWORD', None), "dwVersion"),(('DWORD', None), "cbBuffer"),(('DWORD', None), "cEntries"),(('BYTE', None), "abdata"),]
-
-    
-
-class ('RAS_DEVICE_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwVersion"),(('BOOL', None), "fWrite"),(('BOOL', None), "fRasEnabled"),(('BOOL', None), "fRouterEnabled"),(('BOOL', None), "fRouterOutboundEnabled"),(('DWORD', None), "dwTapiLineId"),(('DWORD', None), "dwError"),(('DWORD', None), "dwNumEndPoints"),(('DWORD', None), "dwMaxOutCalls"),(('DWORD', None), "dwMaxInCalls"),(('DWORD', None), "dwMinWanEndPoints"),(('DWORD', None), "dwMaxWanEndPoints"),(('RASDEVICETYPE', None), "eDeviceType"),(('GUID', None), "guidDevice"),(('CHAR', None), "szPortName"),(('CHAR', None), "szDeviceName"),(('WCHAR', None), "wszDeviceName"),]
-
-    
-
-class ('RAS_CALLEDID_INFO', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwSize"),(('BYTE', None), "bCalledId"),]
-
-    
-
-class ('GETSETCALLEDID', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "retcode"),(('BOOL', None), "fWrite"),(('DWORD', None), "dwSize"),(('GUID', None), "guidDevice"),(('RAS_DEVICE_INFO', None), "rdi"),(('RAS_CALLEDID_INFO', None), "rciInfo"),]
-
-    
-
-class ('RAS_NDISWAN_DRIVER_INFO', None)(NdrStructure):
-    MEMBERS = [(('ULONG', None), "DriverCaps"),(('ULONG', None), "Reserved"),]
-
-    
-
-class ('GETNDISWANDRIVERCAPSSTRUCT', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "retcode"),(('RAS_NDISWAN_DRIVER_INFO', None), "NdiswanDriverInfo"),]
-
-    
-
-class ('GETDEVCONFIGSTRUCT', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "retcode"),(('CHAR', None), "devicetype"),(('DWORD', None), "size"),(('BYTE', None), "config"),]
-
-    
-
-class ('ENUM', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "retcode"),(('DWORD', None), "size"),(('DWORD', None), "entries"),(('BYTE', None), "buffer"),]
-
-    
-
-class ('RASMAN_PORT_32', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "P_Port"),(('CHAR', None), "P_PortName"),(('RASMAN_STATUS', None), "P_Status"),(('RASDEVICETYPE', None), "P_rdtDeviceType"),(('RASMAN_USAGE', None), "P_ConfiguredUsage"),(('RASMAN_USAGE', None), "P_CurrentUsage"),(('CHAR', None), "P_MediaName"),(('CHAR', None), "P_DeviceType"),(('CHAR', None), "P_DeviceName"),(('DWORD', None), "P_LineDeviceId"),(('DWORD', None), "P_AddressId"),]
-
-    
-
-class ('RASMAN_INFO', None)(NdrStructure):
-    MEMBERS = [(('RASMAN_STATUS', None), "RI_PortStatus"),(('RASMAN_STATE', None), "RI_ConnState"),(('DWORD', None), "RI_LinkSpeed"),(('DWORD', None), "RI_LastError"),(('RASMAN_USAGE', None), "RI_CurrentUsage"),(('CHAR', None), "RI_DeviceTypeConnecting"),(('CHAR', None), "RI_DeviceConnecting"),(('CHAR', None), "RI_szDeviceType"),(('CHAR', None), "RI_szDeviceName"),(('CHAR', None), "RI_szPortName"),(('RASMAN_DISCONNECT_TYPE', None), "RI_DisconnectType"),(('DWORD', None), "RI_OwnershipFlag"),(('DWORD', None), "RI_ConnectDuration"),(('DWORD', None), "RI_BytesReceived"),(('CHAR', None), "RI_Phonebook"),(('CHAR', None), "RI_PhoneEntry"),(('HANDLE', None), "RI_ConnectionHandle"),(('DWORD', None), "RI_SubEntry"),(('RASDEVICETYPE', None), "RI_rdtDeviceType"),(('GUID', None), "RI_GuidEntry"),(('DWORD', None), "RI_dwSessionId"),(('DWORD', None), "RI_dwFlags"),(('GUID', None), "RI_CorrelationGuid"),]
-
-    
-
-class ('INFO', None)(NdrStructure):
-    MEMBERS = [(('U0', None), "u0"),(('RASMAN_INFO', None), "info"),]
-
-    
-
-class ('RASRPC_CALLBACKLIST', None)(NdrStructure):
-    MEMBERS = [(('WCHAR', None), "pszPortName"),(('WCHAR', None), "pszDeviceName"),(('WCHAR', None), "pszNumber"),(('DWORD', None), "dwDeviceType"),(('PPNEXT', None), "*pNext"),]
-
-    
-
-class ('RASRPC_STRINGLIST', None)(NdrStructure):
-    MEMBERS = [(('WCHAR', None), "psz"),(('PPNEXT', None), "*pNext"),]
-
-    
-
-class ('RASRPC_LOCATIONLIST', None)(NdrStructure):
-    MEMBERS = [(('DWORD', None), "dwLocationId"),(('DWORD', None), "iPrefix"),(('DWORD', None), "iSuffix"),(('PPNEXT', None), "*pNext"),]
-
-    
-
-class ('RASRPC_PBUSER', None)(NdrStructure):
-    MEMBERS = [(('BOOL', None), "fOperatorDial"),(('BOOL', None), "fPreviewPhoneNumber"),(('BOOL', None), "fUseLocation"),(('BOOL', None), "fShowLights"),(('BOOL', None), "fShowConnectStatus"),(('BOOL', None), "fCloseOnDial"),(('BOOL', None), "fAllowLogonPhonebookEdits"),(('BOOL', None), "fAllowLogonLocationEdits"),(('BOOL', None), "fSkipConnectComplete"),(('BOOL', None), "fNewEntryWizard"),(('DWORD', None), "dwRedialAttempts"),(('DWORD', None), "dwRedialSeconds"),(('DWORD', None), "dwIdleDisconnectSeconds"),(('BOOL', None), "fRedialOnLinkFailure"),(('BOOL', None), "fPopupOnTopWhenRedialing"),(('BOOL', None), "fExpandAutoDialQuery"),(('DWORD', None), "dwCallbackMode"),(('LPRASRPC_CALLBACKLIST', None), "pCallbacks"),(('WCHAR', None), "pszLastCallbackByCaller"),(('DWORD', None), "dwPhonebookMode"),(('WCHAR', None), "pszPersonalFile"),(('WCHAR', None), "pszAlternatePath"),(('LPRASRPC_STRINGLIST', None), "pPhonebooks"),(('LPRASRPC_STRINGLIST', None), "pAreaCodes"),(('BOOL', None), "fUseAreaAndCountry"),(('LPRASRPC_STRINGLIST', None), "pPrefixes"),(('LPRASRPC_STRINGLIST', None), "pSuffixes"),(('LPRASRPC_LOCATIONLIST', None), "pLocations"),(('DWORD', None), "dwXPhonebook"),(('DWORD', None), "dwYPhonebook"),(('WCHAR', None), "pszDefaultEntry"),(('BOOL', None), "fInitialized"),(('BOOL', None), "fDirty"),]
-
-    
-Method("RMprAdminServerGetInfo",
-In(DIM_HANDLE),
-In(DWORD),
-Out(PDIM_INFORMATION_CONTAINER),
-),Method("RRasAdminConnectionEnum",
-In(DIM_HANDLE),
-In(DWORD),
-InOut(PDIM_INFORMATION_CONTAINER),
-In(DWORD),
-Out(LPDWORD),
-Out(LPDWORD),
-InOut(LPDWORD),
-),Method("RRasAdminConnectionGetInfo",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-Out(PDIM_INFORMATION_CONTAINER),
-),Method("RRasAdminConnectionClearStats",
-In(DIM_HANDLE),
-In(DWORD),
-),Method("RRasAdminPortEnum",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-InOut(PDIM_INFORMATION_CONTAINER),
-In(DWORD),
-Out(LPDWORD),
-Out(LPDWORD),
-InOut(LPDWORD),
-),Method("RRasAdminPortGetInfo",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-Out(PDIM_INFORMATION_CONTAINER),
-),Method("RRasAdminPortClearStats",
-In(DIM_HANDLE),
-In(DWORD),
-),Method("RRasAdminPortReset",
-In(DIM_HANDLE),
-In(DWORD),
-),Method("RRasAdminPortDisconnect",
-In(DIM_HANDLE),
-In(DWORD),
-),Method("RRouterInterfaceTransportSetGlobalInfo",
-In(DIM_HANDLE),
-In(DWORD),
-In(PDIM_INTERFACE_CONTAINER),
-),Method("RRouterInterfaceTransportGetGlobalInfo",
-In(DIM_HANDLE),
-In(DWORD),
-InOut(PDIM_INTERFACE_CONTAINER),
-),Method("RRouterInterfaceGetHandle",
-In(DIM_HANDLE),
-In(LPWSTR),
-InOut(LPDWORD),
-In(DWORD),
-),Method("RRouterInterfaceCreate",
-In(DIM_HANDLE),
-In(DWORD),
-In(PDIM_INFORMATION_CONTAINER),
-InOut(LPDWORD),
-),Method("RRouterInterfaceGetInfo",
-In(DIM_HANDLE),
-In(DWORD),
-InOut(PDIM_INFORMATION_CONTAINER),
-In(DWORD),
-),Method("RRouterInterfaceSetInfo",
-In(DIM_HANDLE),
-In(DWORD),
-In(PDIM_INFORMATION_CONTAINER),
-In(DWORD),
-),Method("RRouterInterfaceDelete",
-In(DIM_HANDLE),
-In(DWORD),
-),Method("RRouterInterfaceTransportRemove",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-),Method("RRouterInterfaceTransportAdd",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-In(PDIM_INTERFACE_CONTAINER),
-),Method("RRouterInterfaceTransportGetInfo",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-InOut(PDIM_INTERFACE_CONTAINER),
-),Method("RRouterInterfaceTransportSetInfo",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-In(PDIM_INTERFACE_CONTAINER),
-),Method("RRouterInterfaceEnum",
-In(DIM_HANDLE),
-In(DWORD),
-InOut(PDIM_INFORMATION_CONTAINER),
-In(DWORD),
-Out(LPDWORD),
-Out(LPDWORD),
-InOut(LPDWORD),
-),Method("RRouterInterfaceConnect",
-In(DIM_HANDLE),
-In(DWORD),
-In(ULONG_PTR),
-In(DWORD),
-In(DWORD),
-),Method("RRouterInterfaceDisconnect",
-In(DIM_HANDLE),
-In(DWORD),
-),Method("RRouterInterfaceUpdateRoutes",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-In(ULONG_PTR),
-In(DWORD),
-),Method("RRouterInterfaceQueryUpdateResult",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-Out(LPDWORD),
-),Method("RRouterInterfaceUpdatePhonebookInfo",
-In(DIM_HANDLE),
-In(DWORD),
-),Method("RMIBEntryCreate",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-In(PDIM_MIB_ENTRY_CONTAINER),
-),Method("RMIBEntryDelete",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-In(PDIM_MIB_ENTRY_CONTAINER),
-),Method("RMIBEntrySet",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-In(PDIM_MIB_ENTRY_CONTAINER),
-),Method("RMIBEntryGet",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-InOut(PDIM_MIB_ENTRY_CONTAINER),
-),Method("RMIBEntryGetFirst",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-InOut(PDIM_MIB_ENTRY_CONTAINER),
-),Method("RMIBEntryGetNext",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-InOut(PDIM_MIB_ENTRY_CONTAINER),
-),Method("RMIBGetTrapInfo",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-InOut(PDIM_MIB_ENTRY_CONTAINER),
-),Method("RMIBSetTrapInfo",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-In(ULONG_PTR),
-In(DWORD),
-InOut(PDIM_MIB_ENTRY_CONTAINER),
-),Method("RRasAdminConnectionNotification",
-In(DIM_HANDLE),
-In(DWORD),
-In(DWORD),
-In(ULONG_PTR),
-),Method("RRasAdminSendUserMessage",
-In(DIM_HANDLE),
-In(DWORD),
-In(LPWSTR),
-),Method("RRouterDeviceEnum",
-In(DIM_HANDLE),
-In(DWORD),
-InOut(PDIM_INFORMATION_CONTAINER),
-InOut(LPDWORD),
-),Method("RRouterInterfaceTransportCreate",
-In(DIM_HANDLE),
-In(DWORD),
-In(LPWSTR),
-In(PDIM_INTERFACE_CONTAINER),
-In(LPWSTR),
-),Method("RRouterInterfaceDeviceGetInfo",
-In(DIM_HANDLE),
-In(DWORD),
-InOut(PDIM_INFORMATION_CONTAINER),
-In(DWORD),
-In(DWORD),
-),Method("RRouterInterfaceDeviceSetInfo",
-In(DIM_HANDLE),
-In(DWORD),
-In(PDIM_INFORMATION_CONTAINER),
-In(DWORD),
-In(DWORD),
-),Method("RRouterInterfaceSetCredentialsEx",
-In(DIM_HANDLE),
-In(DWORD),
-In(PDIM_INFORMATION_CONTAINER),
-In(DWORD),
-),Method("RRouterInterfaceGetCredentialsEx",
-In(DIM_HANDLE),
-In(DWORD),
-InOut(PDIM_INFORMATION_CONTAINER),
-In(DWORD),
-),Method("RRasAdminConnectionRemoveQuarantine",
-In(DIM_HANDLE),
-In(DWORD),
-In(BOOL),
-),Method("RMprAdminServerSetInfo",
-In(DIM_HANDLE),
-In(DWORD),
-In(PDIM_INFORMATION_CONTAINER),
-),Method("RMprAdminServerGetInfoEx",
-In(DIM_HANDLE),
-InOut(PMPR_SERVER_EX_IDL),
-),Method("RRasAdminConnectionEnumEx",
-In(DIM_HANDLE),
-In(PMPRAPI_OBJECT_HEADER_IDL),
-In(DWORD),
-Out(LPDWORD),
-Out(LPDWORD),
-Out(PPRAS_CONNECTION_EX_IDL),
-InOut(LPDWORD),
-),Method("RRasAdminConnectionGetInfoEx",
-In(DIM_HANDLE),
-In(DWORD),
-In(PMPRAPI_OBJECT_HEADER_IDL),
-Out(PRAS_CONNECTION_EX_IDL),
-),Method("RMprAdminServerSetInfoEx",
-In(DIM_HANDLE),
-In(PMPR_SERVER_SET_CONFIG_EX_IDL),
-),Method("RRasAdminUpdateConnection",
-In(DIM_HANDLE),
-In(DWORD),
-In(PRAS_UPDATE_CONNECTION_IDL),
-),Method("RRouterInterfaceSetCredentialsLocal",
-In(DIM_HANDLE),
-In(LPWSTR),
-In(LPWSTR),
-In(LPWSTR),
-In(LPWSTR),
-),Method("RRouterInterfaceGetCredentialsLocal",
-In(DIM_HANDLE),
-In(LPWSTR),
-Out(PLPWSTR),
-Out(PLPWSTR),
-Out(PLPWSTR),
-),Method("RRouterInterfaceGetCustomInfoEx",
-In(DIM_HANDLE),
-In(DWORD),
-InOut(PMPR_IF_CUSTOMINFOEX_IDL),
-),Method("RRouterInterfaceSetCustomInfoEx",
-In(DIM_HANDLE),
-In(DWORD),
-InOut(PMPR_IF_CUSTOMINFOEX_IDL),
+class SAP_IF_CONFIG(NdrStructure):
+    MEMBERS = [
+        (SAP_IF_INFO, "SapIfInfo"),
+        (SAP_IF_FILTERS, "SapIfFilters"),
+    ]
+
+
+class SAP_MIB_BASE(NdrStructure):
+    MEMBERS = [
+        (ULONG, "SapOperState"),
+    ]
+
+
+class SAP_IF_STATS(NdrStructure):
+    MEMBERS = [
+        (ULONG, "SapIfOperState"),
+        (ULONG, "SapIfInputPackets"),
+        (ULONG, "SapIfOutputPackets"),
+    ]
+
+
+class SAP_INTERFACE(NdrStructure):
+    MEMBERS = [
+        (ULONG, "InterfaceIndex"),
+        (SAP_IF_INFO, "SapIfInfo"),
+        (SAP_IF_STATS, "SapIfStats"),
+    ]
+
+
+class SAP_MIB_GET_INPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (ULONG, "TableId"),
+        (ULONG, "InterfaceIndex"),
+    ]
+
+
+class SAP_MIB_SET_INPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (ULONG, "TableId"),
+        (SAP_INTERFACE, "SapInterface"),
+    ]
+
+
+class RIPMIB_BASE(NdrStructure):
+    MEMBERS = [
+        (ULONG, "RIPOperState"),
+    ]
+
+
+class RIP_IF_STATS(NdrStructure):
+    MEMBERS = [
+        (ULONG, "RipIfOperState"),
+        (ULONG, "RipIfInputPackets"),
+        (ULONG, "RipIfOutputPackets"),
+    ]
+
+
+class RIP_IF_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "AdminState"),
+        (ULONG, "UpdateMode"),
+        (ULONG, "PacketType"),
+        (ULONG, "Supply"),
+        (ULONG, "Listen"),
+        (ULONG, "PeriodicUpdateInterval"),
+        (ULONG, "AgeIntervalMultiplier"),
+    ]
+
+
+class RIP_INTERFACE(NdrStructure):
+    MEMBERS = [
+        (ULONG, "InterfaceIndex"),
+        (RIP_IF_INFO, "RipIfInfo"),
+        (RIP_IF_STATS, "RipIfStats"),
+    ]
+
+
+class RIP_MIB_GET_INPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (ULONG, "TableId"),
+        (ULONG, "InterfaceIndex"),
+    ]
+
+
+class RIP_MIB_SET_INPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (ULONG, "TableId"),
+        (RIP_INTERFACE, "RipInterface"),
+    ]
+
+
+class EAPTLS_HASH(NdrStructure):
+    MEMBERS = [
+        (DWORD, "cbHash"),
+        (BYTE, "pbHash"),
+    ]
+
+
+class EAPTLS_USER_PROPERTIES(NdrStructure):
+    MEMBERS = [
+        (DWORD, "reserved"),
+        (DWORD, "dwVersion"),
+        (DWORD, "dwSize"),
+        (DWORD, "fFlags"),
+        (EAPTLS_HASH, "Hash"),
+        (PWCHAR, "pwszDiffUser"),
+        (DWORD, "dwPinOffset"),
+        (PWCHAR, "pwszPin"),
+        (USHORT, "usLength"),
+        (USHORT, "usMaximumLength"),
+        (UCHAR, "ucSeed"),
+        (WCHAR, "awszString"),
+    ]
+
+
+class IPBOOTP_GLOBAL_CONFIG(NdrStructure):
+    MEMBERS = [
+        (DWORD, "GC_LoggingLevel"),
+        (DWORD, "GC_MaxRecvQueueSize"),
+        (DWORD, "GC_ServerCount"),
+    ]
+
+
+class IPBOOTP_IF_CONFIG(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IC_State"),
+        (DWORD, "IC_RelayMode"),
+        (DWORD, "IC_MaxHopCount"),
+        (DWORD, "IC_MinSecondsSinceBoot"),
+    ]
+
+
+class IPBOOTP_MIB_GET_INPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IMGID_TypeID"),
+        (DWORD, "IMGID_IfIndex"),
+    ]
+
+
+class IPBOOTP_MIB_GET_OUTPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IMGOD_TypeID"),
+        (DWORD, "IMGOD_IfIndex"),
+        (BYTE, "IMGOD_Buffer"),
+    ]
+
+
+class IPBOOTP_IF_STATS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IS_State"),
+        (DWORD, "IS_SendFailures"),
+        (DWORD, "IS_ReceiveFailures"),
+        (DWORD, "IS_ArpUpdateFailures"),
+        (DWORD, "IS_RequestsReceived"),
+        (DWORD, "IS_RequestsDiscarded"),
+        (DWORD, "IS_RepliesReceived"),
+        (DWORD, "IS_RepliesDiscarded"),
+    ]
+
+
+class IPBOOTP_IF_BINDING(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IB_State"),
+        (DWORD, "IB_AddrCount"),
+    ]
+
+
+class IPBOOTP_IP_ADDRESS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IA_Address"),
+        (DWORD, "IA_Netmask"),
+    ]
+
+
+class DHCPV6R_MIB_GET_OUTPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IMGOD_TypeID"),
+        (DWORD, "IMGOD_IfIndex"),
+        (BYTE, "IMGOD_Buffer"),
+    ]
+
+
+class DHCPV6R_IF_STATS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IS_State"),
+        (DWORD, "IS_SendFailures"),
+        (DWORD, "IS_ReceiveFailures"),
+        (DWORD, "IS_RequestsReceived"),
+        (DWORD, "IS_RequestsDiscarded"),
+        (DWORD, "IS_RepliesReceived"),
+        (DWORD, "IS_RepliesDiscarded"),
+    ]
+
+
+class DHCPV6R_MIB_GET_INPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IMGID_TypeID"),
+        (DWORD, "IMGID_IfIndex"),
+    ]
+
+
+class DHCPV6R_GLOBAL_CONFIG(NdrStructure):
+    MEMBERS = [
+        (DWORD, "GC_LoggingLevel"),
+        (DWORD, "GC_MaxRecvQueueSize"),
+        (DWORD, "GC_ServerCount"),
+    ]
+
+
+class DHCPV6R_IF_CONFIG(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IC_State"),
+        (DWORD, "IC_RelayMode"),
+        (DWORD, "IC_MaxHopCount"),
+        (DWORD, "IC_MinElapsedTime"),
+    ]
+
+
+class IPRIP_MIB_GET_INPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IMGID_TypeID"),
+        (U0, "u0"),
+    ]
+
+
+class IPRIP_MIB_GET_OUTPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IMGOD_TypeID"),
+        (U0, "u0"),
+        (BYTE, "IMGOD_Buffer"),
+    ]
+
+
+class IPRIP_GLOBAL_STATS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "GS_SystemRouteChanges"),
+        (DWORD, "GS_TotalResponsesSent"),
+    ]
+
+
+class IPRIP_GLOBAL_CONFIG(NdrStructure):
+    MEMBERS = [
+        (DWORD, "GC_LoggingLevel"),
+        (DWORD, "GC_MaxRecvQueueSize"),
+        (DWORD, "GC_MaxSendQueueSize"),
+        (DWORD, "GC_MinTriggeredUpdateInterval"),
+        (DWORD, "GC_PeerFilterMode"),
+        (DWORD, "GC_PeerFilterCount"),
+    ]
+
+
+class IPRIP_IF_STATS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IS_State"),
+        (DWORD, "IS_SendFailures"),
+        (DWORD, "IS_ReceiveFailures"),
+        (DWORD, "IS_RequestsSent"),
+        (DWORD, "IS_RequestsReceived"),
+        (DWORD, "IS_ResponsesSent"),
+        (DWORD, "IS_ResponsesReceived"),
+        (DWORD, "IS_BadResponsePacketsReceived"),
+        (DWORD, "IS_BadResponseEntriesReceived"),
+        (DWORD, "IS_TriggeredUpdatesSent"),
+    ]
+
+
+class IPRIP_IF_CONFIG(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IC_State"),
+        (DWORD, "IC_Metric"),
+        (DWORD, "IC_UpdateMode"),
+        (DWORD, "IC_AcceptMode"),
+        (DWORD, "IC_AnnounceMode"),
+        (DWORD, "IC_ProtocolFlags"),
+        (DWORD, "IC_RouteExpirationInterval"),
+        (DWORD, "IC_RouteRemovalInterval"),
+        (DWORD, "IC_FullUpdateInterval"),
+        (DWORD, "IC_AuthenticationType"),
+        (BYTE, "IC_AuthenticationKey"),
+        (WORD, "IC_RouteTag"),
+        (DWORD, "IC_UnicastPeerMode"),
+        (DWORD, "IC_AcceptFilterMode"),
+        (DWORD, "IC_AnnounceFilterMode"),
+        (DWORD, "IC_UnicastPeerCount"),
+        (DWORD, "IC_AcceptFilterCount"),
+        (DWORD, "IC_AnnounceFilterCount"),
+    ]
+
+
+class IPRIP_ROUTE_FILTER(NdrStructure):
+    MEMBERS = [
+        (DWORD, "RF_LoAddress"),
+        (DWORD, "RF_HiAddress"),
+    ]
+
+
+class IPRIP_IF_BINDING(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IB_State"),
+        (DWORD, "IB_AddrCount"),
+    ]
+
+
+class IPRIP_IP_ADDRESS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IA_Address"),
+        (DWORD, "IA_Netmask"),
+    ]
+
+
+class IPRIP_PEER_STATS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "PS_LastPeerRouteTag"),
+        (DWORD, "PS_LastPeerUpdateTickCount"),
+        (DWORD, "PS_LastPeerUpdateVersion"),
+        (DWORD, "PS_BadResponsePacketsFromPeer"),
+        (DWORD, "PS_BadResponseEntriesFromPeer"),
+    ]
+
+
+class IGMP_MIB_GET_INPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (DWORD, "TypeId"),
+        (USHORT, "Flags"),
+        (USHORT, "Signature"),
+        (DWORD, "IfIndex"),
+        (DWORD, "RasClientAddr"),
+        (DWORD, "GroupAddr"),
+        (DWORD, "Count"),
+    ]
+
+
+class IGMP_MIB_GET_OUTPUT_DATA(NdrStructure):
+    MEMBERS = [
+        (DWORD, "TypeId"),
+        (DWORD, "Flags"),
+        (DWORD, "Count"),
+        (BYTE, "Buffer"),
+    ]
+
+
+class IGMP_MIB_GLOBAL_CONFIG(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Version"),
+        (DWORD, "LoggingLevel"),
+        (DWORD, "RasClientStats"),
+    ]
+
+
+class IGMP_MIB_GLOBAL_STATS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "CurrentGroupMemberships"),
+        (DWORD, "GroupMembershipsAdded"),
+    ]
+
+
+class IGMP_MIB_IF_BINDING(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IfIndex"),
+        (DWORD, "IfType"),
+        (DWORD, "State"),
+        (DWORD, "AddrCount"),
+    ]
+
+
+class IGMP_MIB_IF_CONFIG(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Version"),
+        (DWORD, "IfIndex"),
+        (DWORD, "IpAddr"),
+        (DWORD, "IfType"),
+        (DWORD, "Flags"),
+        (DWORD, "IgmpProtocolType"),
+        (DWORD, "RobustnessVariable"),
+        (DWORD, "StartupQueryInterval"),
+        (DWORD, "StartupQueryCount"),
+        (DWORD, "GenQueryInterval"),
+        (DWORD, "GenQueryMaxResponseTime"),
+        (DWORD, "LastMemQueryInterval"),
+        (DWORD, "LastMemQueryCount"),
+        (DWORD, "OtherQuerierPresentInterval"),
+        (DWORD, "GroupMembershipTimeout"),
+        (DWORD, "NumStaticGroups"),
+    ]
+
+
+class IGMP_MIB_IF_GROUPS_LIST(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IfIndex"),
+        (DWORD, "IpAddr"),
+        (DWORD, "IfType"),
+        (DWORD, "NumGroups"),
+        (BYTE, "Buffer"),
+    ]
+
+
+class IGMP_MIB_GROUP_INFO(NdrStructure):
+    MEMBERS = [
+        (U0, "u0"),
+        (DWORD, "IpAddr"),
+        (DWORD, "GroupUpTime"),
+        (DWORD, "GroupExpiryTime"),
+        (DWORD, "LastReporter"),
+        (DWORD, "V1HostPresentTimeLeft"),
+        (DWORD, "Flags"),
+    ]
+
+
+class IGMP_MIB_IF_STATS(NdrStructure):
+    MEMBERS = [
+        (DWORD, "IfIndex"),
+        (DWORD, "IpAddr"),
+        (DWORD, "IfType"),
+        (BYTE, "State"),
+        (BYTE, "QuerierState"),
+        (DWORD, "IgmpProtocolType"),
+        (DWORD, "QuerierIpAddr"),
+        (DWORD, "ProxyIfIndex"),
+        (DWORD, "QuerierPresentTimeLeft"),
+        (DWORD, "LastQuerierChangeTime"),
+        (DWORD, "V1QuerierPresentTimeLeft"),
+        (DWORD, "Uptime"),
+        (DWORD, "TotalIgmpPacketsReceived"),
+        (DWORD, "TotalIgmpPacketsForRouter"),
+        (DWORD, "GeneralQueriesReceived"),
+        (DWORD, "WrongVersionQueries"),
+        (DWORD, "JoinsReceived"),
+        (DWORD, "LeavesReceived"),
+        (DWORD, "CurrentGroupMemberships"),
+        (DWORD, "GroupMembershipsAdded"),
+        (DWORD, "WrongChecksumPackets"),
+        (DWORD, "ShortPacketsReceived"),
+        (DWORD, "LongPacketsReceived"),
+        (DWORD, "PacketsWithoutRtrAlert"),
+    ]
+
+
+class IGMP_MIB_GROUP_IFS_LIST(NdrStructure):
+    MEMBERS = [
+        (DWORD, "GroupAddr"),
+        (DWORD, "NumInterfaces"),
+        (BYTE, "Buffer"),
+    ]
+
+
+class IGMP_MIB_GROUP_SOURCE_INFO_V3(NdrStructure):
+    MEMBERS = [
+        (DWORD, "Source"),
+        (DWORD, "SourceExpiryTime"),
+        (DWORD, "SourceUpTime"),
+        (DWORD, "Flags"),
+    ]
+
+
+class IGMP_MIB_GROUP_INFO_V3(NdrStructure):
+    MEMBERS = [
+        (U0, "u0"),
+        (DWORD, "IpAddr"),
+        (DWORD, "GroupUpTime"),
+        (DWORD, "GroupExpiryTime"),
+        (DWORD, "LastReporter"),
+        (DWORD, "V1HostPresentTimeLeft"),
+        (DWORD, "Flags"),
+        (DWORD, "Version"),
+        (DWORD, "Size"),
+        (DWORD, "FilterType"),
+        (DWORD, "V2HostPresentTimeLeft"),
+        (DWORD, "NumSources"),
+    ]
+
+
+class INTERFACE_ROUTE_ENTRY(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwIndex"),
+        (INTERFACE_ROUTE_INFO, "routeInfo"),
+    ]
+
+
+class IP_NAT_MIB_QUERY(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Oid"),
+        (U0, "u0"),
+    ]
+
+
+class IP_NAT_SESSION_MAPPING(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "Protocol"),
+        (ULONG, "PrivateAddress"),
+        (USHORT, "PrivatePort"),
+        (ULONG, "PublicAddress"),
+        (USHORT, "PublicPort"),
+        (ULONG, "RemoteAddress"),
+        (USHORT, "RemotePort"),
+        (IP_NAT_DIRECTION, "Direction"),
+        (ULONG, "IdleTime"),
+    ]
+
+
+class IP_NAT_ENUMERATE_SESSION_MAPPINGS(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Index"),
+        (ULONG, "EnumerateContext"),
+        (ULONG, "EnumerateCount"),
+        (ULONG, "EnumerateTotalHint"),
+        (IP_NAT_SESSION_MAPPING, "EnumerateTable"),
+    ]
+
+
+class IP_NAT_INTERFACE_STATISTICS(NdrStructure):
+    MEMBERS = [
+        (ULONG, "TotalMappings"),
+        (ULONG, "InboundMappings"),
+        (ULONG64, "BytesForward"),
+        (ULONG64, "BytesReverse"),
+        (ULONG64, "PacketsForward"),
+        (ULONG64, "PacketsReverse"),
+        (ULONG64, "RejectsForward"),
+        (ULONG64, "RejectsReverse"),
+    ]
+
+
+class IP_DNS_PROXY_MIB_QUERY(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Oid"),
+        (U0, "u0"),
+    ]
+
+
+class IP_DNS_PROXY_STATISTICS(NdrStructure):
+    MEMBERS = [
+        (ULONG, "MessagesIgnored"),
+        (ULONG, "QueriesReceived"),
+        (ULONG, "ResponsesReceived"),
+        (ULONG, "QueriesSent"),
+        (ULONG, "ResponsesSent"),
+    ]
+
+
+class IP_AUTO_DHCP_MIB_QUERY(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Oid"),
+        (U0, "u0"),
+        (ULONG, "Reserved"),
+    ]
+
+
+class IP_AUTO_DHCP_STATISTICS(NdrStructure):
+    MEMBERS = [
+        (ULONG, "MessagesIgnored"),
+        (ULONG, "BootpOffersSent"),
+        (ULONG, "DiscoversReceived"),
+        (ULONG, "InformsReceived"),
+        (ULONG, "OffersSent"),
+        (ULONG, "RequestsReceived"),
+        (ULONG, "AcksSent"),
+        (ULONG, "NaksSent"),
+        (ULONG, "DeclinesReceived"),
+        (ULONG, "ReleasesReceived"),
+    ]
+
+
+class MIB_DA_MSG(NdrStructure):
+    MEMBERS = [
+        (UINT32, "op_code"),
+        (UINT32, "ret_code"),
+        (UINT32, "in_snmp_id"),
+        (UINT32, "obj_id"),
+        (UINT32, "attr_id"),
+        (UINT32, "inst_id"),
+        (UINT32, "next_snmp_id"),
+        (UINT32, "creator"),
+        (UINT32, "attr_type"),
+        (UINT32, "inst_cnt"),
+        (UINT32, "map_flag"),
+        (ULONG_PTR, "data"),
+    ]
+
+
+class IP_AUTO_DHCP_GLOBAL_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "LoggingLevel"),
+        (ULONG, "Flags"),
+        (ULONG, "LeaseTime"),
+        (ULONG, "ScopeNetwork"),
+        (ULONG, "ScopeMask"),
+        (ULONG, "ExclusionCount"),
+        (ULONG, "ExclusionArray"),
+    ]
+
+
+class IP_AUTO_DHCP_INTERFACE_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Flags"),
+    ]
+
+
+class IP_DNS_PROXY_GLOBAL_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "LoggingLevel"),
+        (ULONG, "Flags"),
+        (ULONG, "TimeoutSeconds"),
+    ]
+
+
+class IP_DNS_PROXY_INTERFACE_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Flags"),
+    ]
+
+
+class IP_NAT_GLOBAL_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "LoggingLevel"),
+        (ULONG, "Flags"),
+        (RTR_INFO_BLOCK_HEADER, "Header"),
+    ]
+
+
+class IP_NAT_TIMEOUT(NdrStructure):
+    MEMBERS = [
+        (ULONG, "TCPTimeoutSeconds"),
+        (ULONG, "UDPTimeoutSeconds"),
+    ]
+
+
+class IP_NAT_INTERFACE_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "Index"),
+        (ULONG, "Flags"),
+        (RTR_INFO_BLOCK_HEADER, "Header"),
+    ]
+
+
+class IP_NAT_ADDRESS_RANGE(NdrStructure):
+    MEMBERS = [
+        (ULONG, "StartAddress"),
+        (ULONG, "EndAddress"),
+        (ULONG, "SubnetMask"),
+    ]
+
+
+class IP_NAT_PORT_MAPPING(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "Protocol"),
+        (USHORT, "PublicPort"),
+        (ULONG, "PublicAddress"),
+        (USHORT, "PrivatePort"),
+        (ULONG, "PrivateAddress"),
+    ]
+
+
+class IP_NAT_ADDRESS_MAPPING(NdrStructure):
+    MEMBERS = [
+        (ULONG, "PrivateAddress"),
+        (ULONG, "PublicAddress"),
+        (BOOLEAN, "AllowInboundSessions"),
+    ]
+
+
+class IP_ALG_GLOBAL_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "LoggingLevel"),
+        (ULONG, "Flags"),
+    ]
+
+
+class RIP_GLOBAL_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "EventLogMask"),
+    ]
+
+
+class RIP_ROUTE_FILTER_INFO(NdrStructure):
+    MEMBERS = [
+        (UCHAR, "Network"),
+        (UCHAR, "Mask"),
+    ]
+
+
+class RIP_IF_FILTERS(NdrStructure):
+    MEMBERS = [
+        (ULONG, "SupplyFilterAction"),
+        (ULONG, "SupplyFilterCount"),
+        (ULONG, "ListenFilterAction"),
+        (ULONG, "ListenFilterCount"),
+        (RIP_ROUTE_FILTER_INFO, "RouteFilter"),
+    ]
+
+
+class RIP_IF_CONFIG(NdrStructure):
+    MEMBERS = [
+        (RIP_IF_INFO, "RipIfInfo"),
+        (RIP_IF_FILTERS, "RipIfFilters"),
+    ]
+
+
+class SAP_GLOBAL_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "EventLogMask"),
+    ]
+
+
+class OSPF_ROUTE_FILTER(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwAddress"),
+        (DWORD, "dwMask"),
+    ]
+
+
+class OSPF_ROUTE_FILTER_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "type"),
+        (OSPF_FILTER_ACTION, "ofaActionOnMatch"),
+        (DWORD, "dwNumFilters"),
+        (OSPF_ROUTE_FILTER, "pFilters"),
+    ]
+
+
+class OSPF_PROTO_FILTER_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "type"),
+        (OSPF_FILTER_ACTION, "ofaActionOnMatch"),
+        (DWORD, "dwNumProtoIds"),
+        (DWORD, "pdwProtoId"),
+    ]
+
+
+class OSPF_GLOBAL_PARAM(NdrStructure):
+    MEMBERS = [
+        (DWORD, "type"),
+        (DWORD, "create"),
+        (DWORD, "enable"),
+        (DWORD, "routerId"),
+        (DWORD, "ASBrdrRtr"),
+        (DWORD, "logLevel"),
+    ]
+
+
+class OSPF_AREA_PARAM(NdrStructure):
+    MEMBERS = [
+        (DWORD, "type"),
+        (DWORD, "create"),
+        (DWORD, "enable"),
+        (DWORD, "areaId"),
+        (DWORD, "authType"),
+        (DWORD, "importASExtern"),
+        (DWORD, "stubMetric"),
+        (DWORD, "importSumAdv"),
+    ]
+
+
+class OSPF_AREA_RANGE_PARAM(NdrStructure):
+    MEMBERS = [
+        (DWORD, "type"),
+        (DWORD, "create"),
+        (DWORD, "enable"),
+        (DWORD, "areaId"),
+        (DWORD, "rangeNet"),
+        (DWORD, "rangeMask"),
+    ]
+
+
+class OSPF_VIRT_INTERFACE_PARAM(NdrStructure):
+    MEMBERS = [
+        (DWORD, "type"),
+        (DWORD, "create"),
+        (DWORD, "enable"),
+        (DWORD, "transitAreaId"),
+        (DWORD, "virtNeighborRouterId"),
+        (DWORD, "transitDelay"),
+        (DWORD, "retransInterval"),
+        (DWORD, "helloInterval"),
+        (DWORD, "deadInterval"),
+        (BYTE, "password"),
+    ]
+
+
+class OSPF_INTERFACE_PARAM(NdrStructure):
+    MEMBERS = [
+        (DWORD, "type"),
+        (DWORD, "create"),
+        (DWORD, "enable"),
+        (DWORD, "intfIpAddr"),
+        (DWORD, "intfSubnetMask"),
+        (DWORD, "areaId"),
+        (DWORD, "intfType"),
+        (DWORD, "routerPriority"),
+        (DWORD, "transitDelay"),
+        (DWORD, "retransInterval"),
+        (DWORD, "helloInterval"),
+        (DWORD, "deadInterval"),
+        (DWORD, "pollInterval"),
+        (DWORD, "metricCost"),
+        (BYTE, "password"),
+        (DWORD, "mtuSize"),
+    ]
+
+
+class OSPF_NBMA_NEIGHBOR_PARAM(NdrStructure):
+    MEMBERS = [
+        (DWORD, "type"),
+        (DWORD, "create"),
+        (DWORD, "enable"),
+        (DWORD, "neighborIpAddr"),
+        (DWORD, "intfIpAddr"),
+        (DWORD, "neighborPriority"),
+    ]
+
+
+class REQUESTBUFFER(NdrStructure):
+    MEMBERS = [
+        (DWORD, "RB_PCBIndex"),
+        (REQTYPES, "RB_Reqtype"),
+        (DWORD, "RB_Dummy"),
+        (DWORD, "RB_Done"),
+        (LONGLONG, "Alignment"),
+        (BYTE, "RB_Buffer"),
+    ]
+
+
+class DEVICECONFIGINFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "retcode"),
+        (DWORD, "dwVersion"),
+        (DWORD, "cbBuffer"),
+        (DWORD, "cEntries"),
+        (BYTE, "abdata"),
+    ]
+
+
+class RAS_DEVICE_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwVersion"),
+        (BOOL, "fWrite"),
+        (BOOL, "fRasEnabled"),
+        (BOOL, "fRouterEnabled"),
+        (BOOL, "fRouterOutboundEnabled"),
+        (DWORD, "dwTapiLineId"),
+        (DWORD, "dwError"),
+        (DWORD, "dwNumEndPoints"),
+        (DWORD, "dwMaxOutCalls"),
+        (DWORD, "dwMaxInCalls"),
+        (DWORD, "dwMinWanEndPoints"),
+        (DWORD, "dwMaxWanEndPoints"),
+        (RASDEVICETYPE, "eDeviceType"),
+        (GUID, "guidDevice"),
+        (CHAR, "szPortName"),
+        (CHAR, "szDeviceName"),
+        (WCHAR, "wszDeviceName"),
+    ]
+
+
+class RAS_CALLEDID_INFO(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwSize"),
+        (BYTE, "bCalledId"),
+    ]
+
+
+class GETSETCALLEDID(NdrStructure):
+    MEMBERS = [
+        (DWORD, "retcode"),
+        (BOOL, "fWrite"),
+        (DWORD, "dwSize"),
+        (GUID, "guidDevice"),
+        (RAS_DEVICE_INFO, "rdi"),
+        (RAS_CALLEDID_INFO, "rciInfo"),
+    ]
+
+
+class RAS_NDISWAN_DRIVER_INFO(NdrStructure):
+    MEMBERS = [
+        (ULONG, "DriverCaps"),
+        (ULONG, "Reserved"),
+    ]
+
+
+class GETNDISWANDRIVERCAPSSTRUCT(NdrStructure):
+    MEMBERS = [
+        (DWORD, "retcode"),
+        (RAS_NDISWAN_DRIVER_INFO, "NdiswanDriverInfo"),
+    ]
+
+
+class GETDEVCONFIGSTRUCT(NdrStructure):
+    MEMBERS = [
+        (DWORD, "retcode"),
+        (CHAR, "devicetype"),
+        (DWORD, "size"),
+        (BYTE, "config"),
+    ]
+
+
+class ENUM(NdrStructure):
+    MEMBERS = [
+        (DWORD, "retcode"),
+        (DWORD, "size"),
+        (DWORD, "entries"),
+        (BYTE, "buffer"),
+    ]
+
+
+class RASMAN_PORT_32(NdrStructure):
+    MEMBERS = [
+        (DWORD, "P_Port"),
+        (CHAR, "P_PortName"),
+        (RASMAN_STATUS, "P_Status"),
+        (RASDEVICETYPE, "P_rdtDeviceType"),
+        (RASMAN_USAGE, "P_ConfiguredUsage"),
+        (RASMAN_USAGE, "P_CurrentUsage"),
+        (CHAR, "P_MediaName"),
+        (CHAR, "P_DeviceType"),
+        (CHAR, "P_DeviceName"),
+        (DWORD, "P_LineDeviceId"),
+        (DWORD, "P_AddressId"),
+    ]
+
+
+class RASMAN_INFO(NdrStructure):
+    MEMBERS = [
+        (RASMAN_STATUS, "RI_PortStatus"),
+        (RASMAN_STATE, "RI_ConnState"),
+        (DWORD, "RI_LinkSpeed"),
+        (DWORD, "RI_LastError"),
+        (RASMAN_USAGE, "RI_CurrentUsage"),
+        (CHAR, "RI_DeviceTypeConnecting"),
+        (CHAR, "RI_DeviceConnecting"),
+        (CHAR, "RI_szDeviceType"),
+        (CHAR, "RI_szDeviceName"),
+        (CHAR, "RI_szPortName"),
+        (RASMAN_DISCONNECT_TYPE, "RI_DisconnectType"),
+        (DWORD, "RI_OwnershipFlag"),
+        (DWORD, "RI_ConnectDuration"),
+        (DWORD, "RI_BytesReceived"),
+        (CHAR, "RI_Phonebook"),
+        (CHAR, "RI_PhoneEntry"),
+        (HANDLE, "RI_ConnectionHandle"),
+        (DWORD, "RI_SubEntry"),
+        (RASDEVICETYPE, "RI_rdtDeviceType"),
+        (GUID, "RI_GuidEntry"),
+        (DWORD, "RI_dwSessionId"),
+        (DWORD, "RI_dwFlags"),
+        (GUID, "RI_CorrelationGuid"),
+    ]
+
+
+class INFO(NdrStructure):
+    MEMBERS = [
+        (U0, "u0"),
+        (RASMAN_INFO, "info"),
+    ]
+
+
+class RASRPC_CALLBACKLIST(NdrStructure):
+    MEMBERS = [
+        (WCHAR, "pszPortName"),
+        (WCHAR, "pszDeviceName"),
+        (WCHAR, "pszNumber"),
+        (DWORD, "dwDeviceType"),
+        (PPNEXT, "*pNext"),
+    ]
+
+
+class RASRPC_STRINGLIST(NdrStructure):
+    MEMBERS = [
+        (WCHAR, "psz"),
+        (PPNEXT, "*pNext"),
+    ]
+
+
+class RASRPC_LOCATIONLIST(NdrStructure):
+    MEMBERS = [
+        (DWORD, "dwLocationId"),
+        (DWORD, "iPrefix"),
+        (DWORD, "iSuffix"),
+        (PPNEXT, "*pNext"),
+    ]
+
+
+class RASRPC_PBUSER(NdrStructure):
+    MEMBERS = [
+        (BOOL, "fOperatorDial"),
+        (BOOL, "fPreviewPhoneNumber"),
+        (BOOL, "fUseLocation"),
+        (BOOL, "fShowLights"),
+        (BOOL, "fShowConnectStatus"),
+        (BOOL, "fCloseOnDial"),
+        (BOOL, "fAllowLogonPhonebookEdits"),
+        (BOOL, "fAllowLogonLocationEdits"),
+        (BOOL, "fSkipConnectComplete"),
+        (BOOL, "fNewEntryWizard"),
+        (DWORD, "dwRedialAttempts"),
+        (DWORD, "dwRedialSeconds"),
+        (DWORD, "dwIdleDisconnectSeconds"),
+        (BOOL, "fRedialOnLinkFailure"),
+        (BOOL, "fPopupOnTopWhenRedialing"),
+        (BOOL, "fExpandAutoDialQuery"),
+        (DWORD, "dwCallbackMode"),
+        (LPRASRPC_CALLBACKLIST, "pCallbacks"),
+        (WCHAR, "pszLastCallbackByCaller"),
+        (DWORD, "dwPhonebookMode"),
+        (WCHAR, "pszPersonalFile"),
+        (WCHAR, "pszAlternatePath"),
+        (LPRASRPC_STRINGLIST, "pPhonebooks"),
+        (LPRASRPC_STRINGLIST, "pAreaCodes"),
+        (BOOL, "fUseAreaAndCountry"),
+        (LPRASRPC_STRINGLIST, "pPrefixes"),
+        (LPRASRPC_STRINGLIST, "pSuffixes"),
+        (LPRASRPC_LOCATIONLIST, "pLocations"),
+        (DWORD, "dwXPhonebook"),
+        (DWORD, "dwYPhonebook"),
+        (WCHAR, "pszDefaultEntry"),
+        (BOOL, "fInitialized"),
+        (BOOL, "fDirty"),
+    ]
+
+
+Method(
+    "RMprAdminServerGetInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    Out(PDIM_INFORMATION_CONTAINER),
+), Method(
+    "RRasAdminConnectionEnum",
+    In(DIM_HANDLE),
+    In(DWORD),
+    InOut(PDIM_INFORMATION_CONTAINER),
+    In(DWORD),
+    Out(LPDWORD),
+    Out(LPDWORD),
+    InOut(LPDWORD),
+), Method(
+    "RRasAdminConnectionGetInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    Out(PDIM_INFORMATION_CONTAINER),
+), Method(
+    "RRasAdminConnectionClearStats",
+    In(DIM_HANDLE),
+    In(DWORD),
+), Method(
+    "RRasAdminPortEnum",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    InOut(PDIM_INFORMATION_CONTAINER),
+    In(DWORD),
+    Out(LPDWORD),
+    Out(LPDWORD),
+    InOut(LPDWORD),
+), Method(
+    "RRasAdminPortGetInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    Out(PDIM_INFORMATION_CONTAINER),
+), Method(
+    "RRasAdminPortClearStats",
+    In(DIM_HANDLE),
+    In(DWORD),
+), Method(
+    "RRasAdminPortReset",
+    In(DIM_HANDLE),
+    In(DWORD),
+), Method(
+    "RRasAdminPortDisconnect",
+    In(DIM_HANDLE),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceTransportSetGlobalInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(PDIM_INTERFACE_CONTAINER),
+), Method(
+    "RRouterInterfaceTransportGetGlobalInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    InOut(PDIM_INTERFACE_CONTAINER),
+), Method(
+    "RRouterInterfaceGetHandle",
+    In(DIM_HANDLE),
+    In(LPWSTR),
+    InOut(LPDWORD),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceCreate",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(PDIM_INFORMATION_CONTAINER),
+    InOut(LPDWORD),
+), Method(
+    "RRouterInterfaceGetInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    InOut(PDIM_INFORMATION_CONTAINER),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceSetInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(PDIM_INFORMATION_CONTAINER),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceDelete",
+    In(DIM_HANDLE),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceTransportRemove",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceTransportAdd",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    In(PDIM_INTERFACE_CONTAINER),
+), Method(
+    "RRouterInterfaceTransportGetInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    InOut(PDIM_INTERFACE_CONTAINER),
+), Method(
+    "RRouterInterfaceTransportSetInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    In(PDIM_INTERFACE_CONTAINER),
+), Method(
+    "RRouterInterfaceEnum",
+    In(DIM_HANDLE),
+    In(DWORD),
+    InOut(PDIM_INFORMATION_CONTAINER),
+    In(DWORD),
+    Out(LPDWORD),
+    Out(LPDWORD),
+    InOut(LPDWORD),
+), Method(
+    "RRouterInterfaceConnect",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(ULONG_PTR),
+    In(DWORD),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceDisconnect",
+    In(DIM_HANDLE),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceUpdateRoutes",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    In(ULONG_PTR),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceQueryUpdateResult",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    Out(LPDWORD),
+), Method(
+    "RRouterInterfaceUpdatePhonebookInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+), Method(
+    "RMIBEntryCreate",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    In(PDIM_MIB_ENTRY_CONTAINER),
+), Method(
+    "RMIBEntryDelete",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    In(PDIM_MIB_ENTRY_CONTAINER),
+), Method(
+    "RMIBEntrySet",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    In(PDIM_MIB_ENTRY_CONTAINER),
+), Method(
+    "RMIBEntryGet",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    InOut(PDIM_MIB_ENTRY_CONTAINER),
+), Method(
+    "RMIBEntryGetFirst",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    InOut(PDIM_MIB_ENTRY_CONTAINER),
+), Method(
+    "RMIBEntryGetNext",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    InOut(PDIM_MIB_ENTRY_CONTAINER),
+), Method(
+    "RMIBGetTrapInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    InOut(PDIM_MIB_ENTRY_CONTAINER),
+), Method(
+    "RMIBSetTrapInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    In(ULONG_PTR),
+    In(DWORD),
+    InOut(PDIM_MIB_ENTRY_CONTAINER),
+), Method(
+    "RRasAdminConnectionNotification",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(DWORD),
+    In(ULONG_PTR),
+), Method(
+    "RRasAdminSendUserMessage",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(LPWSTR),
+), Method(
+    "RRouterDeviceEnum",
+    In(DIM_HANDLE),
+    In(DWORD),
+    InOut(PDIM_INFORMATION_CONTAINER),
+    InOut(LPDWORD),
+), Method(
+    "RRouterInterfaceTransportCreate",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(LPWSTR),
+    In(PDIM_INTERFACE_CONTAINER),
+    In(LPWSTR),
+), Method(
+    "RRouterInterfaceDeviceGetInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    InOut(PDIM_INFORMATION_CONTAINER),
+    In(DWORD),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceDeviceSetInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(PDIM_INFORMATION_CONTAINER),
+    In(DWORD),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceSetCredentialsEx",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(PDIM_INFORMATION_CONTAINER),
+    In(DWORD),
+), Method(
+    "RRouterInterfaceGetCredentialsEx",
+    In(DIM_HANDLE),
+    In(DWORD),
+    InOut(PDIM_INFORMATION_CONTAINER),
+    In(DWORD),
+), Method(
+    "RRasAdminConnectionRemoveQuarantine",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(BOOL),
+), Method(
+    "RMprAdminServerSetInfo",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(PDIM_INFORMATION_CONTAINER),
+), Method(
+    "RMprAdminServerGetInfoEx",
+    In(DIM_HANDLE),
+    InOut(PMPR_SERVER_EX_IDL),
+), Method(
+    "RRasAdminConnectionEnumEx",
+    In(DIM_HANDLE),
+    In(PMPRAPI_OBJECT_HEADER_IDL),
+    In(DWORD),
+    Out(LPDWORD),
+    Out(LPDWORD),
+    Out(PPRAS_CONNECTION_EX_IDL),
+    InOut(LPDWORD),
+), Method(
+    "RRasAdminConnectionGetInfoEx",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(PMPRAPI_OBJECT_HEADER_IDL),
+    Out(PRAS_CONNECTION_EX_IDL),
+), Method(
+    "RMprAdminServerSetInfoEx",
+    In(DIM_HANDLE),
+    In(PMPR_SERVER_SET_CONFIG_EX_IDL),
+), Method(
+    "RRasAdminUpdateConnection",
+    In(DIM_HANDLE),
+    In(DWORD),
+    In(PRAS_UPDATE_CONNECTION_IDL),
+), Method(
+    "RRouterInterfaceSetCredentialsLocal",
+    In(DIM_HANDLE),
+    In(LPWSTR),
+    In(LPWSTR),
+    In(LPWSTR),
+    In(LPWSTR),
+), Method(
+    "RRouterInterfaceGetCredentialsLocal",
+    In(DIM_HANDLE),
+    In(LPWSTR),
+    Out(PLPWSTR),
+    Out(PLPWSTR),
+    Out(PLPWSTR),
+), Method(
+    "RRouterInterfaceGetCustomInfoEx",
+    In(DIM_HANDLE),
+    In(DWORD),
+    InOut(PMPR_IF_CUSTOMINFOEX_IDL),
+), Method(
+    "RRouterInterfaceSetCustomInfoEx",
+    In(DIM_HANDLE),
+    In(DWORD),
+    InOut(PMPR_IF_CUSTOMINFOEX_IDL),
 ),

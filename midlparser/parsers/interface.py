@@ -12,7 +12,6 @@ from midlparser.parsers.variables import MidlVariableInstantiationParser
 from midlparser.tokenizer import Token, TokenType
 
 
-
 class InterfaceState(enum.Enum):
     """Class used to handle state transitions for MidlInterfaceParser"""
 
@@ -50,7 +49,6 @@ class MidlInterfaceParser(MidlBaseParser):
             "union": self._union,
             "const": self._const,
         }
-
 
     def sqbracket(self, token: Token):
         """Handle attributes for procedures"""
@@ -92,7 +90,6 @@ class MidlInterfaceParser(MidlBaseParser):
         std = MidlStructParser(self.tokens, self.tokenizer).parse(token)
         self.interface.add_typedef(std)
 
-
     def _union(self, token: Token):
         # Create a typedef?
         utd = MidlUnionParser(self.tokens, self.tokenizer).parse(token)
@@ -113,7 +110,6 @@ class MidlInterfaceParser(MidlBaseParser):
         else:
             self.invalid(token)
 
-
     def keyword(self, token: Token):
         if token.data == "interface" and self.state == InterfaceState.BEGIN:
             self.state = InterfaceState.NAME
@@ -122,7 +118,6 @@ class MidlInterfaceParser(MidlBaseParser):
             self.kw_handlers.get(token.data, self._procedure)(token)
         else:
             self.invalid(token)
-
 
     def brace(self, token: Token):
         """Sets the brace level appropriately"""
@@ -150,7 +145,6 @@ class MidlInterfaceParser(MidlBaseParser):
 
     def directive(self, token: Token):
         self.interface.directives.append(token.data)
-
 
     def operator(self, token: Token):
         if self.state == InterfaceState.INHERIT and token.data == ":":

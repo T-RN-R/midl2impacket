@@ -117,7 +117,14 @@ class PythonAssignmentList(PythonDefList):
 class PythonFunction(PythonDef):
     """Represents a Python function"""
 
-    def __init__(self, name: str, args: str, body: list[str], decorator:str=None, return_type:str=None):
+    def __init__(
+        self,
+        name: str,
+        args: str,
+        body: list[str],
+        decorator: str = None,
+        return_type: str = None,
+    ):
         self.name = name
         self.args = args
         self.body = body
@@ -130,12 +137,12 @@ class PythonFunction(PythonDef):
         if self.return_type:
             return_typing = f" -> {self.return_type}"
         if self.decorator:
-            out += "\t"*tab_level + self.decorator + '\n'
-        out += "\t"*tab_level + f"def {self.name}({self.args}){return_typing}:"
-        tab_level+=1
+            out += "\t" * tab_level + self.decorator + "\n"
+        out += "\t" * tab_level + f"def {self.name}({self.args}){return_typing}:"
+        tab_level += 1
         for line in self.body:
-            out += '\n' + "\t"*tab_level + line
-        out += '\n'
+            out += "\n" + "\t" * tab_level + line
+        out += "\n"
         return out
 
 

@@ -43,8 +43,7 @@ class MidlStructConverter(Converter):
             raise Exception("NDR_POINTER unimplemented")
 
     def handle_ndr_union(self, struct, parent_struct):
-        """Create the Python definition for an NDRUnion
-        """
+        """Create the Python definition for an NDRUnion"""
         if len(struct.public_names) > 0:
             if struct.public_names[0] == "":
                 name = self.get_anonymous_name()
@@ -54,25 +53,29 @@ class MidlStructConverter(Converter):
             name = self.get_anonymous_name()
 
         tag: MidlAttribute
-        if tag := struct.attributes.get("switch_type"): 
+        if tag := struct.attributes.get("switch_type"):
             tag = tag.params[0].upper()
-            #TODO  switch_type can be an expression
-        elif  tag := struct.attributes.get("switch_is"):
-            tag = tag.params[0].upper() 
-            #tag is now the switch_is parameter
-            
-            #lookup the variable name in the struct creating this union, and make that variable's type the tag name
-            assert(parent_struct!=None), "Must pass in parent_struct!"
+            # TODO  switch_type can be an expression
+        elif tag := struct.attributes.get("switch_is"):
+            tag = tag.params[0].upper()
+            # tag is now the switch_is parameter
+
+            # lookup the variable name in the struct creating this union, and make that variable's type the tag name
+            assert parent_struct != None, "Must pass in parent_struct!"
             new_tag = None
             for member in parent_struct.members:
                 name = member.name
                 if name == tag:
                     new_tag = member.type
-                    assert(isinstance(tag,str)), "Handle cases where the union tag object is non-str(most likely VarDef)"
+                    assert isinstance(
+                        tag, str
+                    ), "Handle cases where the union tag object is non-str(most likely VarDef)"
                     break
-            if new_tag != None: tag = new_tag
-            else: tag = "DWORD" #default to DWORD type
-            
+            if new_tag != None:
+                tag = new_tag
+            else:
+                tag = "DWORD"  # default to DWORD type
+
         count = 1
         entries = []
         for struct_member in struct.members:
@@ -151,7 +154,7 @@ class MidlStructConverter(Converter):
         for var_def in struct.members:
             if isinstance(var_def.type, (MidlUnionDef, MidlStructDef)):
                 # handle nested unions/structs
-                var_def.type = self.convert(var_def.type,struct)
+                var_def.type = self.convert(var_def.type, struct)
 
             p_vd = VarDefConverter(self.io, self.tab_level, self.mapper).convert(
                 var_def
@@ -209,7 +212,7 @@ class MidlStructConverter(Converter):
         for var_def in struct.members:
             if isinstance(var_def.type, (MidlStructDef, MidlUnionDef)):
                 # nested unions/structs
-                var_def.type = self.convert(var_def.type,struct)
+                var_def.type = self.convert(var_def.type, struct)
             p_vd = VarDefConverter(self.io, self.tab_level, self.mapper).convert(
                 var_def
             )
@@ -227,9 +230,7 @@ class MidlStructConverter(Converter):
             name=array_name,
             underlying_type_name=array_member_name,
         )
-        ndr_ptr = PythonNdrPointer(
-            name=array_pointer_name, referent_name=array_name
-        )
+        ndr_ptr = PythonNdrPointer(name=array_pointer_name, referent_name=array_name)
         ndr_struct = PythonNdrStruct(name=main_name, structure=struct_tuple)
 
         self.write(ndr_array.to_string())

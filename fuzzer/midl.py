@@ -5,7 +5,6 @@ from fuzzer.basic import *
 """Defines class used to build generator templates."""
 
 
-
 ############################
 ## Procedure generator definition classes
 ###########################
@@ -101,6 +100,7 @@ class NdrUnion:
 
 class NdrStructure:
     pass
+
 
 class NdrEnum:
     pass

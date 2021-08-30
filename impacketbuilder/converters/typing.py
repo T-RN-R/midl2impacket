@@ -132,19 +132,21 @@ class TypeMapper:
                     self.add_type(pointer_to_create)
         return pointer_type
 
-    def canonicalize(self, name: str, array_size: str = None, is_func_param=False) -> tuple[str, str]:
+    def canonicalize(
+        self, name: str, array_size: str = None, is_func_param=False
+    ) -> tuple[str, str]:
         """Canonicalizes an IDL typename into the Python typename format"""
 
         py_name = name
         # Default fixup for function calls: remove first level of indirection
         if is_func_param:
             # TODO: this should really get the actual type and read the referent
-            if py_name.endswith('*'):
+            if py_name.endswith("*"):
                 py_name = py_name[:-1]
 
         # Now remove const and spaces then uppercase the name
         py_name = py_name.replace("const", "").strip().replace(" ", "_").upper()
-        
+
         py_member_name = None
         # Check array information:
         # Pointers to arrays e.g. DWORD* become DWORD_ARRAY

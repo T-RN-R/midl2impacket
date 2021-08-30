@@ -27,7 +27,7 @@ class MidlAttributesParser(MidlBaseParser):
         self.cur_attr_params = []
         self.attributes = {}
         self.attr_handlers = {
-            'size_is': self.size_is,
+            "size_is": self.size_is,
         }
 
     def add_to_cur_param(self, token: Token):
@@ -68,7 +68,8 @@ class MidlAttributesParser(MidlBaseParser):
             elif self.state == AttributeState.PARAMETERS:
                 # Just grab the whole blob and add it to the current member
                 self.cur_attr_param += MidlExpressionParser(
-                    self.tokens, self.tokenizer).parse(token)
+                    self.tokens, self.tokenizer
+                ).parse(token)
             else:
                 self.invalid(token)
         elif token.data == ")" and self.state == AttributeState.PARAMETERS:

@@ -15,6 +15,7 @@ class MidlParserException(Exception):
 
 class MidlBaseParser(abc.ABC):
     state = None
+
     def __init__(self, token_generator, end_state, tokenizer: MidlTokenizer):
         self.logger = get_logger(self.__class__.__name__)
         self.tokens = token_generator
