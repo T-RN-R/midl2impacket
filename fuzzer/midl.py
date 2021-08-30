@@ -101,3 +101,6 @@ class NdrUnion:
 
 class NdrStructure:
     pass
+
+class NdrEnum:
+    pass

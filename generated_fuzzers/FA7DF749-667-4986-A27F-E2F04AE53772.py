@@ -1,6 +1,9 @@
 
 from fuzzer.midl import *
 from fuzzer.core import *
+,
+,
+,
 interface_0 = Interface("FA7DF749-667-4986-A27F-E2F04AE53772", "1.0",[
 Method("GetProviderMgmtInterface",
 In(VSS_ID),

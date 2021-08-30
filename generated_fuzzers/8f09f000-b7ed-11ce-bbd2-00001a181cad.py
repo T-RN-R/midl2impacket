@@ -1,6 +1,18 @@
 
 from fuzzer.midl import *
 from fuzzer.core import *
+
+class IPX_MIB_INDEX(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : ('IF_TABLE_INDEX', None),2 : ('ROUTING_TABLE_INDEX', None),3 : ('STATIC_ROUTES_TABLE_INDEX', None),4 : ('SERVICES_TABLE_INDEX', None),5 : ('STATIC_SERVICES_TABLE_INDEX', None),}
+
+    
+
+class IPX_MIB_ROW(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : ('IPX_INTERFACE', None),2 : ('IPX_ROUTE', None),3 : ('IPX_SERVICE', None),}
+
+    
 interface_0 = Interface("8f09f000-b7ed-11ce-bbd2-00001a181cad", "0.0",[
 Method("RMprAdminServerGetInfo",
 In(DIM_HANDLE),

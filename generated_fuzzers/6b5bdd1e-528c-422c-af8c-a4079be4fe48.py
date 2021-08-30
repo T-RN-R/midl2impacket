@@ -1,6 +1,12 @@
 
 from fuzzer.midl import *
 from fuzzer.core import *
+
+class FW_PROFILE_CONFIG_VALUE(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : ('PWCHAR', None),2 : ('PFW_INTERFACE_LUIDS', None),3 : ('PDWORD', None),}
+
+    
 interface_0 = Interface("6b5bdd1e-528c-422c-af8c-a4079be4fe48", "1.0",[
 Method("RRPC_FWOpenPolicyStore",
 In(FW_CONN_HANDLE),

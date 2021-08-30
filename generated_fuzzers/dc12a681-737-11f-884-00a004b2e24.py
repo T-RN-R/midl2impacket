@@ -1,6 +1,12 @@
 
 from fuzzer.midl import *
 from fuzzer.core import *
+
+class WBEM_REFRESH_INFO_UNION(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : ('_WBEM_REFRESH_INFO_REMOTE', None),2 : ('_WBEM_REFRESH_INFO_NON_HIPERF', None),3 : ('HRESULT', None),}
+
+    
 interface_0 = Interface("dc12a681-737-11f-884-00a004b2e24", "1.0",[
 ])
 interface_1 = Interface("7c857801-7381-11cf-884d-00aa004b2e24", "1.0",[
