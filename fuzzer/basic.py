@@ -134,7 +134,7 @@ class StringGenerator(object):
         # Strings with null bytes
         for length in [1, 4, 8, 16, 32, 128, 256, 512]:
             s = "B" * length
-            s = s[: len(s) / 2] + "\x00" + s[len(s) / 2 :]
+            s = s[: len(s) // 2] + "\x00" + s[len(s) // 2 :]
             self.choices.append(s)
 
         # Add null bytes !

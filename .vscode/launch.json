@@ -41,6 +41,20 @@
                 "--import-dir", "\"preprocessed/\""
 
             ]
+        },
+        {
+            "name": "Run EVEN Fuzzer",
+            "type": "python",
+            "request": "launch",
+            "program": "fuzzer.py",
+            "console": "integratedTerminal",
+            "args":[
+                "--idl", "\"preprocessed/ms-even.idl\"",
+                "--name", "\"even\"",
+                "--import-dir", "\"preprocessed/\"",
+                "--count", "1",
+
+            ]
         }
     ]
 }

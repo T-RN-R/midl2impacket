@@ -14,7 +14,8 @@ class InOutParameter(FuzzableMidl):
     def __init__(self, param, *ignored):
         self.param = param
 
-
+    def generate(self):
+        pass
 class InOut(InOutParameter):
     """Represents an In/Out parameter"""
 
@@ -60,7 +61,16 @@ class NdrLong(NdrType):
     def generate(cls, ctx, range_min, range_max):
         v = generate_int(32, range_min, range_max)
         return 0, v
-
+class NdrDouble(NdrType):
+    @classmethod
+    def generate(cls, ctx, range_min, range_max):
+        v = generate_int(32, range_min, range_max)
+        return 0, v
+class NdrFloat(NdrType):
+    @classmethod
+    def generate(cls, ctx, range_min, range_max):
+        v = generate_int(32, range_min, range_max)
+        return 0, v
 
 class NdrHyper(NdrType):
     @classmethod
@@ -105,3 +115,21 @@ class NdrStructure:
 
 class NdrEnum:
     pass
+
+
+class NdrContextHandle(NdrType):
+    @classmethod
+    def pack(cls, data = 0):
+        if data == 0:
+            data = "00000000-0000-0000-0000-000000000000"
+        return struct.pack("<I", 0) + str(bytearray(windows.com.IID.from_string(data)))
+
+    @classmethod
+    def unpack(self, stream):
+        attributes, rawguid = stream.partial_unpack("<I16s")
+        return str(uuid.UUID(bytes_le=rawguid))
+        
+    @classmethod
+    def generate(cls, ctx, range_min, range_max):
+        v = random.choice(list(ctx | set([0])))
+        return 0, v

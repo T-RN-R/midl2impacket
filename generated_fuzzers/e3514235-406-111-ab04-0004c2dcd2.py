@@ -1,6 +1,7 @@
 
 from fuzzer.midl import *
 from fuzzer.core import *
+import .server
 BYTE = NdrByte
 USHORT = NdrShort
 UCHAR = NdrByte

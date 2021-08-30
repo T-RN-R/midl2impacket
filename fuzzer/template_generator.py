@@ -66,7 +66,8 @@ from fuzzer.core import *
             self.generate_enum(typedef)
         elif isinstance(typedef, MidlSimpleTypedef):
             # TODO Add this typedef mapping to a type hierarchy lookup mapper
-            return ""
+            print(typedef)
+            self.io.write(f"{self.mapper.canonicalize(typedef.name)[0]} = {self.mapper.canonicalize(typedef.type.replace('*',''))[0]}\n")
         elif typedef is None:
             return ""
         else:
@@ -108,7 +109,8 @@ class {self.mapper.canonicalize(name)[0]}(NdrUnion):
         for n in union.public_names:
             if n != name:
                 n = n.replace("*","")
-                self.io.write(f"{self.mapper.canonicalize(n)[0]} = {self.mapper.canonicalize(name)[0]}")
+                #TODO still need to generate code to add this to the type alias lookup at runtime
+                self.io.write(f"{self.mapper.canonicalize(n)[0]} = {self.mapper.canonicalize(name)[0]}\n")
 
     def generate_struct(self, struct):
         output = ""
@@ -146,7 +148,8 @@ class {self.mapper.canonicalize(name)[0]}(NdrStructure):
         for n in struct.public_names:
             if n != name:
                 n = n.replace("*","")
-                self.io.write(f"{self.mapper.canonicalize(n)[0]} = {self.mapper.canonicalize(name)[0]}")
+                #TODO still need to generate code to add this to the type alias lookup at runtime
+                self.io.write(f"{self.mapper.canonicalize(n)[0]} = {self.mapper.canonicalize(name)[0]}\n")
 
 
     def generate_enum(self, enum):
@@ -163,6 +166,9 @@ class {self.mapper.canonicalize(name)[0]}(NdrStructure):
         else:
             version = "1.0"
         procedures = ""
+        for typedef in midl_interface.typedefs:
+            self.handle_typedef(typedef)
+
         for proc in midl_interface.procedures:
             procedures += f"{self.generate_procedure(proc)},\n"
         output += f'Interface("{uuid}", "{version}",[\n{procedures}])'
@@ -177,8 +183,9 @@ class {self.mapper.canonicalize(name)[0]}(NdrStructure):
             clz = (
                 "InOut"
                 if input_attr and output_attr
-                else ("Out" if output_attr else "In")
+                else ("Out" if output_attr else ("In" if input_attr else None))
             )
-            params += f"{clz}({self.mapper.canonicalize(param.type)[0]}),\n"
+            if clz is not None:
+                params += f"{clz}({self.mapper.canonicalize(param.type)[0]}),\n"
         output += f'Method("{procedure.name}",\n{params}),'
         self.io.write(output)

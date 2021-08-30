@@ -1,10 +1,16 @@
 IDL_TO_NDR = {
+    "ULONGLONG":"NdrHyper",
     "BYTE" : "NdrByte",
     "USHORT" : "NdrShort",
+    "SHORT" : "NdrShort",
     "UCHAR" : "NdrByte",
+    "PCHAR" : "NdrByte",
+    "PUCHAR" : "NdrByte",
+    "PLONG64": "NdrHyper",
     "ULONG" : "NdrLong",
     "ULONG64" : "NdrHyper",
     "DWORD64" : "NdrHyper",
+    "PDWORD64" : "NdrHyper",
     "DWORD" : "NdrLong",
     "UINT64" : "NdrHyper",
     "WORD" : "NdrByte",
@@ -14,7 +20,9 @@ IDL_TO_NDR = {
     "unsigned short": "NdrShort",
     "unsigned char": "NdrByte",
     "unsigned long": "NdrLong",
-    "unsignedlong": "NdrLong",
+    "unsignedlong": "NdrLong",    
+    "punsigned_long": "NdrLong",
+    "punsigned_char": "NdrByte",
     "unsigned int": "NdrLong",
     "unsigned __int64": "NdrHyper",
     "signed __int64": "NdrHyper",
@@ -24,8 +32,12 @@ IDL_TO_NDR = {
     "signed short": "NdrShort",
     "wchar_t": "NdrWString",
     "char": "NdrByte",
+    "pwchar": "NdrByte",
     "int": "NdrLong",
-    "void": "CONTEXT_HANDLE",
+    "pvoid" : "NdrContextHandle",
+    "void": "NdrContextHandle",
+    "CONTEXT_HANDLE" : "NdrContextHandle",
+    "PPCONTEXT_HANDLE" : "NdrContextHandle",
     "long": "NdrLong",
     "__int3264": "NdrHyper",
     "unsigned __int3264": "NdrHyper",
@@ -43,6 +55,9 @@ IDL_TO_NDR = {
     "PWSTR": "NdrWString",  # TODO validate that this is correct
     "WCHAR": "NdrWString",  # impacket type
     "PBYTE": "NdrByte",  # impacket type
+    "DOUBLE":"NdrDouble",
+    "FLOAT":"NdrFloat"
+
 }
 
 class DataTypeLookup:
