@@ -43,16 +43,11 @@ class MidlStructConverter(Converter):
             raise Exception("NDR_POINTER unimplemented")
 
     def handle_ndr_union(self, struct):
-        if len(struct.public_names) > 0:
-            if struct.public_names[0] == "":
-                name = self.get_anonymous_name()
-            else:
-                name = struct.public_names[0]
-        else:
-            name = self.get_anonymous_name()
+        
+        name = struct.name
 
         tag: MidlAttribute
-        if tag := struct.attributes.get("switch_type"): 
+        if tag := struct.attributes.get("switch_type"):
             tag = tag.params[0].upper()
         elif  tag := struct.attributes.get("switch_is"):
             tag = tag.params[0].upper()
@@ -69,11 +64,13 @@ class MidlStructConverter(Converter):
             if isinstance(struct_member.type, str):
                 type_name = struct_member.type
             elif isinstance(struct_member.type, MidlStructDef):
-                type_name = struct_member.type.public_names[0]
+                type_name = struct_member.type.name
                 self.convert(struct_member.type)
             elif isinstance(struct_member.type, MidlUnionDef):
-                type_name = struct_member.type.public_names[0]
+                type_name = struct_member.type.name
                 self.convert(struct_member.type)
+            elif isinstance(struct_member.type, MidlPointerType):
+                type_name = struct_member.type.pointee + '*'
             elif struct_member.type is None:
                 continue
             else:
@@ -98,36 +95,8 @@ class MidlStructConverter(Converter):
         if not base_exists:
             union_def = PythonNdrUnion(name=base_name, union_entries=dentries, tag=tag)
             self.write(union_def.to_string())
-
-        # Now handle the cases where there are multiple public names, including pointers
-        if len(struct.public_names) > 1:
-            for public_name in struct.public_names[1:]:
-                star_count = public_name.count("*")
-                if star_count == 1:
-                    pointer_name = self.mapper.get_python_type(public_name[1:])[0]
-                    ndr_ptr = PythonNdrPointer(
-                        name=pointer_name, referent_name=base_name
-                    )
-                    self.write(ndr_ptr.to_string())
-                    self.mapper.add_type(pointer_name)
-                elif star_count == 0:
-                    alias_name = self.mapper.get_python_type(public_name)[0]
-                    self.write(
-                        PythonAssignment(
-                            PythonName(alias_name),
-                            PythonValue(base_name),
-                        )
-                    )
-                    self.mapper.add_type(alias_name)
-                else:
-                    raise ConversionException(
-                        f"Multiple asterisks encountered in name: {public_name}"
-                    )
+            self.mapper.add_type(base_name, struct)
         return name
-
-    def create_ndr_uni_fixed_array_class(self, name, length):
-        uni_arr = PythonNdrUniFixedArray(name=name, length=length)
-        self.write(uni_arr.to_string())
 
     def handle_ndr_struct(self, struct):
         struct_entries = []
@@ -143,45 +112,19 @@ class MidlStructConverter(Converter):
 
         struct_tuple = PythonTuple(struct_entries)
 
-        if len(struct.public_names) > 0:
-            base_name = self.mapper.get_python_type(struct.public_names[0])[0]
-        else:
-            base_name = self.get_anonymous_name()
+        base_name = struct.name
 
-        ndr_class = PythonNdrStruct(name=base_name, structure=struct_tuple)
+        struct_size = self.mapper.calculate_sizeof(struct)
+        ndr_class = PythonNdrStruct(name=base_name, structure=struct_tuple, size=struct_size)
         self.write(ndr_class.to_string())
-
-        # Now handle the cases where there are multiple public names, including pointers
-        if len(struct.public_names) > 1:
-            for public_name in struct.public_names[1:]:
-                star_count = public_name.count("*")
-                if star_count == 1:
-                    pointer_name = self.mapper.get_python_type(public_name[1:])[0]
-                    ndr_ptr = PythonNdrPointer(
-                        name=pointer_name, referent_name=base_name
-                    )
-                    self.write(ndr_ptr.to_string())
-                    self.mapper.add_type(pointer_name)
-                elif star_count == 0:
-                    alias_name = self.mapper.get_python_type(public_name)[0]
-                    self.write(
-                        PythonAssignment(
-                            PythonName(alias_name),
-                            PythonValue(base_name),
-                        )
-                    )
-                    self.mapper.add_type(alias_name)
-                else:
-                    raise ConversionException(
-                        f"Multiple asterisks encountered in name: {public_name}"
-                    )
+        self.mapper.add_type(base_name, struct)
 
         return base_name
 
     def handle_ndr_array(self, struct: MidlStructDef):
         # First step: Find the count and the array variables
         arr_var = None
-        main_name = struct.public_names[0]
+        main_name = struct.name
         for var_def in struct.members:
             for attr_name in var_def.attributes:
                 if attr_name == "size_is":
@@ -215,32 +158,14 @@ class MidlStructConverter(Converter):
         ndr_struct = PythonNdrStruct(name=main_name, structure=struct_tuple)
 
         self.write(ndr_array.to_string())
+        self.mapper.add_type(array_name, None)
+
         self.write(ndr_ptr.to_string())
+        self.mapper.add_type(array_name, MidlPointerType(array_pointer_name, array_name))
+
         self.write(ndr_struct.to_string())
-        # Now handle the cases where there are multiple public names, including pointers
-        if len(struct.public_names) > 1:
-            for public_name in struct.public_names[1:]:
-                star_count = public_name.count("*")
-                if star_count == 1:
-                    pointer_name = self.mapper.get_python_type(public_name[1:])[0]
-                    ndr_ptr = PythonNdrPointer(
-                        name=pointer_name, referent_name=main_name
-                    )
-                    self.write(ndr_ptr.to_string())
-                    self.mapper.add_type(pointer_name)
-                elif star_count == 0:
-                    alias_name = self.mapper.get_python_type(public_name)[0]
-                    self.write(
-                        PythonAssignment(
-                            PythonName(alias_name),
-                            PythonValue(main_name),
-                        )
-                    )
-                    self.mapper.add_type(alias_name)
-                else:
-                    raise ConversionException(
-                        f"Multiple asterisks encountered in name: {public_name}"
-                    )
+        self.mapper.add_type(main_name, struct)
+
         return main_name
 
     def detect_ndr_type(self, struct):

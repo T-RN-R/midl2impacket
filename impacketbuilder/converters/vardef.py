@@ -1,3 +1,4 @@
+from impacketbuilder.converters import typing
 from .base import ConversionException, Converter
 from midltypes import *
 import enum
@@ -127,7 +128,7 @@ class VarDefConverter(Converter):
                 array_type_name, array_member_name, array_size
             )
             self.write(arr.to_string())
-            self.mapper.add_type(array_type_name)
+            self.mapper.add_type(array_type_name, var_def)
         return self.python_vardef(var_name=var_def.name, type_name=array_type_name)
 
     def handle_constant_sized_string(self, var_def: MidlVarDef) -> PythonTuple:
@@ -155,18 +156,25 @@ class VarDefConverter(Converter):
         UNI : [size_is(m)] short a[]);
         MULTI : [size_is(m)] short b[][20]);
         """
+        underlying_type, _ = self.mapper.get_python_type(var_def.type)
         dimensionality = len(var_def.array_info)
         if dimensionality == 1:
             arr_inf = var_def.array_info[0]
             if arr_inf.min and not arr_inf.max:
                 # NDRUniFixedArrays
                 size = self.mapper.calculate_sizeof(arr_inf.min)
+                underlying_type_size = self.mapper.calculate_sizeof(underlying_type)
                 (
                     array_type_name,
                     array_member_name,
                     array_type_exists,
                 ) = self.mapper.get_python_array_type(var_def.type, array_size=size, is_func_param=self.func_params)
-                arr = PythonNdrUniFixedArray(array_type_name, size)
+                arr = PythonNdrUniFixedArray(
+                    array_type_name,
+                    size,
+                    underlying_type=underlying_type,
+                    underlying_type_size=underlying_type_size
+                )
             else:
                 # NDRUniConformantArrays
                 size = self.mapper.calculate_sizeof(arr_inf.max)
@@ -180,7 +188,7 @@ class VarDefConverter(Converter):
                 )
             if not array_type_exists:
                 self.write(arr.to_string())
-                self.mapper.add_type(array_type_name)
+                self.mapper.add_type(array_type_name, var_def)
             return self.python_vardef(var_name=var_def.name, type_name=array_type_name)
         else:
             raise Exception("Multidimensional arrays are unimplemented")
@@ -215,8 +223,7 @@ class VarDefConverter(Converter):
                     array_type_name, array_member_name, size
                 )
                 self.write(arr.to_string())
-                self.mapper.add_type(array_type_name)
-            # Create the pointer to the array type:
+                self.mapper.add_type(array_type_name, var_def)
             pointer_type_name = f"P{array_type_name}"
             pointee_type_name = array_type_name
             if not self.mapper.exists(pointer_type_name):
@@ -225,7 +232,7 @@ class VarDefConverter(Converter):
                     referent_name=pointee_type_name
                 )
                 self.write(ndr_ptr.to_string())
-                self.mapper.add_type(pointer_type_name)
+                self.mapper.add_type(pointer_type_name, MidlPointerType(pointer_type_name, pointee_type_name))
             return_type_name = array_type_name if self.func_params else pointer_type_name
             return self.python_vardef(var_name=var_def.name, type_name=return_type_name)
         elif dimensionality == SizeIsType.POINTER_TO_POINTER_TO_SCALAR_ARRAY:
@@ -253,7 +260,7 @@ class VarDefConverter(Converter):
                     array_type_name, array_member_name, size
                 )
                 self.write(arr.to_string())
-                self.mapper.add_type(array_type_name)
+                self.mapper.add_type(array_type_name, var_def)
             pointer_type_name = f"P{array_type_name}"
             pointee_type_name = array_type_name
             if not self.mapper.exists(pointer_type_name):
@@ -261,7 +268,7 @@ class VarDefConverter(Converter):
                     name=pointer_type_name, referent_name=pointee_type_name
                 )
                 self.write(ndr_ptr.to_string())
-                self.mapper.add_type(pointer_type_name)
+                self.mapper.add_type(pointer_type_name, MidlPointerType(pointer_type_name, pointee_type_name))
             return_type_name = array_type_name if self.func_params else pointer_type_name
             return self.python_vardef(var_name=var_def.name, type_name=return_type_name)
         elif dimensionality == SizeIsType.POINTER_TO_SIZED_POINTER_TO_SCALAR:

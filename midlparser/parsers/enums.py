@@ -1,7 +1,8 @@
 import enum
 import string
+from typing import Any
 
-from midltypes import MidlEnumDef
+from midltypes import MidlEnumDef, MidlPointerType, MidlSimpleTypedef
 from midlparser.keywords import RHS_OPERATORS
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
 from midlparser.tokenizer import Token
@@ -155,8 +156,21 @@ class MidlEnumParser(MidlBaseParser):
         else:
             self.invalid(token)
 
-    def finished(self) -> MidlEnumDef:
+    def finished(self) -> list[Any]:
         if len(self.map.keys()) == 0:
             raise MidlParserException("Parsing enum failed. No members were parsed.")
-        public_names = self.declared_names.split(",")
-        return MidlEnumDef(public_names, self.private_name, self.map)
+        public_names = []
+        enum_name = self.private_name
+        if self.declared_names:
+            public_names = self.declared_names.split(",")
+            enum_name = public_names[0]
+            public_names = public_names[1:]
+        return_types = [MidlEnumDef(enum_name, self.map)]
+        if public_names:
+            for public_name in public_names:
+                if public_name.startswith('*'):
+                    return_types.append(MidlPointerType(public_name[1:], self.private_name, attributes={}))
+                else:
+                    return_types.append(MidlSimpleTypedef(public_name, self.private_name, attributes={}))
+        return return_types
+        

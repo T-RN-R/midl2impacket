@@ -1,3 +1,4 @@
+from midltypes import MidlPointerType, MidlStructDef, MidlUnionDef
 from impacketbuilder.ndrbuilder.ndr import PythonNdrPointer
 from impacketbuilder.ndrbuilder.io import PythonWriter
 
@@ -34,20 +35,54 @@ IDL_TO_NDR = {
     "PWSTR": "LPWSTR",  # TODO validate that this is correct
     "WCHAR": "WSTR",  # impacket type
     "PBYTE": "PBYTE",  # impacket type
+    "GUID": "GUID",  # impacket type
+    "DWORD": "DWORD", # impacket type
+    "HRESULT": "HRESULT", # impacket type
+    "__INT64": "__INT64", # impacket type
 }
 
 SIZEOF_LOOKUP = {
-    "WCHAR": 2,
-    "WCHAR_T": 2,
+    "BYTE": 1,
+    "UCHAR": 1,
     "CHAR": 1,
+    "UNSIGNED_CHAR": 1,
     "BOOL": 1,
+    "BOOLEAN": 1,
+    "USHORT": 2,
+    "UNSIGNED_SHORT": 2,
+    "SHORT": 2,
+    "WCHAR": 2,
+    "WORD": 2,
+    "WCHAR_T": 2,
     "UINT32": 4,
+    "UINT": 4,
+    "INT": 4,
     "DWORD": 4,
-    "UINT64": 8,
+    "LONG": 4,
     "UNSIGNEDLONG": 4,
+    "UNSIGNED_LONG": 4,
+    "UNSIGNED_INT": 4,
+    "ULONG": 4,
+    "HRESULT": 4,
+    "UINT64": 8,
+    "FLOAT": 8,
+    "DOUBLE": 8,
+    "ULONG_PTR": 8,
+    "ULONGLONG": 8,
+    "LONGLONG": 8,
+    "LPWSTR": 8,
+    "PRPC_UNICODE_STRING": 8,
+    "PRPC_STRING": 8,
+    "UNSIGNED_HYPER": 8,
+    "UNSIGNED___INT64": 8,
+    "__INT64": 8,
+    "HYPER": 8,
+    "CLSID": 16,
     "GUID": 16,
+    "RPC_UNICODE_STRING": 16,
 }
 
+SIZEOF_LOOKUP.update({f"P{k}":8 for k in SIZEOF_LOOKUP.keys()})
 
 class TypeMappingException(Exception):
     pass
@@ -101,6 +136,7 @@ class TypeMapper:
     def __init__(self, writer: PythonWriter = None):
         self.writer = writer
         self.types = {}
+        self.calculator = SizeofCalculator(self)
 
     def pointerize(self, pointer_type: str) -> str:
         """Replaces asterisks in pointer names, creating intermediate types if they don't exist
@@ -129,11 +165,17 @@ class TypeMapper:
                         name=pointer_to_create, referent_name=pointee_to_create
                     )
                     self.writer.write(ndr_ptr.to_string())
-                    self.add_type(pointer_to_create)
+                    self.add_type(
+                        pointer_to_create,
+                        MidlPointerType(name=pointer_to_create, pointee=pointee_to_create)
+                    )
         return pointer_type
 
     def canonicalize(self, name: str, array_size: str = None, is_func_param=False) -> tuple[str, str]:
         """Canonicalizes an IDL typename into the Python typename format"""
+
+        if name is None:
+            print("z")
 
         py_name = name
         # Default fixup for function calls: remove first level of indirection
@@ -197,17 +239,54 @@ class TypeMapper:
         py_name, _ = self.canonicalize(idl_type, is_func_param=is_func_param)
         return py_name, py_name in self.types
 
-    def add_type(self, py_name: str):
+    def add_type(self, py_name: str, py_type):
         """Adds a type to the dict of known types.
         Args:
             py_name (str): The python-friendly name of the class or variable
         """
-        self.types[py_name] = True
+        self.types[py_name] = py_type
 
-    def calculate_sizeof(self, rhs):
-        if "sizeof" not in rhs:
-            return rhs
-        return SizeofCalculator(rhs).calculate()
+    def get_type(self, py_name):
+        return self.types[py_name]
+
+    def calculate_sizeof(self, obj):
+        # String values e.g. something in an attribute
+        if isinstance(obj, str):
+            # Default to just returning the string itself
+            size = obj
+            if not obj:
+                size = "0"
+            elif "sizeof" in obj:
+                size = self.calculator.evaluate(obj)
+            elif obj in self.types:
+                # It might be a simple type with a known size (or an impacket type)
+                size = self.calculator.sizeof(obj)
+                if not size:
+                    # It must be a complex type
+                    size = self.calculate_sizeof(self.types[obj])
+            # We can't calculate this, maybe it's just a symbol
+            return size
+        # Structs and Unions
+        elif isinstance(obj, (MidlStructDef, MidlUnionDef)):
+            size = 0
+            for member in obj.members:
+                if member.type:
+                    member_size_str = self.calculate_sizeof(member)
+                    size += int(member_size_str)
+            return str(size)
+        # Pointers
+        elif isinstance(obj, MidlPointerType):
+            # 64-bit pointers
+            return "8"
+        else:
+            py_type = self.canonicalize(obj.type)[0]
+            if obj_size := self.calculator.sizeof(py_type):
+                return obj_size
+            # This is likely a vardef representing a struct/union member
+            # who is itself a struct/union etc.
+            if py_type not in self.types or not self.types[py_type]:
+                raise Exception(f"DEVELOPER ERROR: Need to add known size for {py_type}")
+            return self.calculate_sizeof(self.types[py_type])
 
     def exists(self, type_name):
         return type_name in self.types
@@ -216,24 +295,24 @@ class TypeMapper:
 class SizeofCalculator:
     OPERATORS = ["+", "-", "*", "/"]
 
-    def __init__(self, expression):
-        self.expression = expression
+    def __init__(self, mapper: TypeMapper):
+        self.mapper = mapper
 
-    def eval_size_of(self):
-        ex = self.expression
-        for i in range(0, len(self.expression)):
+    def evaluate(self, expression:str):
+        ex = expression
+        for i in range(0, len(expression)):
             if ex[i:].startswith("sizeof"):
                 tmp = ex[i:]
                 lb_idx = tmp.index("(")
                 rb_idx = tmp.index(")")
                 type_str = tmp[lb_idx + 1 : rb_idx].strip()
-                type_str, _ = TypeMapper().canonicalize(type_str)
-                if type_str not in SIZEOF_LOOKUP:
-                    raise Exception(f"Could not get sizeof({type_str})")
-                ex = ex[:i] + str(SIZEOF_LOOKUP[type_str]) + tmp[rb_idx + 1 :]
-        self.expression = ex
+                type_str, _ = self.mapper.canonicalize(type_str)
+                type_size = self.sizeof(type_str)
+                ex = ex[:i] + type_size + tmp[rb_idx + 1 :]
+        return ex
 
-    def calculate(self):
-        self.expression = "".join(self.expression.split(" "))
-        self.eval_size_of()
-        return self.expression
+    def sizeof(self, type_str: str):
+        type_str = self.mapper.canonicalize(type_str)[0]
+        if type_str not in SIZEOF_LOOKUP:
+            return None
+        return str(SIZEOF_LOOKUP[type_str])

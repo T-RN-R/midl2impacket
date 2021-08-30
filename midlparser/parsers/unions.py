@@ -1,6 +1,7 @@
 import enum
+from typing import Any
 
-from midltypes import MidlAttribute, MidlStructDef, MidlUnionDef, MidlVarDef
+from midltypes import MidlAttribute, MidlPointerType, MidlSimpleTypedef, MidlStructDef, MidlUnionDef, MidlVarDef
 from midlparser.parsers.arrays import MidlArrayParser
 from midlparser.parsers.attributes import MidlAttributesParser
 from midlparser.parsers.base import MidlBaseParser
@@ -69,25 +70,25 @@ class MidlUnionParser(MidlBaseParser):
             # Embedded
             if token.data == "struct":
                 from .structs import MidlStructParser
-                struct_type = MidlStructParser(self.tokens, self.tokenizer).parse(token)
+                struct_type = MidlStructParser(self.tokens, self.tokenizer).parse(token)[0]
                 struct_type.attributes = self.cur_member_attrs
-                if not len(struct_type.public_names):
-                    struct_type.public_names.append(f"s{self.embedded_struct_count}")
+                if not struct_type.name:
+                    struct_type.name = f"s{self.embedded_struct_count}"
                     self.embedded_struct_count += 1
                 var_def = MidlVarDef(
-                    struct_type, struct_type.public_names[0], self.cur_member_attrs
+                    struct_type, struct_type.name, self.cur_member_attrs
                 )
                 self.members.append(var_def)
                 self.state = UnionState.MEMBER_TYPE_OR_ATTR
                 self.cur_member_attrs = {}
             elif token.data == "union":
-                union_type = MidlUnionParser(self.tokens, self.tokenizer).parse(token)
+                union_type = MidlUnionParser(self.tokens, self.tokenizer).parse(token)[0]
                 union_type.attributes = self.cur_member_attrs
-                if not len(union_type.public_names):
-                    union_type.public_names.append(f"u{self.embedded_union_count}")
+                if not union_type.name:
+                    union_type.name = f"s{self.embedded_struct_count}"
                     self.embedded_union_count += 1
                 var_def = MidlVarDef(
-                    union_type, union_type.public_names[0], self.cur_member_attrs
+                    union_type, union_type.name, self.cur_member_attrs
                 )
                 self.members.append(var_def)
                 self.state = UnionState.MEMBER_TYPE_OR_ATTR
@@ -223,14 +224,36 @@ class MidlUnionParser(MidlBaseParser):
     def comment(self, token: Token):
         self.comments.append(token)
 
-    def finished(self) -> MidlUnionDef:
+    def finished(self) -> list[Any]:
+        
+        return_types = []
+        # We might have a declared name, if so - use that
         public_names = []
+        union_name = self.private_name
         if self.declared_names:
-            public_names = self.declared_names.split(",")
-        if self.switch_param and self.struct_private_name:
-            switch_union = MidlUnionDef([], self.private_name, self.members)
-            switch_var = MidlVarDef(switch_union, switch_union.private_name)
-            struct_members = [self.switch_param, switch_var]
-            return MidlStructDef(public_names, self.struct_private_name, struct_members)
+            public_names = self.declared_names.split(',')
+            union_name = public_names[0]
+            public_names = public_names[1:]
         else:
-            return MidlUnionDef(public_names, self.private_name, self.members)
+            union_name = self.private_name
+
+        if self.switch_param and self.struct_private_name:
+            switch_union = MidlUnionDef(self.private_name, self.members)
+            switch_var = MidlVarDef(switch_union, switch_union.name)
+            struct_members = [self.switch_param, switch_var]
+            return_types.append(MidlStructDef(union_name, struct_members))
+            self.private_name = self.struct_private_name
+        else:
+            return_types.append(MidlUnionDef(union_name, self.members))
+
+        if union_name != self.private_name:
+            # Add a typedef for the private name
+            return_types.append(MidlSimpleTypedef(self.private_name, union_name, self.attributes))
+
+        if public_names:
+            for public_name in public_names:
+                if public_name.startswith('*'):
+                    return_types.append(MidlPointerType(public_name[1:], union_name, self.attributes))
+                else:
+                    return_types.append(MidlSimpleTypedef(public_name, union_name, self.attributes))
+        return return_types

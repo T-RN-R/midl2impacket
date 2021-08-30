@@ -84,19 +84,19 @@ class MidlInterfaceParser(MidlBaseParser):
         self.interface.cpp_quotes.append(cpp_quote)
 
     def _const(self, token: Token):
-        vd = MidlVariableInstantiationParser(self.tokens, self.tokenizer).parse(token)
-        self.interface.add_vardef(vd)
+        vardef = MidlVariableInstantiationParser(self.tokens, self.tokenizer).parse(token)
+        self.interface.add_vardef(vardef)
 
     def _struct(self, token: Token):
         # Create a typedef?
-        std = MidlStructParser(self.tokens, self.tokenizer).parse(token)
-        self.interface.add_typedef(std)
+        for std in MidlStructParser(self.tokens, self.tokenizer).parse(token):
+            self.interface.add_typedef(std)
 
 
     def _union(self, token: Token):
         # Create a typedef?
-        utd = MidlUnionParser(self.tokens, self.tokenizer).parse(token)
-        self.interface.add_typedef(utd)
+        for utd in MidlUnionParser(self.tokens, self.tokenizer).parse(token):
+            self.interface.add_typedef(utd)
 
     def _procedure(self, token: Token):
         # Procedure declaration return type

@@ -23,11 +23,10 @@ from impacket.dcerpc.v5.ndr import *
 from impacket.dcerpc.v5.dtypes import *
 from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
 from impacket.structure import Structure
-from impacket import nt_errors
+from impacket import nt_errors, system_errors
 from impacket.uuid import uuidtup_to_bin
 from impacket.dcerpc.v5.rpcrt import DCERPCException
 
-from impacket import system_errors
 class DCERPCSessionError(DCERPCException):
     def __init__(self, error_string=None, error_code=None, packet=None):
         DCERPCException.__init__(self, error_string, error_code, packet)
@@ -37,9 +36,9 @@ class DCERPCSessionError(DCERPCException):
         if key in system_errors.ERROR_MESSAGES:
             error_msg_short = system_errors.ERROR_MESSAGES[key][0]
             error_msg_verbose = system_errors.ERROR_MESSAGES[key][1] 
-            return 'MIDL2Impacket SessionError: code: 0x%x - %s - %s' % (self.error_code, error_msg_short, error_msg_verbose)
+            return 'SessionError: code: 0x%x - %s - %s' % (self.error_code, error_msg_short, error_msg_verbose)
         else:
-            return 'MIDL2Impacket SessionError: unknown error code: 0x%x' % self.error_code
+            return 'SessionError: unknown error code: 0x%x' % self.error_code
 
 
 DWORD64 = NDRUHYPER
@@ -89,6 +88,6 @@ class PRPC_STRING(NDRPOINTER):
             canonicalized_name, _ = self.mapper.canonicalize(idl_name)
             if canonicalized_name != py_name:
                 mapping += f"{canonicalized_name} = {py_name}\n"
-            self.mapper.add_type(canonicalized_name)
+            self.mapper.add_type(canonicalized_name, None)
         self.write(mapping)
-        
+

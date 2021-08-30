@@ -30,7 +30,8 @@ class PythonNdrClassDefiniton:
 class PythonNdrStruct(PythonNdrClassDefiniton):
     """Creates a simple NDRSTRUCT"""
 
-    def __init__(self, name: str, structure: PythonTuple, align: str = "1"):
+    def __init__(self, name: str, structure: PythonTuple, align: str = "1", size="-1"):
+        size = PythonAssignment(PythonName("size"), PythonValue(size))
         align = PythonAssignment(PythonName("align"), PythonValue(align))
         structure = PythonAssignment(PythonValue("structure"), structure)
         prop_list = [align, structure]
@@ -48,6 +49,8 @@ class PythonNdrStruct(PythonNdrClassDefiniton):
         for struct_member in structure.rhs.values:
             prop_name = struct_member.values[0].value[1:-1]
             prop_type = struct_member.values[1].value
+            if prop_type.startswith("'"):
+                prop_type = 'str'
             prop_get_fn = PythonFunction(
                 name=prop_name,
                 args="self",
@@ -76,6 +79,7 @@ class PythonNdrPointer(PythonNdrClassDefiniton):
                 [PythonTuple([PythonValue("'Data'"), PythonValue(referent_name)])]
             ),
         )
+        self.size = 8
         prop_list = [referent]
         props = PythonAssignmentList(*prop_list)
         prop_functions = self.generate_prop_functions(referent_name)
@@ -111,7 +115,7 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
         if tag:
             commonHdr = PythonAssignment(
                 PythonName("commonHdr"),
-                PythonTuple([PythonTuple([PythonValue(f"'{tag}'"), PythonValue("DWORD")])]),
+                PythonTuple([PythonTuple([PythonValue("'tag'"), PythonValue(tag)])]),
             )
             prop_list.append(commonHdr)
         structure = PythonAssignment(PythonValue("union"), PythonDict(union_entries))
@@ -130,6 +134,8 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
         for union_member in union_entries.rhs.entries.obj_list:
             prop_name = union_member.value.values[0].value[1:-1]
             prop_type = union_member.value.values[1].value
+            if prop_type.startswith("'"):
+                prop_type = 'str'
             prop_get_fn = PythonFunction(
                 name=prop_name,
                 args="self",
@@ -187,22 +193,40 @@ class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
         # if maximum_length != None:
         #     prop_list = [item, structure]
         # else:
+        prop_fns = self.generate_prop_functions(underlying_type_name)
         prop_list = [item]
         props = PythonAssignmentList(*prop_list)
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRUniConformantArray")),
             class_props=props,
-            functions=PythonFunctionList(),
+            functions=prop_fns,
         )
+
+    def generate_prop_functions(self, member_type:str):
+        prop_setter = PythonFunction(
+            name="Data",
+            args=f"self, prop:{member_type}",
+            body=["self['Data'] = prop"],
+            decorator="@Data.setter",
+        )
+        prop_getter = PythonFunction(
+            name="Data",
+            args="self",
+            body=["return self['Data']"],
+            decorator="@property",
+            return_type=f"list[{member_type}]"
+        )
+        return PythonFunctionList(prop_getter, prop_setter)
 
 
 class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
     """Creates a simple NDRUniFixedArray"""
 
-    def __init__(self, name: str, length: str, underlying_type_size:int=1):
+    def __init__(self, name: str, length: str, underlying_type:str, underlying_type_size:int=1):
+        item = PythonAssignment(PythonValue("item"), PythonValue(underlying_type))
         align = PythonAssignment(PythonValue("align"), PythonValue("1"))
-        prop_list = [align]
+        prop_list = [item, align]
         props = PythonAssignmentList(*prop_list)
         get_data_len = PythonFunction(
             "getDataLen", args="self,data,offset=0", body=[f"return {length} * {str(underlying_type_size)}"]

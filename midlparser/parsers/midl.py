@@ -68,7 +68,7 @@ class MidlParser(MidlBaseParser):
         self.cur_def_attrs = {}
 
     def _enum(self, token: Token):
-        self.definition.typedefs.append(
+        self.definition.typedefs.extend(
                 MidlEnumParser(self.tokens, self.tokenizer).parse(token)
             )
         self.cur_def_attrs = {}

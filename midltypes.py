@@ -323,16 +323,15 @@ class MidlTypeDef(Visitable):
 
 
 class MidlStructDef(Visitable):
-    def __init__(self, public_names, private_name, members: list[MidlVarDef]):
-        self.public_names = public_names
-        self.private_name = private_name
+    def __init__(self, name, members: list[MidlVarDef]):
+        self.name = name
         self.members = members
         self.attributes = {}
 
     def __str__(self):
         out = "typedef struct "
-        if self.private_name:
-            out += self.private_name + "\n{\n"
+        if self.name:
+            out += self.name + "\n{\n"
         else:
             out += "\n{\n"
         for member in self.members:
@@ -340,34 +339,40 @@ class MidlStructDef(Visitable):
             out += ",\n"
         out = out[:-2]
         out += "\n} "
-        for pub_name in self.public_names:
-            out += pub_name + ","
         out = out[:-1]
         out += ";\n"
         return out
 
 
 class MidlUnionDef(Visitable):
-    def __init__(self, public_names, private_name, members: list[MidlVarDef]):
-        self.public_names = public_names
-        self.private_name = private_name or ""
+    def __init__(self, name, members: list[MidlVarDef]):
+        self.name = name or ""
         self.members = members
         self.attributes = {}
 
     def __str__(self):
         out = "typedef union "
-        out += self.private_name + "\n{\n"
+        out += self.name + "\n{\n"
         for member in self.members:
             out += str(member)
             out += ",\n"
         out = out[:-2]
         out += "\n} "
-        for pub_name in self.public_names:
-            out += pub_name + ","
         out = out[:-1]
         out += ";\n"
         return out
 
+
+class MidlPointerType(Visitable):
+    def __init__(self, name, pointee, attributes=None):
+        self.name = name
+        self.pointee = pointee
+        self.attributes = attributes or {}
+
+    def __str__(self):
+        out = ""
+        out = "typedef " + self.name + " " + self.pointee + ";"
+        return out
 
 class MidlSimpleTypedef(Visitable):
     def __init__(self, name, simple_type, attributes):
@@ -404,15 +409,14 @@ class MidlEnumDef(Visitable):
         `
     """
 
-    def __init__(self, public_names, private_name, map):
-        self.public_names = public_names
-        self.private_name = private_name
-        self.map = map
+    def __init__(self, name, enum_map):
+        self.name = name
+        self.map = enum_map
         self.attributes = {}
 
     def __str__(self):
 
-        out = "enum " + self.private_name + f"[{self.public_names}]" + "\n{\n"
+        out = "enum " + self.name + "\n{\n"
 
         if self.map is None:
             return ""

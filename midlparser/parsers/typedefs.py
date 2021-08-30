@@ -1,6 +1,6 @@
 import enum
 
-from midltypes import MidlSimpleTypedef, MidlTypeDef
+from midltypes import MidlPointerType, MidlSimpleTypedef, MidlTypeDef
 from midlparser.parsers.attributes import MidlAttributesParser
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
 from midlparser.parsers.enums import MidlEnumParser
@@ -30,10 +30,11 @@ class MidlTypedefParser(MidlBaseParser):
         )
         self.attributes = {}
         self.td_parts = []
+        self.is_pointer = False
         self.comments = []
         self.cur_additional_name = ""
         self.additional_names = []
-        self.tds = []
+        self.typedefs = []
         self.kw_handlers = {
             "struct": MidlStructParser,
             "enum": MidlEnumParser,
@@ -47,7 +48,7 @@ class MidlTypedefParser(MidlBaseParser):
         elif self.state in [TypedefState.TYPE_OR_ATTRS, TypedefState.TYPE]:
             if token.data in self.kw_handlers:
                 self.state = TypedefState.DEFINITION
-                self.tds.append(
+                self.typedefs.extend(
                     self.kw_handlers[token.data](self.tokens, self.tokenizer).parse(
                         token
                     )
@@ -74,6 +75,7 @@ class MidlTypedefParser(MidlBaseParser):
     def operator(self, token: Token):
         if self.state == TypedefState.DEFINITION and token.data == "*":
             self.td_parts[-1] += "*"
+            self.is_pointer = True
         elif self.state == TypedefState.ADDITIONAL_NAMES and token.data == "*":
             self.cur_additional_name += "*"
         else:
@@ -110,19 +112,26 @@ class MidlTypedefParser(MidlBaseParser):
 
         self.state = TypedefState.END
         # If we're a simple type we need to create it here
-        if not self.tds:
+        if not self.typedefs:
             td_name = self.td_parts[-1]
             td_type = " ".join(self.td_parts[:-1])
-            self.tds.append(MidlSimpleTypedef(td_name, td_type, self.attributes))
+            if self.is_pointer:
+                td_type = td_type[:-1]
+                self.typedefs.append(MidlPointerType(td_name, td_type, self.attributes))
+            else:
+                self.typedefs.append(MidlSimpleTypedef(td_name, td_type, self.attributes))
             for additional_name in self.additional_names:
-                self.tds.append(MidlSimpleTypedef(additional_name, td_type, self.attributes))
+                if additional_name.startswith('*'):
+                    self.typedefs.append(MidlPointerType(additional_name[1:], td_type, self.attributes))
+                else:
+                    self.typedefs.append(MidlSimpleTypedef(additional_name, td_type, self.attributes))
 
     def finished(self) -> list[MidlTypeDef]:
         """parsing loop"""
-        if not len(self.tds):
-            raise MidlParserException(f"No typedefs were created.")
+        if not self.typedefs:
+            raise MidlParserException("No typedefs were created.")
         # Slap some attributes on these bad boys
-        for td in self.tds:
-            if td is not None:
-                td.attributes.update(self.attributes)
-        return self.tds
+        for typedef in self.typedefs:
+            if typedef is not None:
+                typedef.attributes.update(self.attributes)
+        return self.typedefs
