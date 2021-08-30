@@ -1,1311 +1,797 @@
 
 from fuzzer.midl import *
 from fuzzer.core import *
-interface_0 = Interface("22bcef93-4a3f-4183-89f9-2f8b8a628aee", "1.0",[
-Method("Id",
+
+class ('FILETIME', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwLowDateTime"),(('DWORD', None), "dwHighDateTime"),]
+
+    
+
+class ('GUID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "Data1"),(('UNSIGNED_SHORT', None), "Data2"),(('UNSIGNED_SHORT', None), "Data3"),(('BYTE', None), "Data4"),]
+
+    
+
+class ('LARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('SIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('EVENT_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Id"),(('UCHAR', None), "Version"),(('UCHAR', None), "Channel"),(('UCHAR', None), "Level"),(('UCHAR', None), "Opcode"),(('USHORT', None), "Task"),(('ULONGLONG', None), "Keyword"),]
+
+    
+
+class ('S0', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "KernelTime"),(('ULONG', None), "UserTime"),]
+
+    
+
+class ('U0', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('S0', None), s0),2 : (('ULONG64', None), ProcessorTime),}
+
+    
+
+class ('EVENT_HEADER', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Size"),(('USHORT', None), "HeaderType"),(('USHORT', None), "Flags"),(('USHORT', None), "EventProperty"),(('ULONG', None), "ThreadId"),(('ULONG', None), "ProcessId"),(('LARGE_INTEGER', None), "TimeStamp"),(('GUID', None), "ProviderId"),(('EVENT_DESCRIPTOR', None), "EventDescriptor"),(('U0', None), "u0"),(('GUID', None), "ActivityId"),]
+
+    
+
+class ('LUID', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "LowPart"),(('LONG', None), "HighPart"),]
+
+    
+
+class ('MULTI_SZ', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR_T', None), "Value"),(('DWORD', None), "nChar"),]
+
+    
+
+class ('RPC_UNICODE_STRING', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_SHORT', None), "Length"),(('UNSIGNED_SHORT', None), "MaximumLength"),(('PWCHAR', None), "Buffer"),]
+
+    
+
+class ('SERVER_INFO_100', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv100_platform_id"),(('PWCHAR_T', None), "sv100_name"),]
+
+    
+
+class ('SERVER_INFO_101', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv101_platform_id"),(('PWCHAR_T', None), "sv101_name"),(('DWORD', None), "sv101_version_major"),(('DWORD', None), "sv101_version_minor"),(('DWORD', None), "sv101_version_type"),(('PWCHAR_T', None), "sv101_comment"),]
+
+    
+
+class ('SYSTEMTIME', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "wYear"),(('WORD', None), "wMonth"),(('WORD', None), "wDayOfWeek"),(('WORD', None), "wDay"),(('WORD', None), "wHour"),(('WORD', None), "wMinute"),(('WORD', None), "wSecond"),(('WORD', None), "wMilliseconds"),]
+
+    
+
+class ('UINT128', None)(NdrStructure):
+    MEMBERS = [(('UINT64', None), "lower"),(('UINT64', None), "upper"),]
+
+    
+
+class ('ULARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('RPC_SID_IDENTIFIER_AUTHORITY', None)(NdrStructure):
+    MEMBERS = [(('BYTE', None), "Value"),]
+
+    
+
+class ('OBJECT_TYPE_LIST', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "Level"),(('ACCESS_MASK', None), "Remaining"),(('PGUID', None), "ObjectType"),]
+
+    
+
+class ('ACE_HEADER', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "AceType"),(('UCHAR', None), "AceFlags"),(('USHORT', None), "AceSize"),]
+
+    
+
+class ('SYSTEM_MANDATORY_LABEL_ACE', None)(NdrStructure):
+    MEMBERS = [(('ACE_HEADER', None), "Header"),(('ACCESS_MASK', None), "Mask"),(('DWORD', None), "SidStart"),]
+
+    
+
+class ('TOKEN_MANDATORY_POLICY', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Policy"),]
+
+    
+
+class ('MANDATORY_INFORMATION', None)(NdrStructure):
+    MEMBERS = [(('ACCESS_MASK', None), "AllowedAccess"),(('BOOLEAN', None), "WriteAllowed"),(('BOOLEAN', None), "ReadAllowed"),(('BOOLEAN', None), "ExecuteAllowed"),(('TOKEN_MANDATORY_POLICY', None), "MandatoryPolicy"),]
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Length"),(('BYTE', None), "OctetString"),]
+
+    
+
+class ('VALUES', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('PLONG64', None), pInt64),2 : (('PDWORD64', None), pUint64),3 : (('PWSTR', None), ppString),4 : (('PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None), pOctetString),}
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Name"),(('WORD', None), "ValueType"),(('WORD', None), "Reserved"),(('DWORD', None), "Flags"),(('DWORD', None), "ValueCount"),(('VALUES', None), "Values"),]
+
+    
+
+class ('RPC_SID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "Revision"),(('UNSIGNED_CHAR', None), "SubAuthorityCount"),(('RPC_SID_IDENTIFIER_AUTHORITY', None), "IdentifierAuthority"),(('UNSIGNED_LONG', None), "SubAuthority"),]
+
+    
+
+class ('ACL', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "AclRevision"),(('UNSIGNED_CHAR', None), "Sbz1"),(('UNSIGNED_SHORT', None), "AclSize"),(('UNSIGNED_SHORT', None), "AceCount"),(('UNSIGNED_SHORT', None), "Sbz2"),]
+
+    
+
+class ('SECURITY_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "Revision"),(('UCHAR', None), "Sbz1"),(('USHORT', None), "Control"),(('PSID', None), "Owner"),(('PSID', None), "Group"),(('PACL', None), "Sacl"),(('PACL', None), "Dacl"),]
+
+    
+
+class ('FILETIME', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwLowDateTime"),(('DWORD', None), "dwHighDateTime"),]
+
+    
+
+class ('GUID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "Data1"),(('UNSIGNED_SHORT', None), "Data2"),(('UNSIGNED_SHORT', None), "Data3"),(('BYTE', None), "Data4"),]
+
+    
+
+class ('LARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('SIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('EVENT_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Id"),(('UCHAR', None), "Version"),(('UCHAR', None), "Channel"),(('UCHAR', None), "Level"),(('UCHAR', None), "Opcode"),(('USHORT', None), "Task"),(('ULONGLONG', None), "Keyword"),]
+
+    
+
+class ('S0', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "KernelTime"),(('ULONG', None), "UserTime"),]
+
+    
+
+class ('U0', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('S0', None), s0),2 : (('ULONG64', None), ProcessorTime),}
+
+    
+
+class ('EVENT_HEADER', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Size"),(('USHORT', None), "HeaderType"),(('USHORT', None), "Flags"),(('USHORT', None), "EventProperty"),(('ULONG', None), "ThreadId"),(('ULONG', None), "ProcessId"),(('LARGE_INTEGER', None), "TimeStamp"),(('GUID', None), "ProviderId"),(('EVENT_DESCRIPTOR', None), "EventDescriptor"),(('U0', None), "u0"),(('GUID', None), "ActivityId"),]
+
+    
+
+class ('LUID', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "LowPart"),(('LONG', None), "HighPart"),]
+
+    
+
+class ('MULTI_SZ', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR_T', None), "Value"),(('DWORD', None), "nChar"),]
+
+    
+
+class ('RPC_UNICODE_STRING', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_SHORT', None), "Length"),(('UNSIGNED_SHORT', None), "MaximumLength"),(('PWCHAR', None), "Buffer"),]
+
+    
+
+class ('SERVER_INFO_100', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv100_platform_id"),(('PWCHAR_T', None), "sv100_name"),]
+
+    
+
+class ('SERVER_INFO_101', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv101_platform_id"),(('PWCHAR_T', None), "sv101_name"),(('DWORD', None), "sv101_version_major"),(('DWORD', None), "sv101_version_minor"),(('DWORD', None), "sv101_version_type"),(('PWCHAR_T', None), "sv101_comment"),]
+
+    
+
+class ('SYSTEMTIME', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "wYear"),(('WORD', None), "wMonth"),(('WORD', None), "wDayOfWeek"),(('WORD', None), "wDay"),(('WORD', None), "wHour"),(('WORD', None), "wMinute"),(('WORD', None), "wSecond"),(('WORD', None), "wMilliseconds"),]
+
+    
+
+class ('UINT128', None)(NdrStructure):
+    MEMBERS = [(('UINT64', None), "lower"),(('UINT64', None), "upper"),]
+
+    
+
+class ('ULARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('RPC_SID_IDENTIFIER_AUTHORITY', None)(NdrStructure):
+    MEMBERS = [(('BYTE', None), "Value"),]
+
+    
+
+class ('OBJECT_TYPE_LIST', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "Level"),(('ACCESS_MASK', None), "Remaining"),(('PGUID', None), "ObjectType"),]
+
+    
+
+class ('ACE_HEADER', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "AceType"),(('UCHAR', None), "AceFlags"),(('USHORT', None), "AceSize"),]
+
+    
+
+class ('SYSTEM_MANDATORY_LABEL_ACE', None)(NdrStructure):
+    MEMBERS = [(('ACE_HEADER', None), "Header"),(('ACCESS_MASK', None), "Mask"),(('DWORD', None), "SidStart"),]
+
+    
+
+class ('TOKEN_MANDATORY_POLICY', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Policy"),]
+
+    
+
+class ('MANDATORY_INFORMATION', None)(NdrStructure):
+    MEMBERS = [(('ACCESS_MASK', None), "AllowedAccess"),(('BOOLEAN', None), "WriteAllowed"),(('BOOLEAN', None), "ReadAllowed"),(('BOOLEAN', None), "ExecuteAllowed"),(('TOKEN_MANDATORY_POLICY', None), "MandatoryPolicy"),]
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Length"),(('BYTE', None), "OctetString"),]
+
+    
+
+class ('VALUES', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('PLONG64', None), pInt64),2 : (('PDWORD64', None), pUint64),3 : (('PWSTR', None), ppString),4 : (('PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None), pOctetString),}
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Name"),(('WORD', None), "ValueType"),(('WORD', None), "Reserved"),(('DWORD', None), "Flags"),(('DWORD', None), "ValueCount"),(('VALUES', None), "Values"),]
+
+    
+
+class ('RPC_SID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "Revision"),(('UNSIGNED_CHAR', None), "SubAuthorityCount"),(('RPC_SID_IDENTIFIER_AUTHORITY', None), "IdentifierAuthority"),(('UNSIGNED_LONG', None), "SubAuthority"),]
+
+    
+
+class ('ACL', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "AclRevision"),(('UNSIGNED_CHAR', None), "Sbz1"),(('UNSIGNED_SHORT', None), "AclSize"),(('UNSIGNED_SHORT', None), "AceCount"),(('UNSIGNED_SHORT', None), "Sbz2"),]
+
+    
+
+class ('SECURITY_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "Revision"),(('UCHAR', None), "Sbz1"),(('USHORT', None), "Control"),(('PSID', None), "Owner"),(('PSID', None), "Group"),(('PACL', None), "Sacl"),(('PACL', None), "Dacl"),]
+
+    
+
+class ('FILETIME', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwLowDateTime"),(('DWORD', None), "dwHighDateTime"),]
+
+    
+
+class ('GUID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "Data1"),(('UNSIGNED_SHORT', None), "Data2"),(('UNSIGNED_SHORT', None), "Data3"),(('BYTE', None), "Data4"),]
+
+    
+
+class ('LARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('SIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('EVENT_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Id"),(('UCHAR', None), "Version"),(('UCHAR', None), "Channel"),(('UCHAR', None), "Level"),(('UCHAR', None), "Opcode"),(('USHORT', None), "Task"),(('ULONGLONG', None), "Keyword"),]
+
+    
+
+class ('S0', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "KernelTime"),(('ULONG', None), "UserTime"),]
+
+    
+
+class ('U0', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('S0', None), s0),2 : (('ULONG64', None), ProcessorTime),}
+
+    
+
+class ('EVENT_HEADER', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Size"),(('USHORT', None), "HeaderType"),(('USHORT', None), "Flags"),(('USHORT', None), "EventProperty"),(('ULONG', None), "ThreadId"),(('ULONG', None), "ProcessId"),(('LARGE_INTEGER', None), "TimeStamp"),(('GUID', None), "ProviderId"),(('EVENT_DESCRIPTOR', None), "EventDescriptor"),(('U0', None), "u0"),(('GUID', None), "ActivityId"),]
+
+    
+
+class ('LUID', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "LowPart"),(('LONG', None), "HighPart"),]
+
+    
+
+class ('MULTI_SZ', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR_T', None), "Value"),(('DWORD', None), "nChar"),]
+
+    
+
+class ('RPC_UNICODE_STRING', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_SHORT', None), "Length"),(('UNSIGNED_SHORT', None), "MaximumLength"),(('PWCHAR', None), "Buffer"),]
+
+    
+
+class ('SERVER_INFO_100', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv100_platform_id"),(('PWCHAR_T', None), "sv100_name"),]
+
+    
+
+class ('SERVER_INFO_101', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv101_platform_id"),(('PWCHAR_T', None), "sv101_name"),(('DWORD', None), "sv101_version_major"),(('DWORD', None), "sv101_version_minor"),(('DWORD', None), "sv101_version_type"),(('PWCHAR_T', None), "sv101_comment"),]
+
+    
+
+class ('SYSTEMTIME', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "wYear"),(('WORD', None), "wMonth"),(('WORD', None), "wDayOfWeek"),(('WORD', None), "wDay"),(('WORD', None), "wHour"),(('WORD', None), "wMinute"),(('WORD', None), "wSecond"),(('WORD', None), "wMilliseconds"),]
+
+    
+
+class ('UINT128', None)(NdrStructure):
+    MEMBERS = [(('UINT64', None), "lower"),(('UINT64', None), "upper"),]
+
+    
+
+class ('ULARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('RPC_SID_IDENTIFIER_AUTHORITY', None)(NdrStructure):
+    MEMBERS = [(('BYTE', None), "Value"),]
+
+    
+
+class ('OBJECT_TYPE_LIST', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "Level"),(('ACCESS_MASK', None), "Remaining"),(('PGUID', None), "ObjectType"),]
+
+    
+
+class ('ACE_HEADER', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "AceType"),(('UCHAR', None), "AceFlags"),(('USHORT', None), "AceSize"),]
+
+    
+
+class ('SYSTEM_MANDATORY_LABEL_ACE', None)(NdrStructure):
+    MEMBERS = [(('ACE_HEADER', None), "Header"),(('ACCESS_MASK', None), "Mask"),(('DWORD', None), "SidStart"),]
+
+    
+
+class ('TOKEN_MANDATORY_POLICY', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Policy"),]
+
+    
+
+class ('MANDATORY_INFORMATION', None)(NdrStructure):
+    MEMBERS = [(('ACCESS_MASK', None), "AllowedAccess"),(('BOOLEAN', None), "WriteAllowed"),(('BOOLEAN', None), "ReadAllowed"),(('BOOLEAN', None), "ExecuteAllowed"),(('TOKEN_MANDATORY_POLICY', None), "MandatoryPolicy"),]
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Length"),(('BYTE', None), "OctetString"),]
+
+    
+
+class ('VALUES', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('PLONG64', None), pInt64),2 : (('PDWORD64', None), pUint64),3 : (('PWSTR', None), ppString),4 : (('PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None), pOctetString),}
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Name"),(('WORD', None), "ValueType"),(('WORD', None), "Reserved"),(('DWORD', None), "Flags"),(('DWORD', None), "ValueCount"),(('VALUES', None), "Values"),]
+
+    
+
+class ('RPC_SID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "Revision"),(('UNSIGNED_CHAR', None), "SubAuthorityCount"),(('RPC_SID_IDENTIFIER_AUTHORITY', None), "IdentifierAuthority"),(('UNSIGNED_LONG', None), "SubAuthority"),]
+
+    
+
+class ('ACL', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "AclRevision"),(('UNSIGNED_CHAR', None), "Sbz1"),(('UNSIGNED_SHORT', None), "AclSize"),(('UNSIGNED_SHORT', None), "AceCount"),(('UNSIGNED_SHORT', None), "Sbz2"),]
+
+    
+
+class ('SECURITY_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "Revision"),(('UCHAR', None), "Sbz1"),(('USHORT', None), "Control"),(('PSID', None), "Owner"),(('PSID', None), "Group"),(('PACL', None), "Sacl"),(('PACL', None), "Dacl"),]
+
+    
+
+class ('COMVERSION', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_SHORT', None), "MajorVersion"),(('UNSIGNED_SHORT', None), "MinorVersion"),]
+
+    
+
+class ('ORPC_EXTENT', None)(NdrStructure):
+    MEMBERS = [(('GUID', None), "id"),(('UNSIGNED_LONG', None), "size"),(('BYTE', None), "data"),]
+
+    
+
+class ('ORPC_EXTENT_ARRAY', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "size"),(('UNSIGNED_LONG', None), "reserved"),(('PPORPC_EXTENT', None), "extent"),]
+
+    
+
+class ('ORPCTHIS', None)(NdrStructure):
+    MEMBERS = [(('COMVERSION', None), "version"),(('UNSIGNED_LONG', None), "flags"),(('UNSIGNED_LONG', None), "reserved1"),(('CID', None), "cid"),(('PORPC_EXTENT_ARRAY', None), "extensions"),]
+
+    
+
+class ('ORPCTHAT', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "flags"),(('PORPC_EXTENT_ARRAY', None), "extensions"),]
+
+    
+
+class ('DUALSTRINGARRAY', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_SHORT', None), "wNumEntries"),(('UNSIGNED_SHORT', None), "wSecurityOffset"),(('UNSIGNED_SHORT', None), "aStringArray"),]
+
+    
+
+class ('MINTERFACEPOINTER', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "ulCntData"),(('BYTE', None), "abData"),]
+
+    
+
+class ('ERROROBJECTDATA', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwVersion"),(('DWORD', None), "dwHelpContext"),(('IID', None), "iid"),(('PWCHAR_T', None), "pszSource"),(('PWCHAR_T', None), "pszDescription"),(('PWCHAR_T', None), "pszHelpFile"),]
+
+    
+
+class ('STDOBJREF', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "flags"),(('UNSIGNED_LONG', None), "cPublicRefs"),(('OXID', None), "oxid"),(('OID', None), "oid"),(('IPID', None), "ipid"),]
+
+    
+
+class ('REMQIRESULT', None)(NdrStructure):
+    MEMBERS = [(('HRESULT', None), "hResult"),(('STDOBJREF', None), "std"),]
+
+    
+
+class ('REMINTERFACEREF', None)(NdrStructure):
+    MEMBERS = [(('IPID', None), "ipid"),(('UNSIGNED_LONG', None), "cPublicRefs"),(('UNSIGNED_LONG', None), "cPrivateRefs"),]
+
+    
+
+class ('COSERVERINFO', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwReserved1"),(('PWCHAR_T', None), "pwszName"),(('PDWORD', None), "pdwReserved"),(('DWORD', None), "dwReserved2"),]
+
+    
+
+class ('CUSTOMREMOTE_REQUEST_SCM_INFO', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "ClientImpLevel"),(('UNSIGNED_SHORT', None), "cRequestedProtseqs"),(('PUNSIGNED_SHORT', None), "pRequestedProtseqs"),]
+
+    
+
+class ('CUSTOMREMOTE_REPLY_SCM_INFO', None)(NdrStructure):
+    MEMBERS = [(('OXID', None), "Oxid"),(('PDUALSTRINGARRAY', None), "pdsaOxidBindings"),(('IPID', None), "ipidRemUnknown"),(('DWORD', None), "authnHint"),(('COMVERSION', None), "serverVersion"),]
+
+    
+
+class ('INSTANTIATIONINFODATA', None)(NdrStructure):
+    MEMBERS = [(('CLSID', None), "classId"),(('DWORD', None), "classCtx"),(('DWORD', None), "actvflags"),(('LONG', None), "fIsSurrogate"),(('DWORD', None), "cIID"),(('DWORD', None), "instFlag"),(('PIID', None), "pIID"),(('DWORD', None), "thisSize"),(('COMVERSION', None), "clientCOMVersion"),]
+
+    
+
+class ('LOCATIONINFODATA', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR_T', None), "machineName"),(('DWORD', None), "processId"),(('DWORD', None), "apartmentId"),(('DWORD', None), "contextId"),]
+
+    
+
+class ('ACTIVATIONCONTEXTINFODATA', None)(NdrStructure):
+    MEMBERS = [(('LONG', None), "clientOK"),(('LONG', None), "bReserved1"),(('DWORD', None), "dwReserved1"),(('DWORD', None), "dwReserved2"),(('PMINTERFACEPOINTER', None), "pIFDClientCtx"),(('PMINTERFACEPOINTER', None), "pIFDPrototypeCtx"),]
+
+    
+
+class ('CUSTOMHEADER', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "totalSize"),(('DWORD', None), "headerSize"),(('DWORD', None), "dwReserved"),(('DWORD', None), "destCtx"),(('DWORD', None), "cIfs"),(('CLSID', None), "classInfoClsid"),(('PCLSID', None), "pclsid"),(('PDWORD', None), "pSizes"),(('PDWORD', None), "pdwReserved"),]
+
+    
+
+class ('PROPSOUTINFO', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "cIfs"),(('PIID', None), "piid"),(('PHRESULT', None), "phresults"),(('PPMINTERFACEPOINTER', None), "ppIntfData"),]
+
+    
+
+class ('SECURITYINFODATA', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwAuthnFlags"),(('PCOSERVERINFO', None), "pServerInfo"),(('PDWORD', None), "pdwReserved"),]
+
+    
+
+class ('SCMREQUESTINFODATA', None)(NdrStructure):
+    MEMBERS = [(('PDWORD', None), "pdwReserved"),(('PCUSTOMREMOTE_REQUEST_SCM_INFO', None), "remoteRequest"),]
+
+    
+
+class ('SCMREPLYINFODATA', None)(NdrStructure):
+    MEMBERS = [(('PDWORD', None), "pdwReserved"),(('PCUSTOMREMOTE_REPLY_SCM_INFO', None), "remoteReply"),]
+
+    
+
+class ('INSTANCEINFODATA', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR_T', None), "fileName"),(('DWORD', None), "mode"),(('PMINTERFACEPOINTER', None), "ifdROT"),(('PMINTERFACEPOINTER', None), "ifdStg"),]
+
+    
+
+class ('SPECIALPROPERTIESDATA', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "dwSessionId"),(('LONG', None), "fRemoteThisSessionId"),(('LONG', None), "fClientImpersonating"),(('LONG', None), "fPartitionIDPresent"),(('DWORD', None), "dwDefaultAuthnLvl"),(('GUID', None), "guidPartition"),(('DWORD', None), "dwPRTFlags"),(('DWORD', None), "dwOrigClsctx"),(('DWORD', None), "dwFlags"),(('DWORD', None), "Reserved1"),(('UNSIGNED___INT64', None), "Reserved2"),(('DWORD', None), "Reserved3"),]
+
+    
+
+class ('SPECIALPROPERTIESDATA_ALTERNATE', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "dwSessionId"),(('LONG', None), "fRemoteThisSessionId"),(('LONG', None), "fClientImpersonating"),(('LONG', None), "fPartitionIDPresent"),(('DWORD', None), "dwDefaultAuthnLvl"),(('GUID', None), "guidPartition"),(('DWORD', None), "dwPRTFlags"),(('DWORD', None), "dwOrigClsctx"),(('DWORD', None), "dwFlags"),(('DWORD', None), "Reserved3"),]
+
+    
+Method("RemoteActivation",
+In(HANDLE_T),
+In(PORPCTHIS),
+Out(PORPCTHAT),
+In(PGUID),
+In(PWCHAR_T),
+In(PMINTERFACEPOINTER),
+In(DWORD),
+In(DWORD),
+In(DWORD),
+In(PIID),
+In(UNSIGNED_SHORT),
+In(UNSIGNED_SHORT),
+Out(POXID),
+Out(PPDUALSTRINGARRAY),
+Out(PIPID),
+Out(PDWORD),
+Out(PCOMVERSION),
+Out(PHRESULT),
+Out(PPMINTERFACEPOINTER),
+Out(PHRESULT),
+),
+class ('PVARIANT', None)(NdrStructure):
+    MEMBERS = []
+
+    
+
+class ('FLAGGED_WORD_BLOB', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "cBytes"),(('UNSIGNED_LONG', None), "clSize"),(('UNSIGNED_SHORT', None), "asData"),]
+
+    
+
+class ('CURRENCY', None)(NdrStructure):
+    MEMBERS = [(('__INT64', None), "int64"),]
+
+    
+
+class ('DECIMAL', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "wReserved"),(('BYTE', None), "scale"),(('BYTE', None), "sign"),(('ULONG', None), "Hi32"),(('ULONGLONG', None), "Lo64"),]
+
+    
+
+class ('WIREBRECORDSTR', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "fFlags"),(('ULONG', None), "clSize"),(('PMINTERFACEPOINTER', None), "pRecInfo"),(('PBYTE', None), "pRecord"),]
+
+    
+
+class ('PBRECORD', None)(NdrStructure):
+    MEMBERS = []
+
+    
+
+class ('_VARUNION', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('LONGLONG', None), llVal),2 : (('LONG', None), lVal),3 : (('BYTE', None), bVal),4 : (('SHORT', None), iVal),5 : (('FLOAT', None), fltVal),6 : (('DOUBLE', None), dblVal),7 : (('VARIANT_BOOL', None), boolVal),8 : (('HRESULT', None), scode),9 : (('CURRENCY', None), cyVal),10 : (('DATE', None), date),11 : (('BSTR', None), bstrVal),12 : (('PIUNKNOWN', None), punkVal),13 : (('PIDISPATCH', None), pdispVal),14 : (('PSAFEARRAY', None), parray),15 : (('BRECORD', None), brecVal),16 : (('PBYTE', None), pbVal),17 : (('PSHORT', None), piVal),18 : (('PLONG', None), plVal),19 : (('PLONGLONG', None), pllVal),20 : (('PFLOAT', None), pfltVal),21 : (('PDOUBLE', None), pdblVal),22 : (('PVARIANT_BOOL', None), pboolVal),23 : (('PHRESULT', None), pscode),24 : (('PCURRENCY', None), pcyVal),25 : (('PDATE', None), pdate),26 : (('PBSTR', None), pbstrVal),27 : (('PPIUNKNOWN', None), ppunkVal),28 : (('PPIDISPATCH', None), ppdispVal),29 : (('PPSAFEARRAY', None), pparray),30 : (('PVARIANT', None), pvarVal),31 : (('CHAR', None), cVal),32 : (('USHORT', None), uiVal),33 : (('ULONG', None), ulVal),34 : (('ULONGLONG', None), ullVal),35 : (('INT', None), intVal),36 : (('UINT', None), uintVal),37 : (('DECIMAL', None), decVal),38 : (('PCHAR', None), pcVal),39 : (('PUSHORT', None), puiVal),40 : (('PULONG', None), pulVal),41 : (('PULONGLONG', None), pullVal),42 : (('PINT', None), pintVal),43 : (('PUINT', None), puintVal),44 : (('PDECIMAL', None), pdecVal),}
+
+    
+
+class ('WIREVARIANTSTR', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "clSize"),(('DWORD', None), "rpcReserved"),(('USHORT', None), "vt"),(('USHORT', None), "wReserved1"),(('USHORT', None), "wReserved2"),(('USHORT', None), "wReserved3"),(('_VARUNION', None), "_varUnion"),]
+
+    
+
+class ('SAFEARRAYBOUND', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "cElements"),(('LONG', None), "lLbound"),]
+
+    
+
+class ('SAFEARR_BSTR', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "Size"),(('PBSTR', None), "aBstr"),]
+
+    
+
+class ('SAFEARR_UNKNOWN', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "Size"),(('PPIUNKNOWN', None), "apUnknown"),]
+
+    
+
+class ('SAFEARR_DISPATCH', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "Size"),(('PPIDISPATCH', None), "apDispatch"),]
+
+    
+
+class ('SAFEARR_VARIANT', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "Size"),(('PVARIANT', None), "aVariant"),]
+
+    
+
+class ('SAFEARR_BRECORD', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "Size"),(('PBRECORD', None), "aRecord"),]
+
+    
+
+class ('SAFEARR_HAVEIID', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "Size"),(('PPIUNKNOWN', None), "apUnknown"),(('IID', None), "iid"),]
+
+    
+
+class ('BYTE_SIZEDARR', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "clSize"),(('PBYTE', None), "pData"),]
+
+    
+
+class ('WORD_SIZEDARR', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "clSize"),(('PUNSIGNED_SHORT', None), "pData"),]
+
+    
+
+class ('DWORD_SIZEDARR', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "clSize"),(('PUNSIGNED_LONG', None), "pData"),]
+
+    
+
+class ('HYPER_SIZEDARR', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "clSize"),(('PHYPER', None), "pData"),]
+
+    
+
+class ('U', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('SAFEARR_BSTR', None), BstrStr),2 : (('SAFEARR_UNKNOWN', None), UnknownStr),3 : (('SAFEARR_DISPATCH', None), DispatchStr),4 : (('SAFEARR_VARIANT', None), VariantStr),5 : (('SAFEARR_BRECORD', None), RecordStr),6 : (('SAFEARR_HAVEIID', None), HaveIidStr),7 : (('BYTE_SIZEDARR', None), ByteStr),8 : (('WORD_SIZEDARR', None), WordStr),9 : (('DWORD_SIZEDARR', None), LongStr),10 : (('HYPER_SIZEDARR', None), HyperStr),}
+
+    
+
+class ('SAFEARRAYUNION', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "sfType"),(('U', None), "u"),]
+
+    
+
+class ('PSAFEARRAY', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "cDims"),(('USHORT', None), "fFeatures"),(('ULONG', None), "cbElements"),(('ULONG', None), "cLocks"),(('SAFEARRAYUNION', None), "uArrayStructs"),(('SAFEARRAYBOUND', None), "rgsabound"),]
+
+    
+
+class ('RECORDINFO', None)(NdrStructure):
+    MEMBERS = [(('GUID', None), "libraryGuid"),(('DWORD', None), "verMajor"),(('GUID', None), "recGuid"),(('DWORD', None), "verMinor"),(('DWORD', None), "Lcid"),]
+
+    
+
+class ('DISPPARAMS', None)(NdrStructure):
+    MEMBERS = [(('PVARIANT', None), "rgvarg"),(('PDISPID', None), "rgdispidNamedArgs"),(('UINT', None), "cArgs"),(('UINT', None), "cNamedArgs"),]
+
+    
+
+class ('EXCEPINFO', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "wCode"),(('WORD', None), "wReserved"),(('BSTR', None), "bstrSource"),(('BSTR', None), "bstrDescription"),(('BSTR', None), "bstrHelpFile"),(('DWORD', None), "dwHelpContext"),(('ULONG_PTR', None), "pvReserved"),(('ULONG_PTR', None), "pfnDeferredFillIn"),(('HRESULT', None), "scode"),]
+
+    
+
+class ('PLPTDESC', None)(NdrStructure):
+    MEMBERS = []
+
+    
+
+class ('PLPADESC', None)(NdrStructure):
+    MEMBERS = []
+
+    
+
+class ('_TDUNION', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('PLPTDESC', None), *lptdesc),2 : (('PLPADESC', None), *lpadesc),3 : (('HREFTYPE', None), hreftype),}
+
+    
+
+class ('TYPEDESC', None)(NdrStructure):
+    MEMBERS = [(('_TDUNION', None), "_tdUnion"),(('USHORT', None), "vt"),]
+
+    
+
+class ('ARRAYDESC', None)(NdrStructure):
+    MEMBERS = [(('TYPEDESC', None), "tdescElem"),(('USHORT', None), "cDims"),(('SAFEARRAYBOUND', None), "rgbounds"),]
+
+    
+
+class ('PARAMDESCEX', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "cBytes"),(('VARIANT', None), "varDefaultValue"),]
+
+    
+
+class ('PARAMDESC', None)(NdrStructure):
+    MEMBERS = [(('PPARAMDESCEX', None), "pparamdescex"),(('USHORT', None), "wParamFlags"),]
+
+    
+
+class ('ELEMDESC', None)(NdrStructure):
+    MEMBERS = [(('TYPEDESC', None), "tdesc"),(('PARAMDESC', None), "paramdesc"),]
+
+    
+
+class ('FUNCDESC', None)(NdrStructure):
+    MEMBERS = [(('MEMBERID', None), "memid"),(('PSCODE', None), "lReserved1"),(('PELEMDESC', None), "lprgelemdescParam"),(('FUNCKIND', None), "funckind"),(('INVOKEKIND', None), "invkind"),(('CALLCONV', None), "callconv"),(('SHORT', None), "cParams"),(('SHORT', None), "cParamsOpt"),(('SHORT', None), "oVft"),(('SHORT', None), "cReserved2"),(('ELEMDESC', None), "elemdescFunc"),(('WORD', None), "wFuncFlags"),]
+
+    
+
+class ('_VDUNION', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('ULONG', None), oInst),2 : (('PVARIANT', None), lpvarValue),}
+
+    
+
+class ('VARDESC', None)(NdrStructure):
+    MEMBERS = [(('MEMBERID', None), "memid"),(('LPOLESTR', None), "lpstrReserved"),(('_VDUNION', None), "_vdUnion"),(('ELEMDESC', None), "elemdescVar"),(('WORD', None), "wVarFlags"),(('VARKIND', None), "varkind"),]
+
+    
+
+class ('TYPEATTR', None)(NdrStructure):
+    MEMBERS = [(('GUID', None), "guid"),(('LCID', None), "lcid"),(('DWORD', None), "dwReserved1"),(('DWORD', None), "dwReserved2"),(('DWORD', None), "dwReserved3"),(('LPOLESTR', None), "lpstrReserved4"),(('ULONG', None), "cbSizeInstance"),(('TYPEKIND', None), "typekind"),(('WORD', None), "cFuncs"),(('WORD', None), "cVars"),(('WORD', None), "cImplTypes"),(('WORD', None), "cbSizeVft"),(('WORD', None), "cbAlignment"),(('WORD', None), "wTypeFlags"),(('WORD', None), "wMajorVerNum"),(('WORD', None), "wMinorVerNum"),(('TYPEDESC', None), "tdescAlias"),(('DWORD', None), "dwReserved5"),(('WORD', None), "wReserved6"),]
+
+    
+
+class ('TLIBATTR', None)(NdrStructure):
+    MEMBERS = [(('GUID', None), "guid"),(('LCID', None), "lcid"),(('SYSKIND', None), "syskind"),(('UNSIGNED_SHORT', None), "wMajorVerNum"),(('UNSIGNED_SHORT', None), "wMinorVerNum"),(('UNSIGNED_SHORT', None), "wLibFlags"),]
+
+    
+
+class ('CUSTDATAITEM', None)(NdrStructure):
+    MEMBERS = [(('GUID', None), "guid"),(('VARIANT', None), "varValue"),]
+
+    
+
+class ('CUSTDATA', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "cCustData"),(('PCUSTDATAITEM', None), "prgCustData"),]
+
+    
+Method("GetTypeInfoCount",
+Out(PUINT),
+),Method("GetTypeInfo",
+In(UINT),
+In(LCID),
+Out(PPITYPEINFO),
+),Method("GetIDsOfNames",
+In(REFIID),
+In(PLPOLESTR),
+In(UINT),
+In(LCID),
+Out(PDISPID),
+),Method("Invoke",
+In(DISPID),
+In(REFIID),
+In(LCID),
+In(DWORD),
+In(PDISPPARAMS),
+Out(PVARIANT),
+Out(PEXCEPINFO),
+Out(PUINT),
+In(UINT),
+In(PUINT),
+InOut(PVARIANT),
+),Method("Id",
 Out(PFSRM_OBJECT_ID),
-),
-Method("Description",
-Out(PBSTR),
-),
-Method("Description",
-In(BSTR),
-),
-Method("Delete",
-),
-Method("Commit",
-),
-])
-interface_1 = Interface("f76fbf3b-8dd-442-b05a-cb1c3ff1fee8", "1.0",[
-Method("_NewEnum",
-Out(PPIUNKNOWN),
-),
-Method("Item",
-In(LONG),
-Out(PVARIANT),
-),
-Method("Count",
-Out(PLONG),
-),
-Method("State",
-Out(PFSRMCOLLECTIONSTATE),
-),
-Method("Cancel",
-),
-Method("WaitForCompletion",
-In(LONG),
-Out(PVARIANT_BOOL),
-),
-Method("GetById",
-In(FSRM_OBJECT_ID),
-Out(PVARIANT),
-),
-])
-interface_2 = Interface("1bb617b8-3886-49dc-af82-a6c90fa35dda", "1.0",[
-Method("Add",
-In(VARIANT),
-),
-Method("Remove",
-In(LONG),
-),
-Method("RemoveById",
-In(FSRM_OBJECT_ID),
-),
-Method("Clone",
-Out(PPIFSRMMUTABLECOLLECTION),
-),
-])
-interface_3 = Interface("96deb3b5-8b91-4a2a-9d93-80a35d8aa847", "1.0",[
-Method("Commit",
-In(FSRMCOMMITOPTIONS),
-Out(PPIFSRMCOLLECTION),
-),
-])
-interface_4 = Interface("6cd6408a-ae60-463b-9ef1-e117534d69dc", "1.0",[
-Method("Id",
-Out(PFSRM_OBJECT_ID),
-),
-Method("ActionType",
-Out(PFSRMACTIONTYPE),
-),
-Method("RunLimitInterval",
-Out(PLONG),
-),
-Method("RunLimitInterval",
-In(LONG),
-),
-Method("Delete",
-),
-])
-interface_5 = Interface("d646567d-26e-4aa-984-40ad207fca", "1.0",[
-Method("MailFrom",
-Out(PBSTR),
-),
-Method("MailFrom",
-In(BSTR),
-),
-Method("MailReplyTo",
-Out(PBSTR),
-),
-Method("MailReplyTo",
-In(BSTR),
-),
-Method("MailTo",
-Out(PBSTR),
-),
-Method("MailTo",
-In(BSTR),
-),
-Method("MailCc",
-Out(PBSTR),
-),
-Method("MailCc",
-In(BSTR),
-),
-Method("MailBcc",
-Out(PBSTR),
-),
-Method("MailBcc",
-In(BSTR),
-),
-Method("MailSubject",
-Out(PBSTR),
-),
-Method("MailSubject",
-In(BSTR),
-),
-Method("MessageText",
-Out(PBSTR),
-),
-Method("MessageText",
-In(BSTR),
-),
-])
-interface_6 = Interface("8276702f-2532-4839-89bf-4872609a2ea4", "1.0",[
-Method("AttachmentFileListSize",
-Out(PLONG),
-),
-Method("AttachmentFileListSize",
-In(LONG),
-),
-])
-interface_7 = Interface("2dbe63c4-b340-48a0-a5b0-158e07fc567e", "1.0",[
-Method("ReportTypes",
-Out(PSAFEARRAY),
-),
-Method("ReportTypes",
-In(SAFEARRAY),
-),
-Method("MailTo",
-Out(PBSTR),
-),
-Method("MailTo",
-In(BSTR),
-),
-])
-interface_8 = Interface("4c8f96c3-5d94-4f37-a4f4-f56ab463546f", "1.0",[
-Method("EventType",
-Out(PFSRMEVENTTYPE),
-),
-Method("EventType",
-In(FSRMEVENTTYPE),
-),
-Method("MessageText",
-Out(PBSTR),
-),
-Method("MessageText",
-In(BSTR),
-),
-])
-interface_9 = Interface("12937789-e247-4917-9c20-f3ee9c7ee783", "1.0",[
-Method("ExecutablePath",
-Out(PBSTR),
-),
-Method("ExecutablePath",
-In(BSTR),
-),
-Method("Arguments",
-Out(PBSTR),
-),
-Method("Arguments",
-In(BSTR),
-),
-Method("Account",
-Out(PFSRMACCOUNTTYPE),
-),
-Method("Account",
-In(FSRMACCOUNTTYPE),
-),
-Method("WorkingDirectory",
-Out(PBSTR),
-),
-Method("WorkingDirectory",
-In(BSTR),
-),
-Method("MonitorCommand",
-Out(PVARIANT_BOOL),
-),
-Method("MonitorCommand",
-In(VARIANT_BOOL),
-),
-Method("KillTimeOut",
-Out(PLONG),
-),
-Method("KillTimeOut",
-In(LONG),
-),
-Method("LogResult",
-Out(PVARIANT_BOOL),
-),
-Method("LogResult",
-In(VARIANT_BOOL),
-),
-])
-interface_10 = Interface("f411d4fd-14e-4260-840-03795608", "1.0",[
-Method("SmtpServer",
-Out(PBSTR),
-),
-Method("SmtpServer",
-In(BSTR),
-),
-Method("MailFrom",
-Out(PBSTR),
-),
-Method("MailFrom",
-In(BSTR),
-),
-Method("AdminEmail",
-Out(PBSTR),
-),
-Method("AdminEmail",
-In(BSTR),
-),
-Method("DisableCommandLine",
-Out(PVARIANT_BOOL),
-),
-Method("DisableCommandLine",
-In(VARIANT_BOOL),
-),
-Method("EnableScreeningAudit",
-Out(PVARIANT_BOOL),
-),
-Method("EnableScreeningAudit",
-In(VARIANT_BOOL),
-),
-Method("EmailTest",
-In(BSTR),
-),
-Method("SetActionRunLimitInterval",
-In(FSRMACTIONTYPE),
-In(LONG),
-),
-Method("GetActionRunLimitInterval",
-In(FSRMACTIONTYPE),
-Out(PLONG),
-),
-])
-interface_11 = Interface("6f4dbfff-6920-4821-a6c3-b7e94c1fd60c", "1.0",[
-Method("GetSharePathsForLocalPath",
-In(BSTR),
-Out(PSAFEARRAY),
-),
-])
-interface_12 = Interface("39322a2d-38ee-4d0d-8095-421a80849a82", "1.0",[
-Method("DerivedObjects",
-Out(PPIFSRMCOLLECTION),
-),
-Method("Results",
-Out(PPIFSRMCOLLECTION),
-),
-])
-interface_13 = Interface("ede0150f-e9a3-419-877-01e5d24c5d3", "1.0",[
-Method("Name",
-Out(PBSTR),
-),
-Method("Name",
-In(BSTR),
-),
-Method("Type",
-Out(PFSRMPROPERTYDEFINITIONTYPE),
-),
-Method("Type",
-In(FSRMPROPERTYDEFINITIONTYPE),
-),
-Method("PossibleValues",
-Out(PSAFEARRAY),
-),
-Method("PossibleValues",
-In(SAFEARRAY),
-),
-Method("ValueDescriptions",
-Out(PSAFEARRAY),
-),
-Method("ValueDescriptions",
-In(SAFEARRAY),
-),
-Method("Parameters",
-Out(PSAFEARRAY),
-),
-Method("Parameters",
-In(SAFEARRAY),
-),
-])
-interface_14 = Interface("47782152-d16c-4229-b4e1-0ddfe308b9f6", "1.0",[
-Method("PropertyDefinitionFlags",
-Out(PLONG),
-),
-Method("DisplayName",
-Out(PBSTR),
-),
-Method("DisplayName",
-In(BSTR),
-),
-Method("AppliesTo",
-Out(PLONG),
-),
-Method("ValueDefinitions",
-Out(PPIFSRMCOLLECTION),
-),
-])
-interface_15 = Interface("E946D148-BD67-4178-822-144925D710", "1.0",[
-Method("Name",
-Out(PBSTR),
-),
-Method("DisplayName",
-Out(PBSTR),
-),
-Method("Description",
-Out(PBSTR),
-),
-Method("UniqueID",
-Out(PBSTR),
-),
-])
-interface_16 = Interface("4a73fee4-4102-4fcc-9ffb-38614f9ee768", "1.0",[
-Method("Name",
-Out(PBSTR),
-),
-Method("Value",
-Out(PBSTR),
-),
-Method("Sources",
-Out(PSAFEARRAY),
-),
-Method("PropertyFlags",
-Out(PLONG),
-),
-])
-interface_17 = Interface("cb0df960-165-4495-9079-39360831f", "1.0",[
-Method("Name",
-Out(PBSTR),
-),
-Method("Name",
-In(BSTR),
-),
-Method("RuleType",
-Out(PFSRMRULETYPE),
-),
-Method("ModuleDefinitionName",
-Out(PBSTR),
-),
-Method("ModuleDefinitionName",
-In(BSTR),
-),
-Method("NamespaceRoots",
-Out(PSAFEARRAY),
-),
-Method("NamespaceRoots",
-In(SAFEARRAY),
-),
-Method("RuleFlags",
-Out(PLONG),
-),
-Method("RuleFlags",
-In(LONG),
-),
-Method("Parameters",
-Out(PSAFEARRAY),
-),
-Method("Parameters",
-In(SAFEARRAY),
-),
-Method("LastModified",
-Out(PDATE),
-),
-])
-interface_18 = Interface("afc052c2-5315-45b-841-c6db0e120148", "1.0",[
-Method("ExecutionOption",
-Out(PFSRMEXECUTIONOPTION),
-),
-Method("ExecutionOption",
-In(FSRMEXECUTIONOPTION),
-),
-Method("PropertyAffected",
-Out(PBSTR),
-),
-Method("PropertyAffected",
-In(BSTR),
-),
-Method("Value",
-Out(PBSTR),
-),
-Method("Value",
-In(BSTR),
-),
-])
-interface_19 = Interface("515c1277-2c81-440e-8fcf-367921ed4f59", "1.0",[
-Method("ModuleClsid",
-Out(PBSTR),
-),
-Method("ModuleClsid",
-In(BSTR),
-),
-Method("Name",
-Out(PBSTR),
-),
-Method("Name",
-In(BSTR),
-),
-Method("Company",
-Out(PBSTR),
-),
-Method("Company",
-In(BSTR),
-),
-Method("Version",
-Out(PBSTR),
-),
-Method("Version",
-In(BSTR),
-),
-Method("ModuleType",
-Out(PFSRMPIPELINEMODULETYPE),
-),
-Method("Enabled",
-Out(PVARIANT_BOOL),
-),
-Method("Enabled",
-In(VARIANT_BOOL),
-),
-Method("NeedsFileContent",
-Out(PVARIANT_BOOL),
-),
-Method("NeedsFileContent",
-In(VARIANT_BOOL),
-),
-Method("Account",
-Out(PFSRMACCOUNTTYPE),
-),
-Method("Account",
-In(FSRMACCOUNTTYPE),
-),
-Method("SupportedExtensions",
-Out(PSAFEARRAY),
-),
-Method("SupportedExtensions",
-In(SAFEARRAY),
-),
-Method("Parameters",
-Out(PSAFEARRAY),
-),
-Method("Parameters",
-In(SAFEARRAY),
-),
-])
-interface_20 = Interface("bb36ea26-6318-48-8592-f72dd602e7a5", "1.0",[
-Method("PropertiesAffected",
-Out(PSAFEARRAY),
-),
-Method("PropertiesAffected",
-In(SAFEARRAY),
-),
-Method("PropertiesUsed",
-Out(PSAFEARRAY),
-),
-Method("PropertiesUsed",
-In(SAFEARRAY),
-),
-Method("NeedsExplicitValue",
-Out(PVARIANT_BOOL),
-),
-Method("NeedsExplicitValue",
-In(VARIANT_BOOL),
-),
-])
-interface_21 = Interface("d2dc89da-ee91-480-858-cc72a56f7d04", "1.0",[
-Method("ClassificationReportFormats",
-Out(PSAFEARRAY),
-),
-Method("ClassificationReportFormats",
-In(SAFEARRAY),
-),
-Method("Logging",
-Out(PLONG),
-),
-Method("Logging",
-In(LONG),
-),
-Method("ClassificationReportMailTo",
-Out(PBSTR),
-),
-Method("ClassificationReportMailTo",
-In(BSTR),
-),
-Method("ClassificationReportEnabled",
-Out(PVARIANT_BOOL),
-),
-Method("ClassificationReportEnabled",
-In(VARIANT_BOOL),
-),
-Method("ClassificationLastReportPathWithoutExtension",
-Out(PBSTR),
-),
-Method("ClassificationLastError",
-Out(PBSTR),
-),
-Method("ClassificationRunningStatus",
-Out(PFSRMREPORTRUNNINGSTATUS),
-),
-Method("EnumPropertyDefinitions",
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOLLECTION),
-),
-Method("CreatePropertyDefinition",
-Out(PPIFSRMPROPERTYDEFINITION),
-),
-Method("GetPropertyDefinition",
-In(BSTR),
-Out(PPIFSRMPROPERTYDEFINITION),
-),
-Method("EnumRules",
-In(FSRMRULETYPE),
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOLLECTION),
-),
-Method("CreateRule",
-In(FSRMRULETYPE),
-Out(PPIFSRMRULE),
-),
-Method("GetRule",
-In(BSTR),
-In(FSRMRULETYPE),
-Out(PPIFSRMRULE),
-),
-Method("EnumModuleDefinitions",
-In(FSRMPIPELINEMODULETYPE),
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOLLECTION),
-),
-Method("CreateModuleDefinition",
-In(FSRMPIPELINEMODULETYPE),
-Out(PPIFSRMPIPELINEMODULEDEFINITION),
-),
-Method("GetModuleDefinition",
-In(BSTR),
-In(FSRMPIPELINEMODULETYPE),
-Out(PPIFSRMPIPELINEMODULEDEFINITION),
-),
-Method("RunClassification",
-In(FSRMREPORTGENERATIONCONTEXT),
-In(BSTR),
-),
-Method("WaitForClassificationCompletion",
-In(LONG),
-Out(PVARIANT_BOOL),
-),
-Method("CancelClassification",
-),
-Method("EnumFileProperties",
-In(BSTR),
-In(FSRMGETFILEPROPERTYOPTIONS),
-Out(PPIFSRMCOLLECTION),
-),
-Method("GetFileProperty",
-In(BSTR),
-In(BSTR),
-In(FSRMGETFILEPROPERTYOPTIONS),
-Out(PPIFSRMPROPERTY),
-),
-Method("SetFileProperty",
-In(BSTR),
-In(BSTR),
-In(BSTR),
-),
-Method("ClearFileProperty",
-In(BSTR),
-In(BSTR),
-),
-])
-interface_22 = Interface("15a81350-497d-4aba-80e9-d4dbcc5521fe", "1.0",[
-Method("Capabilities",
-Out(PFSRMSTORAGEMODULECAPS),
-),
-Method("Capabilities",
-In(FSRMSTORAGEMODULECAPS),
-),
-Method("StorageType",
-Out(PFSRMSTORAGEMODULETYPE),
-),
-Method("StorageType",
-In(FSRMSTORAGEMODULETYPE),
-),
-Method("UpdatesFileContent",
-Out(PVARIANT_BOOL),
-),
-Method("UpdatesFileContent",
-In(VARIANT_BOOL),
-),
-])
-interface_23 = Interface("1568a795-3924-4118-b74b-68d8f0fa5daf", "1.0",[
-Method("QuotaLimit",
-Out(PVARIANT),
-),
-Method("QuotaLimit",
-In(VARIANT),
-),
-Method("QuotaFlags",
-Out(PLONG),
-),
-Method("QuotaFlags",
-In(LONG),
-),
-Method("Thresholds",
-Out(PSAFEARRAY),
-),
-Method("AddThreshold",
-In(FSRM_QUOTA_THRESHOLD),
-),
-Method("DeleteThreshold",
-In(FSRM_QUOTA_THRESHOLD),
-),
-Method("ModifyThreshold",
-In(FSRM_QUOTA_THRESHOLD),
-In(FSRM_QUOTA_THRESHOLD),
-),
-Method("CreateThresholdAction",
-In(FSRM_QUOTA_THRESHOLD),
-In(FSRMACTIONTYPE),
-Out(PPIFSRMACTION),
-),
-Method("EnumThresholdActions",
-In(FSRM_QUOTA_THRESHOLD),
-Out(PPIFSRMCOLLECTION),
-),
-])
-interface_24 = Interface("42dc3511-61d5-48ae-b6dc-59fc00c0a8d6", "1.0",[
-Method("Path",
-Out(PBSTR),
-),
-Method("UserSid",
-Out(PBSTR),
-),
-Method("UserAccount",
-Out(PBSTR),
-),
-Method("SourceTemplateName",
-Out(PBSTR),
-),
-Method("MatchesSourceTemplate",
-Out(PVARIANT_BOOL),
-),
-Method("ApplyTemplate",
-In(BSTR),
-),
-])
-interface_25 = Interface("377f739d-9647-4b8e-97d2-5ffce6d759cd", "1.0",[
-Method("QuotaUsed",
-Out(PVARIANT),
-),
-Method("QuotaPeakUsage",
-Out(PVARIANT),
-),
-Method("QuotaPeakUsageTime",
-Out(PDATE),
-),
-Method("ResetPeakUsage",
-),
-Method("RefreshUsageProperties",
-),
-])
-interface_26 = Interface("f82e5729-6ba-4740-bfc7-c7f58f75fb7b", "1.0",[
-Method("ExcludeFolders",
-Out(PSAFEARRAY),
-),
-Method("ExcludeFolders",
-In(SAFEARRAY),
-),
-Method("CommitAndUpdateDerived",
-In(FSRMCOMMITOPTIONS),
-In(FSRMTEMPLATEAPPLYOPTIONS),
-Out(PPIFSRMDERIVEDOBJECTSRESULT),
-),
-])
-interface_27 = Interface("8bb68c7d-19d8-4ffb-809e-be4fc1734014", "1.0",[
-Method("ActionVariables",
-Out(PSAFEARRAY),
-),
-Method("ActionVariableDescriptions",
-Out(PSAFEARRAY),
-),
-Method("CreateQuota",
-In(BSTR),
-Out(PPIFSRMQUOTA),
-),
-Method("CreateAutoApplyQuota",
-In(BSTR),
-In(BSTR),
-Out(PPIFSRMAUTOAPPLYQUOTA),
-),
-Method("GetQuota",
-In(BSTR),
-Out(PPIFSRMQUOTA),
-),
-Method("GetAutoApplyQuota",
-In(BSTR),
-Out(PPIFSRMAUTOAPPLYQUOTA),
-),
-Method("GetRestrictiveQuota",
-In(BSTR),
-Out(PPIFSRMQUOTA),
-),
-Method("EnumQuotas",
-In(BSTR),
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-Method("EnumAutoApplyQuotas",
-In(BSTR),
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-Method("EnumEffectiveQuotas",
-In(BSTR),
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-Method("Scan",
-In(BSTR),
-),
-Method("CreateQuotaCollection",
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-])
-interface_28 = Interface("4846cb01-d430-494f-abb4-b1054999fb09", "1.0",[
-Method("IsAffectedByQuota",
-In(BSTR),
-In(FSRMENUMOPTIONS),
-Out(PVARIANT_BOOL),
-),
-])
-interface_29 = Interface("a2efab31-295-46b-b976-e86d58b52e8b", "1.0",[
-Method("Name",
-Out(PBSTR),
-),
-Method("Name",
-In(BSTR),
-),
-Method("CopyTemplate",
-In(BSTR),
-),
-Method("CommitAndUpdateDerived",
-In(FSRMCOMMITOPTIONS),
-In(FSRMTEMPLATEAPPLYOPTIONS),
-Out(PPIFSRMDERIVEDOBJECTSRESULT),
-),
-])
-interface_30 = Interface("9a2bf113-a329-44cc-809a-5c00fce8da40", "1.0",[
-Method("OverwriteOnCommit",
-Out(PVARIANT_BOOL),
-),
-Method("OverwriteOnCommit",
-In(VARIANT_BOOL),
-),
-])
-interface_31 = Interface("4173ac41-172d-4d52-963c-fdc7e415f717", "1.0",[
-Method("CreateTemplate",
-Out(PPIFSRMQUOTATEMPLATE),
-),
-Method("GetTemplate",
-In(BSTR),
-Out(PPIFSRMQUOTATEMPLATE),
-),
-Method("EnumTemplates",
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-Method("ExportTemplates",
-In(PVARIANT),
-Out(PBSTR),
-),
-Method("ImportTemplates",
-In(BSTR),
-In(PVARIANT),
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-])
-interface_32 = Interface("27b899fe-6ffa-4481-a184-d3daade8a02b", "1.0",[
-Method("EnumReportJobs",
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOLLECTION),
-),
-Method("CreateReportJob",
-Out(PPIFSRMREPORTJOB),
-),
-Method("GetReportJob",
-In(BSTR),
-Out(PPIFSRMREPORTJOB),
-),
-Method("GetOutputDirectory",
-In(FSRMREPORTGENERATIONCONTEXT),
-Out(PBSTR),
-),
-Method("SetOutputDirectory",
-In(FSRMREPORTGENERATIONCONTEXT),
-In(BSTR),
-),
-Method("IsFilterValidForReportType",
-In(FSRMREPORTTYPE),
-In(FSRMREPORTFILTER),
-Out(PVARIANT_BOOL),
-),
-Method("GetDefaultFilter",
-In(FSRMREPORTTYPE),
-In(FSRMREPORTFILTER),
-Out(PVARIANT),
-),
-Method("SetDefaultFilter",
-In(FSRMREPORTTYPE),
-In(FSRMREPORTFILTER),
-In(VARIANT),
-),
-Method("GetReportSizeLimit",
-In(FSRMREPORTLIMIT),
-Out(PVARIANT),
-),
-Method("SetReportSizeLimit",
-In(FSRMREPORTLIMIT),
-In(VARIANT),
-),
-])
-interface_33 = Interface("38e87280-715c-4c7d-a280-ea1651a19fef", "1.0",[
-Method("Task",
-Out(PBSTR),
-),
-Method("Task",
-In(BSTR),
-),
-Method("NamespaceRoots",
-Out(PSAFEARRAY),
-),
-Method("NamespaceRoots",
-In(SAFEARRAY),
-),
-Method("Formats",
-Out(PSAFEARRAY),
-),
-Method("Formats",
-In(SAFEARRAY),
-),
-Method("MailTo",
-Out(PBSTR),
-),
-Method("MailTo",
-In(BSTR),
-),
-Method("RunningStatus",
-Out(PFSRMREPORTRUNNINGSTATUS),
-),
-Method("LastRun",
-Out(PDATE),
-),
-Method("LastError",
-Out(PBSTR),
-),
-Method("LastGeneratedInDirectory",
-Out(PBSTR),
-),
-Method("EnumReports",
-Out(PPIFSRMCOLLECTION),
-),
-Method("CreateReport",
-In(FSRMREPORTTYPE),
-Out(PPIFSRMREPORT),
-),
-Method("Run",
-In(FSRMREPORTGENERATIONCONTEXT),
-),
-Method("WaitForCompletion",
-In(LONG),
-Out(PVARIANT_BOOL),
-),
-Method("Cancel",
-),
-])
-interface_34 = Interface("d8cc81d9-468-4a4-bfa5-4a9dec9b638", "1.0",[
-Method("Type",
-Out(PFSRMREPORTTYPE),
-),
-Method("Name",
-Out(PBSTR),
-),
-Method("Name",
-In(BSTR),
-),
-Method("Description",
-Out(PBSTR),
-),
-Method("Description",
-In(BSTR),
-),
-Method("LastGeneratedFileNamePrefix",
-Out(PBSTR),
-),
-Method("GetFilter",
-In(FSRMREPORTFILTER),
-Out(PVARIANT),
-),
-Method("SetFilter",
-In(FSRMREPORTFILTER),
-In(VARIANT),
-),
-Method("Delete",
-),
-])
-interface_35 = Interface("6879caf9-6617-4484-8719-71c3d8645f94", "1.0",[
-Method("VerifyNamespaces",
-In(PVARIANT),
-),
-Method("CreateScheduleTask",
-In(BSTR),
-In(PVARIANT),
-In(BSTR),
-),
-Method("ModifyScheduleTask",
-In(BSTR),
-In(PVARIANT),
-In(BSTR),
-),
-Method("DeleteScheduleTask",
-In(BSTR),
-),
-])
-interface_36 = Interface("ee321ecb-d95e-489-907-c7685a013235", "1.0",[
-Method("ActionVariables",
-Out(PSAFEARRAY),
-),
-Method("ActionVariableDescriptions",
-Out(PSAFEARRAY),
-),
-Method("EnumFileManagementJobs",
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOLLECTION),
-),
-Method("CreateFileManagementJob",
-Out(PPIFSRMFILEMANAGEMENTJOB),
-),
-Method("GetFileManagementJob",
-In(BSTR),
-Out(PPIFSRMFILEMANAGEMENTJOB),
-),
-])
-interface_37 = Interface("0770687e-9f36-4d6f-8778-599d188461c9", "1.0",[
-Method("Name",
-Out(PBSTR),
-),
-Method("Name",
-In(BSTR),
-),
-Method("NamespaceRoots",
-Out(PSAFEARRAY),
-),
-Method("NamespaceRoots",
-In(SAFEARRAY),
-),
-Method("Enabled",
-Out(PVARIANT_BOOL),
-),
-Method("Enabled",
-In(VARIANT_BOOL),
-),
-Method("OperationType",
-Out(PFSRMFILEMANAGEMENTTYPE),
-),
-Method("OperationType",
-In(FSRMFILEMANAGEMENTTYPE),
-),
-Method("ExpirationDirectory",
-Out(PBSTR),
-),
-Method("ExpirationDirectory",
-In(BSTR),
-),
-Method("CustomAction",
-Out(PPIFSRMACTIONCOMMAND),
-),
-Method("Notifications",
-Out(PSAFEARRAY),
-),
-Method("Logging",
-Out(PLONG),
-),
-Method("Logging",
-In(LONG),
-),
-Method("ReportEnabled",
-Out(PVARIANT_BOOL),
-),
-Method("ReportEnabled",
-In(VARIANT_BOOL),
-),
-Method("Formats",
-Out(PSAFEARRAY),
-),
-Method("Formats",
-In(SAFEARRAY),
-),
-Method("MailTo",
-Out(PBSTR),
-),
-Method("MailTo",
-In(BSTR),
-),
-Method("DaysSinceFileCreated",
-Out(PLONG),
-),
-Method("DaysSinceFileCreated",
-In(LONG),
-),
-Method("DaysSinceFileLastAccessed",
-Out(PLONG),
-),
-Method("DaysSinceFileLastAccessed",
-In(LONG),
-),
-Method("DaysSinceFileLastModified",
-Out(PLONG),
-),
-Method("DaysSinceFileLastModified",
-In(LONG),
-),
-Method("PropertyConditions",
-Out(PPIFSRMCOLLECTION),
-),
-Method("FromDate",
-Out(PDATE),
-),
-Method("FromDate",
-In(DATE),
-),
-Method("Task",
-Out(PBSTR),
-),
-Method("Task",
-In(BSTR),
-),
-Method("Parameters",
-Out(PSAFEARRAY),
-),
-Method("Parameters",
-In(SAFEARRAY),
-),
-Method("RunningStatus",
-Out(PFSRMREPORTRUNNINGSTATUS),
-),
-Method("LastError",
-Out(PBSTR),
-),
-Method("LastReportPathWithoutExtension",
-Out(PBSTR),
-),
-Method("LastRun",
-Out(PDATE),
-),
-Method("FileNamePattern",
-Out(PBSTR),
-),
-Method("FileNamePattern",
-In(PBSTR),
-),
-Method("Run",
-In(FSRMREPORTGENERATIONCONTEXT),
-),
-Method("WaitForCompletion",
-In(LONG),
-Out(PVARIANT_BOOL),
-),
-Method("Cancel",
-),
-Method("AddNotification",
-In(LONG),
-),
-Method("DeleteNotification",
-In(LONG),
-),
-Method("ModifyNotification",
-In(LONG),
-In(LONG),
-),
-Method("CreateNotificationAction",
-In(LONG),
-In(FSRMACTIONTYPE),
-Out(PPIFSRMACTION),
-),
-Method("EnumNotificationActions",
-In(LONG),
-Out(PPIFSRMCOLLECTION),
-),
-Method("CreatePropertyCondition",
-In(BSTR),
-Out(PPIFSRMPROPERTYCONDITION),
-),
-Method("CreateCustomAction",
-Out(PPIFSRMACTIONCOMMAND),
-),
-])
-interface_38 = Interface("326af66f-2ac0-4f68-bf8c-4759f054fa29", "1.0",[
-Method("Name",
-Out(PBSTR),
-),
-Method("Name",
-In(BSTR),
-),
-Method("Type",
-Out(PFSRMPROPERTYCONDITIONTYPE),
-),
-Method("Type",
-In(FSRMPROPERTYCONDITIONTYPE),
-),
-Method("Value",
-Out(PBSTR),
-),
-Method("Value",
-In(BSTR),
-),
-Method("Delete",
-),
-])
-interface_39 = Interface("8dd04909-0e34-4d55-afaa-89e1f1a1bbb9", "1.0",[
-Method("Name",
-Out(PBSTR),
-),
-Method("Name",
-In(BSTR),
-),
-Method("Members",
-Out(PPIFSRMMUTABLECOLLECTION),
-),
-Method("Members",
-In(PIFSRMMUTABLECOLLECTION),
-),
-Method("NonMembers",
-Out(PPIFSRMMUTABLECOLLECTION),
-),
-Method("NonMembers",
-In(PIFSRMMUTABLECOLLECTION),
-),
-])
-interface_40 = Interface("ad55f10b-511-4e7-94f-d9ee2e470ded", "1.0",[
-Method("OverwriteOnCommit",
-Out(PVARIANT_BOOL),
-),
-Method("OverwriteOnCommit",
-In(VARIANT_BOOL),
-),
-])
-interface_41 = Interface("426677d5-018c-485c-8a51-20b86d00bdc4", "1.0",[
-Method("CreateFileGroup",
-Out(PPIFSRMFILEGROUP),
-),
-Method("GetFileGroup",
-In(BSTR),
-Out(PPIFSRMFILEGROUP),
-),
-Method("EnumFileGroups",
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-Method("ExportFileGroups",
-In(PVARIANT),
-Out(PBSTR),
-),
-Method("ImportFileGroups",
-In(BSTR),
-In(PVARIANT),
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-])
-interface_42 = Interface("f3637e80-522-42-a637-bbb642b41cfc", "1.0",[
-Method("BlockedFileGroups",
-Out(PPIFSRMMUTABLECOLLECTION),
-),
-Method("BlockedFileGroups",
-In(PIFSRMMUTABLECOLLECTION),
-),
-Method("FileScreenFlags",
-Out(PLONG),
-),
-Method("FileScreenFlags",
-In(LONG),
-),
-Method("CreateAction",
-In(FSRMACTIONTYPE),
-Out(PPIFSRMACTION),
-),
-Method("EnumActions",
-Out(PPIFSRMCOLLECTION),
-),
-])
-interface_43 = Interface("5f6325d3-ce88-4733-84c1-2d6aefc5ea07", "1.0",[
-Method("Path",
-Out(PBSTR),
-),
-Method("SourceTemplateName",
-Out(PBSTR),
-),
-Method("MatchesSourceTemplate",
-Out(PVARIANT_BOOL),
-),
-Method("UserSid",
-Out(PBSTR),
-),
-Method("UserAccount",
-Out(PBSTR),
-),
-Method("ApplyTemplate",
-In(BSTR),
-),
-])
-interface_44 = Interface("bee7ce02-df77-4515-9389-78015fc1a", "1.0",[
-Method("Path",
+),Method("Description",
 Out(PBSTR),
-),
-Method("AllowedFileGroups",
-Out(PPIFSRMMUTABLECOLLECTION),
-),
-Method("AllowedFileGroups",
-In(PIFSRMMUTABLECOLLECTION),
-),
-])
-interface_45 = Interface("ff4fa04e-594-4da-a3a0-d5b4d3c52eba", "1.0",[
-Method("ActionVariables",
-Out(PSAFEARRAY),
-),
-Method("ActionVariableDescriptions",
-Out(PSAFEARRAY),
-),
-Method("CreateFileScreen",
-In(BSTR),
-Out(PPIFSRMFILESCREEN),
-),
-Method("GetFileScreen",
-In(BSTR),
-Out(PPIFSRMFILESCREEN),
-),
-Method("EnumFileScreens",
-In(BSTR),
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-Method("CreateFileScreenException",
-In(BSTR),
-Out(PPIFSRMFILESCREENEXCEPTION),
-),
-Method("GetFileScreenException",
-In(BSTR),
-Out(PPIFSRMFILESCREENEXCEPTION),
-),
-Method("EnumFileScreenExceptions",
-In(BSTR),
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-Method("CreateFileScreenCollection",
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-])
-interface_46 = Interface("205bebf8-dd93-452a-95a6-32b566b35828", "1.0",[
-Method("Name",
-Out(PBSTR),
-),
-Method("Name",
-In(BSTR),
-),
-Method("CopyTemplate",
-In(BSTR),
-),
-Method("CommitAndUpdateDerived",
-In(FSRMCOMMITOPTIONS),
-In(FSRMTEMPLATEAPPLYOPTIONS),
-Out(PPIFSRMDERIVEDOBJECTSRESULT),
-),
-])
-interface_47 = Interface("e1010359-35-4cd-9e4-ef48622fdf30", "1.0",[
-Method("OverwriteOnCommit",
-Out(PVARIANT_BOOL),
-),
-Method("OverwriteOnCommit",
-In(VARIANT_BOOL),
-),
-])
-interface_48 = Interface("cfe36cba-1949-474-a14f-f1d580ceaf13", "1.0",[
-Method("CreateTemplate",
-Out(PPIFSRMFILESCREENTEMPLATE),
-),
-Method("GetTemplate",
-In(BSTR),
-Out(PPIFSRMFILESCREENTEMPLATE),
-),
-Method("EnumTemplates",
-In(FSRMENUMOPTIONS),
-Out(PPIFSRMCOMMITTABLECOLLECTION),
-),
-Method("ExportTemplates",
-In(PVARIANT),
-Out(PBSTR),
-),
-Method("ImportTemplates",
+),Method("Description",
 In(BSTR),
-In(PVARIANT),
-Out(PPIFSRMCOMMITTABLECOLLECTION),
+),Method("Delete",
+),Method("Commit",
 ),
-])

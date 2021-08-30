@@ -1,448 +1,354 @@
 
 from fuzzer.midl import *
 from fuzzer.core import *
-interface_0 = Interface("4e934f30-341a-11d1-8fb1-00a024cb6019", "1.0",[
+
+class ('FILETIME', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwLowDateTime"),(('DWORD', None), "dwHighDateTime"),]
+
+    
+
+class ('GUID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "Data1"),(('UNSIGNED_SHORT', None), "Data2"),(('UNSIGNED_SHORT', None), "Data3"),(('BYTE', None), "Data4"),]
+
+    
+
+class ('LARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('SIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('EVENT_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Id"),(('UCHAR', None), "Version"),(('UCHAR', None), "Channel"),(('UCHAR', None), "Level"),(('UCHAR', None), "Opcode"),(('USHORT', None), "Task"),(('ULONGLONG', None), "Keyword"),]
+
+    
+
+class ('S0', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "KernelTime"),(('ULONG', None), "UserTime"),]
+
+    
+
+class ('U0', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('S0', None), s0),2 : (('ULONG64', None), ProcessorTime),}
+
+    
+
+class ('EVENT_HEADER', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Size"),(('USHORT', None), "HeaderType"),(('USHORT', None), "Flags"),(('USHORT', None), "EventProperty"),(('ULONG', None), "ThreadId"),(('ULONG', None), "ProcessId"),(('LARGE_INTEGER', None), "TimeStamp"),(('GUID', None), "ProviderId"),(('EVENT_DESCRIPTOR', None), "EventDescriptor"),(('U0', None), "u0"),(('GUID', None), "ActivityId"),]
+
+    
+
+class ('LUID', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "LowPart"),(('LONG', None), "HighPart"),]
+
+    
+
+class ('MULTI_SZ', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR_T', None), "Value"),(('DWORD', None), "nChar"),]
+
+    
+
+class ('RPC_UNICODE_STRING', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_SHORT', None), "Length"),(('UNSIGNED_SHORT', None), "MaximumLength"),(('PWCHAR', None), "Buffer"),]
+
+    
+
+class ('SERVER_INFO_100', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv100_platform_id"),(('PWCHAR_T', None), "sv100_name"),]
+
+    
+
+class ('SERVER_INFO_101', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv101_platform_id"),(('PWCHAR_T', None), "sv101_name"),(('DWORD', None), "sv101_version_major"),(('DWORD', None), "sv101_version_minor"),(('DWORD', None), "sv101_version_type"),(('PWCHAR_T', None), "sv101_comment"),]
+
+    
+
+class ('SYSTEMTIME', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "wYear"),(('WORD', None), "wMonth"),(('WORD', None), "wDayOfWeek"),(('WORD', None), "wDay"),(('WORD', None), "wHour"),(('WORD', None), "wMinute"),(('WORD', None), "wSecond"),(('WORD', None), "wMilliseconds"),]
+
+    
+
+class ('UINT128', None)(NdrStructure):
+    MEMBERS = [(('UINT64', None), "lower"),(('UINT64', None), "upper"),]
+
+    
+
+class ('ULARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('RPC_SID_IDENTIFIER_AUTHORITY', None)(NdrStructure):
+    MEMBERS = [(('BYTE', None), "Value"),]
+
+    
+
+class ('OBJECT_TYPE_LIST', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "Level"),(('ACCESS_MASK', None), "Remaining"),(('PGUID', None), "ObjectType"),]
+
+    
+
+class ('ACE_HEADER', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "AceType"),(('UCHAR', None), "AceFlags"),(('USHORT', None), "AceSize"),]
+
+    
+
+class ('SYSTEM_MANDATORY_LABEL_ACE', None)(NdrStructure):
+    MEMBERS = [(('ACE_HEADER', None), "Header"),(('ACCESS_MASK', None), "Mask"),(('DWORD', None), "SidStart"),]
+
+    
+
+class ('TOKEN_MANDATORY_POLICY', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Policy"),]
+
+    
+
+class ('MANDATORY_INFORMATION', None)(NdrStructure):
+    MEMBERS = [(('ACCESS_MASK', None), "AllowedAccess"),(('BOOLEAN', None), "WriteAllowed"),(('BOOLEAN', None), "ReadAllowed"),(('BOOLEAN', None), "ExecuteAllowed"),(('TOKEN_MANDATORY_POLICY', None), "MandatoryPolicy"),]
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Length"),(('BYTE', None), "OctetString"),]
+
+    
+
+class ('VALUES', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('PLONG64', None), pInt64),2 : (('PDWORD64', None), pUint64),3 : (('PWSTR', None), ppString),4 : (('PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None), pOctetString),}
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Name"),(('WORD', None), "ValueType"),(('WORD', None), "Reserved"),(('DWORD', None), "Flags"),(('DWORD', None), "ValueCount"),(('VALUES', None), "Values"),]
+
+    
+
+class ('RPC_SID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "Revision"),(('UNSIGNED_CHAR', None), "SubAuthorityCount"),(('RPC_SID_IDENTIFIER_AUTHORITY', None), "IdentifierAuthority"),(('UNSIGNED_LONG', None), "SubAuthority"),]
+
+    
+
+class ('ACL', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "AclRevision"),(('UNSIGNED_CHAR', None), "Sbz1"),(('UNSIGNED_SHORT', None), "AclSize"),(('UNSIGNED_SHORT', None), "AceCount"),(('UNSIGNED_SHORT', None), "Sbz2"),]
+
+    
+
+class ('SECURITY_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "Revision"),(('UCHAR', None), "Sbz1"),(('USHORT', None), "Control"),(('PSID', None), "Owner"),(('PSID', None), "Group"),(('PACL', None), "Sacl"),(('PACL', None), "Dacl"),]
+
+    
+
+class ('NTMS_LIBRARYINFORMATION', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "LibraryType"),(('NTMS_GUID', None), "CleanerSlot"),(('NTMS_GUID', None), "CleanerSlotDefault"),(('BOOL', None), "LibrarySupportsDriveCleaning"),(('BOOL', None), "BarCodeReaderInstalled"),(('DWORD', None), "InventoryMethod"),(('DWORD', None), "dwCleanerUsesRemaining"),(('DWORD', None), "FirstDriveNumber"),(('DWORD', None), "dwNumberOfDrives"),(('DWORD', None), "FirstSlotNumber"),(('DWORD', None), "dwNumberOfSlots"),(('DWORD', None), "FirstDoorNumber"),(('DWORD', None), "dwNumberOfDoors"),(('DWORD', None), "FirstPortNumber"),(('DWORD', None), "dwNumberOfPorts"),(('DWORD', None), "FirstChangerNumber"),(('DWORD', None), "dwNumberOfChangers"),(('DWORD', None), "dwNumberOfMedia"),(('DWORD', None), "dwNumberOfMediaTypes"),(('DWORD', None), "dwNumberOfLibRequests"),(('GUID', None), "Reserved"),(('BOOL', None), "AutoRecovery"),(('DWORD', None), "dwFlags"),]
+
+    
+
+class ('SECURITY_ATTRIBUTES_NTMS', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "nLength"),(('PBYTE', None), "lpSecurityDescriptor"),(('BOOL', None), "bInheritHandle"),(('DWORD', None), "nDescriptorLength"),]
+
+    
+
+class ('NTMS_ALLOCATION_INFORMATION', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwSize"),(('PBYTE', None), "lpReserved"),(('NTMS_GUID', None), "AllocatedFrom"),]
+
+    
+
+class ('NTMS_ASYNC_IO', None)(NdrStructure):
+    MEMBERS = [(('NTMS_GUID', None), "OperationId"),(('NTMS_GUID', None), "EventId"),(('DWORD', None), "dwOperationType"),(('DWORD', None), "dwResult"),(('DWORD', None), "dwAsyncState"),(('PVOID', None), "hEvent"),(('BOOL', None), "bOnStateChange"),]
+
+    
+
+class ('NTMS_MOUNT_INFORMATION', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwSize"),(('LPVOID', None), "lpReserved"),]
+
+    
+
+class ('NTMS_CHANGERINFORMATIONA', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Number"),(('NTMS_GUID', None), "ChangerType"),(('CHAR', None), "szSerialNumber"),(('CHAR', None), "szRevision"),(('CHAR', None), "szDeviceName"),(('UNSIGNED_SHORT', None), "ScsiPort"),(('UNSIGNED_SHORT', None), "ScsiBus"),(('UNSIGNED_SHORT', None), "ScsiTarget"),(('UNSIGNED_SHORT', None), "ScsiLun"),(('NTMS_GUID', None), "Library"),]
+
+    
+
+class ('NTMS_CHANGERINFORMATIONW', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Number"),(('NTMS_GUID', None), "ChangerType"),(('WCHAR_T', None), "szSerialNumber"),(('WCHAR_T', None), "szRevision"),(('WCHAR_T', None), "szDeviceName"),(('UNSIGNED_SHORT', None), "ScsiPort"),(('UNSIGNED_SHORT', None), "ScsiBus"),(('UNSIGNED_SHORT', None), "ScsiTarget"),(('UNSIGNED_SHORT', None), "ScsiLun"),(('NTMS_GUID', None), "Library"),]
+
+    
+
+class ('NTMS_CHANGERTYPEINFORMATIONA', None)(NdrStructure):
+    MEMBERS = [(('CHAR', None), "szVendor"),(('CHAR', None), "szProduct"),(('DWORD', None), "DeviceType"),]
+
+    
+
+class ('NTMS_CHANGERTYPEINFORMATIONW', None)(NdrStructure):
+    MEMBERS = [(('WCHAR_T', None), "szVendor"),(('WCHAR_T', None), "szProduct"),(('DWORD', None), "DeviceType"),]
+
+    
+
+class ('NTMS_DRIVEINFORMATIONA', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Number"),(('DWORD', None), "State"),(('NTMS_GUID', None), "DriveType"),(('CHAR', None), "szDeviceName"),(('CHAR', None), "szSerialNumber"),(('CHAR', None), "szRevision"),(('UNSIGNED_SHORT', None), "ScsiPort"),(('UNSIGNED_SHORT', None), "ScsiBus"),(('UNSIGNED_SHORT', None), "ScsiTarget"),(('UNSIGNED_SHORT', None), "ScsiLun"),(('DWORD', None), "dwMountCount"),(('SYSTEMTIME', None), "LastCleanedTs"),(('NTMS_GUID', None), "SavedPartitionId"),(('NTMS_GUID', None), "Library"),(('GUID', None), "Reserved"),(('DWORD', None), "dwDeferDismountDelay"),]
+
+    
+
+class ('NTMS_DRIVEINFORMATIONW', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Number"),(('DWORD', None), "State"),(('NTMS_GUID', None), "DriveType"),(('WCHAR_T', None), "szDeviceName"),(('WCHAR_T', None), "szSerialNumber"),(('WCHAR_T', None), "szRevision"),(('UNSIGNED_SHORT', None), "ScsiPort"),(('UNSIGNED_SHORT', None), "ScsiBus"),(('UNSIGNED_SHORT', None), "ScsiTarget"),(('UNSIGNED_SHORT', None), "ScsiLun"),(('DWORD', None), "dwMountCount"),(('SYSTEMTIME', None), "LastCleanedTs"),(('NTMS_GUID', None), "SavedPartitionId"),(('NTMS_GUID', None), "Library"),(('GUID', None), "Reserved"),(('DWORD', None), "dwDeferDismountDelay"),]
+
+    
+
+class ('NTMS_DRIVETYPEINFORMATIONA', None)(NdrStructure):
+    MEMBERS = [(('CHAR', None), "szVendor"),(('CHAR', None), "szProduct"),(('DWORD', None), "NumberOfHeads"),(('DWORD', None), "DeviceType"),]
+
+    
+
+class ('NTMS_DRIVETYPEINFORMATIONW', None)(NdrStructure):
+    MEMBERS = [(('WCHAR_T', None), "szVendor"),(('WCHAR_T', None), "szProduct"),(('DWORD', None), "NumberOfHeads"),(('DWORD', None), "DeviceType"),]
+
+    
+
+class ('NTMS_LIBREQUESTINFORMATIONA', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "OperationCode"),(('DWORD', None), "OperationOption"),(('DWORD', None), "State"),(('NTMS_GUID', None), "PartitionId"),(('NTMS_GUID', None), "DriveId"),(('NTMS_GUID', None), "PhysMediaId"),(('NTMS_GUID', None), "Library"),(('NTMS_GUID', None), "SlotId"),(('SYSTEMTIME', None), "TimeQueued"),(('SYSTEMTIME', None), "TimeCompleted"),(('CHAR', None), "szApplication"),(('CHAR', None), "szUser"),(('CHAR', None), "szComputer"),(('DWORD', None), "dwErrorCode"),(('NTMS_GUID', None), "WorkItemId"),(('DWORD', None), "dwPriority"),]
+
+    
+
+class ('NTMS_LIBREQUESTINFORMATIONW', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "OperationCode"),(('DWORD', None), "OperationOption"),(('DWORD', None), "State"),(('NTMS_GUID', None), "PartitionId"),(('NTMS_GUID', None), "DriveId"),(('NTMS_GUID', None), "PhysMediaId"),(('NTMS_GUID', None), "Library"),(('NTMS_GUID', None), "SlotId"),(('SYSTEMTIME', None), "TimeQueued"),(('SYSTEMTIME', None), "TimeCompleted"),(('WCHAR_T', None), "szApplication"),(('WCHAR_T', None), "szUser"),(('WCHAR_T', None), "szComputer"),(('DWORD', None), "dwErrorCode"),(('NTMS_GUID', None), "WorkItemId"),(('DWORD', None), "dwPriority"),]
+
+    
+
+class ('NTMS_MEDIAPOOLINFORMATION', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "PoolType"),(('NTMS_GUID', None), "MediaType"),(('NTMS_GUID', None), "Parent"),(('DWORD', None), "AllocationPolicy"),(('DWORD', None), "DeallocationPolicy"),(('DWORD', None), "dwMaxAllocates"),(('DWORD', None), "dwNumberOfPhysicalMedia"),(('DWORD', None), "dwNumberOfLogicalMedia"),(('DWORD', None), "dwNumberOfMediaPools"),]
+
+    
+
+class ('NTMS_MEDIATYPEINFORMATION', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "MediaType"),(('DWORD', None), "NumberOfSides"),(('DWORD', None), "ReadWriteCharacteristics"),(('DWORD', None), "DeviceType"),]
+
+    
+
+class ('NTMS_STORAGESLOTINFORMATION', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Number"),(('DWORD', None), "State"),(('NTMS_GUID', None), "Library"),]
+
+    
+
+class ('NTMS_IEDOORINFORMATION', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Number"),(('DWORD', None), "State"),(('UNSIGNED_SHORT', None), "MaxOpenSecs"),(('NTMS_GUID', None), "Library"),]
+
+    
+
+class ('NTMS_IEPORTINFORMATION', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Number"),(('DWORD', None), "Content"),(('DWORD', None), "Position"),(('UNSIGNED_SHORT', None), "MaxExtendSecs"),(('NTMS_GUID', None), "Library"),]
+
+    
+
+class ('NTMS_LMIDINFORMATION', None)(NdrStructure):
+    MEMBERS = [(('NTMS_GUID', None), "MediaPool"),(('DWORD', None), "dwNumberOfPartitions"),]
+
+    
+
+class ('NTMS_COMPUTERINFORMATION', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwLibRequestPurgeTime"),(('DWORD', None), "dwOpRequestPurgeTime"),(('DWORD', None), "dwLibRequestFlags"),(('DWORD', None), "dwOpRequestFlags"),(('DWORD', None), "dwMediaPoolPolicy"),]
+
+    
+
+class ('NTMS_OPREQUESTINFORMATIONA', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Request"),(('SYSTEMTIME', None), "Submitted"),(('DWORD', None), "State"),(('CHAR', None), "szMessage"),(('DWORD', None), "Arg1Type"),(('NTMS_GUID', None), "Arg1"),(('DWORD', None), "Arg2Type"),(('NTMS_GUID', None), "Arg2"),(('CHAR', None), "szApplication"),(('CHAR', None), "szUser"),(('CHAR', None), "szComputer"),]
+
+    
+
+class ('NTMS_OPREQUESTINFORMATIONW', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Request"),(('SYSTEMTIME', None), "Submitted"),(('DWORD', None), "State"),(('WCHAR_T', None), "szMessage"),(('DWORD', None), "Arg1Type"),(('NTMS_GUID', None), "Arg1"),(('DWORD', None), "Arg2Type"),(('NTMS_GUID', None), "Arg2"),(('WCHAR_T', None), "szApplication"),(('WCHAR_T', None), "szUser"),(('WCHAR_T', None), "szComputer"),]
+
+    
+
+class ('NTMS_PARTITIONINFORMATIONA', None)(NdrStructure):
+    MEMBERS = [(('NTMS_GUID', None), "PhysicalMedia"),(('NTMS_GUID', None), "LogicalMedia"),(('DWORD', None), "State"),(('UNSIGNED_SHORT', None), "Side"),(('DWORD', None), "dwOmidLabelIdLength"),(('BYTE', None), "OmidLabelId"),(('CHAR', None), "szOmidLabelType"),(('CHAR', None), "szOmidLabelInfo"),(('DWORD', None), "dwMountCount"),(('DWORD', None), "dwAllocateCount"),(('LARGE_INTEGER', None), "Capacity"),]
+
+    
+
+class ('NTMS_PARTITIONINFORMATIONW', None)(NdrStructure):
+    MEMBERS = [(('NTMS_GUID', None), "PhysicalMedia"),(('NTMS_GUID', None), "LogicalMedia"),(('DWORD', None), "State"),(('UNSIGNED_SHORT', None), "Side"),(('DWORD', None), "dwOmidLabelIdLength"),(('BYTE', None), "OmidLabelId"),(('WCHAR_T', None), "szOmidLabelType"),(('WCHAR_T', None), "szOmidLabelInfo"),(('DWORD', None), "dwMountCount"),(('DWORD', None), "dwAllocateCount"),(('LARGE_INTEGER', None), "Capacity"),]
+
+    
+
+class ('NTMS_PMIDINFORMATIONA', None)(NdrStructure):
+    MEMBERS = [(('NTMS_GUID', None), "CurrentLibrary"),(('NTMS_GUID', None), "MediaPool"),(('NTMS_GUID', None), "Location"),(('DWORD', None), "LocationType"),(('NTMS_GUID', None), "MediaType"),(('NTMS_GUID', None), "HomeSlot"),(('CHAR', None), "szBarCode"),(('DWORD', None), "BarCodeState"),(('CHAR', None), "szSequenceNumber"),(('DWORD', None), "MediaState"),(('DWORD', None), "dwNumberOfPartitions"),(('DWORD', None), "dwMediaTypeCode"),(('DWORD', None), "dwDensityCode"),(('NTMS_GUID', None), "MountedPartition"),]
+
+    
+
+class ('NTMS_PMIDINFORMATIONW', None)(NdrStructure):
+    MEMBERS = [(('NTMS_GUID', None), "CurrentLibrary"),(('NTMS_GUID', None), "MediaPool"),(('NTMS_GUID', None), "Location"),(('DWORD', None), "LocationType"),(('NTMS_GUID', None), "MediaType"),(('NTMS_GUID', None), "HomeSlot"),(('WCHAR_T', None), "szBarCode"),(('DWORD', None), "BarCodeState"),(('WCHAR_T', None), "szSequenceNumber"),(('DWORD', None), "MediaState"),(('DWORD', None), "dwNumberOfPartitions"),(('DWORD', None), "dwMediaTypeCode"),(('DWORD', None), "dwDensityCode"),(('NTMS_GUID', None), "MountedPartition"),]
+
+    
+
+class ('RSM_MESSAGE', None)(NdrStructure):
+    MEMBERS = [(('LPGUID', None), "lpguidOperation"),(('DWORD', None), "dwNtmsType"),(('DWORD', None), "dwState"),(('DWORD', None), "dwFlags"),(('DWORD', None), "dwPriority"),(('DWORD', None), "dwErrorCode"),(('PWCHAR_T', None), "lpszComputerName"),(('PWCHAR_T', None), "lpszApplication"),(('PWCHAR_T', None), "lpszUser"),(('PWCHAR_T', None), "lpszTimeSubmitted"),(('PWCHAR_T', None), "lpszMessage"),]
+
+    
+
+class ('NTMS_OBJECTINFORMATIONA', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwSize"),(('DWORD', None), "dwType"),(('SYSTEMTIME', None), "Created"),(('SYSTEMTIME', None), "Modified"),(('NTMS_GUID', None), "ObjectGuid"),(('BOOL', None), "Enabled"),(('DWORD', None), "dwOperationalState"),(('CHAR', None), "szName"),(('CHAR', None), "szDescription"),(('INFO', None), "Info"),]
+
+    
+
+class ('NTMS_OBJECTINFORMATIONW', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwSize"),(('DWORD', None), "dwType"),(('SYSTEMTIME', None), "Created"),(('SYSTEMTIME', None), "Modified"),(('NTMS_GUID', None), "ObjectGuid"),(('BOOL', None), "Enabled"),(('DWORD', None), "dwOperationalState"),(('WCHAR_T', None), "szName"),(('WCHAR_T', None), "szDescription"),(('INFO', None), "Info"),]
+
+    
 Method("EjectNtmsMedia",
 In(LPNTMS_GUID),
 InOut(LPNTMS_GUID),
 In(DWORD),
-),
-Method("InjectNtmsMedia",
+),Method("InjectNtmsMedia",
 In(LPNTMS_GUID),
 InOut(LPNTMS_GUID),
 In(DWORD),
-),
-Method("AccessNtmsLibraryDoor",
+),Method("AccessNtmsLibraryDoor",
 In(LPNTMS_GUID),
 In(DWORD),
-),
-Method("CleanNtmsDrive",
+),Method("CleanNtmsDrive",
 In(LPNTMS_GUID),
-),
-Method("DismountNtmsDrive",
+),Method("DismountNtmsDrive",
 In(LPNTMS_GUID),
-),
-Method("InventoryNtmsLibrary",
+),Method("InventoryNtmsLibrary",
 In(LPNTMS_GUID),
 In(DWORD),
-),
-Method("INtmsLibraryControl1_LocalOnlyOpnum09",
-),
-Method("CancelNtmsLibraryRequest",
+),Method("INtmsLibraryControl1_LocalOnlyOpnum09",
+),Method("CancelNtmsLibraryRequest",
 In(LPNTMS_GUID),
-),
-Method("ReserveNtmsCleanerSlot",
+),Method("ReserveNtmsCleanerSlot",
 In(LPNTMS_GUID),
 In(LPNTMS_GUID),
-),
-Method("ReleaseNtmsCleanerSlot",
+),Method("ReleaseNtmsCleanerSlot",
 In(LPNTMS_GUID),
-),
-Method("InjectNtmsCleaner",
+),Method("InjectNtmsCleaner",
 In(LPNTMS_GUID),
 InOut(LPNTMS_GUID),
 In(DWORD),
 In(DWORD),
-),
-Method("EjectNtmsCleaner",
+),Method("EjectNtmsCleaner",
 In(LPNTMS_GUID),
 InOut(LPNTMS_GUID),
 In(DWORD),
-),
-Method("DeleteNtmsLibrary",
+),Method("DeleteNtmsLibrary",
 In(LPNTMS_GUID),
-),
-Method("DeleteNtmsDrive",
+),Method("DeleteNtmsDrive",
 In(LPNTMS_GUID),
-),
-Method("GetNtmsRequestOrder",
+),Method("GetNtmsRequestOrder",
 In(LPNTMS_GUID),
 Out(PDWORD),
-),
-Method("SetNtmsRequestOrder",
+),Method("SetNtmsRequestOrder",
 In(LPNTMS_GUID),
 In(DWORD),
-),
-Method("DeleteNtmsRequests",
+),Method("DeleteNtmsRequests",
 In(LPNTMS_GUID),
 In(DWORD),
 In(DWORD),
-),
-Method("BeginNtmsDeviceChangeDetection",
+),Method("BeginNtmsDeviceChangeDetection",
 Out(PNTMS_HANDLE),
-),
-Method("SetNtmsDeviceChangeDetection",
+),Method("SetNtmsDeviceChangeDetection",
 In(NTMS_HANDLE),
 In(LPNTMS_GUID),
 In(DWORD),
 In(DWORD),
-),
-Method("EndNtmsDeviceChangeDetection",
+),Method("EndNtmsDeviceChangeDetection",
 In(NTMS_HANDLE),
 ),
-])
-interface_1 = Interface("d02e4be0-3419-111-8b1-00024b6019", "1.0",[
-Method("MountNtmsMedia",
-In(LPNTMS_GUID),
-InOut(LPNTMS_GUID),
-In(DWORD),
-In(DWORD),
-In(INT),
-In(DWORD),
-InOut(LPNTMS_MOUNT_INFORMATION),
-),
-Method("DismountNtmsMedia",
-In(LPNTMS_GUID),
-In(DWORD),
-In(DWORD),
-),
-Method("Opnum5NotUsedOnWire",
-),
-Method("AllocateNtmsMedia",
-In(LPNTMS_GUID),
-In(LPNTMS_GUID),
-InOut(LPNTMS_GUID),
-In(DWORD),
-In(DWORD),
-InOut(LPNTMS_ALLOCATION_INFORMATION),
-),
-Method("DeallocateNtmsMedia",
-In(LPNTMS_GUID),
-In(DWORD),
-),
-Method("SwapNtmsMedia",
-In(LPNTMS_GUID),
-In(LPNTMS_GUID),
-),
-Method("DecommissionNtmsMedia",
-In(LPNTMS_GUID),
-),
-Method("SetNtmsMediaComplete",
-In(LPNTMS_GUID),
-),
-Method("DeleteNtmsMedia",
-In(LPNTMS_GUID),
-),
-Method("CreateNtmsMediaPoolA",
-In(PCHAR),
-In(LPNTMS_GUID),
-In(DWORD),
-In(LPSECURITY_ATTRIBUTES_NTMS),
-Out(LPNTMS_GUID),
-),
-Method("CreateNtmsMediaPoolW",
-In(PWCHAR_T),
-In(LPNTMS_GUID),
-In(DWORD),
-In(LPSECURITY_ATTRIBUTES_NTMS),
-Out(LPNTMS_GUID),
-),
-Method("GetNtmsMediaPoolNameA",
-In(LPNTMS_GUID),
-Out(PUNSIGNED_CHAR),
-In(PDWORD),
-Out(PDWORD),
-),
-Method("GetNtmsMediaPoolNameW",
-In(LPNTMS_GUID),
-Out(PWCHAR_T),
-In(PDWORD),
-Out(PDWORD),
-),
-Method("MoveToNtmsMediaPool",
-In(LPNTMS_GUID),
-In(LPNTMS_GUID),
-),
-Method("DeleteNtmsMediaPool",
-In(LPNTMS_GUID),
-),
-Method("AddNtmsMediaType",
-In(LPNTMS_GUID),
-In(LPNTMS_GUID),
-),
-Method("DeleteNtmsMediaType",
-In(LPNTMS_GUID),
-In(LPNTMS_GUID),
-),
-Method("ChangeNtmsMediaType",
-In(LPNTMS_GUID),
-In(LPNTMS_GUID),
-),
-])
-interface_2 = Interface("69ab7050-3059-11d1-8faf-00a024cb6019", "1.0",[
-Method("GetNtmsServerObjectInformationA",
-In(LPNTMS_GUID),
-Out(LPNTMS_OBJECTINFORMATIONA),
-In(DWORD),
-In(DWORD),
-),
-Method("GetNtmsServerObjectInformationW",
-In(LPNTMS_GUID),
-Out(LPNTMS_OBJECTINFORMATIONW),
-In(DWORD),
-In(DWORD),
-),
-Method("SetNtmsObjectInformationA",
-In(LPNTMS_GUID),
-In(LPNTMS_OBJECTINFORMATIONA),
-),
-Method("SetNtmsObjectInformationW",
-In(LPNTMS_GUID),
-In(LPNTMS_OBJECTINFORMATIONW),
-),
-Method("CreateNtmsMediaA",
-InOut(LPNTMS_OBJECTINFORMATIONA),
-InOut(LPNTMS_OBJECTINFORMATIONA),
-In(PDWORD),
-In(DWORD),
-In(DWORD),
-),
-Method("CreateNtmsMediaW",
-InOut(LPNTMS_OBJECTINFORMATIONW),
-InOut(LPNTMS_OBJECTINFORMATIONW),
-In(PDWORD),
-In(DWORD),
-In(DWORD),
-),
-])
-interface_3 = Interface("b057dc50-3059-111-8af-00024b6019", "1.0",[
-Method("GetNtmsObjectSecurity",
-In(LPNTMS_GUID),
-In(DWORD),
-In(DWORD),
-Out(PSECURITY_DESCRIPTOR_NTMS),
-In(DWORD),
-Out(PDWORD),
-),
-Method("SetNtmsObjectSecurity",
-In(LPNTMS_GUID),
-In(DWORD),
-In(DWORD),
-In(PSECURITY_DESCRIPTOR_NTMS),
-In(DWORD),
-),
-Method("GetNtmsObjectAttributeA",
-In(LPNTMS_GUID),
-In(DWORD),
-In(PCHAR),
-Out(PBYTE),
-In(PDWORD),
-Out(PDWORD),
-),
-Method("GetNtmsObjectAttributeW",
-In(LPNTMS_GUID),
-In(DWORD),
-In(PWCHAR_T),
-Out(PBYTE),
-In(PDWORD),
-Out(PDWORD),
-),
-Method("SetNtmsObjectAttributeA",
-In(LPNTMS_GUID),
-In(DWORD),
-In(PCHAR),
-In(PBYTE),
-In(DWORD),
-),
-Method("SetNtmsObjectAttributeW",
-In(LPNTMS_GUID),
-In(DWORD),
-In(PWCHAR_T),
-In(PBYTE),
-In(DWORD),
-),
-Method("EnumerateNtmsObject",
-In(LPNTMS_GUID),
-Out(LPNTMS_GUID),
-In(PDWORD),
-Out(PDWORD),
-In(DWORD),
-In(DWORD),
-),
-Method("DisableNtmsObject",
-In(DWORD),
-In(LPNTMS_GUID),
-),
-Method("EnableNtmsObject",
-In(DWORD),
-In(LPNTMS_GUID),
-),
-])
-interface_4 = Interface("8da03f40-3419-11d1-8fb1-00a024cb6019", "1.0",[
-Method("OpenNtmsServerSessionW",
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(DWORD),
-),
-Method("OpenNtmsServerSessionA",
-In(PCHAR),
-In(PCHAR),
-In(PCHAR),
-In(PCHAR),
-In(DWORD),
-),
-Method("CloseNtmsSession",
-),
-Method("SubmitNtmsOperatorRequestW",
-In(DWORD),
-In(PWCHAR_T),
-In(LPNTMS_GUID),
-In(LPNTMS_GUID),
-Out(LPNTMS_GUID),
-),
-Method("SubmitNtmsOperatorRequestA",
-In(DWORD),
-In(PCHAR),
-In(LPNTMS_GUID),
-In(LPNTMS_GUID),
-Out(LPNTMS_GUID),
-),
-Method("WaitForNtmsOperatorRequest",
-In(LPNTMS_GUID),
-In(DWORD),
-),
-Method("CancelNtmsOperatorRequest",
-In(LPNTMS_GUID),
-),
-Method("SatisfyNtmsOperatorRequest",
-In(LPNTMS_GUID),
-),
-Method("ImportNtmsDatabase",
-),
-Method("ExportNtmsDatabase",
-),
-Method("Opnum13NotUsedOnWire",
-),
-Method("AddNotification",
-In(DWORD),
-),
-Method("RemoveNotification",
-In(DWORD),
-),
-Method("DispatchNotification",
-In(DWORD),
-In(DWORD),
-In(LPNTMS_GUID),
-),
-])
-interface_5 = Interface("879C8BBE-41B0-11d1-BE11-00C04FB6BF70", "1.0",[
-Method("OnNotify",
-In(DWORD),
-In(DWORD),
-In(LPNTMS_GUID),
-),
-])
-interface_6 = Interface("DB90832F-6910-446-95-9D6BFA73903", "1.0",[
-Method("IdentifyNtmsSlot",
-In(LPNTMS_GUID),
-In(DWORD),
-),
-])
-interface_7 = Interface("895A2C86-270D-489d-A6C0-DC2A9B35280E", "1.0",[
-Method("EnumerateNtmsObjectR",
-In(LPNTMS_GUID),
-Out(LPNTMS_GUID),
-In(PDWORD),
-Out(PDWORD),
-Out(PDWORD),
-In(DWORD),
-In(DWORD),
-),
-Method("GetNtmsUIOptionsA",
-In(LPNTMS_GUID),
-In(DWORD),
-Out(PUNSIGNED_CHAR),
-In(PDWORD),
-Out(PDWORD),
-Out(PDWORD),
-),
-Method("GetNtmsUIOptionsW",
-In(LPNTMS_GUID),
-In(DWORD),
-Out(PWCHAR_T),
-In(PDWORD),
-Out(PDWORD),
-Out(PDWORD),
-),
-Method("SetNtmsUIOptionsA",
-In(LPNTMS_GUID),
-In(DWORD),
-In(DWORD),
-In(PCHAR),
-),
-Method("SetNtmsUIOptionsW",
-In(LPNTMS_GUID),
-In(DWORD),
-In(DWORD),
-In(PWCHAR_T),
-),
-])
-interface_8 = Interface("3BBED8D9-2C9A-4b21-8936-ACB2F995BE6C", "1.0",[
-Method("GetNtmsObjectAttributeAR",
-In(LPNTMS_GUID),
-In(DWORD),
-In(PCHAR),
-Out(PBYTE),
-In(PDWORD),
-Out(PDWORD),
-Out(PDWORD),
-),
-Method("GetNtmsObjectAttributeWR",
-In(LPNTMS_GUID),
-In(DWORD),
-In(PWCHAR_T),
-Out(PBYTE),
-In(PDWORD),
-Out(PDWORD),
-Out(PDWORD),
-),
-])
-interface_9 = Interface("7D07F313-A53F-459a-BB12-012C15B1846E", "1.0",[
-Method("GetNtmsMediaPoolNameAR",
-In(LPNTMS_GUID),
-Out(PUNSIGNED_CHAR),
-In(PDWORD),
-Out(PDWORD),
-Out(PDWORD),
-),
-Method("GetNtmsMediaPoolNameWR",
-In(LPNTMS_GUID),
-Out(PWCHAR_T),
-In(PDWORD),
-Out(PDWORD),
-Out(PDWORD),
-),
-])
-interface_10 = Interface("00000000-0000-0000-C000-000000000046", "1.0",[
-Method("QueryInterface",
-In(REFIID),
-Out(PPVOID),
-),
-Method("AddRef",
-),
-Method("Release",
-),
-])
-interface_11 = Interface("081E7188-C080-4FF3-9238-29F66D6CABFD", "1.0",[
-Method("SendMessage",
-In(LPRSM_MESSAGE),
-),
-Method("RecallMessage",
-In(LPGUID),
-),
-])
-interface_12 = Interface("BB39332C-BFEE-4380-AD8A-BADC8AFF5BB6", "1.0",[
-Method("ConnectCallback",
-In(PIUNKNOWN),
-In(PIUNKNOWN),
-),
-Method("OnNotify",
-In(DWORD),
-In(DWORD),
-In(LPGUID),
-),
-Method("ReleaseCallback",
-),
-])

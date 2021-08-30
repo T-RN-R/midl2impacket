@@ -1,47 +1,51 @@
 from midltypes import MidlDefinition, MidlEnumDef, MidlSimpleTypedef, MidlStructDef, MidlUnionDef
 from impacketbuilder.converters.typing import TypeMapper
-
+from io import StringIO
+import pathlib
+from midlparser import parse_idl
 
 class FuzzerTemplateGenerator:
     """A class that generates fuzzing templates"""
 
     def __init__(self):
+        self.io = StringIO()
         self.generated_classes = {}
         self.mapper = TypeMapper(None)
+        self.static_imports = """
+from fuzzer.midl import *
+from fuzzer.core import *
+"""
+
+    def generate_import(self, _import, import_dir):
+        in_file = pathlib.Path(import_dir + _import.file)
+        self.generate(parse_idl(in_file), import_dir)
 
     def generate(self, midl_def: MidlDefinition, import_dir):
         """Generates a Python file that is a fuzzing template"""
         # TODO handle imports
-        output = ""
+        self.io.write(self.static_imports)
+        self.static_imports = ""
+        for _import in midl_def.imports:
+            self.generate_import(_import, import_dir)
 
-        static_imports = """
-from fuzzer.midl import *
-from fuzzer.core import *
-"""
-        output += static_imports
-        cnt = 0
         first_uuid = None
         # TODO generate struct defs first, before generating interface defs
         for typedef in midl_def.typedefs:
-            output += self.handle_typedef(typedef)
+            self.handle_typedef(typedef)
         for interface in midl_def.interfaces:
             if "uuid" in interface.attributes and first_uuid is None:
                 first_uuid = interface.attributes["uuid"].params[0]
-            interface = self.generate_interface(interface)
-            if interface != "":
-                output += f"interface_{cnt} = {interface}\n"
-                cnt += 1
+                self.generate_interface(interface)
 
-        return output, first_uuid
+        return self.io.getvalue(), first_uuid
 
     def handle_typedef(self, typedef):
-        output = ""
         if isinstance(typedef, MidlUnionDef):
-            output += self.generate_union(typedef)
+            self.generate_union(typedef)
         elif isinstance(typedef, MidlStructDef):
-            output += self.generate_struct(typedef)
+            self.generate_struct(typedef)
         elif isinstance(typedef, MidlEnumDef):
-            output += self.generate_enum(typedef)
+            self.generate_enum(typedef)
         elif isinstance(typedef, MidlSimpleTypedef):
             #TODO Add this typedef mapping to a type hierarchy lookup mapper
             return ""
@@ -49,7 +53,6 @@ from fuzzer.core import *
             return ""
         else:
             raise Exception(f"Unhandled typedef {type(typedef)}")
-        return output
 
     def generate_union(self, union:MidlUnionDef):
         output = ""
@@ -63,33 +66,65 @@ from fuzzer.core import *
         members = ""
         member_cnt = 1
         for member in union.members:
-            if isinstance(member.type, str):
-                members += f"{member_cnt} : {self.mapper.canonicalize(member.type)},"
-            else:
-                raise Exception(f"Unhandled member type {type(member.type)}")
+            type_name = member.type
+            if isinstance(member.type, (MidlUnionDef, MidlStructDef)):
+                # handle nested unions/structs
+                self.handle_typedef(member.type)
+                if len(member.type.public_names) > 0:
+                    type_name = member.type.public_names[0]
+                else:
+                    type_name = member.type.private_name
+
+            if isinstance(type_name, str):
+                members += f"{member_cnt} : ({self.mapper.canonicalize(type_name)}, {member.name}),"
             member_cnt +=1
 
         class_def = f"""
-class {name}(NdrUnion):
+class {self.mapper.canonicalize(name)}(NdrUnion):
     SWITCHTYPE = {switch_type}
     MEMBERS = {{{members}}}
 
     
 """
-        output += class_def
-        return output
+        self.io.write(class_def)
 
     def generate_struct(self, struct):
         output = ""
         #TODO add typedef mapping for all public names of this struct
+        if len(struct.public_names) > 0:
+            name = struct.public_names[0]
+        else:
+            name = struct.private_name
 
-        return output
+        members = ""
+        member_cnt = 1
+        for member in struct.members:
+            type_name = member.type
+            if isinstance(member.type, (MidlUnionDef, MidlStructDef)):
+                # handle nested unions/structs
+                self.handle_typedef(member.type)
+                if len(member.type.public_names) > 0:
+                    type_name = member.type.public_names[0]
+                else:
+                    type_name = member.type.private_name
+
+
+            if isinstance(type_name, str):
+                members += f"({self.mapper.canonicalize(type_name)}, \"{member.name}\"),"
+            member_cnt +=1
+
+        class_def = f"""
+class {self.mapper.canonicalize(name)}(NdrStructure):
+    MEMBERS = [{members}]
+
+    
+"""
+        self.io.write(class_def)
 
     def generate_enum(self, enum):
         output = ""
         #TODO add typedef mapping for all public names of this struct
 
-        return output
 
     def generate_interface(self, midl_interface):
         output = ""
@@ -118,5 +153,5 @@ class {name}(NdrUnion):
                 else ("Out" if output_attr else "In")
             )
             params += f"{clz}({self.mapper.canonicalize(param.type)[0]}),\n"
-        output += f'Method("{procedure.name}",\n{params})'
-        return output
+        output += f'Method("{procedure.name}",\n{params}),'
+        self.io.write(output)

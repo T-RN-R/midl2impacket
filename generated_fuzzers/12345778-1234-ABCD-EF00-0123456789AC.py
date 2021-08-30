@@ -1,206 +1,304 @@
 
 from fuzzer.midl import *
 from fuzzer.core import *
-interface_0 = Interface("12345778-1234-ABCD-EF00-0123456789AC", "1.0",[
+
+class ('FILETIME', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwLowDateTime"),(('DWORD', None), "dwHighDateTime"),]
+
+    
+
+class ('GUID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "Data1"),(('UNSIGNED_SHORT', None), "Data2"),(('UNSIGNED_SHORT', None), "Data3"),(('BYTE', None), "Data4"),]
+
+    
+
+class ('LARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('SIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('EVENT_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Id"),(('UCHAR', None), "Version"),(('UCHAR', None), "Channel"),(('UCHAR', None), "Level"),(('UCHAR', None), "Opcode"),(('USHORT', None), "Task"),(('ULONGLONG', None), "Keyword"),]
+
+    
+
+class ('S0', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "KernelTime"),(('ULONG', None), "UserTime"),]
+
+    
+
+class ('U0', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('S0', None), s0),2 : (('ULONG64', None), ProcessorTime),}
+
+    
+
+class ('EVENT_HEADER', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Size"),(('USHORT', None), "HeaderType"),(('USHORT', None), "Flags"),(('USHORT', None), "EventProperty"),(('ULONG', None), "ThreadId"),(('ULONG', None), "ProcessId"),(('LARGE_INTEGER', None), "TimeStamp"),(('GUID', None), "ProviderId"),(('EVENT_DESCRIPTOR', None), "EventDescriptor"),(('U0', None), "u0"),(('GUID', None), "ActivityId"),]
+
+    
+
+class ('LUID', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "LowPart"),(('LONG', None), "HighPart"),]
+
+    
+
+class ('MULTI_SZ', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR_T', None), "Value"),(('DWORD', None), "nChar"),]
+
+    
+
+class ('RPC_UNICODE_STRING', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_SHORT', None), "Length"),(('UNSIGNED_SHORT', None), "MaximumLength"),(('PWCHAR', None), "Buffer"),]
+
+    
+
+class ('SERVER_INFO_100', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv100_platform_id"),(('PWCHAR_T', None), "sv100_name"),]
+
+    
+
+class ('SERVER_INFO_101', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv101_platform_id"),(('PWCHAR_T', None), "sv101_name"),(('DWORD', None), "sv101_version_major"),(('DWORD', None), "sv101_version_minor"),(('DWORD', None), "sv101_version_type"),(('PWCHAR_T', None), "sv101_comment"),]
+
+    
+
+class ('SYSTEMTIME', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "wYear"),(('WORD', None), "wMonth"),(('WORD', None), "wDayOfWeek"),(('WORD', None), "wDay"),(('WORD', None), "wHour"),(('WORD', None), "wMinute"),(('WORD', None), "wSecond"),(('WORD', None), "wMilliseconds"),]
+
+    
+
+class ('UINT128', None)(NdrStructure):
+    MEMBERS = [(('UINT64', None), "lower"),(('UINT64', None), "upper"),]
+
+    
+
+class ('ULARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('RPC_SID_IDENTIFIER_AUTHORITY', None)(NdrStructure):
+    MEMBERS = [(('BYTE', None), "Value"),]
+
+    
+
+class ('OBJECT_TYPE_LIST', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "Level"),(('ACCESS_MASK', None), "Remaining"),(('PGUID', None), "ObjectType"),]
+
+    
+
+class ('ACE_HEADER', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "AceType"),(('UCHAR', None), "AceFlags"),(('USHORT', None), "AceSize"),]
+
+    
+
+class ('SYSTEM_MANDATORY_LABEL_ACE', None)(NdrStructure):
+    MEMBERS = [(('ACE_HEADER', None), "Header"),(('ACCESS_MASK', None), "Mask"),(('DWORD', None), "SidStart"),]
+
+    
+
+class ('TOKEN_MANDATORY_POLICY', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Policy"),]
+
+    
+
+class ('MANDATORY_INFORMATION', None)(NdrStructure):
+    MEMBERS = [(('ACCESS_MASK', None), "AllowedAccess"),(('BOOLEAN', None), "WriteAllowed"),(('BOOLEAN', None), "ReadAllowed"),(('BOOLEAN', None), "ExecuteAllowed"),(('TOKEN_MANDATORY_POLICY', None), "MandatoryPolicy"),]
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Length"),(('BYTE', None), "OctetString"),]
+
+    
+
+class ('VALUES', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('PLONG64', None), pInt64),2 : (('PDWORD64', None), pUint64),3 : (('PWSTR', None), ppString),4 : (('PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None), pOctetString),}
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Name"),(('WORD', None), "ValueType"),(('WORD', None), "Reserved"),(('DWORD', None), "Flags"),(('DWORD', None), "ValueCount"),(('VALUES', None), "Values"),]
+
+    
+
+class ('RPC_SID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "Revision"),(('UNSIGNED_CHAR', None), "SubAuthorityCount"),(('RPC_SID_IDENTIFIER_AUTHORITY', None), "IdentifierAuthority"),(('UNSIGNED_LONG', None), "SubAuthority"),]
+
+    
+
+class ('ACL', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "AclRevision"),(('UNSIGNED_CHAR', None), "Sbz1"),(('UNSIGNED_SHORT', None), "AclSize"),(('UNSIGNED_SHORT', None), "AceCount"),(('UNSIGNED_SHORT', None), "Sbz2"),]
+
+    
+
+class ('SECURITY_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "Revision"),(('UCHAR', None), "Sbz1"),(('USHORT', None), "Control"),(('PSID', None), "Owner"),(('PSID', None), "Group"),(('PACL', None), "Sacl"),(('PACL', None), "Dacl"),]
+
+    
 Method("SamrConnect",
 In(PSAMPR_SERVER_NAME),
 Out(PSAMPR_HANDLE),
 In(UNSIGNED_LONG),
-),
-Method("SamrCloseHandle",
+),Method("SamrCloseHandle",
 InOut(PSAMPR_HANDLE),
-),
-Method("SamrSetSecurityObject",
+),Method("SamrSetSecurityObject",
 In(SAMPR_HANDLE),
 In(SECURITY_INFORMATION),
 In(PSAMPR_SR_SECURITY_DESCRIPTOR),
-),
-Method("SamrQuerySecurityObject",
+),Method("SamrQuerySecurityObject",
 In(SAMPR_HANDLE),
 In(SECURITY_INFORMATION),
 Out(PPSAMPR_SR_SECURITY_DESCRIPTOR),
-),
-Method("Opnum4NotUsedOnWire",
+),Method("Opnum4NotUsedOnWire",
 In(),
-),
-Method("SamrLookupDomainInSamServer",
+),Method("SamrLookupDomainInSamServer",
 In(SAMPR_HANDLE),
 In(PRPC_UNICODE_STRING),
 Out(PPRPC_SID),
-),
-Method("SamrEnumerateDomainsInSamServer",
+),Method("SamrEnumerateDomainsInSamServer",
 In(SAMPR_HANDLE),
 InOut(PUNSIGNED_LONG),
 Out(PPSAMPR_ENUMERATION_BUFFER),
 In(UNSIGNED_LONG),
 Out(PUNSIGNED_LONG),
-),
-Method("SamrOpenDomain",
+),Method("SamrOpenDomain",
 In(SAMPR_HANDLE),
 In(UNSIGNED_LONG),
 In(PRPC_SID),
 Out(PSAMPR_HANDLE),
-),
-Method("SamrQueryInformationDomain",
+),Method("SamrQueryInformationDomain",
 In(SAMPR_HANDLE),
 In(DOMAIN_INFORMATION_CLASS),
 Out(PPSAMPR_DOMAIN_INFO_BUFFER),
-),
-Method("SamrSetInformationDomain",
+),Method("SamrSetInformationDomain",
 In(SAMPR_HANDLE),
 In(DOMAIN_INFORMATION_CLASS),
 In(PSAMPR_DOMAIN_INFO_BUFFER),
-),
-Method("SamrCreateGroupInDomain",
+),Method("SamrCreateGroupInDomain",
 In(SAMPR_HANDLE),
 In(PRPC_UNICODE_STRING),
 In(UNSIGNED_LONG),
 Out(PSAMPR_HANDLE),
 Out(PUNSIGNED_LONG),
-),
-Method("SamrEnumerateGroupsInDomain",
+),Method("SamrEnumerateGroupsInDomain",
 In(SAMPR_HANDLE),
 InOut(PUNSIGNED_LONG),
 Out(PPSAMPR_ENUMERATION_BUFFER),
 In(UNSIGNED_LONG),
 Out(PUNSIGNED_LONG),
-),
-Method("SamrCreateUserInDomain",
+),Method("SamrCreateUserInDomain",
 In(SAMPR_HANDLE),
 In(PRPC_UNICODE_STRING),
 In(UNSIGNED_LONG),
 Out(PSAMPR_HANDLE),
 Out(PUNSIGNED_LONG),
-),
-Method("SamrEnumerateUsersInDomain",
+),Method("SamrEnumerateUsersInDomain",
 In(SAMPR_HANDLE),
 InOut(PUNSIGNED_LONG),
 In(UNSIGNED_LONG),
 Out(PPSAMPR_ENUMERATION_BUFFER),
 In(UNSIGNED_LONG),
 Out(PUNSIGNED_LONG),
-),
-Method("SamrCreateAliasInDomain",
+),Method("SamrCreateAliasInDomain",
 In(SAMPR_HANDLE),
 In(PRPC_UNICODE_STRING),
 In(UNSIGNED_LONG),
 Out(PSAMPR_HANDLE),
 Out(PUNSIGNED_LONG),
-),
-Method("SamrEnumerateAliasesInDomain",
+),Method("SamrEnumerateAliasesInDomain",
 In(SAMPR_HANDLE),
 InOut(PUNSIGNED_LONG),
 Out(PPSAMPR_ENUMERATION_BUFFER),
 In(UNSIGNED_LONG),
 Out(PUNSIGNED_LONG),
-),
-Method("SamrGetAliasMembership",
+),Method("SamrGetAliasMembership",
 In(SAMPR_HANDLE),
 In(PSAMPR_PSID_ARRAY),
 Out(PSAMPR_ULONG_ARRAY),
-),
-Method("SamrLookupNamesInDomain",
+),Method("SamrLookupNamesInDomain",
 In(SAMPR_HANDLE),
 In(UNSIGNED_LONG),
 In(RPC_UNICODE_STRING),
 Out(PSAMPR_ULONG_ARRAY),
 Out(PSAMPR_ULONG_ARRAY),
-),
-Method("SamrLookupIdsInDomain",
+),Method("SamrLookupIdsInDomain",
 In(SAMPR_HANDLE),
 In(UNSIGNED_LONG),
 In(PUNSIGNED_LONG),
 Out(PSAMPR_RETURNED_USTRING_ARRAY),
 Out(PSAMPR_ULONG_ARRAY),
-),
-Method("SamrOpenGroup",
+),Method("SamrOpenGroup",
 In(SAMPR_HANDLE),
 In(UNSIGNED_LONG),
 In(UNSIGNED_LONG),
 Out(PSAMPR_HANDLE),
-),
-Method("SamrQueryInformationGroup",
+),Method("SamrQueryInformationGroup",
 In(SAMPR_HANDLE),
 In(GROUP_INFORMATION_CLASS),
 Out(PPSAMPR_GROUP_INFO_BUFFER),
-),
-Method("SamrSetInformationGroup",
+),Method("SamrSetInformationGroup",
 In(SAMPR_HANDLE),
 In(GROUP_INFORMATION_CLASS),
 In(PSAMPR_GROUP_INFO_BUFFER),
-),
-Method("SamrAddMemberToGroup",
+),Method("SamrAddMemberToGroup",
 In(SAMPR_HANDLE),
 In(UNSIGNED_LONG),
 In(UNSIGNED_LONG),
-),
-Method("SamrDeleteGroup",
+),Method("SamrDeleteGroup",
 InOut(PSAMPR_HANDLE),
-),
-Method("SamrRemoveMemberFromGroup",
+),Method("SamrRemoveMemberFromGroup",
 In(SAMPR_HANDLE),
 In(UNSIGNED_LONG),
-),
-Method("SamrGetMembersInGroup",
+),Method("SamrGetMembersInGroup",
 In(SAMPR_HANDLE),
 Out(PPSAMPR_GET_MEMBERS_BUFFER),
-),
-Method("SamrSetMemberAttributesOfGroup",
+),Method("SamrSetMemberAttributesOfGroup",
 In(SAMPR_HANDLE),
 In(UNSIGNED_LONG),
 In(UNSIGNED_LONG),
-),
-Method("SamrOpenAlias",
+),Method("SamrOpenAlias",
 In(SAMPR_HANDLE),
 In(UNSIGNED_LONG),
 In(UNSIGNED_LONG),
 Out(PSAMPR_HANDLE),
-),
-Method("SamrQueryInformationAlias",
+),Method("SamrQueryInformationAlias",
 In(SAMPR_HANDLE),
 In(ALIAS_INFORMATION_CLASS),
 Out(PPSAMPR_ALIAS_INFO_BUFFER),
-),
-Method("SamrSetInformationAlias",
+),Method("SamrSetInformationAlias",
 In(SAMPR_HANDLE),
 In(ALIAS_INFORMATION_CLASS),
 In(PSAMPR_ALIAS_INFO_BUFFER),
-),
-Method("SamrDeleteAlias",
+),Method("SamrDeleteAlias",
 InOut(PSAMPR_HANDLE),
-),
-Method("SamrAddMemberToAlias",
+),Method("SamrAddMemberToAlias",
 In(SAMPR_HANDLE),
 In(PRPC_SID),
-),
-Method("SamrRemoveMemberFromAlias",
+),Method("SamrRemoveMemberFromAlias",
 In(SAMPR_HANDLE),
 In(PRPC_SID),
-),
-Method("SamrGetMembersInAlias",
+),Method("SamrGetMembersInAlias",
 In(SAMPR_HANDLE),
 Out(PSAMPR_PSID_ARRAY_OUT),
-),
-Method("SamrOpenUser",
+),Method("SamrOpenUser",
 In(SAMPR_HANDLE),
 In(UNSIGNED_LONG),
 In(UNSIGNED_LONG),
 Out(PSAMPR_HANDLE),
-),
-Method("SamrDeleteUser",
+),Method("SamrDeleteUser",
 InOut(PSAMPR_HANDLE),
-),
-Method("SamrQueryInformationUser",
+),Method("SamrQueryInformationUser",
 In(SAMPR_HANDLE),
 In(USER_INFORMATION_CLASS),
 Out(PPSAMPR_USER_INFO_BUFFER),
-),
-Method("SamrSetInformationUser",
+),Method("SamrSetInformationUser",
 In(SAMPR_HANDLE),
 In(USER_INFORMATION_CLASS),
 In(PSAMPR_USER_INFO_BUFFER),
-),
-Method("SamrChangePasswordUser",
+),Method("SamrChangePasswordUser",
 In(SAMPR_HANDLE),
 In(UNSIGNED_CHAR),
 In(PENCRYPTED_LM_OWF_PASSWORD),
@@ -212,12 +310,10 @@ In(UNSIGNED_CHAR),
 In(PENCRYPTED_NT_OWF_PASSWORD),
 In(UNSIGNED_CHAR),
 In(PENCRYPTED_LM_OWF_PASSWORD),
-),
-Method("SamrGetGroupsForUser",
+),Method("SamrGetGroupsForUser",
 In(SAMPR_HANDLE),
 Out(PPSAMPR_GET_GROUPS_BUFFER),
-),
-Method("SamrQueryDisplayInformation",
+),Method("SamrQueryDisplayInformation",
 In(SAMPR_HANDLE),
 In(DOMAIN_DISPLAY_INFORMATION),
 In(UNSIGNED_LONG),
@@ -226,38 +322,30 @@ In(UNSIGNED_LONG),
 Out(PUNSIGNED_LONG),
 Out(PUNSIGNED_LONG),
 Out(PSAMPR_DISPLAY_INFO_BUFFER),
-),
-Method("SamrGetDisplayEnumerationIndex",
+),Method("SamrGetDisplayEnumerationIndex",
 In(SAMPR_HANDLE),
 In(DOMAIN_DISPLAY_INFORMATION),
 In(PRPC_UNICODE_STRING),
 Out(PUNSIGNED_LONG),
-),
-Method("Opnum42NotUsedOnWire",
+),Method("Opnum42NotUsedOnWire",
 In(),
-),
-Method("Opnum43NotUsedOnWire",
+),Method("Opnum43NotUsedOnWire",
 In(),
-),
-Method("SamrGetUserDomainPasswordInformation",
+),Method("SamrGetUserDomainPasswordInformation",
 In(SAMPR_HANDLE),
 Out(PUSER_DOMAIN_PASSWORD_INFORMATION),
-),
-Method("SamrRemoveMemberFromForeignDomain",
+),Method("SamrRemoveMemberFromForeignDomain",
 In(SAMPR_HANDLE),
 In(PRPC_SID),
-),
-Method("SamrQueryInformationDomain2",
+),Method("SamrQueryInformationDomain2",
 In(SAMPR_HANDLE),
 In(DOMAIN_INFORMATION_CLASS),
 Out(PPSAMPR_DOMAIN_INFO_BUFFER),
-),
-Method("SamrQueryInformationUser2",
+),Method("SamrQueryInformationUser2",
 In(SAMPR_HANDLE),
 In(USER_INFORMATION_CLASS),
 Out(PPSAMPR_USER_INFO_BUFFER),
-),
-Method("SamrQueryDisplayInformation2",
+),Method("SamrQueryDisplayInformation2",
 In(SAMPR_HANDLE),
 In(DOMAIN_DISPLAY_INFORMATION),
 In(UNSIGNED_LONG),
@@ -266,14 +354,12 @@ In(UNSIGNED_LONG),
 Out(PUNSIGNED_LONG),
 Out(PUNSIGNED_LONG),
 Out(PSAMPR_DISPLAY_INFO_BUFFER),
-),
-Method("SamrGetDisplayEnumerationIndex2",
+),Method("SamrGetDisplayEnumerationIndex2",
 In(SAMPR_HANDLE),
 In(DOMAIN_DISPLAY_INFORMATION),
 In(PRPC_UNICODE_STRING),
 Out(PUNSIGNED_LONG),
-),
-Method("SamrCreateUser2InDomain",
+),Method("SamrCreateUser2InDomain",
 In(SAMPR_HANDLE),
 In(PRPC_UNICODE_STRING),
 In(UNSIGNED_LONG),
@@ -281,8 +367,7 @@ In(UNSIGNED_LONG),
 Out(PSAMPR_HANDLE),
 Out(PUNSIGNED_LONG),
 Out(PUNSIGNED_LONG),
-),
-Method("SamrQueryDisplayInformation3",
+),Method("SamrQueryDisplayInformation3",
 In(SAMPR_HANDLE),
 In(DOMAIN_DISPLAY_INFORMATION),
 In(UNSIGNED_LONG),
@@ -291,23 +376,19 @@ In(UNSIGNED_LONG),
 Out(PUNSIGNED_LONG),
 Out(PUNSIGNED_LONG),
 Out(PSAMPR_DISPLAY_INFO_BUFFER),
-),
-Method("SamrAddMultipleMembersToAlias",
+),Method("SamrAddMultipleMembersToAlias",
 In(SAMPR_HANDLE),
 In(PSAMPR_PSID_ARRAY),
-),
-Method("SamrRemoveMultipleMembersFromAlias",
+),Method("SamrRemoveMultipleMembersFromAlias",
 In(SAMPR_HANDLE),
 In(PSAMPR_PSID_ARRAY),
-),
-Method("SamrOemChangePasswordUser2",
+),Method("SamrOemChangePasswordUser2",
 In(HANDLE_T),
 In(PRPC_STRING),
 In(PRPC_STRING),
 In(PSAMPR_ENCRYPTED_USER_PASSWORD),
 In(PENCRYPTED_LM_OWF_PASSWORD),
-),
-Method("SamrUnicodeChangePasswordUser2",
+),Method("SamrUnicodeChangePasswordUser2",
 In(HANDLE_T),
 In(PRPC_UNICODE_STRING),
 In(PRPC_UNICODE_STRING),
@@ -316,41 +397,32 @@ In(PENCRYPTED_NT_OWF_PASSWORD),
 In(UNSIGNED_CHAR),
 In(PSAMPR_ENCRYPTED_USER_PASSWORD),
 In(PENCRYPTED_LM_OWF_PASSWORD),
-),
-Method("SamrGetDomainPasswordInformation",
+),Method("SamrGetDomainPasswordInformation",
 In(HANDLE_T),
 In(PRPC_UNICODE_STRING),
 Out(PUSER_DOMAIN_PASSWORD_INFORMATION),
-),
-Method("SamrConnect2",
+),Method("SamrConnect2",
 In(PSAMPR_SERVER_NAME),
 Out(PSAMPR_HANDLE),
 In(UNSIGNED_LONG),
-),
-Method("SamrSetInformationUser2",
+),Method("SamrSetInformationUser2",
 In(SAMPR_HANDLE),
 In(USER_INFORMATION_CLASS),
 In(PSAMPR_USER_INFO_BUFFER),
-),
-Method("Opnum59NotUsedOnWire",
+),Method("Opnum59NotUsedOnWire",
 In(),
-),
-Method("Opnum60NotUsedOnWire",
+),Method("Opnum60NotUsedOnWire",
 In(),
-),
-Method("Opnum61NotUsedOnWire",
+),Method("Opnum61NotUsedOnWire",
 In(),
-),
-Method("SamrConnect4",
+),Method("SamrConnect4",
 In(PSAMPR_SERVER_NAME),
 Out(PSAMPR_HANDLE),
 In(UNSIGNED_LONG),
 In(UNSIGNED_LONG),
-),
-Method("Opnum63NotUsedOnWire",
+),Method("Opnum63NotUsedOnWire",
 In(),
-),
-Method("SamrConnect5",
+),Method("SamrConnect5",
 In(PSAMPR_SERVER_NAME),
 In(UNSIGNED_LONG),
 In(UNSIGNED_LONG),
@@ -358,43 +430,33 @@ In(PSAMPR_REVISION_INFO),
 Out(PUNSIGNED_LONG),
 Out(PSAMPR_REVISION_INFO),
 Out(PSAMPR_HANDLE),
-),
-Method("SamrRidToSid",
+),Method("SamrRidToSid",
 In(SAMPR_HANDLE),
 In(UNSIGNED_LONG),
 Out(PPRPC_SID),
-),
-Method("SamrSetDSRMPassword",
+),Method("SamrSetDSRMPassword",
 In(HANDLE_T),
 In(PRPC_UNICODE_STRING),
 In(UNSIGNED_LONG),
 In(PENCRYPTED_NT_OWF_PASSWORD),
-),
-Method("SamrValidatePassword",
+),Method("SamrValidatePassword",
 In(HANDLE_T),
 In(PASSWORD_POLICY_VALIDATION_TYPE),
 In(PSAM_VALIDATE_INPUT_ARG),
 Out(PPSAM_VALIDATE_OUTPUT_ARG),
-),
-Method("Opnum68NotUsedOnWire",
+),Method("Opnum68NotUsedOnWire",
 In(),
-),
-Method("Opnum69NotUsedOnWire",
+),Method("Opnum69NotUsedOnWire",
 In(),
-),
-Method("Opnum70NotUsedOnWire",
+),Method("Opnum70NotUsedOnWire",
 In(),
-),
-Method("Opnum71NotUsedOnWire",
+),Method("Opnum71NotUsedOnWire",
 In(),
-),
-Method("Opnum72NotUsedOnWire",
+),Method("Opnum72NotUsedOnWire",
 In(),
-),
-Method("SamrUnicodeChangePasswordUser4",
+),Method("SamrUnicodeChangePasswordUser4",
 In(HANDLE_T),
 In(PRPC_UNICODE_STRING),
 In(PRPC_UNICODE_STRING),
 In(PSAMPR_ENCRYPTED_PASSWORD_AES),
 ),
-])

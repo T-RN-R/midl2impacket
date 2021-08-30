@@ -1,681 +1,668 @@
 
 from fuzzer.midl import *
 from fuzzer.core import *
-interface_0 = Interface("118610b7-8d94-4030-b5b8-500889788e4e", "1.0",[
+
+class ('FILETIME', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwLowDateTime"),(('DWORD', None), "dwHighDateTime"),]
+
+    
+
+class ('GUID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "Data1"),(('UNSIGNED_SHORT', None), "Data2"),(('UNSIGNED_SHORT', None), "Data3"),(('BYTE', None), "Data4"),]
+
+    
+
+class ('LARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('SIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('EVENT_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Id"),(('UCHAR', None), "Version"),(('UCHAR', None), "Channel"),(('UCHAR', None), "Level"),(('UCHAR', None), "Opcode"),(('USHORT', None), "Task"),(('ULONGLONG', None), "Keyword"),]
+
+    
+
+class ('S0', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "KernelTime"),(('ULONG', None), "UserTime"),]
+
+    
+
+class ('U0', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('S0', None), s0),2 : (('ULONG64', None), ProcessorTime),}
+
+    
+
+class ('EVENT_HEADER', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Size"),(('USHORT', None), "HeaderType"),(('USHORT', None), "Flags"),(('USHORT', None), "EventProperty"),(('ULONG', None), "ThreadId"),(('ULONG', None), "ProcessId"),(('LARGE_INTEGER', None), "TimeStamp"),(('GUID', None), "ProviderId"),(('EVENT_DESCRIPTOR', None), "EventDescriptor"),(('U0', None), "u0"),(('GUID', None), "ActivityId"),]
+
+    
+
+class ('LUID', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "LowPart"),(('LONG', None), "HighPart"),]
+
+    
+
+class ('MULTI_SZ', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR_T', None), "Value"),(('DWORD', None), "nChar"),]
+
+    
+
+class ('RPC_UNICODE_STRING', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_SHORT', None), "Length"),(('UNSIGNED_SHORT', None), "MaximumLength"),(('PWCHAR', None), "Buffer"),]
+
+    
+
+class ('SERVER_INFO_100', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv100_platform_id"),(('PWCHAR_T', None), "sv100_name"),]
+
+    
+
+class ('SERVER_INFO_101', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv101_platform_id"),(('PWCHAR_T', None), "sv101_name"),(('DWORD', None), "sv101_version_major"),(('DWORD', None), "sv101_version_minor"),(('DWORD', None), "sv101_version_type"),(('PWCHAR_T', None), "sv101_comment"),]
+
+    
+
+class ('SYSTEMTIME', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "wYear"),(('WORD', None), "wMonth"),(('WORD', None), "wDayOfWeek"),(('WORD', None), "wDay"),(('WORD', None), "wHour"),(('WORD', None), "wMinute"),(('WORD', None), "wSecond"),(('WORD', None), "wMilliseconds"),]
+
+    
+
+class ('UINT128', None)(NdrStructure):
+    MEMBERS = [(('UINT64', None), "lower"),(('UINT64', None), "upper"),]
+
+    
+
+class ('ULARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('RPC_SID_IDENTIFIER_AUTHORITY', None)(NdrStructure):
+    MEMBERS = [(('BYTE', None), "Value"),]
+
+    
+
+class ('OBJECT_TYPE_LIST', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "Level"),(('ACCESS_MASK', None), "Remaining"),(('PGUID', None), "ObjectType"),]
+
+    
+
+class ('ACE_HEADER', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "AceType"),(('UCHAR', None), "AceFlags"),(('USHORT', None), "AceSize"),]
+
+    
+
+class ('SYSTEM_MANDATORY_LABEL_ACE', None)(NdrStructure):
+    MEMBERS = [(('ACE_HEADER', None), "Header"),(('ACCESS_MASK', None), "Mask"),(('DWORD', None), "SidStart"),]
+
+    
+
+class ('TOKEN_MANDATORY_POLICY', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Policy"),]
+
+    
+
+class ('MANDATORY_INFORMATION', None)(NdrStructure):
+    MEMBERS = [(('ACCESS_MASK', None), "AllowedAccess"),(('BOOLEAN', None), "WriteAllowed"),(('BOOLEAN', None), "ReadAllowed"),(('BOOLEAN', None), "ExecuteAllowed"),(('TOKEN_MANDATORY_POLICY', None), "MandatoryPolicy"),]
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Length"),(('BYTE', None), "OctetString"),]
+
+    
+
+class ('VALUES', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('PLONG64', None), pInt64),2 : (('PDWORD64', None), pUint64),3 : (('PWSTR', None), ppString),4 : (('PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None), pOctetString),}
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Name"),(('WORD', None), "ValueType"),(('WORD', None), "Reserved"),(('DWORD', None), "Flags"),(('DWORD', None), "ValueCount"),(('VALUES', None), "Values"),]
+
+    
+
+class ('RPC_SID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "Revision"),(('UNSIGNED_CHAR', None), "SubAuthorityCount"),(('RPC_SID_IDENTIFIER_AUTHORITY', None), "IdentifierAuthority"),(('UNSIGNED_LONG', None), "SubAuthority"),]
+
+    
+
+class ('ACL', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "AclRevision"),(('UNSIGNED_CHAR', None), "Sbz1"),(('UNSIGNED_SHORT', None), "AclSize"),(('UNSIGNED_SHORT', None), "AceCount"),(('UNSIGNED_SHORT', None), "Sbz2"),]
+
+    
+
+class ('SECURITY_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "Revision"),(('UCHAR', None), "Sbz1"),(('USHORT', None), "Control"),(('PSID', None), "Owner"),(('PSID', None), "Group"),(('PACL', None), "Sacl"),(('PACL', None), "Dacl"),]
+
+    
+
+class ('FILETIME', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwLowDateTime"),(('DWORD', None), "dwHighDateTime"),]
+
+    
+
+class ('GUID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "Data1"),(('UNSIGNED_SHORT', None), "Data2"),(('UNSIGNED_SHORT', None), "Data3"),(('BYTE', None), "Data4"),]
+
+    
+
+class ('LARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('SIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('EVENT_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Id"),(('UCHAR', None), "Version"),(('UCHAR', None), "Channel"),(('UCHAR', None), "Level"),(('UCHAR', None), "Opcode"),(('USHORT', None), "Task"),(('ULONGLONG', None), "Keyword"),]
+
+    
+
+class ('S0', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "KernelTime"),(('ULONG', None), "UserTime"),]
+
+    
+
+class ('U0', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('S0', None), s0),2 : (('ULONG64', None), ProcessorTime),}
+
+    
+
+class ('EVENT_HEADER', None)(NdrStructure):
+    MEMBERS = [(('USHORT', None), "Size"),(('USHORT', None), "HeaderType"),(('USHORT', None), "Flags"),(('USHORT', None), "EventProperty"),(('ULONG', None), "ThreadId"),(('ULONG', None), "ProcessId"),(('LARGE_INTEGER', None), "TimeStamp"),(('GUID', None), "ProviderId"),(('EVENT_DESCRIPTOR', None), "EventDescriptor"),(('U0', None), "u0"),(('GUID', None), "ActivityId"),]
+
+    
+
+class ('LUID', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "LowPart"),(('LONG', None), "HighPart"),]
+
+    
+
+class ('MULTI_SZ', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR_T', None), "Value"),(('DWORD', None), "nChar"),]
+
+    
+
+class ('RPC_UNICODE_STRING', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_SHORT', None), "Length"),(('UNSIGNED_SHORT', None), "MaximumLength"),(('PWCHAR', None), "Buffer"),]
+
+    
+
+class ('SERVER_INFO_100', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv100_platform_id"),(('PWCHAR_T', None), "sv100_name"),]
+
+    
+
+class ('SERVER_INFO_101', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "sv101_platform_id"),(('PWCHAR_T', None), "sv101_name"),(('DWORD', None), "sv101_version_major"),(('DWORD', None), "sv101_version_minor"),(('DWORD', None), "sv101_version_type"),(('PWCHAR_T', None), "sv101_comment"),]
+
+    
+
+class ('SYSTEMTIME', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "wYear"),(('WORD', None), "wMonth"),(('WORD', None), "wDayOfWeek"),(('WORD', None), "wDay"),(('WORD', None), "wHour"),(('WORD', None), "wMinute"),(('WORD', None), "wSecond"),(('WORD', None), "wMilliseconds"),]
+
+    
+
+class ('UINT128', None)(NdrStructure):
+    MEMBERS = [(('UINT64', None), "lower"),(('UINT64', None), "upper"),]
+
+    
+
+class ('ULARGE_INTEGER', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED___INT64', None), "QuadPart"),]
+
+    
+
+class ('RPC_SID_IDENTIFIER_AUTHORITY', None)(NdrStructure):
+    MEMBERS = [(('BYTE', None), "Value"),]
+
+    
+
+class ('OBJECT_TYPE_LIST', None)(NdrStructure):
+    MEMBERS = [(('WORD', None), "Level"),(('ACCESS_MASK', None), "Remaining"),(('PGUID', None), "ObjectType"),]
+
+    
+
+class ('ACE_HEADER', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "AceType"),(('UCHAR', None), "AceFlags"),(('USHORT', None), "AceSize"),]
+
+    
+
+class ('SYSTEM_MANDATORY_LABEL_ACE', None)(NdrStructure):
+    MEMBERS = [(('ACE_HEADER', None), "Header"),(('ACCESS_MASK', None), "Mask"),(('DWORD', None), "SidStart"),]
+
+    
+
+class ('TOKEN_MANDATORY_POLICY', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Policy"),]
+
+    
+
+class ('MANDATORY_INFORMATION', None)(NdrStructure):
+    MEMBERS = [(('ACCESS_MASK', None), "AllowedAccess"),(('BOOLEAN', None), "WriteAllowed"),(('BOOLEAN', None), "ReadAllowed"),(('BOOLEAN', None), "ExecuteAllowed"),(('TOKEN_MANDATORY_POLICY', None), "MandatoryPolicy"),]
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Length"),(('BYTE', None), "OctetString"),]
+
+    
+
+class ('VALUES', None)(NdrUnion):
+    SWITCHTYPE = DWORD
+    MEMBERS = {1 : (('PLONG64', None), pInt64),2 : (('PDWORD64', None), pUint64),3 : (('PWSTR', None), ppString),4 : (('PCLAIM_SECURITY_ATTRIBUTE_OCTET_STRING_RELATIVE', None), pOctetString),}
+
+    
+
+class ('CLAIM_SECURITY_ATTRIBUTE_RELATIVE_V1', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "Name"),(('WORD', None), "ValueType"),(('WORD', None), "Reserved"),(('DWORD', None), "Flags"),(('DWORD', None), "ValueCount"),(('VALUES', None), "Values"),]
+
+    
+
+class ('RPC_SID', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "Revision"),(('UNSIGNED_CHAR', None), "SubAuthorityCount"),(('RPC_SID_IDENTIFIER_AUTHORITY', None), "IdentifierAuthority"),(('UNSIGNED_LONG', None), "SubAuthority"),]
+
+    
+
+class ('ACL', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "AclRevision"),(('UNSIGNED_CHAR', None), "Sbz1"),(('UNSIGNED_SHORT', None), "AclSize"),(('UNSIGNED_SHORT', None), "AceCount"),(('UNSIGNED_SHORT', None), "Sbz2"),]
+
+    
+
+class ('SECURITY_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('UCHAR', None), "Revision"),(('UCHAR', None), "Sbz1"),(('USHORT', None), "Control"),(('PSID', None), "Owner"),(('PSID', None), "Group"),(('PACL', None), "Sacl"),(('PACL', None), "Dacl"),]
+
+    
+
+class ('COMVERSION', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_SHORT', None), "MajorVersion"),(('UNSIGNED_SHORT', None), "MinorVersion"),]
+
+    
+
+class ('ORPC_EXTENT', None)(NdrStructure):
+    MEMBERS = [(('GUID', None), "id"),(('UNSIGNED_LONG', None), "size"),(('BYTE', None), "data"),]
+
+    
+
+class ('ORPC_EXTENT_ARRAY', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "size"),(('UNSIGNED_LONG', None), "reserved"),(('PPORPC_EXTENT', None), "extent"),]
+
+    
+
+class ('ORPCTHIS', None)(NdrStructure):
+    MEMBERS = [(('COMVERSION', None), "version"),(('UNSIGNED_LONG', None), "flags"),(('UNSIGNED_LONG', None), "reserved1"),(('CID', None), "cid"),(('PORPC_EXTENT_ARRAY', None), "extensions"),]
+
+    
+
+class ('ORPCTHAT', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "flags"),(('PORPC_EXTENT_ARRAY', None), "extensions"),]
+
+    
+
+class ('DUALSTRINGARRAY', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_SHORT', None), "wNumEntries"),(('UNSIGNED_SHORT', None), "wSecurityOffset"),(('UNSIGNED_SHORT', None), "aStringArray"),]
+
+    
+
+class ('MINTERFACEPOINTER', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "ulCntData"),(('BYTE', None), "abData"),]
+
+    
+
+class ('ERROROBJECTDATA', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwVersion"),(('DWORD', None), "dwHelpContext"),(('IID', None), "iid"),(('PWCHAR_T', None), "pszSource"),(('PWCHAR_T', None), "pszDescription"),(('PWCHAR_T', None), "pszHelpFile"),]
+
+    
+
+class ('STDOBJREF', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "flags"),(('UNSIGNED_LONG', None), "cPublicRefs"),(('OXID', None), "oxid"),(('OID', None), "oid"),(('IPID', None), "ipid"),]
+
+    
+
+class ('REMQIRESULT', None)(NdrStructure):
+    MEMBERS = [(('HRESULT', None), "hResult"),(('STDOBJREF', None), "std"),]
+
+    
+
+class ('REMINTERFACEREF', None)(NdrStructure):
+    MEMBERS = [(('IPID', None), "ipid"),(('UNSIGNED_LONG', None), "cPublicRefs"),(('UNSIGNED_LONG', None), "cPrivateRefs"),]
+
+    
+
+class ('COSERVERINFO', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwReserved1"),(('PWCHAR_T', None), "pwszName"),(('PDWORD', None), "pdwReserved"),(('DWORD', None), "dwReserved2"),]
+
+    
+
+class ('CUSTOMREMOTE_REQUEST_SCM_INFO', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "ClientImpLevel"),(('UNSIGNED_SHORT', None), "cRequestedProtseqs"),(('PUNSIGNED_SHORT', None), "pRequestedProtseqs"),]
+
+    
+
+class ('CUSTOMREMOTE_REPLY_SCM_INFO', None)(NdrStructure):
+    MEMBERS = [(('OXID', None), "Oxid"),(('PDUALSTRINGARRAY', None), "pdsaOxidBindings"),(('IPID', None), "ipidRemUnknown"),(('DWORD', None), "authnHint"),(('COMVERSION', None), "serverVersion"),]
+
+    
+
+class ('INSTANTIATIONINFODATA', None)(NdrStructure):
+    MEMBERS = [(('CLSID', None), "classId"),(('DWORD', None), "classCtx"),(('DWORD', None), "actvflags"),(('LONG', None), "fIsSurrogate"),(('DWORD', None), "cIID"),(('DWORD', None), "instFlag"),(('PIID', None), "pIID"),(('DWORD', None), "thisSize"),(('COMVERSION', None), "clientCOMVersion"),]
+
+    
+
+class ('LOCATIONINFODATA', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR_T', None), "machineName"),(('DWORD', None), "processId"),(('DWORD', None), "apartmentId"),(('DWORD', None), "contextId"),]
+
+    
+
+class ('ACTIVATIONCONTEXTINFODATA', None)(NdrStructure):
+    MEMBERS = [(('LONG', None), "clientOK"),(('LONG', None), "bReserved1"),(('DWORD', None), "dwReserved1"),(('DWORD', None), "dwReserved2"),(('PMINTERFACEPOINTER', None), "pIFDClientCtx"),(('PMINTERFACEPOINTER', None), "pIFDPrototypeCtx"),]
+
+    
+
+class ('CUSTOMHEADER', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "totalSize"),(('DWORD', None), "headerSize"),(('DWORD', None), "dwReserved"),(('DWORD', None), "destCtx"),(('DWORD', None), "cIfs"),(('CLSID', None), "classInfoClsid"),(('PCLSID', None), "pclsid"),(('PDWORD', None), "pSizes"),(('PDWORD', None), "pdwReserved"),]
+
+    
+
+class ('PROPSOUTINFO', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "cIfs"),(('PIID', None), "piid"),(('PHRESULT', None), "phresults"),(('PPMINTERFACEPOINTER', None), "ppIntfData"),]
+
+    
+
+class ('SECURITYINFODATA', None)(NdrStructure):
+    MEMBERS = [(('DWORD', None), "dwAuthnFlags"),(('PCOSERVERINFO', None), "pServerInfo"),(('PDWORD', None), "pdwReserved"),]
+
+    
+
+class ('SCMREQUESTINFODATA', None)(NdrStructure):
+    MEMBERS = [(('PDWORD', None), "pdwReserved"),(('PCUSTOMREMOTE_REQUEST_SCM_INFO', None), "remoteRequest"),]
+
+    
+
+class ('SCMREPLYINFODATA', None)(NdrStructure):
+    MEMBERS = [(('PDWORD', None), "pdwReserved"),(('PCUSTOMREMOTE_REPLY_SCM_INFO', None), "remoteReply"),]
+
+    
+
+class ('INSTANCEINFODATA', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR_T', None), "fileName"),(('DWORD', None), "mode"),(('PMINTERFACEPOINTER', None), "ifdROT"),(('PMINTERFACEPOINTER', None), "ifdStg"),]
+
+    
+
+class ('SPECIALPROPERTIESDATA', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "dwSessionId"),(('LONG', None), "fRemoteThisSessionId"),(('LONG', None), "fClientImpersonating"),(('LONG', None), "fPartitionIDPresent"),(('DWORD', None), "dwDefaultAuthnLvl"),(('GUID', None), "guidPartition"),(('DWORD', None), "dwPRTFlags"),(('DWORD', None), "dwOrigClsctx"),(('DWORD', None), "dwFlags"),(('DWORD', None), "Reserved1"),(('UNSIGNED___INT64', None), "Reserved2"),(('DWORD', None), "Reserved3"),]
+
+    
+
+class ('SPECIALPROPERTIESDATA_ALTERNATE', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "dwSessionId"),(('LONG', None), "fRemoteThisSessionId"),(('LONG', None), "fClientImpersonating"),(('LONG', None), "fPartitionIDPresent"),(('DWORD', None), "dwDefaultAuthnLvl"),(('GUID', None), "guidPartition"),(('DWORD', None), "dwPRTFlags"),(('DWORD', None), "dwOrigClsctx"),(('DWORD', None), "dwFlags"),(('DWORD', None), "Reserved3"),]
+
+    
+Method("RemoteActivation",
+In(HANDLE_T),
+In(PORPCTHIS),
+Out(PORPCTHAT),
+In(PGUID),
+In(PWCHAR_T),
+In(PMINTERFACEPOINTER),
+In(DWORD),
+In(DWORD),
+In(DWORD),
+In(PIID),
+In(UNSIGNED_SHORT),
+In(UNSIGNED_SHORT),
+Out(POXID),
+Out(PPDUALSTRINGARRAY),
+Out(PIPID),
+Out(PDWORD),
+Out(PCOMVERSION),
+Out(PHRESULT),
+Out(PPMINTERFACEPOINTER),
+Out(PHRESULT),
+),
+class ('VDS_PACK_NOTIFICATION', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "ulEvent"),(('VDS_OBJECT_ID', None), "packId"),]
+
+    
+
+class ('VDS_DISK_NOTIFICATION', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "ulEvent"),(('VDS_OBJECT_ID', None), "diskId"),]
+
+    
+
+class ('VDS_VOLUME_NOTIFICATION', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "ulEvent"),(('VDS_OBJECT_ID', None), "volumeId"),(('VDS_OBJECT_ID', None), "plexId"),(('UNSIGNED_LONG', None), "ulPercentCompleted"),]
+
+    
+
+class ('VDS_PARTITION_NOTIFICATION', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "ulEvent"),(('VDS_OBJECT_ID', None), "diskId"),(('ULONGLONG', None), "ullOffset"),]
+
+    
+
+class ('VDS_DRIVE_LETTER_NOTIFICATION', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "ulEvent"),(('WCHAR', None), "wcLetter"),(('VDS_OBJECT_ID', None), "volumeId"),]
+
+    
+
+class ('VDS_FILE_SYSTEM_NOTIFICATION', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "ulEvent"),(('VDS_OBJECT_ID', None), "volumeId"),(('DWORD', None), "dwPercentCompleted"),]
+
+    
+
+class ('VDS_MOUNT_POINT_NOTIFICATION', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "ulEvent"),(('VDS_OBJECT_ID', None), "volumeId"),]
+
+    
+
+class ('VDS_SERVICE_NOTIFICATION', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "ulEvent"),(('VDS_RECOVER_ACTION', None), "action"),]
+
+    
+
+class ('VDS_NOTIFICATION', None)(NdrStructure):
+    MEMBERS = [(('VDS_NOTIFICATION_TARGET_TYPE', None), "objectType"),(('U0', None), "u0"),]
+
+    
+
+class ('VDS_ASYNC_OUTPUT', None)(NdrStructure):
+    MEMBERS = [(('VDS_ASYNC_OUTPUT_TYPE', None), "type"),(('U0', None), "u0"),]
+
+    
+
+class ('VDS_PARTITION_INFO_MBR', None)(NdrStructure):
+    MEMBERS = [(('BYTE', None), "partitionType"),(('BOOLEAN', None), "bootIndicator"),(('BOOLEAN', None), "recognizedPartition"),(('DWORD', None), "hiddenSectors"),]
+
+    
+
+class ('VDS_PARTITION_INFO_GPT', None)(NdrStructure):
+    MEMBERS = [(('GUID', None), "partitionType"),(('GUID', None), "partitionId"),(('ULONGLONG', None), "attributes"),(('WCHAR', None), "name"),]
+
+    
+
+class ('VDS_STORAGE_IDENTIFIER', None)(NdrStructure):
+    MEMBERS = [(('VDS_STORAGE_IDENTIFIER_CODE_SET', None), "m_CodeSet"),(('VDS_STORAGE_IDENTIFIER_TYPE', None), "m_Type"),(('UNSIGNED_LONG', None), "m_cbIdentifier"),(('PBYTE', None), "m_rgbIdentifier"),]
+
+    
+
+class ('VDS_STORAGE_DEVICE_ID_DESCRIPTOR', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "m_version"),(('UNSIGNED_LONG', None), "m_cIdentifiers"),(('PVDS_STORAGE_IDENTIFIER', None), "m_rgIdentifiers"),]
+
+    
+
+class ('VDS_INTERCONNECT', None)(NdrStructure):
+    MEMBERS = [(('VDS_INTERCONNECT_ADDRESS_TYPE', None), "m_addressType"),(('UNSIGNED_LONG', None), "m_cbPort"),(('PBYTE', None), "m_pbPort"),(('UNSIGNED_LONG', None), "m_cbAddress"),(('PBYTE', None), "m_pbAddress"),]
+
+    
+
+class ('VDS_LUN_INFORMATION', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "m_version"),(('BYTE', None), "m_DeviceType"),(('BYTE', None), "m_DeviceTypeModifier"),(('LONG', None), "m_bCommandQueuing"),(('VDS_STORAGE_BUS_TYPE', None), "m_BusType"),(('PCHAR', None), "m_szVendorId"),(('PCHAR', None), "m_szProductId"),(('PCHAR', None), "m_szProductRevision"),(('PCHAR', None), "m_szSerialNumber"),(('GUID', None), "m_diskSignature"),(('VDS_STORAGE_DEVICE_ID_DESCRIPTOR', None), "m_deviceIdDescriptor"),(('UNSIGNED_LONG', None), "m_cInterconnects"),(('PVDS_INTERCONNECT', None), "m_rgInterconnects"),]
+
+    
+
+class ('VDS_FILE_SYSTEM_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_FILE_SYSTEM_TYPE', None), "type"),(('VDS_OBJECT_ID', None), "volumeId"),(('UNSIGNED_LONG', None), "ulFlags"),(('ULONGLONG', None), "ullTotalAllocationUnits"),(('ULONGLONG', None), "ullAvailableAllocationUnits"),(('UNSIGNED_LONG', None), "ulAllocationUnitSize"),(('PWCHAR', None), "pwszLabel"),]
+
+    
+
+class ('VDS_FILE_SYSTEM_FORMAT_SUPPORT_PROP', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_LONG', None), "ulFlags"),(('UNSIGNED_SHORT', None), "usRevision"),(('UNSIGNED_LONG', None), "ulDefaultUnitAllocationSize"),(('UNSIGNED_LONG', None), "rgulAllowedUnitAllocationSizes"),(('WCHAR', None), "wszName"),]
+
+    
+
+class ('VDS_DISK_EXTENT', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "diskId"),(('VDS_DISK_EXTENT_TYPE', None), "type"),(('ULONGLONG', None), "ullOffset"),(('ULONGLONG', None), "ullSize"),(('VDS_OBJECT_ID', None), "volumeId"),(('VDS_OBJECT_ID', None), "plexId"),(('UNSIGNED_LONG', None), "memberIdx"),]
+
+    
+
+class ('VDS_DISK_FREE_EXTENT', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "diskId"),(('ULONGLONG', None), "ullOffset"),(('ULONGLONG', None), "ullSize"),]
+
+    
+
+class ('VDS_PARTITION_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_PARTITION_STYLE', None), "PartitionStyle"),(('UNSIGNED_LONG', None), "ulFlags"),(('UNSIGNED_LONG', None), "ulPartitionNumber"),(('ULONGLONG', None), "ullOffset"),(('ULONGLONG', None), "ullSize"),(('U0', None), "u0"),]
+
+    
+
+class ('VDS_INPUT_DISK', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "diskId"),(('ULONGLONG', None), "ullSize"),(('VDS_OBJECT_ID', None), "plexId"),(('UNSIGNED_LONG', None), "memberIdx"),]
+
+    
+
+class ('CREATE_PARTITION_PARAMETERS', None)(NdrStructure):
+    MEMBERS = [(('VDS_PARTITION_STYLE', None), "style"),(('U0', None), "u0"),]
+
+    
+
+class ('VIRTUAL_STORAGE_TYPE', None)(NdrStructure):
+    MEMBERS = [(('ULONG', None), "DeviceId"),(('GUID', None), "VendorId"),]
+
+    
+
+class ('VDS_REPARSE_POINT_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "SourceVolumeId"),(('PWCHAR', None), "pwszPath"),]
+
+    
+
+class ('VDS_DRIVE_LETTER_PROP', None)(NdrStructure):
+    MEMBERS = [(('WCHAR', None), "wcLetter"),(('VDS_OBJECT_ID', None), "volumeId"),(('UNSIGNED_LONG', None), "ulFlags"),(('LONG', None), "bUsed"),]
+
+    
+
+class ('VDS_FILE_SYSTEM_TYPE_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_FILE_SYSTEM_TYPE', None), "type"),(('WCHAR', None), "wszName"),(('UNSIGNED_LONG', None), "ulFlags"),(('UNSIGNED_LONG', None), "ulCompressionFlags"),(('UNSIGNED_LONG', None), "ulMaxLabelLength"),(('PWCHAR', None), "pwszIllegalLabelCharSet"),]
+
+    
+
+class ('CHANGE_ATTRIBUTES_PARAMETERS', None)(NdrStructure):
+    MEMBERS = [(('VDS_PARTITION_STYLE', None), "style"),(('U0', None), "u0"),]
+
+    
+
+class ('CHANGE_PARTITION_TYPE_PARAMETERS', None)(NdrStructure):
+    MEMBERS = [(('VDS_PARTITION_STYLE', None), "style"),(('U0', None), "u0"),]
+
+    
+
+class ('VDS_WWN', None)(NdrStructure):
+    MEMBERS = [(('UNSIGNED_CHAR', None), "rguchWwn"),]
+
+    
+
+class ('VDS_IPADDRESS', None)(NdrStructure):
+    MEMBERS = [(('VDS_IPADDRESS_TYPE', None), "type"),(('UNSIGNED_LONG', None), "ipv4Address"),(('UNSIGNED_CHAR', None), "ipv6Address"),(('UNSIGNED_LONG', None), "ulIpv6FlowInfo"),(('UNSIGNED_LONG', None), "ulIpv6ScopeId"),(('WCHAR', None), "wszTextAddress"),(('UNSIGNED_LONG', None), "ulPort"),]
+
+    
+
+class ('VDS_ISCSI_SHARED_SECRET', None)(NdrStructure):
+    MEMBERS = [(('PUNSIGNED_CHAR', None), "pSharedSecret"),(('UNSIGNED_LONG', None), "ulSharedSecretSize"),]
+
+    
+
+class ('VDS_SERVICE_PROP', None)(NdrStructure):
+    MEMBERS = [(('PWCHAR', None), "pwszVersion"),(('UNSIGNED_LONG', None), "ulFlags"),]
+
+    
+
+class ('VDS_HBAPORT_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "id"),(('VDS_WWN', None), "wwnNode"),(('VDS_WWN', None), "wwnPort"),(('VDS_HBAPORT_TYPE', None), "type"),(('VDS_HBAPORT_STATUS', None), "status"),(('UNSIGNED_LONG', None), "ulPortSpeed"),(('UNSIGNED_LONG', None), "ulSupportedPortSpeed"),]
+
+    
+
+class ('VDS_ISCSI_INITIATOR_ADAPTER_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "id"),(('PWCHAR', None), "pwszName"),]
+
+    
+
+class ('VDS_ISCSI_INITIATOR_PORTAL_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "id"),(('VDS_IPADDRESS', None), "address"),(('UNSIGNED_LONG', None), "ulPortIndex"),]
+
+    
+
+class ('VDS_PROVIDER_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "id"),(('PWCHAR', None), "pwszName"),(('GUID', None), "guidVersionId"),(('PWCHAR', None), "pwszVersion"),(('VDS_PROVIDER_TYPE', None), "type"),(('UNSIGNED_LONG', None), "ulFlags"),(('UNSIGNED_LONG', None), "ulStripeSizeFlags"),(('SHORT', None), "sRebuildPriority"),]
+
+    
+
+class ('VDS_PACK_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "id"),(('PWCHAR', None), "pwszName"),(('VDS_PACK_STATUS', None), "status"),(('UNSIGNED_LONG', None), "ulFlags"),]
+
+    
+
+class ('VDS_DISK_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "id"),(('VDS_DISK_STATUS', None), "status"),(('VDS_LUN_RESERVE_MODE', None), "ReserveMode"),(('VDS_HEALTH', None), "health"),(('DWORD', None), "dwDeviceType"),(('DWORD', None), "dwMediaType"),(('ULONGLONG', None), "ullSize"),(('UNSIGNED_LONG', None), "ulBytesPerSector"),(('UNSIGNED_LONG', None), "ulSectorsPerTrack"),(('UNSIGNED_LONG', None), "ulTracksPerCylinder"),(('UNSIGNED_LONG', None), "ulFlags"),(('VDS_STORAGE_BUS_TYPE', None), "BusType"),(('VDS_PARTITION_STYLE', None), "PartitionStyle"),(('PWSZDEVICEPATH', None), "u0"),(('PWCHAR', None), "pwszDiskAddress"),(('PWCHAR', None), "pwszName"),(('PWCHAR', None), "pwszFriendlyName"),(('PWCHAR', None), "pwszAdaptorName"),(('PWCHAR', None), "pwszDevicePath"),]
+
+    
+
+class ('VDS_DISK_PROP2', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "id"),(('VDS_DISK_STATUS', None), "status"),(('VDS_LUN_RESERVE_MODE', None), "ReserveMode"),(('VDS_HEALTH', None), "health"),(('DWORD', None), "dwDeviceType"),(('DWORD', None), "dwMediaType"),(('ULONGLONG', None), "ullSize"),(('UNSIGNED_LONG', None), "ulBytesPerSector"),(('UNSIGNED_LONG', None), "ulSectorsPerTrack"),(('UNSIGNED_LONG', None), "ulTracksPerCylinder"),(('UNSIGNED_LONG', None), "ulFlags"),(('VDS_STORAGE_BUS_TYPE', None), "BusType"),(('VDS_PARTITION_STYLE', None), "PartitionStyle"),(('PWSZLOCATIONPATH', None), "u0"),(('PWCHAR', None), "pwszDiskAddress"),(('PWCHAR', None), "pwszName"),(('PWCHAR', None), "pwszFriendlyName"),(('PWCHAR', None), "pwszAdaptorName"),(('PWCHAR', None), "pwszDevicePath"),(('PWCHAR', None), "pwszLocationPath"),]
+
+    
+
+class ('VDS_ADVANCEDDISK_PROP', None)(NdrStructure):
+    MEMBERS = [(('LPWSTR', None), "pwszId"),(('LPWSTR', None), "pwszPathname"),(('LPWSTR', None), "pwszLocation"),(('LPWSTR', None), "pwszFriendlyName"),(('LPWSTR', None), "pswzIdentifier"),(('USHORT', None), "usIdentifierFormat"),(('ULONG', None), "ulNumber"),(('LPWSTR', None), "pwszSerialNumber"),(('LPWSTR', None), "pwszFirmwareVersion"),(('LPWSTR', None), "pwszManufacturer"),(('LPWSTR', None), "pwszModel"),(('ULONGLONG', None), "ullTotalSize"),(('ULONGLONG', None), "ullAllocatedSize"),(('ULONG', None), "ulLogicalSectorSize"),(('ULONG', None), "ulPhysicalSectorSize"),(('ULONG', None), "ulPartitionCount"),(('VDS_DISK_STATUS', None), "status"),(('VDS_HEALTH', None), "health"),(('VDS_STORAGE_BUS_TYPE', None), "BusType"),(('VDS_PARTITION_STYLE', None), "PartitionStyle"),(('DWDEVICETYPE', None), "u0"),(('ULONG', None), "ulFlags"),(('DWORD', None), "dwDeviceType"),]
+
+    
+
+class ('VDS_VOLUME_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "id"),(('VDS_VOLUME_TYPE', None), "type"),(('VDS_VOLUME_STATUS', None), "status"),(('VDS_HEALTH', None), "health"),(('VDS_TRANSITION_STATE', None), "TransitionState"),(('ULONGLONG', None), "ullSize"),(('UNSIGNED_LONG', None), "ulFlags"),(('VDS_FILE_SYSTEM_TYPE', None), "RecommendedFileSystemType"),(('PWCHAR', None), "pwszName"),]
+
+    
+
+class ('VDS_VOLUME_PROP2', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "id"),(('VDS_VOLUME_TYPE', None), "type"),(('VDS_VOLUME_STATUS', None), "status"),(('VDS_HEALTH', None), "health"),(('VDS_TRANSITION_STATE', None), "TransitionState"),(('ULONGLONG', None), "ullSize"),(('UNSIGNED_LONG', None), "ulFlags"),(('VDS_FILE_SYSTEM_TYPE', None), "RecommendedFileSystemType"),(('ULONG', None), "cbUniqueId"),(('PWCHAR', None), "pwszName"),(('PBYTE', None), "pUniqueId"),]
+
+    
+
+class ('VDS_VOLUME_PLEX_PROP', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "id"),(('VDS_VOLUME_PLEX_TYPE', None), "type"),(('VDS_VOLUME_PLEX_STATUS', None), "status"),(('VDS_HEALTH', None), "health"),(('VDS_TRANSITION_STATE', None), "TransitionState"),(('ULONGLONG', None), "ullSize"),(('UNSIGNED_LONG', None), "ulStripeSize"),(('UNSIGNED_LONG', None), "ulNumberOfMembers"),]
+
+    
+
+class ('VDS_CREATE_VDISK_PARAMETERS', None)(NdrStructure):
+    MEMBERS = [(('GUID', None), "UniqueId"),(('ULONGLONG', None), "MaximumSize"),(('ULONG', None), "BlockSizeInBytes"),(('ULONG', None), "SectorSizeInBytes"),(('LPWSTR', None), "pParentPath"),(('LPWSTR', None), "pSourcePath"),]
+
+    
+
+class ('VDS_VDISK_PROPERTIES', None)(NdrStructure):
+    MEMBERS = [(('VDS_OBJECT_ID', None), "Id"),(('VDS_VDISK_STATE', None), "State"),(('VIRTUAL_STORAGE_TYPE', None), "VirtualDeviceType"),(('ULONGLONG', None), "VirtualSize"),(('ULONGLONG', None), "PhysicalSize"),(('LPWSTR', None), "pPath"),(('LPWSTR', None), "pDeviceName"),(('DEPENDENT_DISK_FLAG', None), "DiskFlag"),(('BOOL', None), "bIsChild"),(('LPWSTR', None), "pParentPath"),]
+
+    
+
+class ('PPVIRTUAL_STORAGE_TYPE', None)(NdrStructure):
+    MEMBERS = []
+
+    
 Method("Next",
 In(UNSIGNED_LONG),
 Out(PPIUNKNOWN),
 Out(PUNSIGNED_LONG),
-),
-Method("Skip",
+),Method("Skip",
 In(UNSIGNED_LONG),
-),
-Method("Reset",
-),
-Method("Clone",
+),Method("Reset",
+),Method("Clone",
 Out(PPIENUMVDSOBJECT),
 ),
-])
-interface_1 = Interface("8326cd1d-cf59-4936-b786-5efc08798e25", "1.0",[
-Method("OnNotify",
-In(LONG),
-In(PVDS_NOTIFICATION),
-),
-])
-interface_2 = Interface("d5d23b6d-555-4492-9889-397322bc", "1.0",[
-Method("Cancel",
-),
-Method("Wait",
-Out(PHRESULT),
-Out(PVDS_ASYNC_OUTPUT),
-),
-Method("QueryStatus",
-Out(PHRESULT),
-Out(PUNSIGNED_LONG),
-),
-])
-interface_3 = Interface("e0393303-904-497-ab71-e9b671ee2729", "1.0",[
-Method("LoadService",
-In(LPWSTR),
-Out(PPIVDSSERVICE),
-),
-])
-interface_4 = Interface("0818a8ef-9ba9-40d8-a6f9-e22833cc771e", "1.0",[
-Method("IsServiceReady",
-),
-Method("WaitForServiceReady",
-),
-Method("GetProperties",
-Out(PVDS_SERVICE_PROP),
-),
-Method("QueryProviders",
-In(DWORD),
-Out(PPIENUMVDSOBJECT),
-),
-Method("Opnum07NotUsedOnWire",
-In(),
-),
-Method("QueryUnallocatedDisks",
-Out(PPIENUMVDSOBJECT),
-),
-Method("GetObject",
-In(VDS_OBJECT_ID),
-In(VDS_OBJECT_TYPE),
-Out(PPIUNKNOWN),
-),
-Method("QueryDriveLetters",
-In(WCHAR),
-In(DWORD),
-Out(PVDS_DRIVE_LETTER_PROP),
-),
-Method("QueryFileSystemTypes",
-Out(PPVDS_FILE_SYSTEM_TYPE_PROP),
-Out(PLONG),
-),
-Method("Reenumerate",
-),
-Method("Refresh",
-),
-Method("CleanupObsoleteMountPoints",
-),
-Method("Advise",
-In(PIVDSADVISESINK),
-Out(PDWORD),
-),
-Method("Unadvise",
-In(DWORD),
-),
-Method("Reboot",
-),
-Method("SetFlags",
-In(UNSIGNED_LONG),
-),
-Method("ClearFlags",
-In(UNSIGNED_LONG),
-),
-])
-interface_5 = Interface("4afc3636-db01-4052-80c3-03bbcb8d3c69", "1.0",[
-Method("Initialize",
-In(PWCHAR),
-),
-])
-interface_6 = Interface("B6B22DA8-F903-4e7-B492-C09D875AC9DA", "1.0",[
-Method("GetDiskIdFromLunInfo",
-In(PVDS_LUN_INFORMATION),
-Out(PVDS_OBJECT_ID),
-),
-Method("UninstallDisks",
-In(PVDS_OBJECT_ID),
-In(UNSIGNED_LONG),
-In(BOOLEAN),
-Out(PBOOLEAN),
-Out(PHRESULT),
-),
-])
-interface_7 = Interface("0ac13689-3134-47c6-a17c-4669216801be", "1.0",[
-Method("QueryHbaPorts",
-Out(PPIENUMVDSOBJECT),
-),
-])
-interface_8 = Interface("14fbe036-3ed7-4e10-90e9-a5ff991aff01", "1.0",[
-Method("GetInitiatorName",
-Out(PPWCHAR),
-),
-Method("QueryInitiatorAdapters",
-Out(PPIENUMVDSOBJECT),
-),
-Method("Opnum05NotUsedOnWire",
-In(),
-),
-Method("Opnum06NotUsedOnWire",
-In(),
-),
-Method("Opnum07NotUsedOnWire",
-In(),
-),
-Method("SetInitiatorSharedSecret",
-In(PVDS_ISCSI_SHARED_SECRET),
-In(VDS_OBJECT_ID),
-),
-Method("Opnum09NotUsedOnWire",
-In(),
-),
-])
-interface_9 = Interface("FC5D23E8-A88B-415-8E0-22735630", "1.0",[
-Method("GetSANPolicy",
-Out(PVDS_SAN_POLICY),
-),
-Method("SetSANPolicy",
-In(VDS_SAN_POLICY),
-),
-])
-interface_10 = Interface("15fc031c-0652-4306-b2c3-f558b8f837e2", "1.0",[
-Method("GetDiskObject",
-In(LPCWSTR),
-Out(PPIUNKNOWN),
-),
-])
-interface_11 = Interface("2abd757f-2851-4997-9a13-47d2a885d6ca", "1.0",[
-Method("GetProperties",
-Out(PVDS_HBAPORT_PROP),
-),
-Method("SetAllPathStatuses",
-In(VDS_PATH_STATUS),
-),
-])
-interface_12 = Interface("b07fedd4-1682-4440-9189-a39b55194dc5", "1.0",[
-Method("GetProperties",
-Out(PVDS_ISCSI_INITIATOR_ADAPTER_PROP),
-),
-Method("QueryInitiatorPortals",
-Out(PPIENUMVDSOBJECT),
-),
-Method("Opnum05NotUsedOnWire",
-In(),
-),
-Method("Opnum06NotUsedOnWire",
-In(),
-),
-])
-interface_13 = Interface("38a0a9ab-7cc8-4693-ac07-1f28bd03c3da", "1.0",[
-Method("GetProperties",
-Out(PVDS_ISCSI_INITIATOR_PORTAL_PROP),
-),
-Method("GetInitiatorAdapter",
-Out(PPIVDSISCSIINITIATORADAPTER),
-),
-Method("Opnum05NotUsedOnWire",
-In(),
-),
-Method("Opnum06NotUsedOnWire",
-In(),
-),
-Method("Opnum07NotUsedOnWire",
-In(),
-),
-])
-interface_14 = Interface("10c5e575-7984-4e81-a56b-431f5f92ae42", "1.0",[
-Method("GetProperties",
-Out(PVDS_PROVIDER_PROP),
-),
-])
-interface_15 = Interface("9aa58360-ce33-4f92-b658-ed24b14425b8", "1.0",[
-Method("QueryPacks",
-Out(PPIENUMVDSOBJECT),
-),
-Method("CreatePack",
-Out(PPIVDSPACK),
-),
-])
-interface_16 = Interface("d99bdaae-b13a-4178-9db-e27f16b4603e", "1.0",[
-Method("QuerySubSystems",
-Out(PPIENUMVDSOBJECT),
-),
-Method("Opnum04NotUsedOnWire",
-In(),
-),
-Method("Opnum05NotUsedOnWire",
-In(),
-),
-])
-interface_17 = Interface("b481498c-8354-459-840-0dd2832a91f", "1.0",[
-Method("QueryVDisks",
-Out(PPIENUMVDSOBJECT),
-),
-Method("CreateVDisk",
-In(PVIRTUAL_STORAGE_TYPE),
-In(LPWSTR),
-In(LPWSTR),
-In(CREATE_VIRTUAL_DISK_FLAG),
-In(ULONG),
-In(ULONG),
-In(PVDS_CREATE_VDISK_PARAMETERS),
-InOut(PPIVDSASYNC),
-),
-Method("AddVDisk",
-In(PVIRTUAL_STORAGE_TYPE),
-In(LPWSTR),
-Out(PPIVDSVDISK),
-),
-Method("GetDiskFromVDisk",
-In(PIVDSVDISK),
-Out(PPIVDSDISK),
-),
-Method("GetVDiskFromDisk",
-In(PIVDSDISK),
-Out(PPIVDSVDISK),
-),
-])
-interface_18 = Interface("83bfb87f-43fb-4903-baa6-127f01029eec", "1.0",[
-Method("GetImportTarget",
-Out(PLPWSTR),
-),
-Method("SetImportTarget",
-In(LPWSTR),
-),
-])
-interface_19 = Interface("3b69d7f5-9d94-4648-91ca-79939ba263bf", "1.0",[
-Method("GetProperties",
-Out(PVDS_PACK_PROP),
-),
-Method("GetProvider",
-Out(PPIVDSPROVIDER),
-),
-Method("QueryVolumes",
-Out(PPIENUMVDSOBJECT),
-),
-Method("QueryDisks",
-Out(PPIENUMVDSOBJECT),
-),
-Method("CreateVolume",
-In(VDS_VOLUME_TYPE),
-In(PVDS_INPUT_DISK),
-In(LONG),
-In(UNSIGNED_LONG),
-Out(PPIVDSASYNC),
-),
-Method("AddDisk",
-In(VDS_OBJECT_ID),
-In(VDS_PARTITION_STYLE),
-In(LONG),
-),
-Method("MigrateDisks",
-In(PVDS_OBJECT_ID),
-In(LONG),
-In(VDS_OBJECT_ID),
-In(LONG),
-In(LONG),
-Out(PHRESULT),
-Out(PLONG),
-),
-Method("Opnum10NotUsedOnWire",
-In(),
-),
-Method("RemoveMissingDisk",
-In(VDS_OBJECT_ID),
-),
-Method("Recover",
-Out(PPIVDSASYNC),
-),
-])
-interface_20 = Interface("13B50BFF-290A-47DD-8558-B7C58DB1A71A", "1.0",[
-Method("CreateVolume2",
-In(VDS_VOLUME_TYPE),
-In(PVDS_INPUT_DISK),
-In(LONG),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-Out(PPIVDSASYNC),
-),
-])
-interface_21 = Interface("07e5c822-f00c-47a1-8fce-b244da56fd06", "1.0",[
-Method("GetProperties",
-Out(PVDS_DISK_PROP),
-),
-Method("GetPack",
-Out(PPIVDSPACK),
-),
-Method("GetIdentificationData",
-Out(PVDS_LUN_INFORMATION),
-),
-Method("QueryExtents",
-Out(PPVDS_DISK_EXTENT),
-Out(PLONG),
-),
-Method("ConvertStyle",
-In(VDS_PARTITION_STYLE),
-),
-Method("SetFlags",
-In(UNSIGNED_LONG),
-),
-Method("ClearFlags",
-In(UNSIGNED_LONG),
-),
-])
-interface_22 = Interface("40F73C8B-687D-4a13-8D96-3D7F2E683936", "1.0",[
-Method("SetSANMode",
-In(LONG),
-),
-])
-interface_23 = Interface("8F4B2F5D-EC15-4357-992F-473EF10975B9", "1.0",[
-Method("GetProperties2",
-Out(PVDS_DISK_PROP2),
-),
-Method("QueryFreeExtents",
-In(ULONG),
-Out(PPVDS_DISK_FREE_EXTENT),
-Out(PLONG),
-),
-])
-interface_24 = Interface("6e6f6b40-977c-4069-bddd-ac710059f8c0", "1.0",[
-Method("GetPartitionProperties",
-In(ULONGLONG),
-Out(PVDS_PARTITION_PROP),
-),
-Method("QueryPartitions",
-Out(PPVDS_PARTITION_PROP),
-Out(PLONG),
-),
-Method("CreatePartition",
-In(ULONGLONG),
-In(ULONGLONG),
-In(PCREATE_PARTITION_PARAMETERS),
-Out(PPIVDSASYNC),
-),
-Method("DeletePartition",
-In(ULONGLONG),
-In(LONG),
-In(LONG),
-),
-Method("ChangeAttributes",
-In(ULONGLONG),
-In(PCHANGE_ATTRIBUTES_PARAMETERS),
-),
-Method("AssignDriveLetter",
-In(ULONGLONG),
-In(WCHAR),
-),
-Method("DeleteDriveLetter",
-In(ULONGLONG),
-In(WCHAR),
-),
-Method("GetDriveLetter",
-In(ULONGLONG),
-Out(PWCHAR),
-),
-Method("FormatPartition",
-In(ULONGLONG),
-In(VDS_FILE_SYSTEM_TYPE),
-In(PWCHAR),
-In(DWORD),
-In(LONG),
-In(LONG),
-In(LONG),
-Out(PPIVDSASYNC),
-),
-Method("Clean",
-In(LONG),
-In(LONG),
-In(LONG),
-Out(PPIVDSASYNC),
-),
-])
-interface_25 = Interface("9723f420-9355-42de-ab66-e31bb15beeac", "1.0",[
-Method("ChangePartitionType",
-In(ULONGLONG),
-In(LONG),
-In(PCHANGE_PARTITION_TYPE_PARAMETERS),
-),
-])
-interface_26 = Interface("3858C0D5-0F35-4BF5-9714-69874963BC36", "1.0",[
-Method("GetProperties",
-Out(PVDS_ADVANCEDDISK_PROP),
-),
-Method("GetUniqueId",
-Out(PLPWSTR),
-),
-])
-interface_27 = Interface("9882f547-cfc3-420b-9750-00dfbec50662", "1.0",[
-Method("CreatePartitionEx",
-In(ULONGLONG),
-In(ULONGLONG),
-In(UNSIGNED_LONG),
-In(PCREATE_PARTITION_PARAMETERS),
-Out(PPIVDSASYNC),
-),
-])
-interface_28 = Interface("90681B1D-6A7F-48e8-9061-31B7AA125322", "1.0",[
-Method("Online",
-In(),
-),
-Method("Offline",
-In(),
-),
-])
-interface_29 = Interface("538684e0-ba3d-4bc0-aca9-164aff85c2a9", "1.0",[
-Method("GetPartitionFileSystemProperties",
-In(ULONGLONG),
-Out(PVDS_FILE_SYSTEM_PROP),
-),
-Method("GetPartitionFileSystemTypeName",
-In(ULONGLONG),
-Out(PPWCHAR),
-),
-Method("QueryPartitionFileSystemFormatSupport",
-In(ULONGLONG),
-Out(PPVDS_FILE_SYSTEM_FORMAT_SUPPORT_PROP),
-Out(PLONG),
-),
-Method("FormatPartitionEx",
-In(ULONGLONG),
-In(PWCHAR),
-In(UNSIGNED_SHORT),
-In(UNSIGNED_LONG),
-In(PWCHAR),
-In(LONG),
-In(LONG),
-In(LONG),
-Out(PPIVDSASYNC),
-),
-])
-interface_30 = Interface("9CBE50CA-F2D2-4bf4-ACE1-96896B729625", "1.0",[
-Method("FormatPartitionEx2",
-In(ULONGLONG),
-In(LPWSTR),
-In(UNSIGNED_SHORT),
-In(UNSIGNED_LONG),
-In(LPWSTR),
-In(DWORD),
-Out(PPIVDSASYNC),
-),
-])
-interface_31 = Interface("0316560b-5db4-4ed9-bbb5-213436ddc0d9", "1.0",[
-Method("QueryMedia",
-),
-Method("Eject",
-),
-])
-interface_32 = Interface("88306bb2-e71f-478c-86a2-79da200a0f11", "1.0",[
-Method("GetProperties",
-Out(PVDS_VOLUME_PROP),
-),
-Method("GetPack",
-Out(PPIVDSPACK),
-),
-Method("QueryPlexes",
-Out(PPIENUMVDSOBJECT),
-),
-Method("Extend",
-In(PVDS_INPUT_DISK),
-In(LONG),
-Out(PPIVDSASYNC),
-),
-Method("Shrink",
-In(ULONGLONG),
-Out(PPIVDSASYNC),
-),
-Method("AddPlex",
-In(VDS_OBJECT_ID),
-Out(PPIVDSASYNC),
-),
-Method("BreakPlex",
-In(VDS_OBJECT_ID),
-Out(PPIVDSASYNC),
-),
-Method("RemovePlex",
-In(VDS_OBJECT_ID),
-Out(PPIVDSASYNC),
-),
-Method("Delete",
-In(LONG),
-),
-Method("SetFlags",
-In(UNSIGNED_LONG),
-In(LONG),
-),
-Method("ClearFlags",
-In(UNSIGNED_LONG),
-),
-])
-interface_33 = Interface("72AE6713-DCBB-4a03-B36B-371F6AC6B53D", "1.0",[
-Method("GetProperties2",
-Out(PVDS_VOLUME_PROP2),
-),
-])
-interface_34 = Interface("ee2d5ded-6236-4169-931-b9778ce03dc6", "1.0",[
-Method("GetFileSystemProperties",
-Out(PVDS_FILE_SYSTEM_PROP),
-),
-Method("Format",
-In(VDS_FILE_SYSTEM_TYPE),
-In(PWCHAR),
-In(DWORD),
-In(LONG),
-In(LONG),
-In(LONG),
-Out(PPIVDSASYNC),
-),
-Method("AddAccessPath",
-In(PWCHAR),
-),
-Method("QueryAccessPaths",
-Out(PPLPWSTR),
-Out(PLONG),
-),
-Method("QueryReparsePoints",
-Out(PPVDS_REPARSE_POINT_PROP),
-Out(PLONG),
-),
-Method("DeleteAccessPath",
-In(PWCHAR),
-In(LONG),
-),
-Method("Mount",
-),
-Method("Dismount",
-In(LONG),
-In(LONG),
-),
-Method("SetFileSystemFlags",
-In(UNSIGNED_LONG),
-),
-Method("ClearFileSystemFlags",
-In(UNSIGNED_LONG),
-),
-])
-interface_35 = Interface("4dbcee9a-6343-4651-b85f-5e75d74d983c", "1.0",[
-Method("GetFileSystemTypeName",
-Out(PPWCHAR),
-),
-Method("QueryFileSystemFormatSupport",
-Out(PPVDS_FILE_SYSTEM_FORMAT_SUPPORT_PROP),
-Out(PLONG),
-),
-Method("FormatEx",
-In(PWCHAR),
-In(UNSIGNED_SHORT),
-In(UNSIGNED_LONG),
-In(PWCHAR),
-In(LONG),
-In(LONG),
-In(LONG),
-Out(PPIVDSASYNC),
-),
-])
-interface_36 = Interface("6788FAF9-214E-4b85-BA59-266953616E09", "1.0",[
-Method("QueryVolumeGuidPathnames",
-Out(PPLPWSTR),
-Out(PULONG),
-),
-Method("FormatEx2",
-In(LPWSTR),
-In(USHORT),
-In(ULONG),
-In(LPWSTR),
-In(DWORD),
-Out(PPIVDSASYNC),
-),
-Method("OfflineVolume",
-In(),
-),
-])
-interface_37 = Interface("d68168c9-822-485-b6e9-747074958", "1.0",[
-Method("QueryMaxReclaimableBytes",
-Out(PULONGLONG),
-),
-Method("Shrink",
-In(ULONGLONG),
-In(ULONGLONG),
-Out(PPIVDSASYNC),
-),
-])
-interface_38 = Interface("1BE2275A-B315-4f70-9E44-879B3A2A53F2", "1.0",[
-Method("Online",
-),
-])
-interface_39 = Interface("4daa0135-e1d1-40f1-aaa5-3cc1e53221c3", "1.0",[
-Method("GetProperties",
-Out(PVDS_VOLUME_PLEX_PROP),
-),
-Method("GetVolume",
-Out(PPIVDSVOLUME),
-),
-Method("QueryExtents",
-Out(PPVDS_DISK_EXTENT),
-Out(PLONG),
-),
-Method("Repair",
-In(PVDS_INPUT_DISK),
-In(LONG),
-Out(PPIVDSASYNC),
-),
-])
-interface_40 = Interface("1e062b84-e5e6-4b4b-8a25-67b81e8f13e8", "1.0",[
-Method("Open",
-In(VIRTUAL_DISK_ACCESS_MASK),
-In(OPEN_VIRTUAL_DISK_FLAG),
-In(ULONG),
-Out(PPIVDSOPENVDISK),
-),
-Method("GetProperties",
-Out(PVDS_VDISK_PROPERTIES),
-),
-Method("GetHostVolume",
-Out(PPIVDSVOLUME),
-),
-Method("GetDeviceName",
-Out(PLPWSTR),
-),
-])
-interface_41 = Interface("75c8f324-f715-4fe3-a28e-f9011b61a4a1", "1.0",[
-Method("Attach",
-In(LPWSTR),
-In(ATTACH_VIRTUAL_DISK_FLAG),
-In(ULONG),
-In(ULONG),
-Out(PPIVDSASYNC),
-),
-Method("Detach",
-In(DETACH_VIRTUAL_DISK_FLAG),
-In(ULONG),
-),
-Method("DetachAndDelete",
-In(DETACH_VIRTUAL_DISK_FLAG),
-In(ULONG),
-),
-Method("Compact",
-In(COMPACT_VIRTUAL_DISK_FLAG),
-In(ULONG),
-Out(PPIVDSASYNC),
-),
-Method("Merge",
-In(MERGE_VIRTUAL_DISK_FLAG),
-In(ULONG),
-Out(PPIVDSASYNC),
-),
-Method("Expand",
-In(EXPAND_VIRTUAL_DISK_FLAG),
-In(ULONGLONG),
-Out(PPIVDSASYNC),
-),
-])
