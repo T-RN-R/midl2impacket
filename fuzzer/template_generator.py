@@ -9,7 +9,7 @@ from impacketbuilder.converters.typing import TypeMapper
 from io import StringIO
 import pathlib
 from midlparser import parse_idl
-
+from .datatype import IDL_TO_NDR
 
 class FuzzerTemplateGenerator:
     """A class that generates fuzzing templates"""
@@ -22,6 +22,16 @@ class FuzzerTemplateGenerator:
 from fuzzer.midl import *
 from fuzzer.core import *
 """
+    def static(self):
+        if self.static_imports == "":
+            return
+        mapping = ""
+        for idl_name, py_name in IDL_TO_NDR.items():
+            canonicalized_name, _ = self.mapper.canonicalize(idl_name)
+            if canonicalized_name != py_name:
+                mapping += f"{canonicalized_name} = {py_name}\n"
+            self.mapper.add_type(canonicalized_name)
+        self.io.write(mapping)
 
     def generate_import(self, _import, import_dir):
         in_file = pathlib.Path(import_dir + _import.file)
@@ -31,6 +41,7 @@ from fuzzer.core import *
         """Generates a Python file that is a fuzzing template"""
         # TODO handle imports
         self.io.write(self.static_imports)
+        self.static()
         self.static_imports = ""
         for _import in midl_def.imports:
             self.generate_import(_import, import_dir)

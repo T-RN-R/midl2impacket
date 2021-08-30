@@ -1,3 +1,41 @@
+IDL_TO_NDR = {
+    "DWORD64" : "NdrHyper",
+    "DWORD" : "NdrLong",
+    "__INT64" : "NdrHyper",
+    "unsigned short": "NdrShort",
+    "unsigned char": "NdrByte",
+    "unsigned long": "NdrLong",
+    "unsignedlong": "NdrLong",
+    "unsigned int": "NdrLong",
+    "unsigned __int64": "NdrHyper",
+    "signed __int64": "NdrHyper",
+    "signed int": "NdrShort",
+    "signed long": "NdrLong",
+    "signed char": "NdrByte",
+    "signed short": "NdrShort",
+    "wchar_t": "NdrWString",
+    "char": "NdrByte",
+    "int": "NdrLong",
+    "void": "CONTEXT_HANDLE",
+    "long": "NdrLong",
+    "__int3264": "NdrHyper",
+    "unsigned __int3264": "NdrHyper",
+    "unsigned hyper": "NdrHyper",
+    "hyper": "NdrHyper",
+    "dwordlong": "NdrHyper",
+    "long ptr": "NdrHyper",
+    "ulong ptr": "NdrHyper",
+    "LARGE_INTEGER": "LARGE_INTEGER",  # impacket type
+    "LPSTR": "NdrCString",  # impacket type
+    "LPWSTR": "NdrWString",  # impacket type
+    "LPCSTR": "NdrCString",  # impacket type
+    "LPCWSTR": "NdrWString",  # impacket type
+    "LMSTR": "NdrWString",  # impacket type
+    "PWSTR": "NdrWString",  # TODO validate that this is correct
+    "WCHAR": "NdrWString",  # impacket type
+    "PBYTE": "NdrByte",  # impacket type
+}
+
 class DataTypeLookup:
     """Maintains a dictionary of all RPC objects created during the execution of a given testcase.
 
