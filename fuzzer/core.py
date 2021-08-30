@@ -46,7 +46,6 @@ class Method(FuzzableMidl):
     def invoke(self, dc):
         # dynamically import the class name.
         args = self.get_arguments()
-        print("ASDSADASD")
         assert(server is not None)
         pass
 

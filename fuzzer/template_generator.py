@@ -66,7 +66,6 @@ from fuzzer.core import *
             self.generate_enum(typedef)
         elif isinstance(typedef, MidlSimpleTypedef):
             # TODO Add this typedef mapping to a type hierarchy lookup mapper
-            print(typedef)
             self.io.write(f"{self.mapper.canonicalize(typedef.name)[0]} = {self.mapper.canonicalize(typedef.type.replace('*',''))[0]}\n")
         elif typedef is None:
             return ""
