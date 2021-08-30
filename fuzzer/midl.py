@@ -1,44 +1,31 @@
 from fuzzer.base import FuzzableMidl
-from fuzzer.generators.basic import *
+from fuzzer.basic import *
+
+
+"""Defines class used to build generator templates."""
+
+
 
 ############################
 ## Procedure generator definition classes
 ###########################
 class InOutParameter(FuzzableMidl):
+    """Parent class of Midl Procedure parameters"""
+
     def __init__(self, param, *ignored):
         self.param = param
 
 
 class InOut(InOutParameter):
-    pass
+    """Represents an In/Out parameter"""
 
 
 class In(InOutParameter):
-    pass
+    """Represents an In parameter"""
 
 
 class Out(InOutParameter):
-    pass
-
-
-class Procedure(FuzzableMidl):
-    def __init__(self, *parameters, **kwargs):
-        for param in parameters:
-            if isinstance(param, In):
-                self.add_input(param)
-            elif isinstance(param, Out):
-                self.add_output(param)
-            elif isinstance(param, InOut):
-                self.add_input(param)
-                self.add_output(param)
-            else:
-                raise Exception("UNREACHABLE")
-
-    def add_input(self, param):
-        pass
-
-    def add_output(self, param):
-        pass
+    """Represents an Out parameter"""
 
 
 ##########################################
