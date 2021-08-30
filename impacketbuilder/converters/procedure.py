@@ -47,7 +47,7 @@ class MidlProcedureConverter(Converter):
         return inputs, outputs
 
     def generate_helper(self, procedure: MidlProcedure, input_list: list[PythonTuple]):
-        arguments = ['dce: DCERPC_v5']
+        arguments = ['dce']
         assignments = []
         for input_tup in input_list:
             arg_name = input_tup.values[0].value[1:-1]
