@@ -9,12 +9,19 @@ class Interface(FuzzableMidl):
         self.version = version
         self.methods = methods
 
-class Procedure(FuzzableMidl):
+    def generate(self):
+        pass
+
+
+class Method(FuzzableMidl):
     """A class whose instances represent Midl procudure invocation generator defintion"""
 
-    def __init__(self,name, *parameters, **kwargs):
+    def __init__(self, name, *parameters, **kwargs):
         self.name = name
         self.arguments = parameters
 
     def get_resp_str(self):
         return f"{self.name}Response"
+
+    def generate(self):
+        pass

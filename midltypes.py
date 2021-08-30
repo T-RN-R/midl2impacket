@@ -1,6 +1,6 @@
 from base import Visitable
-from fuzzer.base import FuzzableMidl
 import enum
+
 
 class MidlImport:
     """Represents a MIDL import statement
@@ -90,7 +90,7 @@ class MidlDefinition(Visitable):
         return out
 
 
-class MidlInterface(Visitable, FuzzableMidl):
+class MidlInterface(Visitable):
     """Represents a MIDL interface
 
     Truncated example:
@@ -255,15 +255,15 @@ class SizeIsType(enum.Enum):
     POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY : [size_is(m,n)] short ** ppshort);
     POINTER_TO_SIZED_POINTER_TO_SCALAR          : [size_is( , *pSize)] my_type ** ppMyType);
     """
-     
+
     POINTER_TO_SCALAR_ARRAY = enum.auto()
     POINTER_TO_POINTER_TO_SCALAR_ARRAY = enum.auto()
     ARRAY_OF_POINTERS_TO_SCALARS = enum.auto()
     POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY = enum.auto()
     POINTER_TO_SIZED_POINTER_TO_SCALAR = enum.auto()
 
-class SizeIsAttribute(MidlAttribute):
 
+class SizeIsAttribute(MidlAttribute):
     def __init__(self, name, params=None):
         super().__init__(name, params)
         if len(params) == 1:
@@ -274,7 +274,7 @@ class SizeIsAttribute(MidlAttribute):
             if not p_x:
                 if not p_y:
                     raise Exception("No size_is parameters supplied")
-                elif '*' in p_y:
+                elif "*" in p_y:
                     self.type = SizeIsType.POINTER_TO_SIZED_POINTER_TO_SCALAR
                 else:
                     self.type = SizeIsType.POINTER_TO_POINTER_TO_SCALAR_ARRAY
@@ -286,7 +286,8 @@ class SizeIsAttribute(MidlAttribute):
         else:
             raise Exception("Invalid number of parameters for size_is")
 
-class MidlVarDef(Visitable, FuzzableMidl):
+
+class MidlVarDef(Visitable):
     """Struct member or function parameter
     Example:
         `[size_is(count)] EvtRpcVariant* props;`
@@ -309,7 +310,7 @@ class MidlVarDef(Visitable, FuzzableMidl):
         return out
 
 
-class MidlTypeDef(Visitable, FuzzableMidl):
+class MidlTypeDef(Visitable):
     """Represents a typedef, can either be a simple mapping, or a complex struct definition."""
 
     def __init__(self, td, attributes):
@@ -323,7 +324,7 @@ class MidlTypeDef(Visitable, FuzzableMidl):
         return out
 
 
-class MidlStructDef(Visitable, FuzzableMidl):
+class MidlStructDef(Visitable):
     def __init__(self, public_names, private_name, members: list[MidlVarDef]):
         self.public_names = public_names
         self.private_name = private_name
@@ -348,7 +349,7 @@ class MidlStructDef(Visitable, FuzzableMidl):
         return out
 
 
-class MidlUnionDef(Visitable, FuzzableMidl):
+class MidlUnionDef(Visitable):
     def __init__(self, public_names, private_name, members: list[MidlVarDef]):
         self.public_names = public_names
         self.private_name = private_name or ""
@@ -370,7 +371,7 @@ class MidlUnionDef(Visitable, FuzzableMidl):
         return out
 
 
-class MidlSimpleTypedef(Visitable, FuzzableMidl):
+class MidlSimpleTypedef(Visitable):
     def __init__(self, name, simple_type, attributes):
         self.name = name
         self.type = simple_type
@@ -382,7 +383,7 @@ class MidlSimpleTypedef(Visitable, FuzzableMidl):
         return out
 
 
-class MidlEnumDef(Visitable, FuzzableMidl):
+class MidlEnumDef(Visitable):
     """Definition of a MIDL enum.
 
     Example:
@@ -427,7 +428,7 @@ class MidlEnumDef(Visitable, FuzzableMidl):
         return out
 
 
-class MidlProcedure(Visitable, FuzzableMidl):
+class MidlProcedure(Visitable):
     """MIDL Procedure definition
 
     Example:
@@ -437,7 +438,7 @@ class MidlProcedure(Visitable, FuzzableMidl):
         `
     """
 
-    def __init__(self, name, attributes, params:list[MidlVarDef]=None):
+    def __init__(self, name, attributes, params: list[MidlVarDef] = None):
         self.name = name
         self.attributes = attributes or {}
         self.params = params
@@ -456,9 +457,9 @@ class MidlProcedure(Visitable, FuzzableMidl):
         return out
 
 
-class MidlParameter(Visitable, FuzzableMidl):
+class MidlParameter(Visitable):
     def __init__(
-        self, name=None, data_type=None, attributes: dict[str:MidlAttribute]=None
+        self, name=None, data_type=None, attributes: dict[str:MidlAttribute] = None
     ):
         self.name = name
         self.type = data_type

@@ -1,0 +1,31 @@
+
+from fuzzer.midl import *
+from fuzzer.core import *
+interface_0 = Interface("97199110-DB2E-11d1-A251-0000F805CA53", "1.0",[
+Method("GetSeqAndTxViaExport",
+In(UNSIGNED_LONG),
+In(UNSIGNED_LONG),
+In(PBYTE),
+Out(PUNSIGNED_LONG),
+Out(PUNSIGNED_LONG),
+Out(PPBYTE),
+),
+Method("GetSeqAndTxViaTransmitter",
+In(UNSIGNED_LONG),
+Out(PUNSIGNED_LONG),
+Out(PUNSIGNED_LONG),
+Out(PPBYTE),
+),
+Method("GetTxViaExport",
+In(UNSIGNED_LONG),
+In(UNSIGNED_LONG),
+In(PBYTE),
+Out(PUNSIGNED_LONG),
+Out(PPBYTE),
+),
+Method("GetTxViaTransmitter",
+In(UNSIGNED_LONG),
+Out(PUNSIGNED_LONG),
+Out(PPBYTE),
+),
+])

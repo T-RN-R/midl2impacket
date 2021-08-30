@@ -16,7 +16,7 @@ class Fuzzable(abc.ABC):
         """Inserts a type mapping into the registry"""
         Fuzzable.__REGISTRY.insert(type_name, target_type)
 
-    @abc.abstractclassmethod
+    @abc.abstractmethod
     def generate(self):
         pass
 
