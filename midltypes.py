@@ -1,4 +1,5 @@
 from base import Visitable
+from fuzzer.base import FuzzableMidl
 import enum
 
 class MidlImport:
@@ -89,7 +90,7 @@ class MidlDefinition(Visitable):
         return out
 
 
-class MidlInterface(Visitable):
+class MidlInterface(Visitable, FuzzableMidl):
     """Represents a MIDL interface
 
     Truncated example:
@@ -285,7 +286,7 @@ class SizeIsAttribute(MidlAttribute):
         else:
             raise Exception("Invalid number of parameters for size_is")
 
-class MidlVarDef(Visitable):
+class MidlVarDef(Visitable, FuzzableMidl):
     """Struct member or function parameter
     Example:
         `[size_is(count)] EvtRpcVariant* props;`
@@ -308,7 +309,7 @@ class MidlVarDef(Visitable):
         return out
 
 
-class MidlTypeDef(Visitable):
+class MidlTypeDef(Visitable, FuzzableMidl):
     """Represents a typedef, can either be a simple mapping, or a complex struct definition."""
 
     def __init__(self, td, attributes):
@@ -322,7 +323,7 @@ class MidlTypeDef(Visitable):
         return out
 
 
-class MidlStructDef(Visitable):
+class MidlStructDef(Visitable, FuzzableMidl):
     def __init__(self, public_names, private_name, members: list[MidlVarDef]):
         self.public_names = public_names
         self.private_name = private_name
@@ -347,7 +348,7 @@ class MidlStructDef(Visitable):
         return out
 
 
-class MidlUnionDef(Visitable):
+class MidlUnionDef(Visitable, FuzzableMidl):
     def __init__(self, public_names, private_name, members: list[MidlVarDef]):
         self.public_names = public_names
         self.private_name = private_name or ""
@@ -369,7 +370,7 @@ class MidlUnionDef(Visitable):
         return out
 
 
-class MidlSimpleTypedef(Visitable):
+class MidlSimpleTypedef(Visitable, FuzzableMidl):
     def __init__(self, name, simple_type, attributes):
         self.name = name
         self.type = simple_type
@@ -381,7 +382,7 @@ class MidlSimpleTypedef(Visitable):
         return out
 
 
-class MidlEnumDef(Visitable):
+class MidlEnumDef(Visitable, FuzzableMidl):
     """Definition of a MIDL enum.
 
     Example:
@@ -426,7 +427,7 @@ class MidlEnumDef(Visitable):
         return out
 
 
-class MidlProcedure(Visitable):
+class MidlProcedure(Visitable, FuzzableMidl):
     """MIDL Procedure definition
 
     Example:
@@ -455,7 +456,7 @@ class MidlProcedure(Visitable):
         return out
 
 
-class MidlParameter(Visitable):
+class MidlParameter(Visitable, FuzzableMidl):
     def __init__(
         self, name=None, data_type=None, attributes: dict[str:MidlAttribute]=None
     ):
