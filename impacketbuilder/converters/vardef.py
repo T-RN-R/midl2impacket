@@ -166,7 +166,7 @@ class VarDefConverter(Converter):
                     array_member_name,
                     array_type_exists,
                 ) = self.mapper.get_python_array_type(var_def.type, array_size=size, is_func_param=self.func_params)
-                arr = PythonNdrUniFixedArray(array_type_name, size)
+                arr = PythonNdrUniFixedArray(array_type_name, size, array_member_name)
             else:
                 # NDRUniConformantArrays
                 size = self.mapper.calculate_sizeof(arr_inf.max)

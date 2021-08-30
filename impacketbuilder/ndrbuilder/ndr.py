@@ -1,3 +1,4 @@
+from impacket.dcerpc.v5.ndr import NDRPOINTER
 from impacketbuilder.ndrbuilder.python import (
     PythonAssignment,
     PythonAssignmentList,
@@ -48,6 +49,8 @@ class PythonNdrStruct(PythonNdrClassDefiniton):
         for struct_member in structure.rhs.values:
             prop_name = struct_member.values[0].value[1:-1]
             prop_type = struct_member.values[1].value
+            if prop_type.startswith("'"):
+                prop_type = 'str'
             prop_get_fn = PythonFunction(
                 name=prop_name,
                 args="self",
@@ -131,6 +134,8 @@ class PythonNdrUnion(PythonNdrClassDefiniton):
         for union_member in union_entries.rhs.entries.obj_list:
             prop_name = union_member.value.values[0].value[1:-1]
             prop_type = union_member.value.values[1].value
+            if prop_type.startswith("'"):
+                prop_type = 'str'
             prop_get_fn = PythonFunction(
                 name=prop_name,
                 args="self",
@@ -154,8 +159,8 @@ class PythonNdrCall(PythonNdrClassDefiniton):
     def __init__(self, name: str, structure: PythonTuple, opnum=None):
         structure = PythonAssignment(PythonName("structure"), structure)
         if opnum is not None:
-            op = PythonAssignment(PythonName("opnum"), PythonValue(str(opnum)))
-            prop_list = [op, structure]
+            opnum_assn = PythonAssignment(PythonName("opnum"), PythonValue(str(opnum)))
+            prop_list = [opnum_assn, structure]
         else:
             prop_list = [structure]
         props = PythonAssignmentList(*prop_list)
@@ -201,14 +206,29 @@ class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
 class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
     """Creates a simple NDRUniFixedArray"""
 
-    def __init__(self, name: str, length: str, underlying_type_size:int=1):
-        align = PythonAssignment(PythonValue("align"), PythonValue("1"))
-        prop_list = [align]
+    def __init__(self, name: str, length: str, underlying_type):
+        item = PythonAssignment(PythonValue("item"), PythonValue(underlying_type))
+        prop_list = [item]
         props = PythonAssignmentList(*prop_list)
         get_data_len = PythonFunction(
-            "getDataLen", args="self,data,offset=0", body=[f"return {length} * {str(underlying_type_size)}"]
+            "getDataLen", args="self, data, offset=0", body=[
+                "type_size = len(self.item())",
+                f"return {length} * type_size"
+            ]
         )
-        func_list = [get_data_len]
+        get_data = PythonFunction(
+            "getData", args="self, _", body=[
+                "# This is the length of our fixed array",
+                "containerLength = self.getDataLen(None)",
+                "# Truncate extra data provided beyond the maximum length",
+                "raw = self.fields['Data'][:containerLength]",
+                "# Add padding if necessary",
+                "paddingLength = containerLength - (len(raw) % containerLength)",
+                "raw += b'\\x00' * paddingLength",
+                "return raw"
+            ]
+        )
+        func_list = [get_data_len, get_data]
         funcs = PythonFunctionList(*func_list)
         self.clazz = PythonClass(
             name=PythonName(name),

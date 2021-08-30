@@ -141,10 +141,6 @@ class MidlStructConverter(Converter):
                     )
         return name
 
-    def create_ndr_uni_fixed_array_class(self, name, length):
-        uni_arr = PythonNdrUniFixedArray(name=name, length=length)
-        self.write(uni_arr.to_string())
-
     def handle_ndr_struct(self, struct):
         """Create the Python definition for an NDRUnion"""
         struct_entries = []
