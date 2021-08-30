@@ -25,7 +25,7 @@ from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
 from impacket.structure import Structure
 from impacket import nt_errors
 from impacket.uuid import uuidtup_to_bin
-from impacket.dcerpc.v5.rpcrt import DCERPCException
+from impacket.dcerpc.v5.rpcrt import DCERPC_v5, DCERPCException
 
 from impacket import system_errors
 class DCERPCSessionError(DCERPCException):

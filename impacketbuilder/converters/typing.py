@@ -1,3 +1,5 @@
+import re
+
 from impacketbuilder.ndrbuilder.ndr import PythonNdrPointer
 from impacketbuilder.ndrbuilder.io import PythonWriter
 
@@ -36,6 +38,7 @@ IDL_TO_NDR = {
     "WCHAR": "USHORT",  # impacket type
     "PWCHAR": "WSTR",  # impacket type
     "PBYTE": "PBYTE",  # impacket type
+    "WSTR": "WSTR",
 }
 
 SIZEOF_LOOKUP = {
@@ -50,9 +53,9 @@ SIZEOF_LOOKUP = {
     "GUID": 16,
 }
 
-STRING_TYPES = {
-    "PWCHAR_T": "LPWSTR",
-    "PCHAR_T": "LPSTR",
+STRING_PARAM_TYPES = {
+    "PWCHAR_T": "WSTR",
+    "PCHAR_T": "STR",
 }
 
 class TypeMappingException(Exception):
@@ -141,16 +144,17 @@ class TypeMapper:
     def canonicalize(self, name: str, array_size: str = None, is_func_param=False) -> tuple[str, str]:
         """Canonicalizes an IDL typename into the Python typename format"""
 
-        py_name = name
-        py_name = py_name.upper().replace("CONST ", "").strip().replace(" ", "_")
+        # Strip const and spaces
+        py_name = re.sub(r'\s*CONST[*\s]+', '', name.upper())
+        py_name = py_name.strip().replace(" ", "_")
 
         # Default fixup for function calls: remove first level of indirection
         if is_func_param:
             # TODO: this should really get the actual type and read the referent
             if py_name.endswith('*'):
                 ptr_type = self.pointerize(py_name)
-                if ptr_type in STRING_TYPES:
-                    py_name = STRING_TYPES[ptr_type]
+                if ptr_type in STRING_PARAM_TYPES:
+                    py_name = STRING_PARAM_TYPES[ptr_type]
                 else:
                     py_name = py_name[:-1]
         

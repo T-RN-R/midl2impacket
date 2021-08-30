@@ -33,7 +33,7 @@ class MidlProcedureConverter(Converter):
             procedure.name + "Response", python_outputs, opnum=None
         )
         self.write(ndr_response.to_string())
-        self.generate_helper(procedure, in_params)
+        self.generate_helper(procedure, vardef_inputs)
 
     def get_io(self, procedure: MidlProcedure):
         """Get inputs and outputs from a procedure"""
@@ -46,10 +46,16 @@ class MidlProcedureConverter(Converter):
                 outputs.append(param)
         return inputs, outputs
 
-    def generate_helper(self, procedure: MidlProcedure, input_list: list[MidlVarDef]):
-        arguments = ", ".join(["dce"] + [arg.name for arg in input_list])
+    def generate_helper(self, procedure: MidlProcedure, input_list: list[PythonTuple]):
+        arguments = ['dce: DCERPC_v5']
+        assignments = []
+        for input_tup in input_list:
+            arg_name = input_tup.values[0].value[1:-1]
+            arg_type = input_tup.values[1].value
+            arguments.append(f"{arg_name}: {arg_type}")
+            assignments.append(f'request["{arg_name}"] = {arg_name}')
+        arguments = ", ".join(arguments)
         function_body_parts = [f"request = {procedure.name}()"]
-        assignments = [f'request["{arg.name}"] = {arg.name}' for arg in input_list]
         function_body_parts.extend(assignments)
         function_body_parts.append("return dce.request(request)")
         helper = PythonFunction(
