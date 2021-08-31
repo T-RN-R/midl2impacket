@@ -38,3 +38,9 @@ class Testcase:
 
     def add(self,statement):
         self.statements.append(statement)
+
+    def __str__(self):
+        out = ""
+        for s in self.statements:
+            out += str(s) + "\n"
+        return out

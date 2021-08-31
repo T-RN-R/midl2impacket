@@ -167,11 +167,10 @@ class {self.mapper.canonicalize(name)[0]}(NdrStructure):
         procedures = ""
         for typedef in midl_interface.typedefs:
             self.handle_typedef(typedef)
-
+        self.io.write(f'Interface("{uuid}", "{version}",[')
         for proc in midl_interface.procedures:
             procedures += f"{self.generate_procedure(proc)},\n"
-        output += f'Interface("{uuid}", "{version}",[\n{procedures}])'
-        return output
+        self.io.write("])")
 
     def generate_procedure(self, procedure):
         output = ""
@@ -185,6 +184,6 @@ class {self.mapper.canonicalize(name)[0]}(NdrStructure):
                 else ("Out" if output_attr else ("In" if input_attr else None))
             )
             if clz is not None:
-                params += f"{clz}({self.mapper.canonicalize(param.type)[0]}),\n"
+                params += f"{clz}(({self.mapper.canonicalize(param.type)[0]},'{param.name}')),\n"
         output += f'Method("{procedure.name}",\n{params}),'
         self.io.write(output)

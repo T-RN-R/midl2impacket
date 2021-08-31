@@ -69,7 +69,6 @@ def generate(in_file, count, servername, import_path):
     # import the template to populate the fuzzing data structures
     server_import = str(server).replace("\\",".")[:-3]
     template_import = str(template).replace("\\",".")[:-3]
-    __import__(template_import)
     fuzzer = Fuzzer(count, server_import, template_import)
     fuzzer.run()
 

@@ -38,9 +38,9 @@ class NdrBoolean(NdrType):
     pass
 class NdrByte(NdrType):
     @classmethod
-    def generate(cls, ctx, range_min, range_max):
+    def generate(cls, ctx, range_min=0, range_max=0xFF):
         v = generate_int(8, range_min, range_max)
-        return v
+        return 0, v
 
 
 NdrSmall = NdrByte
@@ -48,7 +48,7 @@ NdrSmall = NdrByte
 
 class NdrShort(NdrType):
     @classmethod
-    def generate(cls, ctx, range_min, range_max):
+    def generate(cls, ctx, range_min=0, range_max=0xFFFF):
         v = generate_int(16, range_min, range_max)
         return 0, v
 
@@ -58,37 +58,37 @@ NdrWChar = NdrShort
 
 class NdrLong(NdrType):
     @classmethod
-    def generate(cls, ctx, range_min, range_max):
+    def generate(cls, ctx, range_min=0, range_max=0xFFFFFFFF):
         v = generate_int(32, range_min, range_max)
         return 0, v
 class NdrDouble(NdrType):
     @classmethod
-    def generate(cls, ctx, range_min, range_max):
+    def generate(cls, ctx, range_min=0, range_max=0xFFFFFFFFFFFFFFFF):
         v = generate_int(32, range_min, range_max)
         return 0, v
 class NdrFloat(NdrType):
     @classmethod
-    def generate(cls, ctx, range_min, range_max):
+    def generate(cls, ctx, range_min=0, range_max=0xFFFFFFFF):
         v = generate_int(32, range_min, range_max)
         return 0, v
 
 class NdrHyper(NdrType):
     @classmethod
-    def generate(cls, ctx, range_min, range_max):
+    def generate(cls, ctx, range_min=0, range_max=0xFFFFFFFFFFFFFFFF):
         v = generate_int(64, range_min, range_max)
         return 0, v
 
 
 class NdrCString(NdrType):
     @classmethod
-    def generate(cls, ctx, range_min, range_max):
+    def generate(cls, ctx, range_min=0, range_max=256):
         s = generate_str(False, range_min, range_max)
         return len(s), s
 
 
 class NdrWString(NdrType):
     @classmethod
-    def generate(cls, ctx, range_min, range_max):
+    def generate(cls, ctx, range_min=0, range_max=256):
         s = generate_str(True, range_min, range_max)
         return len(s) // 2, s
 
@@ -98,7 +98,8 @@ class NdrUnion:
     SWITCHTYPE = {}
 
     @classmethod
-    def generate(cls):
+    def generate(cls, ctx, range_min=0, range_max=256):
+        return None,"None"
         key = "default"
         while key == "default":
             key = random.choice(cls.MEMBERS.keys())
@@ -110,7 +111,9 @@ class NdrUnion:
 
 
 class NdrStructure:
-    pass
+    @classmethod
+    def generate(cls, ctx, range_min=0, range_max=256):
+        return None,"None"
 
 
 class NdrEnum:
@@ -119,17 +122,5 @@ class NdrEnum:
 
 class NdrContextHandle(NdrType):
     @classmethod
-    def pack(cls, data = 0):
-        if data == 0:
-            data = "00000000-0000-0000-0000-000000000000"
-        return struct.pack("<I", 0) + str(bytearray(windows.com.IID.from_string(data)))
-
-    @classmethod
-    def unpack(self, stream):
-        attributes, rawguid = stream.partial_unpack("<I16s")
-        return str(uuid.UUID(bytes_le=rawguid))
-        
-    @classmethod
-    def generate(cls, ctx, range_min, range_max):
-        v = random.choice(list(ctx | set([0])))
-        return 0, v
+    def generate(cls, ctx, range_min=0, range_max=256):
+        return None,"None"

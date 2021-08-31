@@ -65,7 +65,7 @@ class DataTypeLookup:
 
     This allows passing output datatypes into input fields.
     TBD: Figure out a way to map aliased types. ie. typeddef-ed context_handles"""
-
+    GLOBAL_MAP = None
     def __init__(self):
         # mapping of datatype : [generated data]
         self.map = {}
@@ -77,7 +77,6 @@ class DataTypeLookup:
             self.map[datatype].extend([data])
         else:
             self.map[datatype] = [data]
-
     def get(self, datatype):
         return self.map[datatype] if datatype in self.map else []
 
