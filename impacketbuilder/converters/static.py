@@ -26,7 +26,7 @@ from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
 from impacket.structure import Structure
 from impacket import nt_errors
 from impacket.uuid import uuidtup_to_bin
-from impacket.dcerpc.v5.rpcrt import DCERPCException
+from impacket.dcerpc.v5.rpcrt import DCERPC_v5, DCERPCException
 
 from impacket import system_errors
 class DCERPCSessionError(DCERPCException):
@@ -85,10 +85,8 @@ class PRPC_STRING(NDRPOINTER):
         self.write(imports)
 
     def type_mapping(self):
-        mapping = ""
         for idl_name, py_name in IDL_TO_NDR.items():
             canonicalized_name, _ = self.mapper.canonicalize(idl_name)
             if canonicalized_name != py_name:
-                mapping += f"{canonicalized_name} = {py_name}\n"
+                self.write(f"{canonicalized_name} = {py_name}")
             self.mapper.add_type(canonicalized_name)
-        self.write(mapping)

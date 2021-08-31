@@ -1,3 +1,5 @@
+import re
+
 from impacketbuilder.ndrbuilder.ndr import PythonNdrPointer
 from impacketbuilder.ndrbuilder.io import PythonWriter
 
@@ -13,7 +15,8 @@ IDL_TO_NDR = {
     "signed long": "NDRLONG",
     "signed char": "NDRCHAR",
     "signed short": "NDRSHORT",
-    "wchar_t": "WSTR",
+    "wchar_t": "USHORT",
+    "pwchar_t": "LPWSTR",
     "char": "NDRCHAR",
     "int": "NDRLONG",
     "void": "CONTEXT_HANDLE",
@@ -32,8 +35,10 @@ IDL_TO_NDR = {
     "LPCWSTR": "LPWSTR",  # impacket type
     "LMSTR": "LPWSTR",  # impacket type
     "PWSTR": "LPWSTR",  # TODO validate that this is correct
-    "WCHAR": "WSTR",  # impacket type
+    "WCHAR": "USHORT",  # impacket type
+    "PWCHAR": "WSTR",  # impacket type
     "PBYTE": "PBYTE",  # impacket type
+    "WSTR": "WSTR",
 }
 
 SIZEOF_LOOKUP = {
@@ -48,6 +53,10 @@ SIZEOF_LOOKUP = {
     "GUID": 16,
 }
 
+STRING_PARAM_TYPES = {
+    "PWCHAR_T": "WSTR",
+    "PCHAR_T": "STR",
+}
 
 class TypeMappingException(Exception):
     pass
@@ -137,15 +146,22 @@ class TypeMapper:
     ) -> tuple[str, str]:
         """Canonicalizes an IDL typename into the Python typename format"""
 
-        py_name = name
+        # Strip const and spaces
+        py_name = re.sub(r'\s*CONST[*\s]+', '', name.upper())
+        py_name = py_name.strip().replace(" ", "_")
+
         # Default fixup for function calls: remove first level of indirection
         if is_func_param:
             # TODO: this should really get the actual type and read the referent
-            if py_name.endswith("*"):
-                py_name = py_name[:-1]
+            if py_name.endswith('*'):
+                ptr_type = self.pointerize(py_name)
+                if ptr_type in STRING_PARAM_TYPES:
+                    py_name = STRING_PARAM_TYPES[ptr_type]
+                else:
+                    py_name = py_name[:-1]
+        
+        py_name = py_name.strip('_')
 
-        # Now remove const and spaces then uppercase the name
-        py_name = py_name.replace("const", "").strip().replace(" ", "_").upper()
 
         py_member_name = None
         # Check array information:

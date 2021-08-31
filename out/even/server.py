@@ -10,7 +10,7 @@ from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
 from impacket.structure import Structure
 from impacket import nt_errors
 from impacket.uuid import uuidtup_to_bin
-from impacket.dcerpc.v5.rpcrt import DCERPCException
+from impacket.dcerpc.v5.rpcrt import DCERPC_v5, DCERPCException
 
 from impacket import system_errors
 class DCERPCSessionError(DCERPCException):
@@ -77,12 +77,13 @@ SIGNED_INT = NDRSHORT
 SIGNED_LONG = NDRLONG
 SIGNED_CHAR = NDRCHAR
 SIGNED_SHORT = NDRSHORT
-WCHAR_T = WSTR
+WCHAR_T = USHORT
+PWCHAR_T = LPWSTR
 CHAR = NDRCHAR
 INT = NDRLONG
 VOID = CONTEXT_HANDLE
 LONG = NDRLONG
-__INT3264 = NDRHYPER
+INT3264 = NDRHYPER
 UNSIGNED___INT3264 = NDRUHYPER
 UNSIGNED_HYPER = NDRUHYPER
 HYPER = NDRHYPER
@@ -93,8 +94,8 @@ LPCSTR = LPSTR
 LPCWSTR = LPWSTR
 LMSTR = LPWSTR
 PWSTR = LPWSTR
-WCHAR = WSTR
-
+WCHAR = USHORT
+PWCHAR = WSTR
 #################################################################################
 #TYPEDEFS
 #################################################################################
@@ -268,24 +269,6 @@ class PRPC_CLIENT_ID(NDRPOINTER):
 		self['Data'] = prop
 
 
-class PWCHAR_T(NDRPOINTER):
-	referent = (
-			(
-			'Data',
-			WCHAR_T,
-
-			),
-
-		)
-
-	@property
-	def Data(self) -> WCHAR_T:
-		return self['Data']
-
-	@Data.setter
-	def Data(self, prop:WCHAR_T):
-		self['Data'] = prop
-
 EVENTLOG_HANDLE_W = PWCHAR_T
 class PCHAR(NDRPOINTER):
 	referent = (
@@ -336,11 +319,11 @@ class IELF_HANDLE(NDRSTRUCT):
 		)
 
 	@property
-	def Data(self) -> '20s=""':
+	def Data(self) -> str:
 		return self['Data']
 
 	@Data.setter
-	def Data(self, prop:'20s=""'):
+	def Data(self, prop:str):
 		self['Data'] = prop
 
 
@@ -429,7 +412,7 @@ class ElfrClearELFWResponse(NDRCALL):
 		)
 
 
-def hElfrClearELFW(dce, LogHandle, BackupFileName):
+def hElfrClearELFW(dce, LogHandle: IELF_HANDLE, BackupFileName: PRPC_UNICODE_STRING):
 	request = ElfrClearELFW()
 	request["LogHandle"] = LogHandle
 	request["BackupFileName"] = BackupFileName
@@ -463,7 +446,7 @@ class ElfrBackupELFWResponse(NDRCALL):
 		)
 
 
-def hElfrBackupELFW(dce, LogHandle, BackupFileName):
+def hElfrBackupELFW(dce, LogHandle: IELF_HANDLE, BackupFileName: PRPC_UNICODE_STRING):
 	request = ElfrBackupELFW()
 	request["LogHandle"] = LogHandle
 	request["BackupFileName"] = BackupFileName
@@ -497,7 +480,7 @@ class ElfrCloseELResponse(NDRCALL):
 		)
 
 
-def hElfrCloseEL(dce, LogHandle):
+def hElfrCloseEL(dce, LogHandle: IELF_HANDLE):
 	request = ElfrCloseEL()
 	request["LogHandle"] = LogHandle
 	return dce.request(request)
@@ -530,10 +513,28 @@ class ElfrDeregisterEventSourceResponse(NDRCALL):
 		)
 
 
-def hElfrDeregisterEventSource(dce, LogHandle):
+def hElfrDeregisterEventSource(dce, LogHandle: IELF_HANDLE):
 	request = ElfrDeregisterEventSource()
 	request["LogHandle"] = LogHandle
 	return dce.request(request)
+
+class PUNSIGNED_LONG(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			UNSIGNED_LONG,
+
+			),
+
+		)
+
+	@property
+	def Data(self) -> UNSIGNED_LONG:
+		return self['Data']
+
+	@Data.setter
+	def Data(self, prop:UNSIGNED_LONG):
+		self['Data'] = prop
 
 class ElfrNumberOfRecords(NDRCALL):
 	opnum = 4
@@ -563,7 +564,7 @@ class ElfrNumberOfRecordsResponse(NDRCALL):
 		)
 
 
-def hElfrNumberOfRecords(dce, LogHandle):
+def hElfrNumberOfRecords(dce, LogHandle: IELF_HANDLE):
 	request = ElfrNumberOfRecords()
 	request["LogHandle"] = LogHandle
 	return dce.request(request)
@@ -596,7 +597,7 @@ class ElfrOldestRecordResponse(NDRCALL):
 		)
 
 
-def hElfrOldestRecord(dce, LogHandle):
+def hElfrOldestRecord(dce, LogHandle: IELF_HANDLE):
 	request = ElfrOldestRecord()
 	request["LogHandle"] = LogHandle
 	return dce.request(request)
@@ -634,7 +635,7 @@ class ElfrChangeNotifyResponse(NDRCALL):
 		)
 
 
-def hElfrChangeNotify(dce, LogHandle, ClientId, Event):
+def hElfrChangeNotify(dce, LogHandle: IELF_HANDLE, ClientId: RPC_CLIENT_ID, Event: ULONG):
 	request = ElfrChangeNotify()
 	request["LogHandle"] = LogHandle
 	request["ClientId"] = ClientId
@@ -689,7 +690,7 @@ class ElfrOpenELWResponse(NDRCALL):
 		)
 
 
-def hElfrOpenELW(dce, UNCServerName, ModuleName, RegModuleName, MajorVersion, MinorVersion):
+def hElfrOpenELW(dce, UNCServerName: EVENTLOG_HANDLE_W, ModuleName: PRPC_UNICODE_STRING, RegModuleName: PRPC_UNICODE_STRING, MajorVersion: UNSIGNED_LONG, MinorVersion: UNSIGNED_LONG):
 	request = ElfrOpenELW()
 	request["UNCServerName"] = UNCServerName
 	request["ModuleName"] = ModuleName
@@ -746,7 +747,7 @@ class ElfrRegisterEventSourceWResponse(NDRCALL):
 		)
 
 
-def hElfrRegisterEventSourceW(dce, UNCServerName, ModuleName, RegModuleName, MajorVersion, MinorVersion):
+def hElfrRegisterEventSourceW(dce, UNCServerName: EVENTLOG_HANDLE_W, ModuleName: PRPC_UNICODE_STRING, RegModuleName: PRPC_UNICODE_STRING, MajorVersion: UNSIGNED_LONG, MinorVersion: UNSIGNED_LONG):
 	request = ElfrRegisterEventSourceW()
 	request["UNCServerName"] = UNCServerName
 	request["ModuleName"] = ModuleName
@@ -798,13 +799,31 @@ class ElfrOpenBELWResponse(NDRCALL):
 		)
 
 
-def hElfrOpenBELW(dce, UNCServerName, BackupFileName, MajorVersion, MinorVersion):
+def hElfrOpenBELW(dce, UNCServerName: EVENTLOG_HANDLE_W, BackupFileName: PRPC_UNICODE_STRING, MajorVersion: UNSIGNED_LONG, MinorVersion: UNSIGNED_LONG):
 	request = ElfrOpenBELW()
 	request["UNCServerName"] = UNCServerName
 	request["BackupFileName"] = BackupFileName
 	request["MajorVersion"] = MajorVersion
 	request["MinorVersion"] = MinorVersion
 	return dce.request(request)
+
+class PUNSIGNED_CHAR(NDRPOINTER):
+	referent = (
+			(
+			'Data',
+			UNSIGNED_CHAR,
+
+			),
+
+		)
+
+	@property
+	def Data(self) -> UNSIGNED_CHAR:
+		return self['Data']
+
+	@Data.setter
+	def Data(self, prop:UNSIGNED_CHAR):
+		self['Data'] = prop
 
 class UNSIGNED_CHAR_ARRAY(NDRUniConformantArray):
 	item = UNSIGNED_CHAR
@@ -882,7 +901,7 @@ class ElfrReadELWResponse(NDRCALL):
 		)
 
 
-def hElfrReadELW(dce, LogHandle, ReadFlags, RecordOffset, NumberOfBytesToRead):
+def hElfrReadELW(dce, LogHandle: IELF_HANDLE, ReadFlags: UNSIGNED_LONG, RecordOffset: UNSIGNED_LONG, NumberOfBytesToRead: RULONG):
 	request = ElfrReadELW()
 	request["LogHandle"] = LogHandle
 	request["ReadFlags"] = ReadFlags
@@ -891,10 +910,21 @@ def hElfrReadELW(dce, LogHandle, ReadFlags, RecordOffset, NumberOfBytesToRead):
 	return dce.request(request)
 
 class PRPC_UNICODE_STRING_ARRAY(NDRUniFixedArray):
-	align = 1
+	item = PRPC_UNICODE_STRING
 
-	def getDataLen(self,data,offset=0):
-		return * * 1
+	def getDataLen(self, data, offset=0):
+		type_size = len(self.item())
+		return * * type_size
+
+	def getData(self, _):
+		# This is the length of our fixed array
+		containerLength = self.getDataLen(None)
+		# Truncate extra data provided beyond the maximum length
+		raw = self.fields['Data'][:containerLength]
+		# Add padding if necessary
+		paddingLength = containerLength - (len(raw) % containerLength)
+		raw += b'\x00' * paddingLength
+		return raw
 
 
 class ElfrReportEventW(NDRCALL):
@@ -995,7 +1025,7 @@ class ElfrReportEventWResponse(NDRCALL):
 		)
 
 
-def hElfrReportEventW(dce, LogHandle, Time, EventType, EventCategory, EventID, NumStrings, DataSize, ComputerName, UserSID, Strings, Data, Flags, RecordNumber, TimeWritten):
+def hElfrReportEventW(dce, LogHandle: IELF_HANDLE, Time: UNSIGNED_LONG, EventType: UNSIGNED_SHORT, EventCategory: UNSIGNED_SHORT, EventID: UNSIGNED_LONG, NumStrings: UNSIGNED_SHORT, DataSize: UNSIGNED_LONG, ComputerName: PRPC_UNICODE_STRING, UserSID: PRPC_SID, Strings: PRPC_UNICODE_STRING_ARRAY, Data: UNSIGNED_CHAR_ARRAY, Flags: UNSIGNED_SHORT, RecordNumber: UNSIGNED_LONG, TimeWritten: UNSIGNED_LONG):
 	request = ElfrReportEventW()
 	request["LogHandle"] = LogHandle
 	request["Time"] = Time
@@ -1041,7 +1071,7 @@ class ElfrClearELFAResponse(NDRCALL):
 		)
 
 
-def hElfrClearELFA(dce, LogHandle, BackupFileName):
+def hElfrClearELFA(dce, LogHandle: IELF_HANDLE, BackupFileName: PRPC_STRING):
 	request = ElfrClearELFA()
 	request["LogHandle"] = LogHandle
 	request["BackupFileName"] = BackupFileName
@@ -1075,7 +1105,7 @@ class ElfrBackupELFAResponse(NDRCALL):
 		)
 
 
-def hElfrBackupELFA(dce, LogHandle, BackupFileName):
+def hElfrBackupELFA(dce, LogHandle: IELF_HANDLE, BackupFileName: PRPC_STRING):
 	request = ElfrBackupELFA()
 	request["LogHandle"] = LogHandle
 	request["BackupFileName"] = BackupFileName
@@ -1129,7 +1159,7 @@ class ElfrOpenELAResponse(NDRCALL):
 		)
 
 
-def hElfrOpenELA(dce, UNCServerName, ModuleName, RegModuleName, MajorVersion, MinorVersion):
+def hElfrOpenELA(dce, UNCServerName: EVENTLOG_HANDLE_A, ModuleName: PRPC_STRING, RegModuleName: PRPC_STRING, MajorVersion: UNSIGNED_LONG, MinorVersion: UNSIGNED_LONG):
 	request = ElfrOpenELA()
 	request["UNCServerName"] = UNCServerName
 	request["ModuleName"] = ModuleName
@@ -1186,7 +1216,7 @@ class ElfrRegisterEventSourceAResponse(NDRCALL):
 		)
 
 
-def hElfrRegisterEventSourceA(dce, UNCServerName, ModuleName, RegModuleName, MajorVersion, MinorVersion):
+def hElfrRegisterEventSourceA(dce, UNCServerName: EVENTLOG_HANDLE_A, ModuleName: PRPC_STRING, RegModuleName: PRPC_STRING, MajorVersion: UNSIGNED_LONG, MinorVersion: UNSIGNED_LONG):
 	request = ElfrRegisterEventSourceA()
 	request["UNCServerName"] = UNCServerName
 	request["ModuleName"] = ModuleName
@@ -1238,7 +1268,7 @@ class ElfrOpenBELAResponse(NDRCALL):
 		)
 
 
-def hElfrOpenBELA(dce, UNCServerName, BackupFileName, MajorVersion, MinorVersion):
+def hElfrOpenBELA(dce, UNCServerName: EVENTLOG_HANDLE_A, BackupFileName: PRPC_STRING, MajorVersion: UNSIGNED_LONG, MinorVersion: UNSIGNED_LONG):
 	request = ElfrOpenBELA()
 	request["UNCServerName"] = UNCServerName
 	request["BackupFileName"] = BackupFileName
@@ -1299,7 +1329,7 @@ class ElfrReadELAResponse(NDRCALL):
 		)
 
 
-def hElfrReadELA(dce, LogHandle, ReadFlags, RecordOffset, NumberOfBytesToRead):
+def hElfrReadELA(dce, LogHandle: IELF_HANDLE, ReadFlags: UNSIGNED_LONG, RecordOffset: UNSIGNED_LONG, NumberOfBytesToRead: RULONG):
 	request = ElfrReadELA()
 	request["LogHandle"] = LogHandle
 	request["ReadFlags"] = ReadFlags
@@ -1308,10 +1338,21 @@ def hElfrReadELA(dce, LogHandle, ReadFlags, RecordOffset, NumberOfBytesToRead):
 	return dce.request(request)
 
 class PRPC_STRING_ARRAY(NDRUniFixedArray):
-	align = 1
+	item = PRPC_STRING
 
-	def getDataLen(self,data,offset=0):
-		return * * 1
+	def getDataLen(self, data, offset=0):
+		type_size = len(self.item())
+		return * * type_size
+
+	def getData(self, _):
+		# This is the length of our fixed array
+		containerLength = self.getDataLen(None)
+		# Truncate extra data provided beyond the maximum length
+		raw = self.fields['Data'][:containerLength]
+		# Add padding if necessary
+		paddingLength = containerLength - (len(raw) % containerLength)
+		raw += b'\x00' * paddingLength
+		return raw
 
 
 class ElfrReportEventA(NDRCALL):
@@ -1412,7 +1453,7 @@ class ElfrReportEventAResponse(NDRCALL):
 		)
 
 
-def hElfrReportEventA(dce, LogHandle, Time, EventType, EventCategory, EventID, NumStrings, DataSize, ComputerName, UserSID, Strings, Data, Flags, RecordNumber, TimeWritten):
+def hElfrReportEventA(dce, LogHandle: IELF_HANDLE, Time: UNSIGNED_LONG, EventType: UNSIGNED_SHORT, EventCategory: UNSIGNED_SHORT, EventID: UNSIGNED_LONG, NumStrings: UNSIGNED_SHORT, DataSize: UNSIGNED_LONG, ComputerName: PRPC_STRING, UserSID: PRPC_SID, Strings: PRPC_STRING_ARRAY, Data: UNSIGNED_CHAR_ARRAY, Flags: UNSIGNED_SHORT, RecordNumber: UNSIGNED_LONG, TimeWritten: UNSIGNED_LONG):
 	request = ElfrReportEventA()
 	request["LogHandle"] = LogHandle
 	request["Time"] = Time
@@ -1539,7 +1580,7 @@ class ElfrGetLogInformationResponse(NDRCALL):
 		)
 
 
-def hElfrGetLogInformation(dce, LogHandle, InfoLevel, cbBufSize):
+def hElfrGetLogInformation(dce, LogHandle: IELF_HANDLE, InfoLevel: UNSIGNED_LONG, cbBufSize: UNSIGNED_LONG):
 	request = ElfrGetLogInformation()
 	request["LogHandle"] = LogHandle
 	request["InfoLevel"] = InfoLevel
@@ -1671,7 +1712,7 @@ class ElfrReportEventAndSourceWResponse(NDRCALL):
 		)
 
 
-def hElfrReportEventAndSourceW(dce, LogHandle, Time, EventType, EventCategory, EventID, SourceName, NumStrings, DataSize, ComputerName, UserSID, Strings, Data, Flags, RecordNumber, TimeWritten):
+def hElfrReportEventAndSourceW(dce, LogHandle: IELF_HANDLE, Time: UNSIGNED_LONG, EventType: UNSIGNED_SHORT, EventCategory: UNSIGNED_SHORT, EventID: UNSIGNED_LONG, SourceName: PRPC_UNICODE_STRING, NumStrings: UNSIGNED_SHORT, DataSize: UNSIGNED_LONG, ComputerName: PRPC_UNICODE_STRING, UserSID: PRPC_SID, Strings: PRPC_UNICODE_STRING_ARRAY, Data: UNSIGNED_CHAR_ARRAY, Flags: UNSIGNED_SHORT, RecordNumber: UNSIGNED_LONG, TimeWritten: UNSIGNED_LONG):
 	request = ElfrReportEventAndSourceW()
 	request["LogHandle"] = LogHandle
 	request["Time"] = Time
@@ -1778,7 +1819,7 @@ class ElfrReportEventExWResponse(NDRCALL):
 		)
 
 
-def hElfrReportEventExW(dce, LogHandle, TimeGenerated, EventType, EventCategory, EventID, NumStrings, DataSize, ComputerName, UserSID, Strings, Data, Flags, RecordNumber):
+def hElfrReportEventExW(dce, LogHandle: IELF_HANDLE, TimeGenerated: PFILETIME, EventType: UNSIGNED_SHORT, EventCategory: UNSIGNED_SHORT, EventID: UNSIGNED_LONG, NumStrings: UNSIGNED_SHORT, DataSize: UNSIGNED_LONG, ComputerName: PRPC_UNICODE_STRING, UserSID: PRPC_SID, Strings: PRPC_UNICODE_STRING_ARRAY, Data: UNSIGNED_CHAR_ARRAY, Flags: UNSIGNED_SHORT, RecordNumber: UNSIGNED_LONG):
 	request = ElfrReportEventExW()
 	request["LogHandle"] = LogHandle
 	request["TimeGenerated"] = TimeGenerated
@@ -1883,7 +1924,7 @@ class ElfrReportEventExAResponse(NDRCALL):
 		)
 
 
-def hElfrReportEventExA(dce, LogHandle, TimeGenerated, EventType, EventCategory, EventID, NumStrings, DataSize, ComputerName, UserSID, Strings, Data, Flags, RecordNumber):
+def hElfrReportEventExA(dce, LogHandle: IELF_HANDLE, TimeGenerated: PFILETIME, EventType: UNSIGNED_SHORT, EventCategory: UNSIGNED_SHORT, EventID: UNSIGNED_LONG, NumStrings: UNSIGNED_SHORT, DataSize: UNSIGNED_LONG, ComputerName: PRPC_STRING, UserSID: PRPC_SID, Strings: PRPC_STRING_ARRAY, Data: UNSIGNED_CHAR_ARRAY, Flags: UNSIGNED_SHORT, RecordNumber: UNSIGNED_LONG):
 	request = ElfrReportEventExA()
 	request["LogHandle"] = LogHandle
 	request["TimeGenerated"] = TimeGenerated
