@@ -67,11 +67,12 @@ def generate(in_file, count, servername, import_path):
     template.write_text(generated_template)
     server.write_text(generated_code)
     # import the template to populate the fuzzing data structures
-    __import__(str(template).replace("\\",".")[:-3])
-    for i in range(0, count):
-        fuzzer = Fuzzer(str(server).replace("\\",".")[:-3], str(template).replace("\\",".")[:-3])
-        fuzzer.fuzz_one()
-        fuzzer.clear_state()
+    server_import = str(server).replace("\\",".")[:-3]
+    template_import = str(template).replace("\\",".")[:-3]
+    __import__(template_import)
+    fuzzer = Fuzzer(count, server_import, template_import)
+    fuzzer.run()
+
 
 
 if __name__ == "__main__":

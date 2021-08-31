@@ -29,3 +29,12 @@ class Fuzzable(abc.ABC):
 
 class FuzzableMidl(Fuzzable):
     """Fuzzable MIDL concepts"""
+
+
+class Testcase:
+    def __init__(self):
+        #holds variable definitions and invocations
+        self.statements = []
+
+    def add(self,statement):
+        self.statements.append(statement)
