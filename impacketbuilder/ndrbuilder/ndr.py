@@ -175,24 +175,8 @@ class PythonNdrCall(PythonNdrClassDefiniton):
 class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
     """Creates a simple NDRUniConformantArray"""
 
-    def __init__(self, name: str, underlying_type_name: str, maximum_length=None):
-        item = PythonAssignment(PythonValue("item"), PythonName(underlying_type_name))
-        # TODO: Sort out whether we can safely use maximum length?
-        # class CHAR_ARRAY(NDRUniConformantArray):
-        #   item = CHAR
-        #   structure = (
-        #       'MaximumCount',
-        #       MaximumLength,
-        #   )
-        structure = PythonAssignment(
-            PythonValue("structure"),
-            PythonTuple(
-                [PythonName("'MaximumCount'"), PythonValue(str(maximum_length))]
-            ),
-        )
-        # if maximum_length != None:
-        #     prop_list = [item, structure]
-        # else:
+    def __init__(self, name: str, underlying_type:str, max_length:str=None):
+        item = PythonAssignment(PythonValue("item"), PythonName(underlying_type))
         prop_list = [item]
         props = PythonAssignmentList(*prop_list)
         self.clazz = PythonClass(
@@ -200,13 +184,14 @@ class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
             parent_classes=PythonNameList(PythonName("NDRUniConformantArray")),
             class_props=props,
             functions=PythonFunctionList(),
+            comment=f"MaximumLength: {max_length}"
         )
 
 
 class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
     """Creates a simple NDRUniFixedArray"""
 
-    def __init__(self, name: str, length: str, underlying_type):
+    def __init__(self, name: str, length: str, underlying_type:str):
         item = PythonAssignment(PythonValue("item"), PythonValue(underlying_type))
         prop_list = [item]
         props = PythonAssignmentList(*prop_list)

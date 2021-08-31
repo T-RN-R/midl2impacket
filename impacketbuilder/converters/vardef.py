@@ -151,39 +151,94 @@ class VarDefConverter(Converter):
             return self.handle_pointer_array(var_def)
 
     def handle_square_array(self, var_def: MidlVarDef) -> PythonTuple:
-        """Handles the following cases:
+        """
+        Reference: https://docs.microsoft.com/en-us/windows/win32/midl/midl-arrays
+
+        Handles the following cases:
         UNI : [size_is(m)] short a[]);
         MULTI : [size_is(m)] short b[][20]);
+
+        ## CONFORMANT ARRAYS
+
+        An array is called "conformant" if the upper bound of any dimension is determined at
+        runtime. Only upper bounds can be determined at runtime. To determine the upper bound,
+        the array declaration must include a size_is or max_is attribute.
+
+        ## VARYING ARRAYS
+
+        An array is called "varying" when its bounds are determined at compile time, but the range
+        of transmitted elements is determined at runtime. To determine the range of transmitted
+        elements, the array declaration must include a *length_is*, *first_is*, or *last_is*
+        attribute.
+
         """
+
+        # We only handle 1D arrays at present
         dimensionality = len(var_def.array_info)
-        if dimensionality == 1:
-            arr_inf = var_def.array_info[0]
-            if arr_inf.min and not arr_inf.max:
-                # NDRUniFixedArrays
-                size = self.mapper.calculate_sizeof(arr_inf.min)
-                (
-                    array_type_name,
-                    array_member_name,
-                    array_type_exists,
-                ) = self.mapper.get_python_array_type(var_def.type, array_size=size, is_func_param=self.func_params)
-                arr = PythonNdrUniFixedArray(array_type_name, size, array_member_name)
-            else:
-                # NDRUniConformantArrays
-                size = self.mapper.calculate_sizeof(arr_inf.max)
-                (
-                    array_type_name,
-                    array_member_name,
-                    array_type_exists,
-                ) = self.mapper.get_python_array_type(var_def.type, array_size=size, is_func_param=self.func_params)
-                arr = PythonNdrUniConformantArray(
-                    array_type_name, array_member_name, size
-                )
-            if not array_type_exists:
-                self.write(arr.to_string())
-                self.mapper.add_type(array_type_name)
-            return self.python_vardef(var_name=var_def.name, type_name=array_type_name)
-        else:
+        if dimensionality != 1:
             raise Exception("Multidimensional arrays are unimplemented")
+
+        lower_bound = self.mapper.calculate_sizeof(var_def.array_info[0].min)
+        upper_bound = self.mapper.calculate_sizeof(var_def.array_info[0].max)
+
+        conformance = None
+        variance = None
+
+        # Conformance checks
+        if size_is := var_def.attributes.get('size_is'):
+            conformance = self.mapper.calculate_sizeof(size_is.params[0])
+        elif max_is := var_def.attributes.get('size_is'):
+            conformance = self.mapper.calculate_sizeof(max_is.params[0])
+
+        # Variance attributes
+        if length_is := var_def.attributes.get('length_is'):
+            variance = self.mapper.calculate_sizeof(length_is.params[0])
+        else:
+            if first_is := var_def.attributes.get('first_is'):
+                first_is = self.mapper.calculate_sizeof(first_is.params[0]) 
+            if last_is := var_def.attributes.get('last_is'):
+                last_is = self.mapper.calculate_sizeof(last_is.params[0]) 
+
+            # Infer the length_is based on first_is and last_is
+            if first_is and last_is:
+                variance = f"{last_is} - {first_is} + 1"
+            elif first_is:
+                variance = f"{upper_bound} - {first_is} + 1"
+            elif last_is:
+                variance = f"{last_is} + 1"
+
+        if upper_bound and lower_bound != "0":
+            raise Exception("Microsoft RPC requires a lower bound of zero")
+
+        # Create the array
+        if not conformance and not variance:
+            # Regular old array
+            (
+                array_type_name,
+                array_member_name,
+                array_type_exists,
+            ) = self.mapper.get_python_array_type(var_def.type, array_size=lower_bound, is_func_param=self.func_params)
+            arr = PythonNdrUniFixedArray(array_type_name, lower_bound, array_member_name)
+        elif conformance:
+            if variance:
+                # Open array (conformant varying) - use NDRUniConformantVaryingArray
+                raise NotImplementedError("Open arrays have not been implemented")
+            else:
+                # Conformant array
+                (
+                    array_type_name,
+                    array_member_name,
+                    array_type_exists,
+                ) = self.mapper.get_python_array_type(var_def.type, array_size=conformance, is_func_param=self.func_params)
+                arr = PythonNdrUniConformantArray(array_type_name, array_member_name, conformance)
+        else:
+            # Variant array - NDRUniVaryingArray
+            raise NotImplementedError("Varying arrays have not been implemented")
+
+        if not array_type_exists:
+            self.write(arr.to_string())
+            self.mapper.add_type(array_type_name)
+        return self.python_vardef(var_name=var_def.name, type_name=array_type_name)
 
     def handle_pointer_array(self, var_def: MidlVarDef) -> PythonTuple:
         """Handles the following cases:

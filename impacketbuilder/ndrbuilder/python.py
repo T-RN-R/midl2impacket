@@ -160,15 +160,20 @@ class PythonClass(PythonDef):
         parent_classes: PythonNameList = [],
         class_props: PythonAssignmentList = [],
         functions: PythonFunctionList = [],
+        comment: str=None,
     ):
         self.name = name
         self.parent_classes = parent_classes
         self.class_props = class_props
         self.functions = functions
+        self.comment = ''
+        if comment:
+            self.comment = '\t"""\n\t' + '\n\t'.join(comment.splitlines()) + '\n\t"""\n'
 
     def to_python_string(self, tab_level=0) -> str:
         output = (
             f"class {self.name.to_python_string(tab_level)}({self.parent_classes.to_python_string(tab_level)}):\n"
+            f"{self.comment}"
             f"{self.class_props.to_python_string(1)}\n"
             f"{self.functions.to_python_string(1)}"
         )

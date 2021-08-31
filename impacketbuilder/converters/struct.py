@@ -221,7 +221,7 @@ class MidlStructConverter(Converter):
 
         ndr_array = PythonNdrUniConformantArray(
             name=array_name,
-            underlying_type_name=array_member_name,
+            underlying_type=array_member_name,
         )
         ndr_ptr = PythonNdrPointer(
             name=array_pointer_name, referent_name=array_name
