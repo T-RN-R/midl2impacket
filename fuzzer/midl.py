@@ -123,7 +123,7 @@ class NdrStructure:
         return None,output
     @classmethod
     def get_child_fields_of_type(cls, type_info, ident=""):
-        """Builds a lookup path to get object of given type"""
+        """Builds a lookup path to get object of given type from the struct"""
         if type_info in cls.class_layout_cache:
             #Cache this operation because it is expensive
             return cls.class_layout_cache[type_info]

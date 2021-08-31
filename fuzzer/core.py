@@ -16,6 +16,7 @@ class TypeLookup:
     def get_derived_types(self, type_info):
         types = []
         for k in self.map:
+            #This looks through all members of a struct for type_info
             if issubclass(k, NdrStructure):
                 for v in self.map[k]:
                     types.extend([v+i for i in k.get_child_fields_of_type(type_info)])
