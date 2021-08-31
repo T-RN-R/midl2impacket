@@ -1,10 +1,10 @@
 import enum
+from midlparser.parsers.expression import MidlExpressionParser
 
 from midltypes import MidlAttribute, MidlStructDef, MidlUnionDef, MidlVarDef
 from midlparser.parsers.arrays import MidlArrayParser
 from midlparser.parsers.attributes import MidlAttributesParser
 from midlparser.parsers.base import MidlBaseParser
-from midlparser.parsers.util import SkipClosureParser
 from midlparser.tokenizer import Token
 
 
@@ -71,24 +71,30 @@ class MidlUnionParser(MidlBaseParser):
                 from .structs import MidlStructParser
                 struct_type = MidlStructParser(self.tokens, self.tokenizer).parse(token)
                 struct_type.attributes = self.cur_member_attrs
-                if not len(struct_type.public_names):
-                    struct_type.public_names.append(f"s{self.embedded_struct_count}")
-                    self.embedded_struct_count += 1
-                var_def = MidlVarDef(
-                    struct_type, struct_type.public_names[0], self.cur_member_attrs
-                )
+                if not struct_type.members:
+                    var_def = self.to_vardef(struct_type, self.cur_member_attrs)
+                else:
+                    if not struct_type.public_names:
+                        struct_type.public_names.append(f"s{self.embedded_struct_count}")
+                        self.embedded_struct_count += 1
+                    var_def = MidlVarDef(
+                        struct_type, struct_type.public_names[0], self.cur_member_attrs
+                    )
                 self.members.append(var_def)
                 self.state = UnionState.MEMBER_TYPE_OR_ATTR
                 self.cur_member_attrs = {}
             elif token.data == "union":
                 union_type = MidlUnionParser(self.tokens, self.tokenizer).parse(token)
                 union_type.attributes = self.cur_member_attrs
-                if not len(union_type.public_names):
-                    union_type.public_names.append(f"u{self.embedded_union_count}")
-                    self.embedded_union_count += 1
-                var_def = MidlVarDef(
-                    union_type, union_type.public_names[0], self.cur_member_attrs
-                )
+                if not union_type.members:
+                    var_def = self.to_vardef(union_type, self.cur_member_attrs)
+                else:
+                    if not union_type.public_names:
+                        union_type.public_names.append(f"u{self.embedded_union_count}")
+                        self.embedded_union_count += 1
+                    var_def = MidlVarDef(
+                        union_type, union_type.public_names[0], self.cur_member_attrs
+                    )
                 self.members.append(var_def)
                 self.state = UnionState.MEMBER_TYPE_OR_ATTR
                 self.cur_member_attrs = {}
@@ -108,13 +114,17 @@ class MidlUnionParser(MidlBaseParser):
             # Our union discriminant is the switch parameter
             switch_param_token = next(self.tokens)
             assert switch_param_token.data == "("
-            switch_param = SkipClosureParser(
-                self.tokens, self.tokenizer, "(", ")"
-            ).parse(switch_param_token)
+            switch_param = MidlExpressionParser(
+                self.tokens, self.tokenizer
+            ).parse(switch_param_token)[1:-1]
             # Grab the discriminant type/name as it will be a parameter in the struct
-            switch_param_parts = switch_param.rsplit(" ", 1)
+            switch_param_parts = switch_param.strip().rsplit(" ", 1)
             switch_param_name = switch_param_parts[-1]
             switch_param_type = " ".join(switch_param_parts[:-1])
+            # Fix pointers
+            if switch_param_name.startswith('*'):
+                switch_param_name = switch_param_name[1:]
+                switch_param_type += '*'
             self.switch_param = MidlVarDef(switch_param_type, switch_param_name)
             # Reset our state so that we'll parse our union member starting here
             self.struct_private_name = self.private_name
@@ -226,7 +236,7 @@ class MidlUnionParser(MidlBaseParser):
     def finished(self) -> MidlUnionDef:
         public_names = []
         if self.declared_names:
-            public_names = self.declared_names.split(",")
+            public_names = self.declared_names.split(",")            
         if self.switch_param and self.struct_private_name:
             switch_union = MidlUnionDef([], self.private_name, self.members)
             switch_var = MidlVarDef(switch_union, switch_union.private_name)
@@ -234,3 +244,11 @@ class MidlUnionParser(MidlBaseParser):
             return MidlStructDef(public_names, self.struct_private_name, struct_members)
         else:
             return MidlUnionDef(public_names, self.private_name, self.members)
+
+    def to_vardef(self, container_type, attributes):
+        var_type = container_type.private_name
+        var_name = ''.join(container_type.public_names).strip()
+        if var_name.startswith('*'):
+            var_type += '*'
+            var_name = var_name[1:]
+        return MidlVarDef(var_type, var_name, attributes=attributes)

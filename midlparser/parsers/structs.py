@@ -84,12 +84,15 @@ class MidlStructParser(MidlBaseParser):
             if token.data == "struct":
                 struct_type = MidlStructParser(self.tokens, self.tokenizer).parse(token)
                 struct_type.attributes = self.cur_member_attrs
-                if not struct_type.public_names:
-                    struct_type.public_names.append(f"s{self.embedded_struct_count}")
-                    self.embedded_struct_count += 1
-                var_def = MidlVarDef(
-                    struct_type, struct_type.public_names[0], self.cur_member_attrs
-                )
+                if not struct_type.members:
+                    var_def = self.to_vardef(struct_type, self.cur_member_attrs)
+                else:
+                    if not struct_type.public_names:
+                        struct_type.public_names.append(f"s{self.embedded_struct_count}")
+                        self.embedded_struct_count += 1
+                    var_def = MidlVarDef(
+                        struct_type, struct_type.public_names[0], self.cur_member_attrs
+                    )
                 self.members.append(var_def)
                 self.state = StructState.MEMBER_TYPE_OR_ATTR
                 self.cur_member_attrs = {}
@@ -97,13 +100,16 @@ class MidlStructParser(MidlBaseParser):
                 from .unions import MidlUnionParser
                 union_type = MidlUnionParser(self.tokens, self.tokenizer).parse(token)
                 union_type.attributes = self.cur_member_attrs
-                if not union_type.public_names:
-                    union_type.public_names.append(f"u{self.embedded_union_count}")
-                    self.embedded_union_count += 1
-                    
-                var_def = MidlVarDef(
-                    union_type, union_type.public_names[0], self.cur_member_attrs
-                )
+                if not union_type.members:
+                    var_def = self.to_vardef(union_type, self.cur_member_attrs)
+                else:
+                    if not union_type.public_names:
+                        union_type.public_names.append(f"u{self.embedded_union_count}")
+                        self.embedded_union_count += 1
+                        
+                    var_def = MidlVarDef(
+                        union_type, union_type.public_names[0], self.cur_member_attrs
+                    )
                 self.members.append(var_def)
                 self.state = StructState.MEMBER_TYPE_OR_ATTR
                 self.cur_member_attrs = {}
@@ -228,3 +234,11 @@ class MidlStructParser(MidlBaseParser):
         if self.declared_names:
             public_names = self.declared_names.split(",")
         return MidlStructDef(public_names, self.private_name, self.members)
+
+    def to_vardef(self, container_type, attributes):
+        var_type = container_type.private_name
+        var_name = ''.join(container_type.public_names).strip()
+        if var_name.startswith('*'):
+            var_type += '*'
+            var_name = var_name[1:]
+        return MidlVarDef(var_type, var_name, attributes=attributes)

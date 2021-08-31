@@ -11,6 +11,7 @@ IDL_TO_NDR = {
     "unsigned int": "NDRULONG",
     "unsigned __int64": "NDRUHYPER",
     "signed __int64": "NDRHYPER",
+    "__int64": "NDRHYPER",
     "signed int": "NDRSHORT",
     "signed long": "NDRLONG",
     "signed char": "NDRCHAR",
