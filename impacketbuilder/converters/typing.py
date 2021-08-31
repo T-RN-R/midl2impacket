@@ -158,8 +158,6 @@ class TypeMapper:
                     py_name = STRING_PARAM_TYPES[ptr_type]
                 else:
                     py_name = py_name[:-1]
-        
-        py_name = py_name.strip('_')
 
         py_member_name = None
         # Check array information:
