@@ -122,7 +122,7 @@ class NdrStructure:
 
         return None,output
 
-
+    
 class NdrEnum:
     pass
 
