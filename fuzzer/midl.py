@@ -113,7 +113,14 @@ class NdrUnion:
 class NdrStructure:
     @classmethod
     def generate(cls, ctx, range_min=0, range_max=256):
-        return None,"None"
+        output = ""
+        obj_name = cls.__name__
+        output+=f"{obj_name}()\n"
+        for member in cls.MEMBERS:
+            entry = f"{ctx}['{member[1]}']"
+            output+= entry +" = " + str(member[0].generate(f'"{entry}"')[1]) + "\n"
+
+        return None,output
 
 
 class NdrEnum:

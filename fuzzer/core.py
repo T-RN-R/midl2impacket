@@ -54,7 +54,7 @@ class Fuzzer:
 
     def generate_of_type(testcase, type_info):
         var = Fuzzer.get_var_name()
-        generated_type = type_info.generate(None)[1]
+        extra, generated_type = type_info.generate(var)
         testcase.add(VariableInstantiation(var, generated_type))
         Fuzzer.lookup_mapper.insert(type_info,var)
         return var
