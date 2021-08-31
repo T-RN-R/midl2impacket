@@ -13,6 +13,8 @@ from impacketbuilder.ndrbuilder.python import (
 from impacketbuilder.ndrbuilder.ndr import (
     PythonNdrStruct,
     PythonNdrPointer,
+    PythonNdrUniConformantVaryingArray,
+    PythonNdrUniVaryingArray,
     PythonNdrUnion,
     PythonNdrUniConformantArray,
     PythonNdrUniFixedArray,
@@ -180,6 +182,7 @@ class VarDefConverter(Converter):
 
         lower_bound = self.mapper.calculate_sizeof(var_def.array_info[0].min)
         upper_bound = self.mapper.calculate_sizeof(var_def.array_info[0].max)
+        bound = upper_bound or lower_bound
 
         conformance = None
         variance = None
@@ -221,8 +224,13 @@ class VarDefConverter(Converter):
             arr = PythonNdrUniFixedArray(array_type_name, lower_bound, array_member_name)
         elif conformance:
             if variance:
-                # Open array (conformant varying) - use NDRUniConformantVaryingArray
-                raise NotImplementedError("Open arrays have not been implemented")
+                # Open array (conformant and varying)
+                (
+                    array_type_name,
+                    array_member_name,
+                    array_type_exists,
+                ) = self.mapper.get_python_array_type(var_def.type, array_size=conformance, is_func_param=self.func_params)
+                arr = PythonNdrUniConformantVaryingArray(array_type_name, array_member_name, max_length=conformance, actual_length=variance)
             else:
                 # Conformant array
                 (
@@ -232,8 +240,13 @@ class VarDefConverter(Converter):
                 ) = self.mapper.get_python_array_type(var_def.type, array_size=conformance, is_func_param=self.func_params)
                 arr = PythonNdrUniConformantArray(array_type_name, array_member_name, conformance)
         else:
-            # Variant array - NDRUniVaryingArray
-            raise NotImplementedError("Varying arrays have not been implemented")
+            # Varying array
+            (
+                array_type_name,
+                array_member_name,
+                array_type_exists,
+            ) = self.mapper.get_python_array_type(var_def.type, array_size=bound, is_func_param=self.func_params)
+            arr = PythonNdrUniVaryingArray(array_type_name, array_member_name, actual_length=variance)
 
         if not array_type_exists:
             self.write(arr.to_string())

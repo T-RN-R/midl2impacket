@@ -171,23 +171,6 @@ class PythonNdrCall(PythonNdrClassDefiniton):
             functions=PythonFunctionList(),
         )
 
-
-class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
-    """Creates a simple NDRUniConformantArray"""
-
-    def __init__(self, name: str, underlying_type:str, max_length:str=None):
-        item = PythonAssignment(PythonValue("item"), PythonName(underlying_type))
-        prop_list = [item]
-        props = PythonAssignmentList(*prop_list)
-        self.clazz = PythonClass(
-            name=PythonName(name),
-            parent_classes=PythonNameList(PythonName("NDRUniConformantArray")),
-            class_props=props,
-            functions=PythonFunctionList(),
-            comment=f"MaximumLength: {max_length}"
-        )
-
-
 class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
     """Creates a simple NDRUniFixedArray"""
 
@@ -220,4 +203,49 @@ class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
             parent_classes=PythonNameList(PythonName("NDRUniFixedArray")),
             class_props=props,
             functions=funcs,
+        )
+
+class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
+    """Creates a simple NDRUniConformantArray"""
+
+    def __init__(self, name: str, underlying_type:str, max_length:str=None):
+        item = PythonAssignment(PythonValue("item"), PythonName(underlying_type))
+        prop_list = [item]
+        props = PythonAssignmentList(*prop_list)
+        self.clazz = PythonClass(
+            name=PythonName(name),
+            parent_classes=PythonNameList(PythonName("NDRUniConformantArray")),
+            class_props=props,
+            functions=PythonFunctionList(),
+            comment=f"MaximumLength: {max_length}"
+        )
+
+class PythonNdrUniVaryingArray(PythonNdrClassDefiniton):
+    """Creates a NDRUniVaryingArray"""
+
+    def __init__(self, name: str, underlying_type:str, actual_length:str=None):
+        item = PythonAssignment(PythonValue("item"), PythonName(underlying_type))
+        prop_list = [item]
+        props = PythonAssignmentList(*prop_list)
+        self.clazz = PythonClass(
+            name=PythonName(name),
+            parent_classes=PythonNameList(PythonName("NDRUniVaryingArray")),
+            class_props=props,
+            functions=PythonFunctionList(),
+            comment=f"ActualCount: {actual_length}"
+        )
+
+class PythonNdrUniConformantVaryingArray(PythonNdrClassDefiniton):
+    """Creates a NDRUniConformantVaryingArray"""
+
+    def __init__(self, name: str, underlying_type:str, actual_length:str=None, max_length:str=None):
+        item = PythonAssignment(PythonValue("item"), PythonName(underlying_type))
+        prop_list = [item]
+        props = PythonAssignmentList(*prop_list)
+        self.clazz = PythonClass(
+            name=PythonName(name),
+            parent_classes=PythonNameList(PythonName("NDRUniConformantVaryingArray")),
+            class_props=props,
+            functions=PythonFunctionList(),
+            comment=f"ActualCount: {actual_length}\nMaximumCount: {max_length}"
         )
