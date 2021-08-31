@@ -99,7 +99,6 @@ class NdrUnion:
 
     @classmethod
     def generate(cls, ctx, range_min=0, range_max=256):
-        return None,"None"
         key = "default"
         while key == "default":
             key = random.choice(cls.MEMBERS.keys())
@@ -111,6 +110,7 @@ class NdrUnion:
 
 
 class NdrStructure:
+    class_layout_cache = {}
     @classmethod
     def generate(cls, ctx, range_min=0, range_max=256):
         output = ""
@@ -118,9 +118,26 @@ class NdrStructure:
         output+=f"{obj_name}()\n"
         for member in cls.MEMBERS:
             entry = f"{ctx}['{member[1]}']"
-            output+= entry +" = " + str(member[0].generate(f'"{entry}"')[1]) + "\n"
+            output+= entry +" = " + str(member[0].generate(f'{entry}')[1]) + "\n"
 
         return None,output
+    @classmethod
+    def get_child_fields_of_type(cls, type_info, ident=""):
+        """Builds a lookup path to get object of given type"""
+        if type_info in cls.class_layout_cache:
+            #Cache this operation because it is expensive
+            return cls.class_layout_cache[type_info]
+
+        types = []
+        for m in cls.MEMBERS:
+            if issubclass(m[0], NdrStructure):
+                types += cls.get_child_fields_of_type(type_info,ident+"['"+m[1]+"']")
+            else:
+                if m[0] == type_info:
+                    types.append(ident+"['"+m[1]+"']")
+
+        cls.class_layout_cache[type_info] = types
+        return types
 
     
 class NdrEnum:
@@ -130,4 +147,5 @@ class NdrEnum:
 class NdrContextHandle(NdrType):
     @classmethod
     def generate(cls, ctx, range_min=0, range_max=256):
-        return None,"None"
+        #Should never generate a contexxt_handle, it should be provided by the server
+        raise Exception("Unreachable")

@@ -1,5 +1,5 @@
 from fuzzer.base import FuzzableMidl, Testcase
-from fuzzer.midl import In, Out, InOut
+from fuzzer.midl import In, NdrContextHandle, NdrStructure, Out, InOut
 import fuzzer.config as config
 
 random = config.rand
@@ -11,10 +11,21 @@ class TypeLookup:
         self.map = {}
 
     def __contains__(self, item):
-        return item in self.map
+        return item in self.map.keys()
+        
+    def get_derived_types(self, type_info):
+        types = []
+        for k in self.map:
+            if issubclass(k, NdrStructure):
+                for v in self.map[k]:
+                    types.extend([v+i for i in k.get_child_fields_of_type(type_info)])
+                
+        return types
 
     def get_one(self, type_info):
-        return random.choice(self.map[type_info])
+        choices = self.map[type_info]
+        choices += self.get_derived_types(type_info)
+        return random.choice(choices)
 
     def insert(self, type_info, data):
         if type_info in self.map:
@@ -56,16 +67,19 @@ class Fuzzer:
         """Gets a variable name associated with a type"""
         if type_info not in Fuzzer.lookup_mapper:
             # We haven't generated anything of the given type yet, so generate one
+            if type_info == NdrContextHandle:
+                return "NULL"
             return Fuzzer.generate_of_type(testcase, type_info)
         else:
             r = random.randint(0, 100)
-            if r > config.USE_EXISTING:
+            if r < config.USE_EXISTING or type_info == NdrContextHandle:
                 return Fuzzer.lookup_mapper.get_one(type_info)
             else:
                 return Fuzzer.generate_of_type(testcase, type_info)
 
     def generate_of_type(testcase, type_info):
         """Generates a variable of the given type"""
+
         var = Fuzzer.get_var_name()
         extra, generated_type = type_info.generate(var)
         testcase.add(VariableInstantiation(var, generated_type))
@@ -125,7 +139,16 @@ class Interface(FuzzableMidl):
         testcase = Testcase()
         for i in range(0, iters):
             # TODO: Generate a bunch of variables here.
+
+
             method = random.choice(interface.methods)
+            if len(method.arguments)>0:
+                while method.arguments[0].param[0] == NdrContextHandle and NdrContextHandle not in Fuzzer.lookup_mapper:
+                    method = random.choice(interface.methods)
+                    if len(method.arguments) ==0:
+                        break
+
+
             testcase.add(method.generate(testcase))
         return testcase
 
