@@ -22,28 +22,35 @@ class TypeLookup:
             self.map[type_info] = [data]
 
 class Fuzzer:
+    """Core fuzzer class that maintains state information and controls the flow of code generation"""
     server = None
     var_count = 0
     lookup_mapper = TypeLookup()
 
     def __init__(self, count, server_path, template_path):
-        __import__(template_path)
-        self.count = count
+        __import__(template_path)# dynamically import the generated template to populate the fuzzer
+        self.count = count # Number of testcases to generate
+
     def run(self):
+        """Start the fuzzing!"""
         for i in range(0, self.count):
             self.fuzz_one()
 
     def fuzz_one(self):
+        """Does one unit of fuzzing"""
         iters = config.ITERATION_COUNT
         testcase = Interface.generate(iters)  # Make an NdrCall!
         print(testcase)
 
     def get_var_name():
+        """Returns a unique variable name"""
         Fuzzer.var_count += 1
         return f"v{Fuzzer.var_count}"
 
     def get_of_type(testcase, type_info):
+        """Gets a variable name associated with a type"""
         if type_info not in Fuzzer.lookup_mapper:
+            # We haven't generated anything of the given type yet, so generate one
             return Fuzzer.generate_of_type(testcase, type_info)
         else:
             r = random.randint(0,100)
@@ -53,6 +60,7 @@ class Fuzzer:
                 return Fuzzer.generate_of_type(testcase, type_info)
 
     def generate_of_type(testcase, type_info):
+        """Generates a variable of the given type"""
         var = Fuzzer.get_var_name()
         extra, generated_type = type_info.generate(var)
         testcase.add(VariableInstantiation(var, generated_type))
@@ -65,6 +73,7 @@ class Fuzzer:
         Fuzzer.lookup_mapper = TypeLookup()
 
 class MethodInvocation:
+    """Data structure representing the invocation of a method"""
     def __init__(self, name: str, arguments: dict):
         self.name = name
         self.arguments = arguments
@@ -78,6 +87,7 @@ class MethodInvocation:
         return out
 
 class VariableInstantiation:
+    """Data structure representing the instantiation of a variable"""
     def __init__(self, var_name:str, rhs:str):
         self.var_name = var_name
         self.rhs = rhs
@@ -85,6 +95,7 @@ class VariableInstantiation:
     def __str__(self):
         return f"{self.var_name} = {self.rhs}\n"
 class Interface(FuzzableMidl):
+    """Class that acts as a template for the fuzzer"""
     INSTANCES = []
 
     def __init__(self, uuid, version, methods):
@@ -95,6 +106,7 @@ class Interface(FuzzableMidl):
         Interface.INSTANCES.append(self)
 
     def generate(iters=10):
+        """Generate an invocation of a function from one interface"""
         # CONNECT HERE
         interface = random.choice(Interface.INSTANCES)
         testcase = Testcase()
@@ -112,6 +124,7 @@ class Method(FuzzableMidl):
         self.arguments = parameters
 
     def get_resp_str(self):
+        """Gets the classname of an impacket NDRCall Response"""
         return f"{self.name}Response"
 
     def generate(self, testcase):
@@ -124,6 +137,7 @@ class Method(FuzzableMidl):
         return MethodInvocation(self.name, args)
 
     def get_arguments(self, testcase):
+        """Generates the arguments to the function"""
         out_args = {}
         for arg in self.arguments:
             if isinstance(arg, (In, InOut)):
