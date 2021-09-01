@@ -11,6 +11,7 @@ IDL_TO_NDR = {
     "unsigned int": "NDRULONG",
     "unsigned __int64": "NDRUHYPER",
     "signed __int64": "NDRHYPER",
+    "__int64": "NDRHYPER",
     "signed int": "NDRSHORT",
     "signed long": "NDRLONG",
     "signed char": "NDRCHAR",
@@ -159,8 +160,6 @@ class TypeMapper:
                     py_name = STRING_PARAM_TYPES[ptr_type]
                 else:
                     py_name = py_name[:-1]
-        
-        py_name = py_name.strip('_')
 
 
         py_member_name = None

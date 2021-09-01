@@ -91,9 +91,9 @@ class MidlEnumParser(MidlBaseParser):
                 numeric_val = int(numeric_str)
             else:
                 self.invalid(token)
-            self.cur_member_value = str(numeric_val)
+            self.cur_member_value += str(numeric_val)
             if is_negative:
-                self.cur_member_value = "-" + self.cur_member_value
+                self.cur_member_value += '-' + self.cur_member_value
         else:
             self.invalid(token)
 
@@ -107,7 +107,7 @@ class MidlEnumParser(MidlBaseParser):
         elif self.state == EnumState.ENUM_END:
             self.declared_names += token.data
         elif self.state == EnumState.MEMBER_VALUE:
-            self.cur_member_value = token.data
+            self.cur_member_value += token.data
         else:
             self.invalid(token)
 

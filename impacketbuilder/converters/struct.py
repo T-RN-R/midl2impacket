@@ -160,6 +160,9 @@ class MidlStructConverter(Converter):
         struct_tuple = PythonTuple(struct_entries)
 
         if len(struct.public_names) > 0:
+            # If the first name is a pointer type, use the private name as the public one
+            if struct.public_names[0].startswith('*'):
+                struct.public_names.insert(0, struct.private_name)
             base_name = self.mapper.get_python_type(struct.public_names[0])[0]
         else:
             base_name = self.get_anonymous_name()
@@ -224,7 +227,7 @@ class MidlStructConverter(Converter):
 
         ndr_array = PythonNdrUniConformantArray(
             name=array_name,
-            underlying_type_name=array_member_name,
+            underlying_type=array_member_name,
         )
         ndr_ptr = PythonNdrPointer(name=array_pointer_name, referent_name=array_name)
         ndr_struct = PythonNdrStruct(name=main_name, structure=struct_tuple)
