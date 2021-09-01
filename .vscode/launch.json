@@ -55,6 +55,20 @@
                 "--count", "1",
 
             ]
+        },        
+        {
+            "name": "Run EVEN6 Fuzzer",
+            "type": "python",
+            "request": "launch",
+            "program": "fuzzer.py",
+            "console": "integratedTerminal",
+            "args":[
+                "--idl", "\"preprocessed/ms-even6.idl\"",
+                "--out-dir", "\"generated/\"",
+                "--import-dir", "\"preprocessed/\"",
+                "--count", "1",
+
+            ]
         },
         {
             "name": "Run RPRN Fuzzer",

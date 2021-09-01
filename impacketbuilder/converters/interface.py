@@ -45,7 +45,7 @@ class MidlInterfaceConverter(Converter):
                 interface.imports, import_dir, import_converter
             )
         # write uuid def
-        self.uuid(interface)
+        #self.uuid(interface)
         for vd in interface.vardefs:
             self.handle_vardef(vd)
         for td in interface.typedefs:
@@ -98,6 +98,7 @@ class MidlInterfaceConverter(Converter):
             iface_uuid = interface.attributes["uuid"].params[0]
             if iface_ver := interface.attributes.get("version"):
                 iface_ver = iface_ver.params[0]
+                print(iface_ver)
             else:
                 iface_ver = "0.0"
             self.write(

@@ -58,14 +58,15 @@ class NDRINTERFACE:
 from impacket.dcerpc.v5 import  epm
 from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_PKT_PRIVACY, RPC_C_AUTHN_GSS_NEGOTIATE
 from impacket.dcerpc.v5.transport import DCERPCTransportFactory""")
+        #TODO hardcoded version numbers until the version bug is fixed.
         testcase.add(f"""
-stringBinding = epm.hept_map('{host}', uuidtup_to_bin(('{self.uuid}', '{self.version}')))
+stringBinding = epm.hept_map('{host}', uuidtup_to_bin(('{self.uuid}', '0.0')), protocol='ncacn_ip_tcp')
 rpctransport = DCERPCTransportFactory(stringBinding)
 rpctransport.set_credentials('{username}', '{password}', '', '', '')
 dce = rpctransport.get_dce_rpc()
-dce.set_auth_level(RPC_C_AUTHN_LEVEL_PKT_PRIVACY)
+#dce.set_auth_level(RPC_C_AUTHN_LEVEL_PKT_PRIVACY)
 dce.connect()
-dce.bind(uuidtup_to_bin(('{self.uuid}', '{self.version}')))
+dce.bind(uuidtup_to_bin(('{self.uuid}', '0.0')))
 """)
 
 
