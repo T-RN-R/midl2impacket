@@ -27,6 +27,8 @@ IDL_TO_NDR = {
     "unsigned hyper": "NDRUHYPER",
     "hyper": "NDRHYPER",
     "dwordlong": "NDRUHYPER",
+    "DWORD64": "NDRUHYPER",
+    "DWORD__ENUM": "DWORD",
     "long ptr": "NDRHYPER",
     "ulong ptr": "NDRUHYPER",
     "LARGE_INTEGER": "LARGE_INTEGER",  # impacket type
@@ -36,10 +38,15 @@ IDL_TO_NDR = {
     "LPCWSTR": "LPWSTR",  # impacket type
     "LMSTR": "LPWSTR",  # impacket type
     "PWSTR": "LPWSTR",  # TODO validate that this is correct
+    "UCHAR": "UCHAR", # impacket type
     "WCHAR": "USHORT",  # impacket type
+    "PCHAR": "PCHAR", # impacket type,
     "PWCHAR": "WSTR",  # impacket type
     "PBYTE": "PBYTE",  # impacket type
-    "WSTR": "WSTR",
+    "WSTR": "WSTR", # impacket type,
+    
+    
+    
 }
 
 SIZEOF_LOOKUP = {
@@ -179,7 +186,7 @@ class TypeMapper:
         return py_name, py_member_name
 
     def get_python_array_type(
-        self, idl_type: str, array_size: str, is_func_param=False
+        self, idl_type: str, array_size: str, is_func_param=False, array_prefix:str=''
     ) -> tuple[str, str, bool]:
         """Returns the array type name, the member name, and whether the type exists
 
@@ -195,7 +202,8 @@ class TypeMapper:
         py_array_name, py_member_name = self.canonicalize(
             idl_type, array_size=array_size, is_func_param=is_func_param
         )
-        return py_array_name, py_member_name, py_array_name in self.types
+        py_array_name = array_prefix + py_array_name
+        return py_array_name, py_member_name, (py_array_name in self.types)
 
     def get_python_type(self, idl_type: str, is_func_param=False) -> tuple[str, bool]:
         """Returns python-friendly names for IDL names, along with a boolean indicating whether the

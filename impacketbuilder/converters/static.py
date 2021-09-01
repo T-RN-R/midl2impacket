@@ -17,6 +17,7 @@ class MidlStaticConverter(Converter):
 
     def base_imports(self):
         imports = """
+# pylint: disable=C0103,C0302
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
@@ -37,49 +38,15 @@ class DCERPCSessionError(DCERPCException):
         if key in system_errors.ERROR_MESSAGES:
             error_msg_short = system_errors.ERROR_MESSAGES[key][0]
             error_msg_verbose = system_errors.ERROR_MESSAGES[key][1] 
-            return 'MIDL2Impacket SessionError: code: 0x%x - %s - %s' % (self.error_code, error_msg_short, error_msg_verbose)
-        else:
-            return 'MIDL2Impacket SessionError: unknown error code: 0x%x' % self.error_code
+            return 'SessionError: code: 0x%x - %s - %s' % (self.error_code, error_msg_short, error_msg_verbose)
+        return 'SessionError: unknown error code: 0x%x' % self.error_code
 
-
-DWORD64 = NDRUHYPER
-__INT64 = NDRHYPER
-DWORD__ENUM = DWORD
 class CONTEXT_HANDLE(NDRSTRUCT):
     align = 1
     structure = (
         ('Data', '20s=""'),
     )
 HANDLE_T = CONTEXT_HANDLE
-class RPC_STRING(NDRSTRUCT):
-    structure = (
-        ('Length','<H=0'),
-        ('MaximumLength','<H=0'),
-        ('Data',LPSTR),
-    )
-
-    def __setitem__(self, key, value):
-        if key == 'Data' and isinstance(value, NDR) is False:
-            self['Length'] = len(value)
-            self['MaximumLength'] = len(value)
-        return NDRSTRUCT.__setitem__(self, key, value)
-
-    def dump(self, msg = None, indent = 0):
-        if msg is None: msg = self.__class__.__name__
-        if msg != '':
-            print("%s" % msg, end=' ')
-
-        if isinstance(self.fields['Data'] , NDRPOINTERNULL):
-            print(" NULL", end=' ')
-        elif self.fields['Data']['ReferentID'] == 0:
-            print(" NULL", end=' ')
-        else:
-            return self.fields['Data'].dump('',indent)
-
-class PRPC_STRING(NDRPOINTER):
-    referent = (
-        ('Data', RPC_STRING),
-    )
 """
         self.write(imports)
 

@@ -1,4 +1,3 @@
-from impacket.dcerpc.v5.ndr import NDRPOINTER
 from impacketbuilder.ndrbuilder.python import (
     PythonAssignment,
     PythonAssignmentList,
@@ -208,7 +207,7 @@ class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
 class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
     """Creates a simple NDRUniConformantArray"""
 
-    def __init__(self, name: str, underlying_type:str, max_length:str=None):
+    def __init__(self, name: str, underlying_type:str):
         item = PythonAssignment(PythonValue("item"), PythonName(underlying_type))
         prop_list = [item]
         props = PythonAssignmentList(*prop_list)
@@ -216,14 +215,13 @@ class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRUniConformantArray")),
             class_props=props,
-            functions=PythonFunctionList(),
-            comment=f"MaximumLength: {max_length}"
+            functions=PythonFunctionList()
         )
 
 class PythonNdrUniVaryingArray(PythonNdrClassDefiniton):
     """Creates a NDRUniVaryingArray"""
 
-    def __init__(self, name: str, underlying_type:str, actual_length:str=None):
+    def __init__(self, name: str, underlying_type:str):
         item = PythonAssignment(PythonValue("item"), PythonName(underlying_type))
         prop_list = [item]
         props = PythonAssignmentList(*prop_list)
@@ -232,13 +230,12 @@ class PythonNdrUniVaryingArray(PythonNdrClassDefiniton):
             parent_classes=PythonNameList(PythonName("NDRUniVaryingArray")),
             class_props=props,
             functions=PythonFunctionList(),
-            comment=f"ActualCount: {actual_length}"
         )
 
 class PythonNdrUniConformantVaryingArray(PythonNdrClassDefiniton):
     """Creates a NDRUniConformantVaryingArray"""
 
-    def __init__(self, name: str, underlying_type:str, actual_length:str=None, max_length:str=None):
+    def __init__(self, name: str, underlying_type:str):
         item = PythonAssignment(PythonValue("item"), PythonName(underlying_type))
         prop_list = [item]
         props = PythonAssignmentList(*prop_list)
@@ -246,6 +243,5 @@ class PythonNdrUniConformantVaryingArray(PythonNdrClassDefiniton):
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRUniConformantVaryingArray")),
             class_props=props,
-            functions=PythonFunctionList(),
-            comment=f"ActualCount: {actual_length}\nMaximumCount: {max_length}"
+            functions=PythonFunctionList()
         )

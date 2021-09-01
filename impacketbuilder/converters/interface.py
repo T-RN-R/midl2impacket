@@ -33,11 +33,13 @@ class MidlInterfaceConverter(Converter):
         self.proc_converter = MidlProcedureConverter(self.io, self.tab_level, mapper=self.mapper)
 
 
-    def convert(self, interface, import_dir, import_converter):
+    def convert(self, interface:MidlInterface, import_dir, import_converter):
         if interface.imports:
             self.imports_converter.convert(
                 interface.imports, import_dir, import_converter
             )
+        # write interface handle
+        self.write(f"{interface.name.upper()} = CONTEXT_HANDLE")
         # write uuid def
         self.uuid(interface)
         for vd in interface.vardefs:
