@@ -46,7 +46,7 @@ IDL_TO_NDR = {
     "dwordlong": "NdrHyper",
     "long ptr": "NdrHyper",
     "ulong ptr": "NdrHyper",
-    "LARGE_INTEGER": "LARGE_INTEGER",  # impacket type
+    "LARGE_INTEGER": "NdrHyper",  # impacket type
     "LPSTR": "NdrCString",  # impacket type
     "LPWSTR": "NdrWString",  # impacket type
     "LPCSTR": "NdrCString",  # impacket type

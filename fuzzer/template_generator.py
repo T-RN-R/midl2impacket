@@ -22,6 +22,13 @@ class FuzzerTemplateGenerator:
 from fuzzer.midl import *
 from fuzzer.core import *
 """
+    def gen_class(self,name, members):
+        clz = f"""
+class {self.mapper.canonicalize(name)[0]}(NdrStructure):
+    MEMBERS = [{members}]
+"""
+        self.io.write(clz)
+
     def static(self):
         if self.static_imports == "":
             return
@@ -32,6 +39,10 @@ from fuzzer.core import *
                 mapping += f"{canonicalized_name} = {py_name}\n"
             self.mapper.add_type(canonicalized_name)
         self.io.write(mapping)
+        #Generate some impacket built in types, these are all implemented in the RPC runtime...
+        self.gen_class("FILETIME", "(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')")
+        self.gen_class("LUID", "(DWORD,'LowPart'),(LONG,'HighPart')")
+        self.gen_class("SYSTEMTIME", "(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),")
 
     def generate_import(self, _import, import_dir):
         in_file = pathlib.Path(import_dir + _import.file)
@@ -47,7 +58,7 @@ from fuzzer.core import *
             self.generate_import(_import, import_dir)
 
         first_uuid = None
-        # TODO generate struct defs first, before generating interface defs
+        # TODO generate struct defs first, before generating interface defs 
         for typedef in midl_def.typedefs:
             self.handle_typedef(typedef)
         for interface in midl_def.interfaces:
@@ -152,11 +163,16 @@ class {self.mapper.canonicalize(name)[0]}(NdrStructure):
 
 
     def generate_enum(self, enum):
-        output = ""
-        # TODO add typedef mapping for all public names of this struct
+        map =""
+        for k in enum.map:
+            map += f"({enum.map[k]} , '{k}'),"
+        class_def = f"""
+class {self.mapper.canonicalize(enum.public_names[0])[0]}(NdrEnum):
+    MAP = ({map})        
+"""
+        self.io.write(class_def)
 
     def generate_interface(self, midl_interface):
-        output = ""
         if len(midl_interface.attributes) == 0:
             return ""
         uuid = midl_interface.attributes["uuid"].params[0]

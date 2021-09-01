@@ -55,6 +55,20 @@
                 "--count", "1",
 
             ]
+        },
+        {
+            "name": "Run RPRN Fuzzer",
+            "type": "python",
+            "request": "launch",
+            "program": "fuzzer.py",
+            "console": "integratedTerminal",
+            "args":[
+                "--idl", "\"preprocessed/ms-rprn.idl\"",
+                "--name", "\"rprn\"",
+                "--import-dir", "\"preprocessed/\"",
+                "--count", "1",
+
+            ]
         }
     ]
 }
