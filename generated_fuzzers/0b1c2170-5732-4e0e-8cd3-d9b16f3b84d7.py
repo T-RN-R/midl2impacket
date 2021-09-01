@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -329,6 +339,9 @@ class AUTHZR_ACCESS_REPLY(NdrStructure):
 
     
 
+class AUTHZ_CONTEXT_INFORMATION_CLASS(NdrEnum):
+    MAP = ((1 , 'AuthzContextInfoUserSid'),(2 , 'AuthzContextInfoGroupsSids'),(3 , 'AuthzContextInfoRestrictedSids'),(4 , 'ReservedEnumValue4'),(5 , 'ReservedEnumValue5'),(6 , 'ReservedEnumValue6'),(7 , 'ReservedEnumValue7'),(8 , 'ReservedEnumValue8'),(9 , 'ReservedEnumValue9'),(10 , 'ReservedEnumValue10'),(11 , 'ReservedEnumValue11'),(12 , 'AuthzContextInfoDeviceSids'),(13 , 'AuthzContextInfoUserClaims'),(14 , 'AuthzContextInfoDeviceClaims'),(15 , 'ReservedEnumValue15'),(16 , 'ReservedEnumValue16'),)        
+
 class AUTHZR_SID_AND_ATTRIBUTES(NdrStructure):
     MEMBERS = [(PRPC_SID, "Sid"),(DWORD, "Attributes"),]
 
@@ -368,40 +381,46 @@ class AUTHZR_CONTEXT_INFORMATION(NdrStructure):
     MEMBERS = [(USHORT, "ValueType"),(CONTEXTINFOUNION, "ContextInfoUnion"),]
 
     
-Method("AuthzrFreeContext",
-InOut(PAUTHZR_HANDLE),
+
+class AUTHZ_SECURITY_ATTRIBUTE_OPERATION(NdrEnum):
+    MAP = ((0 , 'AUTHZ_SECURITY_ATTRIBUTE_OPERATION_NONE'),(1 , 'AUTHZ_SECURITY_ATTRIBUTE_OPERATION_REPLACE_ALL'),(2 , 'AUTHZ_SECURITY_ATTRIBUTE_OPERATION_ADD'),(3 , 'AUTHZ_SECURITY_ATTRIBUTE_OPERATION_DELETE'),(4 , 'AUTHZ_SECURITY_ATTRIBUTE_OPERATION_REPLACE'),)        
+
+class AUTHZ_SID_OPERATION(NdrEnum):
+    MAP = ((0 , 'AUTHZ_SID_OPERATION_NONE'),(1 , 'AUTHZ_SID_OPERATION_REPLACE_ALL'),(2 , 'AUTHZ_SID_OPERATION_ADD'),(3 , 'AUTHZ_SID_OPERATION_DELETE'),(4 , 'AUTHZ_SID_OPERATION_REPLACE'),)        
+Interface("0b1c2170-5732-4e0e-8cd3-d9b16f3b84d7", "0.0",[Method("AuthzrFreeContext",
+InOut((PAUTHZR_HANDLE,'ContextHandle')),
 ),Method("AuthzrInitializeContextFromSid",
-In(HANDLE_T),
-In(DWORD),
-In(PRPC_SID),
-In(PLARGE_INTEGER),
-In(LUID),
-Out(PAUTHZR_HANDLE),
+In((HANDLE_T,'Binding')),
+In((DWORD,'Flags')),
+In((PRPC_SID,'Sid')),
+In((PLARGE_INTEGER,'pExpirationTime')),
+In((LUID,'Identifier')),
+Out((PAUTHZR_HANDLE,'ContextHandle')),
 ),Method("AuthzrInitializeCompoundContext",
-In(AUTHZR_HANDLE),
-In(AUTHZR_HANDLE),
-Out(PAUTHZR_HANDLE),
+In((AUTHZR_HANDLE,'UserContextHandle')),
+In((AUTHZR_HANDLE,'DeviceContextHandle')),
+Out((PAUTHZR_HANDLE,'CompoundContextHandle')),
 ),Method("AuthzrAccessCheck",
-In(AUTHZR_HANDLE),
-In(DWORD),
-In(PAUTHZR_ACCESS_REQUEST),
-In(DWORD),
-In(PSR_SD),
-InOut(PAUTHZR_ACCESS_REPLY),
+In((AUTHZR_HANDLE,'ContextHandle')),
+In((DWORD,'Flags')),
+In((PAUTHZR_ACCESS_REQUEST,'pRequest')),
+In((DWORD,'SecurityDescriptorCount')),
+In((PSR_SD,'pSecurityDescriptors')),
+InOut((PAUTHZR_ACCESS_REPLY,'pReply')),
 ),Method("AuthzGetInformationFromContext",
-In(AUTHZR_HANDLE),
-In(AUTHZ_CONTEXT_INFORMATION_CLASS),
-Out(PPAUTHZR_CONTEXT_INFORMATION),
+In((AUTHZR_HANDLE,'ContextHandle')),
+In((AUTHZ_CONTEXT_INFORMATION_CLASS,'InfoClass')),
+Out((PPAUTHZR_CONTEXT_INFORMATION,'ppContextInformation')),
 ),Method("AuthzrModifyClaims",
-In(AUTHZR_HANDLE),
-In(AUTHZ_CONTEXT_INFORMATION_CLASS),
-In(DWORD),
-In(PAUTHZ_SECURITY_ATTRIBUTE_OPERATION),
-In(PAUTHZR_SECURITY_ATTRIBUTES_INFORMATION),
+In((AUTHZR_HANDLE,'ContextHandle')),
+In((AUTHZ_CONTEXT_INFORMATION_CLASS,'ClaimClass')),
+In((DWORD,'OperationCount')),
+In((PAUTHZ_SECURITY_ATTRIBUTE_OPERATION,'pClaimOperations')),
+In((PAUTHZR_SECURITY_ATTRIBUTES_INFORMATION,'pClaims')),
 ),Method("AuthzrModifySids",
-In(AUTHZR_HANDLE),
-In(AUTHZ_CONTEXT_INFORMATION_CLASS),
-In(DWORD),
-In(PAUTHZ_SID_OPERATION),
-In(PAUTHZR_TOKEN_GROUPS),
-),
+In((AUTHZR_HANDLE,'ContextHandle')),
+In((AUTHZ_CONTEXT_INFORMATION_CLASS,'SidClass')),
+In((DWORD,'OperationCount')),
+In((PAUTHZ_SID_OPERATION,'pSidOperations')),
+In((PAUTHZR_TOKEN_GROUPS,'pSids')),
+),])

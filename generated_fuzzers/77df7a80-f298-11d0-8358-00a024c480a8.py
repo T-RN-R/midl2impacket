@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -358,7 +368,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -619,16 +629,19 @@ class CAPROPVARIANT(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "cElems"),(PPROPVARIANT, "pElems"),]
 
     
+
+class VARENUM(NdrEnum):
+    MAP = ((0 , 'VT_EMPTY'),(1 , 'VT_NULL'),(2 , 'VT_I2'),(3 , 'VT_I4'),(11 , 'VT_BOOL'),(12 , 'VT_VARIANT'),(16 , 'VT_I1'),(17 , 'VT_UI1'),(18 , 'VT_UI2'),(19 , 'VT_UI4'),(20 , 'VT_I8'),(21 , 'VT_UI8'),(31 , 'VT_LPWSTR'),(65 , 'VT_BLOB'),(72 , 'VT_CLSID'),(4096 , 'VT_VECTOR'),)        
 VARTYPE = UNSIGNED_SHORT
 
-class _VARUNION(NdrUnion):
+class VARUNION(NdrUnion):
     SWITCHTYPE = DWORD
     MEMBERS = {2 : (CHAR, "cVal"),3 : (UCHAR, "bVal"),4 : (SHORT, "iVal"),5 : (USHORT, "uiVal"),6 : (LONG, "lVal"),7 : (ULONG, "ulVal"),8 : (LARGE_INTEGER, "hVal"),9 : (ULARGE_INTEGER, "uhVal"),10 : (VARIANT_BOOL, "boolVal"),11 : (PGUID, "puuid"),12 : (BLOB, "blob"),13 : (PWCHAR_T, "pwszVal"),14 : (CAUB, "caub"),15 : (CAUI, "caui"),16 : (CAL, "cal"),17 : (CAUL, "caul"),18 : (CAUH, "cauh"),19 : (CACLSID, "cauuid"),20 : (CALPWSTR, "calpwstr"),21 : (CAPROPVARIANT, "capropvar"),}
 
     
 
 class TAG_INNER_PROPVARIANT(NdrStructure):
-    MEMBERS = [(VARTYPE, "vt"),(UCHAR, "wReserved1"),(UCHAR, "wReserved2"),(ULONG, "wReserved3"),(_VARUNION, "_varUnion"),]
+    MEMBERS = [(VARTYPE, "vt"),(UCHAR, "wReserved1"),(UCHAR, "wReserved2"),(ULONG, "wReserved3"),(VARUNION, "_varUnion"),]
 
     
 
@@ -646,6 +659,9 @@ class OBJECTID(NdrStructure):
     MEMBERS = [(GUID, "Lineage"),(DWORD, "Uniquifier"),]
 
     
+
+class QUEUE_FORMAT_TYPE(NdrEnum):
+    MAP = ((0 , 'QUEUE_FORMAT_TYPE_UNKNOWN'),(1 , 'QUEUE_FORMAT_TYPE_PUBLIC'),(2 , 'QUEUE_FORMAT_TYPE_PRIVATE'),(3 , 'QUEUE_FORMAT_TYPE_DIRECT'),(4 , 'QUEUE_FORMAT_TYPE_MACHINE'),(5 , 'QUEUE_FORMAT_TYPE_CONNECTOR'),(6 , 'QUEUE_FORMAT_TYPE_DL'),(7 , 'QUEUE_FORMAT_TYPE_MULTICAST'),(8 , 'QUEUE_FORMAT_TYPE_SUBQUEUE'),)        
 
 class U0(NdrUnion):
     SWITCHTYPE = DWORD
@@ -692,181 +708,181 @@ PCONTEXT_HANDLE_SERVER_AUTH_TYPE = VOID
 PPCONTEXT_HANDLE_SERVER_AUTH_TYPE = PCONTEXT_HANDLE_SERVER_AUTH_TYPE
 PCONTEXT_HANDLE_DELETE_TYPE = VOID
 PPCONTEXT_HANDLE_DELETE_TYPE = PCONTEXT_HANDLE_DELETE_TYPE
-Method("S_DSCreateObject",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-In(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PROPVARIANT),
-InOut(PGUID),
+Interface("77df7a80-f298-11d0-8358-00a024c480a8", "1.0",[Method("S_DSCreateObject",
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PWCHAR_T,'pwcsPathName')),
+In((UNSIGNED_LONG,'dwSDLength')),
+In((PUNSIGNED_CHAR,'SecurityDescriptor')),
+In((UNSIGNED_LONG,'cp')),
+In((UNSIGNED_LONG,'aProp')),
+In((PROPVARIANT,'apVar')),
+InOut((PGUID,'pObjGuid')),
 ),Method("S_DSDeleteObject",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PWCHAR_T,'pwcsPathName')),
 ),Method("S_DSGetProps",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-InOut(PROPVARIANT),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PWCHAR_T,'pwcsPathName')),
+In((UNSIGNED_LONG,'cp')),
+In((UNSIGNED_LONG,'aProp')),
+InOut((PROPVARIANT,'apVar')),
+In((PCONTEXT_HANDLE_SERVER_AUTH_TYPE,'phServerAuth')),
+Out((PUNSIGNED_CHAR,'pbServerSignature')),
+InOut((LPBOUNDED_SIGNATURE_SIZE,'pdwServerSignatureSize')),
 ),Method("S_DSSetProps",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PROPVARIANT),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PWCHAR_T,'pwcsPathName')),
+In((UNSIGNED_LONG,'cp')),
+In((UNSIGNED_LONG,'aProp')),
+In((PROPVARIANT,'apVar')),
 ),Method("S_DSGetObjectSecurity",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PWCHAR_T,'pwcsPathName')),
+In((UNSIGNED_LONG,'SecurityInformation')),
+Out((PUNSIGNED_CHAR,'pSecurityDescriptor')),
+In((UNSIGNED_LONG,'nLength')),
+Out((PUNSIGNED_LONG,'lpnLengthNeeded')),
+In((PCONTEXT_HANDLE_SERVER_AUTH_TYPE,'phServerAuth')),
+Out((PUNSIGNED_CHAR,'pbServerSignature')),
+InOut((LPBOUNDED_SIGNATURE_SIZE,'pdwServerSignatureSize')),
 ),Method("S_DSSetObjectSecurity",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-In(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PWCHAR_T,'pwcsPathName')),
+In((UNSIGNED_LONG,'SecurityInformation')),
+In((PUNSIGNED_CHAR,'pSecurityDescriptor')),
+In((UNSIGNED_LONG,'nLength')),
 ),Method("S_DSLookupBegin",
-In(HANDLE_T),
-Out(PPCONTEXT_HANDLE_TYPE),
-In(PWCHAR_T),
-In(PMQRESTRICTION),
-In(PMQCOLUMNSET),
-In(PMQSORTSET),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+In((HANDLE_T,'hBind')),
+Out((PPCONTEXT_HANDLE_TYPE,'pHandle')),
+In((PWCHAR_T,'pwcsContext')),
+In((PMQRESTRICTION,'pRestriction')),
+In((PMQCOLUMNSET,'pColumns')),
+In((PMQSORTSET,'pSort')),
+In((PCONTEXT_HANDLE_SERVER_AUTH_TYPE,'phServerAuth')),
 ),Method("S_DSLookupNext",
-In(HANDLE_T),
-In(PCONTEXT_HANDLE_TYPE),
-In(LPBOUNDED_PROPERTIES),
-Out(PUNSIGNED_LONG),
-Out(PROPVARIANT),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
+In((HANDLE_T,'hBind')),
+In((PCONTEXT_HANDLE_TYPE,'Handle')),
+In((LPBOUNDED_PROPERTIES,'dwSize')),
+Out((PUNSIGNED_LONG,'dwOutSize')),
+Out((PROPVARIANT,'pbBuffer')),
+In((PCONTEXT_HANDLE_SERVER_AUTH_TYPE,'phServerAuth')),
+Out((PUNSIGNED_CHAR,'pbServerSignature')),
+InOut((LPBOUNDED_SIGNATURE_SIZE,'pdwServerSignatureSize')),
 ),Method("S_DSLookupEnd",
-In(HANDLE_T),
-InOut(PPCONTEXT_HANDLE_TYPE),
+In((HANDLE_T,'hBind')),
+InOut((PPCONTEXT_HANDLE_TYPE,'phContext')),
 ),Method("Opnum9NotUsedOnWire",
 ),Method("S_DSDeleteObjectGuid",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PGUID,'pGuid')),
 ),Method("S_DSGetPropsGuid",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-InOut(PROPVARIANT),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PGUID,'pGuid')),
+In((UNSIGNED_LONG,'cp')),
+In((UNSIGNED_LONG,'aProp')),
+InOut((PROPVARIANT,'apVar')),
+In((PCONTEXT_HANDLE_SERVER_AUTH_TYPE,'phServerAuth')),
+Out((PUNSIGNED_CHAR,'pbServerSignature')),
+InOut((LPBOUNDED_SIGNATURE_SIZE,'pdwServerSignatureSize')),
 ),Method("S_DSSetPropsGuid",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PROPVARIANT),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PGUID,'pGuid')),
+In((UNSIGNED_LONG,'cp')),
+In((UNSIGNED_LONG,'aProp')),
+In((PROPVARIANT,'apVar')),
 ),Method("S_DSGetObjectSecurityGuid",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PGUID,'pGuid')),
+In((UNSIGNED_LONG,'SecurityInformation')),
+Out((PUNSIGNED_CHAR,'pSecurityDescriptor')),
+In((UNSIGNED_LONG,'nLength')),
+Out((PUNSIGNED_LONG,'lpnLengthNeeded')),
+In((PCONTEXT_HANDLE_SERVER_AUTH_TYPE,'phServerAuth')),
+Out((PUNSIGNED_CHAR,'pbServerSignature')),
+InOut((LPBOUNDED_SIGNATURE_SIZE,'pdwServerSignatureSize')),
 ),Method("S_DSSetObjectSecurityGuid",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
-In(UNSIGNED_LONG),
-In(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PGUID,'pGuid')),
+In((UNSIGNED_LONG,'SecurityInformation')),
+In((PUNSIGNED_CHAR,'pSecurityDescriptor')),
+In((UNSIGNED_LONG,'nLength')),
 ),Method("Opnum15NotUsedOnWire",
 ),Method("Opnum16NotUsedOnWire",
 ),Method("Opnum17NotUsedOnWire",
 ),Method("Opnum18NotUsedOnWire",
 ),Method("S_DSQMSetMachineProperties",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PROPVARIANT),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'hBind')),
+In((PWCHAR_T,'pwcsPathName')),
+In((UNSIGNED_LONG,'cp')),
+In((UNSIGNED_LONG,'aProp')),
+In((PROPVARIANT,'apVar')),
+In((UNSIGNED_LONG,'dwContext')),
 ),Method("S_DSCreateServersCache",
-In(HANDLE_T),
-InOut(PUNSIGNED_LONG),
-InOut(PPWCHAR_T),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
+In((HANDLE_T,'hBind')),
+InOut((PUNSIGNED_LONG,'pdwIndex')),
+InOut((PPWCHAR_T,'lplpSiteServers')),
+In((PCONTEXT_HANDLE_SERVER_AUTH_TYPE,'phServerAuth')),
+Out((PUNSIGNED_CHAR,'pbServerSignature')),
+InOut((LPBOUNDED_SIGNATURE_SIZE,'pdwServerSignatureSize')),
 ),Method("S_DSQMSetMachinePropertiesSignProc",
-In(PBYTE),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-InOut(PBYTE),
-InOut(PUNSIGNED_LONG),
-In(UNSIGNED_LONG),
+In((PBYTE,'abChallenge')),
+In((UNSIGNED_LONG,'dwCallengeSize')),
+In((UNSIGNED_LONG,'dwContext')),
+InOut((PBYTE,'abSignature')),
+InOut((PUNSIGNED_LONG,'pdwSignatureSize')),
+In((UNSIGNED_LONG,'dwSignatureMaxSize')),
 ),Method("S_DSQMGetObjectSecurity",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PGUID),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PCONTEXT_HANDLE_SERVER_AUTH_TYPE),
-Out(PUNSIGNED_CHAR),
-InOut(LPBOUNDED_SIGNATURE_SIZE),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'dwObjectType')),
+In((PGUID,'pGuid')),
+In((UNSIGNED_LONG,'SecurityInformation')),
+Out((PUNSIGNED_CHAR,'pSecurityDescriptor')),
+In((UNSIGNED_LONG,'nLength')),
+Out((PUNSIGNED_LONG,'lpnLengthNeeded')),
+In((UNSIGNED_LONG,'dwContext')),
+In((PCONTEXT_HANDLE_SERVER_AUTH_TYPE,'phServerAuth')),
+Out((PUNSIGNED_CHAR,'pbServerSignature')),
+InOut((LPBOUNDED_SIGNATURE_SIZE,'pdwServerSignatureSize')),
 ),Method("S_DSQMGetObjectSecurityChallengeResponceProc",
-In(PBYTE),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-InOut(PBYTE),
-InOut(PUNSIGNED_LONG),
-In(UNSIGNED_LONG),
+In((PBYTE,'abChallenge')),
+In((UNSIGNED_LONG,'dwCallengeSize')),
+In((UNSIGNED_LONG,'dwContext')),
+InOut((PBYTE,'abCallengeResponce')),
+InOut((PUNSIGNED_LONG,'pdwCallengeResponceSize')),
+In((UNSIGNED_LONG,'dwCallengeResponceMaxSize')),
 ),Method("S_InitSecCtx",
-In(UNSIGNED_LONG),
-In(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_CHAR),
-Out(PUNSIGNED_LONG),
+In((UNSIGNED_LONG,'dwContext')),
+In((PUNSIGNED_CHAR,'pServerbuff')),
+In((UNSIGNED_LONG,'dwServerBuffSize')),
+In((UNSIGNED_LONG,'dwClientBuffMaxSize')),
+Out((PUNSIGNED_CHAR,'pClientBuff')),
+Out((PUNSIGNED_LONG,'pdwClientBuffSize')),
 ),Method("S_DSValidateServer",
-In(HANDLE_T),
-In(PGUID),
-In(BOOL),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PUNSIGNED_CHAR),
-In(UNSIGNED_LONG),
-Out(PPCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+In((HANDLE_T,'hBind')),
+In((PGUID,'pguidEnterpriseId')),
+In((BOOL,'fSetupMode')),
+In((UNSIGNED_LONG,'dwContext')),
+In((UNSIGNED_LONG,'dwClientBuffMaxSize')),
+In((PUNSIGNED_CHAR,'pClientBuff')),
+In((UNSIGNED_LONG,'dwClientBuffSize')),
+Out((PPCONTEXT_HANDLE_SERVER_AUTH_TYPE,'pphServerAuth')),
 ),Method("S_DSCloseServerHandle",
-InOut(PPCONTEXT_HANDLE_SERVER_AUTH_TYPE),
+InOut((PPCONTEXT_HANDLE_SERVER_AUTH_TYPE,'pphServerAuth')),
 ),Method("Opnum24NotUsedOnWire",
 ),Method("Opnum25NotUsedOnWire",
 ),Method("Opnum26NotUsedOnWire",
 ),Method("S_DSGetServerPort",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-),
+In((HANDLE_T,'hBind')),
+In((UNSIGNED_LONG,'fIP')),
+),])

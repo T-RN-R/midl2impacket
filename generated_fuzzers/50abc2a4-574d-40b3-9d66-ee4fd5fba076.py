@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -420,8 +430,14 @@ PDNS_RPC_ZONE_LIST_DOTNET = DNS_RPC_ZONE_LIST_DOTNET
 DNS_RPC_ZONE_LIST = DNS_RPC_ZONE_LIST_DOTNET
 PDNS_RPC_ZONE_LIST = DNS_RPC_ZONE_LIST_DOTNET
 
+class TRUSTPOINT_STATE(NdrEnum):
+    MAP = ((0 , 'TRUSTPOINT_STATE_INITIALIZED'),(1 , 'TRUSTPOINT_STATE_DSPENDING'),(2 , 'TRUSTPOINT_STATE_ACTIVE'),(3 , 'TRUSTPOINT_STATE_DELETE_PENDING'),(4 , 'TRUSTPOINT_STATE_DELETED'),)        
+
+class TRUSTANCHOR_STATE(NdrEnum):
+    MAP = ((0 , 'TRUSTANCHOR_STATE_INITIALIZED'),(1 , 'TRUSTANCHOR_STATE_DSPENDING'),(2 , 'TRUSTANCHOR_STATE_DSINVALID'),(3 , 'TRUSTANCHOR_STATE_ADDPEND'),(4 , 'TRUSTANCHOR_STATE_VALID'),(5 , 'TRUSTANCHOR_STATE_MISSING'),(6 , 'TRUSTANCHOR_STATE_REVOKED'),(7 , 'TRUSTANCHOR_STATE_DELETED'),)        
+
 class DNS_RPC_TRUST_POINT(NdrStructure):
-    MEMBERS = [(DWORD, "dwRpcStructureVersion"),(DWORD, "dwReserved0"),(PCHAR, "pszTrustPointName"),(TRUSTPOINT_STATE, "eTrustPointState"),(__INT64, "i64LastActiveRefreshTime"),(__INT64, "i64NextActiveRefreshTime"),(__INT64, "i64LastSuccessfulActiveRefreshTime"),(DWORD, "dwLastActiveRefreshResult"),(DWORD, "dwReserved"),]
+    MEMBERS = [(DWORD, "dwRpcStructureVersion"),(DWORD, "dwReserved0"),(PCHAR, "pszTrustPointName"),(TRUSTPOINT_STATE, "eTrustPointState"),(INT64, "i64LastActiveRefreshTime"),(INT64, "i64NextActiveRefreshTime"),(INT64, "i64LastSuccessfulActiveRefreshTime"),(DWORD, "dwLastActiveRefreshResult"),(DWORD, "dwReserved"),]
 
     
 PDNS_RPC_TRUST_POINT = DNS_RPC_TRUST_POINT
@@ -437,6 +453,9 @@ class DNS_RPC_SKD(NdrStructure):
 
     
 PDNS_RPC_SKD = DNS_RPC_SKD
+
+class KEYSIGNSCOPE(NdrEnum):
+    MAP = ((0 , 'SIGN_SCOPE_DEFAULT'),(1 , 'SIGN_SCOPE_DNSKEY_ONLY'),(2 , 'SIGN_SCOPE_ALL_RECORDS'),(3 , 'SIGN_SCOPE_ADD_ONLY'),(4 , 'SIGN_SCOPE_DO_NOT_PUBLISH'),(5 , 'SIGN_SCOPE_REVOKED'),)        
 
 class DNS_RPC_SKD_STATE_EX(NdrStructure):
     MEMBERS = [(DWORD, "dwRpcStructureVersion"),(DWORD, "dwReserved0"),(GUID, "Guid"),(DWORD, "dwCurrentRollState"),(DWORD, "fManualTrigger"),(DWORD, "dwPreRollEventFired"),(FILETIME, "ftNextKeyGenerationTime"),(DWORD, "dwRevokedOrSwappedDnskeysLength"),(PBYTE, "pRevokedOrSwappedDnskeysBuffer"),(DWORD, "dwFinalDnskeysLength"),(PBYTE, "pFinalDnskeys"),(KEYSIGNSCOPE, "eActiveKeyScope"),(KEYSIGNSCOPE, "eStandByKeyScope"),(KEYSIGNSCOPE, "eNextKeyScope"),]
@@ -463,7 +482,7 @@ class DNS_RPC_ZONE_DNSSEC_SETTINGS(NdrStructure):
 PDNS_RPC_ZONE_DNSSEC_SETTINGS = DNS_RPC_ZONE_DNSSEC_SETTINGS
 
 class DNS_RPC_TRUST_ANCHOR(NdrStructure):
-    MEMBERS = [(DWORD, "dwRpcStructureVersion"),(DWORD, "dwReserved0"),(WORD, "wTrustAnchorType"),(WORD, "wKeyTag"),(WORD, "wRRLength"),(TRUSTANCHOR_STATE, "eTrustAnchorState"),(__INT64, "i64EnteredStateTime"),(__INT64, "i64NextStateTime"),(DWORD, "dwReserved"),(BYTE, "RRData"),]
+    MEMBERS = [(DWORD, "dwRpcStructureVersion"),(DWORD, "dwReserved0"),(WORD, "wTrustAnchorType"),(WORD, "wKeyTag"),(WORD, "wRRLength"),(TRUSTANCHOR_STATE, "eTrustAnchorState"),(INT64, "i64EnteredStateTime"),(INT64, "i64NextStateTime"),(DWORD, "dwReserved"),(BYTE, "RRData"),]
 
     
 PDNS_RPC_TRUST_ANCHOR = DNS_RPC_TRUST_ANCHOR
@@ -646,6 +665,24 @@ class DNS_RPC_UNICODE_STRING_LIST(NdrStructure):
     
 PDNS_RPC_UNICODE_STRING_LIST = DNS_RPC_UNICODE_STRING_LIST
 
+class DNS_RPC_CRITERIA_COMPARATOR(NdrEnum):
+    MAP = ((1 , 'Equals'),(2 , 'NotEquals'),)        
+
+class DNS_RPC_POLICY_CONDITION(NdrEnum):
+    MAP = ((0 , 'DNS_AND'),(1 , 'DNS_OR'),)        
+
+class DNS_RPC_POLICY_LEVEL(NdrEnum):
+    MAP = ((0 , 'DnsPolicyServerLevel'),(1 , 'DnsPolicyZoneLevel'),(2 , 'DnsPolicyLevelMax'),)        
+
+class DNS_RPC_POLICY_ACTION_TYPE(NdrEnum):
+    MAP = ((0 , 'DnsPolicyDeny'),(1 , 'DnsPolicyAllow'),(2 , 'DnsPolicyIgnore'),(3 , 'DnsPolicyActionMax'),)        
+
+class DNS_RPC_POLICY_TYPE(NdrEnum):
+    MAP = ((0 , 'DnsPolicyQueryProcessing'),(1 , 'DnsPolicyZoneTransfer'),(2 , 'DnsPolicyDynamicUpdate'),(3 , 'DnsPolicyRecursion'),(4 , 'DnsPolicyMax'),)        
+
+class DNS_RPC_CRITERIA_ENUM(NdrEnum):
+    MAP = ((0 , 'DnsPolicyCriteriaSubnet'),(1 , 'DnsPolicyCriteriaTransportProtocol'),(2 , 'DnsPolicyCriteriaNetworkProtocol'),(3 , 'DnsPolicyCriteriaInterface'),(4 , 'DnsPolicyCriteriaFqdn'),(5 , 'DnsPolicyCriteriaQtype'),(6 , 'DnsPolicyCriteriaTime'),(7 , 'DnsPolicyCriteriaMax'),)        
+
 class DNS_RPC_CLIENT_SUBNET_RECORD(NdrStructure):
     MEMBERS = [(LPWSTR, "pwszClientSubnetName"),(PDNS_ADDR_ARRAY, "pIPAddr"),(PDNS_ADDR_ARRAY, "pIPv6Addr"),]
 
@@ -688,6 +725,9 @@ class DNS_RPC_ENUMERATE_POLICY_LIST(NdrStructure):
     
 PDNS_RPC_ENUMERATE_POLICY_LIST = DNS_RPC_ENUMERATE_POLICY_LIST
 
+class DNS_RRL_MODE_ENUM(NdrEnum):
+    MAP = ((0 , 'DnsRRLLogOnly'),(1 , 'DnsRRLEnabled'),(2 , 'DnsRRLDisabled'),)        
+
 class DNS_RPC_RRL_PARAMS(NdrStructure):
     MEMBERS = [(DWORD, "dwResponsesPerSecond"),(DWORD, "dwErrorsPerSecond"),(DWORD, "dwLeakRate"),(DWORD, "dwTCRate"),(DWORD, "dwTotalResponsesInWindow"),(DWORD, "dwWindowSize"),(DWORD, "dwIPv4PrefixLength"),(DWORD, "dwIPv6PrefixLength"),(DNS_RRL_MODE_ENUM, "eMode"),(DWORD, "dwFlags"),(BOOL, "fSetDefault"),]
 
@@ -712,6 +752,9 @@ class DNS_RPC_ENUM_VIRTUALIZATION_INSTANCE_LIST(NdrStructure):
     
 PDNS_RPC_ENUM_VIRTUALIZATION_INSTANCE_LIST = DNS_RPC_ENUM_VIRTUALIZATION_INSTANCE_LIST
 
+class DNS_RPC_TYPEID(NdrEnum):
+    MAP = ((-1) , 'DNSSRV_TYPEID_ANY'),(0 , 'DNSSRV_TYPEID_NULL'),(1 , 'DNSSRV_TYPEID_DWORD'),(2 , 'DNSSRV_TYPEID_LPSTR'),(3 , 'DNSSRV_TYPEID_LPWSTR'),(4 , 'DNSSRV_TYPEID_IPARRAY'),(5 , 'DNSSRV_TYPEID_BUFFER'),(6 , 'DNSSRV_TYPEID_SERVER_INFO_W2K'),(7 , 'DNSSRV_TYPEID_STATS'),(8 , 'DNSSRV_TYPEID_FORWARDERS_W2K'),(9 , 'DNSSRV_TYPEID_ZONE_W2K'),(10 , 'DNSSRV_TYPEID_ZONE_INFO_W2K'),(11 , 'DNSSRV_TYPEID_ZONE_SECONDARIES_W2K'),(12 , 'DNSSRV_TYPEID_ZONE_DATABASE_W2K'),(13 , 'DNSSRV_TYPEID_ZONE_TYPE_RESET_W2K'),(14 , 'DNSSRV_TYPEID_ZONE_CREATE_W2K'),(15 , 'DNSSRV_TYPEID_NAME_AND_PARAM'),(16 , 'DNSSRV_TYPEID_ZONE_LIST_W2K'),(17 , 'DNSSRV_TYPEID_ZONE_RENAME'),(18 , 'DNSSRV_TYPEID_ZONE_EXPORT'),(19 , 'DNSSRV_TYPEID_SERVER_INFO_DOTNET'),(20 , 'DNSSRV_TYPEID_FORWARDERS_DOTNET'),(21 , 'DNSSRV_TYPEID_ZONE'),(22 , 'DNSSRV_TYPEID_ZONE_INFO_DOTNET'),(23 , 'DNSSRV_TYPEID_ZONE_SECONDARIES_DOTNET'),(24 , 'DNSSRV_TYPEID_ZONE_DATABASE'),(25 , 'DNSSRV_TYPEID_ZONE_TYPE_RESET_DOTNET'),(26 , 'DNSSRV_TYPEID_ZONE_CREATE_DOTNET'),(27 , 'DNSSRV_TYPEID_ZONE_LIST'),(28 , 'DNSSRV_TYPEID_DP_ENUM'),(29 , 'DNSSRV_TYPEID_DP_INFO'),(30 , 'DNSSRV_TYPEID_DP_LIST'),(31 , 'DNSSRV_TYPEID_ENLIST_DP'),(32 , 'DNSSRV_TYPEID_ZONE_CHANGE_DP'),(33 , 'DNSSRV_TYPEID_ENUM_ZONES_FILTER'),(34 , 'DNSSRV_TYPEID_ADDRARRAY'),(35 , 'DNSSRV_TYPEID_SERVER_INFO'),(36 , 'DNSSRV_TYPEID_ZONE_INFO'),(37 , 'DNSSRV_TYPEID_FORWARDERS'),(38 , 'DNSSRV_TYPEID_ZONE_SECONDARIES'),(39 , 'DNSSRV_TYPEID_ZONE_TYPE_RESET'),(40 , 'DNSSRV_TYPEID_ZONE_CREATE'),(41 , 'DNSSRV_TYPEID_IP_VALIDATE'),(42 , 'DNSSRV_TYPEID_AUTOCONFIGURE'),(43 , 'DNSSRV_TYPEID_UTF8_STRING_LIST'),(44 , 'DNSSRV_TYPEID_UNICODE_STRING_LIST'),(45 , 'DNSSRV_TYPEID_SKD'),(46 , 'DNSSRV_TYPEID_SKD_LIST'),(47 , 'DNSSRV_TYPEID_SKD_STATE'),(48 , 'DNSSRV_TYPEID_SIGNING_VALIDATION_ERROR'),(49 , 'DNSSRV_TYPEID_TRUST_POINT_LIST'),(50 , 'DNSSRV_TYPEID_TRUST_ANCHOR_LIST'),(51 , 'DNSSRV_TYPEID_ZONE_SIGNING_SETTINGS'),(52 , 'DNSSRV_TYPEID_ZONE_SCOPE_ENUM'),(53 , 'DNSSRV_TYPEID_ZONE_STATS'),(54 , 'DNSSRV_TYPEID_ZONE_SCOPE_CREATE'),(55 , 'DNSSRV_TYPEID_ZONE_SCOPE_INFO'),(56 , 'DNSSRV_TYPEID_SCOPE_ENUM'),(57 , 'DNSSRV_TYPEID_CLIENT_SUBNET_RECORD'),(58 , 'DNSSRV_TYPEID_POLICY'),(59 , 'DNSSRV_TYPEID_POLICY_NAME'),(60 , 'DNSSRV_TYPEID_POLICY_ENUM'),(61 , 'DNSSRV_TYPEID_RRL'),(62 , 'DNSSRV_TYPEID_VIRTUALIZATION_INSTANCE'),(63 , 'DNSSRV_TYPEID_VIRTUALIZATION_INSTANCE_ENUM'),)        
+
 class DNS_RPC_ENUM_ZONE_SCOPE_LIST(NdrStructure):
     MEMBERS = [(DWORD, "dwRpcStructureVersion"),(DWORD, "dwZoneScopeCount"),(LPWSTR, "ZoneScopeArray"),]
 
@@ -728,6 +771,9 @@ class DNSSRV_ZONE_TIME_STATS(NdrStructure):
 
     
 PDNSSRV_ZONE_TIME_STATS = DNSSRV_ZONE_TIME_STATS
+
+class DNS_ZONE_STATS_TYPE(NdrEnum):
+    MAP = ((0 , 'ZONE_STATS_TYPE_RECORD_A'),(1 , 'ZONE_STATS_TYPE_RECORD_AAAA'),(2 , 'ZONE_STATS_TYPE_RECORD_PTR'),(3 , 'ZONE_STATS_TYPE_RECORD_CNAME'),(4 , 'ZONE_STATS_TYPE_RECORD_MX'),(5 , 'ZONE_STATS_TYPE_RECORD_AFSDB'),(6 , 'ZONE_STATS_TYPE_RECORD_ATMA'),(7 , 'ZONE_STATS_TYPE_RECORD_DHCID'),(8 , 'ZONE_STATS_TYPE_RECORD_DNAME'),(9 , 'ZONE_STATS_TYPE_RECORD_HINFO'),(10 , 'ZONE_STATS_TYPE_RECORD_ISDN'),(11 , 'ZONE_STATS_TYPE_RECORD_MG'),(12 , 'ZONE_STATS_TYPE_RECORD_MB'),(13 , 'ZONE_STATS_TYPE_RECORD_MINFO'),(14 , 'ZONE_STATS_TYPE_RECORD_NAPTR'),(15 , 'ZONE_STATS_TYPE_RECORD_NXT'),(16 , 'ZONE_STATS_TYPE_RECORD_KEY'),(17 , 'ZONE_STATS_TYPE_RECORD_MR'),(18 , 'ZONE_STATS_TYPE_RECORD_RP'),(19 , 'ZONE_STATS_TYPE_RECORD_RT'),(20 , 'ZONE_STATS_TYPE_RECORD_SRV'),(21 , 'ZONE_STATS_TYPE_RECORD_SIG'),(22 , 'ZONE_STATS_TYPE_RECORD_TEXT'),(23 , 'ZONE_STATS_TYPE_RECORD_WKS'),(24 , 'ZONE_STATS_TYPE_RECORD_X25'),(25 , 'ZONE_STATS_TYPE_RECORD_DNSKEY'),(26 , 'ZONE_STATS_TYPE_RECORD_DS'),(27 , 'ZONE_STATS_TYPE_RECORD_NS'),(28 , 'ZONE_STATS_TYPE_RECORD_SOA'),(29 , 'ZONE_STATS_TYPE_RECORD_TLSA'),(30 , 'ZONE_STATS_TYPE_RECORD_ALL'),(31 , 'ZONE_STATS_TYPE_RECORD_OTHERS'),(32 , 'ZONE_STATS_TYPE_TRANSFER_AXFR'),(33 , 'ZONE_STATS_TYPE_TRANSFER_IXFR'),(34 , 'ZONE_STATS_TYPE_UPDATE'),(35 , 'ZONE_STATS_TYPE_RRL'),(36 , 'MAX_ZONE_STATS_TYPES'),)        
 
 class DNSSRV_ZONE_QUERY_STATS(NdrStructure):
     MEMBERS = [(DNS_ZONE_STATS_TYPE, "RecordType"),(ULONG64, "QueriesResponded"),(ULONG64, "QueriesReceived"),(ULONG64, "QueriesFailure"),(ULONG64, "QueriesNameError"),]
@@ -788,196 +834,199 @@ class DNSSRV_RPC_UNION(NdrUnion):
     MEMBERS = {1 : (PBYTE, "Null"),2 : (DWORD, "Dword"),3 : (PCHAR, "String"),4 : (PWCHAR_T, "WideString"),5 : (PIP4_ARRAY, "IpArray"),6 : (PDNS_RPC_BUFFER, "Buffer"),7 : (PDNS_RPC_SERVER_INFO_W2K, "ServerInfoW2K"),8 : (PDNSSRV_STATS, "Stats"),9 : (PDNS_RPC_FORWARDERS_W2K, "ForwardersW2K"),10 : (PDNS_RPC_ZONE_W2K, "ZoneW2K"),11 : (PDNS_RPC_ZONE_INFO_W2K, "ZoneInfoW2K"),12 : (PDNS_RPC_ZONE_SECONDARIES_W2K, "SecondariesW2K"),13 : (PDNS_RPC_ZONE_DATABASE_W2K, "DatabaseW2K"),14 : (PDNS_RPC_ZONE_CREATE_INFO_W2K, "ZoneCreateW2K"),15 : (PDNS_RPC_NAME_AND_PARAM, "NameAndParam"),16 : (PDNS_RPC_ZONE_LIST_W2K, "ZoneListW2K"),17 : (PDNS_RPC_SERVER_INFO_DOTNET, "ServerInfoDotNet"),18 : (PDNS_RPC_FORWARDERS_DOTNET, "ForwardersDotNet"),19 : (PDNS_RPC_ZONE, "Zone"),20 : (PDNS_RPC_ZONE_INFO_DOTNET, "ZoneInfoDotNet"),21 : (PDNS_RPC_ZONE_SECONDARIES_DOTNET, "SecondariesDotNet"),22 : (PDNS_RPC_ZONE_DATABASE, "Database"),23 : (PDNS_RPC_ZONE_CREATE_INFO_DOTNET, "ZoneCreateDotNet"),24 : (PDNS_RPC_ZONE_LIST, "ZoneList"),25 : (PDNS_RPC_ZONE_EXPORT_INFO, "ZoneExport"),26 : (PDNS_RPC_DP_INFO, "DirectoryPartition"),27 : (PDNS_RPC_DP_ENUM, "DirectoryPartitionEnum"),28 : (PDNS_RPC_DP_LIST, "DirectoryPartitionList"),29 : (PDNS_RPC_ENLIST_DP, "EnlistDirectoryPartition"),30 : (PDNS_RPC_ZONE_CHANGE_DP, "ZoneChangeDirectoryPartition"),31 : (PDNS_RPC_ENUM_ZONES_FILTER, "EnumZonesFilter"),32 : (PDNS_ADDR_ARRAY, "AddrArray"),33 : (PDNS_RPC_SERVER_INFO, "ServerInfo"),34 : (PDNS_RPC_ZONE_CREATE_INFO, "ZoneCreate"),35 : (PDNS_RPC_FORWARDERS, "Forwarders"),36 : (PDNS_RPC_ZONE_SECONDARIES, "Secondaries"),37 : (PDNS_RPC_IP_VALIDATE, "IpValidate"),38 : (PDNS_RPC_ZONE_INFO, "ZoneInfo"),39 : (PDNS_RPC_AUTOCONFIGURE, "AutoConfigure"),40 : (PDNS_RPC_UTF8_STRING_LIST, "Utf8StringList"),41 : (PDNS_RPC_UNICODE_STRING_LIST, "UnicodeStringList"),42 : (PDNS_RPC_SKD, "Skd"),43 : (PDNS_RPC_SKD_LIST, "SkdList"),44 : (PDNS_RPC_SKD_STATE, "SkdState"),45 : (PDNS_RPC_SIGNING_VALIDATION_ERROR, "SigningValidationError"),46 : (PDNS_RPC_TRUST_POINT_LIST, "TrustPointList"),47 : (PDNS_RPC_TRUST_ANCHOR_LIST, "TrustAnchorList"),48 : (PDNS_RPC_ZONE_DNSSEC_SETTINGS, "ZoneDnsSecSettings"),49 : (PDNS_RPC_ENUM_ZONE_SCOPE_LIST, "ZoneScopeList"),50 : (PDNS_RPC_ZONE_STATS_V1, "ZoneStats"),51 : (PDNS_RPC_ZONE_SCOPE_CREATE_INFO_V1, "ScopeCreate"),52 : (PDNS_RPC_ZONE_SCOPE_INFO_V1, "ScopeInfo"),53 : (PDNS_RPC_ENUM_SCOPE_LIST, "ScopeList"),54 : (PDNS_RPC_CLIENT_SUBNET_RECORD, "SubnetList"),55 : (PDNS_RPC_POLICY, "pPolicy"),56 : (PDNS_RPC_POLICY_NAME, "pPolicyName"),57 : (PDNS_RPC_ENUMERATE_POLICY_LIST, "pPolicyList"),58 : (PDNS_RPC_RRL_PARAMS, "pRRLParams"),59 : (PDNS_RPC_VIRTUALIZATION_INSTANCE, "VirtualizationInstance"),60 : (PDNS_RPC_ENUM_VIRTUALIZATION_INSTANCE_LIST, "VirtualizationInstanceList"),}
 
     
-Method("R_DnssrvOperation",
-In(LPCWSTR),
-In(LPCSTR),
-In(DWORD),
-In(LPCSTR),
-In(DWORD),
-In(DNSSRV_RPC_UNION),
+
+class IMPORTOPRESULT(NdrEnum):
+    MAP = ((0 , 'IMPORT_STATUS_NOOP'),(1 , 'IMPORT_STATUS_SIGNING_READY'),(2 , 'IMPORT_STATUS_UNSIGNING_READY'),(3 , 'IMPORT_STATUS_CHANGED'),)        
+Interface("50abc2a4-574d-40b3-9d66-ee4fd5fba076", "5.0",[Method("R_DnssrvOperation",
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((DWORD,'dwContext')),
+In((LPCSTR,'pszOperation')),
+In((DWORD,'dwTypeId')),
+In((DNSSRV_RPC_UNION,'pData')),
 ),Method("R_DnssrvQuery",
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCSTR),
-Out(PDWORD),
-Out(PDNSSRV_RPC_UNION),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCSTR,'pszOperation')),
+Out((PDWORD,'pdwTypeId')),
+Out((PDNSSRV_RPC_UNION,'ppData')),
 ),Method("R_DnssrvComplexOperation",
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCSTR),
-In(DWORD),
-In(DNSSRV_RPC_UNION),
-Out(PDWORD),
-Out(PDNSSRV_RPC_UNION),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCSTR,'pszOperation')),
+In((DWORD,'dwTypeIn')),
+In((DNSSRV_RPC_UNION,'pDataIn')),
+Out((PDWORD,'pdwTypeOut')),
+Out((PDNSSRV_RPC_UNION,'ppDataOut')),
 ),Method("R_DnssrvEnumRecords",
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCSTR),
-In(LPCSTR),
-In(WORD),
-In(DWORD),
-In(LPCSTR),
-In(LPCSTR),
-Out(PDWORD),
-Out(PPBYTE),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCSTR,'pszNodeName')),
+In((LPCSTR,'pszStartChild')),
+In((WORD,'wRecordType')),
+In((DWORD,'fSelectFlag')),
+In((LPCSTR,'pszFilterStart')),
+In((LPCSTR,'pszFilterStop')),
+Out((PDWORD,'pdwBufferLength')),
+Out((PPBYTE,'ppBuffer')),
 ),Method("R_DnssrvUpdateRecord",
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCSTR),
-In(PDNS_RPC_RECORD),
-In(PDNS_RPC_RECORD),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCSTR,'pszNodeName')),
+In((PDNS_RPC_RECORD,'pAddRecord')),
+In((PDNS_RPC_RECORD,'pDeleteRecord')),
 ),Method("R_DnssrvOperation2",
-In(HANDLE_T),
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCSTR),
-In(DWORD),
-In(LPCSTR),
-In(DWORD),
-In(DNSSRV_RPC_UNION),
+In((HANDLE_T,'hBindingHandle')),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((DWORD,'dwContext')),
+In((LPCSTR,'pszOperation')),
+In((DWORD,'dwTypeId')),
+In((DNSSRV_RPC_UNION,'pData')),
 ),Method("R_DnssrvQuery2",
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCSTR),
-Out(PDWORD),
-Out(PDNSSRV_RPC_UNION),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCSTR,'pszOperation')),
+Out((PDWORD,'pdwTypeId')),
+Out((PDNSSRV_RPC_UNION,'ppData')),
 ),Method("R_DnssrvComplexOperation2",
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCSTR),
-In(DWORD),
-In(DNSSRV_RPC_UNION),
-Out(PDWORD),
-Out(PDNSSRV_RPC_UNION),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCSTR,'pszOperation')),
+In((DWORD,'dwTypeIn')),
+In((DNSSRV_RPC_UNION,'pDataIn')),
+Out((PDWORD,'pdwTypeOut')),
+Out((PDNSSRV_RPC_UNION,'ppDataOut')),
 ),Method("R_DnssrvEnumRecords2",
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCSTR),
-In(LPCSTR),
-In(WORD),
-In(DWORD),
-In(LPCSTR),
-In(LPCSTR),
-Out(PDWORD),
-Out(PPBYTE),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCSTR,'pszNodeName')),
+In((LPCSTR,'pszStartChild')),
+In((WORD,'wRecordType')),
+In((DWORD,'fSelectFlag')),
+In((LPCSTR,'pszFilterStart')),
+In((LPCSTR,'pszFilterStop')),
+Out((PDWORD,'pdwBufferLength')),
+Out((PPBYTE,'ppBuffer')),
 ),Method("R_DnssrvUpdateRecord2",
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCSTR),
-In(PDNS_RPC_RECORD),
-In(PDNS_RPC_RECORD),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCSTR,'pszNodeName')),
+In((PDNS_RPC_RECORD,'pAddRecord')),
+In((PDNS_RPC_RECORD,'pDeleteRecord')),
 ),Method("R_DnssrvUpdateRecord3",
-In(HANDLE_T),
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCWSTR),
-In(LPCSTR),
-In(PDNS_RPC_RECORD),
-In(PDNS_RPC_RECORD),
+In((HANDLE_T,'hBindingHandle')),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCWSTR,'pwszZoneScope')),
+In((LPCSTR,'pszNodeName')),
+In((PDNS_RPC_RECORD,'pAddRecord')),
+In((PDNS_RPC_RECORD,'pDeleteRecord')),
 ),Method("R_DnssrvEnumRecords3",
-In(HANDLE_T),
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCSTR),
-In(WORD),
-In(DWORD),
-In(LPCSTR),
-In(LPCSTR),
-Out(PDWORD),
-Out(PPBYTE),
+In((HANDLE_T,'hBindingHandle')),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCWSTR,'pwszZoneScope')),
+In((LPCSTR,'pszNodeName')),
+In((LPCSTR,'pszStartChild')),
+In((WORD,'wRecordType')),
+In((DWORD,'fSelectFlag')),
+In((LPCSTR,'pszFilterStart')),
+In((LPCSTR,'pszFilterStop')),
+Out((PDWORD,'pdwBufferLength')),
+Out((PPBYTE,'ppBuffer')),
 ),Method("R_DnssrvOperation3",
-In(HANDLE_T),
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCWSTR),
-In(DWORD),
-In(LPCSTR),
-In(DWORD),
-In(DNSSRV_RPC_UNION),
+In((HANDLE_T,'hBindingHandle')),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCWSTR,'pwszZoneScopeName')),
+In((DWORD,'dwContext')),
+In((LPCSTR,'pszOperation')),
+In((DWORD,'dwTypeId')),
+In((DNSSRV_RPC_UNION,'pData')),
 ),Method("R_DnssrvQuery3",
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCWSTR),
-In(LPCSTR),
-Out(PDWORD),
-Out(PDNSSRV_RPC_UNION),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCSTR,'pszZone')),
+In((LPCWSTR,'pszZoneScopeName')),
+In((LPCSTR,'pszOperation')),
+Out((PDWORD,'pdwTypeId')),
+Out((PDNSSRV_RPC_UNION,'ppData')),
 ),Method("R_DnssrvComplexOperation3",
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCSTR),
-In(DWORD),
-In(DNSSRV_RPC_UNION),
-Out(PDWORD),
-Out(PDNSSRV_RPC_UNION),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCWSTR,'pwszVirtualizationInstanceID')),
+In((LPCSTR,'pszZone')),
+In((LPCSTR,'pszOperation')),
+In((DWORD,'dwTypeIn')),
+In((DNSSRV_RPC_UNION,'pDataIn')),
+Out((PDWORD,'pdwTypeOut')),
+Out((PDNSSRV_RPC_UNION,'ppDataOut')),
 ),Method("R_DnssrvOperation4",
-In(HANDLE_T),
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCWSTR),
-In(DWORD),
-In(LPCSTR),
-In(DWORD),
-In(DNSSRV_RPC_UNION),
+In((HANDLE_T,'hBindingHandle')),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCWSTR,'pwszVirtualizationInstanceID')),
+In((LPCSTR,'pszZone')),
+In((LPCWSTR,'pwszZoneScopeName')),
+In((DWORD,'dwContext')),
+In((LPCSTR,'pszOperation')),
+In((DWORD,'dwTypeId')),
+In((DNSSRV_RPC_UNION,'pData')),
 ),Method("R_DnssrvQuery4",
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCWSTR),
-In(LPCSTR),
-Out(PDWORD),
-Out(PDNSSRV_RPC_UNION),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCWSTR,'pwszVirtualizationInstanceID')),
+In((LPCSTR,'pszZone')),
+In((LPCWSTR,'pszZoneScopeName')),
+In((LPCSTR,'pszOperation')),
+Out((PDWORD,'pdwTypeId')),
+Out((PDNSSRV_RPC_UNION,'ppData')),
 ),Method("R_DnssrvUpdateRecord4",
-In(HANDLE_T),
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCWSTR),
-In(LPCSTR),
-In(PDNS_RPC_RECORD),
-In(PDNS_RPC_RECORD),
+In((HANDLE_T,'hBindingHandle')),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCWSTR,'pwszVirtualizationInstanceID')),
+In((LPCSTR,'pszZone')),
+In((LPCWSTR,'pwszZoneScope')),
+In((LPCSTR,'pszNodeName')),
+In((PDNS_RPC_RECORD,'pAddRecord')),
+In((PDNS_RPC_RECORD,'pDeleteRecord')),
 ),Method("R_DnssrvEnumRecords4",
-In(HANDLE_T),
-In(DWORD),
-In(DWORD),
-In(LPCWSTR),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCWSTR),
-In(LPCSTR),
-In(LPCSTR),
-In(WORD),
-In(DWORD),
-In(LPCSTR),
-In(LPCSTR),
-Out(PDWORD),
-Out(PPBYTE),
-),
+In((HANDLE_T,'hBindingHandle')),
+In((DWORD,'dwClientVersion')),
+In((DWORD,'dwSettingFlags')),
+In((LPCWSTR,'pwszServerName')),
+In((LPCWSTR,'pwszVirtualizationInstanceID')),
+In((LPCSTR,'pszZone')),
+In((LPCWSTR,'pwszZoneScope')),
+In((LPCSTR,'pszNodeName')),
+In((LPCSTR,'pszStartChild')),
+In((WORD,'wRecordType')),
+In((DWORD,'fSelectFlag')),
+In((LPCSTR,'pszFilterStart')),
+In((LPCSTR,'pszFilterStop')),
+Out((PDWORD,'pdwBufferLength')),
+Out((PPBYTE,'ppBuffer')),
+),])

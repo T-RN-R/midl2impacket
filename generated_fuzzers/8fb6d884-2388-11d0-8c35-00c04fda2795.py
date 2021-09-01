@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 
 class W32TIME_NTP_PEER_INFO(NdrStructure):
     MEMBERS = [(UNSIGNED___INT32, "ulSize"),(UNSIGNED___INT32, "ulResolveAttempts"),(UNSIGNED___INT64, "u64TimeRemaining"),(UNSIGNED___INT64, "u64LastSuccessfulSync"),(UNSIGNED___INT32, "ulLastSyncError"),(UNSIGNED___INT32, "ulLastSyncErrorMsgId"),(UNSIGNED___INT32, "ulValidDataCounter"),(UNSIGNED___INT32, "ulAuthTypeMsgId"),(PWCHAR_T, "wszUniqueName"),(UNSIGNED_CHAR, "ulMode"),(UNSIGNED_CHAR, "ulStratum"),(UNSIGNED_CHAR, "ulReachability"),(UNSIGNED_CHAR, "ulPeerPollInterval"),(UNSIGNED_CHAR, "ulHostPollInterval"),]
@@ -155,31 +165,31 @@ class W32TIME_STATUS_INFO(NdrStructure):
 
     
 PW32TIME_STATUS_INFO = W32TIME_STATUS_INFO
-Method("W32TimeSync",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
+Interface("8fb6d884-2388-11d0-8c35-00c04fda2795", "4.1",[Method("W32TimeSync",
+In((HANDLE_T,'hBinding')),
+In((UNSIGNED_LONG,'uWait')),
+In((UNSIGNED_LONG,'ulFlags')),
 ),Method("W32TimeGetNetlogonServiceBits",
-In(HANDLE_T),
+In((HANDLE_T,'hBinding')),
 ),Method("W32TimeQueryProviderStatus",
-In(HANDLE_T),
-In(UNSIGNED___INT32),
-In(PWCHAR_T),
-Out(PPW32TIME_PROVIDER_INFO),
+In((HANDLE_T,'hRPCBinding')),
+In((UNSIGNED___INT32,'ulFlags')),
+In((PWCHAR_T,'pwszProvider')),
+Out((PPW32TIME_PROVIDER_INFO,'pProviderInfo')),
 ),Method("W32TimeQuerySource",
-In(HANDLE_T),
-Out(PPWCHAR_T),
+In((HANDLE_T,'hBinding')),
+Out((PPWCHAR_T,'pwszSource')),
 ),Method("W32TimeQueryProviderConfiguration",
-In(HANDLE_T),
-In(UNSIGNED___INT32),
-In(PWCHAR_T),
-Out(PPW32TIME_CONFIGURATION_PROVIDER),
+In((HANDLE_T,'hBinding')),
+In((UNSIGNED___INT32,'ulFlags')),
+In((PWCHAR_T,'pwszProvider')),
+Out((PPW32TIME_CONFIGURATION_PROVIDER,'pConfigurationProviderInfo')),
 ),Method("W32TimeQueryConfiguration",
-In(HANDLE_T),
-Out(PPW32TIME_CONFIGURATION_INFO),
+In((HANDLE_T,'hBinding')),
+Out((PPW32TIME_CONFIGURATION_INFO,'pConfigurationInfo')),
 ),Method("W32TimeQueryStatus",
-In(HANDLE_T),
-Out(PPW32TIME_STATUS_INFO),
+In((HANDLE_T,'hBinding')),
+Out((PPW32TIME_STATUS_INFO,'pStatusInfo')),
 ),Method("W32TimeLog",
-In(HANDLE_T),
-),
+In((HANDLE_T,'hBinding')),
+),])

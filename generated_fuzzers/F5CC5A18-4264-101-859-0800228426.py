@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -435,7 +445,7 @@ class RESTRICTIONUNION_R(NdrUnion):
 
     
 
-class _RESTRICTION_R(NdrStructure):
+class RESTRICTION_R(NdrStructure):
     MEMBERS = [(DWORD, "rt"),(RESTRICTIONUNION_R, "res"),]
 
     
@@ -471,148 +481,148 @@ class PROP_VAL_UNION(NdrUnion):
 
     
 
-class _PROPERTYVALUE_R(NdrStructure):
+class PROPERTYVALUE_R(NdrStructure):
     MEMBERS = [(DWORD, "ulPropTag"),(DWORD, "ulReserved"),(PROP_VAL_UNION, "Value"),]
 
     
 NSPI_HANDLE = VOID
-Method("NspiBind",
-In(HANDLE_T),
-In(DWORD),
-In(PSTAT),
-InOut(PFLATUID_R),
-Out(PNSPI_HANDLE),
+Interface("F5CC5A18-4264-101-859-0800228426", "56.0",[Method("NspiBind",
+In((HANDLE_T,'hRpc')),
+In((DWORD,'dwFlags')),
+In((PSTAT,'pStat')),
+InOut((PFLATUID_R,'pServerGuid')),
+Out((PNSPI_HANDLE,'contextHandle')),
 ),Method("NspiUnbind",
-InOut(PNSPI_HANDLE),
-In(DWORD),
+InOut((PNSPI_HANDLE,'contextHandle')),
+In((DWORD,'Reserved')),
 ),Method("NspiUpdateStat",
-In(NSPI_HANDLE),
-In(DWORD),
-InOut(PSTAT),
-InOut(PLONG),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved')),
+InOut((PSTAT,'pStat')),
+InOut((PLONG,'plDelta')),
 ),Method("NspiQueryRows",
-In(NSPI_HANDLE),
-In(DWORD),
-InOut(PSTAT),
-In(DWORD),
-In(PDWORD),
-In(DWORD),
-In(PPROPERTYTAGARRAY_R),
-Out(PPPROPERTYROWSET_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'dwFlags')),
+InOut((PSTAT,'pStat')),
+In((DWORD,'dwETableCount')),
+In((PDWORD,'lpETable')),
+In((DWORD,'Count')),
+In((PPROPERTYTAGARRAY_R,'pPropTags')),
+Out((PPPROPERTYROWSET_R,'ppRows')),
 ),Method("NspiSeekEntries",
-In(NSPI_HANDLE),
-In(DWORD),
-InOut(PSTAT),
-In(PPROPERTYVALUE_R),
-In(PPROPERTYTAGARRAY_R),
-In(PPROPERTYTAGARRAY_R),
-Out(PPPROPERTYROWSET_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved')),
+InOut((PSTAT,'pStat')),
+In((PPROPERTYVALUE_R,'pTarget')),
+In((PPROPERTYTAGARRAY_R,'lpETable')),
+In((PPROPERTYTAGARRAY_R,'pPropTags')),
+Out((PPPROPERTYROWSET_R,'ppRows')),
 ),Method("NspiGetMatches",
-In(NSPI_HANDLE),
-In(DWORD),
-InOut(PSTAT),
-In(PPROPERTYTAGARRAY_R),
-In(DWORD),
-In(PRESTRICTION_R),
-In(PPROPERTYNAME_R),
-In(DWORD),
-Out(PPPROPERTYTAGARRAY_R),
-In(PPROPERTYTAGARRAY_R),
-Out(PPPROPERTYROWSET_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved1')),
+InOut((PSTAT,'pStat')),
+In((PPROPERTYTAGARRAY_R,'pReserved')),
+In((DWORD,'Reserved2')),
+In((PRESTRICTION_R,'Filter')),
+In((PPROPERTYNAME_R,'lpPropName')),
+In((DWORD,'ulRequested')),
+Out((PPPROPERTYTAGARRAY_R,'ppOutMIds')),
+In((PPROPERTYTAGARRAY_R,'pPropTags')),
+Out((PPPROPERTYROWSET_R,'ppRows')),
 ),Method("NspiResortRestriction",
-In(NSPI_HANDLE),
-In(DWORD),
-InOut(PSTAT),
-In(PPROPERTYTAGARRAY_R),
-InOut(PPPROPERTYTAGARRAY_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved')),
+InOut((PSTAT,'pStat')),
+In((PPROPERTYTAGARRAY_R,'pInMIds')),
+InOut((PPPROPERTYTAGARRAY_R,'ppOutMIds')),
 ),Method("NspiDNToMId",
-In(NSPI_HANDLE),
-In(DWORD),
-In(PSTRINGSARRAY_R),
-Out(PPPROPERTYTAGARRAY_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved')),
+In((PSTRINGSARRAY_R,'pNames')),
+Out((PPPROPERTYTAGARRAY_R,'ppOutMIds')),
 ),Method("NspiGetPropList",
-In(NSPI_HANDLE),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-Out(PPPROPERTYTAGARRAY_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'dwFlags')),
+In((DWORD,'dwMId')),
+In((DWORD,'CodePage')),
+Out((PPPROPERTYTAGARRAY_R,'ppPropTags')),
 ),Method("NspiGetProps",
-In(NSPI_HANDLE),
-In(DWORD),
-In(PSTAT),
-In(PPROPERTYTAGARRAY_R),
-Out(PPPROPERTYROW_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'dwFlags')),
+In((PSTAT,'pStat')),
+In((PPROPERTYTAGARRAY_R,'pPropTags')),
+Out((PPPROPERTYROW_R,'ppRows')),
 ),Method("NspiCompareMIds",
-In(NSPI_HANDLE),
-In(DWORD),
-In(PSTAT),
-In(DWORD),
-In(DWORD),
-Out(PLONG),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved')),
+In((PSTAT,'pStat')),
+In((DWORD,'MId1')),
+In((DWORD,'MId2')),
+Out((PLONG,'plResult')),
 ),Method("NspiModProps",
-In(NSPI_HANDLE),
-In(DWORD),
-In(PSTAT),
-In(PPROPERTYTAGARRAY_R),
-In(PPROPERTYROW_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved')),
+In((PSTAT,'pStat')),
+In((PPROPERTYTAGARRAY_R,'pPropTags')),
+In((PPROPERTYROW_R,'pRow')),
 ),Method("NspiGetSpecialTable",
-In(NSPI_HANDLE),
-In(DWORD),
-In(PSTAT),
-InOut(PDWORD),
-Out(PPPROPERTYROWSET_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'dwFlags')),
+In((PSTAT,'pStat')),
+InOut((PDWORD,'lpVersion')),
+Out((PPPROPERTYROWSET_R,'ppRows')),
 ),Method("NspiGetTemplateInfo",
-In(NSPI_HANDLE),
-In(DWORD),
-In(DWORD),
-In(PCHAR),
-In(DWORD),
-In(DWORD),
-Out(PPPROPERTYROW_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'dwFlags')),
+In((DWORD,'ulType')),
+In((PCHAR,'pDN')),
+In((DWORD,'dwCodePage')),
+In((DWORD,'dwLocaleID')),
+Out((PPPROPERTYROW_R,'ppData')),
 ),Method("NspiModLinkAtt",
-In(NSPI_HANDLE),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(PBINARYARRAY_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'dwFlags')),
+In((DWORD,'ulPropTag')),
+In((DWORD,'dwMId')),
+In((PBINARYARRAY_R,'lpEntryIds')),
 ),Method("Opnum15NotUsedOnWire",
-In(NSPI_HANDLE),
-In(DWORD),
-In(DWORD),
-In(PBINARYARRAY_R),
+In((NSPI_HANDLE,'Reserved1')),
+In((DWORD,'Reserved2')),
+In((DWORD,'Reserved3')),
+In((PBINARYARRAY_R,'Reserved4')),
 ),Method("NspiQueryColumns",
-In(NSPI_HANDLE),
-In(DWORD),
-In(DWORD),
-Out(PPPROPERTYTAGARRAY_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved')),
+In((DWORD,'dwFlags')),
+Out((PPPROPERTYTAGARRAY_R,'ppColumns')),
 ),Method("NspiGetNamesFromIDs",
-In(NSPI_HANDLE),
-In(DWORD),
-In(PFLATUID_R),
-In(PPROPERTYTAGARRAY_R),
-Out(PPPROPERTYTAGARRAY_R),
-Out(PPPROPERTYNAMESET_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved')),
+In((PFLATUID_R,'lpguid')),
+In((PPROPERTYTAGARRAY_R,'pPropTags')),
+Out((PPPROPERTYTAGARRAY_R,'ppReturnedPropTags')),
+Out((PPPROPERTYNAMESET_R,'ppNames')),
 ),Method("NspiGetIDsFromNames",
-In(NSPI_HANDLE),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(PPPROPERTYNAME_R),
-Out(PPPROPERTYTAGARRAY_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved')),
+In((DWORD,'dwFlags')),
+In((DWORD,'cPropNames')),
+In((PPPROPERTYNAME_R,'pNames')),
+Out((PPPROPERTYTAGARRAY_R,'ppPropTags')),
 ),Method("NspiResolveNames",
-In(NSPI_HANDLE),
-In(DWORD),
-In(PSTAT),
-In(PPROPERTYTAGARRAY_R),
-In(PSTRINGSARRAY_R),
-Out(PPPROPERTYTAGARRAY_R),
-Out(PPPROPERTYROWSET_R),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved')),
+In((PSTAT,'pStat')),
+In((PPROPERTYTAGARRAY_R,'pPropTags')),
+In((PSTRINGSARRAY_R,'paStr')),
+Out((PPPROPERTYTAGARRAY_R,'ppMIds')),
+Out((PPPROPERTYROWSET_R,'ppRows')),
 ),Method("NspiResolveNamesW",
-In(NSPI_HANDLE),
-In(DWORD),
-In(PSTAT),
-In(PPROPERTYTAGARRAY_R),
-In(PWSTRINGSARRAY_R),
-Out(PPPROPERTYTAGARRAY_R),
-Out(PPPROPERTYROWSET_R),
-),
+In((NSPI_HANDLE,'hRpc')),
+In((DWORD,'Reserved')),
+In((PSTAT,'pStat')),
+In((PPROPERTYTAGARRAY_R,'pPropTags')),
+In((PWSTRINGSARRAY_R,'paWStr')),
+Out((PPPROPERTYTAGARRAY_R,'ppMIds')),
+Out((PPPROPERTYROWSET_R,'ppRows')),
+),])

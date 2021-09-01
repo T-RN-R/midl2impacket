@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -388,100 +398,100 @@ class ENCRYPTION_PROTECTOR_LIST(NdrStructure):
 
     
 PENCRYPTION_PROTECTOR_LIST = ENCRYPTION_PROTECTOR_LIST
-Method("EfsRpcOpenFileRaw",
-In(HANDLE_T),
-Out(PPEXIMPORT_CONTEXT_HANDLE),
-In(PWCHAR_T),
-In(LONG),
+Interface("c681d488-d850-110-852-0004d90f7e", "1.0",[Method("EfsRpcOpenFileRaw",
+In((HANDLE_T,'binding_h')),
+Out((PPEXIMPORT_CONTEXT_HANDLE,'hContext')),
+In((PWCHAR_T,'FileName')),
+In((LONG,'Flags')),
 ),Method("EfsRpcReadFileRaw",
-In(PEXIMPORT_CONTEXT_HANDLE),
-Out(PEFS_EXIM_PIPE),
+In((PEXIMPORT_CONTEXT_HANDLE,'hContext')),
+Out((PEFS_EXIM_PIPE,'EfsOutPipe')),
 ),Method("EfsRpcWriteFileRaw",
-In(PEXIMPORT_CONTEXT_HANDLE),
-In(PEFS_EXIM_PIPE),
+In((PEXIMPORT_CONTEXT_HANDLE,'hContext')),
+In((PEFS_EXIM_PIPE,'EfsInPipe')),
 ),Method("EfsRpcCloseRaw",
-InOut(PPEXIMPORT_CONTEXT_HANDLE),
+InOut((PPEXIMPORT_CONTEXT_HANDLE,'hContext')),
 ),Method("EfsRpcEncryptFileSrv",
-In(HANDLE_T),
-In(PWCHAR_T),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'FileName')),
 ),Method("EfsRpcDecryptFileSrv",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'FileName')),
+In((UNSIGNED_LONG,'OpenFlag')),
 ),Method("EfsRpcQueryUsersOnFile",
-In(HANDLE_T),
-In(PWCHAR_T),
-Out(PPENCRYPTION_CERTIFICATE_HASH_LIST),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'FileName')),
+Out((PPENCRYPTION_CERTIFICATE_HASH_LIST,'Users')),
 ),Method("EfsRpcQueryRecoveryAgents",
-In(HANDLE_T),
-In(PWCHAR_T),
-Out(PPENCRYPTION_CERTIFICATE_HASH_LIST),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'FileName')),
+Out((PPENCRYPTION_CERTIFICATE_HASH_LIST,'RecoveryAgents')),
 ),Method("EfsRpcRemoveUsersFromFile",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PENCRYPTION_CERTIFICATE_HASH_LIST),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'FileName')),
+In((PENCRYPTION_CERTIFICATE_HASH_LIST,'Users')),
 ),Method("EfsRpcAddUsersToFile",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PENCRYPTION_CERTIFICATE_LIST),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'FileName')),
+In((PENCRYPTION_CERTIFICATE_LIST,'EncryptionCertificates')),
 ),Method("Opnum10NotUsedOnWire",
 ),Method("EfsRpcNotSupported",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(DWORD),
-In(DWORD),
-In(PEFS_RPC_BLOB),
-In(BOOL),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'Reserved1')),
+In((PWCHAR_T,'Reserved2')),
+In((DWORD,'dwReserved1')),
+In((DWORD,'dwReserved2')),
+In((PEFS_RPC_BLOB,'Reserved')),
+In((BOOL,'bReserved')),
 ),Method("EfsRpcFileKeyInfo",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(DWORD),
-Out(PPEFS_RPC_BLOB),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'FileName')),
+In((DWORD,'InfoClass')),
+Out((PPEFS_RPC_BLOB,'KeyInfo')),
 ),Method("EfsRpcDuplicateEncryptionInfoFile",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(DWORD),
-In(DWORD),
-In(PEFS_RPC_BLOB),
-In(BOOL),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'SrcFileName')),
+In((PWCHAR_T,'DestFileName')),
+In((DWORD,'dwCreationDisposition')),
+In((DWORD,'dwAttributes')),
+In((PEFS_RPC_BLOB,'RelativeSD')),
+In((BOOL,'bInheritHandle')),
 ),Method("Opnum14NotUsedOnWire",
 ),Method("EfsRpcAddUsersToFileEx",
-In(HANDLE_T),
-In(DWORD),
-In(PEFS_RPC_BLOB),
-In(PWCHAR_T),
-In(PENCRYPTION_CERTIFICATE_LIST),
+In((HANDLE_T,'binding_h')),
+In((DWORD,'dwFlags')),
+In((PEFS_RPC_BLOB,'Reserved')),
+In((PWCHAR_T,'FileName')),
+In((PENCRYPTION_CERTIFICATE_LIST,'EncryptionCertificates')),
 ),Method("EfsRpcFileKeyInfoEx",
-In(HANDLE_T),
-In(DWORD),
-In(PEFS_RPC_BLOB),
-In(PWCHAR_T),
-In(DWORD),
-Out(PPEFS_RPC_BLOB),
+In((HANDLE_T,'binding_h')),
+In((DWORD,'dwFileKeyInfoFlags')),
+In((PEFS_RPC_BLOB,'Reserved')),
+In((PWCHAR_T,'FileName')),
+In((DWORD,'InfoClass')),
+Out((PPEFS_RPC_BLOB,'KeyInfo')),
 ),Method("Opnum17NotUsedOnWire",
 ),Method("EfsRpcGetEncryptedFileMetadata",
-In(HANDLE_T),
-In(PWCHAR_T),
-Out(PPEFS_RPC_BLOB),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'FileName')),
+Out((PPEFS_RPC_BLOB,'EfsStreamBlob')),
 ),Method("EfsRpcSetEncryptedFileMetadata",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PEFS_RPC_BLOB),
-In(PEFS_RPC_BLOB),
-In(PENCRYPTED_FILE_METADATA_SIGNATURE),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'FileName')),
+In((PEFS_RPC_BLOB,'OldEfsStreamBlob')),
+In((PEFS_RPC_BLOB,'NewEfsStreamBlob')),
+In((PENCRYPTED_FILE_METADATA_SIGNATURE,'NewEfsSignature')),
 ),Method("EfsRpcFlushEfsCache",
-In(HANDLE_T),
+In((HANDLE_T,'binding_h')),
 ),Method("EfsRpcEncryptFileExSrv",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'FileName')),
+In((PWCHAR_T,'ProtectorDescriptor')),
+In((UNSIGNED_LONG,'Flags')),
 ),Method("EfsRpcQueryProtectors",
-In(HANDLE_T),
-In(PWCHAR_T),
-Out(PPPENCRYPTION_PROTECTOR_LIST),
+In((HANDLE_T,'binding_h')),
+In((PWCHAR_T,'FileName')),
+Out((PPPENCRYPTION_PROTECTOR_LIST,'ppProtectorList')),
 ),Method("Opnum23NotUsedOnWire",
 ),Method("Opnum24NotUsedOnWire",
 ),Method("Opnum25NotUsedOnWire",
@@ -504,4 +514,4 @@ Out(PPPENCRYPTION_PROTECTOR_LIST),
 ),Method("Opnum42NotUsedOnWire",
 ),Method("Opnum43NotUsedOnWire",
 ),Method("Opnum44NotUsedOnWire",
-),
+),])

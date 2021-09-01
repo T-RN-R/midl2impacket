@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -313,11 +323,23 @@ class SECURITY_DESCRIPTOR(NdrStructure):
     
 PSECURITY_DESCRIPTOR = SECURITY_DESCRIPTOR
 
+class DSROLE_MACHINE_ROLE(NdrEnum):
+    MAP = ((0 , 'DsRole_RoleStandaloneWorkstation'),(1 , 'DsRole_RoleMemberWorkstation'),(2 , 'DsRole_RoleStandaloneServer'),(3 , 'DsRole_RoleMemberServer'),(4 , 'DsRole_RoleBackupDomainController'),(5 , 'DsRole_RolePrimaryDomainController'),)        
+
+class DSROLE_SERVER_STATE(NdrEnum):
+    MAP = ((0 , 'DsRoleServerUnknown'),(1 , 'DsRoleServerPrimary'),(2 , 'DsRoleServerBackup'),)        
+
+class DSROLE_PRIMARY_DOMAIN_INFO_LEVEL(NdrEnum):
+    MAP = ((1 , 'DsRolePrimaryDomainInfoBasic'),(2 , 'DsRoleUpgradeStatus'),(3 , 'DsRoleOperationState'),)        
+
 class DSROLE_UPGRADE_STATUS_INFO(NdrStructure):
     MEMBERS = [(UNSIGNED___INT32, "OperationState"),(DSROLE_SERVER_STATE, "PreviousServerState"),]
 
     
 PDSROLE_UPGRADE_STATUS_INFO = DSROLE_UPGRADE_STATUS_INFO
+
+class DSROLE_OPERATION_STATE(NdrEnum):
+    MAP = ((0 , 'DsRoleOperationIdle'),(1 , 'DsRoleOperationActive'),(2 , 'DsRoleOperationNeedReboot'),)        
 
 class DSROLE_OPERATION_STATE_INFO(NdrStructure):
     MEMBERS = [(DSROLE_OPERATION_STATE, "OperationState"),]
@@ -337,10 +359,10 @@ class DSROLER_PRIMARY_DOMAIN_INFORMATION(NdrUnion):
 
     
 PDSROLER_PRIMARY_DOMAIN_INFORMATION = DSROLER_PRIMARY_DOMAIN_INFORMATION
-Method("DsRolerGetPrimaryDomainInformation",
-In(HANDLE_T),
-In(DSROLE_PRIMARY_DOMAIN_INFO_LEVEL),
-Out(PPDSROLER_PRIMARY_DOMAIN_INFORMATION),
+Interface("3919286a-b10c-11d0-9ba8-00c04fd92ef5", "0.0",[Method("DsRolerGetPrimaryDomainInformation",
+In((HANDLE_T,'hBinding')),
+In((DSROLE_PRIMARY_DOMAIN_INFO_LEVEL,'InfoLevel')),
+Out((PPDSROLER_PRIMARY_DOMAIN_INFORMATION,'DomainInfo')),
 ),Method("Opnum1NotUsedOnWire",
 ),Method("Opnum2NotUsedOnWire",
 ),Method("Opnum3NotUsedOnWire",
@@ -352,4 +374,4 @@ Out(PPDSROLER_PRIMARY_DOMAIN_INFORMATION),
 ),Method("Opnum9NotUsedOnWire",
 ),Method("Opnum10NotUsedOnWire",
 ),Method("Opnum11NotUsedOnWire",
-),
+),])

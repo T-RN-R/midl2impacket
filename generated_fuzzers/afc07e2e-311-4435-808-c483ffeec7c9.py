@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -358,7 +368,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -590,6 +600,9 @@ class LSAPR_SECURITY_DESCRIPTOR(NdrStructure):
     
 PLSAPR_SECURITY_DESCRIPTOR = LSAPR_SECURITY_DESCRIPTOR
 
+class SECURITY_IMPERSONATION_LEVEL(NdrEnum):
+    MAP = ((0 , 'SecurityAnonymous'),(1 , 'SecurityIdentification'),(2 , 'SecurityImpersonation'),(3 , 'SecurityDelegation'),)        
+
 class SECURITY_QUALITY_OF_SERVICE(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "Length"),(SECURITY_IMPERSONATION_LEVEL, "ImpersonationLevel"),(SECURITY_CONTEXT_TRACKING_MODE, "ContextTrackingMode"),(UNSIGNED_CHAR, "EffectiveOnly"),]
 
@@ -614,6 +627,9 @@ class LSAPR_REFERENCED_DOMAIN_LIST(NdrStructure):
     
 PLSAPR_REFERENCED_DOMAIN_LIST = LSAPR_REFERENCED_DOMAIN_LIST
 
+class SID_NAME_USE(NdrEnum):
+    MAP = ((1 , 'SidTypeUser'),(2 , 'SidTypeGroup'),(3 , 'SidTypeDomain'),(4 , 'SidTypeAlias'),(5 , 'SidTypeWellKnownGroup'),(6 , 'SidTypeDeletedAccount'),(7 , 'SidTypeInvalid'),(8 , 'SidTypeUnknown'),(9 , 'SidTypeComputer'),(10 , 'SidTypeLabel'),)        
+
 class LSA_TRANSLATED_SID(NdrStructure):
     MEMBERS = [(SID_NAME_USE, "Use"),(UNSIGNED_LONG, "RelativeId"),(LONG, "DomainIndex"),]
 
@@ -625,6 +641,9 @@ class LSAPR_TRANSLATED_SIDS(NdrStructure):
 
     
 PLSAPR_TRANSLATED_SIDS = LSAPR_TRANSLATED_SIDS
+
+class LSAP_LOOKUP_LEVEL(NdrEnum):
+    MAP = ((1 , 'LsapLookupWksta'),(2 , 'LsapLookupPDC'),(3 , 'LsapLookupTDL'),(4 , 'LsapLookupGC'),(5 , 'LsapLookupXForestReferral'),(6 , 'LsapLookupXForestResolve'),(7 , 'LsapLookupRODCReferralToFullDC'),)        
 
 class LSAPR_SID_INFORMATION(NdrStructure):
     MEMBERS = [(PRPC_SID, "Sid"),]
@@ -685,18 +704,18 @@ class LSAPR_TRANSLATED_SIDS_EX2(NdrStructure):
 
     
 PLSAPR_TRANSLATED_SIDS_EX2 = LSAPR_TRANSLATED_SIDS_EX2
-Method("LsarClose",
-InOut(PLSAPR_HANDLE),
+Interface("12345778-1234-ABCD-EF00-0123456789AB", "0.0",[Method("LsarClose",
+InOut((PLSAPR_HANDLE,'ObjectHandle')),
 ),Method("Opnum1NotUsedOnWire",
 ),Method("Lsar_LSA_DP_2",
 ),Method("Lsar_LSA_DP_3",
 ),Method("Lsar_LSA_DP_4",
 ),Method("Opnum5NotUsedOnWire",
 ),Method("LsarOpenPolicy",
-In(PWCHAR_T),
-In(PLSAPR_OBJECT_ATTRIBUTES),
-In(ACCESS_MASK),
-Out(PLSAPR_HANDLE),
+In((PWCHAR_T,'SystemName')),
+In((PLSAPR_OBJECT_ATTRIBUTES,'ObjectAttributes')),
+In((ACCESS_MASK,'DesiredAccess')),
+Out((PLSAPR_HANDLE,'PolicyHandle')),
 ),Method("Lsar_LSA_DP_7",
 ),Method("Lsar_LSA_DP_8",
 ),Method("Opnum9NotUsedOnWire",
@@ -705,20 +724,20 @@ Out(PLSAPR_HANDLE),
 ),Method("Lsar_LSA_DP_12",
 ),Method("Lsar_LSA_DP_13",
 ),Method("LsarLookupNames",
-In(LSAPR_HANDLE),
-In(UNSIGNED_LONG),
-In(PRPC_UNICODE_STRING),
-Out(PPLSAPR_REFERENCED_DOMAIN_LIST),
-InOut(PLSAPR_TRANSLATED_SIDS),
-In(LSAP_LOOKUP_LEVEL),
-InOut(PUNSIGNED_LONG),
+In((LSAPR_HANDLE,'PolicyHandle')),
+In((UNSIGNED_LONG,'Count')),
+In((PRPC_UNICODE_STRING,'Names')),
+Out((PPLSAPR_REFERENCED_DOMAIN_LIST,'ReferencedDomains')),
+InOut((PLSAPR_TRANSLATED_SIDS,'TranslatedSids')),
+In((LSAP_LOOKUP_LEVEL,'LookupLevel')),
+InOut((PUNSIGNED_LONG,'MappedCount')),
 ),Method("LsarLookupSids",
-In(LSAPR_HANDLE),
-In(PLSAPR_SID_ENUM_BUFFER),
-Out(PPLSAPR_REFERENCED_DOMAIN_LIST),
-InOut(PLSAPR_TRANSLATED_NAMES),
-In(LSAP_LOOKUP_LEVEL),
-InOut(PUNSIGNED_LONG),
+In((LSAPR_HANDLE,'PolicyHandle')),
+In((PLSAPR_SID_ENUM_BUFFER,'SidEnumBuffer')),
+Out((PPLSAPR_REFERENCED_DOMAIN_LIST,'ReferencedDomains')),
+InOut((PLSAPR_TRANSLATED_NAMES,'TranslatedNames')),
+In((LSAP_LOOKUP_LEVEL,'LookupLevel')),
+InOut((PUNSIGNED_LONG,'MappedCount')),
 ),Method("Lsar_LSA_DP_16",
 ),Method("Lsar_LSA_DP_17",
 ),Method("Lsar_LSA_DP_18",
@@ -748,14 +767,14 @@ InOut(PUNSIGNED_LONG),
 ),Method("Lsar_LSA_DP_42",
 ),Method("Lsar_LSA_DP_43",
 ),Method("LsarOpenPolicy2",
-In(PWCHAR_T),
-In(PLSAPR_OBJECT_ATTRIBUTES),
-In(ACCESS_MASK),
-Out(PLSAPR_HANDLE),
+In((PWCHAR_T,'SystemName')),
+In((PLSAPR_OBJECT_ATTRIBUTES,'ObjectAttributes')),
+In((ACCESS_MASK,'DesiredAccess')),
+Out((PLSAPR_HANDLE,'PolicyHandle')),
 ),Method("LsarGetUserName",
-In(PWCHAR_T),
-InOut(PPRPC_UNICODE_STRING),
-InOut(PPRPC_UNICODE_STRING),
+In((PWCHAR_T,'SystemName')),
+InOut((PPRPC_UNICODE_STRING,'UserName')),
+InOut((PPRPC_UNICODE_STRING,'DomainName')),
 ),Method("Lsar_LSA_DP_46",
 ),Method("Lsar_LSA_DP_47",
 ),Method("Lsar_LSA_DP_48",
@@ -768,24 +787,24 @@ InOut(PPRPC_UNICODE_STRING),
 ),Method("Lsar_LSA_DP_55",
 ),Method("Opnum56NotUsedOnWire",
 ),Method("LsarLookupSids2",
-In(LSAPR_HANDLE),
-In(PLSAPR_SID_ENUM_BUFFER),
-Out(PPLSAPR_REFERENCED_DOMAIN_LIST),
-InOut(PLSAPR_TRANSLATED_NAMES_EX),
-In(LSAP_LOOKUP_LEVEL),
-InOut(PUNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
+In((LSAPR_HANDLE,'PolicyHandle')),
+In((PLSAPR_SID_ENUM_BUFFER,'SidEnumBuffer')),
+Out((PPLSAPR_REFERENCED_DOMAIN_LIST,'ReferencedDomains')),
+InOut((PLSAPR_TRANSLATED_NAMES_EX,'TranslatedNames')),
+In((LSAP_LOOKUP_LEVEL,'LookupLevel')),
+InOut((PUNSIGNED_LONG,'MappedCount')),
+In((UNSIGNED_LONG,'LookupOptions')),
+In((UNSIGNED_LONG,'ClientRevision')),
 ),Method("LsarLookupNames2",
-In(LSAPR_HANDLE),
-In(UNSIGNED_LONG),
-In(PRPC_UNICODE_STRING),
-Out(PPLSAPR_REFERENCED_DOMAIN_LIST),
-InOut(PLSAPR_TRANSLATED_SIDS_EX),
-In(LSAP_LOOKUP_LEVEL),
-InOut(PUNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
+In((LSAPR_HANDLE,'PolicyHandle')),
+In((UNSIGNED_LONG,'Count')),
+In((PRPC_UNICODE_STRING,'Names')),
+Out((PPLSAPR_REFERENCED_DOMAIN_LIST,'ReferencedDomains')),
+InOut((PLSAPR_TRANSLATED_SIDS_EX,'TranslatedSids')),
+In((LSAP_LOOKUP_LEVEL,'LookupLevel')),
+InOut((PUNSIGNED_LONG,'MappedCount')),
+In((UNSIGNED_LONG,'LookupOptions')),
+In((UNSIGNED_LONG,'ClientRevision')),
 ),Method("Lsar_LSA_DP_59",
 ),Method("Opnum60NotUsedOnWire",
 ),Method("Opnum61NotUsedOnWire",
@@ -796,15 +815,15 @@ In(UNSIGNED_LONG),
 ),Method("Opnum66NotUsedOnWire",
 ),Method("Opnum67NotUsedOnWire",
 ),Method("LsarLookupNames3",
-In(LSAPR_HANDLE),
-In(UNSIGNED_LONG),
-In(PRPC_UNICODE_STRING),
-Out(PPLSAPR_REFERENCED_DOMAIN_LIST),
-InOut(PLSAPR_TRANSLATED_SIDS_EX2),
-In(LSAP_LOOKUP_LEVEL),
-InOut(PUNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
+In((LSAPR_HANDLE,'PolicyHandle')),
+In((UNSIGNED_LONG,'Count')),
+In((PRPC_UNICODE_STRING,'Names')),
+Out((PPLSAPR_REFERENCED_DOMAIN_LIST,'ReferencedDomains')),
+InOut((PLSAPR_TRANSLATED_SIDS_EX2,'TranslatedSids')),
+In((LSAP_LOOKUP_LEVEL,'LookupLevel')),
+InOut((PUNSIGNED_LONG,'MappedCount')),
+In((UNSIGNED_LONG,'LookupOptions')),
+In((UNSIGNED_LONG,'ClientRevision')),
 ),Method("Opnum69NotUsedOnWire",
 ),Method("Opnum70NotUsedOnWire",
 ),Method("Opnum71NotUsedOnWire",
@@ -813,30 +832,30 @@ In(UNSIGNED_LONG),
 ),Method("Lsar_LSA_DP_74",
 ),Method("Opnum75NotUsedOnWire",
 ),Method("LsarLookupSids3",
-In(HANDLE_T),
-In(PLSAPR_SID_ENUM_BUFFER),
-Out(PPLSAPR_REFERENCED_DOMAIN_LIST),
-InOut(PLSAPR_TRANSLATED_NAMES_EX),
-In(LSAP_LOOKUP_LEVEL),
-InOut(PUNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'RpcHandle')),
+In((PLSAPR_SID_ENUM_BUFFER,'SidEnumBuffer')),
+Out((PPLSAPR_REFERENCED_DOMAIN_LIST,'ReferencedDomains')),
+InOut((PLSAPR_TRANSLATED_NAMES_EX,'TranslatedNames')),
+In((LSAP_LOOKUP_LEVEL,'LookupLevel')),
+InOut((PUNSIGNED_LONG,'MappedCount')),
+In((UNSIGNED_LONG,'LookupOptions')),
+In((UNSIGNED_LONG,'ClientRevision')),
 ),Method("LsarLookupNames4",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(PRPC_UNICODE_STRING),
-Out(PPLSAPR_REFERENCED_DOMAIN_LIST),
-InOut(PLSAPR_TRANSLATED_SIDS_EX2),
-In(LSAP_LOOKUP_LEVEL),
-InOut(PUNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-),
+In((HANDLE_T,'RpcHandle')),
+In((UNSIGNED_LONG,'Count')),
+In((PRPC_UNICODE_STRING,'Names')),
+Out((PPLSAPR_REFERENCED_DOMAIN_LIST,'ReferencedDomains')),
+InOut((PLSAPR_TRANSLATED_SIDS_EX2,'TranslatedSids')),
+In((LSAP_LOOKUP_LEVEL,'LookupLevel')),
+InOut((PUNSIGNED_LONG,'MappedCount')),
+In((UNSIGNED_LONG,'LookupOptions')),
+In((UNSIGNED_LONG,'ClientRevision')),
+),])
 class LSAPR_WRAPPED_CAPID_SET(NdrStructure):
     MEMBERS = [(ULONG, "Entries"),(PLSAPR_SID_INFORMATION, "SidInfo"),]
 
     
-Method("LsarGetAvailableCAPIDs",
-In(HANDLE_T),
-Out(PLSAPR_WRAPPED_CAPID_SET),
-),
+Interface("afc07e2e-311-4435-808-c483ffeec7c9", "1.0",[Method("LsarGetAvailableCAPIDs",
+In((HANDLE_T,'BindingHandle')),
+Out((PLSAPR_WRAPPED_CAPID_SET,'WrappedCAPIDs')),
+),])

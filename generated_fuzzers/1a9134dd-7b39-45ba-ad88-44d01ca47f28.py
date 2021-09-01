@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -358,7 +368,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -619,16 +629,19 @@ class CAPROPVARIANT(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "cElems"),(PPROPVARIANT, "pElems"),]
 
     
+
+class VARENUM(NdrEnum):
+    MAP = ((0 , 'VT_EMPTY'),(1 , 'VT_NULL'),(2 , 'VT_I2'),(3 , 'VT_I4'),(11 , 'VT_BOOL'),(12 , 'VT_VARIANT'),(16 , 'VT_I1'),(17 , 'VT_UI1'),(18 , 'VT_UI2'),(19 , 'VT_UI4'),(20 , 'VT_I8'),(21 , 'VT_UI8'),(31 , 'VT_LPWSTR'),(65 , 'VT_BLOB'),(72 , 'VT_CLSID'),(4096 , 'VT_VECTOR'),)        
 VARTYPE = UNSIGNED_SHORT
 
-class _VARUNION(NdrUnion):
+class VARUNION(NdrUnion):
     SWITCHTYPE = DWORD
     MEMBERS = {2 : (CHAR, "cVal"),3 : (UCHAR, "bVal"),4 : (SHORT, "iVal"),5 : (USHORT, "uiVal"),6 : (LONG, "lVal"),7 : (ULONG, "ulVal"),8 : (LARGE_INTEGER, "hVal"),9 : (ULARGE_INTEGER, "uhVal"),10 : (VARIANT_BOOL, "boolVal"),11 : (PGUID, "puuid"),12 : (BLOB, "blob"),13 : (PWCHAR_T, "pwszVal"),14 : (CAUB, "caub"),15 : (CAUI, "caui"),16 : (CAL, "cal"),17 : (CAUL, "caul"),18 : (CAUH, "cauh"),19 : (CACLSID, "cauuid"),20 : (CALPWSTR, "calpwstr"),21 : (CAPROPVARIANT, "capropvar"),}
 
     
 
 class TAG_INNER_PROPVARIANT(NdrStructure):
-    MEMBERS = [(VARTYPE, "vt"),(UCHAR, "wReserved1"),(UCHAR, "wReserved2"),(ULONG, "wReserved3"),(_VARUNION, "_varUnion"),]
+    MEMBERS = [(VARTYPE, "vt"),(UCHAR, "wReserved1"),(UCHAR, "wReserved2"),(ULONG, "wReserved3"),(VARUNION, "_varUnion"),]
 
     
 
@@ -647,6 +660,9 @@ class OBJECTID(NdrStructure):
 
     
 
+class QUEUE_FORMAT_TYPE(NdrEnum):
+    MAP = ((0 , 'QUEUE_FORMAT_TYPE_UNKNOWN'),(1 , 'QUEUE_FORMAT_TYPE_PUBLIC'),(2 , 'QUEUE_FORMAT_TYPE_PRIVATE'),(3 , 'QUEUE_FORMAT_TYPE_DIRECT'),(4 , 'QUEUE_FORMAT_TYPE_MACHINE'),(5 , 'QUEUE_FORMAT_TYPE_CONNECTOR'),(6 , 'QUEUE_FORMAT_TYPE_DL'),(7 , 'QUEUE_FORMAT_TYPE_MULTICAST'),(8 , 'QUEUE_FORMAT_TYPE_SUBQUEUE'),)        
+
 class U0(NdrUnion):
     SWITCHTYPE = DWORD
     MEMBERS = {2 : (GUID, "m_gPublicID"),3 : (OBJECTID, "m_oPrivateID"),4 : (PWCHAR_T, "m_pDirectID"),5 : (GUID, "m_gMachineID"),6 : (GUID, "m_GConnectorID"),7 : (DL_ID, "m_DlID"),8 : (MULTICAST_ID, "m_MulticastID"),9 : (PWCHAR_T, "m_pDirectSubqueueID"),}
@@ -660,110 +676,113 @@ class QUEUE_FORMAT(NdrStructure):
 QUEUE_CONTEXT_HANDLE_NOSERIALIZE = VOID
 QUEUE_CONTEXT_HANDLE_SERIALIZE = QUEUE_CONTEXT_HANDLE_NOSERIALIZE
 
+class SECTIONTYPE(NdrEnum):
+    MAP = ((0 , 'stFullPacket'),(1 , 'stBinaryFirstSection'),(2 , 'stBinarySecondSection'),(3 , 'stSrmpFirstSection'),(4 , 'stSrmpSecondSection'),)        
+
 class SECTIONBUFFER(NdrStructure):
     MEMBERS = [(SECTIONTYPE, "SectionBufferType"),(DWORD, "SectionSizeAlloc"),(DWORD, "SectionSize"),(PBYTE, "pSectionBuffer"),]
 
     
-Method("R_GetServerPort",
-In(HANDLE_T),
+Interface("1a9134dd-7b39-45ba-ad88-44d01ca47f28", "1.0",[Method("R_GetServerPort",
+In((HANDLE_T,'hBind')),
 ),Method("Opnum1NotUsedOnWire",
 ),Method("R_OpenQueue",
-In(HANDLE_T),
-In(PQUEUE_FORMAT),
-In(DWORD),
-In(DWORD),
-In(PGUID),
-In(LONG),
-In(UNSIGNED_CHAR),
-In(UNSIGNED_CHAR),
-In(USHORT),
-In(LONG),
-Out(PQUEUE_CONTEXT_HANDLE_SERIALIZE),
+In((HANDLE_T,'hBind')),
+In((PQUEUE_FORMAT,'pQueueFormat')),
+In((DWORD,'dwAccess')),
+In((DWORD,'dwShareMode')),
+In((PGUID,'pClientId')),
+In((LONG,'fNonRoutingServer')),
+In((UNSIGNED_CHAR,'Major')),
+In((UNSIGNED_CHAR,'Minor')),
+In((USHORT,'BuildNumber')),
+In((LONG,'fWorkgroup')),
+Out((PQUEUE_CONTEXT_HANDLE_SERIALIZE,'pphContext')),
 ),Method("R_CloseQueue",
-In(HANDLE_T),
-InOut(PQUEUE_CONTEXT_HANDLE_SERIALIZE),
+In((HANDLE_T,'hBind')),
+InOut((PQUEUE_CONTEXT_HANDLE_SERIALIZE,'pphContext')),
 ),Method("R_CreateCursor",
-In(HANDLE_T),
-In(QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-Out(PDWORD),
+In((HANDLE_T,'hBind')),
+In((QUEUE_CONTEXT_HANDLE_NOSERIALIZE,'phContext')),
+Out((PDWORD,'phCursor')),
 ),Method("R_CloseCursor",
-In(HANDLE_T),
-In(QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-In(DWORD),
+In((HANDLE_T,'hBind')),
+In((QUEUE_CONTEXT_HANDLE_NOSERIALIZE,'phContext')),
+In((DWORD,'hCursor')),
 ),Method("R_PurgeQueue",
-In(HANDLE_T),
-In(QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
+In((HANDLE_T,'hBind')),
+In((QUEUE_CONTEXT_HANDLE_NOSERIALIZE,'phContext')),
 ),Method("R_StartReceive",
-In(HANDLE_T),
-In(QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-In(ULONGLONG),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-Out(PDWORD),
-Out(PULONGLONG),
-Out(PDWORD),
-Out(PPSECTIONBUFFER),
+In((HANDLE_T,'hBind')),
+In((QUEUE_CONTEXT_HANDLE_NOSERIALIZE,'phContext')),
+In((ULONGLONG,'LookupId')),
+In((DWORD,'hCursor')),
+In((DWORD,'ulAction')),
+In((DWORD,'ulTimeout')),
+In((DWORD,'dwRequestId')),
+In((DWORD,'dwMaxBodySize')),
+In((DWORD,'dwMaxCompoundMessageSize')),
+Out((PDWORD,'pdwArriveTime')),
+Out((PULONGLONG,'pSequenceId')),
+Out((PDWORD,'pdwNumberOfSections')),
+Out((PPSECTIONBUFFER,'ppPacketSections')),
 ),Method("R_CancelReceive",
-In(HANDLE_T),
-In(QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-In(DWORD),
+In((HANDLE_T,'hBind')),
+In((QUEUE_CONTEXT_HANDLE_NOSERIALIZE,'phContext')),
+In((DWORD,'dwRequestId')),
 ),Method("R_EndReceive",
-In(HANDLE_T),
-In(QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-In(DWORD),
-In(DWORD),
+In((HANDLE_T,'hBind')),
+In((QUEUE_CONTEXT_HANDLE_NOSERIALIZE,'phContext')),
+In((DWORD,'dwAck')),
+In((DWORD,'dwRequestId')),
 ),Method("R_MoveMessage",
-In(HANDLE_T),
-In(QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-In(ULONGLONG),
-In(ULONGLONG),
-In(PXACTUOW),
+In((HANDLE_T,'hBind')),
+In((QUEUE_CONTEXT_HANDLE_NOSERIALIZE,'phContextFrom')),
+In((ULONGLONG,'ullContextTo')),
+In((ULONGLONG,'LookupId')),
+In((PXACTUOW,'pTransactionId')),
 ),Method("R_OpenQueueForMove",
-In(HANDLE_T),
-In(PQUEUE_FORMAT),
-In(DWORD),
-In(DWORD),
-In(PGUID),
-In(LONG),
-In(UNSIGNED_CHAR),
-In(UNSIGNED_CHAR),
-In(USHORT),
-In(LONG),
-Out(PULONGLONG),
-Out(PQUEUE_CONTEXT_HANDLE_SERIALIZE),
+In((HANDLE_T,'hBind')),
+In((PQUEUE_FORMAT,'pQueueFormat')),
+In((DWORD,'dwAccess')),
+In((DWORD,'dwShareMode')),
+In((PGUID,'pClientId')),
+In((LONG,'fNonRoutingServer')),
+In((UNSIGNED_CHAR,'Major')),
+In((UNSIGNED_CHAR,'Minor')),
+In((USHORT,'BuildNumber')),
+In((LONG,'fWorkgroup')),
+Out((PULONGLONG,'pMoveContext')),
+Out((PQUEUE_CONTEXT_HANDLE_SERIALIZE,'pphContext')),
 ),Method("R_QMEnlistRemoteTransaction",
-In(HANDLE_T),
-In(PXACTUOW),
-In(DWORD),
-In(PUNSIGNED_CHAR),
-In(PQUEUE_FORMAT),
+In((HANDLE_T,'hBind')),
+In((PXACTUOW,'pTransactionId')),
+In((DWORD,'cbPropagationToken')),
+In((PUNSIGNED_CHAR,'pbPropagationToken')),
+In((PQUEUE_FORMAT,'pQueueFormat')),
 ),Method("R_StartTransactionalReceive",
-In(HANDLE_T),
-In(QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-In(ULONGLONG),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(PXACTUOW),
-Out(PDWORD),
-Out(PULONGLONG),
-Out(PDWORD),
-Out(PPSECTIONBUFFER),
+In((HANDLE_T,'hBind')),
+In((QUEUE_CONTEXT_HANDLE_NOSERIALIZE,'phContext')),
+In((ULONGLONG,'LookupId')),
+In((DWORD,'hCursor')),
+In((DWORD,'ulAction')),
+In((DWORD,'ulTimeout')),
+In((DWORD,'dwRequestId')),
+In((DWORD,'dwMaxBodySize')),
+In((DWORD,'dwMaxCompoundMessageSize')),
+In((PXACTUOW,'pTransactionId')),
+Out((PDWORD,'pdwArriveTime')),
+Out((PULONGLONG,'pSequenceId')),
+Out((PDWORD,'pdwNumberOfSections')),
+Out((PPSECTIONBUFFER,'ppPacketSections')),
 ),Method("R_SetUserAcknowledgementClass",
-In(HANDLE_T),
-In(QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-In(ULONGLONG),
-In(USHORT),
+In((HANDLE_T,'hBind')),
+In((QUEUE_CONTEXT_HANDLE_NOSERIALIZE,'phContext')),
+In((ULONGLONG,'LookupId')),
+In((USHORT,'usClass')),
 ),Method("R_EndTransactionalReceive",
-In(HANDLE_T),
-In(QUEUE_CONTEXT_HANDLE_NOSERIALIZE),
-In(DWORD),
-In(DWORD),
-),
+In((HANDLE_T,'hBind')),
+In((QUEUE_CONTEXT_HANDLE_NOSERIALIZE,'phContext')),
+In((DWORD,'dwAck')),
+In((DWORD,'dwRequestId')),
+),])

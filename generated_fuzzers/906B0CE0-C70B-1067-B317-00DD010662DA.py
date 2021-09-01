@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -313,6 +323,15 @@ class SECURITY_DESCRIPTOR(NdrStructure):
     
 PSECURITY_DESCRIPTOR = SECURITY_DESCRIPTOR
 
+class TEARDOWN_TYPE(NdrEnum):
+    MAP = ((0 , 'TT_FORCE'),(2 , 'TT_PROBLEM'),)        
+
+class SESSION_RANK(NdrEnum):
+    MAP = ((1 , 'SRANK_PRIMARY'),(2 , 'SRANK_SECONDARY'),)        
+
+class RESOURCE_TYPE(NdrEnum):
+    MAP = ((0 , 'RT_CONNECTIONS'),)        
+
 class BIND_VERSION_SET(NdrStructure):
     MEMBERS = [(DWORD, "dwMinLevelOne"),(DWORD, "dwMaxLevelOne"),(DWORD, "dwMinLevelTwo"),(DWORD, "dwMaxLevelTwo"),(DWORD, "dwMinLevelThree"),(DWORD, "dwMaxLevelThree"),]
 
@@ -328,63 +347,63 @@ class BIND_INFO_BLOB(NdrStructure):
     MEMBERS = [(DWORD, "dwcbThisStruct"),(COM_PROTOCOL, "grbitComProtocols"),]
 
     
-Method("Poke",
-In(HANDLE_T),
-In(SESSION_RANK),
-In(UNSIGNED_CHAR),
-In(UNSIGNED_CHAR),
-In(UNSIGNED_CHAR),
-In(DWORD),
-In(UNSIGNED_CHAR),
+Interface("906B0CE0-C70B-1067-B317-00DD010662DA", "1.0",[Method("Poke",
+In((HANDLE_T,'hBinding')),
+In((SESSION_RANK,'sRank')),
+In((UNSIGNED_CHAR,'pszCalleeUuid')),
+In((UNSIGNED_CHAR,'pszHostName')),
+In((UNSIGNED_CHAR,'pszUuidString')),
+In((DWORD,'dwcbSizeOfBlob')),
+In((UNSIGNED_CHAR,'rguchBlob')),
 ),Method("BuildContext",
-In(HANDLE_T),
-In(SESSION_RANK),
-In(BIND_VERSION_SET),
-In(UNSIGNED_CHAR),
-In(UNSIGNED_CHAR),
-In(UNSIGNED_CHAR),
-In(UNSIGNED_CHAR),
-InOut(UNSIGNED_CHAR),
-InOut(PBOUND_VERSION_SET),
-In(DWORD),
-In(UNSIGNED_CHAR),
-Out(PPCONTEXT_HANDLE),
+In((HANDLE_T,'hBinding')),
+In((SESSION_RANK,'sRank')),
+In((BIND_VERSION_SET,'BindVersionSet')),
+In((UNSIGNED_CHAR,'pszCalleeUuid')),
+In((UNSIGNED_CHAR,'pszHostName')),
+In((UNSIGNED_CHAR,'pszUuidString')),
+In((UNSIGNED_CHAR,'pszGuidIn')),
+InOut((UNSIGNED_CHAR,'pszGuidOut')),
+InOut((PBOUND_VERSION_SET,'pBoundVersionSet')),
+In((DWORD,'dwcbSizeOfBlob')),
+In((UNSIGNED_CHAR,'rguchBlob')),
+Out((PPCONTEXT_HANDLE,'ppHandle')),
 ),Method("NegotiateResources",
-In(PCONTEXT_HANDLE),
-In(RESOURCE_TYPE),
-In(DWORD),
-InOut(PDWORD),
+In((PCONTEXT_HANDLE,'phContext')),
+In((RESOURCE_TYPE,'resourceType')),
+In((DWORD,'dwcRequested')),
+InOut((PDWORD,'pdwcAccepted')),
 ),Method("SendReceive",
-In(PCONTEXT_HANDLE),
-In(DWORD),
-In(DWORD),
-In(UNSIGNED_CHAR),
+In((PCONTEXT_HANDLE,'phContext')),
+In((DWORD,'dwcMessages')),
+In((DWORD,'dwcbSizeOfBoxCar')),
+In((UNSIGNED_CHAR,'rguchBoxCar')),
 ),Method("TearDownContext",
-InOut(PPCONTEXT_HANDLE),
-In(SESSION_RANK),
-In(TEARDOWN_TYPE),
+InOut((PPCONTEXT_HANDLE,'contextHandle')),
+In((SESSION_RANK,'sRank')),
+In((TEARDOWN_TYPE,'tearDownType')),
 ),Method("BeginTearDown",
-In(PCONTEXT_HANDLE),
-In(TEARDOWN_TYPE),
+In((PCONTEXT_HANDLE,'contextHandle')),
+In((TEARDOWN_TYPE,'tearDownType')),
 ),Method("PokeW",
-In(HANDLE_T),
-In(SESSION_RANK),
-In(WCHAR_T),
-In(WCHAR_T),
-In(WCHAR_T),
-In(DWORD),
-In(UNSIGNED_CHAR),
+In((HANDLE_T,'hBinding')),
+In((SESSION_RANK,'sRank')),
+In((WCHAR_T,'pwszCalleeUuid')),
+In((WCHAR_T,'pwszHostName')),
+In((WCHAR_T,'pwszUuidString')),
+In((DWORD,'dwcbSizeOfBlob')),
+In((UNSIGNED_CHAR,'rguchBlob')),
 ),Method("BuildContextW",
-In(HANDLE_T),
-In(SESSION_RANK),
-In(BIND_VERSION_SET),
-In(WCHAR_T),
-In(WCHAR_T),
-In(WCHAR_T),
-In(WCHAR_T),
-InOut(WCHAR_T),
-InOut(PBOUND_VERSION_SET),
-In(DWORD),
-In(UNSIGNED_CHAR),
-Out(PPCONTEXT_HANDLE),
-),
+In((HANDLE_T,'hBinding')),
+In((SESSION_RANK,'sRank')),
+In((BIND_VERSION_SET,'BindVersionSet')),
+In((WCHAR_T,'pwszCalleeUuid')),
+In((WCHAR_T,'pwszHostName')),
+In((WCHAR_T,'pwszUuidString')),
+In((WCHAR_T,'pwszGuidIn')),
+InOut((WCHAR_T,'pwszGuidOut')),
+InOut((PBOUND_VERSION_SET,'pBoundVersionSet')),
+In((DWORD,'dwcbSizeOfBlob')),
+In((UNSIGNED_CHAR,'rguchBlob')),
+Out((PPCONTEXT_HANDLE,'ppHandle')),
+),])

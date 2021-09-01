@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -352,6 +362,9 @@ class DUALSTRINGARRAY(NdrStructure):
 
     
 
+class (NdrEnum):
+    MAP = ((1 , 'CPFLAG_PROPAGATE'),(2 , 'CPFLAG_EXPOSE'),(4 , 'CPFLAG_ENVOY'),)        
+
 class MINTERFACEPOINTER(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "ulCntData"),(BYTE, "abData"),]
 
@@ -440,6 +453,9 @@ class INSTANCEINFODATA(NdrStructure):
 
     
 
+class SPD_FLAGS(NdrEnum):
+    MAP = ((1 , 'SPD_FLAG_USE_CONSOLE_SESSION'),(2 , 'SPD_FLAG_USE_DEFAULT_AUTHN_LVL'),)        
+
 class SPECIALPROPERTIESDATA(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "dwSessionId"),(LONG, "fRemoteThisSessionId"),(LONG, "fClientImpersonating"),(LONG, "fPartitionIDPresent"),(DWORD, "dwDefaultAuthnLvl"),(GUID, "guidPartition"),(DWORD, "dwPRTFlags"),(DWORD, "dwOrigClsctx"),(DWORD, "dwFlags"),(DWORD, "Reserved1"),(UNSIGNED___INT64, "Reserved2"),(DWORD, "Reserved3"),]
 
@@ -449,28 +465,28 @@ class SPECIALPROPERTIESDATA_ALTERNATE(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "dwSessionId"),(LONG, "fRemoteThisSessionId"),(LONG, "fClientImpersonating"),(LONG, "fPartitionIDPresent"),(DWORD, "dwDefaultAuthnLvl"),(GUID, "guidPartition"),(DWORD, "dwPRTFlags"),(DWORD, "dwOrigClsctx"),(DWORD, "dwFlags"),(DWORD, "Reserved3"),]
 
     
-Method("RemoteActivation",
-In(HANDLE_T),
-In(PORPCTHIS),
-Out(PORPCTHAT),
-In(PGUID),
-In(PWCHAR_T),
-In(PMINTERFACEPOINTER),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(PIID),
-In(UNSIGNED_SHORT),
-In(UNSIGNED_SHORT),
-Out(POXID),
-Out(PPDUALSTRINGARRAY),
-Out(PIPID),
-Out(PDWORD),
-Out(PCOMVERSION),
-Out(PHRESULT),
-Out(PPMINTERFACEPOINTER),
-Out(PHRESULT),
-),BYTE = BYTE
+Interface("4d9f4ab8-7d1c-11cf-861e-0020af6e7c57", "1.0",[Method("RemoteActivation",
+In((HANDLE_T,'hRpc')),
+In((PORPCTHIS,'ORPCthis')),
+Out((PORPCTHAT,'ORPCthat')),
+In((PGUID,'Clsid')),
+In((PWCHAR_T,'pwszObjectName')),
+In((PMINTERFACEPOINTER,'pObjectStorage')),
+In((DWORD,'ClientImpLevel')),
+In((DWORD,'Mode')),
+In((DWORD,'Interfaces')),
+In((PIID,'pIIDs')),
+In((UNSIGNED_SHORT,'cRequestedProtseqs')),
+In((UNSIGNED_SHORT,'aRequestedProtseqs')),
+Out((POXID,'pOxid')),
+Out((PPDUALSTRINGARRAY,'ppdsaOxidBindings')),
+Out((PIPID,'pipidRemUnknown')),
+Out((PDWORD,'pAuthnHint')),
+Out((PCOMVERSION,'pServerVersion')),
+Out((PHRESULT,'phr')),
+Out((PPMINTERFACEPOINTER,'ppInterfaceData')),
+Out((PHRESULT,'pResults')),
+),])BYTE = BYTE
 
 class CERTTRANSBLOB(NdrStructure):
     MEMBERS = [(ULONG, "cb"),(PBYTE, "pb"),]
@@ -486,20 +502,20 @@ class CAINFO(NdrStructure):
     MEMBERS = [(DWORD, "cbSize"),(LONG, "CAType"),(DWORD, "cCASignatureCerts"),(DWORD, "cCAExchangeCerts"),(DWORD, "cExitAlgorithms"),(LONG, "lPropIDMax"),(LONG, "lRoleSeparationEnabled"),(DWORD, "cKRACertUsedCount"),(DWORD, "cKRACertCount"),(DWORD, "fAdvancedServer"),]
 
     
-Method("Request",
-In(DWORD),
-In(PWCHAR_T_),
-InOut(PDWORD),
-Out(PDWORD),
-In(PWCHAR_T_),
-In(PCERTTRANSBLOB_),
-Out(PCERTTRANSBLOB),
-Out(PCERTTRANSBLOB),
-Out(PCERTTRANSBLOB),
+Interface("d99e6e70-fc88-110-b498-000903123", "1.0",[Method("Request",
+In((DWORD,'dwFlags')),
+In((WCHAR_T,'pwszAuthority')),
+InOut((PDWORD,'pdwRequestId')),
+Out((PDWORD,'pdwDisposition')),
+In((WCHAR_T,'pwszAttributes')),
+In((CERTTRANSBLOB,'pctbRequest')),
+Out((PCERTTRANSBLOB,'pctbCertChain')),
+Out((PCERTTRANSBLOB,'pctbEncodedCert')),
+Out((PCERTTRANSBLOB,'pctbDispositionMessage')),
 ),Method("GetCACert",
-In(DWORD),
-In(PWCHAR_T_),
-Out(PCERTTRANSBLOB),
+In((DWORD,'fchain')),
+In((WCHAR_T,'pwszAuthority')),
+Out((PCERTTRANSBLOB,'pctbOut')),
 ),Method("Ping",
-In(PWCHAR_T_),
-),
+In((WCHAR_T,'pwszAuthority')),
+),])

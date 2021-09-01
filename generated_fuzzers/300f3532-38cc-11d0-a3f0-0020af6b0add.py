@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -333,7 +343,7 @@ class CDOMAINRELATIVEOBJID(NdrStructure):
     MEMBERS = [(CVOLUMEID, "_volume"),(COBJID, "_object"),]
 
     
-Method("Opnum0NotUsedOnWire",
+Interface("300f3532-38cc-11d0-a3f0-0020af6b0add", "1.2",[Method("Opnum0NotUsedOnWire",
 ),Method("Opnum1NotUsedOnWire",
 ),Method("Opnum2NotUsedOnWire",
 ),Method("Opnum3NotUsedOnWire",
@@ -346,11 +356,11 @@ Method("Opnum0NotUsedOnWire",
 ),Method("Opnum10NotUsedOnWire",
 ),Method("Opnum11NotUsedOnWire",
 ),Method("LnkSearchMachine",
-In(UNSIGNED_LONG),
-In(PCDOMAINRELATIVEOBJID),
-In(PCDOMAINRELATIVEOBJID),
-Out(PCDOMAINRELATIVEOBJID),
-Out(PCDOMAINRELATIVEOBJID),
-Out(PCMACHINEID),
-Out(PWCHAR_T),
-),
+In((UNSIGNED_LONG,'Restrictions')),
+In((PCDOMAINRELATIVEOBJID,'pdroidBirthLast')),
+In((PCDOMAINRELATIVEOBJID,'pdroidLast')),
+Out((PCDOMAINRELATIVEOBJID,'pdroidBirthNext')),
+Out((PCDOMAINRELATIVEOBJID,'pdroidNext')),
+Out((PCMACHINEID,'pmcidNext')),
+Out((PWCHAR_T,'ptszPath')),
+),])

@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -315,6 +325,9 @@ PSECURITY_DESCRIPTOR = SECURITY_DESCRIPTOR
 NET_API_STATUS = DWORD
 NETDFS_SERVER_OR_DOMAIN_HANDLE = WCHAR
 
+class DFS_TARGET_PRIORITY_CLASS(NdrEnum):
+    MAP = ((-1 , 'DfsInvalidPriorityClass'),(0 , 'DfsSiteCostNormalPriorityClass'),(1 , 'DfsGlobalHighPriorityClass'),(2 , 'DfsSiteCostHighPriorityClass'),(3 , 'DfsSiteCostLowPriorityClass'),(4 , 'DfsGlobalLowPriorityClass'),)        
+
 class DFS_TARGET_PRIORITY(NdrStructure):
     MEMBERS = [(DFS_TARGET_PRIORITY_CLASS, "TargetPriorityClass"),(UNSIGNED_SHORT, "TargetPriorityRank"),(UNSIGNED_SHORT, "Reserved"),]
 
@@ -341,6 +354,9 @@ class DFSM_ROOT_LIST(NdrStructure):
     MEMBERS = [(DWORD, "cEntries"),(DFSM_ROOT_LIST_ENTRY, "Entry"),]
 
     
+
+class DFS_NAMESPACE_VERSION_ORIGIN(NdrEnum):
+    MAP = ((0 , 'DFS_NAMESPACE_VERSION_ORIGIN_COMBINED'),(1 , 'DFS_NAMESPACE_VERSION_ORIGIN_SERVER'),(2 , 'DFS_NAMESPACE_VERSION_ORIGIN_DOMAIN'),)        
 
 class DFS_SUPPORTED_NAMESPACE_VERSION_INFO(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "DomainDfsMajorVersion"),(UNSIGNED_LONG, "DomainDfsMinorVersion"),(ULONGLONG, "DomainDfsCapabilities"),(UNSIGNED_LONG, "StandaloneDfsMajorVersion"),(UNSIGNED_LONG, "StandaloneDfsMinorVersion"),(ULONGLONG, "StandaloneDfsCapabilities"),]
@@ -517,129 +533,129 @@ class DFS_INFO_ENUM_STRUCT(NdrStructure):
     MEMBERS = [(DWORD, "Level"),(DFSINFOCONTAINER, "DfsInfoContainer"),]
 
     
-Method("NetrDfsManagerGetVersion",
+Interface("4fc742e0-4a10-11cf-8273-00aa004ae673", "3.0",[Method("NetrDfsManagerGetVersion",
 ),Method("NetrDfsAdd",
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(DWORD),
+In((PWCHAR,'DfsEntryPath')),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'ShareName')),
+In((PWCHAR,'Comment')),
+In((DWORD,'Flags')),
 ),Method("NetrDfsRemove",
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
+In((PWCHAR,'DfsEntryPath')),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'ShareName')),
 ),Method("NetrDfsSetInfo",
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(DWORD),
-In(PDFS_INFO_STRUCT),
+In((PWCHAR,'DfsEntryPath')),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'ShareName')),
+In((DWORD,'Level')),
+In((PDFS_INFO_STRUCT,'DfsInfo')),
 ),Method("NetrDfsGetInfo",
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(DWORD),
-Out(PDFS_INFO_STRUCT),
+In((PWCHAR,'DfsEntryPath')),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'ShareName')),
+In((DWORD,'Level')),
+Out((PDFS_INFO_STRUCT,'DfsInfo')),
 ),Method("NetrDfsEnum",
-In(DWORD),
-In(DWORD),
-InOut(PDFS_INFO_ENUM_STRUCT),
-InOut(PDWORD),
+In((DWORD,'Level')),
+In((DWORD,'PrefMaxLen')),
+InOut((PDFS_INFO_ENUM_STRUCT,'DfsEnum')),
+InOut((PDWORD,'ResumeHandle')),
 ),Method("NetrDfsMove",
-In(PWCHAR),
-In(PWCHAR),
-In(UNSIGNED_LONG),
+In((PWCHAR,'DfsEntryPath')),
+In((PWCHAR,'NewDfsEntryPath')),
+In((UNSIGNED_LONG,'Flags')),
 ),Method("Opnum7NotUsedOnWire",
 ),Method("Opnum8NotUsedOnWire",
 ),Method("Opnum9NotUsedOnWire",
 ),Method("NetrDfsAddFtRoot",
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(BOOLEAN),
-In(DWORD),
-InOut(PPDFSM_ROOT_LIST),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'DcName')),
+In((PWCHAR,'RootShare')),
+In((PWCHAR,'FtDfsName')),
+In((PWCHAR,'Comment')),
+In((PWCHAR,'ConfigDN')),
+In((BOOLEAN,'NewFtDfs')),
+In((DWORD,'ApiFlags')),
+InOut((PPDFSM_ROOT_LIST,'ppRootList')),
 ),Method("NetrDfsRemoveFtRoot",
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(DWORD),
-InOut(PPDFSM_ROOT_LIST),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'DcName')),
+In((PWCHAR,'RootShare')),
+In((PWCHAR,'FtDfsName')),
+In((DWORD,'ApiFlags')),
+InOut((PPDFSM_ROOT_LIST,'ppRootList')),
 ),Method("NetrDfsAddStdRoot",
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(DWORD),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'RootShare')),
+In((PWCHAR,'Comment')),
+In((DWORD,'ApiFlags')),
 ),Method("NetrDfsRemoveStdRoot",
-In(PWCHAR),
-In(PWCHAR),
-In(DWORD),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'RootShare')),
+In((DWORD,'ApiFlags')),
 ),Method("NetrDfsManagerInitialize",
-In(PWCHAR),
-In(DWORD),
+In((PWCHAR,'ServerName')),
+In((DWORD,'Flags')),
 ),Method("NetrDfsAddStdRootForced",
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'RootShare')),
+In((PWCHAR,'Comment')),
+In((PWCHAR,'Share')),
 ),Method("NetrDfsGetDcAddress",
-In(PWCHAR),
-InOut(PPWCHAR),
-InOut(PBOOLEAN),
-InOut(PUNSIGNED_LONG),
+In((PWCHAR,'ServerName')),
+InOut((PPWCHAR,'DcName')),
+InOut((PBOOLEAN,'IsRoot')),
+InOut((PUNSIGNED_LONG,'Timeout')),
 ),Method("NetrDfsSetDcAddress",
-In(PWCHAR),
-In(PWCHAR),
-In(DWORD),
-In(DWORD),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'DcName')),
+In((DWORD,'Timeout')),
+In((DWORD,'Flags')),
 ),Method("NetrDfsFlushFtTable",
-In(PWCHAR),
-In(PWCHAR),
+In((PWCHAR,'DcName')),
+In((PWCHAR,'wszFtDfsName')),
 ),Method("NetrDfsAdd2",
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(DWORD),
-InOut(PPDFSM_ROOT_LIST),
+In((PWCHAR,'DfsEntryPath')),
+In((PWCHAR,'DcName')),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'ShareName')),
+In((PWCHAR,'Comment')),
+In((DWORD,'Flags')),
+InOut((PPDFSM_ROOT_LIST,'ppRootList')),
 ),Method("NetrDfsRemove2",
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-InOut(PPDFSM_ROOT_LIST),
+In((PWCHAR,'DfsEntryPath')),
+In((PWCHAR,'DcName')),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'ShareName')),
+InOut((PPDFSM_ROOT_LIST,'ppRootList')),
 ),Method("NetrDfsEnumEx",
-In(PWCHAR),
-In(DWORD),
-In(DWORD),
-InOut(PDFS_INFO_ENUM_STRUCT),
-InOut(PDWORD),
+In((PWCHAR,'DfsEntryPath')),
+In((DWORD,'Level')),
+In((DWORD,'PrefMaxLen')),
+InOut((PDFS_INFO_ENUM_STRUCT,'DfsEnum')),
+InOut((PDWORD,'ResumeHandle')),
 ),Method("NetrDfsSetInfo2",
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(PWCHAR),
-In(DWORD),
-In(PDFS_INFO_STRUCT),
-InOut(PPDFSM_ROOT_LIST),
+In((PWCHAR,'DfsEntryPath')),
+In((PWCHAR,'DcName')),
+In((PWCHAR,'ServerName')),
+In((PWCHAR,'ShareName')),
+In((DWORD,'Level')),
+In((PDFS_INFO_STRUCT,'pDfsInfo')),
+InOut((PPDFSM_ROOT_LIST,'ppRootList')),
 ),Method("NetrDfsAddRootTarget",
-In(LPWSTR),
-In(LPWSTR),
-In(ULONG),
-In(LPWSTR),
-In(BOOLEAN),
-In(ULONG),
+In((LPWSTR,'pDfsPath')),
+In((LPWSTR,'pTargetPath')),
+In((ULONG,'MajorVersion')),
+In((LPWSTR,'pComment')),
+In((BOOLEAN,'NewNamespace')),
+In((ULONG,'Flags')),
 ),Method("NetrDfsRemoveRootTarget",
-In(LPWSTR),
-In(LPWSTR),
-In(ULONG),
+In((LPWSTR,'pDfsPath')),
+In((LPWSTR,'pTargetPath')),
+In((ULONG,'Flags')),
 ),Method("NetrDfsGetSupportedNamespaceVersion",
-In(DFS_NAMESPACE_VERSION_ORIGIN),
-In(NETDFS_SERVER_OR_DOMAIN_HANDLE),
-Out(PDFS_SUPPORTED_NAMESPACE_VERSION_INFO),
-),
+In((DFS_NAMESPACE_VERSION_ORIGIN,'Origin')),
+In((NETDFS_SERVER_OR_DOMAIN_HANDLE,'pName')),
+Out((PDFS_SUPPORTED_NAMESPACE_VERSION_INFO,'pVersionInfo')),
+),])

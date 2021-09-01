@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -585,6 +595,9 @@ class DS_REPL_OBJ_META_DATA(NdrStructure):
 
     
 
+class DS_REPL_OP_TYPE(NdrEnum):
+    MAP = ((0 , 'DS_REPL_OP_TYPE_SYNC'),(1 , 'DS_REPL_OP_TYPE_ADD'),(2 , 'DS_REPL_OP_TYPE_DELETE'),(3 , 'DS_REPL_OP_TYPE_MODIFY'),(4 , 'DS_REPL_OP_TYPE_UPDATE_REFS'),)        
+
 class DS_REPL_OPW(NdrStructure):
     MEMBERS = [(FILETIME, "ftimeEnqueued"),(ULONG, "ulSerialNumber"),(ULONG, "ulPriority"),(DS_REPL_OP_TYPE, "OpType"),(ULONG, "ulOptions"),(LPWSTR, "pszNamingContext"),(LPWSTR, "pszDsaDN"),(LPWSTR, "pszDsaAddress"),(UUID, "uuidNamingContextObjGuid"),(UUID, "uuidDsaObjGuid"),]
 
@@ -721,6 +734,9 @@ class DRS_MSG_GETCHGREPLY_V2(NdrStructure):
 
     
 
+class DRS_COMP_ALG_TYPE(NdrEnum):
+    MAP = ((0 , 'DRS_COMP_ALG_NONE'),(1 , 'DRS_COMP_ALG_UNUSED'),(2 , 'DRS_COMP_ALG_MSZIP'),(3 , 'DRS_COMP_ALG_WIN2K3'),)        
+
 class DRS_MSG_GETCHGREPLY_V7(NdrStructure):
     MEMBERS = [(DWORD, "dwCompressedVersion"),(DRS_COMP_ALG_TYPE, "CompressionAlg"),(DRS_COMPRESSED_BLOB, "CompressedAny"),]
 
@@ -828,6 +844,9 @@ class DRS_MSG_VERIFYREPLY(NdrUnion):
     MEMBERS = {1 : (DRS_MSG_VERIFYREPLY_V1, "V1"),}
 
     
+
+class REVERSE_MEMBERSHIP_OPERATION_TYPE(NdrEnum):
+    MAP = ((1 , 'RevMembGetGroupsForUser'),(2 , 'RevMembGetAliasMembership'),(3 , 'RevMembGetAccountGroups'),(4 , 'RevMembGetResourceGroups'),(5 , 'RevMembGetUniversalGroups'),(6 , 'GroupMembersTransitive'),(7 , 'RevMembGlobalGroupsNonTransitive'),)        
 
 class DRS_MSG_REVMEMB_REQ_V1(NdrStructure):
     MEMBERS = [(ULONG, "cDsNames"),(PPDSNAME, "ppDsNames"),(DWORD, "dwFlags"),(REVERSE_MEMBERSHIP_OPERATION_TYPE, "OperationType"),(PDSNAME, "pLimitingDomain"),]
@@ -1392,172 +1411,172 @@ class DRS_MSG_READNGCKEYREPLY(NdrUnion):
     MEMBERS = {1 : (DRS_MSG_READNGCKEYREPLY_V1, "V1"),}
 
     
-Method("IDL_DRSBind",
-In(HANDLE_T),
-In(PUUID),
-In(PDRS_EXTENSIONS),
-Out(PPDRS_EXTENSIONS),
-Out(PDRS_HANDLE),
+Interface("e3514235-406-111-ab04-0004c2dcd2", "4.0",[Method("IDL_DRSBind",
+In((HANDLE_T,'rpc_handle')),
+In((PUUID,'puuidClientDsa')),
+In((PDRS_EXTENSIONS,'pextClient')),
+Out((PPDRS_EXTENSIONS,'ppextServer')),
+Out((PDRS_HANDLE,'phDrs')),
 ),Method("IDL_DRSUnbind",
-InOut(PDRS_HANDLE),
+InOut((PDRS_HANDLE,'phDrs')),
 ),Method("IDL_DRSReplicaSync",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_REPSYNC),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwVersion')),
+In((PDRS_MSG_REPSYNC,'pmsgSync')),
 ),Method("IDL_DRSGetNCChanges",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_GETCHGREQ),
-Out(PDWORD),
-Out(PDRS_MSG_GETCHGREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_GETCHGREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_GETCHGREPLY,'pmsgOut')),
 ),Method("IDL_DRSUpdateRefs",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_UPDREFS),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwVersion')),
+In((PDRS_MSG_UPDREFS,'pmsgUpdRefs')),
 ),Method("IDL_DRSReplicaAdd",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_REPADD),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwVersion')),
+In((PDRS_MSG_REPADD,'pmsgAdd')),
 ),Method("IDL_DRSReplicaDel",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_REPDEL),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwVersion')),
+In((PDRS_MSG_REPDEL,'pmsgDel')),
 ),Method("IDL_DRSReplicaModify",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_REPMOD),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwVersion')),
+In((PDRS_MSG_REPMOD,'pmsgMod')),
 ),Method("IDL_DRSVerifyNames",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_VERIFYREQ),
-Out(PDWORD),
-Out(PDRS_MSG_VERIFYREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_VERIFYREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_VERIFYREPLY,'pmsgOut')),
 ),Method("IDL_DRSGetMemberships",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_REVMEMB_REQ),
-Out(PDWORD),
-Out(PDRS_MSG_REVMEMB_REPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_REVMEMB_REQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_REVMEMB_REPLY,'pmsgOut')),
 ),Method("IDL_DRSInterDomainMove",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_MOVEREQ),
-Out(PDWORD),
-Out(PDRS_MSG_MOVEREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_MOVEREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_MOVEREPLY,'pmsgOut')),
 ),Method("IDL_DRSGetNT4ChangeLog",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_NT4_CHGLOG_REQ),
-Out(PDWORD),
-Out(PDRS_MSG_NT4_CHGLOG_REPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_NT4_CHGLOG_REQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_NT4_CHGLOG_REPLY,'pmsgOut')),
 ),Method("IDL_DRSCrackNames",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_CRACKREQ),
-Out(PDWORD),
-Out(PDRS_MSG_CRACKREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_CRACKREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_CRACKREPLY,'pmsgOut')),
 ),Method("IDL_DRSWriteSPN",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_SPNREQ),
-Out(PDWORD),
-Out(PDRS_MSG_SPNREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_SPNREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_SPNREPLY,'pmsgOut')),
 ),Method("IDL_DRSRemoveDsServer",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_RMSVRREQ),
-Out(PDWORD),
-Out(PDRS_MSG_RMSVRREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_RMSVRREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_RMSVRREPLY,'pmsgOut')),
 ),Method("IDL_DRSRemoveDsDomain",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_RMDMNREQ),
-Out(PDWORD),
-Out(PDRS_MSG_RMDMNREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_RMDMNREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_RMDMNREPLY,'pmsgOut')),
 ),Method("IDL_DRSDomainControllerInfo",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_DCINFOREQ),
-Out(PDWORD),
-Out(PDRS_MSG_DCINFOREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_DCINFOREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_DCINFOREPLY,'pmsgOut')),
 ),Method("IDL_DRSAddEntry",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_ADDENTRYREQ),
-Out(PDWORD),
-Out(PDRS_MSG_ADDENTRYREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_ADDENTRYREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_ADDENTRYREPLY,'pmsgOut')),
 ),Method("IDL_DRSExecuteKCC",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_KCC_EXECUTE),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_KCC_EXECUTE,'pmsgIn')),
 ),Method("IDL_DRSGetReplInfo",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_GETREPLINFO_REQ),
-Out(PDWORD),
-Out(PDRS_MSG_GETREPLINFO_REPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_GETREPLINFO_REQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_GETREPLINFO_REPLY,'pmsgOut')),
 ),Method("IDL_DRSAddSidHistory",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_ADDSIDREQ),
-Out(PDWORD),
-Out(PDRS_MSG_ADDSIDREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_ADDSIDREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_ADDSIDREPLY,'pmsgOut')),
 ),Method("IDL_DRSGetMemberships2",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_GETMEMBERSHIPS2_REQ),
-Out(PDWORD),
-Out(PDRS_MSG_GETMEMBERSHIPS2_REPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_GETMEMBERSHIPS2_REQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_GETMEMBERSHIPS2_REPLY,'pmsgOut')),
 ),Method("IDL_DRSReplicaVerifyObjects",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_REPVERIFYOBJ),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwVersion')),
+In((PDRS_MSG_REPVERIFYOBJ,'pmsgVerify')),
 ),Method("IDL_DRSGetObjectExistence",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_EXISTREQ),
-Out(PDWORD),
-Out(PDRS_MSG_EXISTREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_EXISTREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_EXISTREPLY,'pmsgOut')),
 ),Method("IDL_DRSQuerySitesByCost",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_QUERYSITESREQ),
-Out(PDWORD),
-Out(PDRS_MSG_QUERYSITESREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_QUERYSITESREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_QUERYSITESREPLY,'pmsgOut')),
 ),Method("IDL_DRSInitDemotion",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_INIT_DEMOTIONREQ),
-Out(PDWORD),
-Out(PDRS_MSG_INIT_DEMOTIONREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_INIT_DEMOTIONREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_INIT_DEMOTIONREPLY,'pmsgOut')),
 ),Method("IDL_DRSReplicaDemotion",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_REPLICA_DEMOTIONREQ),
-Out(PDWORD),
-Out(PDRS_MSG_REPLICA_DEMOTIONREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_REPLICA_DEMOTIONREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_REPLICA_DEMOTIONREPLY,'pmsgOut')),
 ),Method("IDL_DRSFinishDemotion",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_FINISH_DEMOTIONREQ),
-Out(PDWORD),
-Out(PDRS_MSG_FINISH_DEMOTIONREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_FINISH_DEMOTIONREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_FINISH_DEMOTIONREPLY,'pmsgOut')),
 ),Method("IDL_DRSAddCloneDC",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_ADDCLONEDCREQ),
-Out(PDWORD),
-Out(PDRS_MSG_ADDCLONEDCREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_ADDCLONEDCREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_ADDCLONEDCREPLY,'pmsgOut')),
 ),Method("IDL_DRSWriteNgcKey",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_WRITENGCKEYREQ),
-Out(PDWORD),
-Out(PDRS_MSG_WRITENGCKEYREPLY),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_WRITENGCKEYREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_WRITENGCKEYREPLY,'pmsgOut')),
 ),Method("IDL_DRSReadNgcKey",
-In(DRS_HANDLE),
-In(DWORD),
-In(PDRS_MSG_READNGCKEYREQ),
-Out(PDWORD),
-Out(PDRS_MSG_READNGCKEYREPLY),
-),
+In((DRS_HANDLE,'hDrs')),
+In((DWORD,'dwInVersion')),
+In((PDRS_MSG_READNGCKEYREQ,'pmsgIn')),
+Out((PDWORD,'pdwOutVersion')),
+Out((PDRS_MSG_READNGCKEYREPLY,'pmsgOut')),
+),])

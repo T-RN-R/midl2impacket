@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -326,6 +336,33 @@ class DHCP_BINARY_DATA(NdrStructure):
     
 LPDHCP_BINARY_DATA = DHCP_BINARY_DATA
 DHCP_CLIENT_UID = DHCP_BINARY_DATA
+
+class DHCP_SUBNET_STATE(NdrEnum):
+    MAP = ((0 , 'DhcpSubnetEnabled'),(1 , 'DhcpSubnetDisabled'),(2 , 'DhcpSubnetEnabledSwitched'),(3 , 'DhcpSubnetDisabledSwitched'),(4 , 'DhcpSubnetInvalidState'),)        
+
+class DHCP_SUBNET_ELEMENT_TYPE(NdrEnum):
+    MAP = ((0 , 'DhcpIpRanges'),(1 , 'DhcpSecondaryHosts'),(2 , 'DhcpReservedIps'),(3 , 'DhcpExcludedIpRanges'),(4 , 'DhcpIpUsedClusters'),(5 , 'DhcpIpRangesDhcpOnly'),(6 , 'DhcpIpRangesDhcpBootp'),(7 , 'DhcpIpRangesBootpOnly'),)        
+
+class DHCP_FORCE_FLAG(NdrEnum):
+    MAP = ((0 , 'DhcpFullForce'),(1 , 'DhcpNoForce'),(2 , 'DhcpFailoverForce'),)        
+
+class DHCP_OPTION_TYPE(NdrEnum):
+    MAP = ((0 , 'DhcpUnaryElementTypeOption'),(1 , 'DhcpArrayTypeOption'),)        
+
+class DHCP_OPTION_DATA_TYPE(NdrEnum):
+    MAP = ((0 , 'DhcpByteOption'),(1 , 'DhcpWordOption'),(2 , 'DhcpDWordOption'),(3 , 'DhcpDWordDWordOption'),(4 , 'DhcpIpAddressOption'),(5 , 'DhcpStringDataOption'),(6 , 'DhcpBinaryDataOption'),(7 , 'DhcpEncapsulatedDataOption'),(8 , 'DhcpIpv6AddressOption'),)        
+
+class DHCP_OPTION_SCOPE_TYPE(NdrEnum):
+    MAP = ((0 , 'DhcpDefaultOptions'),(1 , 'DhcpGlobalOptions'),(2 , 'DhcpSubnetOptions'),(3 , 'DhcpReservedOptions'),(4 , 'DhcpMScopeOptions'),)        
+
+class DHCP_SEARCH_INFO_TYPE(NdrEnum):
+    MAP = ((0 , 'DhcpClientIpAddress'),(1 , 'DhcpClientHardwareAddress'),(2 , 'DhcpClientName'),)        
+
+class DHCP_SCAN_FLAG(NdrEnum):
+    MAP = ((0 , 'DhcpRegistryFix'),(1 , 'DhcpDatabaseFix'),)        
+
+class QUARANTINESTATUS(NdrEnum):
+    MAP = ((0 , 'NOQUARANTINE'),(1 , 'RESTRICTEDACCESS'),(2 , 'DROPPACKET'),(3 , 'PROBATION'),(4 , 'EXEMPT'),(5 , 'DEFAULTQUARSETTING'),(6 , 'NOQUARINFO'),)        
 
 class DHCP_HOST_INFO(NdrStructure):
     MEMBERS = [(DHCP_IP_ADDRESS, "IpAddress"),(PWCHAR_T, "NetBiosName"),(PWCHAR_T, "HostName"),]
@@ -583,6 +620,15 @@ DHCP_ATTRIB_ID = ULONG
 PPDHCP_ATTRIB_ID = ULONG
 PLPDHCP_ATTRIB_ID = ULONG
 
+class DHCP_OPTION_SCOPE_TYPE6(NdrEnum):
+    MAP = ((0 , 'DhcpDefaultOptions6'),(1 , 'DhcpScopeOptions6'),(2 , 'DhcpReservedOptions6'),(3 , 'DhcpGlobalOptions6'),)        
+
+class DHCP_SUBNET_ELEMENT_TYPE_V6(NdrEnum):
+    MAP = ((0 , 'Dhcpv6IpRanges'),(1 , 'Dhcpv6ReservedIps'),(2 , 'Dhcpv6ExcludedIpRanges'),)        
+
+class DHCP_SEARCH_INFO_TYPE_V6(NdrEnum):
+    MAP = ((0 , 'Dhcpv6ClientIpAddress'),(1 , 'Dhcpv6ClientDUID'),(2 , 'Dhcpv6ClientName'),)        
+
 class DHCP_IPV6_ADDRESS(NdrStructure):
     MEMBERS = [(ULONGLONG, "HighOrderBits"),(ULONGLONG, "LowOrderBits"),]
 
@@ -730,6 +776,9 @@ class DHCP_MIB_INFO_V5(NdrStructure):
     
 LPDHCP_MIB_INFO_V5 = DHCP_MIB_INFO_V5
 
+class DHCP_FILTER_LIST_TYPE(NdrEnum):
+    MAP = ((0 , 'Deny'),(1 , 'Allow'),)        
+
 class DHCP_ADDR_PATTERN(NdrStructure):
     MEMBERS = [(BOOL, "MatchHWType"),(BYTE, "HWType"),(BOOL, "IsWildcard"),(BYTE, "Length"),(BYTE, "Pattern"),]
 
@@ -876,6 +925,15 @@ class DHCP_CLIENT_FILTER_STATUS_INFO_ARRAY(NdrStructure):
     
 LPDHCP_CLIENT_FILTER_STATUS_INFO_ARRAY = DHCP_CLIENT_FILTER_STATUS_INFO_ARRAY
 
+class DHCP_FAILOVER_MODE(NdrEnum):
+    MAP = ((0 , 'LoadBalance'),(1 , 'HotStandby'),)        
+
+class DHCP_FAILOVER_SERVER(NdrEnum):
+    MAP = ((0 , 'PrimaryServer'),(1 , 'SecondaryServer'),)        
+
+class FSM_STATE(NdrEnum):
+    MAP = ((0 , 'NO_STATE'),(1 , 'INIT'),(2 , 'STARTUP'),(3 , 'NORMAL'),(4 , 'COMMUNICATION_INT'),(5 , 'PARTNER_DOWN'),(6 , 'POTENTIAL_CONFLICT'),(7 , 'CONFLICT_DONE'),(8 , 'RESOLUTION_INT'),(9 , 'RECOVER'),(10 , 'RECOVER_WAIT'),(11 , 'RECOVER_DONE'),)        
+
 class DHCP_FAILOVER_RELATIONSHIP(NdrStructure):
     MEMBERS = [(DHCP_IP_ADDRESS, "primaryServer"),(DHCP_IP_ADDRESS, "secondaryServer"),(DHCP_FAILOVER_MODE, "mode"),(DHCP_FAILOVER_SERVER, "serverType"),(FSM_STATE, "state"),(FSM_STATE, "prevState"),(DWORD, "mclt"),(DWORD, "safePeriod"),(PWCHAR_T, "relationshipName"),(PWCHAR_T, "primaryServerName"),(PWCHAR_T, "secondaryServerName"),(LPDHCP_IP_ARRAY, "pScopes"),(BYTE, "percentage"),(PWCHAR_T, "pSharedSecret"),]
 
@@ -917,6 +975,18 @@ class DHCP_ALL_OPTION_VALUES_PB(NdrStructure):
 
     
 LPDHCP_ALL_OPTION_VALUES_PB = DHCP_ALL_OPTION_VALUES_PB
+
+class DHCP_POL_ATTR_TYPE(NdrEnum):
+    MAP = ((0 , 'DhcpAttrHWAddr'),(1 , 'DhcpAttrOption'),(2 , 'DhcpAttrSubOption'),(3 , 'DhcpAttrFqdn'),(4 , 'DhcpAttrFqdnSingleLabel'),)        
+
+class DHCP_POL_COMPARATOR(NdrEnum):
+    MAP = ((0 , 'DhcpCompEqual'),(1 , 'DhcpCompNotEqual'),(2 , 'DhcpCompBeginsWith'),(3 , 'DhcpCompNotBeginWith'),(4 , 'DhcpCompEndsWith'),(5 , 'DhcpCompNotEndWith'),)        
+
+class DHCP_POL_LOGIC_OPER(NdrEnum):
+    MAP = ((0 , 'DhcpLogicalOr'),(1 , 'DhcpLogicalAnd'),)        
+
+class DHCP_POLICY_FIELDS_TO_UPDATE(NdrEnum):
+    MAP = ((1 , 'DhcpUpdatePolicyName'),(2 , 'DhcpUpdatePolicyOrder'),(4 , 'DhcpUpdatePolicyExpr'),(8 , 'DhcpUpdatePolicyRanges'),(16 , 'DhcpUpdatePolicyDescr'),(32 , 'DhcpUpdatePolicyStatus'),(64 , 'DhcpUpdatePolicyDnsSuffix'),)        
 
 class DHCP_POL_COND(NdrStructure):
     MEMBERS = [(DWORD, "ParentExpr"),(DHCP_POL_ATTR_TYPE, "Type"),(DWORD, "OptionID"),(DWORD, "SubOptionID"),(PWCHAR_T, "VendorName"),(DHCP_POL_COMPARATOR, "Operator"),(LPBYTE, "Value"),(DWORD, "ValueLength"),]
@@ -1000,6 +1070,12 @@ class DHCP_CLIENT_INFO_PB_ARRAY(NdrStructure):
     
 LPDHCP_CLIENT_INFO_PB_ARRAY = DHCP_CLIENT_INFO_PB_ARRAY
 
+class DHCP_PROPERTY_TYPE(NdrEnum):
+    MAP = ((0 , 'DhcpPropTypeByte'),(1 , 'DhcpPropTypeWord'),(2 , 'DhcpPropTypeDword'),(3 , 'DhcpPropTypeString'),(4 , 'DhcpPropTypeBinary'),)        
+
+class DHCP_PROPERTY_ID(NdrEnum):
+    MAP = ((0 , 'DhcpPropIdPolicyDnsSuffix'),(1 , 'DhcpPropIdClientAddressStateEx'),)        
+
 class DHCP_PROPERTY(NdrStructure):
     MEMBERS = [(DHCP_PROPERTY_ID, "ID"),(DHCP_PROPERTY_TYPE, "Type"),(VALUE, "Value"),]
 
@@ -1039,232 +1115,232 @@ class DHCP_POLICY_EX_ARRAY(NdrStructure):
     
 PDHCP_POLICY_EX_ARRAY = DHCP_POLICY_EX_ARRAY
 LPDHCP_POLICY_EX_ARRAY = DHCP_POLICY_EX_ARRAY
-Method("R_DhcpCreateSubnet",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(LPDHCP_SUBNET_INFO),
+Interface("6BFFD098-A112-3610-9833-46C3F874532D", "1.0",[Method("R_DhcpCreateSubnet",
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((LPDHCP_SUBNET_INFO,'SubnetInfo')),
 ),Method("R_DhcpSetSubnetInfo",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(LPDHCP_SUBNET_INFO),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((LPDHCP_SUBNET_INFO,'SubnetInfo')),
 ),Method("R_DhcpGetSubnetInfo",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-Out(PLPDHCP_SUBNET_INFO),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+Out((PLPDHCP_SUBNET_INFO,'SubnetInfo')),
 ),Method("R_DhcpEnumSubnets",
-In(DHCP_SRV_HANDLE),
-InOut(PDHCP_RESUME_HANDLE),
-In(DWORD),
-Out(PLPDHCP_IP_ARRAY),
-Out(PDWORD),
-Out(PDWORD),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+InOut((PDHCP_RESUME_HANDLE,'ResumeHandle')),
+In((DWORD,'PreferredMaximum')),
+Out((PLPDHCP_IP_ARRAY,'EnumInfo')),
+Out((PDWORD,'ElementsRead')),
+Out((PDWORD,'ElementsTotal')),
 ),Method("R_DhcpAddSubnetElement",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(LPDHCP_SUBNET_ELEMENT_DATA),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((LPDHCP_SUBNET_ELEMENT_DATA,'AddElementInfo')),
 ),Method("R_DhcpEnumSubnetElements",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(DHCP_SUBNET_ELEMENT_TYPE),
-InOut(PDHCP_RESUME_HANDLE),
-In(DWORD),
-Out(PLPDHCP_SUBNET_ELEMENT_INFO_ARRAY),
-Out(PDWORD),
-Out(PDWORD),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((DHCP_SUBNET_ELEMENT_TYPE,'EnumElementType')),
+InOut((PDHCP_RESUME_HANDLE,'ResumeHandle')),
+In((DWORD,'PreferredMaximum')),
+Out((PLPDHCP_SUBNET_ELEMENT_INFO_ARRAY,'EnumElementInfo')),
+Out((PDWORD,'ElementsRead')),
+Out((PDWORD,'ElementsTotal')),
 ),Method("R_DhcpRemoveSubnetElement",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(LPDHCP_SUBNET_ELEMENT_DATA),
-In(DHCP_FORCE_FLAG),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((LPDHCP_SUBNET_ELEMENT_DATA,'RemoveElementInfo')),
+In((DHCP_FORCE_FLAG,'ForceFlag')),
 ),Method("R_DhcpDeleteSubnet",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(DHCP_FORCE_FLAG),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((DHCP_FORCE_FLAG,'ForceFlag')),
 ),Method("R_DhcpCreateOption",
-In(DHCP_SRV_HANDLE),
-In(DHCP_OPTION_ID),
-In(LPDHCP_OPTION),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_OPTION_ID,'OptionID')),
+In((LPDHCP_OPTION,'OptionInfo')),
 ),Method("R_DhcpSetOptionInfo",
-In(DHCP_SRV_HANDLE),
-In(DHCP_OPTION_ID),
-In(LPDHCP_OPTION),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_OPTION_ID,'OptionID')),
+In((LPDHCP_OPTION,'OptionInfo')),
 ),Method("R_DhcpGetOptionInfo",
-In(DHCP_SRV_HANDLE),
-In(DHCP_OPTION_ID),
-Out(PLPDHCP_OPTION),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_OPTION_ID,'OptionID')),
+Out((PLPDHCP_OPTION,'OptionInfo')),
 ),Method("R_DhcpRemoveOption",
-In(DHCP_SRV_HANDLE),
-In(DHCP_OPTION_ID),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_OPTION_ID,'OptionID')),
 ),Method("R_DhcpSetOptionValue",
-In(DHCP_SRV_HANDLE),
-In(DHCP_OPTION_ID),
-In(LPDHCP_OPTION_SCOPE_INFO),
-In(LPDHCP_OPTION_DATA),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_OPTION_ID,'OptionID')),
+In((LPDHCP_OPTION_SCOPE_INFO,'ScopeInfo')),
+In((LPDHCP_OPTION_DATA,'OptionValue')),
 ),Method("R_DhcpGetOptionValue",
-In(DHCP_SRV_HANDLE),
-In(DHCP_OPTION_ID),
-In(LPDHCP_OPTION_SCOPE_INFO),
-Out(PLPDHCP_OPTION_VALUE),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_OPTION_ID,'OptionID')),
+In((LPDHCP_OPTION_SCOPE_INFO,'ScopeInfo')),
+Out((PLPDHCP_OPTION_VALUE,'OptionValue')),
 ),Method("R_DhcpEnumOptionValues",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_OPTION_SCOPE_INFO),
-InOut(PDHCP_RESUME_HANDLE),
-In(DWORD),
-Out(PLPDHCP_OPTION_VALUE_ARRAY),
-Out(PDWORD),
-Out(PDWORD),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_OPTION_SCOPE_INFO,'ScopeInfo')),
+InOut((PDHCP_RESUME_HANDLE,'ResumeHandle')),
+In((DWORD,'PreferredMaximum')),
+Out((PLPDHCP_OPTION_VALUE_ARRAY,'OptionValues')),
+Out((PDWORD,'OptionsRead')),
+Out((PDWORD,'OptionsTotal')),
 ),Method("R_DhcpRemoveOptionValue",
-In(DHCP_SRV_HANDLE),
-In(DHCP_OPTION_ID),
-In(LPDHCP_OPTION_SCOPE_INFO),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_OPTION_ID,'OptionID')),
+In((LPDHCP_OPTION_SCOPE_INFO,'ScopeInfo')),
 ),Method("R_DhcpCreateClientInfo",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_CLIENT_INFO),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_CLIENT_INFO,'ClientInfo')),
 ),Method("R_DhcpSetClientInfo",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_CLIENT_INFO),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_CLIENT_INFO,'ClientInfo')),
 ),Method("R_DhcpGetClientInfo",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_SEARCH_INFO),
-Out(PLPDHCP_CLIENT_INFO),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_SEARCH_INFO,'SearchInfo')),
+Out((PLPDHCP_CLIENT_INFO,'ClientInfo')),
 ),Method("R_DhcpDeleteClientInfo",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_SEARCH_INFO),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_SEARCH_INFO,'ClientInfo')),
 ),Method("R_DhcpEnumSubnetClients",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-InOut(PDHCP_RESUME_HANDLE),
-In(DWORD),
-Out(PLPDHCP_CLIENT_INFO_ARRAY),
-Out(PDWORD),
-Out(PDWORD),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+InOut((PDHCP_RESUME_HANDLE,'ResumeHandle')),
+In((DWORD,'PreferredMaximum')),
+Out((PLPDHCP_CLIENT_INFO_ARRAY,'ClientInfo')),
+Out((PDWORD,'ClientsRead')),
+Out((PDWORD,'ClientsTotal')),
 ),Method("R_DhcpGetClientOptions",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(DHCP_IP_MASK),
-Out(PLPDHCP_OPTION_LIST),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'ClientIpAddress')),
+In((DHCP_IP_MASK,'ClientSubnetMask')),
+Out((PLPDHCP_OPTION_LIST,'ClientOptions')),
 ),Method("R_DhcpGetMibInfo",
-In(DHCP_SRV_HANDLE),
-Out(PLPDHCP_MIB_INFO),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+Out((PLPDHCP_MIB_INFO,'MibInfo')),
 ),Method("R_DhcpEnumOptions",
-In(DHCP_SRV_HANDLE),
-InOut(PDHCP_RESUME_HANDLE),
-In(DWORD),
-Out(PLPDHCP_OPTION_ARRAY),
-Out(PDWORD),
-Out(PDWORD),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+InOut((PDHCP_RESUME_HANDLE,'ResumeHandle')),
+In((DWORD,'PreferredMaximum')),
+Out((PLPDHCP_OPTION_ARRAY,'Options')),
+Out((PDWORD,'OptionsRead')),
+Out((PDWORD,'OptionsTotal')),
 ),Method("R_DhcpSetOptionValues",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_OPTION_SCOPE_INFO),
-In(LPDHCP_OPTION_VALUE_ARRAY),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_OPTION_SCOPE_INFO,'ScopeInfo')),
+In((LPDHCP_OPTION_VALUE_ARRAY,'OptionValues')),
 ),Method("R_DhcpServerSetConfig",
-In(DHCP_SRV_HANDLE),
-In(DWORD),
-In(LPDHCP_SERVER_CONFIG_INFO),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DWORD,'FieldsToSet')),
+In((LPDHCP_SERVER_CONFIG_INFO,'ConfigInfo')),
 ),Method("R_DhcpServerGetConfig",
-In(DHCP_SRV_HANDLE),
-Out(PLPDHCP_SERVER_CONFIG_INFO),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+Out((PLPDHCP_SERVER_CONFIG_INFO,'ConfigInfo')),
 ),Method("R_DhcpScanDatabase",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(DWORD),
-Out(PLPDHCP_SCAN_LIST),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((DWORD,'FixFlag')),
+Out((PLPDHCP_SCAN_LIST,'ScanList')),
 ),Method("R_DhcpGetVersion",
-In(DHCP_SRV_HANDLE),
-Out(LPDWORD),
-Out(LPDWORD),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+Out((LPDWORD,'MajorVersion')),
+Out((LPDWORD,'MinorVersion')),
 ),Method("R_DhcpAddSubnetElementV4",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(LPDHCP_SUBNET_ELEMENT_DATA_V4),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((LPDHCP_SUBNET_ELEMENT_DATA_V4,'AddElementInfo')),
 ),Method("R_DhcpEnumSubnetElementsV4",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(DHCP_SUBNET_ELEMENT_TYPE),
-InOut(PDHCP_RESUME_HANDLE),
-In(DWORD),
-Out(PLPDHCP_SUBNET_ELEMENT_INFO_ARRAY_V4),
-Out(PDWORD),
-Out(PDWORD),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((DHCP_SUBNET_ELEMENT_TYPE,'EnumElementType')),
+InOut((PDHCP_RESUME_HANDLE,'ResumeHandle')),
+In((DWORD,'PreferredMaximum')),
+Out((PLPDHCP_SUBNET_ELEMENT_INFO_ARRAY_V4,'EnumElementInfo')),
+Out((PDWORD,'ElementsRead')),
+Out((PDWORD,'ElementsTotal')),
 ),Method("R_DhcpRemoveSubnetElementV4",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(LPDHCP_SUBNET_ELEMENT_DATA_V4),
-In(DHCP_FORCE_FLAG),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((LPDHCP_SUBNET_ELEMENT_DATA_V4,'RemoveElementInfo')),
+In((DHCP_FORCE_FLAG,'ForceFlag')),
 ),Method("R_DhcpCreateClientInfoV4",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_CLIENT_INFO_V4),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_CLIENT_INFO_V4,'ClientInfo')),
 ),Method("R_DhcpSetClientInfoV4",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_CLIENT_INFO_V4),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_CLIENT_INFO_V4,'ClientInfo')),
 ),Method("R_DhcpGetClientInfoV4",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_SEARCH_INFO),
-Out(PLPDHCP_CLIENT_INFO_V4),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_SEARCH_INFO,'SearchInfo')),
+Out((PLPDHCP_CLIENT_INFO_V4,'ClientInfo')),
 ),Method("R_DhcpEnumSubnetClientsV4",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-InOut(PDHCP_RESUME_HANDLE),
-In(DWORD),
-Out(PLPDHCP_CLIENT_INFO_ARRAY_V4),
-Out(PDWORD),
-Out(PDWORD),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+InOut((PDHCP_RESUME_HANDLE,'ResumeHandle')),
+In((DWORD,'PreferredMaximum')),
+Out((PLPDHCP_CLIENT_INFO_ARRAY_V4,'ClientInfo')),
+Out((PDWORD,'ClientsRead')),
+Out((PDWORD,'ClientsTotal')),
 ),Method("R_DhcpSetSuperScopeV4",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(PWCHAR),
-In(BOOL),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((PWCHAR,'SuperScopeName')),
+In((BOOL,'ChangeExisting')),
 ),Method("R_DhcpGetSuperScopeInfoV4",
-In(DHCP_SRV_HANDLE),
-Out(PLPDHCP_SUPER_SCOPE_TABLE),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+Out((PLPDHCP_SUPER_SCOPE_TABLE,'SuperScopeTable')),
 ),Method("R_DhcpDeleteSuperScopeV4",
-In(DHCP_SRV_HANDLE),
-In(PWCHAR),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((PWCHAR,'SuperScopeName')),
 ),Method("R_DhcpServerSetConfigV4",
-In(DHCP_SRV_HANDLE),
-In(DWORD),
-In(LPDHCP_SERVER_CONFIG_INFO_V4),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DWORD,'FieldsToSet')),
+In((LPDHCP_SERVER_CONFIG_INFO_V4,'ConfigInfo')),
 ),Method("R_DhcpServerGetConfigV4",
-In(DHCP_SRV_HANDLE),
-Out(PLPDHCP_SERVER_CONFIG_INFO_V4),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+Out((PLPDHCP_SERVER_CONFIG_INFO_V4,'ConfigInfo')),
 ),Method("R_DhcpServerSetConfigVQ",
-In(DHCP_SRV_HANDLE),
-In(DWORD),
-In(LPDHCP_SERVER_CONFIG_INFO_VQ),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DWORD,'FieldsToSet')),
+In((LPDHCP_SERVER_CONFIG_INFO_VQ,'ConfigInfo')),
 ),Method("R_DhcpServerGetConfigVQ",
-In(DHCP_SRV_HANDLE),
-Out(PLPDHCP_SERVER_CONFIG_INFO_VQ),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+Out((PLPDHCP_SERVER_CONFIG_INFO_VQ,'ConfigInfo')),
 ),Method("R_DhcpGetMibInfoVQ",
-In(DHCP_SRV_HANDLE),
-Out(PLPDHCP_MIB_INFO_VQ),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+Out((PLPDHCP_MIB_INFO_VQ,'MibInfo')),
 ),Method("R_DhcpCreateClientInfoVQ",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_CLIENT_INFO_VQ),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_CLIENT_INFO_VQ,'ClientInfo')),
 ),Method("R_DhcpSetClientInfoVQ",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_CLIENT_INFO_VQ),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_CLIENT_INFO_VQ,'ClientInfo')),
 ),Method("R_DhcpGetClientInfoVQ",
-In(DHCP_SRV_HANDLE),
-In(LPDHCP_SEARCH_INFO),
-Out(PLPDHCP_CLIENT_INFO_VQ),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((LPDHCP_SEARCH_INFO,'SearchInfo')),
+Out((PLPDHCP_CLIENT_INFO_VQ,'ClientInfo')),
 ),Method("R_DhcpEnumSubnetClientsVQ",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-InOut(PDHCP_RESUME_HANDLE),
-In(DWORD),
-Out(PLPDHCP_CLIENT_INFO_ARRAY_VQ),
-Out(PDWORD),
-Out(PDWORD),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+InOut((PDHCP_RESUME_HANDLE,'ResumeHandle')),
+In((DWORD,'PreferredMaximum')),
+Out((PLPDHCP_CLIENT_INFO_ARRAY_VQ,'ClientInfo')),
+Out((PDWORD,'ClientsRead')),
+Out((PDWORD,'ClientsTotal')),
 ),Method("R_DhcpCreateSubnetVQ",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(LPDHCP_SUBNET_INFO_VQ),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((LPDHCP_SUBNET_INFO_VQ,'SubnetInfoVQ')),
 ),Method("R_DhcpGetSubnetInfoVQ",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-Out(PLPDHCP_SUBNET_INFO_VQ),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+Out((PLPDHCP_SUBNET_INFO_VQ,'SubnetInfoVQ')),
 ),Method("R_DhcpSetSubnetInfoVQ",
-In(DHCP_SRV_HANDLE),
-In(DHCP_IP_ADDRESS),
-In(LPDHCP_SUBNET_INFO_VQ),
-),
+In((DHCP_SRV_HANDLE,'ServerIpAddress')),
+In((DHCP_IP_ADDRESS,'SubnetAddress')),
+In((LPDHCP_SUBNET_INFO_VQ,'SubnetInfoVQ')),
+),])

@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -325,60 +335,60 @@ class FSSAGENT_SHARE_MAPPING(NdrUnion):
 
     
 PFSSAGENT_SHARE_MAPPING = FSSAGENT_SHARE_MAPPING
-Method("GetSupportedVersion",
-Out(PDWORD),
-Out(PDWORD),
+Interface("A8E0653C-2744-4389-A61D-7373F8B2292", "1.0",[Method("GetSupportedVersion",
+Out((PDWORD,'MinVersion')),
+Out((PDWORD,'MaxVersion')),
 ),Method("SetContext",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'hBinding')),
+In((UNSIGNED_LONG,'Context')),
 ),Method("StartShadowCopySet",
-In(HANDLE_T),
-In(GUID),
-Out(PGUID),
+In((HANDLE_T,'hBinding')),
+In((GUID,'ClientShadowCopySetId')),
+Out((PGUID,'pShadowCopySetId')),
 ),Method("AddToShadowCopySet",
-In(HANDLE_T),
-In(GUID),
-In(GUID),
-In(LPWSTR),
-Out(PGUID),
+In((HANDLE_T,'hBinding')),
+In((GUID,'ClientShadowCopyId')),
+In((GUID,'ShadowCopySetId')),
+In((LPWSTR,'ShareName')),
+Out((PGUID,'pShadowCopyId')),
 ),Method("CommitShadowCopySet",
-In(HANDLE_T),
-In(GUID),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'hBinding')),
+In((GUID,'ShadowCopySetId')),
+In((UNSIGNED_LONG,'TimeOutInMilliseconds')),
 ),Method("ExposeShadowCopySet",
-In(HANDLE_T),
-In(GUID),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'hBinding')),
+In((GUID,'ShadowCopySetId')),
+In((UNSIGNED_LONG,'TimeOutInMilliseconds')),
 ),Method("RecoveryCompleteShadowCopySet",
-In(HANDLE_T),
-In(GUID),
+In((HANDLE_T,'hBinding')),
+In((GUID,'ShadowCopySetId')),
 ),Method("AbortShadowCopySet",
-In(HANDLE_T),
-In(GUID),
+In((HANDLE_T,'hBinding')),
+In((GUID,'ShadowCopySetId')),
 ),Method("IsPathSupported",
-In(HANDLE_T),
-In(LPWSTR),
-Out(PBOOL),
-Out(PLPWSTR),
+In((HANDLE_T,'hBinding')),
+In((LPWSTR,'ShareName')),
+Out((PBOOL,'SupportedByThisProvider')),
+Out((PLPWSTR,'OwnerMachineName')),
 ),Method("IsPathShadowCopied",
-In(HANDLE_T),
-In(LPWSTR),
-Out(PBOOL),
-Out(PLONG),
+In((HANDLE_T,'hBinding')),
+In((LPWSTR,'ShareName')),
+Out((PBOOL,'ShadowCopyPresent')),
+Out((PLONG,'ShadowCopyCompatibility')),
 ),Method("GetShareMapping",
-In(HANDLE_T),
-In(GUID),
-In(GUID),
-In(LPWSTR),
-In(DWORD),
-Out(PFSSAGENT_SHARE_MAPPING),
+In((HANDLE_T,'hBinding')),
+In((GUID,'ShadowCopyId')),
+In((GUID,'ShadowCopySetId')),
+In((LPWSTR,'ShareName')),
+In((DWORD,'Level')),
+Out((PFSSAGENT_SHARE_MAPPING,'ShareMapping')),
 ),Method("DeleteShareMapping",
-In(HANDLE_T),
-In(GUID),
-In(GUID),
-In(LPWSTR),
+In((HANDLE_T,'hBinding')),
+In((GUID,'ShadowCopySetId')),
+In((GUID,'ShadowCopyId')),
+In((LPWSTR,'ShareName')),
 ),Method("PrepareShadowCopySet",
-In(HANDLE_T),
-In(GUID),
-In(UNSIGNED_LONG),
-),
+In((HANDLE_T,'hBinding')),
+In((GUID,'ShadowCopySetId')),
+In((UNSIGNED_LONG,'TimeOutInMilliseconds')),
+),])

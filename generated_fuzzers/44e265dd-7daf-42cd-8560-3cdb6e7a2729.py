@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -453,33 +463,33 @@ class TSG_PACKET(NdrStructure):
 
     
 PTSG_PACKET = TSG_PACKET
-Method("Opnum0NotUsedOnWire",
+Interface("44e265dd-7daf-42cd-8560-3cdb6e7a2729", "1.3",[Method("Opnum0NotUsedOnWire",
 ),Method("TsProxyCreateTunnel",
-In(PTSG_PACKET),
-Out(PPTSG_PACKET),
-Out(PPTUNNEL_CONTEXT_HANDLE_SERIALIZE),
-Out(PUNSIGNED_LONG),
+In((PTSG_PACKET,'TSGPacket')),
+Out((PPTSG_PACKET,'TSGPacketResponse')),
+Out((PPTUNNEL_CONTEXT_HANDLE_SERIALIZE,'tunnelContext')),
+Out((PUNSIGNED_LONG,'tunnelId')),
 ),Method("TsProxyAuthorizeTunnel",
-In(PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE),
-In(PTSG_PACKET),
-Out(PPTSG_PACKET),
+In((PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE,'tunnelContext')),
+In((PTSG_PACKET,'TSGPacket')),
+Out((PPTSG_PACKET,'TSGPacketResponse')),
 ),Method("TsProxyMakeTunnelCall",
-In(PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE),
-In(UNSIGNED_LONG),
-In(PTSG_PACKET),
-Out(PPTSG_PACKET),
+In((PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE,'tunnelContext')),
+In((UNSIGNED_LONG,'procId')),
+In((PTSG_PACKET,'TSGPacket')),
+Out((PPTSG_PACKET,'TSGPacketResponse')),
 ),Method("TsProxyCreateChannel",
-In(PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE),
-In(PTSENDPOINTINFO),
-Out(PPCHANNEL_CONTEXT_HANDLE_SERIALIZE),
-Out(PUNSIGNED_LONG),
+In((PTUNNEL_CONTEXT_HANDLE_NOSERIALIZE,'tunnelContext')),
+In((PTSENDPOINTINFO,'tsEndPointInfo')),
+Out((PPCHANNEL_CONTEXT_HANDLE_SERIALIZE,'channelContext')),
+Out((PUNSIGNED_LONG,'channelId')),
 ),Method("Opnum5NotUsedOnWire",
 ),Method("TsProxyCloseChannel",
-InOut(PPCHANNEL_CONTEXT_HANDLE_NOSERIALIZE),
+InOut((PPCHANNEL_CONTEXT_HANDLE_NOSERIALIZE,'context')),
 ),Method("TsProxyCloseTunnel",
-InOut(PPTUNNEL_CONTEXT_HANDLE_SERIALIZE),
+InOut((PPTUNNEL_CONTEXT_HANDLE_SERIALIZE,'context')),
 ),Method("TsProxySetupReceivePipe",
-In(BYTE),
+In((BYTE,'pRpcMessage')),
 ),Method("TsProxySendToServer",
-In(BYTE),
-),
+In((BYTE,'pRpcMessage')),
+),])

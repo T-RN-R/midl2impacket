@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -312,6 +322,15 @@ class SECURITY_DESCRIPTOR(NdrStructure):
 
     
 PSECURITY_DESCRIPTOR = SECURITY_DESCRIPTOR
+
+class NETSETUP_JOIN_STATUS(NdrEnum):
+    MAP = ((0 , 'NetSetupUnknownStatus'),(1 , 'NetSetupUnjoined'),(2 , 'NetSetupWorkgroupName'),(3 , 'NetSetupDomainName'),)        
+
+class NETSETUP_NAME_TYPE(NdrEnum):
+    MAP = ((0 , 'NetSetupUnknown'),(1 , 'NetSetupMachine'),(2 , 'NetSetupWorkgroup'),(3 , 'NetSetupDomain'),(4 , 'NetSetupNonExistentDomain'),(5 , 'NetSetupDnsMachine'),)        
+
+class NET_COMPUTER_NAME_TYPE(NdrEnum):
+    MAP = ((0 , 'NetPrimaryComputerName'),(1 , 'NetAlternateComputerNames'),(2 , 'NetAllComputerNames'),(3 , 'NetComputerNameTypeMax'),)        
 
 class STAT_WORKSTATION_0(NdrStructure):
     MEMBERS = [(LARGE_INTEGER, "StatisticsStartTime"),(LARGE_INTEGER, "BytesReceived"),(LARGE_INTEGER, "SmbsReceived"),(LARGE_INTEGER, "PagingReadBytesRequested"),(LARGE_INTEGER, "NonPagingReadBytesRequested"),(LARGE_INTEGER, "CacheReadBytesRequested"),(LARGE_INTEGER, "NetworkReadBytesRequested"),(LARGE_INTEGER, "BytesTransmitted"),(LARGE_INTEGER, "SmbsTransmitted"),(LARGE_INTEGER, "PagingWriteBytesRequested"),(LARGE_INTEGER, "NonPagingWriteBytesRequested"),(LARGE_INTEGER, "CacheWriteBytesRequested"),(LARGE_INTEGER, "NetworkWriteBytesRequested"),(UNSIGNED_LONG, "InitiallyFailedOperations"),(UNSIGNED_LONG, "FailedCompletionOperations"),(UNSIGNED_LONG, "ReadOperations"),(UNSIGNED_LONG, "RandomReadOperations"),(UNSIGNED_LONG, "ReadSmbs"),(UNSIGNED_LONG, "LargeReadSmbs"),(UNSIGNED_LONG, "SmallReadSmbs"),(UNSIGNED_LONG, "WriteOperations"),(UNSIGNED_LONG, "RandomWriteOperations"),(UNSIGNED_LONG, "WriteSmbs"),(UNSIGNED_LONG, "LargeWriteSmbs"),(UNSIGNED_LONG, "SmallWriteSmbs"),(UNSIGNED_LONG, "RawReadsDenied"),(UNSIGNED_LONG, "RawWritesDenied"),(UNSIGNED_LONG, "NetworkErrors"),(UNSIGNED_LONG, "Sessions"),(UNSIGNED_LONG, "FailedSessions"),(UNSIGNED_LONG, "Reconnects"),(UNSIGNED_LONG, "CoreConnects"),(UNSIGNED_LONG, "Lanman20Connects"),(UNSIGNED_LONG, "Lanman21Connects"),(UNSIGNED_LONG, "LanmanNtConnects"),(UNSIGNED_LONG, "ServerDisconnects"),(UNSIGNED_LONG, "HungSessions"),(UNSIGNED_LONG, "UseCount"),(UNSIGNED_LONG, "FailedUseCount"),(UNSIGNED_LONG, "CurrentCommands"),]
@@ -522,65 +541,65 @@ class NET_COMPUTER_NAME_ARRAY(NdrStructure):
 
     
 PNET_COMPUTER_NAME_ARRAY = NET_COMPUTER_NAME_ARRAY
-Method("NetrWkstaGetInfo",
-In(WKSSVC_IDENTIFY_HANDLE),
-In(UNSIGNED_LONG),
-Out(LPWKSTA_INFO),
+Interface("6BFFD098-A112-3610-9833-46C3F87E345A", "1.0",[Method("NetrWkstaGetInfo",
+In((WKSSVC_IDENTIFY_HANDLE,'ServerName')),
+In((UNSIGNED_LONG,'Level')),
+Out((LPWKSTA_INFO,'WkstaInfo')),
 ),Method("NetrWkstaSetInfo",
-In(WKSSVC_IDENTIFY_HANDLE),
-In(UNSIGNED_LONG),
-In(LPWKSTA_INFO),
-InOut(PUNSIGNED_LONG),
+In((WKSSVC_IDENTIFY_HANDLE,'ServerName')),
+In((UNSIGNED_LONG,'Level')),
+In((LPWKSTA_INFO,'WkstaInfo')),
+InOut((PUNSIGNED_LONG,'ErrorParameter')),
 ),Method("NetrWkstaUserEnum",
-In(WKSSVC_IDENTIFY_HANDLE),
-InOut(LPWKSTA_USER_ENUM_STRUCT),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-InOut(PUNSIGNED_LONG),
+In((WKSSVC_IDENTIFY_HANDLE,'ServerName')),
+InOut((LPWKSTA_USER_ENUM_STRUCT,'UserInfo')),
+In((UNSIGNED_LONG,'PreferredMaximumLength')),
+Out((PUNSIGNED_LONG,'TotalEntries')),
+InOut((PUNSIGNED_LONG,'ResumeHandle')),
 ),Method("Opnum3NotUsedOnWire",
 ),Method("Opnum4NotUsedOnWire",
 ),Method("NetrWkstaTransportEnum",
-In(WKSSVC_IDENTIFY_HANDLE),
-InOut(LPWKSTA_TRANSPORT_ENUM_STRUCT),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-InOut(PUNSIGNED_LONG),
+In((WKSSVC_IDENTIFY_HANDLE,'ServerName')),
+InOut((LPWKSTA_TRANSPORT_ENUM_STRUCT,'TransportInfo')),
+In((UNSIGNED_LONG,'PreferredMaximumLength')),
+Out((PUNSIGNED_LONG,'TotalEntries')),
+InOut((PUNSIGNED_LONG,'ResumeHandle')),
 ),Method("NetrWkstaTransportAdd",
-In(WKSSVC_IDENTIFY_HANDLE),
-In(UNSIGNED_LONG),
-In(LPWKSTA_TRANSPORT_INFO_0),
-InOut(PUNSIGNED_LONG),
+In((WKSSVC_IDENTIFY_HANDLE,'ServerName')),
+In((UNSIGNED_LONG,'Level')),
+In((LPWKSTA_TRANSPORT_INFO_0,'TransportInfo')),
+InOut((PUNSIGNED_LONG,'ErrorParameter')),
 ),Method("NetrWkstaTransportDel",
-In(WKSSVC_IDENTIFY_HANDLE),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
+In((WKSSVC_IDENTIFY_HANDLE,'ServerName')),
+In((PWCHAR_T,'TransportName')),
+In((UNSIGNED_LONG,'ForceLevel')),
 ),Method("NetrUseAdd",
-In(WKSSVC_IMPERSONATE_HANDLE),
-In(UNSIGNED_LONG),
-In(LPUSE_INFO),
-InOut(PUNSIGNED_LONG),
+In((WKSSVC_IMPERSONATE_HANDLE,'ServerName')),
+In((UNSIGNED_LONG,'Level')),
+In((LPUSE_INFO,'InfoStruct')),
+InOut((PUNSIGNED_LONG,'ErrorParameter')),
 ),Method("NetrUseGetInfo",
-In(WKSSVC_IMPERSONATE_HANDLE),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-Out(LPUSE_INFO),
+In((WKSSVC_IMPERSONATE_HANDLE,'ServerName')),
+In((PWCHAR_T,'UseName')),
+In((UNSIGNED_LONG,'Level')),
+Out((LPUSE_INFO,'InfoStruct')),
 ),Method("NetrUseDel",
-In(WKSSVC_IMPERSONATE_HANDLE),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
+In((WKSSVC_IMPERSONATE_HANDLE,'ServerName')),
+In((PWCHAR_T,'UseName')),
+In((UNSIGNED_LONG,'ForceLevel')),
 ),Method("NetrUseEnum",
-In(WKSSVC_IDENTIFY_HANDLE),
-InOut(LPUSE_ENUM_STRUCT),
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-InOut(PUNSIGNED_LONG),
+In((WKSSVC_IDENTIFY_HANDLE,'ServerName')),
+InOut((LPUSE_ENUM_STRUCT,'InfoStruct')),
+In((UNSIGNED_LONG,'PreferredMaximumLength')),
+Out((PUNSIGNED_LONG,'TotalEntries')),
+InOut((PUNSIGNED_LONG,'ResumeHandle')),
 ),Method("Opnum12NotUsedOnWire",
 ),Method("NetrWorkstationStatisticsGet",
-In(WKSSVC_IDENTIFY_HANDLE),
-In(PWCHAR_T),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-Out(PLPSTAT_WORKSTATION_0),
+In((WKSSVC_IDENTIFY_HANDLE,'ServerName')),
+In((PWCHAR_T,'ServiceName')),
+In((UNSIGNED_LONG,'Level')),
+In((UNSIGNED_LONG,'Options')),
+Out((PLPSTAT_WORKSTATION_0,'Buffer')),
 ),Method("Opnum14NotUsedOnWire",
 ),Method("Opnum15NotUsedOnWire",
 ),Method("Opnum16NotUsedOnWire",
@@ -588,70 +607,70 @@ Out(PLPSTAT_WORKSTATION_0),
 ),Method("Opnum18NotUsedOnWire",
 ),Method("Opnum19NotUsedOnWire",
 ),Method("NetrGetJoinInformation",
-In(WKSSVC_IMPERSONATE_HANDLE),
-InOut(PPWCHAR_T),
-Out(PNETSETUP_JOIN_STATUS),
+In((WKSSVC_IMPERSONATE_HANDLE,'ServerName')),
+InOut((PPWCHAR_T,'NameBuffer')),
+Out((PNETSETUP_JOIN_STATUS,'BufferType')),
 ),Method("Opnum21NotUsedOnWire",
 ),Method("NetrJoinDomain2",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PJOINPR_ENCRYPTED_USER_PASSWORD),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'RpcBindingHandle')),
+In((PWCHAR_T,'ServerName')),
+In((PWCHAR_T,'DomainNameParam')),
+In((PWCHAR_T,'MachineAccountOU')),
+In((PWCHAR_T,'AccountName')),
+In((PJOINPR_ENCRYPTED_USER_PASSWORD,'Password')),
+In((UNSIGNED_LONG,'Options')),
 ),Method("NetrUnjoinDomain2",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PJOINPR_ENCRYPTED_USER_PASSWORD),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'RpcBindingHandle')),
+In((PWCHAR_T,'ServerName')),
+In((PWCHAR_T,'AccountName')),
+In((PJOINPR_ENCRYPTED_USER_PASSWORD,'Password')),
+In((UNSIGNED_LONG,'Options')),
 ),Method("NetrRenameMachineInDomain2",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PJOINPR_ENCRYPTED_USER_PASSWORD),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'RpcBindingHandle')),
+In((PWCHAR_T,'ServerName')),
+In((PWCHAR_T,'MachineName')),
+In((PWCHAR_T,'AccountName')),
+In((PJOINPR_ENCRYPTED_USER_PASSWORD,'Password')),
+In((UNSIGNED_LONG,'Options')),
 ),Method("NetrValidateName2",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PJOINPR_ENCRYPTED_USER_PASSWORD),
-In(NETSETUP_NAME_TYPE),
+In((HANDLE_T,'RpcBindingHandle')),
+In((PWCHAR_T,'ServerName')),
+In((PWCHAR_T,'NameToValidate')),
+In((PWCHAR_T,'AccountName')),
+In((PJOINPR_ENCRYPTED_USER_PASSWORD,'Password')),
+In((NETSETUP_NAME_TYPE,'NameType')),
 ),Method("NetrGetJoinableOUs2",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PJOINPR_ENCRYPTED_USER_PASSWORD),
-InOut(PUNSIGNED_LONG),
-Out(PPPWCHAR_T),
+In((HANDLE_T,'RpcBindingHandle')),
+In((PWCHAR_T,'ServerName')),
+In((PWCHAR_T,'DomainNameParam')),
+In((PWCHAR_T,'AccountName')),
+In((PJOINPR_ENCRYPTED_USER_PASSWORD,'Password')),
+InOut((PUNSIGNED_LONG,'OUCount')),
+Out((PPPWCHAR_T,'OUs')),
 ),Method("NetrAddAlternateComputerName",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PJOINPR_ENCRYPTED_USER_PASSWORD),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'RpcBindingHandle')),
+In((PWCHAR_T,'ServerName')),
+In((PWCHAR_T,'AlternateName')),
+In((PWCHAR_T,'DomainAccount')),
+In((PJOINPR_ENCRYPTED_USER_PASSWORD,'EncryptedPassword')),
+In((UNSIGNED_LONG,'Reserved')),
 ),Method("NetrRemoveAlternateComputerName",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PJOINPR_ENCRYPTED_USER_PASSWORD),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'RpcBindingHandle')),
+In((PWCHAR_T,'ServerName')),
+In((PWCHAR_T,'AlternateName')),
+In((PWCHAR_T,'DomainAccount')),
+In((PJOINPR_ENCRYPTED_USER_PASSWORD,'EncryptedPassword')),
+In((UNSIGNED_LONG,'Reserved')),
 ),Method("NetrSetPrimaryComputerName",
-In(HANDLE_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PWCHAR_T),
-In(PJOINPR_ENCRYPTED_USER_PASSWORD),
-In(UNSIGNED_LONG),
+In((HANDLE_T,'RpcBindingHandle')),
+In((PWCHAR_T,'ServerName')),
+In((PWCHAR_T,'PrimaryName')),
+In((PWCHAR_T,'DomainAccount')),
+In((PJOINPR_ENCRYPTED_USER_PASSWORD,'EncryptedPassword')),
+In((UNSIGNED_LONG,'Reserved')),
 ),Method("NetrEnumerateComputerNames",
-In(WKSSVC_IMPERSONATE_HANDLE),
-In(NET_COMPUTER_NAME_TYPE),
-In(UNSIGNED_LONG),
-Out(PPNET_COMPUTER_NAME_ARRAY),
-),
+In((WKSSVC_IMPERSONATE_HANDLE,'ServerName')),
+In((NET_COMPUTER_NAME_TYPE,'NameType')),
+In((UNSIGNED_LONG,'Reserved')),
+Out((PPNET_COMPUTER_NAME_ARRAY,'ComputerNames')),
+),])

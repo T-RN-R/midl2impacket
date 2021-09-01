@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -319,6 +329,72 @@ NTMS_GUID = GUID
 PSECURITY_DESCRIPTOR_NTMS = BYTE
 NTMS_HANDLE = ULONG_PTR
 
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_UNKNOWN'),(1 , 'NTMS_OBJECT'),(2 , 'NTMS_CHANGER'),(3 , 'NTMS_CHANGER_TYPE'),(4 , 'NTMS_COMPUTER'),(5 , 'NTMS_DRIVE'),(6 , 'NTMS_DRIVE_TYPE'),(7 , 'NTMS_IEDOOR'),(8 , 'NTMS_IEPORT'),(9 , 'NTMS_LIBRARY'),(10 , 'NTMS_LIBREQUEST'),(11 , 'NTMS_LOGICAL_MEDIA'),(12 , 'NTMS_MEDIA_POOL'),(13 , 'NTMS_MEDIA_TYPE'),(14 , 'NTMS_PARTITION'),(15 , 'NTMS_PHYSICAL_MEDIA'),(16 , 'NTMS_STORAGESLOT'),(17 , 'NTMS_OPREQUEST'),(18 , 'NTMS_UI_DESTINATION'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_OPREQ_UNKNOWN'),(1 , 'NTMS_OPREQ_NEWMEDIA'),(2 , 'NTMS_OPREQ_CLEANER'),(3 , 'NTMS_OPREQ_DEVICESERVICE'),(4 , 'NTMS_OPREQ_MOVEMEDIA'),(5 , 'NTMS_OPREQ_MESSAGE'),)        
+
+class (NdrEnum):
+    MAP = ((1 , 'NTMS_OBJ_UPDATE'),(2 , 'NTMS_OBJ_INSERT'),(3 , 'NTMS_OBJ_DELETE'),(4 , 'NTMS_EVENT_SIGNAL'),(5 , 'NTMS_EVENT_COMPLETE'),)        
+
+class (NdrEnum):
+    MAP = ((1 , 'NTMS_DISMOUNT_DEFERRED'),(2 , 'NTMS_DISMOUNT_IMMEDIATE'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_LM_QUEUED'),(1 , 'NTMS_LM_INPROCESS'),(2 , 'NTMS_LM_PASSED'),(3 , 'NTMS_LM_FAILED'),(4 , 'NTMS_LM_INVALID'),(5 , 'NTMS_LM_WAITING'),(7 , 'NTMS_LM_CANCELLED'),(8 , 'NTMS_LM_STOPPED'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_EJECT_START'),(1 , 'NTMS_EJECT_STOP'),(2 , 'NTMS_EJECT_QUEUE'),(3 , 'NTMS_EJECT_FORCE'),(4 , 'NTMS_EJECT_IMMEDIATE'),(5 , 'NTMS_EJECT_ASK_USER'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_INJECT_START'),(1 , 'NTMS_INJECT_STOP'),(2 , 'NTMS_INJECT_RETRACT'),(3 , 'NTMS_INJECT_STARTMANY'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_INVENTORY_NONE'),(1 , 'NTMS_INVENTORY_FAST'),(2 , 'NTMS_INVENTORY_OMID'),(3 , 'NTMS_INVENTORY_DEFAULT'),(4 , 'NTMS_INVENTORY_SLOT'),(5 , 'NTMS_INVENTORY_STOP'),(6 , 'NTMS_INVENTORY_MAX'),)        
+
+class (NdrEnum):
+    MAP = ((1 , 'NTMS_ALLOCATE_NEW'),(2 , 'NTMS_ALLOCATE_NEXT'),(4 , 'NTMS_ALLOCATE_ERROR_IF_UNAVAILABLE'),)        
+
+class (NdrEnum):
+    MAP = ((1 , 'NTMS_OPEN_EXISTING'),(2 , 'NTMS_CREATE_NEW'),(3 , 'NTMS_OPEN_ALWAYS'),)        
+
+class (NdrEnum):
+    MAP = ((1 , 'NTMS_MOUNT_READ'),(2 , 'NTMS_MOUNT_WRITE'),(4 , 'NTMS_MOUNT_ERROR_NOT_AVAILABLE'),(8 , 'NTMS_MOUNT_ERROR_OFFLINE'),(16 , 'NTMS_MOUNT_SPECIFIC_DRIVE'),(32 , 'NTMS_MOUNT_NOWAIT'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_PRIORITY_DEFAULT'),(15 , 'NTMS_PRIORITY_HIGHEST'),(7 , 'NTMS_PRIORITY_HIGH'),(3 , 'NTMS_PRIORITY_NORMAL'),(-7 , 'NTMS_PRIORITY_LOW'),(-15 , 'NTMS_PRIORITY_LOWEST'),)        
+
+class (NdrEnum):
+    MAP = ((1 , 'NTMS_BARCODESTATE_OK'),(2 , 'NTMS_BARCODESTATE_UNREADABLE'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_DRIVESTATE_DISMOUNTED'),(1 , 'NTMS_DRIVESTATE_MOUNTED'),(2 , 'NTMS_DRIVESTATE_LOADED'),(5 , 'NTMS_DRIVESTATE_UNLOADED'),(6 , 'NTMS_DRIVESTATE_BEING_CLEANED'),(7 , 'NTMS_DRIVESTATE_DISMOUNTABLE'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_LM_REMOVE'),(1 , 'NTMS_LM_DISABLECHANGER'),(1 , 'NTMS_LM_DISABLELIBRARY'),(2 , 'NTMS_LM_ENABLECHANGER'),(2 , 'NTMS_LM_ENABLELIBRARY'),(3 , 'NTMS_LM_DISABLEDRIVE'),(4 , 'NTMS_LM_ENABLEDRIVE'),(5 , 'NTMS_LM_DISABLEMEDIA'),(6 , 'NTMS_LM_ENABLEMEDIA'),(7 , 'NTMS_LM_UPDATEOMID'),(8 , 'NTMS_LM_INVENTORY'),(9 , 'NTMS_LM_DOORACCESS'),(10 , 'NTMS_LM_EJECT'),(11 , 'NTMS_LM_EJECTCLEANER'),(12 , 'NTMS_LM_INJECT'),(13 , 'NTMS_LM_INJECTCLEANER'),(14 , 'NTMS_LM_PROCESSOMID'),(15 , 'NTMS_LM_CLEANDRIVE'),(16 , 'NTMS_LM_DISMOUNT'),(17 , 'NTMS_LM_MOUNT'),(18 , 'NTMS_LM_WRITESCRATCH'),(19 , 'NTMS_LM_CLASSIFY'),(20 , 'NTMS_LM_RESERVECLEANER'),(21 , 'NTMS_LM_RELEASECLEANER'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_MEDIASTATE_IDLE'),(1 , 'NTMS_MEDIASTATE_INUSE'),(2 , 'NTMS_MEDIASTATE_MOUNTED'),(3 , 'NTMS_MEDIASTATE_LOADED'),(4 , 'NTMS_MEDIASTATE_UNLOADED'),(5 , 'NTMS_MEDIASTATE_OPERROR'),(6 , 'NTMS_MEDIASTATE_OPREQ'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_READY'),(10 , 'NTMS_INITIALIZING'),(20 , 'NTMS_NEEDS_SERVICE'),(21 , 'NTMS_NOT_PRESENT'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_OPSTATE_UNKNOWN'),(1 , 'NTMS_OPSTATE_SUBMITTED'),(2 , 'NTMS_OPSTATE_ACTIVE'),(3 , 'NTMS_OPSTATE_INPROGRESS'),(4 , 'NTMS_OPSTATE_REFUSED'),(5 , 'NTMS_OPSTATE_COMPLETE'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_PARTSTATE_UNKNOWN'),(1 , 'NTMS_PARTSTATE_UNPREPARED'),(2 , 'NTMS_PARTSTATE_INCOMPATIBLE'),(3 , 'NTMS_PARTSTATE_DECOMMISSIONED'),(4 , 'NTMS_PARTSTATE_AVAILABLE'),(5 , 'NTMS_PARTSTATE_ALLOCATED'),(6 , 'NTMS_PARTSTATE_COMPLETE'),(7 , 'NTMS_PARTSTATE_FOREIGN'),(8 , 'NTMS_PARTSTATE_IMPORT'),(9 , 'NTMS_PARTSTATE_RESERVED'),)        
+
+class (NdrEnum):
+    MAP = ((1 , 'NTMS_UIDEST_ADD'),(2 , 'NTMS_UIDEST_DELETE'),(3 , 'NTMS_UIDEST_DELETEALL'),)        
+
+class (NdrEnum):
+    MAP = ((0 , 'NTMS_UITYPE_INVALID'),(1 , 'NTMS_UITYPE_INFO'),(2 , 'NTMS_UITYPE_REQ'),(3 , 'NTMS_UITYPE_ERR'),(4 , 'NTMS_UITYPE_MAX'),)        
+
+class (NdrEnum):
+    MAP = ((1 , 'NTMS_USE_ACCESS'),(2 , 'NTMS_MODIFY_ACCESS'),(3 , 'NTMS_CONTROL_ACCESS'),)        
+
 class NTMS_LIBRARYINFORMATION(NdrStructure):
     MEMBERS = [(DWORD, "LibraryType"),(NTMS_GUID, "CleanerSlot"),(NTMS_GUID, "CleanerSlotDefault"),(BOOL, "LibrarySupportsDriveCleaning"),(BOOL, "BarCodeReaderInstalled"),(DWORD, "InventoryMethod"),(DWORD, "dwCleanerUsesRemaining"),(DWORD, "FirstDriveNumber"),(DWORD, "dwNumberOfDrives"),(DWORD, "FirstSlotNumber"),(DWORD, "dwNumberOfSlots"),(DWORD, "FirstDoorNumber"),(DWORD, "dwNumberOfDoors"),(DWORD, "FirstPortNumber"),(DWORD, "dwNumberOfPorts"),(DWORD, "FirstChangerNumber"),(DWORD, "dwNumberOfChangers"),(DWORD, "dwNumberOfMedia"),(DWORD, "dwNumberOfMediaTypes"),(DWORD, "dwNumberOfLibRequests"),(GUID, "Reserved"),(BOOL, "AutoRecovery"),(DWORD, "dwFlags"),]
 
@@ -480,62 +556,62 @@ class NTMS_OBJECTINFORMATIONW(NdrStructure):
 
     
 LPNTMS_OBJECTINFORMATIONW = NTMS_OBJECTINFORMATIONW
-Method("EjectNtmsMedia",
-In(LPNTMS_GUID),
-InOut(LPNTMS_GUID),
-In(DWORD),
+Interface("4e934f30-341a-11d1-8fb1-00a024cb6019", "1.0",[Method("EjectNtmsMedia",
+In((LPNTMS_GUID,'lpMediaId')),
+InOut((LPNTMS_GUID,'lpEjectOperation')),
+In((DWORD,'dwAction')),
 ),Method("InjectNtmsMedia",
-In(LPNTMS_GUID),
-InOut(LPNTMS_GUID),
-In(DWORD),
+In((LPNTMS_GUID,'lpLibraryId')),
+InOut((LPNTMS_GUID,'lpInjectOperation')),
+In((DWORD,'dwAction')),
 ),Method("AccessNtmsLibraryDoor",
-In(LPNTMS_GUID),
-In(DWORD),
+In((LPNTMS_GUID,'lpLibraryId')),
+In((DWORD,'dwAction')),
 ),Method("CleanNtmsDrive",
-In(LPNTMS_GUID),
+In((LPNTMS_GUID,'lpDriveId')),
 ),Method("DismountNtmsDrive",
-In(LPNTMS_GUID),
+In((LPNTMS_GUID,'lpDriveId')),
 ),Method("InventoryNtmsLibrary",
-In(LPNTMS_GUID),
-In(DWORD),
+In((LPNTMS_GUID,'lpLibraryId')),
+In((DWORD,'dwAction')),
 ),Method("INtmsLibraryControl1_LocalOnlyOpnum09",
 ),Method("CancelNtmsLibraryRequest",
-In(LPNTMS_GUID),
+In((LPNTMS_GUID,'lpRequestId')),
 ),Method("ReserveNtmsCleanerSlot",
-In(LPNTMS_GUID),
-In(LPNTMS_GUID),
+In((LPNTMS_GUID,'lpLibrary')),
+In((LPNTMS_GUID,'lpSlot')),
 ),Method("ReleaseNtmsCleanerSlot",
-In(LPNTMS_GUID),
+In((LPNTMS_GUID,'lpLibrary')),
 ),Method("InjectNtmsCleaner",
-In(LPNTMS_GUID),
-InOut(LPNTMS_GUID),
-In(DWORD),
-In(DWORD),
+In((LPNTMS_GUID,'lpLibrary')),
+InOut((LPNTMS_GUID,'lpInjectOperation')),
+In((DWORD,'dwNumberOfCleansLeft')),
+In((DWORD,'dwAction')),
 ),Method("EjectNtmsCleaner",
-In(LPNTMS_GUID),
-InOut(LPNTMS_GUID),
-In(DWORD),
+In((LPNTMS_GUID,'lpLibrary')),
+InOut((LPNTMS_GUID,'lpEjectOperation')),
+In((DWORD,'dwAction')),
 ),Method("DeleteNtmsLibrary",
-In(LPNTMS_GUID),
+In((LPNTMS_GUID,'lpLibraryId')),
 ),Method("DeleteNtmsDrive",
-In(LPNTMS_GUID),
+In((LPNTMS_GUID,'lpDriveId')),
 ),Method("GetNtmsRequestOrder",
-In(LPNTMS_GUID),
-Out(PDWORD),
+In((LPNTMS_GUID,'lpRequestId')),
+Out((PDWORD,'lpdwOrderNumber')),
 ),Method("SetNtmsRequestOrder",
-In(LPNTMS_GUID),
-In(DWORD),
+In((LPNTMS_GUID,'lpRequestId')),
+In((DWORD,'dwOrderNumber')),
 ),Method("DeleteNtmsRequests",
-In(LPNTMS_GUID),
-In(DWORD),
-In(DWORD),
+In((LPNTMS_GUID,'lpRequestId')),
+In((DWORD,'dwType')),
+In((DWORD,'dwCount')),
 ),Method("BeginNtmsDeviceChangeDetection",
-Out(PNTMS_HANDLE),
+Out((PNTMS_HANDLE,'lpDetectHandle')),
 ),Method("SetNtmsDeviceChangeDetection",
-In(NTMS_HANDLE),
-In(LPNTMS_GUID),
-In(DWORD),
-In(DWORD),
+In((NTMS_HANDLE,'DetectHandle')),
+In((LPNTMS_GUID,'lpObjectId')),
+In((DWORD,'dwType')),
+In((DWORD,'dwCount')),
 ),Method("EndNtmsDeviceChangeDetection",
-In(NTMS_HANDLE),
-),
+In((NTMS_HANDLE,'DetectHandle')),
+),])

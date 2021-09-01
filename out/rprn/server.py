@@ -4,6 +4,7 @@ Generated from MIDL2Impacket.py
 
 from __future__ import division
 from __future__ import print_function
+from impacket.fuzzer.impacket_overrides import *
 from impacket.dcerpc.v5.ndr import *
 from impacket.dcerpc.v5.dtypes import *
 from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY

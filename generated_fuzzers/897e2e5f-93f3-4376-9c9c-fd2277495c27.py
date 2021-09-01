@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -349,6 +359,33 @@ class FRS_RDC_SOURCE_NEED(NdrStructure):
 
     
 
+class TRANSPORTFLAGS(NdrEnum):
+    MAP = ((1 , 'TRANSPORT_SUPPORTS_RDC_SIMILARITY'),)        
+
+class RDC_FILE_COMPRESSION_TYPES(NdrEnum):
+    MAP = ((0 , 'RDC_UNCOMPRESSED'),(1 , 'RDC_XPRESS'),)        
+
+class RDC_CHUNKER_ALGORITHM(NdrEnum):
+    MAP = ((0 , 'RDC_FILTERGENERIC'),(1 , 'RDC_FILTERMAX'),(2 , 'RDC_FILTERPOINT'),(3 , 'RDC_MAXALGORITHM'),)        
+
+class UPDATE_REQUEST_TYPE(NdrEnum):
+    MAP = ((0 , 'UPDATE_REQUEST_ALL'),(1 , 'UPDATE_REQUEST_TOMBSTONES'),(2 , 'UPDATE_REQUEST_LIVE'),)        
+
+class UPDATE_STATUS(NdrEnum):
+    MAP = ((2 , 'UPDATE_STATUS_DONE'),(3 , 'UPDATE_STATUS_MORE'),)        
+
+class RECORDS_STATUS(NdrEnum):
+    MAP = ((0 , 'RECORDS_STATUS_DONE'),(1 , 'RECORDS_STATUS_MORE'),)        
+
+class VERSION_REQUEST_TYPE(NdrEnum):
+    MAP = ((0 , 'REQUEST_NORMAL_SYNC'),(1 , 'REQUEST_SLOW_SYNC'),(2 , 'REQUEST_SUBORDINATE_SYNC'),)        
+
+class VERSION_CHANGE_TYPE(NdrEnum):
+    MAP = ((0 , 'CHANGE_NOTIFY'),(2 , 'CHANGE_ALL'),)        
+
+class FRS_REQUESTED_STAGING_POLICY(NdrEnum):
+    MAP = ((0 , 'SERVER_DEFAULT'),(1 , 'STAGING_REQUIRED'),(2 , 'RESTAGING_REQUIRED'),)        
+
 class FRS_RDC_PARAMETERS_FILTERMAX(NdrStructure):
     MEMBERS = [(UNSIGNED_SHORT, "horizonSize"),(UNSIGNED_SHORT, "windowSize"),]
 
@@ -385,97 +422,97 @@ class FRS_ASYNC_RESPONSE_CONTEXT(NdrStructure):
     
 BYTE_PIPE = PIPE_BYTE
 PFRS_SERVER_CONTEXT = VOID
-Method("CheckConnectivity",
-In(FRS_REPLICA_SET_ID),
-In(FRS_CONNECTION_ID),
+Interface("897e2e5f-93f3-4376-9c9c-fd2277495c27", "1.0",[Method("CheckConnectivity",
+In((FRS_REPLICA_SET_ID,'replicaSetId')),
+In((FRS_CONNECTION_ID,'connectionId')),
 ),Method("EstablishConnection",
-In(FRS_REPLICA_SET_ID),
-In(FRS_CONNECTION_ID),
-In(DWORD),
-In(DWORD),
-Out(PDWORD),
-Out(PDWORD),
+In((FRS_REPLICA_SET_ID,'replicaSetId')),
+In((FRS_CONNECTION_ID,'connectionId')),
+In((DWORD,'downstreamProtocolVersion')),
+In((DWORD,'downstreamFlags')),
+Out((PDWORD,'upstreamProtocolVersion')),
+Out((PDWORD,'upstreamFlags')),
 ),Method("EstablishSession",
-In(FRS_CONNECTION_ID),
-In(FRS_CONTENT_SET_ID),
+In((FRS_CONNECTION_ID,'connectionId')),
+In((FRS_CONTENT_SET_ID,'contentSetId')),
 ),Method("RequestUpdates",
-In(FRS_CONNECTION_ID),
-In(FRS_CONTENT_SET_ID),
-In(DWORD),
-In(LONG),
-In(UPDATE_REQUEST_TYPE),
-In(UNSIGNED_LONG),
-In(PFRS_VERSION_VECTOR),
-Out(PFRS_UPDATE),
-Out(PDWORD),
-Out(PUPDATE_STATUS),
-Out(PGUID),
-Out(PDWORDLONG),
+In((FRS_CONNECTION_ID,'connectionId')),
+In((FRS_CONTENT_SET_ID,'contentSetId')),
+In((DWORD,'creditsAvailable')),
+In((LONG,'hashRequested')),
+In((UPDATE_REQUEST_TYPE,'updateRequestType')),
+In((UNSIGNED_LONG,'versionVectorDiffCount')),
+In((PFRS_VERSION_VECTOR,'versionVectorDiff')),
+Out((PFRS_UPDATE,'frsUpdate')),
+Out((PDWORD,'updateCount')),
+Out((PUPDATE_STATUS,'updateStatus')),
+Out((PGUID,'gvsnDbGuid')),
+Out((PDWORDLONG,'gvsnVersion')),
 ),Method("RequestVersionVector",
-In(DWORD),
-In(FRS_CONNECTION_ID),
-In(FRS_CONTENT_SET_ID),
-In(VERSION_REQUEST_TYPE),
-In(VERSION_CHANGE_TYPE),
-In(ULONGLONG),
+In((DWORD,'sequenceNumber')),
+In((FRS_CONNECTION_ID,'connectionId')),
+In((FRS_CONTENT_SET_ID,'contentSetId')),
+In((VERSION_REQUEST_TYPE,'requestType')),
+In((VERSION_CHANGE_TYPE,'changeType')),
+In((ULONGLONG,'vvGeneration')),
 ),Method("AsyncPoll",
-In(FRS_CONNECTION_ID),
-Out(PFRS_ASYNC_RESPONSE_CONTEXT),
+In((FRS_CONNECTION_ID,'connectionId')),
+Out((PFRS_ASYNC_RESPONSE_CONTEXT,'response')),
 ),Method("RequestRecords",
-In(FRS_CONNECTION_ID),
-In(FRS_CONTENT_SET_ID),
-In(FRS_DATABASE_ID),
-In(DWORDLONG),
-InOut(PDWORD),
-Out(PDWORD),
-Out(PDWORD),
-Out(PPBYTE),
-Out(PRECORDS_STATUS),
+In((FRS_CONNECTION_ID,'connectionId')),
+In((FRS_CONTENT_SET_ID,'contentSetId')),
+In((FRS_DATABASE_ID,'uidDbGuid')),
+In((DWORDLONG,'uidVersion')),
+InOut((PDWORD,'maxRecords')),
+Out((PDWORD,'numRecords')),
+Out((PDWORD,'numBytes')),
+Out((PPBYTE,'compressedRecords')),
+Out((PRECORDS_STATUS,'recordsStatus')),
 ),Method("UpdateCancel",
-In(FRS_CONNECTION_ID),
-In(FRS_UPDATE_CANCEL_DATA),
+In((FRS_CONNECTION_ID,'connectionId')),
+In((FRS_UPDATE_CANCEL_DATA,'cancelData')),
 ),Method("RawGetFileData",
-InOut(PPFRS_SERVER_CONTEXT),
-Out(PBYTE),
-In(DWORD),
-Out(PDWORD),
-Out(PLONG),
+InOut((PPFRS_SERVER_CONTEXT,'serverContext')),
+Out((PBYTE,'dataBuffer')),
+In((DWORD,'bufferSize')),
+Out((PDWORD,'sizeRead')),
+Out((PLONG,'isEndOfFile')),
 ),Method("RdcGetSignatures",
-In(PFRS_SERVER_CONTEXT),
-In(BYTE),
-In(DWORDLONG),
-Out(PBYTE),
-In(DWORD),
-Out(PDWORD),
+In((PFRS_SERVER_CONTEXT,'serverContext')),
+In((BYTE,'level')),
+In((DWORDLONG,'offset')),
+Out((PBYTE,'buffer')),
+In((DWORD,'length')),
+Out((PDWORD,'sizeRead')),
 ),Method("RdcPushSourceNeeds",
-In(PFRS_SERVER_CONTEXT),
-In(PFRS_RDC_SOURCE_NEED),
-In(DWORD),
+In((PFRS_SERVER_CONTEXT,'serverContext')),
+In((PFRS_RDC_SOURCE_NEED,'sourceNeeds')),
+In((DWORD,'needCount')),
 ),Method("RdcGetFileData",
-In(PFRS_SERVER_CONTEXT),
-Out(PBYTE),
-In(DWORD),
-Out(PDWORD),
+In((PFRS_SERVER_CONTEXT,'serverContext')),
+Out((PBYTE,'dataBuffer')),
+In((DWORD,'bufferSize')),
+Out((PDWORD,'sizeReturned')),
 ),Method("RdcClose",
-InOut(PPFRS_SERVER_CONTEXT),
+InOut((PPFRS_SERVER_CONTEXT,'serverContext')),
 ),Method("InitializeFileTransferAsync",
-In(FRS_CONNECTION_ID),
-InOut(PFRS_UPDATE),
-In(LONG),
-InOut(PFRS_REQUESTED_STAGING_POLICY),
-Out(PPFRS_SERVER_CONTEXT),
-Out(PPFRS_RDC_FILEINFO),
-Out(PBYTE),
-In(DWORD),
-Out(PDWORD),
-Out(PLONG),
+In((FRS_CONNECTION_ID,'connectionId')),
+InOut((PFRS_UPDATE,'frsUpdate')),
+In((LONG,'rdcDesired')),
+InOut((PFRS_REQUESTED_STAGING_POLICY,'stagingPolicy')),
+Out((PPFRS_SERVER_CONTEXT,'serverContext')),
+Out((PPFRS_RDC_FILEINFO,'rdcFileInfo')),
+Out((PBYTE,'dataBuffer')),
+In((DWORD,'bufferSize')),
+Out((PDWORD,'sizeRead')),
+Out((PLONG,'isEndOfFile')),
 ),Method("Opnum14NotUsedOnWire",
 ),Method("RawGetFileDataAsync",
-In(PFRS_SERVER_CONTEXT),
-Out(PBYTE_PIPE),
+In((PFRS_SERVER_CONTEXT,'serverContext')),
+Out((PBYTE_PIPE,'bytePipe')),
 ),Method("RdcGetFileDataAsync",
-In(PFRS_SERVER_CONTEXT),
-Out(PBYTE_PIPE),
+In((PFRS_SERVER_CONTEXT,'serverContext')),
+Out((PBYTE_PIPE,'bytePipe')),
 ),Method("RdcFileDataTransferKeepAlive",
-In(PFRS_SERVER_CONTEXT),
-),
+In((PFRS_SERVER_CONTEXT,'serverContext')),
+),])

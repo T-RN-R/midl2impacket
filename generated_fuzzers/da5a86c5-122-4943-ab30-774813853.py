@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -314,48 +324,48 @@ class SECURITY_DESCRIPTOR(NdrStructure):
 PSECURITY_DESCRIPTOR = SECURITY_DESCRIPTOR
 RPC_HQUERY = HANDLE
 PRPC_HQUERY = RPC_HQUERY
-Method("PerflibV2EnumerateCounterSet",
-In(PWCHAR_T),
-In(DWORD),
-Out(PDWORD),
-Out(PDWORD),
-Out(PGUID),
+Interface("da5a86c5-122-4943-ab30-774813853", "1.0",[Method("PerflibV2EnumerateCounterSet",
+In((PWCHAR_T,'szMachine')),
+In((DWORD,'dwInSize')),
+Out((PDWORD,'pdwOutSize')),
+Out((PDWORD,'pdwRtnSize')),
+Out((PGUID,'lpData')),
 ),Method("PerflibV2QueryCounterSetRegistrationInfo",
-In(PWCHAR_T),
-In(PGUID),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-Out(PDWORD),
-Out(PDWORD),
-Out(PUNSIGNED_CHAR),
+In((PWCHAR_T,'szMachine')),
+In((PGUID,'CounterSetGuid')),
+In((DWORD,'RequestCode')),
+In((DWORD,'RequestLCID')),
+In((DWORD,'dwInSize')),
+Out((PDWORD,'pdwOutSize')),
+Out((PDWORD,'pdwRtnSize')),
+Out((PUNSIGNED_CHAR,'lpData')),
 ),Method("PerflibV2EnumerateCounterSetInstances",
-In(PWCHAR_T),
-In(PGUID),
-In(DWORD),
-Out(PDWORD),
-Out(PDWORD),
-Out(PUNSIGNED_CHAR),
+In((PWCHAR_T,'szMachine')),
+In((PGUID,'CounterSetGuid')),
+In((DWORD,'dwInSize')),
+Out((PDWORD,'pdwOutSize')),
+Out((PDWORD,'pdwRtnSize')),
+Out((PUNSIGNED_CHAR,'lpData')),
 ),Method("PerflibV2OpenQueryHandle",
-In(PWCHAR_T),
-Out(PRPC_HQUERY),
+In((PWCHAR_T,'szMachine')),
+Out((PRPC_HQUERY,'phQuery')),
 ),Method("PerflibV2CloseQueryHandle",
-InOut(PRPC_HQUERY),
+InOut((PRPC_HQUERY,'phQuery')),
 ),Method("PerflibV2QueryCounterInfo",
-In(RPC_HQUERY),
-In(DWORD),
-Out(PDWORD),
-Out(PDWORD),
-Out(PUNSIGNED_CHAR),
+In((RPC_HQUERY,'hQuery')),
+In((DWORD,'dwInSize')),
+Out((PDWORD,'pdwOutSize')),
+Out((PDWORD,'pdwRtnSize')),
+Out((PUNSIGNED_CHAR,'lpData')),
 ),Method("PerflibV2QueryCounterData",
-In(RPC_HQUERY),
-In(DWORD),
-Out(PDWORD),
-Out(PDWORD),
-Out(PUNSIGNED_CHAR),
+In((RPC_HQUERY,'hQuery')),
+In((DWORD,'dwInSize')),
+Out((PDWORD,'pdwOutSize')),
+Out((PDWORD,'pdwRtnSize')),
+Out((PUNSIGNED_CHAR,'lpData')),
 ),Method("PerflibV2ValidateCounters",
-In(RPC_HQUERY),
-In(DWORD),
-InOut(PUNSIGNED_CHAR),
-In(DWORD),
-),
+In((RPC_HQUERY,'hQuery')),
+In((DWORD,'dwInSize')),
+InOut((PUNSIGNED_CHAR,'lpData')),
+In((DWORD,'dwAdd')),
+),])

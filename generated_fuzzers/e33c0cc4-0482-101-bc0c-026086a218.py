@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -343,41 +353,41 @@ class NSI_UUID_VECTOR_T(NdrStructure):
 
     
 NSI_UUID_VECTOR_P_T = NSI_UUID_VECTOR_T
-Method("I_nsi_lookup_begin",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(STRING_T),
-In(PRPC_SYNTAX_IDENTIFIER),
-In(PRPC_SYNTAX_IDENTIFIER),
-In(NSI_UUID_P_T),
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-Out(PNSI_NS_HANDLE_T),
-Out(PUNSIGNED_SHORT),
+Interface("e33c0cc4-0482-101-bc0c-026086a218", "1.0",[Method("I_nsi_lookup_begin",
+In((HANDLE_T,'hrpcPrimaryLocatorHndl')),
+In((UNSIGNED_LONG,'entry_name_syntax')),
+In((STRING_T,'entry_name')),
+In((PRPC_SYNTAX_IDENTIFIER,'interfaceid')),
+In((PRPC_SYNTAX_IDENTIFIER,'xfersyntax')),
+In((NSI_UUID_P_T,'obj_uuid')),
+In((UNSIGNED_LONG,'binding_max_count')),
+In((UNSIGNED_LONG,'MaxCacheAge')),
+Out((PNSI_NS_HANDLE_T,'import_context')),
+Out((PUNSIGNED_SHORT,'status')),
 ),Method("I_nsi_lookup_done",
-In(HANDLE_T),
-InOut(PNSI_NS_HANDLE_T),
-Out(PUNSIGNED_SHORT),
+In((HANDLE_T,'hrpcPrimaryLocatorHndl')),
+InOut((PNSI_NS_HANDLE_T,'import_context')),
+Out((PUNSIGNED_SHORT,'status')),
 ),Method("I_nsi_lookup_next",
-In(HANDLE_T),
-In(NSI_NS_HANDLE_T),
-Out(PNSI_BINDING_VECTOR_P_T),
-Out(PUNSIGNED_SHORT),
+In((HANDLE_T,'hrpcPrimaryLocatorHndl')),
+In((NSI_NS_HANDLE_T,'import_context')),
+Out((PNSI_BINDING_VECTOR_P_T,'binding_vector')),
+Out((PUNSIGNED_SHORT,'status')),
 ),Method("I_nsi_entry_object_inq_next",
-In(HANDLE_T),
-In(NSI_NS_HANDLE_T),
-Out(PNSI_UUID_VECTOR_P_T),
-Out(PUNSIGNED_SHORT),
+In((HANDLE_T,'hrpcPrimaryLocatorHndl')),
+In((NSI_NS_HANDLE_T,'InqContext')),
+Out((PNSI_UUID_VECTOR_P_T,'uuid_vec')),
+Out((PUNSIGNED_SHORT,'status')),
 ),Method("I_nsi_ping_locator",
-In(HANDLE_T),
-Out(PERROR_STATUS_T),
+In((HANDLE_T,'hLocatortoPing')),
+Out((PERROR_STATUS_T,'status')),
 ),Method("I_nsi_entry_object_inq_done",
-InOut(PNSI_NS_HANDLE_T),
-Out(PUNSIGNED_SHORT),
+InOut((PNSI_NS_HANDLE_T,'InqContext')),
+Out((PUNSIGNED_SHORT,'status')),
 ),Method("I_nsi_entry_object_inq_begin",
-In(HANDLE_T),
-In(UNSIGNED_LONG),
-In(STRING_T),
-Out(PNSI_NS_HANDLE_T),
-Out(PUNSIGNED_SHORT),
-),
+In((HANDLE_T,'hrpcPrimaryLocatorHndl')),
+In((UNSIGNED_LONG,'EntryNameSyntax')),
+In((STRING_T,'EntryName')),
+Out((PNSI_NS_HANDLE_T,'InqContext')),
+Out((PUNSIGNED_SHORT,'status')),
+),])

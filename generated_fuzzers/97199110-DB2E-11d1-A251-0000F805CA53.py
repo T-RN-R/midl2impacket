@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -352,6 +362,9 @@ class DUALSTRINGARRAY(NdrStructure):
 
     
 
+class (NdrEnum):
+    MAP = ((1 , 'CPFLAG_PROPAGATE'),(2 , 'CPFLAG_EXPOSE'),(4 , 'CPFLAG_ENVOY'),)        
+
 class MINTERFACEPOINTER(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "ulCntData"),(BYTE, "abData"),]
 
@@ -440,6 +453,9 @@ class INSTANCEINFODATA(NdrStructure):
 
     
 
+class SPD_FLAGS(NdrEnum):
+    MAP = ((1 , 'SPD_FLAG_USE_CONSOLE_SESSION'),(2 , 'SPD_FLAG_USE_DEFAULT_AUTHN_LVL'),)        
+
 class SPECIALPROPERTIESDATA(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "dwSessionId"),(LONG, "fRemoteThisSessionId"),(LONG, "fClientImpersonating"),(LONG, "fPartitionIDPresent"),(DWORD, "dwDefaultAuthnLvl"),(GUID, "guidPartition"),(DWORD, "dwPRTFlags"),(DWORD, "dwOrigClsctx"),(DWORD, "dwFlags"),(DWORD, "Reserved1"),(UNSIGNED___INT64, "Reserved2"),(DWORD, "Reserved3"),]
 
@@ -449,47 +465,47 @@ class SPECIALPROPERTIESDATA_ALTERNATE(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "dwSessionId"),(LONG, "fRemoteThisSessionId"),(LONG, "fClientImpersonating"),(LONG, "fPartitionIDPresent"),(DWORD, "dwDefaultAuthnLvl"),(GUID, "guidPartition"),(DWORD, "dwPRTFlags"),(DWORD, "dwOrigClsctx"),(DWORD, "dwFlags"),(DWORD, "Reserved3"),]
 
     
-Method("RemoteActivation",
-In(HANDLE_T),
-In(PORPCTHIS),
-Out(PORPCTHAT),
-In(PGUID),
-In(PWCHAR_T),
-In(PMINTERFACEPOINTER),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(PIID),
-In(UNSIGNED_SHORT),
-In(UNSIGNED_SHORT),
-Out(POXID),
-Out(PPDUALSTRINGARRAY),
-Out(PIPID),
-Out(PDWORD),
-Out(PCOMVERSION),
-Out(PHRESULT),
-Out(PPMINTERFACEPOINTER),
-Out(PHRESULT),
-),Method("GetSeqAndTxViaExport",
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PBYTE),
-Out(PUNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-Out(PPBYTE),
+Interface("4d9f4ab8-7d1c-11cf-861e-0020af6e7c57", "1.0",[Method("RemoteActivation",
+In((HANDLE_T,'hRpc')),
+In((PORPCTHIS,'ORPCthis')),
+Out((PORPCTHAT,'ORPCthat')),
+In((PGUID,'Clsid')),
+In((PWCHAR_T,'pwszObjectName')),
+In((PMINTERFACEPOINTER,'pObjectStorage')),
+In((DWORD,'ClientImpLevel')),
+In((DWORD,'Mode')),
+In((DWORD,'Interfaces')),
+In((PIID,'pIIDs')),
+In((UNSIGNED_SHORT,'cRequestedProtseqs')),
+In((UNSIGNED_SHORT,'aRequestedProtseqs')),
+Out((POXID,'pOxid')),
+Out((PPDUALSTRINGARRAY,'ppdsaOxidBindings')),
+Out((PIPID,'pipidRemUnknown')),
+Out((PDWORD,'pAuthnHint')),
+Out((PCOMVERSION,'pServerVersion')),
+Out((PHRESULT,'phr')),
+Out((PPMINTERFACEPOINTER,'ppInterfaceData')),
+Out((PHRESULT,'pResults')),
+),])Interface("97199110-DB2E-11d1-A251-0000F805CA53", "1.0",[Method("GetSeqAndTxViaExport",
+In((UNSIGNED_LONG,'ulKnownSeq')),
+In((UNSIGNED_LONG,'ulcbWhereabouts')),
+In((PBYTE,'rgbWhereabouts')),
+Out((PUNSIGNED_LONG,'pulCurrentSeq')),
+Out((PUNSIGNED_LONG,'pulcbExportCookie')),
+Out((PPBYTE,'prgbExportCookie')),
 ),Method("GetSeqAndTxViaTransmitter",
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-Out(PPBYTE),
+In((UNSIGNED_LONG,'ulKnownSeq')),
+Out((PUNSIGNED_LONG,'pulCurrentSeq')),
+Out((PUNSIGNED_LONG,'pulcbTransmitterBuffer')),
+Out((PPBYTE,'prgbTransmitterBuffer')),
 ),Method("GetTxViaExport",
-In(UNSIGNED_LONG),
-In(UNSIGNED_LONG),
-In(PBYTE),
-Out(PUNSIGNED_LONG),
-Out(PPBYTE),
+In((UNSIGNED_LONG,'ulRequestSeq')),
+In((UNSIGNED_LONG,'ulcbWhereabouts')),
+In((PBYTE,'rgbWhereabouts')),
+Out((PUNSIGNED_LONG,'pulcbExportCookie')),
+Out((PPBYTE,'prgbExportCookie')),
 ),Method("GetTxViaTransmitter",
-In(UNSIGNED_LONG),
-Out(PUNSIGNED_LONG),
-Out(PPBYTE),
-),
+In((UNSIGNED_LONG,'ulRequestSeq')),
+Out((PUNSIGNED_LONG,'pulcbTransmitterBuffer')),
+Out((PPBYTE,'prgbTransmitterBuffer')),
+),])

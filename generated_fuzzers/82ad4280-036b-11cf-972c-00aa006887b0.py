@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -448,73 +458,73 @@ class IIS_USER_ENUM_STRUCT(NdrStructure):
 
     
 LPIIS_USER_ENUM_STRUCT = IIS_USER_ENUM_STRUCT
-Method("R_InetInfoGetVersion",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-Out(PDWORD),
+Interface("82ad4280-036b-11cf-972c-00aa006887b0", "2.0",[Method("R_InetInfoGetVersion",
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwReserved')),
+Out((PDWORD,'pdwVersion')),
 ),Method("R_InetInfoGetAdminInformation",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-Out(PLPINET_INFO_CONFIG_INFO),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwServerMask')),
+Out((PLPINET_INFO_CONFIG_INFO,'ppConfig')),
 ),Method("R_InetInfoGetSites",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-Out(PLPINET_INFO_SITE_LIST),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwServerMask')),
+Out((PLPINET_INFO_SITE_LIST,'ppSites')),
 ),Method("R_InetInfoSetAdminInformation",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-In(PINET_INFO_CONFIG_INFO),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwServerMask')),
+In((PINET_INFO_CONFIG_INFO,'pConfig')),
 ),Method("R_InetInfoGetGlobalAdminInformation",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-Out(PLPINET_INFO_GLOBAL_CONFIG_INFO),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwServerMask')),
+Out((PLPINET_INFO_GLOBAL_CONFIG_INFO,'ppConfig')),
 ),Method("R_InetInfoSetGlobalAdminInformation",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-In(PINET_INFO_GLOBAL_CONFIG_INFO),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwServerMask')),
+In((PINET_INFO_GLOBAL_CONFIG_INFO,'pConfig')),
 ),Method("R_InetInfoQueryStatistics",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-In(DWORD),
-Out(LPINET_INFO_STATISTICS_INFO),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'Level')),
+In((DWORD,'dwServerMask')),
+Out((LPINET_INFO_STATISTICS_INFO,'StatsInfo')),
 ),Method("R_InetInfoClearStatistics",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwServerMask')),
 ),Method("R_InetInfoFlushMemoryCache",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwServerMask')),
 ),Method("R_InetInfoGetServerCapabilities",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-Out(PLPINET_INFO_CAPABILITIES_STRUCT),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwReserved')),
+Out((PLPINET_INFO_CAPABILITIES_STRUCT,'ppCap')),
 ),Method("R_W3QueryStatistics2",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-Out(LPW3_STATISTICS_STRUCT),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwLevel')),
+In((DWORD,'dwInstance')),
+In((DWORD,'dwReserved')),
+Out((LPW3_STATISTICS_STRUCT,'InfoStruct')),
 ),Method("R_W3ClearStatistics2",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwInstance')),
 ),Method("R_FtpQueryStatistics2",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-Out(LPFTP_STATISTICS_STRUCT),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwLevel')),
+In((DWORD,'dwInstance')),
+In((DWORD,'dwReserved')),
+Out((LPFTP_STATISTICS_STRUCT,'InfoStruct')),
 ),Method("R_FtpClearStatistics2",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwInstance')),
 ),Method("R_IISEnumerateUsers",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-In(DWORD),
-InOut(LPIIS_USER_ENUM_STRUCT),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwServiceId')),
+In((DWORD,'dwInstance')),
+InOut((LPIIS_USER_ENUM_STRUCT,'InfoStruct')),
 ),Method("R_IISDisconnectUser",
-In(INET_INFO_IMPERSONATE_HANDLE),
-In(DWORD),
-In(DWORD),
-In(DWORD),
+In((INET_INFO_IMPERSONATE_HANDLE,'pszServer')),
+In((DWORD,'dwServiceId')),
+In((DWORD,'dwInstance')),
+In((DWORD,'dwIdUser')),
 ),Method("Opnum16NotUsedOnWire",
 ),Method("Opnum17NotUsedOnWire",
-),
+),])

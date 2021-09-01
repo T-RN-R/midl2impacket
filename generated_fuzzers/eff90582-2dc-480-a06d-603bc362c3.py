@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-__INT64 = NdrHyper
+INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -34,20 +34,21 @@ SIGNED_CHAR = NdrByte
 SIGNED_SHORT = NdrShort
 WCHAR_T = NdrWString
 CHAR = NdrByte
-PWCHAR = NdrByte
+PWCHAR = NdrCString
 INT = NdrLong
 PVOID = NdrContextHandle
 VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-__INT3264 = NdrHyper
+INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
 DWORDLONG = NdrHyper
 LONG_PTR = NdrHyper
 ULONG_PTR = NdrHyper
+LARGE_INTEGER = NdrHyper
 LPSTR = NdrCString
 LPWSTR = NdrWString
 LPCSTR = NdrCString
@@ -58,6 +59,15 @@ WCHAR = NdrWString
 PBYTE = NdrByte
 DOUBLE = NdrDouble
 FLOAT = NdrFloat
+
+class FILETIME(NdrStructure):
+    MEMBERS = [(DWORD,'dwLowDateTime'),(LONG,'dwHighDateTime')]
+
+class LUID(NdrStructure):
+    MEMBERS = [(DWORD,'LowPart'),(LONG,'HighPart')]
+
+class SYSTEMTIME(NdrStructure):
+    MEMBERS = [(WORD,'wYear'),(WORD,'wMonth'),(WORD,'wDayOfWeek'),(WORD,'wDay'),(WORD,'wHour'),(WORD,'wMinute'),(WORD,'wSecond'),(WORD,'wMilliseconds'),]
 WCHAR_T = UNSIGNED_SHORT
 ADCONNECTION_HANDLE = VOID
 BOOL = INT
@@ -104,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -358,7 +368,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -612,7 +622,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = __INT3264
+LONG_PTR = INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -860,6 +870,9 @@ class DUALSTRINGARRAY(NdrStructure):
 
     
 
+class (NdrEnum):
+    MAP = ((1 , 'CPFLAG_PROPAGATE'),(2 , 'CPFLAG_EXPOSE'),(4 , 'CPFLAG_ENVOY'),)        
+
 class MINTERFACEPOINTER(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "ulCntData"),(BYTE, "abData"),]
 
@@ -948,6 +961,9 @@ class INSTANCEINFODATA(NdrStructure):
 
     
 
+class SPD_FLAGS(NdrEnum):
+    MAP = ((1 , 'SPD_FLAG_USE_CONSOLE_SESSION'),(2 , 'SPD_FLAG_USE_DEFAULT_AUTHN_LVL'),)        
+
 class SPECIALPROPERTIESDATA(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "dwSessionId"),(LONG, "fRemoteThisSessionId"),(LONG, "fClientImpersonating"),(LONG, "fPartitionIDPresent"),(DWORD, "dwDefaultAuthnLvl"),(GUID, "guidPartition"),(DWORD, "dwPRTFlags"),(DWORD, "dwOrigClsctx"),(DWORD, "dwFlags"),(DWORD, "Reserved1"),(UNSIGNED___INT64, "Reserved2"),(DWORD, "Reserved3"),]
 
@@ -957,28 +973,28 @@ class SPECIALPROPERTIESDATA_ALTERNATE(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "dwSessionId"),(LONG, "fRemoteThisSessionId"),(LONG, "fClientImpersonating"),(LONG, "fPartitionIDPresent"),(DWORD, "dwDefaultAuthnLvl"),(GUID, "guidPartition"),(DWORD, "dwPRTFlags"),(DWORD, "dwOrigClsctx"),(DWORD, "dwFlags"),(DWORD, "Reserved3"),]
 
     
-Method("RemoteActivation",
-In(HANDLE_T),
-In(PORPCTHIS),
-Out(PORPCTHAT),
-In(PGUID),
-In(PWCHAR_T),
-In(PMINTERFACEPOINTER),
-In(DWORD),
-In(DWORD),
-In(DWORD),
-In(PIID),
-In(UNSIGNED_SHORT),
-In(UNSIGNED_SHORT),
-Out(POXID),
-Out(PPDUALSTRINGARRAY),
-Out(PIPID),
-Out(PDWORD),
-Out(PCOMVERSION),
-Out(PHRESULT),
-Out(PPMINTERFACEPOINTER),
-Out(PHRESULT),
-),BYTE = BYTE
+Interface("4d9f4ab8-7d1c-11cf-861e-0020af6e7c57", "1.0",[Method("RemoteActivation",
+In((HANDLE_T,'hRpc')),
+In((PORPCTHIS,'ORPCthis')),
+Out((PORPCTHAT,'ORPCthat')),
+In((PGUID,'Clsid')),
+In((PWCHAR_T,'pwszObjectName')),
+In((PMINTERFACEPOINTER,'pObjectStorage')),
+In((DWORD,'ClientImpLevel')),
+In((DWORD,'Mode')),
+In((DWORD,'Interfaces')),
+In((PIID,'pIIDs')),
+In((UNSIGNED_SHORT,'cRequestedProtseqs')),
+In((UNSIGNED_SHORT,'aRequestedProtseqs')),
+Out((POXID,'pOxid')),
+Out((PPDUALSTRINGARRAY,'ppdsaOxidBindings')),
+Out((PIPID,'pipidRemUnknown')),
+Out((PDWORD,'pAuthnHint')),
+Out((PCOMVERSION,'pServerVersion')),
+Out((PHRESULT,'phr')),
+Out((PPMINTERFACEPOINTER,'ppInterfaceData')),
+Out((PHRESULT,'pResults')),
+),])BYTE = BYTE
 SCODE = LONG
 REFIID = IID
 REFGUID = GUID
@@ -996,6 +1012,54 @@ class PVARIANT(NdrStructure):
 
     
 
+class VARENUM(NdrEnum):
+    MAP = ((0 , 'VT_EMPTY'),(1 , 'VT_NULL'),(2 , 'VT_I2'),(3 , 'VT_I4'),(4 , 'VT_R4'),(5 , 'VT_R8'),(6 , 'VT_CY'),(7 , 'VT_DATE'),(8 , 'VT_BSTR'),(9 , 'VT_DISPATCH'),(10 , 'VT_ERROR'),(11 , 'VT_BOOL'),(12 , 'VT_VARIANT'),(13 , 'VT_UNKNOWN'),(14 , 'VT_DECIMAL'),(16 , 'VT_I1'),(17 , 'VT_UI1'),(18 , 'VT_UI2'),(19 , 'VT_UI4'),(20 , 'VT_I8'),(21 , 'VT_UI8'),(22 , 'VT_INT'),(23 , 'VT_UINT'),(24 , 'VT_VOID'),(25 , 'VT_HRESULT'),(26 , 'VT_PTR'),(27 , 'VT_SAFEARRAY'),(28 , 'VT_CARRAY'),(29 , 'VT_USERDEFINED'),(30 , 'VT_LPSTR'),(31 , 'VT_LPWSTR'),(36 , 'VT_RECORD'),(37 , 'VT_INT_PTR'),(38 , 'VT_UINT_PTR'),(8192 , 'VT_ARRAY'),(16384 , 'VT_BYREF'),)        
+
+class ADVFEATUREFLAGS(NdrEnum):
+    MAP = ((1 , 'FADF_AUTO'),(2 , 'FADF_STATIC'),(4 , 'FADF_EMBEDDED'),(16 , 'FADF_FIXEDSIZE'),(32 , 'FADF_RECORD'),(64 , 'FADF_HAVEIID'),(128 , 'FADF_HAVEVARTYPE'),(256 , 'FADF_BSTR'),(512 , 'FADF_UNKNOWN'),(1024 , 'FADF_DISPATCH'),(2048 , 'FADF_VARIANT'),)        
+
+class SF_TYPE(NdrEnum):
+    MAP = ((VT_ERROR , 'SF_ERROR'),(VT_I1 , 'SF_I1'),(VT_I2 , 'SF_I2'),(VT_I4 , 'SF_I4'),(VT_I8 , 'SF_I8'),(VT_BSTR , 'SF_BSTR'),(VT_UNKNOWN , 'SF_UNKNOWN'),(VT_DISPATCH , 'SF_DISPATCH'),(VT_VARIANT , 'SF_VARIANT'),(VT_RECORD , 'SF_RECORD'),(32768 , 'SF_HAVEIID'),)        
+
+class CALLCONV(NdrEnum):
+    MAP = ((1 , 'CC_CDECL'),(2 , 'CC_PASCAL'),(4 , 'CC_STDCALL'),)        
+
+class FUNCFLAGS(NdrEnum):
+    MAP = ((1 , 'FUNCFLAG_FRESTRICTED'),(2 , 'FUNCFLAG_FSOURCE'),(4 , 'FUNCFLAG_FBINDABLE'),(8 , 'FUNCFLAG_FREQUESTEDIT'),(16 , 'FUNCFLAG_FDISPLAYBIND'),(32 , 'FUNCFLAG_FDEFAULTBIND'),(64 , 'FUNCFLAG_FHIDDEN'),(128 , 'FUNCFLAG_FUSESGETLASTERROR'),(256 , 'FUNCFLAG_FDEFAULTCOLLELEM'),(512 , 'FUNCFLAG_FUIDEFAULT'),(1024 , 'FUNCFLAG_FNONBROWSABLE'),(2048 , 'FUNCFLAG_FREPLACEABLE'),(4096 , 'FUNCFLAG_FIMMEDIATEBIND'),)        
+
+class FUNCKIND(NdrEnum):
+    MAP = ((1 , 'FUNC_PUREVIRTUAL'),(3 , 'FUNC_STATIC'),(4 , 'FUNC_DISPATCH'),)        
+
+class IMPLTYPEFLAGS(NdrEnum):
+    MAP = ((1 , 'IMPLTYPEFLAG_FDEFAULT'),(2 , 'IMPLTYPEFLAG_FSOURCE'),(4 , 'IMPLTYPEFLAG_FRESTRICTED'),(8 , 'IMPLTYPEFLAG_FDEFAULTVTABLE'),)        
+
+class INVOKEKIND(NdrEnum):
+    MAP = ((1 , 'INVOKE_FUNC'),(2 , 'INVOKE_PROPERTYGET'),(4 , 'INVOKE_PROPERTYPUT'),(8 , 'INVOKE_PROPERTYPUTREF'),)        
+
+class PARAMFLAGS(NdrEnum):
+    MAP = ((0 , 'PARAMFLAG_NONE'),(1 , 'PARAMFLAG_FIN'),(2 , 'PARAMFLAG_FOUT'),(4 , 'PARAMFLAG_FLCID'),(8 , 'PARAMFLAG_FRETVAL'),(16 , 'PARAMFLAG_FOPT'),(32 , 'PARAMFLAG_FHASDEFAULT'),(64 , 'PARAMFLAG_FHASCUSTDATA'),)        
+
+class TYPEFLAGS(NdrEnum):
+    MAP = ((1 , 'TYPEFLAG_FAPPOBJECT'),(2 , 'TYPEFLAG_FCANCREATE'),(4 , 'TYPEFLAG_FLICENSED'),(8 , 'TYPEFLAG_FPREDECLID'),(16 , 'TYPEFLAG_FHIDDEN'),(32 , 'TYPEFLAG_FCONTROL'),(64 , 'TYPEFLAG_FDUAL'),(128 , 'TYPEFLAG_FNONEXTENSIBLE'),(256 , 'TYPEFLAG_FOLEAUTOMATION'),(512 , 'TYPEFLAG_FRESTRICTED'),(1024 , 'TYPEFLAG_FAGGREGATABLE'),(2048 , 'TYPEFLAG_FREPLACEABLE'),(4096 , 'TYPEFLAG_FDISPATCHABLE'),(16384 , 'TYPEFLAG_FPROXY'),)        
+
+class TYPEKIND(NdrEnum):
+    MAP = ((0 , 'TKIND_ENUM'),(1 , 'TKIND_RECORD'),(2 , 'TKIND_MODULE'),(3 , 'TKIND_INTERFACE'),(4 , 'TKIND_DISPATCH'),(5 , 'TKIND_COCLASS'),(6 , 'TKIND_ALIAS'),(7 , 'TKIND_UNION'),)        
+
+class VARFLAGS(NdrEnum):
+    MAP = ((1 , 'VARFLAG_FREADONLY'),(2 , 'VARFLAG_FSOURCE'),(4 , 'VARFLAG_FBINDABLE'),(8 , 'VARFLAG_FREQUESTEDIT'),(16 , 'VARFLAG_FDISPLAYBIND'),(32 , 'VARFLAG_FDEFAULTBIND'),(64 , 'VARFLAG_FHIDDEN'),(128 , 'VARFLAG_FRESTRICTED'),(256 , 'VARFLAG_FDEFAULTCOLLELEM'),(512 , 'VARFLAG_FUIDEFAULT'),(1024 , 'VARFLAG_FNONBROWSABLE'),(2048 , 'VARFLAG_FREPLACEABLE'),(4096 , 'VARFLAG_FIMMEDIATEBIND'),)        
+
+class VARKIND(NdrEnum):
+    MAP = ((0 , 'VAR_PERINSTANCE'),(1) , 'VAR_STATIC'),(1) , 'VAR_CONST'),(1) , 'VAR_DISPATCH'),)        
+
+class LIBFLAGS(NdrEnum):
+    MAP = ((1 , 'LIBFLAG_FRESTRICTED'),(2 , 'LIBFLAG_FCONTROL'),(4 , 'LIBFLAG_FHIDDEN'),(8 , 'LIBFLAG_FHASDISKIMAGE'),)        
+
+class SYSKIND(NdrEnum):
+    MAP = ((1 , 'SYS_WIN32'),(3 , 'SYS_WIN64'),)        
+
+class DESCKIND(NdrEnum):
+    MAP = ((0 , 'DESCKIND_NONE'),(1 , 'DESCKIND_FUNCDESC'),(2 , 'DESCKIND_VARDESC'),(3 , 'DESCKIND_TYPECOMP'),(4 , 'DESCKIND_IMPLICITAPPOBJ'),)        
+
 class FLAGGED_WORD_BLOB(NdrStructure):
     MEMBERS = [(UNSIGNED_LONG, "cBytes"),(UNSIGNED_LONG, "clSize"),(UNSIGNED_SHORT, "asData"),]
 
@@ -1003,7 +1067,7 @@ class FLAGGED_WORD_BLOB(NdrStructure):
 BSTR = FLAGGED_WORD_BLOB
 
 class CURRENCY(NdrStructure):
-    MEMBERS = [(__INT64, "int64"),]
+    MEMBERS = [(INT64, "int64"),]
 
     
 DATE = DOUBLE
@@ -1024,14 +1088,14 @@ class PBRECORD(NdrStructure):
 
     
 
-class _VARUNION(NdrUnion):
+class VARUNION(NdrUnion):
     SWITCHTYPE = DWORD
     MEMBERS = {1 : (LONGLONG, "llVal"),2 : (LONG, "lVal"),3 : (BYTE, "bVal"),4 : (SHORT, "iVal"),5 : (FLOAT, "fltVal"),6 : (DOUBLE, "dblVal"),7 : (VARIANT_BOOL, "boolVal"),8 : (HRESULT, "scode"),9 : (CURRENCY, "cyVal"),10 : (DATE, "date"),11 : (BSTR, "bstrVal"),12 : (PIUNKNOWN, "punkVal"),13 : (PIDISPATCH, "pdispVal"),14 : (PSAFEARRAY, "parray"),15 : (BRECORD, "brecVal"),16 : (PBYTE, "pbVal"),17 : (PSHORT, "piVal"),18 : (PLONG, "plVal"),19 : (PLONGLONG, "pllVal"),20 : (PFLOAT, "pfltVal"),21 : (PDOUBLE, "pdblVal"),22 : (PVARIANT_BOOL, "pboolVal"),23 : (PHRESULT, "pscode"),24 : (PCURRENCY, "pcyVal"),25 : (PDATE, "pdate"),26 : (PBSTR, "pbstrVal"),27 : (PPIUNKNOWN, "ppunkVal"),28 : (PPIDISPATCH, "ppdispVal"),29 : (PPSAFEARRAY, "pparray"),30 : (PVARIANT, "pvarVal"),31 : (CHAR, "cVal"),32 : (USHORT, "uiVal"),33 : (ULONG, "ulVal"),34 : (ULONGLONG, "ullVal"),35 : (INT, "intVal"),36 : (UINT, "uintVal"),37 : (DECIMAL, "decVal"),38 : (PCHAR, "pcVal"),39 : (PUSHORT, "puiVal"),40 : (PULONG, "pulVal"),41 : (PULONGLONG, "pullVal"),42 : (PINT, "pintVal"),43 : (PUINT, "puintVal"),44 : (PDECIMAL, "pdecVal"),}
 
     
 
 class WIREVARIANTSTR(NdrStructure):
-    MEMBERS = [(DWORD, "clSize"),(DWORD, "rpcReserved"),(USHORT, "vt"),(USHORT, "wReserved1"),(USHORT, "wReserved2"),(USHORT, "wReserved3"),(_VARUNION, "_varUnion"),]
+    MEMBERS = [(DWORD, "clSize"),(DWORD, "rpcReserved"),(USHORT, "vt"),(USHORT, "wReserved1"),(USHORT, "wReserved2"),(USHORT, "wReserved3"),(VARUNION, "_varUnion"),]
 
     
 
@@ -1135,14 +1199,14 @@ class PLPADESC(NdrStructure):
 
     
 
-class _TDUNION(NdrUnion):
+class TDUNION(NdrUnion):
     SWITCHTYPE = DWORD
     MEMBERS = {1 : (PLPTDESC, "*lptdesc"),2 : (PLPADESC, "*lpadesc"),3 : (HREFTYPE, "hreftype"),}
 
     
 
 class TYPEDESC(NdrStructure):
-    MEMBERS = [(_TDUNION, "_tdUnion"),(USHORT, "vt"),]
+    MEMBERS = [(TDUNION, "_tdUnion"),(USHORT, "vt"),]
 
     
 
@@ -1172,14 +1236,14 @@ class FUNCDESC(NdrStructure):
     
 LPFUNCDESC = FUNCDESC
 
-class _VDUNION(NdrUnion):
+class VDUNION(NdrUnion):
     SWITCHTYPE = DWORD
     MEMBERS = {1 : (ULONG, "oInst"),2 : (PVARIANT, "lpvarValue"),}
 
     
 
 class VARDESC(NdrStructure):
-    MEMBERS = [(MEMBERID, "memid"),(LPOLESTR, "lpstrReserved"),(_VDUNION, "_vdUnion"),(ELEMDESC, "elemdescVar"),(WORD, "wVarFlags"),(VARKIND, "varkind"),]
+    MEMBERS = [(MEMBERID, "memid"),(LPOLESTR, "lpstrReserved"),(VDUNION, "_vdUnion"),(ELEMDESC, "elemdescVar"),(WORD, "wVarFlags"),(VARKIND, "varkind"),]
 
     
 LPVARDESC = VARDESC
@@ -1206,52 +1270,97 @@ class CUSTDATA(NdrStructure):
 
     
 LPDISPATCH = IDISPATCH
-Method("GetTypeInfoCount",
-Out(PUINT),
+Interface("00020400-0000-0000-C000-000000000046", "1.0",[Method("GetTypeInfoCount",
+Out((PUINT,'pctinfo')),
 ),Method("GetTypeInfo",
-In(UINT),
-In(LCID),
-Out(PPITYPEINFO),
+In((UINT,'iTInfo')),
+In((LCID,'lcid')),
+Out((PPITYPEINFO,'ppTInfo')),
 ),Method("GetIDsOfNames",
-In(REFIID),
-In(PLPOLESTR),
-In(UINT),
-In(LCID),
-Out(PDISPID),
+In((REFIID,'riid')),
+In((PLPOLESTR,'rgszNames')),
+In((UINT,'cNames')),
+In((LCID,'lcid')),
+Out((PDISPID,'rgDispId')),
 ),Method("Invoke",
-In(DISPID),
-In(REFIID),
-In(LCID),
-In(DWORD),
-In(PDISPPARAMS),
-Out(PVARIANT),
-Out(PEXCEPINFO),
-Out(PUINT),
-In(UINT),
-In(PUINT),
-InOut(PVARIANT),
-),DECIMAL = DECIMAL
-Method("Item",
-In(LONG),
-Out(PBSTR),
+In((DISPID,'dispIdMember')),
+In((REFIID,'riid')),
+In((LCID,'lcid')),
+In((DWORD,'dwFlags')),
+In((PDISPPARAMS,'pDispParams')),
+Out((PVARIANT,'pVarResult')),
+Out((PEXCEPINFO,'pExcepInfo')),
+Out((PUINT,'pArgErr')),
+In((UINT,'cVarRef')),
+In((PUINT,'rgVarRefIdx')),
+InOut((PVARIANT,'rgVarRef')),
+),])
+class DOWNLOADPRIORITY(NdrEnum):
+    MAP = ((1 , 'dpLow'),(2 , 'dpNormal'),(3 , 'dpHigh'),(4 , 'dpExtraHigh'),)        
+
+class AUTOSELECTIONMODE(NdrEnum):
+    MAP = ((0 , 'asLetWindowsUpdateDecide'),(1 , 'asAutoSelectIfDownloaded'),(2 , 'asNeverAutoSelect'),(3 , 'asAlwaysAutoSelect'),)        
+
+class AUTODOWNLOADMODE(NdrEnum):
+    MAP = ((0 , 'adLetWindowsUpdateDecide'),(1 , 'adNeverAutoDownload'),(2 , 'adAlwaysAutoDownload'),)        
+
+class INSTALLATIONIMPACT(NdrEnum):
+    MAP = ((0 , 'iiNormal'),(1 , 'iiMinor'),(2 , 'iiRequiresExclusiveHandling'),)        
+
+class INSTALLATIONREBOOTBEHAVIOR(NdrEnum):
+    MAP = ((0 , 'irbNeverReboots'),(1 , 'irbAlwaysRequiresReboot'),(2 , 'irbCanRequestReboot'),)        
+
+class OPERATIONRESULTCODE(NdrEnum):
+    MAP = ((0 , 'orcNotStarted'),(1 , 'orcInProgress'),(2 , 'orcSucceeded'),(3 , 'orcSucceededWithErrors'),(4 , 'orcFailed'),(5 , 'orcAborted'),)        
+
+class SERVERSELECTION(NdrEnum):
+    MAP = ((0 , 'ssDefault'),(1 , 'ssManagedServer'),(2 , 'ssWindowsUpdate'),(3 , 'ssOthers'),)        
+
+class UPDATETYPE(NdrEnum):
+    MAP = ((1 , 'utSoftware'),(2 , 'utDriver'),)        
+
+class UPDATEOPERATION(NdrEnum):
+    MAP = ((1 , 'uoInstallation'),(2 , 'uoUninstallation'),)        
+
+class DEPLOYMENTACTION(NdrEnum):
+    MAP = ((0 , 'daNone'),(1 , 'daInstallation'),(2 , 'daUninstallation'),(3 , 'daDetection'),)        
+
+class UPDATEEXCEPTIONCONTEXT(NdrEnum):
+    MAP = ((1 , 'uecGeneral'),(2 , 'uecWindowsDriver'),(3 , 'uecWindowsInstaller'),)        
+
+class UPDATESERVICEREGISTRATIONSTATE(NdrEnum):
+    MAP = ((1 , 'usrsNotRegistered'),(2 , 'usrsRegistrationPending'),(3 , 'usrsRegistered'),)        
+
+class SEARCHSCOPE(NdrEnum):
+    MAP = ((0 , 'searchScopeDefault'),(1 , 'searchScopeMachineOnly'),(2 , 'searchScopeCurrentUserOnly'),(3 , 'searchScopeMachineAndCurrentUser'),(4 , 'searchScopeMachineAndAllUsers'),(5 , 'searchScopeAllUsers'),)        
+
+class ADDSERVICEFLAG(NdrEnum):
+    MAP = ((1 , 'asfAllowPendingRegistration'),(2 , 'asfAllowOnlineRegistration'),(4 , 'asfRegisterServiceWithAU'),)        
+
+class UPDATESERVICEOPTION(NdrEnum):
+    MAP = ((1 , 'usoNonVolatileService'),)        
+DECIMAL = DECIMAL
+Interface("eff90582-2dc-480-a06d-603bc362c3", "1.0",[Method("Item",
+In((LONG,'index')),
+Out((PBSTR,'retval')),
 ),Method("Item",
-In(LONG),
-In(BSTR),
+In((LONG,'index')),
+In((BSTR,'value')),
 ),Method("_NewEnum",
-Out(PPIUNKNOWN),
+Out((PPIUNKNOWN,'retval')),
 ),Method("Count",
-Out(PLONG),
+Out((PLONG,'retval')),
 ),Method("ReadOnly",
-Out(PVARIANT_BOOL),
+Out((PVARIANT_BOOL,'retval')),
 ),Method("Add",
-In(BSTR),
-Out(PLONG),
+In((BSTR,'value')),
+Out((PLONG,'retval')),
 ),Method("Clear",
 ),Method("Copy",
-Out(PPISTRINGCOLLECTION),
+Out((PPISTRINGCOLLECTION,'retval')),
 ),Method("Insert",
-In(LONG),
-In(BSTR),
+In((LONG,'index')),
+In((BSTR,'value')),
 ),Method("RemoveAt",
-In(LONG),
-),
+In((LONG,'index')),
+),])
