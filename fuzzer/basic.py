@@ -2,7 +2,8 @@
 
 # Basic types generator
 # Based on https://github.com/OpenRCE/sulley/blob/d5e60c875118637353769a113d2c53521309c657/sulley/primitives.py
-import random
+from .config import rand as random
+from .config import NULL_TERMINATE_CHANCE
 
 # Definitions
 RANGE_MIN_VALUE = 0
@@ -101,9 +102,7 @@ class StringGenerator(object):
             "<>" * 400,  # sendmail crackaddr
         ]
         self.add_long_strings("A")
-        self.add_long_strings("B")
         self.add_long_strings("1")
-        self.add_long_strings("2")
         self.add_long_strings("3")
         self.add_long_strings("<")
         self.add_long_strings(">")
@@ -153,10 +152,19 @@ class StringGenerator(object):
             6,
             7,
             8,
+            9,
+            15,
             16,
+            17,
+            31,
             32,
+            33,
+            63,
             64,
+            65,
+            127,
             128,
+            129,
             255,
             256,
             257,
@@ -165,6 +173,7 @@ class StringGenerator(object):
             513,
             1023,
             1024,
+            1025
         ]:
             long_string = sequence * length
             self.choices.append(long_string)
@@ -216,11 +225,15 @@ def generate_str(wide, range_min, range_max):
         if range_min != RANGE_MIN_VALUE or range_max != RANGE_MAX_VALUE:
             # After some tries
             if random.randint(0, 5) == 4:
-                s = s * ((range_max / len(s)) + 1)  # > range_max
+                s = s * ((range_max // len(s)) + 1)  # > range_max
                 s = s[
                     : random.randint(range_min, range_max)
                 ]  # range_min > chosen > range_max
     # Dirty ...
     if wide:
         s = "".join(map(lambda x: x + "\0", list(s)))
-    return s
+    
+    if random.randint(0,100) < NULL_TERMINATE_CHANCE:
+        s+="\x00"
+
+    return "'"+s+"'"

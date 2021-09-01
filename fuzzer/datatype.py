@@ -32,7 +32,7 @@ IDL_TO_NDR = {
     "signed short": "NdrShort",
     "wchar_t": "NdrWString",
     "char": "NdrByte",
-    "pwchar": "NdrByte",
+    "pwchar": "NdrCString",
     "int": "NdrLong",
     "pvoid" : "NdrContextHandle",
     "void": "NdrContextHandle",
