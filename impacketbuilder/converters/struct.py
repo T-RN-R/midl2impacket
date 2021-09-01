@@ -25,11 +25,6 @@ class MidlStructConverter(Converter):
     NDR_POINTER = 0x2
     NDR_STRUCT = 0x3
     NDR_UNION = 0x4
-    Anonymous_Count = 0
-
-    def get_anonymous_name(self):
-        __class__.Anonymous_Count += 1
-        return "Anonymous" + str(__class__.Anonymous_Count)
 
     def convert(self, struct, parent_struct=None):
         ndr_type = self.detect_ndr_type(struct)
@@ -42,56 +37,56 @@ class MidlStructConverter(Converter):
         else:
             raise Exception("NDR_POINTER unimplemented")
 
-    def handle_ndr_union(self, struct, parent_struct):
+    def handle_ndr_union(self, union, parent_struct):
         """Create the Python definition for an NDRUnion
         """
-        if len(struct.public_names) > 0:
-            if struct.public_names[0] == "":
-                name = self.get_anonymous_name()
-            else:
-                name = struct.public_names[0]
+        if union.public_names:
+            base_name = union.public_names[0]
         else:
-            name = self.get_anonymous_name()
+            base_name = union.private_name
 
         tag: MidlAttribute
-        if tag := struct.attributes.get("switch_type"):
+        if tag := union.attributes.get("switch_type"):
             tag = tag.params[0].upper()
             #TODO  switch_type can be an expression
-        elif tag := struct.attributes.get("switch_is"):
+        elif tag := union.attributes.get("switch_is"):
             #tag is now the switch_is parameter
             tag = tag.params[0].upper()
             #lookup the variable name in the struct creating this union, and make that variable's type the tag name
             assert(parent_struct is not None), "Must pass in parent_struct!"
-            new_tag = None
             for member in parent_struct.members:
-                name = member.name
-                if name == tag:
-                    new_tag = member.type
-                    assert(isinstance(tag,str)), "Handle cases where the union tag object is non-str(most likely VarDef)"
+                member_name = member.name.upper()
+                if member_name == tag:
+                    tag = member.type
+                    assert(isinstance(tag, str)), "Handle cases where the union tag object is non-str(most likely VarDef)"
                     break
-            tag = new_tag if new_tag is not None else "DWORD"
+        
+        # Default to DWORD
+        tag = tag or "DWORD"
+        # Pythonize the tag
+        tag = self.mapper.get_python_type(tag)[0]
 
         count = 1
         entries = []
-        for struct_member in struct.members:
+        for union_member in union.members:
             # VarDefConverter(self.io,self.tab_level,self.mapper).convert(m)
             key = None
-            if struct_member.attributes:
-                if "case" in struct_member.attributes:
-                    key = struct_member.attributes["case"].params[0]
+            if union_member.attributes:
+                if "case" in union_member.attributes:
+                    key = union_member.attributes["case"].params[0]
             type_name = None
-            if isinstance(struct_member.type, str):
-                type_name = struct_member.type
-            elif isinstance(struct_member.type, MidlStructDef):
-                type_name = struct_member.type.public_names[0]
-                self.convert(struct_member.type, struct)
-            elif isinstance(struct_member.type, MidlUnionDef):
-                type_name = struct_member.type.public_names[0]
-                self.convert(struct_member.type, struct)
-            elif struct_member.type is None:
+            if isinstance(union_member.type, str):
+                type_name = union_member.type
+            elif isinstance(union_member.type, MidlStructDef):
+                type_name = union_member.type.public_names[0]
+                self.convert(union_member.type, union)
+            elif isinstance(union_member.type, MidlUnionDef):
+                type_name = union_member.type.public_names[0]
+                self.convert(union_member.type, union)
+            elif union_member.type is None:
                 continue
             else:
-                raise Exception(f"Unexpected type: {type(struct_member.type)}")
+                raise Exception(f"Unexpected type: {type(union_member.type)}")
             if key is None:
                 key = count
             type_name = self.mapper.get_python_type(type_name)[0]
@@ -100,21 +95,21 @@ class MidlStructConverter(Converter):
                     key=PythonValue(key),
                     value=PythonTuple(
                         [
-                            PythonValue(f"'{struct_member.name}'"),
+                            PythonValue(f"'{union_member.name}'"),
                             PythonValue(type_name),
                         ]
                     ),
                 )
             )
             count += 1
-        base_name, base_exists = self.mapper.get_python_type(name)
+        base_name, base_exists = self.mapper.get_python_type(base_name)
         if entries:
             dentries = PythonDictEntryList(*entries)
             if not base_exists:
                 union_def = PythonNdrUnion(name=base_name, union_entries=dentries, tag=tag)
                 self.write(union_def.to_string())
                 self.mapper.add_type(base_name)
-            private_name, private_name_exists = self.mapper.get_python_type(struct.private_name)
+            private_name, private_name_exists = self.mapper.get_python_type(union.private_name)
             if private_name and not private_name_exists:
                 # In case of typedefs on the private name:
                 private_association = PythonAssignment(PythonName(private_name), PythonValue(base_name))
@@ -126,8 +121,8 @@ class MidlStructConverter(Converter):
             self.write(forward_declaration.to_python_string())
 
         # Now handle the cases where there are multiple public names, including pointers
-        if len(struct.public_names) > 1:
-            for public_name in struct.public_names[1:]:
+        if len(union.public_names) > 1:
+            for public_name in union.public_names[1:]:
                 star_count = public_name.count("*")
                 if star_count == 1:
                     pointer_name = self.mapper.get_python_type(public_name[1:])[0]
@@ -149,7 +144,7 @@ class MidlStructConverter(Converter):
                     raise ConversionException(
                         f"Multiple asterisks encountered in name: {public_name}"
                     )
-        return name
+        return base_name
 
     def handle_ndr_struct(self, struct: MidlStructDef):
         """Create the Python definition for an NDRUnion"""
@@ -170,10 +165,10 @@ class MidlStructConverter(Converter):
             # If there aren't any non-pointer public names, use the private name
             if struct.public_names[0].startswith('*'):
                 struct.public_names.insert(0, struct.private_name)
-            base_name = self.mapper.get_python_type(struct.public_names[0])[0]
+            base_name = struct.public_names[0]
         else:
-            base_name = self.get_anonymous_name()
-
+            base_name = struct.private_name
+        base_name, _ = self.mapper.get_python_type(base_name)
         if struct_entries:
             ndr_class = PythonNdrStruct(name=base_name, structure=struct_tuple)
             self.write(ndr_class.to_string())

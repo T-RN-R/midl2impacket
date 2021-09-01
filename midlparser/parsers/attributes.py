@@ -3,7 +3,6 @@ from midlparser.parsers.expression import MidlExpressionParser
 
 from midltypes import MidlAttribute, SizeIsAttribute
 from midlparser.parsers.base import MidlBaseParser, MidlParserException
-from midlparser.parsers.util import SkipClosureParser
 from midlparser.tokenizer import Token
 
 
@@ -22,8 +21,8 @@ class MidlAttributesParser(MidlBaseParser):
             end_state=AttributeState.END,
             tokenizer=tokenizer,
         )
-        self.cur_attr = None
-        self.cur_attr_param = ""
+        self.cur_attr_name = None
+        self.cur_attr_param_parts = []
         self.cur_attr_params = []
         self.attributes = {}
         self.attr_handlers = {
@@ -33,7 +32,7 @@ class MidlAttributesParser(MidlBaseParser):
     def add_to_cur_param(self, token: Token):
         if self.state != AttributeState.PARAMETERS:
             self.invalid(token)
-        self.cur_attr_param += token.data
+        self.cur_attr_param_parts.append(token.data)
 
     def symbol(self, token: Token):
         self.add_to_cur_param(token)
@@ -47,15 +46,22 @@ class MidlAttributesParser(MidlBaseParser):
     def operator(self, token: Token):
         self.add_to_cur_param(token)
 
+    def string(self, token: Token):
+        self.add_to_cur_param(token)
+
+    def finish_param(self):
+        self.cur_attr_params.append(' '.join(self.cur_attr_param_parts))
+        self.cur_attr_param_parts = []
+
     def sqbracket(self, token: Token):
         if token.data == "[" and self.state == AttributeState.BEGIN:
             self.state = AttributeState.DEFAULT
         elif token.data == "]":
             if self.state != AttributeState.DEFAULT:
                 self.invalid(token)
-            if self.cur_attr:
-                self.attributes[self.cur_attr] = MidlAttribute(
-                    self.cur_attr, self.cur_attr_params
+            if self.cur_attr_name:
+                self.attributes[self.cur_attr_name] = MidlAttribute(
+                    self.cur_attr_name, self.cur_attr_params
                 )
             self.state = AttributeState.END
         else:
@@ -67,13 +73,12 @@ class MidlAttributesParser(MidlBaseParser):
                 self.state = AttributeState.PARAMETERS
             elif self.state == AttributeState.PARAMETERS:
                 # Just grab the whole blob and add it to the current member
-                self.cur_attr_param += MidlExpressionParser(
-                    self.tokens, self.tokenizer).parse(token)
+                self.cur_attr_param_parts.append(MidlExpressionParser(
+                    self.tokens, self.tokenizer).parse(token))
             else:
                 self.invalid(token)
         elif token.data == ")" and self.state == AttributeState.PARAMETERS:
-            self.cur_attr_params.append(self.cur_attr_param)
-            self.cur_attr_param = ""
+            self.finish_param()
             self.state = AttributeState.DEFAULT
         else:
             self.invalid(token)
@@ -81,14 +86,13 @@ class MidlAttributesParser(MidlBaseParser):
     def comma(self, token: Token):
         if self.state == AttributeState.PARAMETERS:
             # It's legal for this to be None in cases like size_is(,*numActualRecords)
-            self.cur_attr_params.append(self.cur_attr_param)
-            self.cur_attr_param = ""
-        elif self.state == AttributeState.DEFAULT and self.cur_attr:
+            self.finish_param()
+        elif self.state == AttributeState.DEFAULT and self.cur_attr_name:
             # End of an attribute
-            self.attributes[self.cur_attr] = MidlAttribute(
-                self.cur_attr, self.cur_attr_params
+            self.attributes[self.cur_attr_name] = MidlAttribute(
+                self.cur_attr_name, self.cur_attr_params
             )
-            self.cur_attr = None
+            self.cur_attr_name = None
             self.cur_attr_params = []
         else:
             self.invalid(token)
@@ -96,19 +100,13 @@ class MidlAttributesParser(MidlBaseParser):
     def keyword(self, token: Token):
         if self.state == AttributeState.PARAMETERS:
             self.add_to_cur_param(token)
-        elif self.state == AttributeState.DEFAULT and not self.cur_attr:
-            self.cur_attr = token.data
+        elif self.state == AttributeState.DEFAULT and not self.cur_attr_name:
+            self.cur_attr_name = token.data
         else:
             self.invalid(token)
 
     def comment(self, _):
         pass
-
-    def string(self, token: Token):
-        if self.state == AttributeState.PARAMETERS:
-            self.cur_attr_param += token.data
-        else:
-            self.invalid(token)
 
     def size_is(self, attribute: MidlAttribute):
         return SizeIsAttribute(attribute.name, attribute.params)

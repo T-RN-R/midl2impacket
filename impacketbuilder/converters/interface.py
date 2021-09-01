@@ -1,3 +1,4 @@
+from impacketbuilder.converters.enum import MidlEnumConverter
 from impacketbuilder.converters.constants import MidlConstantConverter
 from impacketbuilder.converters.imports import MidlImportsConverter
 from .base import Converter
@@ -174,48 +175,5 @@ class MidlInterfaceConverter(Converter):
         struct_converter.convert(td)
 
     def handle_midl_enum(self, td: MidlEnumDef):
-        private_name = self.mapper.get_python_type(td.private_name)[0]
-        if len(td.public_names) > 0:
-            if td.public_names[0] == "":
-                self.write(
-                    PythonAssignment(
-                        PythonName(private_name), PythonValue("DWORD__ENUM")
-                    )
-                )
-                self.mapper.add_type(private_name)
-            else:
-                public_name = self.mapper.get_python_type(td.public_names[0])[0]
-                # If it has a public name, the enum may be used inside of an interface definition, so create a typdef for it to "DWORD__ENUM"
-                self.write(
-                    PythonAssignment(
-                        PythonName(public_name),
-                        PythonValue("DWORD__ENUM"),
-                    )
-                )
-                self.mapper.add_type(public_name)
-        else:
-            self.write(
-                PythonAssignment(
-                    PythonName(private_name), PythonValue("DWORD__ENUM")
-                )
-            )
-            self.mapper.add_type(td.private_name)
-
-        val = td.map[list(td.map.keys())[0]]
-        # Handle the case where the first enum entry has no value.
-        if val == None or val == "" or val == "0":
-            # default enum value case
-            value = 0
-            for key in td.map.keys():
-                val = td.map[key]
-                if val == None or val == "" or val == "0":
-                    td.map.update({key: value})
-                    value += 1
-                else:
-                    td.map.update({key: val})
-                    value += 1
-
-        for key in td.map.keys():
-            val = td.map[key]
-            enum = PythonAssignment(PythonName(key), PythonValue(str(val)))
-            self.write(enum)
+        enum_converter = MidlEnumConverter(self.io, self.tab_level, mapper=self.mapper)
+        enum_converter.convert(td)
