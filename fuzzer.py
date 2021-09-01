@@ -47,13 +47,13 @@ def main():
 
 def generate(in_file, count, out_dir, import_path):
     print(f"Parsing {in_file}")
-    in_file = pathlib.Path(in_file)
+    in_file = pathlib.Path(in_file.replace(" ",""))
     if not in_file.exists():
         raise Exception(f"Provided input file {in_file} does not exist.")
     out_path = out_dir
     pathlib.Path(out_path).mkdir(exist_ok=True)
     py_name = str(in_file).split("\\")[-1].replace(".idl", ".py")
-    py_name = py_name.replace("-", "_")
+    py_name = py_name.replace("-", "_").replace(" ","")
     defintion = pathlib.Path(out_path + py_name)
 
     midl_def = parse_idl(in_file)

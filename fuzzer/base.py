@@ -44,6 +44,7 @@ class NDRINTERFACE:
         # CONNECT HERE
         interface = random.choice(NDRINTERFACE.INSTANCES)
         testcase = Testcase()
+        testcase.add(f"from {fuzzer.server} import *\n")
         for i in range(0, iters):
             method = random.choice(interface.methods)
             testcase.add(method.generate(testcase, fuzzer))

@@ -45,7 +45,8 @@ class Fuzzer:
     def __init__(self, count, server_path):
         __import__(
             server_path
-        )  # dynamically import the generated template to populate the fuzzer
+        )  
+        self.server = server_path# dynamically import the generated template to populate the fuzzer
         self.count = count  # Number of testcases to generate
 
     def run(self):
