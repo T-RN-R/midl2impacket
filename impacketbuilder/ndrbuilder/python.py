@@ -150,22 +150,21 @@ class PythonFunctionList(PythonDefList):
             out += func.to_python_string(tab_level) + "\n"
         return out
 
-
 class PythonClass(PythonDef):
     """Represents a Python class"""
 
     def __init__(
         self,
         name: PythonName,
-        parent_classes: PythonNameList = [],
-        class_props: PythonAssignmentList = [],
-        functions: PythonFunctionList = [],
+        parent_classes: PythonNameList = None,
+        class_props: PythonAssignmentList = None,
+        functions: PythonFunctionList = None,
         comment: str=None,
     ):
         self.name = name
-        self.parent_classes = parent_classes
-        self.class_props = class_props
-        self.functions = functions
+        self.parent_classes = parent_classes or PythonNameList()
+        self.class_props = class_props or PythonAssignmentList()
+        self.functions = functions or PythonFunctionList()
         self.comment = ''
         if comment:
             self.comment = '\t"""\n\t' + '\n\t'.join(comment.splitlines()) + '\n\t"""\n'

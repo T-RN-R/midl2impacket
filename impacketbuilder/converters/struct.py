@@ -54,15 +54,14 @@ class MidlStructConverter(Converter):
             name = self.get_anonymous_name()
 
         tag: MidlAttribute
-        if tag := struct.attributes.get("switch_type"): 
+        if tag := struct.attributes.get("switch_type"):
             tag = tag.params[0].upper()
             #TODO  switch_type can be an expression
-        elif  tag := struct.attributes.get("switch_is"):
-            tag = tag.params[0].upper() 
+        elif tag := struct.attributes.get("switch_is"):
             #tag is now the switch_is parameter
-            
+            tag = tag.params[0].upper()
             #lookup the variable name in the struct creating this union, and make that variable's type the tag name
-            assert(parent_struct!=None), "Must pass in parent_struct!"
+            assert(parent_struct is not None), "Must pass in parent_struct!"
             new_tag = None
             for member in parent_struct.members:
                 name = member.name
@@ -70,9 +69,8 @@ class MidlStructConverter(Converter):
                     new_tag = member.type
                     assert(isinstance(tag,str)), "Handle cases where the union tag object is non-str(most likely VarDef)"
                     break
-            if new_tag != None: tag = new_tag
-            else: tag = "DWORD" #default to DWORD type
-            
+            tag = new_tag if new_tag is not None else "DWORD"
+
         count = 1
         entries = []
         for struct_member in struct.members:
@@ -110,10 +108,22 @@ class MidlStructConverter(Converter):
             )
             count += 1
         base_name, base_exists = self.mapper.get_python_type(name)
-        dentries = PythonDictEntryList(*entries)
-        if not base_exists:
-            union_def = PythonNdrUnion(name=base_name, union_entries=dentries, tag=tag)
-            self.write(union_def.to_string())
+        if entries:
+            dentries = PythonDictEntryList(*entries)
+            if not base_exists:
+                union_def = PythonNdrUnion(name=base_name, union_entries=dentries, tag=tag)
+                self.write(union_def.to_string())
+                self.mapper.add_type(base_name)
+            private_name, private_name_exists = self.mapper.get_python_type(struct.private_name)
+            if private_name and not private_name_exists:
+                # In case of typedefs on the private name:
+                private_association = PythonAssignment(PythonName(private_name), PythonValue(base_name))
+                self.write(private_association.to_python_string())
+                self.mapper.add_type(private_name)
+        else:
+            # This is just a forward declaration.
+            forward_declaration = PythonAssignment(PythonName(base_name), PythonValue('None'))
+            self.write(forward_declaration.to_python_string())
 
         # Now handle the cases where there are multiple public names, including pointers
         if len(struct.public_names) > 1:
@@ -141,7 +151,7 @@ class MidlStructConverter(Converter):
                     )
         return name
 
-    def handle_ndr_struct(self, struct):
+    def handle_ndr_struct(self, struct: MidlStructDef):
         """Create the Python definition for an NDRUnion"""
         struct_entries = []
         for var_def in struct.members:
@@ -157,15 +167,27 @@ class MidlStructConverter(Converter):
         struct_tuple = PythonTuple(struct_entries)
 
         if len(struct.public_names) > 0:
-            # If the first name is a pointer type, use the private name as the public one
+            # If there aren't any non-pointer public names, use the private name
             if struct.public_names[0].startswith('*'):
                 struct.public_names.insert(0, struct.private_name)
             base_name = self.mapper.get_python_type(struct.public_names[0])[0]
         else:
             base_name = self.get_anonymous_name()
 
-        ndr_class = PythonNdrStruct(name=base_name, structure=struct_tuple)
-        self.write(ndr_class.to_string())
+        if struct_entries:
+            ndr_class = PythonNdrStruct(name=base_name, structure=struct_tuple)
+            self.write(ndr_class.to_string())
+            self.mapper.add_type(base_name)
+            private_name, private_name_exists = self.mapper.get_python_type(struct.private_name)
+            if private_name and not private_name_exists:
+                # In case of typedefs on the private name:
+                private_association = PythonAssignment(PythonName(private_name), PythonValue(base_name))
+                self.write(private_association.to_python_string())
+                self.mapper.add_type(private_name)
+        else:
+            # This is just a forward declaration.
+            forward_declaration = PythonAssignment(PythonName(base_name), PythonValue('None'))
+            self.write(forward_declaration.to_python_string())
 
         # Now handle the cases where there are multiple public names, including pointers
         if len(struct.public_names) > 1:
@@ -231,9 +253,16 @@ class MidlStructConverter(Converter):
         )
         ndr_struct = PythonNdrStruct(name=main_name, structure=struct_tuple)
 
+        # Add array
         self.write(ndr_array.to_string())
+        self.mapper.add_type(array_name)
+        # Add pointer to array
         self.write(ndr_ptr.to_string())
+        self.mapper.add_type(array_pointer_name)
+        # Add structure
         self.write(ndr_struct.to_string())
+        self.mapper.add_type(main_name)
+
         # Now handle the cases where there are multiple public names, including pointers
         if len(struct.public_names) > 1:
             for public_name in struct.public_names[1:]:

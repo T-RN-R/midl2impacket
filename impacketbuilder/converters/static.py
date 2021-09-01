@@ -43,7 +43,7 @@ class CONTEXT_HANDLE(NDRSTRUCT):
     structure = (
         ('Data', '20s=""'),
     )
-HANDLE_T = CONTEXT_HANDLE
+HANDLE_T = CONTEXT_HANDLE\
 """
         self.write(imports)
 
@@ -53,4 +53,3 @@ HANDLE_T = CONTEXT_HANDLE
             if canonicalized_name != py_name:
                 self.write(f"{canonicalized_name} = {py_name}")
             self.mapper.add_type(canonicalized_name)
-

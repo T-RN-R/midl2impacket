@@ -38,6 +38,8 @@ class PythonDefList(PythonDef):
                 )
         self.obj_list = list(args)
 
+    def __iter__(self):
+        return iter(self.obj_list)
 
 class PythonValue(PythonDef):
     """Base class that represents anything on the rhs of an assignment"""

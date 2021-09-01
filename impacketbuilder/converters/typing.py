@@ -1,3 +1,5 @@
+from impacketbuilder.ndrbuilder.base import PythonValue
+from impacketbuilder.ndrbuilder.python import PythonAssignment, PythonName
 import re
 from impacket.dcerpc.v5.dtypes import LPSTR, LPWSTR, STR, WSTR
 from impacket.dcerpc.v5.ndr import (NDRBOOLEAN, NDRDOUBLEFLOAT, NDRFLOAT,
@@ -155,6 +157,13 @@ class TypeMapper:
         if pointers_to_create and self.writer:
             for pointer_to_create, pointee_to_create in pointers_to_create[::-1]:
                 if pointer_to_create not in self.types:
+                    # If the pointee doesn't exist, create a "forward declaration"
+                    if pointee_to_create not in self.types:
+                        pointee_fwd_dec = PythonAssignment(
+                            name=PythonName(pointee_to_create),
+                            rhs=PythonValue("None")
+                        )
+                        self.writer.write(pointee_fwd_dec.to_python_string() + '\n')
                     ndr_ptr = PythonNdrPointer(
                         name=pointer_to_create, referent_name=pointee_to_create
                     )

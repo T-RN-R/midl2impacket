@@ -26,157 +26,122 @@ class PythonNdrClassDefiniton:
     def to_string(self):
         return self.clazz.to_python_string(0)
 
+    def generate_init_method(self, assignments: PythonAssignmentList) -> PythonFunction:
+        func_body_parts = [assn.to_python_string() for assn in assignments.obj_list]
+        func_body_parts.append("super().__init__(*args, **kwargs)")
+        return PythonFunction(
+            name="__init__",
+            args="self, *args, **kwargs",
+            body=func_body_parts
+        )
+
+    def generate_prop_methods(self, props: PythonTuple) -> list[PythonFunction]:
+        prop_methods = []
+        for prop in props.values:
+            prop_name = prop.values[0].value[1:-1]
+            prop_type = prop.values[1].value
+            if prop_type.startswith("'"):
+                prop_type = 'str'
+            prop_get = PythonFunction(
+                name=prop_name,
+                args="self",
+                body=[f"return self['{prop_name}']"],
+                decorator="@property",
+                return_type=prop_type
+            )
+            prop_methods.append(prop_get)
+            prop_set = PythonFunction(
+                name=prop_name,
+                args=f"self, prop:{prop_type}",
+                body=[f"self['{prop_name}'] = prop"],
+                decorator=f"@{prop_name}.setter",
+            )
+            prop_methods.append(prop_set)
+        return prop_methods
 
 class PythonNdrStruct(PythonNdrClassDefiniton):
     """Creates a simple NDRSTRUCT"""
 
     def __init__(self, name: str, structure: PythonTuple, align: str = "1"):
-        align = PythonAssignment(PythonName("align"), PythonValue(align))
-        structure = PythonAssignment(PythonValue("structure"), structure)
-        prop_list = [align, structure]
-        prop_functions = self.generate_prop_functions(structure)
-        props = PythonAssignmentList(*prop_list)
+        align_assn = PythonAssignment(PythonName("align"), PythonValue(align))
+        structure_assn = PythonAssignment(PythonValue("self.structure"), structure)
+        init_props = PythonAssignmentList(structure_assn)
+        functions = [self.generate_init_method(init_props)]
+        functions.extend(self.generate_prop_methods(structure))
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRSTRUCT")),
-            class_props=props,
-            functions=prop_functions,
+            class_props=PythonAssignmentList(align_assn),
+            functions=PythonFunctionList(*functions),
         )
-
-    def generate_prop_functions(self, structure: PythonTuple) -> PythonFunctionList:
-        prop_functions = []
-        for struct_member in structure.rhs.values:
-            prop_name = struct_member.values[0].value[1:-1]
-            prop_type = struct_member.values[1].value
-            if prop_type.startswith("'"):
-                prop_type = 'str'
-            prop_get_fn = PythonFunction(
-                name=prop_name,
-                args="self",
-                body=[f"return self['{prop_name}']"],
-                decorator="@property",
-                return_type=prop_type
-            )
-            prop_functions.append(prop_get_fn)
-            prop_set_fn = PythonFunction(
-                name=prop_name,
-                args=f"self, prop:{prop_type}",
-                body=[f"self['{prop_name}'] = prop"],
-                decorator=f"@{prop_name}.setter",
-            )
-            prop_functions.append(prop_set_fn)
-        return PythonFunctionList(*prop_functions)
-
 
 class PythonNdrPointer(PythonNdrClassDefiniton):
     """Creates a simple NDRPOINTER"""
 
     def __init__(self, name: str, referent_name: str):
-        referent = PythonAssignment(
-            PythonName("referent"),
+        referent_assn = PythonAssignment(
+            PythonName("self.referent"),
             PythonTuple(
                 [PythonTuple([PythonValue("'Data'"), PythonValue(referent_name)])]
             ),
         )
-        prop_list = [referent]
-        props = PythonAssignmentList(*prop_list)
-        prop_functions = self.generate_prop_functions(referent_name)
+        init_props = PythonAssignmentList(referent_assn)
+        functions = [self.generate_init_method(init_props)]
+        member_props = PythonTuple([PythonTuple([PythonValue("'Data'"), PythonValue(referent_name)])])
+        functions.extend(self.generate_prop_methods(member_props))
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRPOINTER")),
-            class_props=props,
-            functions=prop_functions,
+            functions=PythonFunctionList(*functions),
         )
-
-    def generate_prop_functions(self, referent_type:str):
-        prop_setter = PythonFunction(
-            name="Data",
-            args=f"self, prop:{referent_type}",
-            body=["self['Data'] = prop"],
-            decorator="@Data.setter",
-        )
-        prop_getter = PythonFunction(
-            name="Data",
-            args="self",
-            body=["return self['Data']"],
-            decorator="@property",
-            return_type=referent_type
-        )
-        return PythonFunctionList(prop_getter, prop_setter)
-
 
 class PythonNdrUnion(PythonNdrClassDefiniton):
     """Creates a simple NDRUNION"""
 
     def __init__(self, name: str, union_entries: PythonDictEntryList, tag=None):
-        prop_list = []
+        union_assn = PythonAssignment(PythonValue("self.union"), PythonDict(union_entries))
+        init_assns = [union_assn]
         if tag:
             commonHdr = PythonAssignment(
-                PythonName("commonHdr"),
+                PythonName("self.commonHdr"),
 
-                PythonTuple([PythonTuple([PythonValue(f"'tag'"), PythonValue(f"{tag}")])]),
+                PythonTuple([PythonTuple([PythonValue("'tag'"), PythonValue(f"{tag}")])]),
             )
-            prop_list.append(commonHdr)
-        structure = PythonAssignment(PythonValue("union"), PythonDict(union_entries))
-        prop_list.append(structure)
-        props = PythonAssignmentList(*prop_list)
-        prop_functions = self.generate_prop_functions(structure)
+            init_assns.append(commonHdr)
+        init_assns = PythonAssignmentList(*init_assns)
+        functions = [self.generate_init_method(init_assns)]
+        union_tup = PythonTuple([x.value for x in  union_entries.obj_list])
+        functions.extend(self.generate_prop_methods(union_tup))
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRUNION")),
-            class_props=props,
-            functions=prop_functions,
+            functions=PythonFunctionList(*functions),
         )
-
-    def generate_prop_functions(self, union_entries: PythonDictEntryList) -> PythonFunctionList:
-        prop_functions = []
-        for union_member in union_entries.rhs.entries.obj_list:
-            prop_name = union_member.value.values[0].value[1:-1]
-            prop_type = union_member.value.values[1].value
-            if prop_type.startswith("'"):
-                prop_type = 'str'
-            prop_get_fn = PythonFunction(
-                name=prop_name,
-                args="self",
-                body=[f"return self['{prop_name}']"],
-                decorator="@property",
-                return_type=prop_type
-            )
-            prop_functions.append(prop_get_fn)
-            prop_set_fn = PythonFunction(
-                name=prop_name,
-                args=f"self, prop:{prop_type}",
-                body=[f"self['{prop_name}'] = prop"],
-                decorator=f"@{prop_name}.setter",
-            )
-            prop_functions.append(prop_set_fn)
-        return PythonFunctionList(*prop_functions)
 
 class PythonNdrCall(PythonNdrClassDefiniton):
     """Creates a simple NDRCALL"""
 
     def __init__(self, name: str, structure: PythonTuple, opnum=None):
-        structure = PythonAssignment(PythonName("structure"), structure)
+        init_assns = PythonAssignmentList(PythonAssignment(PythonName("self.structure"), structure))
+        functions = PythonFunctionList(self.generate_init_method(init_assns))
+        prop_list = []
         if opnum is not None:
             opnum_assn = PythonAssignment(PythonName("opnum"), PythonValue(str(opnum)))
-            prop_list = [opnum_assn, structure]
-        else:
-            prop_list = [structure]
-        props = PythonAssignmentList(*prop_list)
+            prop_list.append(opnum_assn)
+        prop_list = PythonAssignmentList(*prop_list)
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRCALL")),
-            class_props=props,
-            functions=PythonFunctionList(),
+            class_props=prop_list,
+            functions=functions
         )
-
+        
 class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
     """Creates a simple NDRUniFixedArray"""
 
     def __init__(self, name: str, length: str, underlying_type:str):
-        item = PythonAssignment(PythonValue("item"), PythonValue(underlying_type))
-        prop_list = [item]
-        props = PythonAssignmentList(*prop_list)
+        init_assns = PythonAssignmentList(PythonAssignment(PythonValue("self.item"), PythonValue(underlying_type)))
+        functions = [self.generate_init_method(init_assns)]
         get_data_len = PythonFunction(
             "getDataLen", args="self, data, offset=0", body=[
                 "type_size = len(self.item())",
@@ -195,53 +160,46 @@ class PythonNdrUniFixedArray(PythonNdrClassDefiniton):
                 "return raw"
             ]
         )
-        func_list = [get_data_len, get_data]
-        funcs = PythonFunctionList(*func_list)
+        functions.extend([get_data_len, get_data])
+        functions = PythonFunctionList(*functions)
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRUniFixedArray")),
-            class_props=props,
-            functions=funcs,
+            functions=functions,
         )
 
 class PythonNdrUniConformantArray(PythonNdrClassDefiniton):
     """Creates a simple NDRUniConformantArray"""
 
     def __init__(self, name: str, underlying_type:str):
-        item = PythonAssignment(PythonValue("item"), PythonName(underlying_type))
-        prop_list = [item]
-        props = PythonAssignmentList(*prop_list)
+        init_assns = PythonAssignmentList(PythonAssignment(PythonValue("self.item"), PythonName(underlying_type)))
+        functions = PythonFunctionList(self.generate_init_method(init_assns))
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRUniConformantArray")),
-            class_props=props,
-            functions=PythonFunctionList()
+            functions=functions
         )
 
 class PythonNdrUniVaryingArray(PythonNdrClassDefiniton):
     """Creates a NDRUniVaryingArray"""
 
     def __init__(self, name: str, underlying_type:str):
-        item = PythonAssignment(PythonValue("item"), PythonName(underlying_type))
-        prop_list = [item]
-        props = PythonAssignmentList(*prop_list)
+        init_assns = PythonAssignmentList(PythonAssignment(PythonValue("self.item"), PythonName(underlying_type)))
+        functions = PythonFunctionList(self.generate_init_method(init_assns))
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRUniVaryingArray")),
-            class_props=props,
-            functions=PythonFunctionList(),
+            functions=functions
         )
 
 class PythonNdrUniConformantVaryingArray(PythonNdrClassDefiniton):
     """Creates a NDRUniConformantVaryingArray"""
 
     def __init__(self, name: str, underlying_type:str):
-        item = PythonAssignment(PythonValue("item"), PythonName(underlying_type))
-        prop_list = [item]
-        props = PythonAssignmentList(*prop_list)
+        init_assns = PythonAssignmentList(PythonAssignment(PythonValue("self.item"), PythonName(underlying_type)))
+        functions = PythonFunctionList(self.generate_init_method(init_assns))
         self.clazz = PythonClass(
             name=PythonName(name),
             parent_classes=PythonNameList(PythonName("NDRUniConformantVaryingArray")),
-            class_props=props,
-            functions=PythonFunctionList()
+            functions=functions
         )
