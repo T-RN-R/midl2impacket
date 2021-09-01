@@ -1,6 +1,6 @@
 import abc
 from fuzzer.datatype import DataTypeLookup
-from fuzzer.config import rand as random
+from fuzzer.config import creds, hostname, rand as random
 
 """Base classes for fuzzer generator generation code
 """
@@ -45,10 +45,28 @@ class NDRINTERFACE:
         interface = random.choice(NDRINTERFACE.INSTANCES)
         testcase = Testcase()
         testcase.add(f"from {fuzzer.server} import *\n")
+        interface.connect(testcase)
         for i in range(0, iters):
             method = random.choice(interface.methods)
             testcase.add(method.generate(testcase, fuzzer))
         return testcase
+
+    def connect(self,testcase):
+        username, password = creds
+        host = hostname
+        testcase.add("""
+from impacket.dcerpc.v5 import  epm
+from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_PKT_PRIVACY, RPC_C_AUTHN_GSS_NEGOTIATE
+from impacket.dcerpc.v5.transport import DCERPCTransportFactory""")
+        testcase.add(f"""
+stringBinding = epm.hept_map('{host}', uuidtup_to_bin(('{self.uuid}', '{self.version}')))
+rpctransport = DCERPCTransportFactory(stringBinding)
+rpctransport.set_credentials('{username}', '{password}', '', '', '')
+dce = rpctransport.get_dce_rpc()
+dce.set_auth_level(RPC_C_AUTHN_LEVEL_PKT_PRIVACY)
+dce.connect()
+dce.bind(uuidtup_to_bin(('{self.uuid}', '{self.version}')))
+""")
 
 
 class Testcase:

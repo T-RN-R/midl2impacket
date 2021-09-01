@@ -50,7 +50,7 @@
             "console": "integratedTerminal",
             "args":[
                 "--idl", "\"preprocessed/ms-even.idl\"",
-                "--name", "\"even\"",
+                "--out-dir", "\"generated/\"",
                 "--import-dir", "\"preprocessed/\"",
                 "--count", "1",
 

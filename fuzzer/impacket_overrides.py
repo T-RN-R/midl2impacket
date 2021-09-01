@@ -12,10 +12,6 @@ Overridden classes:
     field to dictate the size of the value to generate
 -NDRENUM
 -NDRCALL
-
-New classes:
--NDRINTERFACE
-
 """
 
 
@@ -23,7 +19,7 @@ New classes:
 # NDR overrides
 @classmethod
 def generate_ndr(cls, ctx=None, range_min=0, range_max=0xFFFFFFFFFFFFFFFF):
-    """Hotpatch generation function for NDR impacket class
+    """Hotpatch generation function for NDR impacket classes
     """
     v = generate_int(cls.align*8, range_min, range_max)
     return 0, v
@@ -107,8 +103,8 @@ def add_out_args(cls,resp,fuzzer):
         fuzzer.lookup_mapper.insert(type_, f"{resp}['{name}']")
 
 @classmethod
-def generate_todo(self, ctx, range_min=0, range_max=256):
-    return 0, "None # TODO"
+def generate_todo(cls, ctx, range_min=0, range_max=256):
+    return 0, f"None # TODO {cls.__name__}"
 #Apply hotpatches
 
 setattr(impacket.dcerpc.v5.ndr.NDRSMALL, 'generate', generate_ndr)
