@@ -17,16 +17,13 @@ class MidlStaticConverter(Converter):
 
     def base_imports(self):
         imports = """
-# pylint: disable=C0103,C0302
+# pylint: disable=C0103,C0302,W0614
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
-from impacket.dcerpc.v5.dtypes import *
-from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
-from impacket.structure import Structure
-from impacket import nt_errors
+from impacket.dcerpc.v5.dtypes import STR, LPSTR, WSTR, LPWSTR
 from impacket.uuid import uuidtup_to_bin
-from impacket.dcerpc.v5.rpcrt import DCERPC_v5, DCERPCException
+from impacket.dcerpc.v5.rpcrt import DCERPCException
 
 from impacket import system_errors
 class DCERPCSessionError(DCERPCException):

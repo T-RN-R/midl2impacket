@@ -38,8 +38,14 @@ class MidlInterfaceConverter(Converter):
             self.imports_converter.convert(
                 interface.imports, import_dir, import_converter
             )
-        # write interface handle
-        self.write(f"{interface.name.upper()} = CONTEXT_HANDLE")
+        # write interface context handles
+        interface_names = [interface.name.upper()]
+        interface_names.extend([parent.upper() for parent in interface.parents])
+        for interface_name in interface_names:
+            if not self.mapper.exists(interface_name):
+                self.write(f"{interface.name.upper()} = CONTEXT_HANDLE")
+                self.mapper.add_type(interface_name)
+    
         # write uuid def
         self.uuid(interface)
         for vd in interface.vardefs:

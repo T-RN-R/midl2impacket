@@ -1,53 +1,64 @@
 import re
-
-from impacketbuilder.ndrbuilder.ndr import PythonNdrPointer
+from impacket.dcerpc.v5.dtypes import LPSTR, LPWSTR, STR, WSTR
+from impacket.dcerpc.v5.ndr import (NDRBOOLEAN, NDRDOUBLEFLOAT, NDRFLOAT,
+                                    NDRHYPER, NDRLONG, NDRPOINTERNULL, NDRSHORT, NDRSMALL,
+                                    NDRUHYPER, NDRULONG, NDRUSHORT, NDRUSMALL, NULL)
 from impacketbuilder.ndrbuilder.io import PythonWriter
+from impacketbuilder.ndrbuilder.ndr import PythonNdrPointer
+
+# Implemented in static
+class CONTEXT_HANDLE():
+    pass
 
 IDL_TO_NDR = {
-    "unsigned short": "NDRUSHORT",
-    "unsigned char": "NDRCHAR",
-    "unsigned long": "NDRULONG",
-    "unsignedlong": "NDRULONG",
-    "unsigned int": "NDRULONG",
-    "unsigned __int64": "NDRUHYPER",
-    "signed __int64": "NDRHYPER",
-    "__int64": "NDRHYPER",
-    "signed int": "NDRSHORT",
-    "signed long": "NDRLONG",
-    "signed char": "NDRCHAR",
-    "signed short": "NDRSHORT",
-    "wchar_t": "USHORT",
-    "pwchar_t": "LPWSTR",
-    "char": "NDRCHAR",
-    "int": "NDRLONG",
-    "void": "CONTEXT_HANDLE",
-    "long": "NDRLONG",
-    "__int3264": "NDRHYPER",
-    "unsigned __int3264": "NDRUHYPER",
-    "unsigned hyper": "NDRUHYPER",
-    "hyper": "NDRHYPER",
-    "dwordlong": "NDRUHYPER",
-    "DWORD64": "NDRUHYPER",
-    "DWORD__ENUM": "DWORD",
-    "long ptr": "NDRHYPER",
-    "ulong ptr": "NDRUHYPER",
-    "LARGE_INTEGER": "LARGE_INTEGER",  # impacket type
-    "LPSTR": "LPSTR",  # impacket type
-    "LPWSTR": "LPWSTR",  # impacket type
-    "LPCSTR": "LPSTR",  # impacket type
-    "LPCWSTR": "LPWSTR",  # impacket type
-    "LMSTR": "LPWSTR",  # impacket type
-    "PWSTR": "LPWSTR",  # TODO validate that this is correct
-    "UCHAR": "UCHAR", # impacket type
-    "WCHAR": "USHORT",  # impacket type
-    "PCHAR": "PCHAR", # impacket type,
-    "PWCHAR": "WSTR",  # impacket type
-    "PBYTE": "PBYTE",  # impacket type
-    "WSTR": "WSTR", # impacket type,
-    
-    
-    
+
+    # Language Primitives
+    "BOOLEAN": NDRBOOLEAN,
+    "CHAR": NDRSMALL,
+    "DOUBLE": NDRDOUBLEFLOAT,
+    "FLOAT": NDRFLOAT,
+    "HYPER": NDRHYPER,
+    "INT": NDRLONG,
+    "LONG": NDRLONG,
+    "LONG_LONG": NDRHYPER,
+    "SHORT": NDRSMALL,
+    "SIGNED_CHAR": NDRSMALL,
+    "SIGNED HYPER": NDRHYPER,
+    "SIGNED_INT": NDRLONG,
+    "SIGNED___INT3264": NDRHYPER,
+    "SIGNED___INT64": NDRHYPER,
+    "SIGNED_LONG": NDRLONG,
+    "SIGNED_SHORT": NDRSMALL,
+    "UNSIGNED_CHAR": NDRUSMALL,
+    "UNSIGNED_SHORT": NDRUSHORT,
+    "UNSIGNED HYPER": NDRUHYPER,
+    "UNSIGNED_INT": NDRULONG,
+    "UNSIGNED_LONG": NDRULONG,
+    "UNSIGNED_LONG_LONG": NDRUHYPER,
+    "UNSIGNED___INT3264": NDRUHYPER,
+    "UNSIGNED___INT64": NDRUHYPER,
+    "VOID": NDRPOINTERNULL,
+    "PVOID": CONTEXT_HANDLE,
+    "WCHAR": NDRSHORT,
+    "WORD": NDRSHORT,
+    "__INT3264": NDRHYPER,
+    "__INT64": NDRHYPER,
+
+    # Special cases for string types implemented by impacket
+    "PWCHAR": LPWSTR,
+    "PWCHAR_T": LPWSTR,
+    "PCHAR": LPSTR,
+    "PCHAR_T": LPSTR,
+    "LPWSTR": LPWSTR,
+    "LPSTR": LPSTR,
+    "STR": STR,
+    "WSTR": WSTR,
+
+    # Constructed types
+    "DWORD__ENUM": NDRULONG,
 }
+IDL_TO_NDR = {k:v.__name__ for k,v in IDL_TO_NDR.items()}
+
 
 SIZEOF_LOOKUP = {
     "WCHAR": 2,
@@ -63,7 +74,9 @@ SIZEOF_LOOKUP = {
 
 STRING_PARAM_TYPES = {
     "PWCHAR_T": "WSTR",
+    "PWCHAR": "WSTR",
     "PCHAR_T": "STR",
+    "PCHAR": "STR",
 }
 
 class TypeMappingException(Exception):
