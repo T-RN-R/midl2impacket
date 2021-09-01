@@ -1,5 +1,6 @@
 import abc
 from fuzzer.datatype import DataTypeLookup
+from fuzzer.config import rand as random
 
 """Base classes for fuzzer generator generation code
 """
@@ -27,16 +28,34 @@ class Fuzzable(abc.ABC):
         pass
 
 
-class FuzzableMidl(Fuzzable):
-    """Fuzzable MIDL concepts"""
+class NDRINTERFACE:
+    INSTANCES = []
+
+    def __init__(self, uuid, version, methods):
+        """Rpc Interface class"""
+        self.uuid = uuid
+        self.version = version
+        self.methods = methods
+        NDRINTERFACE.INSTANCES.append(self)
+
+    @classmethod
+    def generate(cls, iters, fuzzer):
+        """Generate an invocation of a function from one interface"""
+        # CONNECT HERE
+        interface = random.choice(NDRINTERFACE.INSTANCES)
+        testcase = Testcase()
+        for i in range(0, iters):
+            method = random.choice(interface.methods)
+            testcase.add(method.generate(testcase, fuzzer))
+        return testcase
 
 
 class Testcase:
     def __init__(self):
-        #holds variable definitions and invocations
+        # holds variable definitions and invocations
         self.statements = []
 
-    def add(self,statement):
+    def add(self, statement):
         self.statements.append(statement)
 
     def __str__(self):

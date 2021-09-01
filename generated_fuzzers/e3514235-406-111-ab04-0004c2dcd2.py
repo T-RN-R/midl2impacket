@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-INT64 = NdrHyper
+__INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -41,7 +41,7 @@ VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-INT3264 = NdrHyper
+__INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
@@ -114,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = INT3264
+LONG_PTR = __INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -413,7 +413,7 @@ class PROPERTY_META_DATA_EXT_VECTOR(NdrStructure):
     
 
 class REPLENTINFLIST(NdrStructure):
-    MEMBERS = [(PPNEXTENTINF, "*pNextEntInf"),(ENTINF, "Entinf"),(BOOL, "fIsNCPrefix"),(PUUID, "pParentGuid"),(PPROPERTY_META_DATA_EXT_VECTOR, "pMetaDataExt"),]
+    MEMBERS = [(PREPLENTINFLIST, "pNextEntInf"),(ENTINF, "Entinf"),(BOOL, "fIsNCPrefix"),(PUUID, "pParentGuid"),(PPROPERTY_META_DATA_EXT_VECTOR, "pMetaDataExt"),]
 
     
 
@@ -485,7 +485,7 @@ class DS_DOMAIN_CONTROLLER_INFO_FFFFFFFFW(NdrStructure):
     
 
 class ENTINFLIST(NdrStructure):
-    MEMBERS = [(PPNEXTENTINF, "*pNextEntInf"),(ENTINF, "Entinf"),]
+    MEMBERS = [(PENTINFLIST, "pNextEntInf"),(ENTINF, "Entinf"),]
 
     
 
@@ -495,7 +495,7 @@ class INTFORMPROB_DRS_WIRE_V1(NdrStructure):
     
 
 class PROBLEMLIST_DRS_WIRE_V1(NdrStructure):
-    MEMBERS = [(PPNEXTPROBLEM, "*pNextProblem"),(INTFORMPROB_DRS_WIRE_V1, "intprob"),]
+    MEMBERS = [(P_PROBLEMLIST_DRS_WIRE_V1, "pNextProblem"),(INTFORMPROB_DRS_WIRE_V1, "intprob"),]
 
     
 
@@ -515,12 +515,12 @@ class NAMERESOP_DRS_WIRE_V1(NdrStructure):
     
 
 class DSA_ADDRESS_LIST_DRS_WIRE_V1(NdrStructure):
-    MEMBERS = [(PPNEXTADDRESS, "*pNextAddress"),(PRPC_UNICODE_STRING, "pAddress"),]
+    MEMBERS = [(P_DSA_ADDRESS_LIST_DRS_WIRE_V1, "pNextAddress"),(PRPC_UNICODE_STRING, "pAddress"),]
 
     
 
 class CONTREF_DRS_WIRE_V1(NdrStructure):
-    MEMBERS = [(PDSNAME, "pTarget"),(NAMERESOP_DRS_WIRE_V1, "OpState"),(USHORT, "aliasRDN"),(USHORT, "RDNsInternal"),(USHORT, "refType"),(USHORT, "count"),(PDSA_ADDRESS_LIST_DRS_WIRE_V1, "pDAL"),(PPNEXTCONTREF, "*pNextContRef"),(BOOL, "bNewChoice"),(UCHAR, "choice"),]
+    MEMBERS = [(PDSNAME, "pTarget"),(NAMERESOP_DRS_WIRE_V1, "OpState"),(USHORT, "aliasRDN"),(USHORT, "RDNsInternal"),(USHORT, "refType"),(USHORT, "count"),(PDSA_ADDRESS_LIST_DRS_WIRE_V1, "pDAL"),(PCONTREF_DRS_WIRE_V1, "pNextContRef"),(BOOL, "bNewChoice"),(UCHAR, "choice"),]
 
     
 

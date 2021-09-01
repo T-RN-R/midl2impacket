@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-INT64 = NdrHyper
+__INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -41,7 +41,7 @@ VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-INT3264 = NdrHyper
+__INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
@@ -114,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = INT3264
+LONG_PTR = __INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -380,14 +380,14 @@ class VARENUM(NdrEnum):
     MAP = ((0 , 'VT_EMPTY'),(1 , 'VT_NULL'),(2 , 'VT_I2'),(3 , 'VT_I4'),(11 , 'VT_BOOL'),(12 , 'VT_VARIANT'),(16 , 'VT_I1'),(17 , 'VT_UI1'),(18 , 'VT_UI2'),(19 , 'VT_UI4'),(20 , 'VT_I8'),(21 , 'VT_UI8'),(31 , 'VT_LPWSTR'),(65 , 'VT_BLOB'),(72 , 'VT_CLSID'),(4096 , 'VT_VECTOR'),)        
 VARTYPE = UNSIGNED_SHORT
 
-class VARUNION(NdrUnion):
+class _VARUNION(NdrUnion):
     SWITCHTYPE = DWORD
     MEMBERS = {2 : (CHAR, "cVal"),3 : (UCHAR, "bVal"),4 : (SHORT, "iVal"),5 : (USHORT, "uiVal"),6 : (LONG, "lVal"),7 : (ULONG, "ulVal"),8 : (LARGE_INTEGER, "hVal"),9 : (ULARGE_INTEGER, "uhVal"),10 : (VARIANT_BOOL, "boolVal"),11 : (PGUID, "puuid"),12 : (BLOB, "blob"),13 : (PWCHAR_T, "pwszVal"),14 : (CAUB, "caub"),15 : (CAUI, "caui"),16 : (CAL, "cal"),17 : (CAUL, "caul"),18 : (CAUH, "cauh"),19 : (CACLSID, "cauuid"),20 : (CALPWSTR, "calpwstr"),21 : (CAPROPVARIANT, "capropvar"),}
 
     
 
 class TAG_INNER_PROPVARIANT(NdrStructure):
-    MEMBERS = [(VARTYPE, "vt"),(UCHAR, "wReserved1"),(UCHAR, "wReserved2"),(ULONG, "wReserved3"),(VARUNION, "_varUnion"),]
+    MEMBERS = [(VARTYPE, "vt"),(UCHAR, "wReserved1"),(UCHAR, "wReserved2"),(ULONG, "wReserved3"),(_VARUNION, "_varUnion"),]
 
     
 
@@ -465,7 +465,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = INT3264
+LONG_PTR = __INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -719,7 +719,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = INT3264
+LONG_PTR = __INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -985,14 +985,14 @@ class VARENUM(NdrEnum):
     MAP = ((0 , 'VT_EMPTY'),(1 , 'VT_NULL'),(2 , 'VT_I2'),(3 , 'VT_I4'),(11 , 'VT_BOOL'),(12 , 'VT_VARIANT'),(16 , 'VT_I1'),(17 , 'VT_UI1'),(18 , 'VT_UI2'),(19 , 'VT_UI4'),(20 , 'VT_I8'),(21 , 'VT_UI8'),(31 , 'VT_LPWSTR'),(65 , 'VT_BLOB'),(72 , 'VT_CLSID'),(4096 , 'VT_VECTOR'),)        
 VARTYPE = UNSIGNED_SHORT
 
-class VARUNION(NdrUnion):
+class _VARUNION(NdrUnion):
     SWITCHTYPE = DWORD
     MEMBERS = {2 : (CHAR, "cVal"),3 : (UCHAR, "bVal"),4 : (SHORT, "iVal"),5 : (USHORT, "uiVal"),6 : (LONG, "lVal"),7 : (ULONG, "ulVal"),8 : (LARGE_INTEGER, "hVal"),9 : (ULARGE_INTEGER, "uhVal"),10 : (VARIANT_BOOL, "boolVal"),11 : (PGUID, "puuid"),12 : (BLOB, "blob"),13 : (PWCHAR_T, "pwszVal"),14 : (CAUB, "caub"),15 : (CAUI, "caui"),16 : (CAL, "cal"),17 : (CAUL, "caul"),18 : (CAUH, "cauh"),19 : (CACLSID, "cauuid"),20 : (CALPWSTR, "calpwstr"),21 : (CAPROPVARIANT, "capropvar"),}
 
     
 
 class TAG_INNER_PROPVARIANT(NdrStructure):
-    MEMBERS = [(VARTYPE, "vt"),(UCHAR, "wReserved1"),(UCHAR, "wReserved2"),(ULONG, "wReserved3"),(VARUNION, "_varUnion"),]
+    MEMBERS = [(VARTYPE, "vt"),(UCHAR, "wReserved1"),(UCHAR, "wReserved2"),(ULONG, "wReserved3"),(_VARUNION, "_varUnion"),]
 
     
 
@@ -1151,7 +1151,7 @@ class CACTRANSFERBUFFERV1(NdrStructure):
     
 
 class CACTRANSFERBUFFERV2(NdrStructure):
-    MEMBERS = [(OLD, "old"),(PUNSIGNED_CHAR, "pbFirstInXact"),(PUNSIGNED_CHAR, "pbLastInXact"),(PPOBJECTID, "ppXactID"),]
+    MEMBERS = [(CACTRANSFERBUFFERV1, "old"),(PUNSIGNED_CHAR, "pbFirstInXact"),(PUNSIGNED_CHAR, "pbLastInXact"),(PPOBJECTID, "ppXactID"),]
 
     
 

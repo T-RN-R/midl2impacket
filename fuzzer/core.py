@@ -1,5 +1,5 @@
-from fuzzer.base import FuzzableMidl, Testcase
-from fuzzer.midl import In, NdrContextHandle, NdrStructure, Out, InOut
+from fuzzer.base import  NDRINTERFACE, Testcase
+from impacket.dcerpc.v5.ndr import NDRSTRUCT
 import fuzzer.config as config
 
 random = config.rand
@@ -17,7 +17,7 @@ class TypeLookup:
         types = []
         for k in self.map:
             #This looks through all members of a struct for type_info
-            if issubclass(k, NdrStructure):
+            if issubclass(k, NDRSTRUCT):
                 for v in self.map[k]:
                     types.extend([v+i for i in k.get_child_fields_of_type(type_info)])
                 
@@ -42,9 +42,9 @@ class Fuzzer:
     var_count = 0
     lookup_mapper = TypeLookup()
 
-    def __init__(self, count, server_path, template_path):
+    def __init__(self, count, server_path):
         __import__(
-            template_path
+            server_path
         )  # dynamically import the generated template to populate the fuzzer
         self.count = count  # Number of testcases to generate
 
@@ -56,38 +56,40 @@ class Fuzzer:
     def fuzz_one(self):
         """Does one unit of fuzzing"""
         iters = config.ITERATION_COUNT
-        testcase = Interface.generate(iters)  # Make an NdrCall!
+        testcase = NDRINTERFACE.generate(iters, self)  # Make an NdrCall!
         print(testcase)
+        self.execute(testcase)
 
-    def get_var_name():
+    def get_var_name(self):
         """Returns a unique variable name"""
         Fuzzer.var_count += 1
         return f"v{Fuzzer.var_count}"
 
-    def get_of_type(testcase, type_info):
+    def get_of_type(self, testcase, type_info):
         """Gets a variable name associated with a type"""
         if type_info not in Fuzzer.lookup_mapper:
             # We haven't generated anything of the given type yet, so generate one
-            if type_info == NdrContextHandle:
-                return "NULL"
-            return Fuzzer.generate_of_type(testcase, type_info)
+            return self.generate_of_type(testcase, type_info)
         else:
             r = random.randint(0, 100)
-            if r < config.USE_EXISTING or type_info == NdrContextHandle:
+            if r < config.USE_EXISTING:
                 return Fuzzer.lookup_mapper.get_one(type_info)
             else:
-                return Fuzzer.generate_of_type(testcase, type_info)
+                return self.generate_of_type(testcase, type_info)
 
-    def generate_of_type(testcase, type_info):
+    def generate_of_type(self, testcase, type_info):
         """Generates a variable of the given type"""
 
-        var = Fuzzer.get_var_name()
+        var = self.get_var_name()
         extra, generated_type = type_info.generate(var)
         testcase.add(VariableInstantiation(var, generated_type))
         Fuzzer.lookup_mapper.insert(type_info, var)
         return var
 
-    def clear_state():
+    def execute(self, testcase):
+        exec(str(testcase))
+
+    def clear_state(self):
         """Clears the fuzzing state."""
         Fuzzer.var_count = 0
         Fuzzer.lookup_mapper = TypeLookup()
@@ -119,72 +121,3 @@ class VariableInstantiation:
 
     def __str__(self):
         return f"{self.var_name} = {self.rhs}\n"
-
-
-class Interface(FuzzableMidl):
-    """Class that acts as a template for the fuzzer"""
-
-    INSTANCES = []
-
-    def __init__(self, uuid, version, methods):
-        """Rpc Interface class"""
-        self.uuid = uuid
-        self.version = version
-        self.methods = methods
-        Interface.INSTANCES.append(self)
-
-    def generate(iters=10):
-        """Generate an invocation of a function from one interface"""
-        # CONNECT HERE
-        interface = random.choice(Interface.INSTANCES)
-        testcase = Testcase()
-        for i in range(0, iters):
-            # TODO: Generate a bunch of variables here.
-
-
-            method = random.choice(interface.methods)
-            if len(method.arguments)>0:
-                while method.arguments[0].param[0] == NdrContextHandle and NdrContextHandle not in Fuzzer.lookup_mapper:
-                    method = random.choice(interface.methods)
-                    if len(method.arguments) ==0:
-                        break
-
-
-            testcase.add(method.generate(testcase))
-        return testcase
-
-
-class Method(FuzzableMidl):
-    """A class whose instances represent Midl procudure invocation generator defintion"""
-
-    def __init__(self, name, *parameters, **kwargs):
-        self.name = name
-        self.arguments = parameters
-
-    def get_resp_str(self):
-        """Gets the classname of an impacket NDRCall Response"""
-        return f"{self.name}Response"
-
-    def generate(self, testcase):
-        """Generates an invocation of the testcase
-
-        Args:
-            testcase ([type]): testcase object to append to
-        """
-        args = self.get_arguments(testcase)
-        resp_name = Fuzzer.get_var_name()
-        self.add_out_args(resp_name)
-        return MethodInvocation(self.name, args, resp_name)
-
-    def add_out_args(self,resp):
-        for arg in self.arguments:
-            if isinstance(arg, (Out, InOut)):
-                Fuzzer.lookup_mapper.insert(arg.param[0], f"{resp}['{arg.param[1]}']")
-
-    def get_arguments(self, testcase):
-        """Generates the arguments to the function"""
-        out_args = {}
-        for arg in self.arguments:
-            if isinstance(arg, (In, InOut)):
-                out_args[arg.param[1]] = Fuzzer.get_of_type(testcase, arg.param[0])
-        return out_args

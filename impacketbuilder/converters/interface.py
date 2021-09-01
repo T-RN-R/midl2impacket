@@ -1,3 +1,4 @@
+from fuzzer.base import NDRINTERFACE
 from impacketbuilder.converters.constants import MidlConstantConverter
 from impacketbuilder.converters.imports import MidlImportsConverter
 from .base import Converter
@@ -72,6 +73,23 @@ class MidlInterfaceConverter(Converter):
         opnum_map = PythonAssignment(PythonName("OPNUMS"), rhs)
 
         self.write(opnum_map)
+
+        iface_uuid = None
+        iface_ver = None
+        if "uuid" in interface.attributes:
+            iface_uuid = interface.attributes["uuid"].params[0]
+        if iface_ver := interface.attributes.get("version"):
+            iface_ver = iface_ver.params[0]
+        else:
+            iface_ver = "0.0"
+        if not iface_uuid:
+            return
+        methods = ""
+        for proc in interface.procedures:
+            methods += proc.name + ","
+        self.write(
+            f"{interface.name} = NDRINTERFACE('{iface_uuid}', '{iface_ver}',[{methods}])"
+        )
 
     def uuid(self, interface: MidlInterface):
         int_name = f"MSRPC_UUID_{interface.name.upper()}"

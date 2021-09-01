@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-INT64 = NdrHyper
+__INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -41,7 +41,7 @@ VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-INT3264 = NdrHyper
+__INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
@@ -114,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = INT3264
+LONG_PTR = __INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -326,7 +326,7 @@ NET_API_STATUS = DWORD
 NETDFS_SERVER_OR_DOMAIN_HANDLE = WCHAR
 
 class DFS_TARGET_PRIORITY_CLASS(NdrEnum):
-    MAP = ((-1 , 'DfsInvalidPriorityClass'),(0 , 'DfsSiteCostNormalPriorityClass'),(1 , 'DfsGlobalHighPriorityClass'),(2 , 'DfsSiteCostHighPriorityClass'),(3 , 'DfsSiteCostLowPriorityClass'),(4 , 'DfsGlobalLowPriorityClass'),)        
+    MAP = ((1-1 , 'DfsInvalidPriorityClass'),(0 , 'DfsSiteCostNormalPriorityClass'),(1 , 'DfsGlobalHighPriorityClass'),(2 , 'DfsSiteCostHighPriorityClass'),(3 , 'DfsSiteCostLowPriorityClass'),(4 , 'DfsGlobalLowPriorityClass'),)        
 
 class DFS_TARGET_PRIORITY(NdrStructure):
     MEMBERS = [(DFS_TARGET_PRIORITY_CLASS, "TargetPriorityClass"),(UNSIGNED_SHORT, "TargetPriorityRank"),(UNSIGNED_SHORT, "Reserved"),]

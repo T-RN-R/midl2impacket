@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-INT64 = NdrHyper
+__INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -41,7 +41,7 @@ VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-INT3264 = NdrHyper
+__INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
@@ -114,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = INT3264
+LONG_PTR = __INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -697,13 +697,13 @@ class DHCP_CLASS_INFO_ARRAY(NdrStructure):
 LPDHCP_CLASS_INFO_ARRAY = DHCP_CLASS_INFO_ARRAY
 
 class DHCP_ALL_OPTIONS(NdrStructure):
-    MEMBERS = [(DWORD, "Flags"),(LPDHCP_OPTION_ARRAY, "NonVendorOptions"),(DWORD, "NumVendorOptions"),(PVENDOROPTIONS, "*VendorOptions"),]
+    MEMBERS = [(DWORD, "Flags"),(LPDHCP_OPTION_ARRAY, "NonVendorOptions"),(DWORD, "NumVendorOptions"),(, "*VendorOptions"),]
 
     
 LPDHCP_ALL_OPTIONS = DHCP_ALL_OPTIONS
 
 class DHCP_ALL_OPTION_VALUES(NdrStructure):
-    MEMBERS = [(DWORD, "Flags"),(DWORD, "NumElements"),(POPTIONS, "*Options"),]
+    MEMBERS = [(DWORD, "Flags"),(DWORD, "NumElements"),(, "*Options"),]
 
     
 LPDHCP_ALL_OPTION_VALUES = DHCP_ALL_OPTION_VALUES
@@ -971,7 +971,7 @@ class DHCP_RESERVATION_INFO_ARRAY(NdrStructure):
 LPDHCP_RESERVATION_INFO_ARRAY = DHCP_RESERVATION_INFO_ARRAY
 
 class DHCP_ALL_OPTION_VALUES_PB(NdrStructure):
-    MEMBERS = [(DWORD, "Flags"),(DWORD, "NumElements"),(POPTIONS, "*Options"),]
+    MEMBERS = [(DWORD, "Flags"),(DWORD, "NumElements"),(, "*Options"),]
 
     
 LPDHCP_ALL_OPTION_VALUES_PB = DHCP_ALL_OPTION_VALUES_PB

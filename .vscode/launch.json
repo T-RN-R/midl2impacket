@@ -64,7 +64,7 @@
             "console": "integratedTerminal",
             "args":[
                 "--idl", "\"preprocessed/ms-rprn.idl\"",
-                "--name", "\"rprn\"",
+                "--out-dir", "\"generated/ \"",
                 "--import-dir", "\"preprocessed/\"",
                 "--count", "1",
 

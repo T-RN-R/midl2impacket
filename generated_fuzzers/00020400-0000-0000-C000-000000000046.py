@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-INT64 = NdrHyper
+__INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -41,7 +41,7 @@ VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-INT3264 = NdrHyper
+__INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
@@ -114,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = INT3264
+LONG_PTR = __INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -368,7 +368,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = INT3264
+LONG_PTR = __INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -753,10 +753,11 @@ PLPVOID = VOID
 PSAFEARRAY = SAFEARRAY
 PLPSAFEARRAY = SAFEARRAY
 
-class PVARIANT(NdrStructure):
+class _WIREVARIANT(NdrStructure):
     MEMBERS = []
 
     
+VARIANT = _WIREVARIANT
 
 class VARENUM(NdrEnum):
     MAP = ((0 , 'VT_EMPTY'),(1 , 'VT_NULL'),(2 , 'VT_I2'),(3 , 'VT_I4'),(4 , 'VT_R4'),(5 , 'VT_R8'),(6 , 'VT_CY'),(7 , 'VT_DATE'),(8 , 'VT_BSTR'),(9 , 'VT_DISPATCH'),(10 , 'VT_ERROR'),(11 , 'VT_BOOL'),(12 , 'VT_VARIANT'),(13 , 'VT_UNKNOWN'),(14 , 'VT_DECIMAL'),(16 , 'VT_I1'),(17 , 'VT_UI1'),(18 , 'VT_UI2'),(19 , 'VT_UI4'),(20 , 'VT_I8'),(21 , 'VT_UI8'),(22 , 'VT_INT'),(23 , 'VT_UINT'),(24 , 'VT_VOID'),(25 , 'VT_HRESULT'),(26 , 'VT_PTR'),(27 , 'VT_SAFEARRAY'),(28 , 'VT_CARRAY'),(29 , 'VT_USERDEFINED'),(30 , 'VT_LPSTR'),(31 , 'VT_LPWSTR'),(36 , 'VT_RECORD'),(37 , 'VT_INT_PTR'),(38 , 'VT_UINT_PTR'),(8192 , 'VT_ARRAY'),(16384 , 'VT_BYREF'),)        
@@ -765,7 +766,7 @@ class ADVFEATUREFLAGS(NdrEnum):
     MAP = ((1 , 'FADF_AUTO'),(2 , 'FADF_STATIC'),(4 , 'FADF_EMBEDDED'),(16 , 'FADF_FIXEDSIZE'),(32 , 'FADF_RECORD'),(64 , 'FADF_HAVEIID'),(128 , 'FADF_HAVEVARTYPE'),(256 , 'FADF_BSTR'),(512 , 'FADF_UNKNOWN'),(1024 , 'FADF_DISPATCH'),(2048 , 'FADF_VARIANT'),)        
 
 class SF_TYPE(NdrEnum):
-    MAP = ((VT_ERROR , 'SF_ERROR'),(VT_I1 , 'SF_I1'),(VT_I2 , 'SF_I2'),(VT_I4 , 'SF_I4'),(VT_I8 , 'SF_I8'),(VT_BSTR , 'SF_BSTR'),(VT_UNKNOWN , 'SF_UNKNOWN'),(VT_DISPATCH , 'SF_DISPATCH'),(VT_VARIANT , 'SF_VARIANT'),(VT_RECORD , 'SF_RECORD'),(32768 , 'SF_HAVEIID'),)        
+    MAP = ((VT_ERROR , 'SF_ERROR'),(VT_I1 , 'SF_I1'),(VT_I2 , 'SF_I2'),(VT_I4 , 'SF_I4'),(VT_I8 , 'SF_I8'),(VT_BSTR , 'SF_BSTR'),(VT_UNKNOWN , 'SF_UNKNOWN'),(VT_DISPATCH , 'SF_DISPATCH'),(VT_VARIANT , 'SF_VARIANT'),(VT_RECORD , 'SF_RECORD'),(VT_UNKNOWN|32768 , 'SF_HAVEIID'),)        
 
 class CALLCONV(NdrEnum):
     MAP = ((1 , 'CC_CDECL'),(2 , 'CC_PASCAL'),(4 , 'CC_STDCALL'),)        
@@ -795,7 +796,7 @@ class VARFLAGS(NdrEnum):
     MAP = ((1 , 'VARFLAG_FREADONLY'),(2 , 'VARFLAG_FSOURCE'),(4 , 'VARFLAG_FBINDABLE'),(8 , 'VARFLAG_FREQUESTEDIT'),(16 , 'VARFLAG_FDISPLAYBIND'),(32 , 'VARFLAG_FDEFAULTBIND'),(64 , 'VARFLAG_FHIDDEN'),(128 , 'VARFLAG_FRESTRICTED'),(256 , 'VARFLAG_FDEFAULTCOLLELEM'),(512 , 'VARFLAG_FUIDEFAULT'),(1024 , 'VARFLAG_FNONBROWSABLE'),(2048 , 'VARFLAG_FREPLACEABLE'),(4096 , 'VARFLAG_FIMMEDIATEBIND'),)        
 
 class VARKIND(NdrEnum):
-    MAP = ((0 , 'VAR_PERINSTANCE'),(1) , 'VAR_STATIC'),(1) , 'VAR_CONST'),(1) , 'VAR_DISPATCH'),)        
+    MAP = ((0 , 'VAR_PERINSTANCE'),((VAR_PERINSTANCE+1) , 'VAR_STATIC'),((VAR_STATIC+1) , 'VAR_CONST'),((VAR_CONST+1) , 'VAR_DISPATCH'),)        
 
 class LIBFLAGS(NdrEnum):
     MAP = ((1 , 'LIBFLAG_FRESTRICTED'),(2 , 'LIBFLAG_FCONTROL'),(4 , 'LIBFLAG_FHIDDEN'),(8 , 'LIBFLAG_FHASDISKIMAGE'),)        
@@ -813,7 +814,7 @@ class FLAGGED_WORD_BLOB(NdrStructure):
 BSTR = FLAGGED_WORD_BLOB
 
 class CURRENCY(NdrStructure):
-    MEMBERS = [(INT64, "int64"),]
+    MEMBERS = [(__INT64, "int64"),]
 
     
 DATE = DOUBLE
@@ -829,13 +830,14 @@ class WIREBRECORDSTR(NdrStructure):
 
     
 
-class PBRECORD(NdrStructure):
+class _WIREBRECORD(NdrStructure):
     MEMBERS = []
 
     
+BRECORD = _WIREBRECORD
 
 class WIREVARIANTSTR(NdrStructure):
-    MEMBERS = [(DWORD, "clSize"),(DWORD, "rpcReserved"),(USHORT, "vt"),(USHORT, "wReserved1"),(USHORT, "wReserved2"),(USHORT, "wReserved3"),(VARUNION, "_varUnion"),]
+    MEMBERS = [(DWORD, "clSize"),(DWORD, "rpcReserved"),(USHORT, "vt"),(USHORT, "wReserved1"),(USHORT, "wReserved2"),(USHORT, "wReserved3"),(_VARUNION, "_varUnion"),]
 
     
 
@@ -900,10 +902,11 @@ class SAFEARRAYUNION(NdrStructure):
 
     
 
-class PSAFEARRAY(NdrStructure):
+class _WIRESAFEARRAY(NdrStructure):
     MEMBERS = [(USHORT, "cDims"),(USHORT, "fFeatures"),(ULONG, "cbElements"),(ULONG, "cLocks"),(SAFEARRAYUNION, "uArrayStructs"),(SAFEARRAYBOUND, "rgsabound"),]
 
     
+SAFEARRAY = _WIRESAFEARRAY
 
 class RECORDINFO(NdrStructure):
     MEMBERS = [(GUID, "libraryGuid"),(DWORD, "verMajor"),(GUID, "recGuid"),(DWORD, "verMinor"),(DWORD, "Lcid"),]
@@ -924,7 +927,7 @@ MEMBERID = DISPID
 HREFTYPE = DWORD
 
 class TYPEDESC(NdrStructure):
-    MEMBERS = [(TDUNION, "_tdUnion"),(USHORT, "vt"),]
+    MEMBERS = [(_TDUNION, "_tdUnion"),(USHORT, "vt"),]
 
     
 
@@ -955,7 +958,7 @@ class FUNCDESC(NdrStructure):
 LPFUNCDESC = FUNCDESC
 
 class VARDESC(NdrStructure):
-    MEMBERS = [(MEMBERID, "memid"),(LPOLESTR, "lpstrReserved"),(VDUNION, "_vdUnion"),(ELEMDESC, "elemdescVar"),(WORD, "wVarFlags"),(VARKIND, "varkind"),]
+    MEMBERS = [(MEMBERID, "memid"),(LPOLESTR, "lpstrReserved"),(_VDUNION, "_vdUnion"),(ELEMDESC, "elemdescVar"),(WORD, "wVarFlags"),(VARKIND, "varkind"),]
 
     
 LPVARDESC = VARDESC

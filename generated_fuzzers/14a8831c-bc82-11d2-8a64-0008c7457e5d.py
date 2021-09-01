@@ -18,7 +18,7 @@ UINT64 = NdrHyper
 WORD = NdrByte
 PWCHAR_T = NdrByte
 BOOLEAN = NdrBoolean
-INT64 = NdrHyper
+__INT64 = NdrHyper
 UNSIGNED_SHORT = NdrShort
 UNSIGNED_CHAR = NdrByte
 UNSIGNED_LONG = NdrLong
@@ -41,7 +41,7 @@ VOID = NdrContextHandle
 CONTEXT_HANDLE = NdrContextHandle
 PPCONTEXT_HANDLE = NdrContextHandle
 LONG = NdrLong
-INT3264 = NdrHyper
+__INT3264 = NdrHyper
 UNSIGNED___INT3264 = NdrHyper
 UNSIGNED_HYPER = NdrHyper
 HYPER = NdrHyper
@@ -114,7 +114,7 @@ PPLONG = LONG
 PLPLONG = LONG
 LONGLONG = SIGNED___INT64
 HRESULT = LONG
-LONG_PTR = INT3264
+LONG_PTR = __INT3264
 ULONG_PTR = UNSIGNED___INT3264
 LONG32 = SIGNED_INT
 LONG64 = SIGNED___INT64
@@ -355,7 +355,7 @@ class EECOMPUTERNAME(NdrStructure):
     
 
 class EXTENDEDERRORINFO(NdrStructure):
-    MEMBERS = [(PNEXT, "*Next"),(EECOMPUTERNAME, "ComputerName"),(UNSIGNED_LONG, "ProcessID"),(INT64, "TimeStamp"),(UNSIGNED_LONG, "GeneratingComponent"),(UNSIGNED_LONG, "Status"),(UNSIGNED_SHORT, "DetectionLocation"),(UNSIGNED_SHORT, "Flags"),(SHORT, "nLen"),(EXTENDEDERRORPARAM, "Params"),]
+    MEMBERS = [(PTAGEXTENDEDERRORINFO, "Next"),(EECOMPUTERNAME, "ComputerName"),(UNSIGNED_LONG, "ProcessID"),(__INT64, "TimeStamp"),(UNSIGNED_LONG, "GeneratingComponent"),(UNSIGNED_LONG, "Status"),(UNSIGNED_SHORT, "DetectionLocation"),(UNSIGNED_SHORT, "Flags"),(SHORT, "nLen"),(EXTENDEDERRORPARAM, "Params"),]
 
     
 EXTENDEDERRORINFOPTR = EXTENDEDERRORINFO

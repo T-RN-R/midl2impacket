@@ -3,17 +3,11 @@ import pathlib
 from midlparser import parse_idl
 import midltypes
 from impacketbuilder import ImpacketBuilder
-from fuzzer.template_generator import FuzzerTemplateGenerator
 from fuzzer.core import Fuzzer
 
 
 def generate_impacket(midl_def: midltypes.MidlDefinition, import_dir: str):
     return ImpacketBuilder().midl_def(midl_def).import_dir(import_dir).build()
-
-
-def generate_template(midl_def: midltypes.MidlDefinition, import_dir: str):
-    return FuzzerTemplateGenerator().generate(midl_def, import_dir)
-
 
 def main():
     parser = argparse.ArgumentParser(description="Fuzz an RPC server")
@@ -25,10 +19,10 @@ def main():
         required=True,
     )
     parser.add_argument(
-        "--name",
-        "-n",
+        "--out-dir",
+        "-out",
         type=str,
-        help="server name",
+        help="output directory",
         required=True,
     )
     parser.add_argument(
@@ -48,28 +42,26 @@ def main():
         required=False,
     )
     args = parser.parse_args()
-    generate(args.idl, args.count, args.name, args.import_dir)
+    generate(args.idl, args.count, args.out_dir, args.import_dir)
 
 
-def generate(in_file, count, servername, import_path):
+def generate(in_file, count, out_dir, import_path):
     print(f"Parsing {in_file}")
     in_file = pathlib.Path(in_file)
     if not in_file.exists():
         raise Exception(f"Provided input file {in_file} does not exist.")
-    out_path = "out/" + servername + "/"
+    out_path = out_dir
     pathlib.Path(out_path).mkdir(exist_ok=True)
-    template = pathlib.Path(out_path + "template.py")
-    server = pathlib.Path(out_path + "server.py")
+    py_name = str(in_file).split("\\")[-1].replace(".idl", ".py")
+    py_name = py_name.replace("-", "_")
+    defintion = pathlib.Path(out_path + py_name)
 
     midl_def = parse_idl(in_file)
     generated_code = generate_impacket(midl_def, import_path)
-    generated_template, uuid = generate_template(midl_def, import_path)
-    template.write_text(generated_template)
-    server.write_text(generated_code)
+    defintion.write_text(generated_code)
     # import the template to populate the fuzzing data structures
-    server_import = str(server).replace("\\",".")[:-3]
-    template_import = str(template).replace("\\",".")[:-3]
-    fuzzer = Fuzzer(count, server_import, template_import)
+    defintion_import = str(defintion).replace("\\",".")[:-3]
+    fuzzer = Fuzzer(count, defintion_import)
     fuzzer.run()
 
 
