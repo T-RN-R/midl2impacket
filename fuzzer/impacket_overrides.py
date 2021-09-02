@@ -158,6 +158,10 @@ def generate_todo(cls, ctx, range_min=0, range_max=256):
 def generate_wstr_impl(cls, ctx, range_min=0, range_max=256):
     return 0, f"{generate_str(wide=True, range_min=range_min, range_max=range_max)}"
 
+@classmethod
+def generate_str_impl(cls, ctx, range_min=0, range_max=256):
+    return 0, f"{generate_str(wide=False, range_min=range_min, range_max=range_max)}"
+
 
 # Apply hotpatches
 # Primitive NDR overrides
@@ -176,6 +180,7 @@ setattr(impacket.dcerpc.v5.ndr.NDRDOUBLEFLOAT, "generate", generate_ndr)
 
 # Problematic dtype overrides
 setattr(impacket.dcerpc.v5.dtypes.WSTR, "generate", generate_wstr_impl)
+setattr(impacket.dcerpc.v5.dtypes.STR, "generate", generate_str_impl)
 
 # NDRSTRUCT overrides
 setattr(impacket.dcerpc.v5.ndr.NDRSTRUCT, "class_layout_cache", class_layout_cache)

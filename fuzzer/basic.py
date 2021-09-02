@@ -235,5 +235,6 @@ def generate_str(wide, range_min, range_max):
     
     if random.randint(0,100) < NULL_TERMINATE_CHANCE:
         s+="\x00"
+    
     # Need to do this whacky encode/decode because the Python builtin __exec__ does not like NULL bytes
-    return f"\"{s.encode('utf-16')}.decode('utf-16')\""
+    return f"{s.encode('utf-16')}.decode('utf-16')"
