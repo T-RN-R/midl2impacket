@@ -84,7 +84,7 @@ def get_child_fields_of_type(cls, type_info, ident=""):
 # NDRUNION overrides
 @classmethod
 def generate_ndrunion(cls, ctx, range_min=0, range_max=256):
-    return 0, "None # TODO: NDRUNION"
+    return generate_todo()
 
 # NDRCALL overrides
 @classmethod
@@ -116,11 +116,30 @@ def add_out_args(cls,resp,fuzzer):
         name, type_ = arg
         fuzzer.lookup_mapper.insert(type_, f"{resp}['{name}']")
 
+
+@classmethod
+def generate_ndrpointer(cls, ctx, range_min=0, range_max=256):
+    ref = cls.referent
+    assert(len(ref) == 1), "Cannot handle referents longer than 1!"
+    name, type_ = ref[0]
+    assert(name == "Data"), "Encountered a referent without a 'Data' entry!"
+    if type_ == ":": # Check to make sure we aren't falling back to the NDRPOINTER defintion for referent
+        ref = cls().referent
+        assert(len(ref) == 1), "Cannot handle referents longer than 1!"
+        name, type_ = ref[0]
+        assert(name == "Data"), "Encountered a referent without a 'Data' entry!"
+
+    print(cls.__name__)
+    return type_.generate(ctx,range_min,range_max)
+
+
 @classmethod
 def generate_todo(cls, ctx, range_min=0, range_max=256):
     return 0, f"None # TODO {cls.__name__}"
-#Apply hotpatches
 
+
+#Apply hotpatches
+# Primitive NDR overrides
 setattr(impacket.dcerpc.v5.ndr.NDRSMALL, 'generate', generate_ndr)
 setattr(impacket.dcerpc.v5.ndr.NDRUSMALL, 'generate', generate_ndr)
 setattr(impacket.dcerpc.v5.ndr.NDRBOOLEAN, 'generate', generate_ndr)
@@ -134,21 +153,27 @@ setattr(impacket.dcerpc.v5.ndr.NDRUHYPER, 'generate', generate_ndr)
 setattr(impacket.dcerpc.v5.ndr.NDRFLOAT, 'generate', generate_ndr)
 setattr(impacket.dcerpc.v5.ndr.NDRDOUBLEFLOAT, 'generate', generate_ndr)
 
+# NDRSTRUCT overrides
 setattr(impacket.dcerpc.v5.ndr.NDRSTRUCT, 'class_layout_cache', class_layout_cache)
 setattr(impacket.dcerpc.v5.ndr.NDRSTRUCT, 'generate', generate_ndrstruct)
 setattr(impacket.dcerpc.v5.ndr.NDRSTRUCT, 'get_child_fields_of_type', get_child_fields_of_type)
 setattr(impacket.dcerpc.v5.ndr.NDRSTRUCT, 'is_context_handle', is_context_handle)
 
+#NDRUNION
 setattr(impacket.dcerpc.v5.ndr.NDRUNION, 'generate', generate_ndrunion)
+
+#NDRCALL
 setattr(impacket.dcerpc.v5.ndr.NDRCALL, 'generate', generate_ndrcall)
 setattr(impacket.dcerpc.v5.ndr.NDRCALL, 'get_arguments', get_arguments)
 setattr(impacket.dcerpc.v5.ndr.NDRCALL, 'add_out_args', add_out_args)
+
+#NDRPOINTER
+setattr(impacket.dcerpc.v5.ndr.NDRPOINTER, 'generate', generate_ndrpointer)
 
 #TODO:
 setattr(impacket.dcerpc.v5.ndr.NDRUniConformantArray, 'generate', generate_todo)
 setattr(impacket.dcerpc.v5.ndr.NDRUniConformantVaryingArray, 'generate', generate_todo)
 setattr(impacket.dcerpc.v5.ndr.NDRUniFixedArray, 'generate', generate_todo)
 setattr(impacket.dcerpc.v5.ndr.NDRUniVaryingArray, 'generate', generate_todo)
-setattr(impacket.dcerpc.v5.ndr.NDRPOINTER, 'generate', generate_todo)
 
 

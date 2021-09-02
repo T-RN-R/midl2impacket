@@ -35,7 +35,7 @@ class NDRINTERFACE:
         """Rpc Interface class"""
         self.uuid = uuid
         self.version = version
-        self.methods = methods
+        self.methods = list(filter(lambda m: "NotUsedOnWire" not in m.__name__ , methods))
         NDRINTERFACE.INSTANCES.append(self)
 
     @classmethod
