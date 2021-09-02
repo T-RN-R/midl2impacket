@@ -1,3 +1,4 @@
+from impacketbuilder.converters.typing import CONTEXT_HANDLE
 import impacket.dcerpc.v5.ndr 
 from fuzzer.core import MethodInvocation
 from fuzzer.basic import *
@@ -31,7 +32,8 @@ def generate_ndrstruct(cls, ctx, range_min=0, range_max=256):
     output = ""
     obj_name = cls.__name__
     output+=f"{obj_name}()\n"
-    for member in cls.structure:
+    inst = cls()
+    for member in inst.structure:
         name, type_ = member
         entry = f"{ctx}['{name}']"
         if isinstance(type_, str):
@@ -40,6 +42,16 @@ def generate_ndrstruct(cls, ctx, range_min=0, range_max=256):
         output+= entry +" = " + str(type_.generate(f'{entry}')[1]) + "\n"
 
     return None,output
+
+@classmethod
+def is_context_handle(cls):
+    inst = cls()
+    for member in inst.structure:
+        name, type_ = member
+        if name == "Data" and isinstance(type_, str):
+            return True
+    return False
+
 @classmethod
 def get_child_fields_of_type(cls, type_info, ident=""):
     """Builds a lookup path to get object of given type from the struct"""
@@ -54,10 +66,10 @@ def get_child_fields_of_type(cls, type_info, ident=""):
         return cls.class_layout_cache[type_info]
 
     types = []
-    for m in cls.structure:
+    inst = cls()
+    for m in inst.structure:
         name, type_ = m
         if isinstance(type_, str):
-            #TODO:
             continue
         if issubclass(type_, impacket.dcerpc.v5.ndr.NDRSTRUCT):
             types += cls.get_child_fields_of_type(type_info,ident+"['"+name+"']")
@@ -91,14 +103,16 @@ def generate_ndrcall(cls, testcase, fuzzer):
 def get_arguments(cls, testcase, fuzzer):
     """Generates the arguments to the function"""
     out_args = {}
-    for arg in cls.structure:
+    inst = cls()
+    for arg in inst.structure:
         name, type_ = arg
         out_args[name] = fuzzer.get_of_type(testcase, type_)
     return out_args
     
 @classmethod
 def add_out_args(cls,resp,fuzzer):
-    for arg in cls.structure:
+    inst = cls()
+    for arg in inst.structure:
         name, type_ = arg
         fuzzer.lookup_mapper.insert(type_, f"{resp}['{name}']")
 
@@ -119,9 +133,12 @@ setattr(impacket.dcerpc.v5.ndr.NDRHYPER, 'generate', generate_ndr)
 setattr(impacket.dcerpc.v5.ndr.NDRUHYPER, 'generate', generate_ndr)
 setattr(impacket.dcerpc.v5.ndr.NDRFLOAT, 'generate', generate_ndr)
 setattr(impacket.dcerpc.v5.ndr.NDRDOUBLEFLOAT, 'generate', generate_ndr)
+
 setattr(impacket.dcerpc.v5.ndr.NDRSTRUCT, 'class_layout_cache', class_layout_cache)
 setattr(impacket.dcerpc.v5.ndr.NDRSTRUCT, 'generate', generate_ndrstruct)
 setattr(impacket.dcerpc.v5.ndr.NDRSTRUCT, 'get_child_fields_of_type', get_child_fields_of_type)
+setattr(impacket.dcerpc.v5.ndr.NDRSTRUCT, 'is_context_handle', is_context_handle)
+
 setattr(impacket.dcerpc.v5.ndr.NDRUNION, 'generate', generate_ndrunion)
 setattr(impacket.dcerpc.v5.ndr.NDRCALL, 'generate', generate_ndrcall)
 setattr(impacket.dcerpc.v5.ndr.NDRCALL, 'get_arguments', get_arguments)

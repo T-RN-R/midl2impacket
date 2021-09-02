@@ -48,6 +48,12 @@ class NDRINTERFACE:
         interface.connect(testcase)
         for i in range(0, iters):
             method = random.choice(interface.methods)
+            if len(method().structure) > 0:
+                while method().structure[0][1].is_context_handle() == True:
+                    method = random.choice(interface.methods)
+                    if len(method().structure) == 0:
+                        break
+
             testcase.add(method.generate(testcase, fuzzer))
         return testcase
 
@@ -56,11 +62,15 @@ class NDRINTERFACE:
         host = hostname
         testcase.add("""
 from impacket.dcerpc.v5 import  epm
-from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_PKT_PRIVACY, RPC_C_AUTHN_GSS_NEGOTIATE
+from impacket.dcerpc.v5.rpcrt import RPC_C_AUTHN_LEVEL_PKT_PRIVACY, RPC_C_AUTHN_GSS_NEGOTIATE, DCERPCException
 from impacket.dcerpc.v5.transport import DCERPCTransportFactory""")
         #TODO hardcoded version numbers until the version bug is fixed.
         testcase.add(f"""
-stringBinding = epm.hept_map('{host}', uuidtup_to_bin(('{self.uuid}', '0.0')), protocol='ncacn_ip_tcp')
+try:
+    stringBinding = epm.hept_map('{host}', uuidtup_to_bin(('{self.uuid}', '0.0')), protocol='ncacn_ip_tcp')
+except impacket.dcerpc.v5.rpcrt.DCERPCException:
+    from fuzzer.epm import get_mapping
+    stringBinding = get_mapping('{self.uuid}', '{host}')
 rpctransport = DCERPCTransportFactory(stringBinding)
 rpctransport.set_credentials('{username}', '{password}', '', '', '')
 dce = rpctransport.get_dce_rpc()
