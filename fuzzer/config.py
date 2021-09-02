@@ -5,4 +5,4 @@ USE_EXISTING = 95 # percent chance to use existing variables rather than generat
 NULL_TERMINATE_CHANCE = 75 # chance to null terminate a cstring
 
 creds = ("m", "password")
-hostname = "192.168.188.129"
+hostname = "localhost"
