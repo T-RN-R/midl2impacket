@@ -237,7 +237,7 @@ class MidlUnionParser(MidlBaseParser):
     def finished(self) -> MidlUnionDef:
         public_names = []
         if self.declared_names:
-            public_names = self.declared_names.split(",")            
+            public_names = self.declared_names.split(",")
         if self.switch_param and self.struct_private_name:
             switch_union = MidlUnionDef([], self.private_name, self.members)
             switch_var = MidlVarDef(switch_union, switch_union.private_name)

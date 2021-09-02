@@ -1,46 +1,66 @@
+from impacketbuilder.ndrbuilder.base import PythonValue
+from impacketbuilder.ndrbuilder.python import PythonAssignment, PythonName
 import re
-
-from impacketbuilder.ndrbuilder.ndr import PythonNdrPointer
+from impacket.dcerpc.v5.dtypes import LPSTR, LPWSTR, STR, WSTR
+from impacket.dcerpc.v5.ndr import (NDRBOOLEAN, NDRDOUBLEFLOAT, NDRFLOAT,
+                                    NDRHYPER, NDRLONG, NDRPOINTERNULL, NDRSHORT, NDRSMALL,
+                                    NDRUHYPER, NDRULONG, NDRUSHORT, NDRUSMALL, NULL)
 from impacketbuilder.ndrbuilder.io import PythonWriter
+from impacketbuilder.ndrbuilder.ndr import PythonNdrPointer
+
+# Implemented in static
+class CONTEXT_HANDLE():
+    pass
 
 IDL_TO_NDR = {
-    "unsigned short": "NDRUSHORT",
-    "unsigned char": "NDRCHAR",
-    "unsigned long": "NDRULONG",
-    "unsignedlong": "NDRULONG",
-    "unsigned int": "NDRULONG",
-    "unsigned __int64": "NDRUHYPER",
-    "signed __int64": "NDRHYPER",
-    "__int64": "NDRHYPER",
-    "signed int": "NDRSHORT",
-    "signed long": "NDRLONG",
-    "signed char": "NDRCHAR",
-    "signed short": "NDRSHORT",
-    "wchar_t": "USHORT",
-    "pwchar_t": "LPWSTR",
-    "char": "NDRCHAR",
-    "int": "NDRLONG",
-    "void": "CONTEXT_HANDLE",
-    "long": "NDRLONG",
-    "__int3264": "NDRHYPER",
-    "unsigned __int3264": "NDRUHYPER",
-    "unsigned hyper": "NDRUHYPER",
-    "hyper": "NDRHYPER",
-    "dwordlong": "NDRUHYPER",
-    "long ptr": "NDRHYPER",
-    "ulong ptr": "NDRUHYPER",
-    "LARGE_INTEGER": "LARGE_INTEGER",  # impacket type
-    "LPSTR": "LPSTR",  # impacket type
-    "LPWSTR": "LPWSTR",  # impacket type
-    "LPCSTR": "LPSTR",  # impacket type
-    "LPCWSTR": "LPWSTR",  # impacket type
-    "LMSTR": "LPWSTR",  # impacket type
-    "PWSTR": "LPWSTR",  # TODO validate that this is correct
-    "WCHAR": "USHORT",  # impacket type
-    "PWCHAR": "WSTR",  # impacket type
-    "PBYTE": "PBYTE",  # impacket type
-    "WSTR": "WSTR",
+
+    # Language Primitives
+    "BOOLEAN": NDRBOOLEAN,
+    "CHAR": NDRSMALL,
+    "DOUBLE": NDRDOUBLEFLOAT,
+    "FLOAT": NDRFLOAT,
+    "HYPER": NDRHYPER,
+    "INT": NDRLONG,
+    "LONG": NDRLONG,
+    "LONG_LONG": NDRHYPER,
+    "SHORT": NDRSMALL,
+    "SIGNED_CHAR": NDRSMALL,
+    "SIGNED HYPER": NDRHYPER,
+    "SIGNED_INT": NDRLONG,
+    "SIGNED___INT3264": NDRHYPER,
+    "SIGNED___INT64": NDRHYPER,
+    "SIGNED_LONG": NDRLONG,
+    "SIGNED_SHORT": NDRSMALL,
+    "UNSIGNED_CHAR": NDRUSMALL,
+    "UNSIGNED_SHORT": NDRUSHORT,
+    "UNSIGNED HYPER": NDRUHYPER,
+    "UNSIGNED_INT": NDRULONG,
+    "UNSIGNED_LONG": NDRULONG,
+    "UNSIGNED_LONG_LONG": NDRUHYPER,
+    "UNSIGNED___INT3264": NDRUHYPER,
+    "UNSIGNED___INT64": NDRUHYPER,
+    "VOID": NDRPOINTERNULL,
+    "PVOID": CONTEXT_HANDLE,
+    "WCHAR": NDRSHORT,
+    "WORD": NDRSHORT,
+    "__INT3264": NDRHYPER,
+    "__INT64": NDRHYPER,
+
+    # Special cases for string types implemented by impacket
+    "PWCHAR": LPWSTR,
+    "PWCHAR_T": LPWSTR,
+    "PCHAR": LPSTR,
+    "PCHAR_T": LPSTR,
+    "LPWSTR": LPWSTR,
+    "LPSTR": LPSTR,
+    "STR": STR,
+    "WSTR": WSTR,
+
+    # Constructed types
+    "DWORD__ENUM": NDRULONG,
 }
+IDL_TO_NDR = {k:v.__name__ for k,v in IDL_TO_NDR.items()}
+
 
 SIZEOF_LOOKUP = {
     "WCHAR": 2,
@@ -56,7 +76,9 @@ SIZEOF_LOOKUP = {
 
 STRING_PARAM_TYPES = {
     "PWCHAR_T": "WSTR",
+    "PWCHAR": "WSTR",
     "PCHAR_T": "STR",
+    "PCHAR": "STR",
 }
 
 class TypeMappingException(Exception):
@@ -135,6 +157,13 @@ class TypeMapper:
         if pointers_to_create and self.writer:
             for pointer_to_create, pointee_to_create in pointers_to_create[::-1]:
                 if pointer_to_create not in self.types:
+                    # If the pointee doesn't exist, create a "forward declaration"
+                    if pointee_to_create not in self.types:
+                        pointee_fwd_dec = PythonAssignment(
+                            name=PythonName(pointee_to_create),
+                            rhs=PythonValue("None")
+                        )
+                        self.writer.write(pointee_fwd_dec.to_python_string() + '\n')
                     ndr_ptr = PythonNdrPointer(
                         name=pointer_to_create, referent_name=pointee_to_create
                     )
@@ -182,7 +211,7 @@ class TypeMapper:
         return py_name, py_member_name
 
     def get_python_array_type(
-        self, idl_type: str, array_size: str, is_func_param=False
+        self, idl_type: str, array_size: str, is_func_param=False, array_prefix:str=''
     ) -> tuple[str, str, bool]:
         """Returns the array type name, the member name, and whether the type exists
 
@@ -198,7 +227,8 @@ class TypeMapper:
         py_array_name, py_member_name = self.canonicalize(
             idl_type, array_size=array_size, is_func_param=is_func_param
         )
-        return py_array_name, py_member_name, py_array_name in self.types
+        py_array_name = array_prefix + py_array_name
+        return py_array_name, py_member_name, (py_array_name in self.types)
 
     def get_python_type(self, idl_type: str, is_func_param=False) -> tuple[str, bool]:
         """Returns python-friendly names for IDL names, along with a boolean indicating whether the

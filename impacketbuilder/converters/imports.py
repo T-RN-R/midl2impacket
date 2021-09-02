@@ -9,8 +9,6 @@ class MidlImportsConverter(Converter):
     def convert(self, imports: list[MidlImport], import_dir: str, def_converter):
         comment_writer = MidlCommentWriter(self.io, self.tab_level)
         for _import in imports:
-            if _import.file == "ms-dtyp.idl":
-                continue
             comment_writer = MidlCommentWriter(self.io, self.tab_level)
             comment_writer.banner_comment(_import.file)
             in_file = pathlib.Path(import_dir + _import.file)

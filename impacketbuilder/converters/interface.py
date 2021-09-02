@@ -1,4 +1,5 @@
 from fuzzer.base import NDRINTERFACE
+from impacketbuilder.converters.enum import MidlEnumConverter
 from impacketbuilder.converters.constants import MidlConstantConverter
 from impacketbuilder.converters.imports import MidlImportsConverter
 from .base import Converter
@@ -39,11 +40,19 @@ class MidlInterfaceConverter(Converter):
             self.io, self.tab_level, mapper=self.mapper
         )
 
-    def convert(self, interface, import_dir, import_converter):
+    def convert(self, interface:MidlInterface, import_dir, import_converter):
         if interface.imports:
             self.imports_converter.convert(
                 interface.imports, import_dir, import_converter
             )
+        # write interface context handles
+        interface_names = [interface.name.upper()]
+        interface_names.extend([parent.upper() for parent in interface.parents])
+        for interface_name in interface_names:
+            if not self.mapper.exists(interface_name):
+                self.write(f"{interface.name.upper()} = CONTEXT_HANDLE")
+                self.mapper.add_type(interface_name)
+    
         # write uuid def
         #self.uuid(interface)
         for vd in interface.vardefs:
@@ -184,43 +193,5 @@ class MidlInterfaceConverter(Converter):
         struct_converter.convert(td)
 
     def handle_midl_enum(self, td: MidlEnumDef):
-        if len(td.public_names) > 0:
-            if td.public_names[0] == "":
-                self.write(
-                    PythonAssignment(
-                        PythonName(td.private_name.upper()), PythonValue("DWORD__ENUM")
-                    )
-                )
-            else:
-                # If it has a public name, the enum may be used inside of an interface definition, so create a typdef for it to "DWORD__ENUM"
-                self.write(
-                    PythonAssignment(
-                        PythonName(td.public_names[0].upper()),
-                        PythonValue("DWORD__ENUM"),
-                    )
-                )
-        else:
-            self.write(
-                PythonAssignment(
-                    PythonName(td.private_name.upper()), PythonValue("DWORD__ENUM")
-                )
-            )
-
-        val = td.map[list(td.map.keys())[0]]
-        # Handle the case where the first enum entry has no value.
-        if val == None or val == "" or val == "0":
-            # default enum value case
-            value = 0
-            for key in td.map.keys():
-                val = td.map[key]
-                if val == None or val == "" or val == "0":
-                    td.map.update({key: value})
-                    value += 1
-                else:
-                    td.map.update({key: val})
-                    value += 1
-
-        for key in td.map.keys():
-            val = td.map[key]
-            enum = PythonAssignment(PythonName(key), PythonValue(str(val)))
-            self.write(enum)
+        enum_converter = MidlEnumConverter(self.io, self.tab_level, mapper=self.mapper)
+        enum_converter.convert(td)

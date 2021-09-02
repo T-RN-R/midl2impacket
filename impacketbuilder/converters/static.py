@@ -18,6 +18,7 @@ class MidlStaticConverter(Converter):
 
     def base_imports(self):
         imports = """
+# pylint: disable=C0103,C0302,W0614
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
@@ -27,8 +28,9 @@ from impacket.dcerpc.v5.dtypes import *
 from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
 from impacket.structure import Structure
 from impacket import nt_errors
+from impacket.dcerpc.v5.dtypes import STR, LPSTR, WSTR, LPWSTR
 from impacket.uuid import uuidtup_to_bin
-from impacket.dcerpc.v5.rpcrt import DCERPC_v5, DCERPCException
+from impacket.dcerpc.v5.rpcrt import DCERPCException
 
 from impacket import system_errors
 class DCERPCSessionError(DCERPCException):
@@ -40,9 +42,8 @@ class DCERPCSessionError(DCERPCException):
         if key in system_errors.ERROR_MESSAGES:
             error_msg_short = system_errors.ERROR_MESSAGES[key][0]
             error_msg_verbose = system_errors.ERROR_MESSAGES[key][1] 
-            return 'MIDL2Impacket SessionError: code: 0x%x - %s - %s' % (self.error_code, error_msg_short, error_msg_verbose)
-        else:
-            return 'MIDL2Impacket SessionError: unknown error code: 0x%x' % self.error_code
+            return 'SessionError: code: 0x%x - %s - %s' % (self.error_code, error_msg_short, error_msg_verbose)
+        return 'SessionError: unknown error code: 0x%x' % self.error_code
 
 
 DWORD64 = NDRUHYPER
@@ -62,36 +63,7 @@ class CONTEXT_HANDLE(NDRSTRUCT):
     structure = (
         ('Data', '20s=""'),
     )
-HANDLE_T = CONTEXT_HANDLE
-class RPC_STRING(NDRSTRUCT):
-    structure = (
-        ('Length','<H=0'),
-        ('MaximumLength','<H=0'),
-        ('Data',LPSTR),
-    )
-
-    def __setitem__(self, key, value):
-        if key == 'Data' and isinstance(value, NDR) is False:
-            self['Length'] = len(value)
-            self['MaximumLength'] = len(value)
-        return NDRSTRUCT.__setitem__(self, key, value)
-
-    def dump(self, msg = None, indent = 0):
-        if msg is None: msg = self.__class__.__name__
-        if msg != '':
-            print("%s" % msg, end=' ')
-
-        if isinstance(self.fields['Data'] , NDRPOINTERNULL):
-            print(" NULL", end=' ')
-        elif self.fields['Data']['ReferentID'] == 0:
-            print(" NULL", end=' ')
-        else:
-            return self.fields['Data'].dump('',indent)
-
-class PRPC_STRING(NDRPOINTER):
-    referent = (
-        ('Data', RPC_STRING),
-    )
+HANDLE_T = CONTEXT_HANDLE\
 """
         self.write(imports)
 
