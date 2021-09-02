@@ -12,25 +12,27 @@ RANGE_MAX_VALUE = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 class IntGenerator(object):
     def __init__(self, max_num):
-        self.choices = [0xFF]
+        self.choices = [0x00,0xFF]
         self.max_num = (1 << max_num) - 1
         if self.max_num > 0x80000000:
             self.choices.append(0x7FFFFFFF)
             self.choices.append(0x80000000)
         self.add_integer_boundaries(0)
-        self.add_integer_boundaries(self.max_num / 2)
-        self.add_integer_boundaries(self.max_num / 3)
-        self.add_integer_boundaries(self.max_num / 4)
-        self.add_integer_boundaries(self.max_num / 8)
-        self.add_integer_boundaries(self.max_num / 16)
-        self.add_integer_boundaries(self.max_num / 32)
+        self.add_integer_boundaries(self.max_num >> 2)
+        self.add_integer_boundaries(self.max_num >> 3)
+        self.add_integer_boundaries(self.max_num >> 4)
+        self.add_integer_boundaries(self.max_num >> 8)
+        if self.max_num >= 2**16-1:
+            self.add_integer_boundaries(self.max_num >> 16)
+        if self.max_num >= 2**32-1:
+            self.add_integer_boundaries(self.max_num >> 32)
         self.add_integer_boundaries(self.max_num)
         # Add some randoms
         for _ in range(50):
             self.choices.append(random.randint(0, self.max_num))
 
     def add_integer_boundaries(self, integer):
-        for i in range(-10, 10):
+        for i in range(-8, 8):
             case = integer + i
             if 0 <= case < self.max_num:
                 if case not in self.choices:
@@ -173,7 +175,7 @@ class StringGenerator(object):
             513,
             1023,
             1024,
-            1025
+            1025,
         ]:
             long_string = sequence * length
             self.choices.append(long_string)
@@ -205,13 +207,7 @@ def sub_generate_int(bitsize):
 def generate_int(bitsize, range_min, range_max):
     """Generate a number in the provided range"""
     value = -1
-    while value < range_min or value > range_max:
-        value = sub_generate_int(bitsize)
-        # If Range limits are too fine, FORCE the value
-        if range_min != RANGE_MIN_VALUE or range_max != RANGE_MAX_VALUE:
-            # After some tries
-            if random.randint(0, 5) == 4:
-                value = random.randint(range_min, range_max)
+    value = sub_generate_int(bitsize)
     return value
 
 
@@ -232,9 +228,9 @@ def generate_str(wide, range_min, range_max):
     # Dirty ...
     if wide:
         s = "".join(map(lambda x: x + "\0", list(s)))
-    
-    if random.randint(0,100) < NULL_TERMINATE_CHANCE:
-        s+="\x00"
-    
+
+    if random.randint(0, 100) < NULL_TERMINATE_CHANCE:
+        s += "\x00"
+
     # Need to do this whacky encode/decode because the Python builtin __exec__ does not like NULL bytes
     return f"{s.encode('utf-16')}.decode('utf-16')"

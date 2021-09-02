@@ -144,8 +144,6 @@ def generate_ndrpointer(cls, ctx, range_min=0, range_max=256):
         assert len(ref) == 1, "Cannot handle referents longer than 1!"
         name, type_ = ref[0]
         assert name == "Data", "Encountered a referent without a 'Data' entry!"
-
-    print(cls.__name__)
     return type_.generate(ctx, range_min, range_max)
 
 
@@ -158,9 +156,21 @@ def generate_todo(cls, ctx, range_min=0, range_max=256):
 def generate_wstr_impl(cls, ctx, range_min=0, range_max=256):
     return 0, f"{generate_str(wide=True, range_min=range_min, range_max=range_max)}"
 
+
 @classmethod
 def generate_str_impl(cls, ctx, range_min=0, range_max=256):
     return 0, f"{generate_str(wide=False, range_min=range_min, range_max=range_max)}"
+
+
+@classmethod
+def generate_ndruniconformantarray(cls, ctx, range_min=0, range_max=256):
+    inner_type = cls.item
+    if isinstance(inner_type, str):
+        inner_type = cls().item
+    output = f"{cls.__name__}()\n"
+    for _ in range(range_min, random.randint(range_min,range_max)):
+        output += f"{ctx}.append({inner_type.generate(ctx)[1]})\n"
+    return 0, output
 
 
 # Apply hotpatches
@@ -204,7 +214,11 @@ setattr(impacket.dcerpc.v5.ndr.NDRCALL, "add_out_args", add_out_args)
 setattr(impacket.dcerpc.v5.ndr.NDRPOINTER, "generate", generate_ndrpointer)
 
 # TODO:
-setattr(impacket.dcerpc.v5.ndr.NDRUniConformantArray, "generate", generate_todo)
+setattr(
+    impacket.dcerpc.v5.ndr.NDRUniConformantArray,
+    "generate",
+    generate_ndruniconformantarray,
+)
 setattr(impacket.dcerpc.v5.ndr.NDRUniConformantVaryingArray, "generate", generate_todo)
 setattr(impacket.dcerpc.v5.ndr.NDRUniFixedArray, "generate", generate_todo)
 setattr(impacket.dcerpc.v5.ndr.NDRUniVaryingArray, "generate", generate_todo)
