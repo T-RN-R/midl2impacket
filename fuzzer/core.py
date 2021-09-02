@@ -58,7 +58,6 @@ class Fuzzer:
         """Does one unit of fuzzing"""
         iters = config.ITERATION_COUNT
         testcase = NDRINTERFACE.generate(iters, self)  # Make an NdrCall!
-        print(testcase)
         import pathlib
         test = pathlib.Path("test.py")
         test.write_text(str(testcase))
@@ -108,11 +107,14 @@ class MethodInvocation:
         self.lhs = lhs
 
     def __str__(self):
-        # TODO get respons variable name here, and globally assign a type to the name
         out = f"req = {self.name}()\n"
         for arg in self.arguments:
             out += f"req.{arg} = {self.arguments[arg]}\n"
-        out += f"{self.lhs} = dce.request(req)\n"
+        out += "try:\n"
+        out += f"\t{self.lhs} = dce.request(req)\n"
+        out+="except Exception as e:\n"
+        out+=f"\tprint('Error at: {self.lhs} failing with: ' + str(e))\n"
+        out+="\tprint(req.dump())\n"
         return out
 
 

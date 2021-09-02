@@ -164,6 +164,7 @@ def generate_str_impl(cls, ctx, range_min=0, range_max=256):
 
 @classmethod
 def generate_ndruniconformantarray(cls, ctx, range_min=0, range_max=256):
+    #TODO determine some way of getting the PROPER min/max sizes here...
     inner_type = cls.item
     if isinstance(inner_type, str):
         inner_type = cls().item
@@ -213,12 +214,14 @@ setattr(impacket.dcerpc.v5.ndr.NDRCALL, "add_out_args", add_out_args)
 # NDRPOINTER
 setattr(impacket.dcerpc.v5.ndr.NDRPOINTER, "generate", generate_ndrpointer)
 
-# TODO:
+
+# NDUniConformantArray
 setattr(
     impacket.dcerpc.v5.ndr.NDRUniConformantArray,
     "generate",
     generate_ndruniconformantarray,
 )
+# TODO, unimplemented:s
 setattr(impacket.dcerpc.v5.ndr.NDRUniConformantVaryingArray, "generate", generate_todo)
 setattr(impacket.dcerpc.v5.ndr.NDRUniFixedArray, "generate", generate_todo)
 setattr(impacket.dcerpc.v5.ndr.NDRUniVaryingArray, "generate", generate_todo)
