@@ -152,7 +152,7 @@ class MidlStructConverter(Converter):
         for var_def in struct.members:
             if isinstance(var_def.type, (MidlUnionDef, MidlStructDef)):
                 # handle nested unions/structs
-                var_def.type = self.convert(var_def.type,struct)
+                var_def.type = self.convert(var_def.type, struct)
 
             p_vd = VarDefConverter(self.io, self.tab_level, self.mapper).convert(
                 var_def
@@ -225,7 +225,7 @@ class MidlStructConverter(Converter):
         for var_def in struct.members:
             if isinstance(var_def.type, (MidlStructDef, MidlUnionDef)):
                 # nested unions/structs
-                var_def.type = self.convert(var_def.type,struct)
+                var_def.type = self.convert(var_def.type, struct)
             p_vd = VarDefConverter(self.io, self.tab_level, self.mapper).convert(
                 var_def
             )
@@ -243,9 +243,7 @@ class MidlStructConverter(Converter):
             name=array_name,
             underlying_type=array_member_name,
         )
-        ndr_ptr = PythonNdrPointer(
-            name=array_pointer_name, referent_name=array_name
-        )
+        ndr_ptr = PythonNdrPointer(name=array_pointer_name, referent_name=array_name)
         ndr_struct = PythonNdrStruct(name=main_name, structure=struct_tuple)
 
         # Add array

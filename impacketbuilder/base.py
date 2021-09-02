@@ -15,9 +15,8 @@ class Writer:
         self.io.write(l)
 
     def write(self, data: str):
-        assert isinstance(data,str)
+        assert isinstance(data, str)
         self.io.write(data)
-
 
 
 class Writable:

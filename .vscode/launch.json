@@ -41,6 +41,48 @@
                 "--import-dir", "\"preprocessed/\""
 
             ]
+        },
+        {
+            "name": "Run EVEN Fuzzer",
+            "type": "python",
+            "request": "launch",
+            "program": "fuzzer.py",
+            "console": "integratedTerminal",
+            "args":[
+                "--idl", "\"preprocessed/ms-even.idl\"",
+                "--out-dir", "\"generated/\"",
+                "--import-dir", "\"preprocessed/\"",
+                "--count", "1",
+
+            ]
+        },        
+        {
+            "name": "Run EVEN6 Fuzzer",
+            "type": "python",
+            "request": "launch",
+            "program": "fuzzer.py",
+            "console": "integratedTerminal",
+            "args":[
+                "--idl", "\"preprocessed/ms-even6.idl\"",
+                "--out-dir", "\"generated/\"",
+                "--import-dir", "\"preprocessed/\"",
+                "--count", "1",
+
+            ]
+        },
+        {
+            "name": "Run RPRN Fuzzer",
+            "type": "python",
+            "request": "launch",
+            "program": "fuzzer.py",
+            "console": "integratedTerminal",
+            "args":[
+                "--idl", "\"preprocessed/ms-rprn.idl\"",
+                "--out-dir", "\"generated/\"",
+                "--import-dir", "\"preprocessed/\"",
+                "--count", "1",
+
+            ]
         }
     ]
 }

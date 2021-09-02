@@ -3,16 +3,21 @@ from midlparser import parse_idl
 from impacketbuilder import ImpacketBuilder
 import traceback
 
-def generate_impacket(midl_def, import_dir:str):
+
+def generate_impacket(midl_def, import_dir: str):
     return ImpacketBuilder().midl_def(midl_def).import_dir(import_dir).build()
 
+
+
+
+
 def test_full():
-    generated_dir = pathlib.Path('generated')
+    generated_dir = pathlib.Path("generated")
     generated_dir.mkdir(exist_ok=True)
-    scraped_files = pathlib.Path('preprocessed').glob("*.idl")
-    #scraped_files = [pathlib.Path('preprocessed/ms-rprn.idl')]
+    scraped_files = pathlib.Path("preprocessed").glob("*.idl")
+    # scraped_files = [pathlib.Path('preprocessed/ms-rprn.idl')]
     for scraped_file in scraped_files:
-        out_file = generated_dir / scraped_file.with_suffix('.py').name
+        out_file = generated_dir / scraped_file.with_suffix(".py").name
         print("Parsing: ", scraped_file)
         try:
             midl = parse_idl(scraped_file)
@@ -28,9 +33,6 @@ def test_full():
         out_file.write_text(generated_code)
 
 
+
 if __name__ == "__main__":
     test_full()
-
-
-        
-

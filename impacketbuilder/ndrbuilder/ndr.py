@@ -47,7 +47,7 @@ class PythonNdrClassDefiniton:
                 args="self",
                 body=[f"return self['{prop_name}']"],
                 decorator="@property",
-                return_type=prop_type
+                return_type=prop_type,
             )
             prop_methods.append(prop_get)
             prop_set = PythonFunction(

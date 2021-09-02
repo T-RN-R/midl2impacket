@@ -42,10 +42,12 @@ class Token:
         self.type = token_type
         self.data = data
 
+
 class TokenizerState:
     def __init__(self, filename, lineno):
         self.filename = filename
         self.lineno = lineno
+
 
 class MidlTokenizer:
     """Class that tokenizes the raw MIDL string
@@ -339,7 +341,7 @@ class MidlTokenizer:
         while i < len(self.midl):
             if i == self.ptr:
                 return lc
-            if self.midl[i:i+2] == "\r\n":
+            if self.midl[i : i + 2] == "\r\n":
                 lc += 1
                 i += 1
             elif self.midl[i] in ["\n", "\r"]:

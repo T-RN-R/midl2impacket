@@ -39,14 +39,20 @@ class MidlEnumParser(MidlBaseParser):
         if not self.cur_member_value:
             # We didn't have a value specified. Set it to the previous member value and increment
             self.cur_member_value = self.prev_member_value
-            cv = self.cur_member_value[1:] if self.cur_member_value.startswith('-') else self.cur_member_value
+            cv = (
+                self.cur_member_value[1:]
+                if self.cur_member_value.startswith("-")
+                else self.cur_member_value
+            )
             if cv.isnumeric():
                 self.cur_member_value = str(int(self.cur_member_value) + 1)
                 self.cur_sym_counter = 0
             else:
                 # The previous member is a symbol.. Just increment based on a counter
-                self.cur_member_value = self.cur_member_value + f" + {self.cur_sym_counter}"
-                self.cur_sym_counter += 1   
+                self.cur_member_value = (
+                    self.cur_member_value + f" + {self.cur_sym_counter}"
+                )
+                self.cur_sym_counter += 1
         self.map[self.cur_member_name] = self.cur_member_value
         self.prev_member_value = self.cur_member_value
         self.state = EnumState.MEMBER_NAME
@@ -68,11 +74,11 @@ class MidlEnumParser(MidlBaseParser):
             numeric_str = token.data
             is_negative = False
             # Parse
-            if numeric_str.startswith('-'):
+            if numeric_str.startswith("-"):
                 is_negative = True
                 numeric_str = numeric_str[1:]
             # Strip off integer suffixes (U,u,L,l)
-            while numeric_str[-1].lower() in ['u', 'l']:
+            while numeric_str[-1].lower() in ["u", "l"]:
                 numeric_str = numeric_str[:-1]
             # Convert
             if numeric_str.lower().startswith("0x"):
@@ -113,7 +119,9 @@ class MidlEnumParser(MidlBaseParser):
             EnumState.MEMBER_OP,
             EnumState.MEMBER_VALUE,
         ]:
-            if self.state == EnumState.MEMBER_OP or (self.state == EnumState.MEMBER_VALUE and self.cur_member_value):
+            if self.state == EnumState.MEMBER_OP or (
+                self.state == EnumState.MEMBER_VALUE and self.cur_member_value
+            ):
                 self.add_member()
             self.state = EnumState.ENUM_END
         else:

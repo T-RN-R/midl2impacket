@@ -1,6 +1,7 @@
 from base import Visitable
 import enum
 
+
 class MidlImport:
     """Represents a MIDL import statement
 
@@ -254,15 +255,15 @@ class SizeIsType(enum.Enum):
     POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY : [size_is(m,n)] short ** ppshort);
     POINTER_TO_SIZED_POINTER_TO_SCALAR          : [size_is( , *pSize)] my_type ** ppMyType);
     """
-     
+
     POINTER_TO_SCALAR_ARRAY = enum.auto()
     POINTER_TO_POINTER_TO_SCALAR_ARRAY = enum.auto()
     ARRAY_OF_POINTERS_TO_SCALARS = enum.auto()
     POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY = enum.auto()
     POINTER_TO_SIZED_POINTER_TO_SCALAR = enum.auto()
 
-class SizeIsAttribute(MidlAttribute):
 
+class SizeIsAttribute(MidlAttribute):
     def __init__(self, name, params=None):
         super().__init__(name, params)
         if len(params) == 1:
@@ -273,7 +274,7 @@ class SizeIsAttribute(MidlAttribute):
             if not p_x:
                 if not p_y:
                     raise Exception("No size_is parameters supplied")
-                elif '*' in p_y:
+                elif "*" in p_y:
                     self.type = SizeIsType.POINTER_TO_SIZED_POINTER_TO_SCALAR
                 else:
                     self.type = SizeIsType.POINTER_TO_POINTER_TO_SCALAR_ARRAY
@@ -284,6 +285,7 @@ class SizeIsAttribute(MidlAttribute):
                     self.type = SizeIsType.POINTER_TO_ARRAY_OF_POINTER_TO_SCALAR_ARRAY
         else:
             raise Exception("Invalid number of parameters for size_is")
+
 
 class MidlVarDef(Visitable):
     """Struct member or function parameter
@@ -436,7 +438,7 @@ class MidlProcedure(Visitable):
         `
     """
 
-    def __init__(self, name, attributes, params:list[MidlVarDef]=None):
+    def __init__(self, name, attributes, params: list[MidlVarDef] = None):
         self.name = name
         self.attributes = attributes or {}
         self.params = params
@@ -457,7 +459,7 @@ class MidlProcedure(Visitable):
 
 class MidlParameter(Visitable):
     def __init__(
-        self, name=None, data_type=None, attributes: dict[str:MidlAttribute]=None
+        self, name=None, data_type=None, attributes: dict[str:MidlAttribute] = None
     ):
         self.name = name
         self.type = data_type

@@ -4,6 +4,7 @@ from midltypes import MidlEnumDef
 from .base import ConversionException, Converter
 from impacketbuilder.ndrbuilder.python import PythonAssignment, PythonValue, PythonName
 
+
 class MidlEnumConverter(Converter):
     def convert(self, enum_def : MidlEnumDef) -> str:
         enum_private_name = self.mapper.get_python_type(enum_def.private_name)[0]

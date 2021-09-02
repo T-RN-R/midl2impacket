@@ -9,6 +9,7 @@ from .converters.typing import TypeMapper, IDL_TO_NDR
 
 class ImpacketBuilder:
     """Converts a MIDL Definition into a Python module"""
+
     def __init__(self):
         self.__midl_def = None
 
@@ -28,7 +29,7 @@ class ImpacketBuilder:
         static_converter = MidlStaticConverter(python_writer, tabs, mapper=type_mapper)
         static_converter.convert()
 
-        python_code = MidlDefinitionConverter(python_writer, tabs, mapper=type_mapper).convert(
-            self.__midl_def, self.__import_dir
-        )
+        python_code = MidlDefinitionConverter(
+            python_writer, tabs, mapper=type_mapper
+        ).convert(self.__midl_def, self.__import_dir)
         return python_code

@@ -7,7 +7,6 @@ Tokenizer = MidlTokenizer
 
 
 class test_Tokenizer:
-
     def test_imports(self):
         t = Tokenizer('import "test.idl"').get_token()
         tok = next(t)
@@ -17,4 +16,3 @@ class test_Tokenizer:
         tok = next(t)
         assert tok.data == '"test.idl"'
         assert tok.type == TokenType.STRING
-

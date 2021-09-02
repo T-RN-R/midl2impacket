@@ -64,7 +64,9 @@ class MidlVariableInstantiationParser(MidlBaseParser):
             VariableInstantiationState.TYPE_ARRAY,
         ]:
             # Grab the array dimensions for the type
-            self.value_parts.append(MidlArrayParser(self.tokens, self.tokenizer).parse(token))
+            self.value_parts.append(
+                MidlArrayParser(self.tokens, self.tokenizer).parse(token)
+            )
             self.state = VariableInstantiationState.TYPE_ARRAY
             self.type_parts.append(token.data)
         elif self.state == VariableInstantiationState.VALUE:

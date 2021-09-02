@@ -98,6 +98,7 @@ class MidlStructParser(MidlBaseParser):
                 self.cur_member_attrs = {}
             elif token.data == "union":
                 from .unions import MidlUnionParser
+
                 union_type = MidlUnionParser(self.tokens, self.tokenizer).parse(token)
                 union_type.attributes = self.cur_member_attrs
                 if not union_type.members:

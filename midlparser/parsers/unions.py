@@ -69,6 +69,7 @@ class MidlUnionParser(MidlBaseParser):
             # Embedded
             if token.data == "struct":
                 from .structs import MidlStructParser
+
                 struct_type = MidlStructParser(self.tokens, self.tokenizer).parse(token)
                 struct_type.attributes = self.cur_member_attrs
                 if not struct_type.members:

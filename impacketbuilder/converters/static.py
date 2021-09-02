@@ -5,8 +5,9 @@ from .comments import MidlCommentWriter
 
 class MidlStaticConverter(Converter):
     def __init__(self, *args, **kwargs):
-        super().__init__( *args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.HAS_RUN = False
+
     def convert(self):
         if not self.HAS_RUN:
             comment_writer = MidlCommentWriter(self.io, self.tab_level)
@@ -21,6 +22,12 @@ class MidlStaticConverter(Converter):
 from __future__ import division
 from __future__ import print_function
 from impacket.dcerpc.v5.ndr import *
+from fuzzer.impacket_overrides import *
+from fuzzer.base import NDRINTERFACE
+from impacket.dcerpc.v5.dtypes import *
+from impacket.dcerpc.v5.lsad import PRPC_UNICODE_STRING_ARRAY
+from impacket.structure import Structure
+from impacket import nt_errors
 from impacket.dcerpc.v5.dtypes import STR, LPSTR, WSTR, LPWSTR
 from impacket.uuid import uuidtup_to_bin
 from impacket.dcerpc.v5.rpcrt import DCERPCException
@@ -37,6 +44,19 @@ class DCERPCSessionError(DCERPCException):
             error_msg_verbose = system_errors.ERROR_MESSAGES[key][1] 
             return 'SessionError: code: 0x%x - %s - %s' % (self.error_code, error_msg_short, error_msg_verbose)
         return 'SessionError: unknown error code: 0x%x' % self.error_code
+
+
+DWORD64 = NDRUHYPER
+__INT64 = NDRHYPER
+DWORD__ENUM = DWORD
+LCID = DWORD
+WORD = NDRUSHORT
+IID = GUID
+OLESTR = WSTR
+LPOLESTR = LPWSTR
+REFIID = IID
+DATE = DOUBLE
+VARIANT_BOOL = USHORT
 
 class CONTEXT_HANDLE(NDRSTRUCT):
     align = 1

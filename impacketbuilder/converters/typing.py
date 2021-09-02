@@ -171,7 +171,9 @@ class TypeMapper:
                     self.add_type(pointer_to_create)
         return pointer_type
 
-    def canonicalize(self, name: str, array_size: str = None, is_func_param=False) -> tuple[str, str]:
+    def canonicalize(
+        self, name: str, array_size: str = None, is_func_param=False
+    ) -> tuple[str, str]:
         """Canonicalizes an IDL typename into the Python typename format"""
 
         # Strip const and spaces
@@ -187,6 +189,7 @@ class TypeMapper:
                     py_name = STRING_PARAM_TYPES[ptr_type]
                 else:
                     py_name = py_name[:-1]
+
 
         py_member_name = None
         # Check array information:

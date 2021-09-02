@@ -26,7 +26,7 @@ class MidlAttributesParser(MidlBaseParser):
         self.cur_attr_params = []
         self.attributes = {}
         self.attr_handlers = {
-            'size_is': self.size_is,
+            "size_is": self.size_is,
         }
 
     def add_to_cur_param(self, token: Token):
