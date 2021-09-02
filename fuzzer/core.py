@@ -59,6 +59,9 @@ class Fuzzer:
         iters = config.ITERATION_COUNT
         testcase = NDRINTERFACE.generate(iters, self)  # Make an NdrCall!
         print(testcase)
+        import pathlib
+        test = pathlib.Path("test.py")
+        test.write_text(str(testcase))
         self.execute(testcase)
 
     def get_var_name(self):
