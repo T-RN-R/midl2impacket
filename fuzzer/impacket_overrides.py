@@ -49,6 +49,10 @@ def generate_ndrstruct(cls, ctx, range_min=0, range_max=256):
 
 @classmethod
 def is_context_handle(cls):
+    if hasattr(cls, 'is_ctx_handle'):
+        is_ctx = getattr(cls,"is_ctx_handle")
+        if is_ctx: # shortcut for idl defined handles
+            return True
     inst = cls()
     for member in inst.structure:
         name, type_ = member
