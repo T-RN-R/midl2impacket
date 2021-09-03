@@ -38,8 +38,7 @@ class MidlStructConverter(Converter):
             raise Exception("NDR_POINTER unimplemented")
 
     def handle_ndr_union(self, union, parent_struct):
-        """Create the Python definition for an NDRUnion
-        """
+        """Create the Python definition for an NDRUnion"""
         if union.public_names:
             base_name = union.public_names[0]
         else:
@@ -48,26 +47,30 @@ class MidlStructConverter(Converter):
         tag: MidlAttribute
         if tag := union.attributes.get("switch_type"):
             tag = tag.params[0].upper()
-            #TODO  switch_type can be an expression
+            # TODO  switch_type can be an expression
         elif tag := union.attributes.get("switch_is"):
-            #tag is now the switch_is parameter
+            # tag is now the switch_is parameter
             tag = tag.params[0].upper()
-            #lookup the variable name in the struct creating this union, and make that variable's type the tag name
-            assert(parent_struct is not None), "Must pass in parent_struct!"
+            # lookup the variable name in the struct creating this union, and make that variable's type the tag name
+            assert parent_struct is not None, "Must pass in parent_struct!"
             for member in parent_struct.members:
                 member_name = member.name.upper()
                 if member_name == tag:
                     tag = member.type
-                    assert(isinstance(tag, str)), "Handle cases where the union tag object is non-str(most likely VarDef)"
+                    assert isinstance(
+                        tag, str
+                    ), "Handle cases where the union tag object is non-str(most likely VarDef)"
                     break
-        
+
         # Default to DWORD
         tag = tag or "DWORD"
-        #TODO evaluate the tag here
-        if tag[:2] == "0x":
-            #TODO this is janky detection and prone to breakage, properly evaluate it
-            pass
-
+        if "0X" in tag:
+            # TODO this is janky detection and prone to breakage, properly evaluate it
+            tag = tag.split(" ")[2]  # Janky fix for rprn
+            for member in parent_struct.members:
+                member_name = member.name.upper()
+                if member_name == tag:
+                    tag = member.type
         # Pythonize the tag
         tag = self.mapper.get_python_type(tag)[0]
 
@@ -111,18 +114,26 @@ class MidlStructConverter(Converter):
         if entries:
             dentries = PythonDictEntryList(*entries)
             if not base_exists:
-                union_def = PythonNdrUnion(name=base_name, union_entries=dentries, tag=tag)
+                union_def = PythonNdrUnion(
+                    name=base_name, union_entries=dentries, tag=tag
+                )
                 self.write(union_def.to_string())
                 self.mapper.add_type(base_name)
-            private_name, private_name_exists = self.mapper.get_python_type(union.private_name)
+            private_name, private_name_exists = self.mapper.get_python_type(
+                union.private_name
+            )
             if private_name and not private_name_exists:
                 # In case of typedefs on the private name:
-                private_association = PythonAssignment(PythonName(private_name), PythonValue(base_name))
+                private_association = PythonAssignment(
+                    PythonName(private_name), PythonValue(base_name)
+                )
                 self.write(private_association.to_python_string())
                 self.mapper.add_type(private_name)
         else:
             # This is just a forward declaration.
-            forward_declaration = PythonAssignment(PythonName(base_name), PythonValue('None'))
+            forward_declaration = PythonAssignment(
+                PythonName(base_name), PythonValue("None")
+            )
             self.write(forward_declaration.to_python_string())
 
         # Now handle the cases where there are multiple public names, including pointers
@@ -168,7 +179,7 @@ class MidlStructConverter(Converter):
 
         if len(struct.public_names) > 0:
             # If there aren't any non-pointer public names, use the private name
-            if struct.public_names[0].startswith('*'):
+            if struct.public_names[0].startswith("*"):
                 struct.public_names.insert(0, struct.private_name)
             base_name = struct.public_names[0]
         else:
@@ -178,15 +189,21 @@ class MidlStructConverter(Converter):
             ndr_class = PythonNdrStruct(name=base_name, structure=struct_tuple)
             self.write(ndr_class.to_string())
             self.mapper.add_type(base_name)
-            private_name, private_name_exists = self.mapper.get_python_type(struct.private_name)
+            private_name, private_name_exists = self.mapper.get_python_type(
+                struct.private_name
+            )
             if private_name and not private_name_exists:
                 # In case of typedefs on the private name:
-                private_association = PythonAssignment(PythonName(private_name), PythonValue(base_name))
+                private_association = PythonAssignment(
+                    PythonName(private_name), PythonValue(base_name)
+                )
                 self.write(private_association.to_python_string())
                 self.mapper.add_type(private_name)
         else:
             # This is just a forward declaration.
-            forward_declaration = PythonAssignment(PythonName(base_name), PythonValue('None'))
+            forward_declaration = PythonAssignment(
+                PythonName(base_name), PythonValue("None")
+            )
             self.write(forward_declaration.to_python_string())
 
         # Now handle the cases where there are multiple public names, including pointers

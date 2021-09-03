@@ -94,10 +94,10 @@ def get_child_fields_of_type(cls, type_info, ident=""):
 @classmethod
 def generate_ndrunion(cls, ctx, range_min=0, range_max=256):
     inst = cls()
-    kind = random.choice(inst.union.keys())
+    kind = random.choice(list(inst.union.keys()))
     output = f"{cls.__name__}()\n"
     name, type_ = inst.union[kind]
-    entry = f"{ctx}['{name}']\n"
+    entry = f"{ctx}['{name}']"
     output += entry + " = " + str(type_.generate(f"{entry}")[1]) + "\n"
     return 0, output
 
