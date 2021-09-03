@@ -16,12 +16,15 @@ from midltypes import (
 )
 from impacketbuilder.ndrbuilder.python import (
     PythonAssignment,
+    PythonAssignmentList,
     PythonDictEntry,
     PythonDictEntryList,
     PythonDict,
     PythonValue,
     PythonName,
     PythonTuple,
+    PythonClass,
+    PythonNameList,
 )
 
 from impacketbuilder.ndrbuilder.ndr import PythonNdrStruct, PythonNdrPointer
@@ -40,7 +43,7 @@ class MidlInterfaceConverter(Converter):
             self.io, self.tab_level, mapper=self.mapper
         )
 
-    def convert(self, interface:MidlInterface, import_dir, import_converter):
+    def convert(self, interface: MidlInterface, import_dir, import_converter):
         if interface.imports:
             self.imports_converter.convert(
                 interface.imports, import_dir, import_converter
@@ -50,11 +53,20 @@ class MidlInterfaceConverter(Converter):
         interface_names.extend([parent.upper() for parent in interface.parents])
         for interface_name in interface_names:
             if not self.mapper.exists(interface_name):
-                self.write(f"{interface.name.upper()} = CONTEXT_HANDLE")
+                clz = PythonClass(
+                    PythonName(f"{interface.name.upper()}"),
+                    PythonNameList(PythonName("CONTEXT_HANDLE")),
+                    PythonAssignmentList(
+                        PythonAssignment(
+                            PythonName("is_ctx_handle"), PythonValue("True")
+                        )
+                    ),
+                )
+                self.write(clz.to_python_string())
                 self.mapper.add_type(interface_name)
-    
+
         # write uuid def
-        #self.uuid(interface)
+        # self.uuid(interface)
         for vd in interface.vardefs:
             self.handle_vardef(vd)
         for td in interface.typedefs:
@@ -137,11 +149,15 @@ class MidlInterfaceConverter(Converter):
     def handle_vardef(self, vd: MidlVarDef):
         self.const_converter.convert(vd)
 
+    def handle_handle_td(self,td:MidlTypeDef):
+        return self.handle_context_handle(td)
+
     def handle_midl_td(self, td: MidlTypeDef):
         py_td_type, _ = self.mapper.get_python_type(td.type)
         if isinstance(td, MidlTypeDef):
             if "context_handle" in td.attributes:
                 self.handle_context_handle(td)
+
             else:
                 raise Exception(f"Unrecognized type: {td}")
         elif isinstance(td, MidlSimpleTypedef):
@@ -149,7 +165,10 @@ class MidlInterfaceConverter(Converter):
             # Context handles are special cases
             if "context_handle" in td.attributes:
                 return self.handle_context_handle(td)
-
+            elif "handle" in td.attributes:
+                pass
+                #return self.handle_handle_td(td)
+ 
             # Otherwise just create the typedef here
             if td.name.startswith("*"):
                 # e.g. typedef RPC_UNICODE_STRING LSA_UNICODE_STRING, *PLSA_UNICODE_STRING
@@ -172,13 +191,19 @@ class MidlInterfaceConverter(Converter):
             self.mapper.add_type(py_td_name)
 
     def handle_context_handle(self, td):
+
         td_name, td_exists = self.mapper.get_python_type(td.name)
         td_ptr_name = f"P{td_name}"
         if not td_exists:
             structure = PythonTuple(
                 PythonTuple([PythonValue("'Data'"), PythonValue("'20s=\"\"'")])
             )
-            ndr_struct = PythonNdrStruct(name=td_name, structure=structure)
+            is_ctx_handle = PythonAssignmentList(
+                PythonAssignment(PythonName("is_context_handle"), PythonValue("True"))
+            )
+            ndr_struct = PythonNdrStruct(
+                name=td_name, structure=structure, other_props=is_ctx_handle
+            )
             self.write(ndr_struct.to_string())
             self.mapper.add_type(td_name)
         if not self.mapper.exists(td_ptr_name):

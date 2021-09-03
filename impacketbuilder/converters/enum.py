@@ -13,6 +13,7 @@ class MidlEnumConverter(Converter):
         else:
             enum_name = enum_private_name
         # Create the enum type
+
         self.write(
             PythonAssignment(
                 PythonName(enum_name),
@@ -21,7 +22,7 @@ class MidlEnumConverter(Converter):
         )
         self.mapper.add_type(enum_name)
         # This is for handling forward declarations
-        if enum_name != enum_private_name:
+        if enum_name != enum_private_name and enum_private_name != "":
             self.write(
                 PythonAssignment(
                     PythonName(enum_private_name),
@@ -68,8 +69,17 @@ class MidlEnumConverter(Converter):
                 else:
                     enum_def.map.update({key: val})
                     value += 1
-
+        enum_items = ""
         for key in enum_def.map.keys():
             val = enum_def.map[key]
+            enum_items += f"        {key} = {val}\n"
             enum = PythonAssignment(PythonName(key), PythonValue(str(val)))
             self.write(enum)
+
+
+        clz = f"""
+class {enum_name}(NDRENUM):
+    class enumItems(Enum):
+{enum_items}
+"""
+        self.write(clz)

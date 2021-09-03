@@ -63,6 +63,11 @@ class MidlStructConverter(Converter):
         
         # Default to DWORD
         tag = tag or "DWORD"
+        #TODO evaluate the tag here
+        if tag[:2] == "0x":
+            #TODO this is janky detection and prone to breakage, properly evaluate it
+            pass
+
         # Pythonize the tag
         tag = self.mapper.get_python_type(tag)[0]
 

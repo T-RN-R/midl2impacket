@@ -38,8 +38,18 @@ class PythonDefList(PythonDef):
                 )
         self.obj_list = list(args)
 
+    def append(self, entry):
+        assert isinstance(
+            entry, self.CONTAINED_CLASS
+        )  # enforce the setting of CONTAINED_CLASS
+        self.obj_list.append(entry)
+
+    def extend(self, other_list):
+        assert isinstance(other_list, self.__class__)
+        self.obj_list.extend(other_list.obj_list)
     def __iter__(self):
         return iter(self.obj_list)
+
 
 class PythonValue(PythonDef):
     """Base class that represents anything on the rhs of an assignment"""
