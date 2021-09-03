@@ -100,7 +100,7 @@ class MidlInterfaceConverter(Converter):
         if "uuid" in interface.attributes:
             iface_uuid = interface.attributes["uuid"].params[0]
         if iface_ver := interface.attributes.get("version"):
-            iface_ver = iface_ver.params[0]
+            iface_ver = iface_ver.params[0].replace(" ","")
         else:
             iface_ver = "0.0"
         if not iface_uuid:
@@ -119,7 +119,6 @@ class MidlInterfaceConverter(Converter):
             iface_uuid = interface.attributes["uuid"].params[0]
             if iface_ver := interface.attributes.get("version"):
                 iface_ver = iface_ver.params[0]
-                print(iface_ver)
             else:
                 iface_ver = "0.0"
             self.write(

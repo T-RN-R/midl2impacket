@@ -55,7 +55,7 @@ from impacket.dcerpc.v5.transport import DCERPCTransportFactory"""
         testcase.add(
             f"""
 try:
-    stringBinding = epm.hept_map('{host}', uuidtup_to_bin(('{self.uuid}', '2.0')))
+    stringBinding = epm.hept_map('{host}', uuidtup_to_bin(('{self.uuid}', '{self.version}')))
 except impacket.dcerpc.v5.rpcrt.DCERPCException:
     from fuzzer.epm import get_mapping
     stringBinding = get_mapping('{self.uuid}', '{host}')
@@ -64,7 +64,7 @@ rpctransport.set_credentials('{username}', '{password}', '', '', '')
 dce = rpctransport.get_dce_rpc()
 #dce.set_auth_level(RPC_C_AUTHN_LEVEL_PKT_PRIVACY)
 dce.connect()
-dce.bind(uuidtup_to_bin(('{self.uuid}', '2.0')))
+dce.bind(uuidtup_to_bin(('{self.uuid}', '{self.version}')))
 """
         )
 
