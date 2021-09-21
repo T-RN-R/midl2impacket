@@ -49,6 +49,9 @@ class MidlAttributesParser(MidlBaseParser):
     def string(self, token: Token):
         self.add_to_cur_param(token)
 
+    def guid(self, token: Token):
+        self.add_to_cur_param(token)
+
     def finish_param(self):
         self.cur_attr_params.append(' '.join(self.cur_attr_param_parts))
         self.cur_attr_param_parts = []

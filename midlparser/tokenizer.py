@@ -101,17 +101,13 @@ class MidlTokenizer:
                 to_yield = Token(cur_char, TokenType.ELLIPSIS)
                 # Skip to the end of the ellipsis
                 self.ptr += 1
+            elif cur_char in string.hexdigits and (guid_str := self.get_guid()):
+                to_yield = Token(guid_str, TokenType.GUID)
             elif cur_char in Token.operators:
                 # Check comments
                 if cur_char == "/" and self.midl[self.ptr + 1] in ["/", "*"]:
                     comment = self.get_comment()
                     to_yield = Token(comment, TokenType.COMMENT)
-                elif cur_char == "-" and self.midl[self.ptr + 1] in string.digits:
-                    s, is_guid = self.get_numeric()
-                    if is_guid:
-                        to_yield = Token(s, TokenType.GUID)
-                    else:
-                        to_yield = Token(s, TokenType.NUMERIC)
                 else:
                     to_yield = Token(cur_char, TokenType.OPERATOR)
             elif cur_char == ";":
@@ -124,11 +120,8 @@ class MidlTokenizer:
                 else:
                     to_yield = Token(s, TokenType.SYMBOL)
             elif cur_char in string.digits:
-                s, is_guid = self.get_numeric()
-                if is_guid:
-                    to_yield = Token(s, TokenType.GUID)
-                else:
-                    to_yield = Token(s, TokenType.NUMERIC)
+                s = self.get_numeric()
+                to_yield = Token(s, TokenType.NUMERIC)
             else:
                 raise Exception(f"Unhandled character {cur_char}")
             self.ptr += 1
@@ -136,6 +129,25 @@ class MidlTokenizer:
                 to_yield is not None
             ), "Must set the Token to be yielded by the generator"
             yield to_yield
+
+    def get_guid(self):
+        """ Checks for a guid at the current ptr"""
+        guid_str = ""
+        start_ptr = self.ptr
+        cur_char = self.midl[self.ptr]
+        while cur_char.lower() in string.hexdigits + "-":
+            guid_str += cur_char
+            self.ptr += 1
+            cur_char = self.midl[self.ptr]
+        try:
+            uuid.UUID(guid_str)
+            # Rewind 1 to the end of the GUID
+            self.ptr -= 1
+            return guid_str
+        except ValueError:
+            # Not a guid
+            self.ptr = start_ptr
+            return None
 
     def get_numeric(self):
         """Returns a numeric value
@@ -146,33 +158,12 @@ class MidlTokenizer:
         Returns:
             str: The numeric
         """
-        start_ptr = self.ptr
         is_hex = False
         is_octal = False
         has_decimal = False
         is_bin = False
         cur_char = self.midl[self.ptr]
         int_suffixes = 0
-        numeric_str = ""
-
-        # Check for guids first. Otherwise they could get confused with octal numbers e.g.
-        # 01234567-8711-<rest of guid> might look like octal subtraction
-        numeric_str = ""
-        c = self.midl[self.ptr]
-        while c.lower() in string.hexdigits + "-":
-            numeric_str += c
-            self.ptr += 1
-            c = self.midl[self.ptr]
-        try:
-            uuid.UUID(numeric_str)
-            # Rewind 1 to the end of the GUID
-            self.ptr -= 1
-            return numeric_str, True
-        except ValueError:
-            # Not a guid
-            pass
-
-        self.ptr = start_ptr
         numeric_str = ""
 
         # Check for a negative number
@@ -240,7 +231,7 @@ class MidlTokenizer:
             self.ptr += 1
             cur_char = self.midl[self.ptr]
 
-        return numeric_str, False
+        return numeric_str
 
     def get_string(self):
         """Gets a string
