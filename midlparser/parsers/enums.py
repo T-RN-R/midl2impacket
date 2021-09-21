@@ -166,5 +166,7 @@ class MidlEnumParser(MidlBaseParser):
     def finished(self) -> MidlEnumDef:
         if len(self.map.keys()) == 0:
             raise MidlParserException("Parsing enum failed. No members were parsed.")
-        public_names = self.declared_names.split(",")
+        public_names = []
+        if self.declared_names:
+            public_names = self.declared_names.split(",")
         return MidlEnumDef(public_names, self.private_name, self.map)
