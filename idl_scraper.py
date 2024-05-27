@@ -10,7 +10,7 @@ from selenium.webdriver.common.keys import Keys
 
 SCRAPED_DIR = pathlib.Path(__file__).parent / "scraped"
 SCRAPED_DIR.mkdir(exist_ok=True)
-DEFAULT_DRIVER = "C:\\Users\\coryc\\Downloads\\chromedriver_win32\\chromedriver.exe"
+DEFAULT_DRIVER = "C:\\Users\\<user>\\Downloads\\chromedriver_win32\\chromedriver.exe"
 
 
 def process_procotol_link(driver: WebDriver, protocol_name, protocol_link):
